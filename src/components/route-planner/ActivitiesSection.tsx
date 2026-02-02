@@ -1,0 +1,109 @@
+import { FormData } from "@/types/routePlanner";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { SectionCard } from "./SectionCard";
+import { CheckboxGroup } from "./CheckboxGroup";
+import { FormSlider } from "./FormSlider";
+
+interface ActivitiesSectionProps {
+  formData: FormData;
+  onChange: (data: Partial<FormData>) => void;
+  onCheckboxChange: (name: string, value: string, checked: boolean) => void;
+}
+
+const activityOptions = [
+  { value: 'Wandern', label: 'Wandern' },
+  { value: 'Fahrradfahren', label: 'Fahrradfahren' },
+  { value: 'Wassersport', label: 'Wassersport (Schwimmen, Segeln, Kanu)' },
+  { value: 'Klettern', label: 'Klettern / Bergsteigen' },
+  { value: 'Vogelbeobachtung', label: 'Vogelbeobachtung / Naturbeobachtung' },
+  { value: 'Fischen', label: 'Fischen' },
+  { value: 'Astronomie', label: 'Astronomie / Sternenbeobachtung' },
+  { value: 'Museen', label: 'Museen & Galerien' },
+  { value: 'Historische Stätten', label: 'Historische Stätten' },
+  { value: 'Märkte', label: 'Lokale Märkte & Handwerk' },
+  { value: 'Yoga', label: 'Yoga & Meditation' },
+  { value: 'Wellnessangebote', label: 'Wellnessangebote & Spa' },
+  { value: 'Gastronomie', label: 'Gastronomie & Weinverkostung' },
+  { value: 'Hundefreundlich', label: 'Hundefreundliche Aktivitäten' },
+  { value: 'Kinderfreundlich', label: 'Kinderfreundliche Aktivitäten' },
+  { value: 'Fotografieren', label: 'Fotografieren' },
+];
+
+const companionOptions = [
+  { value: 'Solo', label: 'Allein (Solo)' },
+  { value: 'Partner', label: 'Partner / Ehepartner' },
+  { value: 'Freunde', label: 'Freunde' },
+  { value: 'Familie', label: 'Familie' },
+  { value: 'Kinder', label: 'Kinder' },
+  { value: 'Babys', label: 'Babys / Kleinkinder' },
+  { value: 'Haustiere', label: 'Haustiere / Hunde' },
+  { value: 'Mehrgenerationenreise', label: 'Mehrgenerationenreise' },
+  { value: 'Seniorengruppe', label: 'Seniorengruppe' },
+];
+
+export function ActivitiesSection({ formData, onChange, onCheckboxChange }: ActivitiesSectionProps) {
+  return (
+    <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-3 md:col-span-2">
+          <Label className="font-medium">Aktivitäten & Interessen</Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4">
+            <CheckboxGroup
+              name="activities"
+              options={activityOptions.slice(0, 6)}
+              selectedValues={formData.activities}
+              onChange={onCheckboxChange}
+            />
+            <CheckboxGroup
+              name="activities"
+              options={activityOptions.slice(6, 11)}
+              selectedValues={formData.activities}
+              onChange={onCheckboxChange}
+            />
+            <CheckboxGroup
+              name="activities"
+              options={activityOptions.slice(11)}
+              selectedValues={formData.activities}
+              onChange={onCheckboxChange}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <FormSlider
+            id="numberOfTravelers"
+            label="Anzahl Reisende"
+            value={parseInt(formData.numberOfTravelers) || 2}
+            min={1}
+            max={6}
+            step={1}
+            unit="Personen"
+            onChange={(v) => onChange({ numberOfTravelers: v.toString() })}
+          />
+
+          <div className="space-y-3">
+            <Label className="font-medium">Reisebegleitung</Label>
+            <CheckboxGroup
+              name="travelCompanions"
+              options={companionOptions}
+              selectedValues={formData.travelCompanions}
+              onChange={onCheckboxChange}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2 md:col-span-2 lg:col-span-3">
+          <Label htmlFor="additionalInfo">Weitere Informationen & Wünsche</Label>
+          <Textarea
+            id="additionalInfo"
+            placeholder="Allgemeine Reiseinformationen (z. B. Ernährungsbedürfnisse, Allergien, gesundheitliche Einschränkungen, besondere Ereignisse während der Reise)"
+            value={formData.additionalInfo}
+            onChange={(e) => onChange({ additionalInfo: e.target.value })}
+            rows={3}
+          />
+        </div>
+      </div>
+    </SectionCard>
+  );
+}

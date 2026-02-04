@@ -117,6 +117,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
               <SelectItem value="Chemietoilette">Chemietoilette</SelectItem>
               <SelectItem value="Trockentrenntoilette">Trockentrenntoilette</SelectItem>
               <SelectItem value="Festtanktoilette">Festtanktoilette</SelectItem>
+              <SelectItem value="Clesana">Clesana</SelectItem>
               <SelectItem value="Keine">Keine Toilette</SelectItem>
             </SelectContent>
           </Select>

@@ -9,7 +9,7 @@ interface RouteOptimizationSectionProps {
 }
 
 const roadTypeOptions = [
-  { value: 'Schnellstraßen bevorzugen', label: 'Schnellstraßen bevorzugen (schnellste Route)' },
+  { value: 'Autobahnen bevorzugen', label: 'Autobahnen bevorzugen (schnellste Route)' },
   { value: 'Landstraßen bevorzugen', label: 'Landstraßen bevorzugen (entspannte Fahrt)' },
   { value: 'Panoramastraßen', label: 'Panoramastraßen (landschaftlich reizvoll)' },
 ];

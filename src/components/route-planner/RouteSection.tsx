@@ -6,11 +6,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { SectionCard } from "./SectionCard";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import de from 'date-fns/locale/de';
 
 interface RouteSectionProps {
   formData: FormData;
   onChange: (data: Partial<FormData>) => void;
 }
+
+// Register German locale for DatePicker
+registerLocale('de', de);
+setDefaultLocale('de');
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
   return (
@@ -44,7 +50,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="startDate">Abreise</Label>
-          <div className="relative">
+          <div className="relative z-50">
             <DatePicker
               id="startDate"
               selected={formData.startDate ? new Date(formData.startDate) : null}
@@ -75,13 +81,30 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 new Date(2024, 4, 19),  // Pfingstsonntag
                 new Date(2024, 4, 20),  // Pfingstmontag
               ]}
+              popperClassName="react-datepicker-popper"
+              popperPlacement="bottom-start"
+              popperModifiers={[
+                {
+                  name: 'preventOverflow',
+                  options: {
+                    rootBoundary: 'viewport',
+                    padding: 12,
+                  },
+                },
+                {
+                  name: 'flip',
+                  options: {
+                    fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
+                  },
+                },
+              ]}
             />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="endDate">Ankunft</Label>
-          <div className="relative">
+          <div className="relative z-50">
             <DatePicker
               id="endDate"
               selected={formData.endDate ? new Date(formData.endDate) : null}
@@ -110,6 +133,23 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 // Pfingsten 2024
                 new Date(2024, 4, 19),  // Pfingstsonntag
                 new Date(2024, 4, 20),  // Pfingstmontag
+              ]}
+              popperClassName="react-datepicker-popper"
+              popperPlacement="bottom-start"
+              popperModifiers={[
+                {
+                  name: 'preventOverflow',
+                  options: {
+                    rootBoundary: 'viewport',
+                    padding: 12,
+                  },
+                },
+                {
+                  name: 'flip',
+                  options: {
+                    fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
+                  },
+                },
               ]}
             />
           </div>

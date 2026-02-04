@@ -42,28 +42,28 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="startDate">Abreise</Label>
-          <div className="w-full overflow-hidden">
+          <div className="w-full overflow-hidden md:w-auto">
             <Input
               id="startDate"
               type="date"
               value={formData.startDate}
               min={new Date().toISOString().split('T')[0]}
               onChange={(e) => onChange({ startDate: e.target.value, endDate: e.target.value })}
-              className="w-full max-w-full [&::-webkit-datetime-edit-year-field]:text-left [&::-webkit-datetime-edit-month-field]:text-left [&::-webkit-datetime-edit-day-field]:text-left [&::-webkit-datetime-edit-text]:text-left [&::-webkit-datetime-edit]:w-full [&::-webkit-datetime-edit]:max-w-full"
+              className="w-full md:w-[300px] [&::-webkit-datetime-edit-year-field]:text-left [&::-webkit-datetime-edit-month-field]:text-left [&::-webkit-datetime-edit-day-field]:text-left [&::-webkit-datetime-edit-text]:text-left [&::-webkit-datetime-edit]:w-full [&::-webkit-datetime-edit]:max-w-full"
             />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="endDate">Ankunft</Label>
-          <div className="w-full overflow-hidden">
+          <div className="w-full overflow-hidden md:w-auto">
             <Input
               id="endDate"
               type="date"
               value={formData.endDate}
               min={formData.startDate || new Date().toISOString().split('T')[0]}
               onChange={(e) => onChange({ endDate: e.target.value })}
-              className="w-full max-w-full [&::-webkit-datetime-edit-year-field]:text-left [&::-webkit-datetime-edit-month-field]:text-left [&::-webkit-datetime-edit-day-field]:text-left [&::-webkit-datetime-edit-text]:text-left [&::-webkit-datetime-edit]:w-full [&::-webkit-datetime-edit]:max-w-full"
+              className="w-full md:w-[300px] [&::-webkit-datetime-edit-year-field]:text-left [&::-webkit-datetime-edit-month-field]:text-left [&::-webkit-datetime-edit-day-field]:text-left [&::-webkit-datetime-edit-text]:text-left [&::-webkit-datetime-edit]:w-full [&::-webkit-datetime-edit]:max-w-full"
             />
           </div>
         </div>

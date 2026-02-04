@@ -42,7 +42,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="startDate">Abreise</Label>
-          <div className="relative h-[42px]">
+          <div className="relative h-[42px] mx-auto max-w-[300px]">
             <Input
               id="startDate"
               type="date"
@@ -56,7 +56,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="endDate">Ankunft</Label>
-          <div className="relative h-[42px]">
+          <div className="relative h-[42px] mx-auto max-w-[300px]">
             <Input
               id="endDate"
               type="date"

@@ -181,16 +181,30 @@ All colors MUST be HSL.
     --spacing: 0.25rem;
   }
 
-  /* DatePicker holiday styling */
+  /* DatePicker holiday styling - LILA */
   .react-datepicker__day--highlighted {
-    background-color: var(--destructive);
-    color: var(--destructive-foreground);
+    background-color: #9370DB; /* Lila */
+    color: white;
     border-radius: 50%;
+    position: relative;
   }
 
   .react-datepicker__day--highlighted:hover {
-    background-color: var(--destructive);
-    color: var(--destructive-foreground);
+    background-color: #9370DB; /* Lila */
+    color: white;
+  }
+
+  .react-datepicker__day--highlighted::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: #9370DB;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
   }
 
   .dark {

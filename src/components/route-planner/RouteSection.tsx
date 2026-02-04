@@ -70,16 +70,15 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               highlightDates={[
                 // Deutsche Feiertage 2024
                 new Date(2024, 0, 1),   // Neujahr
+                new Date(2024, 2, 29),  // Karfreitag
+                new Date(2024, 3, 1),   // Ostermontag
                 new Date(2024, 4, 1),   // Tag der Arbeit
+                new Date(2024, 4, 9),   // Christi Himmelfahrt (39 Tage nach Ostern)
+                new Date(2024, 4, 20),  // Pfingstmontag
+                new Date(2024, 5, 30),  // Fronleichnam (60 Tage nach Ostern)
                 new Date(2024, 9, 3),   // Tag der Deutschen Einheit
                 new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
                 new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
-                // Ostern 2024 (berechnet)
-                new Date(2024, 2, 29),  // Karfreitag
-                new Date(2024, 3, 1),   // Ostermontag
-                // Pfingsten 2024
-                new Date(2024, 4, 19),  // Pfingstsonntag
-                new Date(2024, 4, 20),  // Pfingstmontag
               ]}
               popperClassName="react-datepicker-popper"
               popperPlacement="bottom-start"
@@ -123,16 +122,15 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               highlightDates={[
                 // Deutsche Feiertage 2024
                 new Date(2024, 0, 1),   // Neujahr
+                new Date(2024, 2, 29),  // Karfreitag
+                new Date(2024, 3, 1),   // Ostermontag
                 new Date(2024, 4, 1),   // Tag der Arbeit
+                new Date(2024, 4, 9),   // Christi Himmelfahrt (39 Tage nach Ostern)
+                new Date(2024, 4, 20),  // Pfingstmontag
+                new Date(2024, 5, 30),  // Fronleichnam (60 Tage nach Ostern)
                 new Date(2024, 9, 3),   // Tag der Deutschen Einheit
                 new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
                 new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
-                // Ostern 2024 (berechnet)
-                new Date(2024, 2, 29),  // Karfreitag
-                new Date(2024, 3, 1),   // Ostermontag
-                // Pfingsten 2024
-                new Date(2024, 4, 19),  // Pfingstsonntag
-                new Date(2024, 4, 20),  // Pfingstmontag
               ]}
               popperClassName="react-datepicker-popper"
               popperPlacement="bottom-start"

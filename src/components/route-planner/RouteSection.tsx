@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionCard } from "./SectionCard";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface RouteSectionProps {
   formData: FormData;
@@ -42,28 +44,73 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="startDate">Abreise</Label>
-          <div className="w-full overflow-hidden md:w-auto">
-            <Input
+          <div className="relative">
+            <DatePicker
               id="startDate"
-              type="date"
-              value={formData.startDate}
-              min={new Date().toISOString().split('T')[0]}
-              onChange={(e) => onChange({ startDate: e.target.value, endDate: e.target.value })}
-              className="w-full md:w-[300px] [&::-webkit-datetime-edit-year-field]:text-left [&::-webkit-datetime-edit-month-field]:text-left [&::-webkit-datetime-edit-day-field]:text-left [&::-webkit-datetime-edit-text]:text-left [&::-webkit-datetime-edit]:w-full [&::-webkit-datetime-edit]:max-w-full"
+              selected={formData.startDate ? new Date(formData.startDate) : null}
+              onChange={(date) => onChange({ 
+                startDate: date ? date.toISOString().split('T')[0] : '', 
+                endDate: date ? date.toISOString().split('T')[0] : formData.endDate 
+              })}
+              minDate={new Date()}
+              dateFormat="dd.MM.yyyy"
+              className="w-full h-10 px-3 py-2 border rounded-md border-input bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              placeholderText="Datum auswählen"
+              wrapperClassName="w-full"
+              locale="de"
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              highlightDates={[
+                // Deutsche Feiertage 2024
+                new Date(2024, 0, 1),   // Neujahr
+                new Date(2024, 4, 1),   // Tag der Arbeit
+                new Date(2024, 9, 3),   // Tag der Deutschen Einheit
+                new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
+                new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
+                // Ostern 2024 (berechnet)
+                new Date(2024, 2, 29),  // Karfreitag
+                new Date(2024, 3, 1),   // Ostermontag
+                // Pfingsten 2024
+                new Date(2024, 4, 19),  // Pfingstsonntag
+                new Date(2024, 4, 20),  // Pfingstmontag
+              ]}
             />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="endDate">Ankunft</Label>
-          <div className="w-full overflow-hidden md:w-auto">
-            <Input
+          <div className="relative">
+            <DatePicker
               id="endDate"
-              type="date"
-              value={formData.endDate}
-              min={formData.startDate || new Date().toISOString().split('T')[0]}
-              onChange={(e) => onChange({ endDate: e.target.value })}
-              className="w-full md:w-[300px] [&::-webkit-datetime-edit-year-field]:text-left [&::-webkit-datetime-edit-month-field]:text-left [&::-webkit-datetime-edit-day-field]:text-left [&::-webkit-datetime-edit-text]:text-left [&::-webkit-datetime-edit]:w-full [&::-webkit-datetime-edit]:max-w-full"
+              selected={formData.endDate ? new Date(formData.endDate) : null}
+              onChange={(date) => onChange({ 
+                endDate: date ? date.toISOString().split('T')[0] : '' 
+              })}
+              minDate={formData.startDate ? new Date(formData.startDate) : new Date()}
+              dateFormat="dd.MM.yyyy"
+              className="w-full h-10 px-3 py-2 border rounded-md border-input bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              placeholderText="Datum auswählen"
+              wrapperClassName="w-full"
+              locale="de"
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              highlightDates={[
+                // Deutsche Feiertage 2024
+                new Date(2024, 0, 1),   // Neujahr
+                new Date(2024, 4, 1),   // Tag der Arbeit
+                new Date(2024, 9, 3),   // Tag der Deutschen Einheit
+                new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
+                new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
+                // Ostern 2024 (berechnet)
+                new Date(2024, 2, 29),  // Karfreitag
+                new Date(2024, 3, 1),   // Ostermontag
+                // Pfingsten 2024
+                new Date(2024, 4, 19),  // Pfingstsonntag
+                new Date(2024, 4, 20),  // Pfingstmontag
+              ]}
             />
           </div>
         </div>

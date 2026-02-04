@@ -63,7 +63,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
               label=""
               value={parseInt(formData.avgCampsitePriceMax) || 50}
               min={0}
-              max={100}
+              max={150}
               step={5}
               unit="€"
               onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })}

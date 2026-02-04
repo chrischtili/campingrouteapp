@@ -13,12 +13,16 @@ export function SectionCard({ icon, title, subtitle, children, className = "" }:
   return (
     <Card className={`overflow-hidden ${className}`}>
       <CardHeader className="bg-card border-b border-border">
-        <CardTitle className="flex items-center gap-3 text-lg">
-          <span className="text-2xl">{icon}</span>
-          <span>{title}</span>
-          {subtitle && (
-            <span className="text-sm font-normal text-muted-foreground ml-auto">{subtitle}</span>
-          )}
+        <CardTitle className="flex flex-col gap-1 text-lg">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{icon}</span>
+            <div className="flex flex-col">
+              <span>{title}</span>
+              {subtitle && (
+                <span className="text-sm font-normal text-muted-foreground">{subtitle}</span>
+              )}
+            </div>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-6">

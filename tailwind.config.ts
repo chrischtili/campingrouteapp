@@ -12,6 +12,18 @@ export default {
   			'2xl': '1400px'
   		}
   	},
+  	fontSize: {
+  		'xs': '0.875rem',	  // 14px
+  		'sm': '1rem',	      // 16px (increased from 14px)
+  		'base': '1.125rem',  // 18px (increased from 16px)
+  		'lg': '1.25rem',	  // 20px (increased from 18px)
+  		'xl': '1.5rem',	  // 24px (increased from 20px)
+  		'2xl': '1.875rem',	// 30px (increased from 24px)
+  		'3xl': '2.25rem',	// 36px (increased from 30px)
+  		'4xl': '2.75rem',	// 44px (increased from 36px)
+  		'5xl': '3.5rem',	 // 56px (increased from 48px)
+  		'6xl': '4.5rem'	  // 72px (increased from 64px)
+  	},
   	extend: {
   		colors: {
   			border: 'hsl(var(--border))',

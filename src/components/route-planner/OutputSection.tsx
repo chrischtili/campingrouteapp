@@ -32,8 +32,8 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiEr
             body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; padding: 20mm; max-width: 800px; margin: 0 auto; }
             h1 { color: #b45309; text-align: center; }
             .header { text-align: center; margin-bottom: 20px; }
-            .model-info { background: #fef3c7; padding: 8px 16px; border-radius: 8px; margin: 10px 0; display: inline-block; font-size: 0.9em; }
-            .content { font-size: 11pt; white-space: pre-wrap; }
+            .model-info { background: #fef3c7; padding: 8px 16px; border-radius: 8px; margin: 10px 0; display: inline-block; font-size: 1em; }
+            .content { font-size: 12pt; white-space: pre-wrap; }
             @media print { 
               body { padding: 10mm; }
               .no-print { display: none; }
@@ -48,7 +48,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiEr
           </div>
           <div class="content">${output.replace(/\n/g, '<br>')}</div>
           <div class="no-print" style="text-align: center; margin-top: 20px;">
-            <button onclick="window.print()" style="padding: 10px 20px; background: #b45309; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">
+            <button onclick="window.print()" style="padding: 10px 20px; background: #b45309; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px;">
               Drucken
             </button>
           </div>

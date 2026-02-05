@@ -50,7 +50,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="startDate">Abreise</Label>
-          <div className="relative z-50">
+          <div className="relative z-50 mb-8">
             <DatePicker
               id="startDate"
               selected={formData.startDate ? new Date(formData.startDate) : null}
@@ -64,9 +64,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               placeholderText="Datum auswählen"
               wrapperClassName="w-full"
               locale="de"
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
               highlightDates={[
                 // Deutsche Feiertage 2024
                 new Date(2024, 0, 1),   // Neujahr
@@ -138,9 +135,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               placeholderText="Datum auswählen"
               wrapperClassName="w-full"
               locale="de"
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
               highlightDates={[
                 // Deutsche Feiertage 2024
                 new Date(2024, 0, 1),   // Neujahr

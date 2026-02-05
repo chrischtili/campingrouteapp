@@ -1,73 +1,87 @@
-# Welcome to your Lovable project
+# Camping Route - KI Wohnmobil Routenplaner
 
-## Project info
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/chrischtili/route-planner-pro)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/route-planner-pro/blob/main/LICENSE)
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Über das Projekt
 
-## How can I edit this code?
+Camping Route ist ein KI-gestützter Wohnmobil-Routenplaner, der dir hilft, die perfekte Reise zu planen.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- ✅ Kompletter Routenplaner mit KI-Integration
+- ✅ 6 Hauptkategorien: Route, Fahrzeug, Übernachtung, Aktivitäten, KI-Einstellungen
+- ✅ Aktualisierte KI-Modellauswahl mit Preisinformationen
+- ✅ Responsive Design für alle Geräte
+- ✅ Zentrierte Überschrift mit optimiertem Abstand
+- ✅ Favicon als Social Media Preview Image
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Installation
 
-Changes made via Lovable will be committed automatically to this repo.
+### Voraussetzungen
 
-**Use your preferred IDE**
+- Node.js 20.x oder neuer
+- npm oder yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Schritte
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Repository klonen:
+```bash
+git clone https://github.com/chrischtili/route-planner-pro.git
+```
 
-Follow these steps:
+2. Abhängigkeiten installieren:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Entwicklungsserver starten:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Production Build erstellen:
+```bash
+npm run build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Nutzung
 
-**Use GitHub Codespaces**
+1. Öffne die Anwendung in deinem Browser
+2. Wähle deine Start- und Zielorte
+3. Konfiguriere deine Reiseoptionen
+4. Wähle ein KI-Modell (optional)
+5. Generiere deine Route
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## KI-Integration
 
-## What technologies are used for this project?
+Die Anwendung unterstützt folgende KI-Anbieter:
 
-This project is built with:
+- OpenAI (GPT-5.2, GPT-5, GPT-5 Mini, GPT-5 Nano)
+- Anthropic (Claude Opus 4.5, Claude Sonnet 4.5, Claude Haiku 3)
+- Mistral AI (Mistral Large, Mistral Small, Pixtral 12B)
+- Google (Gemini 3 Pro Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash-Lite)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Lizenz
 
-## How can I deploy this project?
+Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe [LICENSE](LICENSE) für Details.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Beitragende
 
-## Can I connect a custom domain to my Lovable project?
+- [Mistral Vibe](https://mistral.ai) - KI-Assistent
 
-Yes, you can!
+## Roadmap
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- [ ] Benutzerkonten und Speicherfunktion
+- [ ] Weitere KI-Modelle und Anbieter
+- [ ] Exportfunktion für Routen
+- [ ] Integration mit Google Maps
+- [ ] Community-Features
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Support
+
+Für Fragen oder Feedback, öffne bitte ein Issue auf GitHub.
+
+---
+
+© 2024 Camping Route - Erstellt mit ❤️ für Wohnmobil-Enthusiasten

@@ -4,21 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionCard } from "./SectionCard";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import de from 'date-fns/locale/de';
-
-interface RouteSectionProps {
-  formData: FormData;
-  onChange: (data: Partial<FormData>) => void;
-}
-
-// Register German locale for DatePicker
-registerLocale('de', de);
-setDefaultLocale('de');
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
+  // Handle date selection logic
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStartDate = e.target.value;
+    onChange({ startDate: newStartDate });
+    
+    // If end date is empty or before start date, set it to start date
+    if (!formData.endDate || new Date(formData.endDate) < new Date(newStartDate)) {
+      onChange({ endDate: newStartDate });
+    }
+  };
+
   return (
     <SectionCard icon="🗺️" title="Reiseroute">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -51,71 +49,13 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="space-y-2">
           <Label htmlFor="startDate">Abreise</Label>
           <div className="relative z-50 mb-8">
-            <DatePicker
+            <input
               id="startDate"
-              selected={formData.startDate ? new Date(formData.startDate) : null}
-              onChange={(date) => onChange({ 
-                startDate: date ? date.toISOString().split('T')[0] : '', 
-                endDate: date ? date.toISOString().split('T')[0] : formData.endDate 
-              })}
-              minDate={new Date()}
-              dateFormat="dd.MM.yyyy"
+              type="date"
+              value={formData.startDate || ''}
+              onChange={handleStartDateChange}
+              min={new Date().toISOString().split('T')[0]}
               className="w-full h-10 px-3 py-2 border rounded-md border-input bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              placeholderText="Datum auswählen"
-              wrapperClassName="w-full"
-              locale="de"
-              highlightDates={[
-                // Deutsche Feiertage 2024
-                new Date(2024, 0, 1),   // Neujahr
-                new Date(2024, 2, 29),  // Karfreitag
-                new Date(2024, 3, 1),   // Ostermontag
-                new Date(2024, 4, 1),   // Tag der Arbeit
-                new Date(2024, 4, 9),   // Christi Himmelfahrt (39 Tage nach Ostern)
-                new Date(2024, 4, 20),  // Pfingstmontag
-                new Date(2024, 5, 30),  // Fronleichnam (60 Tage nach Ostern)
-                new Date(2024, 9, 3),   // Tag der Deutschen Einheit
-                new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
-                new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
-              ]}
-              dayClassName={(date) => {
-                const holidays = [
-                  new Date(2024, 0, 1),   // Neujahr
-                  new Date(2024, 2, 29),  // Karfreitag
-                  new Date(2024, 3, 1),   // Ostermontag
-                  new Date(2024, 4, 1),   // Tag der Arbeit
-                  new Date(2024, 4, 9),   // Christi Himmelfahrt
-                  new Date(2024, 4, 20),  // Pfingstmontag
-                  new Date(2024, 5, 30),  // Fronleichnam
-                  new Date(2024, 9, 3),   // Tag der Deutschen Einheit
-                  new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
-                  new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
-                ];
-                
-                const isHoliday = holidays.some(holiday => 
-                  date.getDate() === holiday.getDate() &&
-                  date.getMonth() === holiday.getMonth() &&
-                  date.getFullYear() === holiday.getFullYear()
-                );
-                
-                return isHoliday ? 'highlighted' : undefined;
-              }}
-              popperClassName="react-datepicker-popper"
-              popperPlacement="bottom-start"
-              popperModifiers={[
-                {
-                  name: 'preventOverflow',
-                  options: {
-                    rootBoundary: 'viewport',
-                    padding: 12,
-                  },
-                },
-                {
-                  name: 'flip',
-                  options: {
-                    fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
-                  },
-                },
-              ]}
             />
           </div>
         </div>
@@ -123,70 +63,13 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="space-y-2">
           <Label htmlFor="endDate">Ankunft</Label>
           <div className="relative z-50">
-            <DatePicker
+            <input
               id="endDate"
-              selected={formData.endDate ? new Date(formData.endDate) : null}
-              onChange={(date) => onChange({ 
-                endDate: date ? date.toISOString().split('T')[0] : '' 
-              })}
-              minDate={formData.startDate ? new Date(formData.startDate) : new Date()}
-              dateFormat="dd.MM.yyyy"
+              type="date"
+              value={formData.endDate || ''}
+              onChange={(e) => onChange({ endDate: e.target.value })}
+              min={formData.startDate || new Date().toISOString().split('T')[0]}
               className="w-full h-10 px-3 py-2 border rounded-md border-input bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              placeholderText="Datum auswählen"
-              wrapperClassName="w-full"
-              locale="de"
-              highlightDates={[
-                // Deutsche Feiertage 2024
-                new Date(2024, 0, 1),   // Neujahr
-                new Date(2024, 2, 29),  // Karfreitag
-                new Date(2024, 3, 1),   // Ostermontag
-                new Date(2024, 4, 1),   // Tag der Arbeit
-                new Date(2024, 4, 9),   // Christi Himmelfahrt (39 Tage nach Ostern)
-                new Date(2024, 4, 20),  // Pfingstmontag
-                new Date(2024, 5, 30),  // Fronleichnam (60 Tage nach Ostern)
-                new Date(2024, 9, 3),   // Tag der Deutschen Einheit
-                new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
-                new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
-              ]}
-              dayClassName={(date) => {
-                const holidays = [
-                  new Date(2024, 0, 1),   // Neujahr
-                  new Date(2024, 2, 29),  // Karfreitag
-                  new Date(2024, 3, 1),   // Ostermontag
-                  new Date(2024, 4, 1),   // Tag der Arbeit
-                  new Date(2024, 4, 9),   // Christi Himmelfahrt
-                  new Date(2024, 4, 20),  // Pfingstmontag
-                  new Date(2024, 5, 30),  // Fronleichnam
-                  new Date(2024, 9, 3),   // Tag der Deutschen Einheit
-                  new Date(2024, 11, 25), // 1. Weihnachtsfeiertag
-                  new Date(2024, 11, 26), // 2. Weihnachtsfeiertag
-                ];
-                
-                const isHoliday = holidays.some(holiday => 
-                  date.getDate() === holiday.getDate() &&
-                  date.getMonth() === holiday.getMonth() &&
-                  date.getFullYear() === holiday.getFullYear()
-                );
-                
-                return isHoliday ? 'highlighted' : undefined;
-              }}
-              popperClassName="react-datepicker-popper"
-              popperPlacement="bottom-start"
-              popperModifiers={[
-                {
-                  name: 'preventOverflow',
-                  options: {
-                    rootBoundary: 'viewport',
-                    padding: 12,
-                  },
-                },
-                {
-                  name: 'flip',
-                  options: {
-                    fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
-                  },
-                },
-              ]}
             />
           </div>
         </div>
@@ -230,4 +113,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       </div>
     </SectionCard>
   );
+}
+
+interface RouteSectionProps {
+  formData: FormData;
+  onChange: (data: Partial<FormData>) => void;
 }

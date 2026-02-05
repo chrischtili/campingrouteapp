@@ -147,7 +147,7 @@ export function RoutePlanner() {
           <div className="bg-muted/50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-medium">Beispiel-Route: München → Gardasee</h3>
-              <span className="text-sm text-muted-foreground">⏱️ 7 Tage • 💰 Budget: Mittel</span>
+              <span className="text-sm text-muted-foreground">⏱️ 3 Tage • 💰 Budget: Mittel</span>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-3 p-3 bg-background rounded-md">

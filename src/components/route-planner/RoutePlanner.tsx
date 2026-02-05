@@ -92,7 +92,7 @@ export function RoutePlanner() {
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/40 to-background" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <div className="flex items-center gap-3 mb-4">
-            <Route className="h-10 w-10 md:h-12 md:w-12 text-primary" />
+            <img src="/favicon-original-final.svg" alt="Camping Route Logo" className="h-20 w-20 md:h-24 md:w-24" />
             <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground">
               Camping Route
             </h1>

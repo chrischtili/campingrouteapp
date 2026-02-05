@@ -84,4 +84,4 @@ Für Fragen oder Feedback, öffne bitte ein Issue auf GitHub.
 
 ---
 
-© 2024 Camping Route - Erstellt mit ❤️ für Wohnmobil-Enthusiasten
+© 2026 Camping Route - Erstellt mit ❤️ für Wohnmobil-Enthusiasten

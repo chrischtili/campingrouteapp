@@ -40,8 +40,13 @@ export default function Datenschutz() {
           <section>
             <h2 className="text-lg font-semibold text-foreground mb-2">Cookies & Tracking</h2>
             <p className="text-sm">
-              Diese Website verwendet keine Tracking-Cookies oder Analysetools. Es werden keine personenbezogenen 
-              Daten für Werbezwecke gesammelt oder an Dritte weitergegeben.
+              Diese Website verwendet ein technisch notwendiges Cookie (sidebar:state), um Ihre Einstellung zur 
+              Seitenleiste (geöffnet/geschlossen) für 7 Tage zu speichern. Dieses Cookie enthält keine 
+              personenbezogenen Daten und dient ausschließlich der Benutzerfreundlichkeit.
+            </p>
+            <p className="text-sm mt-2">
+              Es werden keine Tracking-Cookies, Analysetools oder Werbe-Cookies verwendet. Es werden keine 
+              personenbezogenen Daten für Werbezwecke gesammelt oder an Dritte weitergegeben.
             </p>
           </section>
 

@@ -78,8 +78,8 @@ export const initialAISettings: AISettings = {
   aiProvider: 'openai',
   apiKey: '',
   useDirectAI: false,
-  openaiModel: 'gpt-4o-2024-05-13',
-  anthropicModel: 'claude-3-5-sonnet-20240620',
-  mistralModel: 'mistral-large-latest',
-  googleModel: 'gemini-1.5-flash-001'
+  openaiModel: '',
+  anthropicModel: '',
+  mistralModel: '',
+  googleModel: ''
 };

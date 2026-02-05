@@ -14,20 +14,27 @@ interface AISettingsSectionProps {
 
 const providerModels = {
   openai: [
-    { value: 'gpt-4o-2024-05-13', label: 'GPT-4o ($5/$15 pro 1M Tokens)' },
-    { value: 'gpt-4o-mini-2024-07-18', label: 'GPT-4o Mini ($0.30/$1.50 pro 1M Tokens)' },
+    { value: 'gpt-5.2',    label: 'GPT-5.2 (Input/Output: $1.75/$14 pro 1M Tokens)' },
+    { value: 'gpt-5',      label: 'GPT-5 (Input/Output: $1.25/$10 pro 1M Tokens)' },
+    { value: 'gpt-5-mini', label: 'GPT-5 Mini (Input/Output: $0.25/$2 pro 1M Tokens)' },
+    { value: 'gpt-5-nano', label: 'GPT-5 Nano (Input/Output: $0.05/$0.40 pro 1M Tokens)' },
   ],
   anthropic: [
-    { value: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet ($3/$15 pro 1M Tokens)' },
-    { value: 'claude-3-opus-20240229', label: 'Claude 3 Opus ($15/$75 pro 1M Tokens)' },
+    { value: 'claude-opus-4-5',   label: 'Claude Opus 4.5 (Input/Output: $5/$25 pro 1M Tokens)' },
+    { value: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5 (Input/Output: $3/$15 pro 1M Tokens)' },
+    { value: 'claude-haiku-3',    label: 'Claude Haiku 3 (Input/Output: $0.25/$1.25 pro 1M Tokens)' },
   ],
   mistral: [
-    { value: 'mistral-large-latest', label: 'Mistral Large' },
-    { value: 'mistral-medium-latest', label: 'Mistral Medium' },
+    { value: 'mistral-large-latest',  label: 'Mistral Large (Input/Output: $2/$6 pro 1M Tokens)' },
+    { value: 'mistral-small-latest',  label: 'Mistral Small (Input/Output: $0.20/$0.60 pro 1M Tokens)' },
+    { value: 'codestral-latest',      label: 'Codestral (Input/Output: $0.20/$0.60 pro 1M Tokens)' },
+    { value: 'pixtral-12b-latest',    label: 'Pixtral 12B (Input/Output: $0.15/$0.15 pro 1M Tokens)' },
   ],
   google: [
-    { value: 'gemini-1.5-flash-001', label: 'Gemini 1.5 Flash' },
-    { value: 'gemini-1.5-pro-001', label: 'Gemini 1.5 Pro' },
+    { value: 'gemini-3-pro-preview',     label: 'Gemini 3 Pro Preview (Input/Output: $2/$12 pro 1M Tokens; <=200k Prompt)' },
+    { value: 'gemini-2.5-pro',           label: 'Gemini 2.5 Pro (Input/Output: $1.25/$10 pro 1M Tokens; <=200k Prompt)' },
+    { value: 'gemini-2.5-flash',         label: 'Gemini 2.5 Flash (Input/Output: $0.30/$2.50 pro 1M Tokens)' },
+    { value: 'gemini-2.5-flash-lite',    label: 'Gemini 2.5 Flash-Lite (Input/Output: $0.10/$0.40 pro 1M Tokens)' },
   ],
 };
 
@@ -135,7 +142,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 onValueChange={(value) => onAISettingsChange({ [currentModelKey]: value })}
               >
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="-- Bitte wählen --" />
                 </SelectTrigger>
                 <SelectContent>
                   {providerModels[currentProvider]?.map((model) => (

@@ -327,8 +327,10 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
       throw new Error('Netzwerkfehler: Bitte überprüfe deine Internetverbindung');
     } else if (fetchError instanceof Error && fetchError.message.includes('timeout')) {
       throw new Error('Timeout: Die Anfrage hat zu lange gedauert. Bitte versuche es später erneut.');
+    } else if (aiSettings.aiProvider === 'google') {
+      throw new Error('Gemini API Fehler: Bitte überprüfe deinen API-Schlüssel und stelle sicher, dass er für Gemini freigeschaltet ist. Falls das Problem weiterhin besteht, könnte der Gemini-Server vorübergehend nicht verfügbar sein.');
     } else {
-      throw new Error('Netzwerkfehler: Die Anfrage konnte nicht gesendet werden.');
+      throw new Error('Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.');
     }
   }
   

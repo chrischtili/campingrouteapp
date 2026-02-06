@@ -11,6 +11,7 @@ import { AccommodationSection } from "./AccommodationSection";
 import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
 import heroCamper from "@/assets/hero-camper.jpg";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 export function RoutePlanner() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -310,35 +311,80 @@ export function RoutePlanner() {
             useDirectAI={aiSettings.useDirectAI}
           />
         </div>
-      </div>
 
-      {/* FAQ Section */}
-      <div className="bg-card rounded-xl shadow-lg p-6 mt-12 mb-8">
+        {/* FAQ Section */}
+        <div className="bg-card rounded-xl shadow-lg p-6 mt-12 mb-8">
         <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
           ❓ Häufige Fragen
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-medium mb-2">💰 Ist Camping Route kostenlos?</h3>
-            <p className="text-sm text-muted-foreground">Ja, die Grundfunktionen sind komplett kostenlos. Für erweiterte KI-Funktionen kannst du optional deine eigene API einbinden.</p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-2">🔒 Wie werden meine Daten geschützt?</h3>
-            <p className="text-sm text-muted-foreground">Alle Daten werden nur lokal in deinem Browser verarbeitet. Wir speichern keine persönlichen Informationen.</p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-2">🗺️ Kann ich Routen offline nutzen?</h3>
-            <p className="text-sm text-muted-foreground">Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.</p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-2">🚐 Welche Fahrzeugtypen werden unterstützt?</h3>
-            <p className="text-sm text-muted-foreground">Aktuell werden Wohnmobile und Camper unterstützt. Wohnwagen sind in Planung und werden in einer zukünftigen Version hinzugefügt.</p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-2">🤖 Was ist der Unterschied zwischen Prompt und KI-Generierung?</h3>
-            <p className="text-sm text-muted-foreground">Ohne API: Du erhältst einen optimierten Prompt, den du in deine bevorzugte KI kopieren kannst. Mit API: Die KI generiert direkt eine fertige Route mit Stellplätzen und Details - das Ergebnis hängt vom gewählten KI-Modell ab.</p>
-          </div>
-        </div>
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>💰</span>
+                <span>Ist Camping Route kostenlos?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Ja, die Grundfunktionen sind komplett kostenlos. Für erweiterte KI-Funktionen kannst du optional deine eigene API einbinden.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>🔒</span>
+                <span>Wie werden meine Daten geschützt?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Alle Daten werden nur lokal in deinem Browser verarbeitet. Wir speichern keine persönlichen Informationen.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>🗺️</span>
+                <span>Kann ich Routen offline nutzen?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-4">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>🚐</span>
+                <span>Welche Fahrzeugtypen werden unterstützt?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Aktuell werden Wohnmobile und Camper unterstützt. Wohnwagen sind in Planung und werden in einer zukünftigen Version hinzugefügt.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-5">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>🤖</span>
+                <span>Was ist der Unterschied zwischen Prompt und KI-Generierung?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Ohne API: Du erhältst einen optimierten Prompt, den du in deine bevorzugte KI kopieren kannst. Mit API: Die KI generiert direkt eine fertige Route mit Stellplätzen und Details - das Ergebnis hängt vom gewählten KI-Modell ab.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-6">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>💰</span>
+                <span>Was kostet eine KI-Abfrage?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Die Kosten für eine KI-Abfrage hängen vom gewählten KI-Modell und Anbieter ab. Typischerweise liegen die Kosten bei aktuellen Modellen wie GPT-5.2 bei ca. 5-7 Cent pro Anfrage, abhängig von der Länge des Prompts und der generierten Antwort.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
 
       {/* Footer */}
@@ -363,6 +409,7 @@ export function RoutePlanner() {
           </p>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

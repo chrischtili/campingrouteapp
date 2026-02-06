@@ -101,13 +101,13 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiEr
             </div>
 
             <div className="flex flex-wrap gap-3 mt-6">
-              <Button onClick={copyToClipboard} variant="outline" className="gap-2">
-                {showSuccess ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              <Button onClick={copyToClipboard} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
+                {showSuccess ? <CheckCircle className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
                 {showSuccess ? 'Kopiert!' : 'In Zwischenablage kopieren'}
               </Button>
               
-              <Button onClick={printOutput} variant="outline" className="gap-2">
-                <Printer className="h-4 w-4" />
+              <Button onClick={printOutput} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
+                <Printer className="h-5 w-5" />
                 Drucken / Als PDF speichern
               </Button>
             </div>

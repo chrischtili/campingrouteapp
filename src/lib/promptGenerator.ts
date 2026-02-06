@@ -7,7 +7,7 @@ function formatGermanDate(dateString: string): string {
 }
 
 export function generatePrompt(data: FormData): string {
-  return `Du bist ein professioneller Wohnmobil-Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle eine maßgeschneiderte Wohnmobilroute basierend auf den folgenden Parametern. Berücksichtige dabei Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und individuelle Präferenzen. Die Route soll praxisorientiert, flexibel anpassbar und für alle Erfahrungsstufen geeignet sein.
+  return `Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.
 
 🗺️ REISEROUTE:
 ──────────────
@@ -32,7 +32,6 @@ ${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.travelCompa
 • Anzahl der Reisenden: ${data.numberOfTravelers || '2'} Personen
 ${data.travelCompanions.length ? '• Reisebegleitung: ' + data.travelCompanions.map(c => {
   const companionLabels = {
-    'Solo': 'Allein (Solo)',
     'Partner': 'Partner / Ehepartner',
     'Freunde': 'Freunde',
     'Familie': 'Familie',
@@ -109,38 +108,86 @@ ${data.additionalInfo ? `
 ${data.additionalInfo}
 
 ` : ''}
-📌 Plane eine optimierte Wohnmobilroute für mich mit diesen Schwerpunkten:
+📌 Plane die Route mit obigen Parametern und gliedere deine Antwort nach den folgenden Bausteinen und strukturiere deine Antwort mit klaren Überschriften:
 
-**WICHTIG: Berechne Entfernungen und Fahrtzeiten ausschließlich anhand aktueller Kartendaten (z. B. OpenStreetMap, Google Maps API, Here Maps). Gib nur bestätigte Werte aus und weise auf Unsicherheiten hin (z. B. ‚Entfernung ca. XYZ km, basierend auf [Quelle]'). Vermeide Schätzungen oder Halluzinationen – falls keine Daten verfügbar sind, gib dies klar an.**
+1. Etappenplanung (Tageskilometer, Fahrzeit, Pausen alle 2–3 h, ggf. Alternativroute und kurze Begründung).
 
-1. Etappenplanung:
-- Tagesetappen mit Fahrtzeiten, Distanzen, Pausenempfehlungen (alle 2–3 Std.) und Alternativrouten (Stau/Baustellen/landschaftliche Highlights).
-- Höhenprofile, Steigungen, Gewichtsbeschränkungen (siehe obiges zul. Gesamtgewicht), Maut/Vignetten (national/international).
+2. Übernachtungen (konkrete Camping‑/Stellplätze (und Alternativen)mit kurzer Beschreibung; nenne soweit möglich Links und grobe Preisbereiche, aber markiere Preise als Richtwerte).
 
-2. Übernachtungen:
-- Camping-/Stellplätze: Finde konkrete Übernachtungsmöglichkeiten mit direkten Buchungslinks, aktuellen Preisen, detaillierter Ausstattung (Strom, Wasser, Entsorgung, WLAN, etc.), Stellplatzgrößen, Hunde- und Familienfreundlichkeit, aktuellen Bewertungen (Ruhe, Sauberkeit, Service) und Reservierungspflicht.
-- Alternativplätze: Gib immer 2-3 Alternativen pro Etappe an, falls der Hauptplatz ausgebucht ist.
+3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).
 
-3. Highlights & Aktivitäten:
-- Top 3 pro Etappe (Natur/Kultur/Kulinarik), Parkmöglichkeiten für Wohnmobile, Geheimtipps, Kosten/Öffnungszeiten.
+4. Praktische Tipps (Navigation, Entsorgung, Notfall‑Hinweise).
 
-4. Praktische Tipps:
-- Navigation (z. B. Garmin Camper, Park4Night), Entsorgungsstationen, Notfallkontakte (Werkstätten/Pannendienste/Krankenhäuser), Wetter-/Straßeninfos, Lärm-/Umweltvorschriften.
+5. Beste Reisezeit & Dauer (Kurzabschnitt).
 
-5. Beste Reisezeit & Dauer:
-- Klimatische Empfehlungen, regionale Events, Hauptreisezeiten vermeiden.
+6. Service unterwegs (Tanken, Supermärkte, Werkstätten).
 
-6. Service unterwegs:
-- 24/7-Tankstellen (Diesel/LPG), Supermärkte mit Wohnmobil-Parkplätzen, Werkstätten, Waschmöglichkeiten.
+7. Zusatzinfos (Budget‑Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).
 
-7. Zusatzinfos:
-- Budget (Sprit/Maut/Übernachtungen/Aktivitäten), Nachhaltigkeit (Eco-Camping, Mülltrennung), Gesundheit (Apotheken/Tierärzte), SIM-Karten/EU-Roaming, benötigte Dokumente, Sprachhilfen.
+8. Technik & Ausrüstung (Kurz‑Checkliste, App‑Empfehlungen).
 
-8. Technik & Ausrüstung:
-- Empfohlene Ausrüstung (z. B. Leveling-Blöcke), Checkliste für Abfahrt, nützliche Apps (Stellplatzsuche/Wetter).
+9.Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).
 
-9. Flexibilität:
-- Alternativrouten, Wildcampen (wo erlaubt), Tools zur Routenoptimierung (ADAC/Google Maps Offline oder ähnliches).
+**WICHTIG: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. „ca. 230 km / 3:00–3:30 h“). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing‑Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap‑App) final zu prüfen.**
+
+**Beispiel für eine Etappe:** 
+**Etappe 1: Startpunkt – Etappenziel 1**
+- **Entfernung:** ca. 230 km
+- **Fahrzeit:** ca. 3:00–3:30 h
+- **Route:** Über die A1, dann Abfahrt auf die B123 (alternativ über die A2, ca. 250 km / 3:30–4:00 h, landschaftlich reizvoller)
+- **Hinweis:** Bei starkem Verkehr kann die Fahrzeit länger dauern. Alternativroute über die B123 ist empfehlenswert, wenn man mehr Zeit hat und die Landschaft genießen möchte.
+- **Empfehlung:** Tankstelle in Etappenziel 1 aufsuchen, um für die nächste Etappe vorbereitet zu sein.
+
+**Beispiel für eine Übernachtung:** 
+**Campingplatz „Sonnenschein“**
+- **Lage:** Direkt am See, ca. 2 km vom Etappenziel entfernt
+- **Ausstattung:** Stromanschluss, Sanitäranlagen, Hunde erlaubt
+- **Preis:** ca. 25–30 € pro Nacht (je nach Saison und Ausstattung)
+- **Bewertung:** 4,5/5 (sehr empfehlenswert)
+- **Link:** [www.camping-sonnenschein.de](http://www.camping-sonnenschein.de)
+- **Hinweis:** In der Hauptsaison frühzeitig reservieren, da der Platz sehr beliebt ist.
+**alternative Übernachtung:** Stellplatz „Am Waldrand“ (ca. 15 € pro Nacht, einfache Ausstattung, ruhige Lage, keine Reservierung möglich, first come first serve)
+
+**Empfehlung für die nächste Etappe:**
+**Etappe 2: Etappenziel 1 – Etappenziel 2**
+- **Entfernung:** ca. 180 km
+- **Fahrzeit:** ca. 2:30–3:00 h
+- **Route:** Über die B123, dann weiter auf die A3 (alternativ über die Landstraße, ca. 200 km / 3:00–3:30 h, ruhiger und landschaftlich schöner)
+- **Hinweis:** Die A3 ist schneller, aber die Landstraße bietet mehr Möglichkeiten für Pausen und Sightseeing.
+- **Empfehlung:** Auf der Landstraße gibt es mehrere schöne Rastplätze und Aussichtspunkte, die einen kurzen Stopp wert sind.
+
+**Beispiel für ein Highlight:**
+**Etappe 1: Highlight „Burg Hohenzollern“**
+- **Beschreibung:** Eine beeindruckende mittelalterliche Burg auf einem Berg, die einen fantastischen Blick über die Umgebung bietet.
+- **Kosten:** Eintritt ca. 15 € pro Person, Hunde erlaubt (Leinenpflicht)
+- **Öffnungszeiten:** Täglich von 9:00 bis 18:00 Uhr (letzter Einlass um 17:00 Uhr)
+- **Link:** [www.burg-hohenzollern.com](http://www.burg-hohenzollern.com)
+- **Hinweis:** Besonders in der Hauptsaison kann es zu Wartezeiten kommen, daher empfiehlt es sich, früh am Tag zu besuchen oder Tickets im Voraus online zu buchen.
+- **Empfehlung:** Die Burg ist ein Muss für jeden, der Geschichte und Natur liebt. Der Blick von oben ist atemberaubend und die Aussicht auf die umliegende Landschaft ist unvergesslich.
+
+**Praktische Tipps:**
+- **Navigation:** Nutze Google Maps oder Here für die Navigation, da sie aktuelle Verkehrsdaten bieten. OpenStreetMap‑Apps sind eine gute Alternative für Offline‑Navigation.
+- **Pausen:** Plane alle 2–3 Stunden eine Pause ein, um dich zu erholen und die Umgebung zu genießen. Rastplätze entlang der Autobahnen bieten oft gute Möglichkeiten für kurze Pausen.
+- **Notfall‑Hinweise:** Halte die Notfallnummern bereit (z. B. 112 in Europa) und informiere dich über die Standorte von Krankenhäusern und Werkstätten entlang der Route.
+- **Tankstellen:** Nutze Apps wie Tankstellensucher oder Shell Box, um die günstigsten Preise zu finden. Plane Tankstopp für die Nachte Etappe ein, um sicherzustellen, dass du genug Kraftstoff hast.
+- **Wetter:** Überprüfe das Wetter vor der Abfahrt und plane entsprechend. Regelmäßige Wetterupdates während der Reise sind ratsam, besonders in Gebieten mit starkem Wetter.
+
+**Zusatzinformationen für die Route:**
+- **Budget‑Orientierung:** Schätze die Gesamtkosten für Übernachtungen, Aktivitäten und Verpflegung grob ein, um eine Vorstellung von den Ausgaben zu bekommen. Berücksichtige dabei saisonale Preisunterschiede.
+- **Nachhaltigkeit:** Berücksichtige umweltfreundliche Optionen, wie z. B. Campingplätze mit nachhaltigen Praktiken, Aktivitäten in der Natur und Möglichkeiten zur Müllvermeidung.
+- **Gesundheit:** Informiere dich über die Verfügbarkeit von medizinischer Versorgung entlang der Route und packe eine gut ausgestattete Reiseapotheke ein.
+- **Konnektivität:** Plane für Bereiche mit schlechter Mobilfunkabdeckung Offline‑Karten und wichtige Informationen auf Papier oder in einer Offline‑App zu speichern.
+
+**Technik & Ausrüstung:**
+- **Checkliste:** Erstelle eine kurze Checkliste für die Reise, die wichtige Ausrüstungsgegenstände, Dokumente und persönliche Gegenstände umfasst.
+- **App‑Empfehlungen:** Empfehle nützliche Apps für die Reiseplanung, Navigation, Campingplatzsuche und Aktivitäten vor Ort.
+
+**Flexibilität:**
+- **Alternativrouten:** Biete alternative Routenoptionen an, falls es unterwegs zu unvorhergesehenen Ereignissen kommt (z. B. Verkehr, Wetter, Straßensperrungen).
+- **Rechtliche Hinweise:** Informiere über die rechtlichen Bestimmungen zum Wildcamping in den jeweiligen Ländern und Regionen.
+- **Tools zur Optimierung:** Empfehle Tools oder Apps, mit denen ich die Route unterwegs weiter optimieren oder anpassen kann (z. B. Routenplaner, Campingplatz-Apps, Verkehrs-Apps).
+
+**Zusammenfassung:**
 `;
 }
 

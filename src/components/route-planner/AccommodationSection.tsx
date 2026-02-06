@@ -16,6 +16,7 @@ const accommodationTypeOptions = [
   { value: 'Campingplatz', label: 'Campingplatz' },
   { value: 'Wohnmobilstellplatz', label: 'Wohnmobilstellplatz' },
   { value: 'Bauernhof', label: 'Bauernhof-Camping' },
+  { value: 'Weingut', label: 'Weingut/Winzer' },
   { value: 'Wildcampen', label: 'Wildcampen (wo erlaubt)' },
   { value: 'Park4Night', label: 'Park4Night Spots' },
 ];
@@ -32,7 +33,6 @@ const facilitiesOptions = [
 ];
 
 const companionOptions = [
-  { value: 'Solo', label: 'Allein (Solo)' },
   { value: 'Partner', label: 'Partner / Ehepartner' },
   { value: 'Freunde', label: 'Freunde' },
   { value: 'Familie', label: 'Familie' },
@@ -47,6 +47,17 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   return (
     <SectionCard icon="🏕️" title="Übernachtungsoptionen" subtitle="(Mehrfachauswahl möglich)">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Row 1 */}
+        <div className="space-y-3">
+          <Label className="font-medium">Reisebegleitung</Label>
+          <CheckboxGroup
+            name="travelCompanions"
+            options={companionOptions}
+            selectedValues={formData.travelCompanions}
+            onChange={onCheckboxChange}
+          />
+        </div>
+
         <div className="space-y-3">
           <Label className="font-medium">Unterkunftstyp</Label>
           <CheckboxGroup
@@ -67,46 +78,37 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           />
         </div>
 
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <Label className="font-medium">Reisebegleitung</Label>
-            <CheckboxGroup
-              name="travelCompanions"
-              options={companionOptions}
-              selectedValues={formData.travelCompanions}
-              onChange={onCheckboxChange}
-            />
-          </div>
+        {/* Row 2 */}
+        <div className="space-y-3">
+          <Label className="font-medium">Anzahl Reisende</Label>
+          <FormSlider
+            id="numberOfTravelers"
+            label=""
+            value={formData.numberOfTravelers ? parseInt(formData.numberOfTravelers) : 1}
+            min={1}
+            max={8}
+            step={1}
+            unit="Personen"
+            onChange={(v) => onChange({ numberOfTravelers: v.toString() })}
+          />
+        </div>
 
-          <div className="space-y-3">
-            <Label className="font-medium">Anzahl Reisende</Label>
-            <FormSlider
-              id="numberOfTravelers"
-              label=""
-              value={formData.numberOfTravelers ? parseInt(formData.numberOfTravelers) : 1}
-              min={1}
-              max={8}
-              step={1}
-              unit="Personen"
-              onChange={(v) => onChange({ numberOfTravelers: v.toString() })}
-            />
-          </div>
+        <div className="space-y-3">
+          <Label className="font-medium">Max. Budget pro Nacht</Label>
+          <FormSlider
+            id="avgCampsitePriceMax"
+            label=""
+            value={formData.avgCampsitePriceMax ? parseInt(formData.avgCampsitePriceMax) : 0}
+            min={0}
+            max={150}
+            step={5}
+            unit="€"
+            onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })}
+          />
+        </div>
 
-          <div className="space-y-3">
-            <Label className="font-medium">Max. Budget pro Nacht</Label>
-            <FormSlider
-              id="avgCampsitePriceMax"
-              label=""
-              value={formData.avgCampsitePriceMax ? parseInt(formData.avgCampsitePriceMax) : 0}
-              min={0}
-              max={150}
-              step={5}
-              unit="€"
-              onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })}
-            />
-          </div>
-
-
+        <div className="space-y-3">
+          {/* Empty column */}
         </div>
 
         <div className="space-y-2 md:col-span-2 lg:col-span-3">

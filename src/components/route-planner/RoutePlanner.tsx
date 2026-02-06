@@ -353,48 +353,44 @@ export function RoutePlanner() {
           <AccordionItem value="item-1">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
-                <span>💰</span>
-                <span>Ist Camping Route kostenlos?</span>
+                <span>🤖</span>
+                <span>Was ist das Besonderen an der KI-Reiseplanung von Camping Route?</span>
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Ja, die Grundfunktionen sind komplett kostenlos. Für erweiterte KI-Funktionen kannst du optional deine eigene API einbinden.
+              Bei Camping Route setzen wir auf einen einzigartigen, transparenten Ansatz:
+              <ol className="list-decimal list-inside mt-2 space-y-1">
+                <li><strong>Deine Daten, dein Prompt:</strong> Du gibst Start, Ziel und deine Präferenzen ein</li>
+                <li><strong>KI-generierter Prompt:</strong> Wir erstellen einen optimierten Prompt, der genau deine Bedürfnisse beschreibt</li>
+                <li><strong>Volle Kontrolle:</strong> Du siehst den Prompt und kannst ihn in deiner bevorzugten KI verwenden</li>
+                <li><strong>Oder direkte Generierung:</strong> Mit API erhältst du sofort eine fertige Route</li>
+              </ol>
+              <p className="mt-2">Anders als allgemeine Reiseplaner generieren wir keine 'Black Box'-Ergebnisse - du behältst immer die Kontrolle über den Prozess!</p>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
-                <span>🔒</span>
-                <span>Wie werden meine Daten geschützt?</span>
+                <span>⭐</span>
+                <span>Was macht Camping Route einzigartig?</span>
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Alle Daten werden nur lokal in deinem Browser verarbeitet. Wir speichern keine persönlichen Informationen.
+              Camping Route ist der einzige KI-Routenplaner, der speziell für Wohnmobile und Camper entwickelt wurde. Während allgemeine Reiseplaner nur grobe Routen vorschlagen, finden wir Stellplätze, die perfekt zu deinem Fahrzeug, Budget und deinen Interessen passen. Unsere KI berücksichtigt Fahrzeugdaten, Stellplatz-Qualität, lokale Attraktionen und sogar deine Reiseziele - für eine wirklich maßgeschneiderte Reiseerfahrung.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
-                <span>🗺️</span>
-                <span>Kann ich Routen offline nutzen?</span>
+                <span>💰</span>
+                <span>Was kostet eine KI-Abfrage?</span>
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.
+              Die Kosten für eine KI-Abfrage hängen vom gewählten KI-Modell und Anbieter ab. Typischerweise liegen die Kosten bei aktuellen Modellen wie GPT-5.2 bei ca. 5-7 Cent pro Anfrage, abhängig von der Länge des Prompts und der generierten Antwort.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>🚐</span>
-                <span>Welche Fahrzeugtypen werden unterstützt?</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              Aktuell werden Wohnmobile und Camper unterstützt. Wohnwagen sind in Planung und werden in einer zukünftigen Version hinzugefügt.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-5">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
                 <span>🤖</span>
@@ -405,15 +401,48 @@ export function RoutePlanner() {
               Ohne API: Du erhältst einen optimierten Prompt, den du in deine bevorzugte KI kopieren kannst. Mit API: Die KI generiert direkt eine fertige Route mit Stellplätzen und Details - das Ergebnis hängt vom gewählten KI-Modell ab.
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-6">
+          <AccordionItem value="item-5">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
-                <span>💰</span>
-                <span>Was kostet eine KI-Abfrage?</span>
+                <span>🗺️</span>
+                <span>Kann ich Routen offline nutzen?</span>
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Die Kosten für eine KI-Abfrage hängen vom gewählten KI-Modell und Anbieter ab. Typischerweise liegen die Kosten bei aktuellen Modellen wie GPT-5.2 bei ca. 5-7 Cent pro Anfrage, abhängig von der Länge des Prompts und der generierten Antwort.
+              Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-6">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>🔒</span>
+                <span>Wie werden meine Daten geschützt?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Alle Daten werden nur lokal in deinem Browser verarbeitet. Wir speichern keine persönlichen Informationen.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-7">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>🚐</span>
+                <span>Welche Fahrzeugtypen werden unterstützt?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Aktuell werden Wohnmobile und Camper unterstützt. Wohnwagen sind in Planung und werden in einer zukünftigen Version hinzugefügt.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-8">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>💰</span>
+                <span>Ist Camping Route kostenlos?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Ja, die Grundfunktionen sind komplett kostenlos. Für erweiterte KI-Funktionen kannst du optional deine eigene API einbinden.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

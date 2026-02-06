@@ -211,33 +211,64 @@ export function RoutePlanner() {
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             📖 So funktioniert's
           </h2>
-          <ol className="grid grid-cols-1 md:grid-cols-5 gap-4 text-sm">
-            <li className="flex flex-col items-center text-center p-3 bg-muted/50 rounded-lg">
-              <span className="text-2xl mb-2">🗺️</span>
-              <strong>Route planen</strong>
-              <span className="text-muted-foreground">Gib Start, Ziel und Reisedaten ein</span>
-            </li>
-            <li className="flex flex-col items-center text-center p-3 bg-muted/50 rounded-lg">
-              <span className="text-2xl mb-2">⚙️</span>
-              <strong>Optionen wählen</strong>
-              <span className="text-muted-foreground">Fahrzeug, Interessen, Budget</span>
-            </li>
-            <li className="flex flex-col items-center text-center p-3 bg-muted/50 rounded-lg">
-              <span className="text-2xl mb-2">✨</span>
-              <strong>Generieren</strong>
-              <span className="text-muted-foreground">Route mit einem Klick erstellen</span>
-            </li>
-            <li className="flex flex-col items-center text-center p-3 bg-muted/50 rounded-lg">
-              <span className="text-2xl mb-2">📋</span>
-              <strong>Ergebnis</strong>
-              <span className="text-muted-foreground">Detaillierte Routenplanung</span>
-            </li>
-            <li className="flex flex-col items-center text-center p-3 bg-muted/50 rounded-lg">
-              <span className="text-2xl mb-2">💾</span>
-              <strong>Exportieren</strong>
-              <span className="text-muted-foreground">Drucken oder speichern</span>
-            </li>
-          </ol>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-2 relative">
+            {/* Schritt 1 */}
+            <div className="flex flex-col items-center text-center p-4 bg-blue-50 rounded-xl shadow-sm w-48 relative z-10">
+              <div className="flex items-center justify-center w-12 h-12 mb-3 bg-blue-100 rounded-full">
+                <span className="text-2xl">🗺️</span>
+              </div>
+              <strong className="text-lg mb-1">Route planen</strong>
+              <span className="text-sm text-blue-600">Gib Start, Ziel und Reisedaten ein</span>
+            </div>
+            
+            {/* Pfeil 1 */}
+            <div className="hidden md:block text-2xl text-blue-300">→</div>
+            
+            {/* Schritt 2 */}
+            <div className="flex flex-col items-center text-center p-4 bg-green-50 rounded-xl shadow-sm w-48 relative z-10">
+              <div className="flex items-center justify-center w-12 h-12 mb-3 bg-green-100 rounded-full">
+                <span className="text-2xl">⚙️</span>
+              </div>
+              <strong className="text-lg mb-1">Optionen wählen</strong>
+              <span className="text-sm text-green-600">Fahrzeug, Interessen, Budget</span>
+            </div>
+            
+            {/* Pfeil 2 */}
+            <div className="hidden md:block text-2xl text-green-300">→</div>
+            
+            {/* Schritt 3 */}
+            <div className="flex flex-col items-center text-center p-4 bg-purple-50 rounded-xl shadow-sm w-48 relative z-10">
+              <div className="flex items-center justify-center w-12 h-12 mb-3 bg-purple-100 rounded-full">
+                <span className="text-2xl">✨</span>
+              </div>
+              <strong className="text-lg mb-1">Generieren</strong>
+              <span className="text-sm text-purple-600">Route mit einem Klick erstellen</span>
+            </div>
+            
+            {/* Pfeil 3 */}
+            <div className="hidden md:block text-2xl text-purple-300">→</div>
+            
+            {/* Schritt 4 */}
+            <div className="flex flex-col items-center text-center p-4 bg-orange-50 rounded-xl shadow-sm w-48 relative z-10">
+              <div className="flex items-center justify-center w-12 h-12 mb-3 bg-orange-100 rounded-full">
+                <span className="text-2xl">📋</span>
+              </div>
+              <strong className="text-lg mb-1">Ergebnis</strong>
+              <span className="text-sm text-orange-600">Detaillierte Routenplanung</span>
+            </div>
+            
+            {/* Pfeil 4 */}
+            <div className="hidden md:block text-2xl text-orange-300">→</div>
+            
+            {/* Schritt 5 */}
+            <div className="flex flex-col items-center text-center p-4 bg-red-50 rounded-xl shadow-sm w-48 relative z-10">
+              <div className="flex items-center justify-center w-12 h-12 mb-3 bg-red-100 rounded-full">
+                <span className="text-2xl">💾</span>
+              </div>
+              <strong className="text-lg mb-1">Exportieren</strong>
+              <span className="text-sm text-red-600">Drucken oder speichern</span>
+            </div>
+          </div>
         </div>
 
         {/* Form */}

@@ -49,7 +49,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const currentModelKey = `${currentProvider}Model` as keyof AISettings;
   
   return (
-    <SectionCard icon="🤖" title="KI-Einstellungen">
+    <SectionCard icon="🤖" title="KI-Einstellungen" iconColor="bg-purple-100" titleColor="text-purple-700">
       <div className="space-y-6">
         {/* Mode Selection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

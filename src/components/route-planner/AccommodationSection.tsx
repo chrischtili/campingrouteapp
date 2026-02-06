@@ -45,7 +45,7 @@ const companionOptions = [
 
 export function AccommodationSection({ formData, onChange, onCheckboxChange }: AccommodationSectionProps) {
   return (
-    <SectionCard icon="🏕️" title="Übernachtungsoptionen" subtitle="(Mehrfachauswahl möglich)">
+    <SectionCard icon="🏕️" title="Übernachtungsoptionen" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-pink-100" titleColor="text-pink-700">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Row 1 */}
         <div className="space-y-3">

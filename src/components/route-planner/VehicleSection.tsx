@@ -11,7 +11,7 @@ interface VehicleSectionProps {
 
 export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   return (
-    <SectionCard icon="🚐" title="Fahrzeugspezifische Filter">
+    <SectionCard icon="🚐" title="Fahrzeugspezifische Filter" iconColor="bg-green-100" titleColor="text-green-700">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <FormSlider
           id="vehicleLength"

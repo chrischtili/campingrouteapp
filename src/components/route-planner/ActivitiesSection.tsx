@@ -44,7 +44,7 @@ const companionOptions = [
 
 export function ActivitiesSection({ formData, onChange, onCheckboxChange }: ActivitiesSectionProps) {
   return (
-    <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)">
+    <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-yellow-100" titleColor="text-yellow-700">
       <div className="space-y-6">
         <div className="space-y-3">
           <Label className="font-medium">Aktivitäten & Interessen</Label>

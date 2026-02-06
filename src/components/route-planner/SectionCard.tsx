@@ -7,17 +7,21 @@ interface SectionCardProps {
   subtitle?: string;
   children: ReactNode;
   className?: string;
+  iconColor?: string;
+  titleColor?: string;
 }
 
-export function SectionCard({ icon, title, subtitle, children, className = "" }: SectionCardProps) {
+export function SectionCard({ icon, title, subtitle, children, className = "", iconColor = "text-2xl", titleColor = "" }: SectionCardProps) {
   return (
     <Card className={`overflow-hidden ${className}`}>
       <CardHeader className="bg-card border-b border-border">
         <CardTitle className="flex flex-col gap-1 text-lg">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">{icon}</span>
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${iconColor}`}>
+              {icon}
+            </div>
             <div className="flex flex-col">
-              <span>{title}</span>
+              <span className={titleColor}>{title}</span>
               {subtitle && (
                 <span className="text-sm font-normal text-muted-foreground">{subtitle}</span>
               )}

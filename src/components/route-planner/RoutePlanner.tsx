@@ -140,9 +140,12 @@ export function RoutePlanner() {
         {/* Social Proof Section */}
         <div className="bg-card rounded-xl shadow-lg p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-              ⭐ Von Wohnmobil-Enthusiasten geliebt
-            </h2>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                ⭐
+              </div>
+              <h2 className="text-xl font-semibold text-yellow-700">Von Wohnmobil-Enthusiasten geliebt</h2>
+            </div>
             <div className="flex items-center gap-2 text-yellow-500">
               <span>★★★★☆</span>
               <span className="text-muted-foreground text-sm">4.7/5</span>
@@ -166,9 +169,12 @@ export function RoutePlanner() {
 
         {/* Demo Section */}
         <div className="bg-card rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            🎥 Beispiel-Ergebnis (bei KI-Nutzung)
-          </h2>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              🎥
+            </div>
+            <h2 className="text-xl font-semibold text-blue-700">Beispiel-Ergebnis (bei KI-Nutzung)</h2>
+          </div>
           <div className="bg-muted/50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-medium">Beispiel-Route: München → Gardasee</h3>
@@ -208,9 +214,12 @@ export function RoutePlanner() {
 
         {/* Info Box */}
         <div className="bg-card rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            📖 So funktioniert's
-          </h2>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white text-2xl font-bold">
+              📖
+            </div>
+            <h2 className="text-2xl font-bold text-blue-800">So funktioniert's</h2>
+          </div>
           <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-2 relative">
             {/* Schritt 1 */}
             <div className="flex flex-col items-center text-center p-4 bg-blue-50 rounded-xl shadow-sm w-48 relative z-10">
@@ -361,9 +370,12 @@ export function RoutePlanner() {
 
         {/* FAQ Section */}
         <div className="bg-card rounded-xl shadow-lg p-6 mt-12 mb-8">
-        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-          ❓ Häufige Fragen
-        </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              ❓
+            </div>
+            <h2 className="text-xl font-semibold text-purple-700">Häufige Fragen</h2>
+          </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>

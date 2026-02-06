@@ -19,7 +19,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   return (
-    <SectionCard icon="🗺️" title="Reiseroute">
+    <SectionCard icon="🗺️" title="Reiseroute" iconColor="bg-blue-100" titleColor="text-blue-700">
       {/* Routentyp und Reisestil - ganz oben */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="space-y-2">

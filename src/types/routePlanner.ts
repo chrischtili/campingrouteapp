@@ -36,7 +36,6 @@ export interface AISettings {
   apiKey: string;
   useDirectAI: boolean;
   openaiModel: string;
-  anthropicModel: string;
   mistralModel: string;
   googleModel: string;
 }
@@ -78,8 +77,7 @@ export const initialAISettings: AISettings = {
   aiProvider: 'openai',
   apiKey: '',
   useDirectAI: false,
-  openaiModel: '',
-  anthropicModel: '',
-  mistralModel: '',
-  googleModel: ''
+  openaiModel: 'gpt-5.2',
+  mistralModel: 'mistral-large-latest',
+  googleModel: 'gemini-3-pro-preview'
 };

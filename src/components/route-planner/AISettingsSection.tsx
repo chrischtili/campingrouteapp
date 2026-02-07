@@ -1,4 +1,4 @@
-import { Bot, FileText, AlertCircle, Lock, ExternalLink } from "lucide-react";
+import { Bot, FileText, AlertCircle, Lock, ExternalLink, Info } from "lucide-react";
 import { AISettings } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -14,34 +14,20 @@ interface AISettingsSectionProps {
 
 const providerModels = {
   openai: [
-    { value: 'gpt-5.2',    label: 'GPT-5.2 (Input/Output: $1.75/$14 pro 1M Tokens)' },
-    { value: 'gpt-5',      label: 'GPT-5 (Input/Output: $1.25/$10 pro 1M Tokens)' },
-    { value: 'gpt-5-mini', label: 'GPT-5 Mini (Input/Output: $0.25/$2 pro 1M Tokens)' },
-    { value: 'gpt-5-nano', label: 'GPT-5 Nano (Input/Output: $0.05/$0.40 pro 1M Tokens)' },
-  ],
-  anthropic: [
-    { value: 'claude-opus-4-5',   label: 'Claude Opus 4.5 (Input/Output: $5/$25 pro 1M Tokens)' },
-    { value: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5 (Input/Output: $3/$15 pro 1M Tokens)' },
-    { value: 'claude-haiku-3',    label: 'Claude Haiku 3 (Input/Output: $0.25/$1.25 pro 1M Tokens)' },
-  ],
-  mistral: [
-    { value: 'mistral-large-latest',  label: 'Mistral Large (Input/Output: $2/$6 pro 1M Tokens)' },
-    { value: 'mistral-small-latest',  label: 'Mistral Small (Input/Output: $0.20/$0.60 pro 1M Tokens)' },
-    { value: 'pixtral-12b-latest',    label: 'Pixtral 12B (Input/Output: $0.15/$0.15 pro 1M Tokens)' },
+    { value: 'gpt-5.2', label: 'OpenAI (ChatGPT-5.2)' },
   ],
   google: [
-    { value: 'gemini-3-pro-preview',     label: 'Gemini 3 Pro Preview (Input/Output: $2/$12 pro 1M Tokens; <=200k Prompt)' },
-    { value: 'gemini-2.5-pro',           label: 'Gemini 2.5 Pro (Input/Output: $1.25/$10 pro 1M Tokens; <=200k Prompt)' },
-    { value: 'gemini-2.5-flash',         label: 'Gemini 2.5 Flash (Input/Output: $0.30/$2.50 pro 1M Tokens)' },
-    { value: 'gemini-2.5-flash-lite',    label: 'Gemini 2.5 Flash-Lite (Input/Output: $0.10/$0.40 pro 1M Tokens)' },
+    { value: 'gemini-3-pro-preview', label: 'Google (Gemini 3 Pro Preview)' },
+  ],
+  mistral: [
+    { value: 'mistral-large-latest', label: 'Mistral AI (Large)' },
   ],
 };
 
 const providerHelp = {
   openai: { url: 'https://platform.openai.com/api-keys', name: 'OpenAI' },
-  anthropic: { url: 'https://console.anthropic.com/', name: 'Anthropic' },
-  mistral: { url: 'https://console.mistral.ai/', name: 'Mistral AI' },
   google: { url: 'https://makersuite.google.com/', name: 'Google AI Studio' },
+  mistral: { url: 'https://console.mistral.ai/', name: 'Mistral AI' },
 };
 
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
@@ -102,19 +88,38 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="aiProvider">KI-Anbieter</Label>
+                <Label htmlFor="aiProvider">
+                  KI-Anbieter & Modell
+                  <span className="text-muted-foreground text-xs ml-2">
+                    <a href="#faq" className="hover:underline">
+                      <Info className="inline h-3 w-3 mb-1" /> Welches Modell wählen?
+                    </a>
+                  </span>
+                </Label>
                 <Select 
                   value={aiSettings.aiProvider} 
-                  onValueChange={(value) => onAISettingsChange({ aiProvider: value })}
+                  onValueChange={(value) => {
+                    // Automatically set the corresponding model when provider changes
+                    const modelMap = {
+                      openai: 'gpt-5.2',
+                      google: 'gemini-3-pro-preview',
+                      mistral: 'mistral-large-latest'
+                    };
+                    onAISettingsChange({ 
+                      aiProvider: value, 
+                      openaiModel: value === 'openai' ? 'gpt-5.2' : aiSettings.openaiModel,
+                      googleModel: value === 'google' ? 'gemini-3-pro-preview' : aiSettings.googleModel,
+                      mistralModel: value === 'mistral' ? 'mistral-large-latest' : aiSettings.mistralModel
+                    });
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="openai">OpenAI (ChatGPT)</SelectItem>
-                    <SelectItem value="anthropic">Anthropic (Claude)</SelectItem>
-                    <SelectItem value="mistral">Mistral AI</SelectItem>
-                    <SelectItem value="google">Google Gemini</SelectItem>
+                    <SelectItem value="openai">OpenAI (ChatGPT-5.2)</SelectItem>
+                    <SelectItem value="google">Google (Gemini 3 Pro Preview)</SelectItem>
+                    <SelectItem value="mistral">Mistral AI (Large)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -132,25 +137,6 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                   onChange={(e) => onAISettingsChange({ apiKey: e.target.value })}
                 />
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Modell</Label>
-              <Select 
-                value={aiSettings[currentModelKey] as string}
-                onValueChange={(value) => onAISettingsChange({ [currentModelKey]: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="-- Bitte wählen --" />
-                </SelectTrigger>
-                <SelectContent>
-                  {providerModels[currentProvider]?.map((model) => (
-                    <SelectItem key={model.value} value={model.value}>
-                      {model.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
 
             <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg text-sm">

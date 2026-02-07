@@ -1,9 +1,16 @@
 import { useState, useRef } from "react";
-import { Route, RotateCcw, MapPin } from "lucide-react";
+import { Route, RotateCcw, MapPin, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { AISettingsSection } from "./AISettingsSection";
+
+// Importiere die providerModels aus der AISettingsSection oder definiere sie hier
+const providerModels = {
+  openai: ['gpt-5.2', 'gpt-5', 'gpt-5-mini', 'gpt-5-nano'],
+  google: ['gemini-3-pro-preview', 'gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'],
+  mistral: ['mistral-large-latest', 'mistral-small-latest'],
+};
 import { RouteSection } from "./RouteSection";
 import { RouteOptimizationSection } from "./RouteOptimizationSection";
 import { VehicleSection } from "./VehicleSection";
@@ -53,8 +60,8 @@ export function RoutePlanner() {
       if (aiSettings.useDirectAI) {
         setLoadingMessage('🤖 Deine Wohnmobil-Route wird von der KI generiert...');
         
-        if (!aiSettings.apiKey?.trim()) {
-          setAIError('Bitte gib deinen API-Schlüssel ein, um die KI direkt zu nutzen.');
+        if (!aiSettings.apiKey?.trim() || !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey)) {
+          setAIError('Bitte gib einen gültigen API-Schlüssel ein (mindestens 20 Zeichen, nur Buchstaben, Zahlen, Bindestriche und Unterstriche).');
           setIsLoading(false);
           // Scroll to AI settings section
           setTimeout(() => {
@@ -82,7 +89,9 @@ export function RoutePlanner() {
         }, 300);
       }
     } catch (error) {
-      console.error('Error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error:', error);
+      }
       if (error instanceof Error) {
         // Use the user-friendly error message directly
         setAIError(error.message);
@@ -102,6 +111,14 @@ export function RoutePlanner() {
     setFormData(initialFormData);
     setOutput('');
     setAIError('');
+  };
+
+  const isModelSelected = () => {
+    if (!aiSettings.useDirectAI) return true; // Wenn KI nicht direkt genutzt wird, ist kein Modell erforderlich
+    
+    const currentProvider = aiSettings.aiProvider;
+    const modelKey = `${currentProvider}Model` as 'openaiModel' | 'mistralModel' | 'googleModel';
+    return !!aiSettings[modelKey]; // Gibt true zurück, wenn ein Modell ausgewählt ist
   };
 
   return (
@@ -338,7 +355,7 @@ export function RoutePlanner() {
               type="submit" 
               size="lg" 
               className="gap-2 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
-              disabled={isLoading || !formData.startPoint || !formData.destination}
+              disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
             >
               <MapPin className="h-5 w-5" />
               {aiSettings.useDirectAI ? '🚀 Route Generieren' : '📝 Prompt Generieren'}
@@ -363,13 +380,14 @@ export function RoutePlanner() {
             isLoading={isLoading}
             loadingMessage={loadingMessage}
             aiModel={aiModel}
+            aiProvider={aiSettings.aiProvider}
             aiError={aiError}
             useDirectAI={aiSettings.useDirectAI}
           />
         </div>
 
         {/* FAQ Section */}
-        <div className="bg-card rounded-xl shadow-lg p-6 mt-12 mb-8">
+        <div id="faq" className="bg-card rounded-xl shadow-lg p-6 mt-12 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
               ❓
@@ -378,6 +396,42 @@ export function RoutePlanner() {
           </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
+                <span>✨</span>
+                <span>Welches KI-Modell sollte ich wählen?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              <p><strong>Wir haben die Auswahl auf die Top-Modelle beschränkt:</strong> Jeder Anbieter verwendet automatisch sein bestes Modell für optimale Ergebnisse.</p>
+              <p className="mt-2">Die verfügbaren Optionen:</p>
+              <ul className="list-disc list-inside mt-1 space-y-2">
+                <li>
+                  <strong>Google (Gemini 3 Pro Preview):</strong> Unser empfohlenes Top-Modell mit herausragendem Verständnis für geografische Daten, lokale Attraktionen und präzise Stellplatzempfehlungen. Ideal für nationale und internationale Routen - von kurzen Wochenendtrips bis zu komplexen Langstreckenreisen.
+                </li>
+                <li>
+                  <strong>OpenAI (ChatGPT-5.2):</strong> Das leistungsstärkste Modell von OpenAI mit hervorragender Routenplanung und detaillierten Stellplatzempfehlungen. Ideal für komplexe Anforderungen und lange Reisen.
+                </li>
+                <li>
+                  <strong>Mistral AI (Large):</strong> Ein leistungsstarkes Open-Source-Modell mit exzellenter Balance zwischen Qualität und Kosten. Perfekt für europäische Routen.
+                </li>
+              </ul>
+              <p className="mt-3"><strong>Empfehlung:</strong> Basierend auf unseren Erfahrungen empfehlen wir <strong>Google Gemini 3 Pro Preview</strong> als beste Wahl für die meisten Anwendungsfälle.</p>
+              <p className="mt-2">Gemini glänzt nicht nur bei internationalen Routen, sondern liefert auch für nationale Routen in Deutschland und Europa herausragende Ergebnisse mit:</p>
+              <ul className="list-disc list-inside mt-1 space-y-1">
+                <li>Besonders präzisen Stellplatzempfehlungen</li>
+                <li>Hervorragendem Verständnis für lokale Gegebenheiten</li>
+                <li>Ausgezeichneter Balance zwischen Detailtiefe und Übersichtlichkeit</li>
+                <li>Zuverlässiger Performance bei komplexen Routenplanungen</li>
+              </ul>
+              <p className="mt-2">Die anderen Modelle sind ebenfalls exzellent:</p>
+              <ul className="list-disc list-inside mt-1 space-y-1">
+                <li><strong>OpenAI (ChatGPT-5.2):</strong> Für maximale Detailtiefe und komplexe Anforderungen</li>
+                <li><strong>Mistral AI (Large):</strong> Für kosteneffiziente Qualität und europäische Routen</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
                 <span>🤖</span>
@@ -395,7 +449,7 @@ export function RoutePlanner() {
               <p className="mt-2">Anders als allgemeine Reiseplaner generieren wir keine 'Black Box'-Ergebnisse - du behältst immer die Kontrolle über den Prozess!</p>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
+          <AccordionItem value="item-3">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
                 <span>⭐</span>
@@ -404,17 +458,6 @@ export function RoutePlanner() {
             </AccordionTrigger>
             <AccordionContent>
               Camping Route ist der einzige KI-Routenplaner, der speziell für Wohnmobile und Camper entwickelt wurde. Während allgemeine Reiseplaner nur grobe Routen vorschlagen, finden wir Stellplätze, die perfekt zu deinem Fahrzeug, Budget und deinen Interessen passen. Unsere KI berücksichtigt Fahrzeugdaten, Stellplatz-Qualität, lokale Attraktionen und sogar deine Reiseziele - für eine wirklich maßgeschneiderte Reiseerfahrung.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>💰</span>
-                <span>Was kostet eine KI-Abfrage?</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              Die Kosten für eine KI-Abfrage hängen vom gewählten KI-Modell und Anbieter ab. Typischerweise liegen die Kosten bei aktuellen Modellen wie GPT-5.2 bei ca. 5-7 Cent pro Anfrage, abhängig von der Länge des Prompts und der generierten Antwort.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
@@ -431,12 +474,12 @@ export function RoutePlanner() {
           <AccordionItem value="item-5">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
-                <span>🗺️</span>
-                <span>Kann ich Routen offline nutzen?</span>
+                <span>💰</span>
+                <span>Was kostet eine KI-Abfrage?</span>
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.
+              Die Kosten für eine KI-Abfrage hängen vom gewählten KI-Modell und Anbieter ab. Typischerweise liegen die Kosten bei aktuellen Modellen wie GPT-5.2 bei ca. 5-7 Cent pro Anfrage, abhängig von der Länge des Prompts und der generierten Antwort.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-6">
@@ -453,6 +496,17 @@ export function RoutePlanner() {
           <AccordionItem value="item-7">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
+                <span>🗺️</span>
+                <span>Kann ich Routen offline nutzen?</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-8">
+            <AccordionTrigger>
+              <span className="flex items-center gap-2">
                 <span>🚐</span>
                 <span>Welche Fahrzeugtypen werden unterstützt?</span>
               </span>
@@ -461,7 +515,7 @@ export function RoutePlanner() {
               Aktuell werden Wohnmobile und Camper unterstützt. Wohnwagen sind in Planung und werden in einer zukünftigen Version hinzugefügt.
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-8">
+          <AccordionItem value="item-9">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
                 <span>💰</span>
@@ -473,6 +527,19 @@ export function RoutePlanner() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </div>
+
+      {/* Scroll to Top Button */}
+      <div className="fixed bottom-20 right-4 z-50">
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full w-10 h-10 bg-background/80 backdrop-blur-sm border-border hover:bg-background"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Nach oben scrollen"
+        >
+          <ArrowUp className="h-4 w-4" />
+        </Button>
       </div>
 
       {/* Footer */}

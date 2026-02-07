@@ -29,20 +29,24 @@
     <meta name="twitter:image" content="https://campingroute.app/favicon-original-final.svg" />
     <meta name="twitter:creator" content="@CampingRoute" />
     
-    <!-- Favicons -->
+    <!-- Favicons - Optimiert für Google Suchergebnisse -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="shortcut icon" href="/favicon.ico">
     
     <!-- Apple Touch Icon (iOS) -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="/site.webmanifest">
+    <!-- Web App Manifest mit Favicon für Google -->
+    <link rel="manifest" href="/site.webmanifest" crossorigin="use-credentials">
     
     <!-- Android Chrome Icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    
+    <!-- Google spezifische Favicon-Einstellungen -->
+    <link rel="mask-icon" href="/favicon-final.svg" color="#581c87">
     
     <!-- PWA & Theme -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,19 +63,14 @@
     <meta name="robots" content="index, follow" />
     
     <!-- Security -->
-<<<<<<< HEAD
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openai.com https://api.mistral.ai https://generativelanguage.googleapis.com;" />
-=======
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';" />
->>>>>>> parent of dadba12 (DSGVO-konforme Optimierungen)
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com https://api.anthropic.com https://api.mistral.ai;" />
     
     <!-- Language -->
     <meta http-equiv="Content-Language" content="de" />
     
     <!-- Font Preload (falls Fonts verwendet werden) -->
-    <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">

@@ -8,61 +8,157 @@ interface OutputSectionProps {
   isLoading: boolean;
   loadingMessage: string;
   aiModel: string;
+  aiProvider: string;
   aiError: string;
   useDirectAI: boolean;
 }
 
-export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiError, useDirectAI }: OutputSectionProps) {
+export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiProvider, aiError, useDirectAI }: OutputSectionProps) {
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(output).then(() => {
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    });
+  const copyToClipboard = async () => {
+    try {
+      // Überprüfe, ob die Clipboard API verfügbar ist
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(output);
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 3000);
+          return;
+        } catch (clipboardError) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Moderne Clipboard API fehlgeschlagen, versuche Fallback:', clipboardError);
+          }
+        }
+      }
+      
+      // Fallback mit document.execCommand für ältere Browser
+      const textarea = document.createElement('textarea');
+      textarea.value = output;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      textarea.style.top = '0';
+      textarea.style.left = '0';
+      textarea.style.width = '1px';
+      textarea.style.height = '1px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
+        if (successful) {
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 3000);
+        } else {
+          if (process.env.NODE_ENV === 'development') {
+            console.error('execCommand copy war nicht erfolgreich');
+          }
+          alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
+        }
+      } catch (execError) {
+        document.body.removeChild(textarea);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('execCommand Fehler:', execError);
+        }
+        alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
+      }
+      
+    } catch (err) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Unerwarteter Fehler beim Kopieren:', err);
+      }
+      alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
+    }
   };
 
   const printOutput = () => {
-    const printWindow = window.open('', '_blank');
-    printWindow?.document.write(`
-      <html>
-        <head>
-          <title>Wohnmobil-Route</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; padding: 20mm; max-width: 800px; margin: 0 auto; }
-            h1 { color: #b45309; text-align: center; }
-            .header { text-align: center; margin-bottom: 20px; }
-            .model-info { background: #fef3c7; padding: 8px 16px; border-radius: 8px; margin: 10px 0; display: inline-block; font-size: 1em; }
-            .content { font-size: 12pt; white-space: pre-wrap; }
-            @media print { 
-              body { padding: 10mm; }
-              .no-print { display: none; }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
-              <img src="/favicon-final.svg" alt="Camping Route Logo" style="height: 60px; width: 60px;" loading="lazy" />
-              <h1 style="margin: 0;">Wohnmobil-Route</h1>
-            </div>
-            <p>Generiert am: ${new Date().toLocaleDateString('de-DE')} ${new Date().toLocaleTimeString('de-DE')}</p>
-            ${aiModel ? `<p class="model-info">KI-Modell: ${aiModel}</p>` : ''}
-          </div>
-          <div class="content">${output.replace(/\n/g, '<br>')}</div>
-          <div class="no-print" style="text-align: center; margin-top: 20px;">
-            <button onclick="window.print()" style="padding: 10px 20px; background: #b45309; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px;">
-              Drucken
-            </button>
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow?.document.close();
-    setTimeout(() => {
-      printWindow?.focus();
-      printWindow?.print();
-    }, 500);
+    // Erstelle ein verstecktes iframe-Element für den Druck
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'absolute';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = 'none';
+    printFrame.style.visibility = 'hidden';
+    
+    document.body.appendChild(printFrame);
+    
+    try {
+      const frameDoc = printFrame.contentDocument || printFrame.contentWindow?.document;
+      
+      if (frameDoc) {
+        frameDoc.open();
+        frameDoc.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Wohnmobil-Route</title>
+              <style>
+                body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; padding: 20mm; max-width: 800px; margin: 0 auto; }
+                h1 { color: #b45309; text-align: center; }
+                .header { text-align: center; margin-bottom: 20px; }
+                .model-info { background: #fef3c7; padding: 8px 16px; border-radius: 8px; margin: 10px 0; display: inline-block; font-size: 1em; }
+                .content { font-size: 12pt; white-space: pre-wrap; }
+                @media print { 
+                  body { padding: 10mm; }
+                  .no-print { display: none; }
+                }
+              </style>
+            </head>
+            <body>
+              <div class="header">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                  <img src="${window.location.origin}/favicon-final.svg" alt="Camping Route Logo" style="height: 60px; width: 60px;" loading="lazy" />
+                  <h1 style="margin: 0;">Wohnmobil-Route</h1>
+                </div>
+                <p>Generiert am: ${new Date().toLocaleDateString('de-DE')} ${new Date().toLocaleTimeString('de-DE')}</p>
+                ${aiModel ? `<p class="model-info">KI-Modell: ${aiModel}</p>` : ''}
+              </div>
+              <div class="content">${output.replace(/\n/g, '<br>')}</div>
+            </body>
+          </html>
+        `);
+        frameDoc.close();
+        
+        // Warte kurz und starte den Druck
+        setTimeout(() => {
+          printFrame.contentWindow?.focus();
+          printFrame.contentWindow?.print();
+          
+          // Entferne das iframe nach dem Druck
+          setTimeout(() => {
+            document.body.removeChild(printFrame);
+          }, 1000);
+        }, 100);
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Druckfehler:', error);
+      }
+      // Fallback: Öffne ein neues Fenster, falls iframe nicht funktioniert
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Wohnmobil-Route</title>
+              <script>
+                window.onload = function() {
+                  window.print();
+                  window.close();
+                };
+              </script>
+            </head>
+            <body>
+              <pre>${output}</pre>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+      }
+    }
   };
 
   if (!output && !isLoading) return null;

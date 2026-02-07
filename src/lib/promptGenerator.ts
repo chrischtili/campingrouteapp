@@ -194,12 +194,12 @@ ${data.additionalInfo}
 export async function callAIAPI(formData: FormData, aiSettings: AISettings): Promise<string> {
   const prompt = generatePrompt(formData);
   
-  // Log the API call details for debugging
-  console.log('=== AI API Call Details ===');
-  console.log('Provider:', aiSettings.aiProvider);
-  console.log('API Key present:', !!aiSettings.apiKey?.trim());
-  
-  // Move logging inside each case to avoid variable scope issues
+  // Log the API call details for debugging (only in development)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('=== AI API Call Details ===');
+    console.log('Provider:', aiSettings.aiProvider);
+    console.log('API Key present:', !!aiSettings.apiKey?.trim());
+  }
   
   let apiUrl = '';
   let headers: Record<string, string> = {};
@@ -229,12 +229,11 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
         'gpt-4-1106-preview'
       ].includes(actualModel);
       
-      console.log('OpenAI Model:', aiSettings.openaiModel || 'default (gpt-5.2)');
-      console.log('Actual model used:', actualModel);
-      console.log('Using max_completion_tokens:', usesCompletionTokens);
-      
-      // GPT-5 models only support temperature: 1 (default)
-      const supportsTemperature = !['gpt-5', 'gpt-5.2', 'gpt-5-mini', 'gpt-5-nano'].includes(actualModel);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('OpenAI Model:', aiSettings.openaiModel || 'default (gpt-5.2)');
+        console.log('Actual model used:', actualModel);
+        console.log('Using max_completion_tokens:', usesCompletionTokens);
+      }
       
       requestData = {
         model: actualModel,
@@ -243,34 +242,11 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
           { role: 'user', content: prompt }
         ],
         ...(usesCompletionTokens ? { max_completion_tokens: 4000 } : { max_tokens: 4000 }),
-        ...(supportsTemperature ? { temperature: 0.7 } : {})
+        ...(['gpt-5', 'gpt-5.2', 'gpt-5-mini', 'gpt-5-nano'].includes(actualModel) ? { temperature: 1 } : { temperature: 0.7 })
       };
       break;
     
-    case 'anthropic':
-      apiUrl = 'https://api.anthropic.com/v1/messages';
-      headers = {
-        'Content-Type': 'application/json',
-        'x-api-key': aiSettings.apiKey,
-        'anthropic-version': '2023-06-01'
-      };
-      
-      // Handle both current and future Claude models
-      const claudeModel = aiSettings.anthropicModel || 'claude-3-5-sonnet-20240620';
-      console.log('Anthropic Model:', claudeModel);
-      
-      requestData = {
-        model: claudeModel,
-        max_tokens: 4000,
-        messages: [{ role: 'user', content: prompt }]
-      };
-      
-      // Add system prompt for better context
-      if (claudeModel.startsWith('claude-3.5') || claudeModel.startsWith('claude-4')) {
-        requestData.system = 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Gib detaillierte, strukturierte Antworten in Markdown-Format.';
-        console.log('Added system prompt for newer Claude models');
-      }
-      break;
+
     
     case 'mistral':
       apiUrl = 'https://api.mistral.ai/v1/chat/completions';
@@ -279,7 +255,9 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
         'Authorization': `Bearer ${aiSettings.apiKey}`
       };
       const mistralModel = aiSettings.mistralModel || 'mistral-large-latest';
-      console.log('Mistral Model:', mistralModel);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Mistral Model:', mistralModel);
+      }
       
       requestData = {
         model: mistralModel,
@@ -318,41 +296,22 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
   console.log('===========================');
   
   let response;
-  let controller;
-  let timeoutId;
-  
   try {
-    console.log('Starting API request to:', apiUrl);
-    console.log('Request headers:', Object.keys(headers));
-    console.log('Request body size:', JSON.stringify(requestData).length, 'characters');
-    
-    // Add timeout to fetch request
-    controller = new AbortController();
-    timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
-    
     response = await fetch(apiUrl, {
       method: 'POST',
       headers,
-      body: JSON.stringify(requestData),
-      signal: controller.signal
+      body: JSON.stringify(requestData)
     });
-    
-    clearTimeout(timeoutId);
-    console.log('API request completed with status:', response.status);
-    
   } catch (fetchError) {
     console.error('Network Error:', fetchError);
-    if (timeoutId) clearTimeout(timeoutId);
-    
-    // Check if the error is due to abort/timeout
-    if (fetchError.name === 'AbortError' || (fetchError.message && fetchError.message.includes('aborted'))) {
-      throw new Error('Timeout: Die Anfrage hat zu lange gedauert (60 Sekunden). Bitte versuche es später erneut oder überprüfe deine Internetverbindung.');
-    } else if (fetchError instanceof TypeError && fetchError.message.includes('Failed to fetch')) {
+    if (fetchError instanceof TypeError && fetchError.message.includes('Failed to fetch')) {
       throw new Error('Netzwerkfehler: Bitte überprüfe deine Internetverbindung');
     } else if (fetchError instanceof Error && fetchError.message.includes('timeout')) {
       throw new Error('Timeout: Die Anfrage hat zu lange gedauert. Bitte versuche es später erneut.');
+    } else if (aiSettings.aiProvider === 'google') {
+      throw new Error('Gemini API Fehler: Bitte überprüfe deinen API-Schlüssel und stelle sicher, dass er für Gemini freigeschaltet ist. Falls das Problem weiterhin besteht, könnte der Gemini-Server vorübergehend nicht verfügbar sein.');
     } else {
-      throw new Error('Netzwerkfehler: Die Anfrage konnte nicht gesendet werden.');
+      throw new Error('Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.');
     }
   }
   
@@ -368,9 +327,6 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
     // Clean up error message to remove API key and provide user-friendly message
     let userFriendlyMessage = 'Fehler bei der API-Anfrage. ';
     
-    // Log the full error for debugging
-    console.error('Full API Error:', errorMessage);
-    
     if (errorMessage.includes('Incorrect API key') || errorMessage.includes('Invalid API key')) {
       userFriendlyMessage = 'Ungültiger API-Schlüssel. Bitte überprüfe deinen API-Schlüssel.';
     } else if (errorMessage.includes('API key not found') || errorMessage.includes('authentication')) {
@@ -379,16 +335,10 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
       userFriendlyMessage = 'Dein API-Kontingent ist aufgebraucht. Bitte überprüfe dein Konto.';
     } else if (errorMessage.includes('Rate limit') || errorMessage.includes('rate limit')) {
       userFriendlyMessage = 'API-Ratenlimit erreicht. Bitte warte einen Moment oder erhöhe dein Limit.';
-    } else if (errorMessage.includes('model not found') || errorMessage.includes('Model not found') || 
-               errorMessage.includes('does not exist') || errorMessage.includes('not available')) {
+    } else if (errorMessage.includes('model not found') || errorMessage.includes('Model not found')) {
       userFriendlyMessage = 'Das ausgewählte Modell ist nicht verfügbar. Bitte wähle ein anderes Modell.';
-    } else if (errorMessage.includes('temperature') && errorMessage.includes('does not support')) {
-      userFriendlyMessage = 'Das ausgewählte GPT-5 Modell unterstützt keine Temperatur-Anpassung. Es wird mit Standard-Einstellungen verwendet.';
-    } else if (errorMessage.includes('permission') || errorMessage.includes('access') || 
-               errorMessage.includes('not allowed') || errorMessage.includes('restricted')) {
-      userFriendlyMessage = 'Zugriff verweigert. Bitte überprüfe deine API-Berechtigungen für dieses Modell.';
-    } else if (errorMessage.includes('gpt-5') && (errorMessage.includes('not supported') || errorMessage.includes('not enabled'))) {
-      userFriendlyMessage = 'GPT-5 Modelle sind für dein Konto nicht freigeschaltet. Bitte wähle ein anderes Modell oder kontaktiere den OpenAI Support.';
+    } else if (errorMessage.includes('permission') || errorMessage.includes('access')) {
+      userFriendlyMessage = 'Zugriff verweigert. Bitte überprüfe deine API-Berechtigungen.';
     } else {
       // Generic error message that doesn't expose API details
       userFriendlyMessage = 'Fehler bei der API-Anfrage. Bitte überprüfe deine Einstellungen und Internetverbindung.';
@@ -399,119 +349,15 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
   
   const responseData = await response.json();
   
-  // Only log in development environment
-  if (import.meta.env.DEV) {
-    console.log('API Response structure:', {
-      hasChoices: 'choices' in responseData,
-      hasError: 'error' in responseData,
-      choicesLength: responseData.choices?.length,
-      errorDetails: responseData.error,
-      firstChoice: responseData.choices?.[0]
-    });
-  }
-  
   let aiResponse = '';
-  
-  // Handle potential error responses that still return 200 status
-  if (responseData.error) {
-    const errorMessage = responseData.error.message || 'Unknown error from AI provider';
-    console.error('AI Provider Error:', errorMessage);
-    
-    // Map specific GPT-5 related errors
-    if (errorMessage.includes('gpt-5') && (errorMessage.includes('not supported') || errorMessage.includes('not available'))) {
-      throw new Error('GPT-5 Modelle sind für dein Konto nicht freigeschaltet. Bitte wähle ein anderes Modell.');
-    } else if (errorMessage.includes('model') && errorMessage.includes('not found')) {
-      throw new Error('Das ausgewählte Modell ist nicht verfügbar. Bitte wähle ein anderes Modell.');
-    } else {
-      throw new Error('KI-Fehler: ' + errorMessage);
-    }
-  }
-  
-  // Extract response based on provider - more robust handling
-  try {
-    // First try the standard OpenAI/Mistral structure
-    if (responseData.choices && responseData.choices.length > 0) {
-      const firstChoice = responseData.choices[0];
-      
-      // Check if response was truncated due to length limits
-      if (firstChoice.finish_reason === 'length' && (!firstChoice.message?.content || firstChoice.message.content.trim() === '')) {
-        console.error('Response truncated due to token limits. Choice:', firstChoice);
-        throw new Error('Die Anfrage war zu lang für das ausgewählte Modell. Bitte verkürze deine Eingabe, wähle ein Modell mit höherem Token-Limit oder teile deine Anfrage in kleinere Teile auf.');
-      }
-      
-      // Try multiple ways to extract the response content
-      if (firstChoice.message?.content) {
-        aiResponse = firstChoice.message.content;
-      } else if (firstChoice.message?.text) {
-        aiResponse = firstChoice.message.text;
-      } else if (firstChoice.text) {
-        aiResponse = firstChoice.text;
-      } else if (firstChoice.delta?.content) {
-        aiResponse = firstChoice.delta.content;
-      } else if (firstChoice.content) {
-        aiResponse = firstChoice.content;
-      } else if (typeof firstChoice === 'string') {
-        aiResponse = firstChoice;
-      } else {
-        // Try to find any text content in the response
-        const jsonString = JSON.stringify(firstChoice);
-        const textMatch = jsonString.match(/"text"\s*:\s*"([^"]+)"/) || jsonString.match(/"content"\s*:\s*"([^"]+)"/);
-        if (textMatch && textMatch[1]) {
-          aiResponse = textMatch[1];
-        }
-      }
-    }
-    // Then try Anthropic structure
-    else if (responseData.content && responseData.content.length > 0) {
-      aiResponse = responseData.content[0].text || responseData.content[0].content || '';
-    }
-    // Then try Google Gemini structure
-    else if (responseData.candidates && responseData.candidates.length > 0) {
-      const candidate = responseData.candidates[0];
-      aiResponse = candidate.content?.parts?.[0]?.text || 
-                   candidate.content?.text || 
-                   candidate.text || '';
-    }
-    // Try to extract from any nested structure
-    else {
-      // Try to find text content anywhere in the response
-      const jsonString = JSON.stringify(responseData);
-      const textMatch = jsonString.match(/"text"\s*:\s*"([^"]+)"/) || 
-                        jsonString.match(/"content"\s*:\s*"([^"]+)"/) ||
-                        jsonString.match(/"message"\s*:\s*"([^"]+)"/);
-      if (textMatch && textMatch[1]) {
-        aiResponse = textMatch[1];
-      }
-    }
-    
-    // If we still don't have a response, try to extract from raw response
-    if (!aiResponse || aiResponse.trim() === '') {
-      console.warn('No response found in expected structure, trying raw extraction');
-      console.log('Full response data:', responseData);
-      
-      // Try to find any meaningful text in the entire response
-      const allText = JSON.stringify(responseData);
-      const potentialContent = allText.match(/([A-Za-zÄÖÜäöüß\s.,;:!?"'()\-\n]{100,})/);
-      if (potentialContent && potentialContent[0]) {
-        aiResponse = potentialContent[0];
-        console.log('Extracted raw content:', aiResponse.substring(0, 200) + '...');
-      }
-    }
-    
-    if (!aiResponse || aiResponse.trim() === '') {
-      console.error('Failed to extract any response from:', responseData);
-      throw new Error('Die KI hat eine leere oder unerwartete Antwort zurückgegeben. Bitte versuche es später erneut.');
-    }
-    
-  } catch (extractionError) {
-    console.error('Error extracting AI response:', extractionError);
-    console.log('Full response that caused the error:', responseData);
-    throw new Error('Fehler beim Verarbeiten der KI-Antwort. Bitte versuche es später erneut.');
-  }
-  
-  // Log success in development only
-  if (import.meta.env.DEV) {
-    console.log('AI response extracted successfully. Length:', aiResponse.length);
+  switch (aiSettings.aiProvider) {
+    case 'openai':
+    case 'mistral':
+      aiResponse = responseData.choices[0].message.content;
+      break;
+    case 'google':
+      aiResponse = responseData.candidates[0].content.parts[0].text;
+      break;
   }
   
   return aiResponse;

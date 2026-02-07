@@ -59,14 +59,19 @@
     <meta name="robots" content="index, follow" />
     
     <!-- Security -->
+<<<<<<< HEAD
 
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openai.com https://api.mistral.ai https://generativelanguage.googleapis.com;" />
+=======
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';" />
+>>>>>>> parent of dadba12 (DSGVO-konforme Optimierungen)
     
     <!-- Language -->
     <meta http-equiv="Content-Language" content="de" />
     
     <!-- Font Preload (falls Fonts verwendet werden) -->
-
+    <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">

@@ -18,6 +18,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
 
   const copyToClipboard = async () => {
     try {
+      // Überprüfe, ob die Clipboard API verfügbar ist
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
           await navigator.clipboard.writeText(output);
@@ -31,6 +32,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
         }
       }
       
+      // Fallback mit document.execCommand für ältere Browser
       const textarea = document.createElement('textarea');
       textarea.value = output;
       textarea.style.position = 'fixed';
@@ -46,7 +48,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
       try {
         const successful = document.execCommand('copy');
         document.body.removeChild(textarea);
-
+        
         if (successful) {
           setShowSuccess(true);
           setTimeout(() => setShowSuccess(false), 3000);
@@ -63,6 +65,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
         }
         alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
       }
+      
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Unerwarteter Fehler beim Kopieren:', err);
@@ -72,6 +75,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
   };
 
   const printOutput = () => {
+    // Erstelle ein verstecktes iframe-Element für den Druck
     const printFrame = document.createElement('iframe');
     printFrame.style.position = 'absolute';
     printFrame.style.width = '0';
@@ -92,7 +96,8 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
             <head>
               <title>Wohnmobil-Route</title>
               <style>
-                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; }
+                body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; padding: 20mm; max-width: 800px; margin: 0 auto; }
+                h1 { color: #b45309; text-align: center; }
                 .header { text-align: center; margin-bottom: 20px; }
                 .model-info { background: #fef3c7; padding: 8px 16px; border-radius: 8px; margin: 10px 0; display: inline-block; font-size: 1em; }
                 .content { font-size: 12pt; white-space: pre-wrap; }
@@ -117,10 +122,12 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
         `);
         frameDoc.close();
         
+        // Warte kurz und starte den Druck
         setTimeout(() => {
           printFrame.contentWindow?.focus();
           printFrame.contentWindow?.print();
           
+          // Entferne das iframe nach dem Druck
           setTimeout(() => {
             document.body.removeChild(printFrame);
           }, 1000);
@@ -130,6 +137,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
       if (process.env.NODE_ENV === 'development') {
         console.error('Druckfehler:', error);
       }
+      // Fallback: Öffne ein neues Fenster, falls iframe nicht funktioniert
       const printWindow = window.open('', '_blank');
       if (printWindow) {
         printWindow.document.write(`
@@ -206,8 +214,9 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
   );
 }
 
-// Export-Funktionen außerhalb der Komponente
-export const exportAsHTML = (text: string) => {
+// HTML Export Funktion
+const exportAsHTML = (text: string) => {
+  // Markdown in HTML konvertieren
   const htmlContent = text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -215,6 +224,7 @@ export const exportAsHTML = (text: string) => {
     .replace(/## (.*?)/g, '<h2>$1</h2>')
     .replace(/### (.*?)/g, '<h3>$1</h3>');
 
+  // HTML-Datei erstellen und herunterladen
   const blob = new Blob([htmlContent], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -224,16 +234,55 @@ export const exportAsHTML = (text: string) => {
   URL.revokeObjectURL(url);
 };
 
-export const exportAsMarkdown = (text: string) => {
-  const blob = new Blob([text], { type: 'text/markdown' });
+// Stylisches Markdown Export Funktion
+const exportAsStyledMarkdown = (text: string) => {
+  // CSS-Styles hinzufügen
+  const styledContent = `<style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #2563eb;
+    }
+    strong {
+      font-weight: bold;
+    }
+    em {
+      font-style: italic;
+    }
+    .highlight {
+      background-color: #f0f8ff;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+  </style>
+  <div class="highlight">
+    ${text}
+  </div>`;
+
+  // HTML-Datei mit CSS erstellen
+  const blob = new Blob([styledContent], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'wohnmobil-route.md';
+  a.download = 'wohnmobil-route-styled.html';
   a.click();
   URL.revokeObjectURL(url);
 };
 
-export const exportAsPDF = async (text: string) => {
+// PDF Export Funktion (wird später implementiert)
+const exportAsPDF = async (text: string) => {
   console.log('PDF Export wird in Zukunft implementiert');
+  // Hier würde die PDF-Bibliothek integriert werden
 };
+
+// Add HTML export button after print button
+              <Button onClick={() => exportAsHTML(output)} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
+                <FileText className="h-5 w-5" />
+                Als HTML exportieren
+              </Button>

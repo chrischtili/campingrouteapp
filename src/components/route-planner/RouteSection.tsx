@@ -5,8 +5,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionCard } from "./SectionCard";
 import { FormSlider } from "./FormSlider";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
+  const isMobile = useIsMobile();
+  
   // Handle date selection logic
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = e.target.value;
@@ -21,7 +24,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   return (
     <SectionCard icon="🗺️" title="Reiseroute" iconColor="bg-blue-100" titleColor="text-blue-700">
       {/* Routentyp und Reisestil - ganz oben */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"} mb-6`}>
         <div className="space-y-2">
           <Label htmlFor="routeType">Routentyp</Label>
           <Select value={formData.routeType} onValueChange={(value) => onChange({ routeType: value })}>
@@ -57,7 +60,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       </div>
 
       {/* Hauptformular */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
         <div className="space-y-2">
           <Label htmlFor="startPoint">
             Start <span className="text-destructive">*</span>

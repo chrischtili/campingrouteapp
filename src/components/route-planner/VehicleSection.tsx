@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionCard } from "./SectionCard";
 import { FormSlider } from "./FormSlider";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface VehicleSectionProps {
   formData: FormData;
@@ -10,9 +11,11 @@ interface VehicleSectionProps {
 }
 
 export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
+  const isMobile = useIsMobile();
+  
   return (
     <SectionCard icon="🚐" title="Fahrzeugspezifische Filter" iconColor="bg-green-100" titleColor="text-green-700">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-3 gap-6"}`}>
         <FormSlider
           id="vehicleLength"
           label="Länge"

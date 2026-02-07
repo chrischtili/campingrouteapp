@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { SectionCard } from "./SectionCard";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface AISettingsSectionProps {
   aiSettings: AISettings;
@@ -13,11 +14,11 @@ interface AISettingsSectionProps {
 }
 
 const providerModels = {
-  openai: [
-    { value: 'gpt-5.2', label: 'OpenAI (ChatGPT-5.2)' },
-  ],
   google: [
     { value: 'gemini-3-pro-preview', label: 'Google (Gemini 3 Pro Preview)' },
+  ],
+  openai: [
+    { value: 'gpt-5.2', label: 'OpenAI (ChatGPT-5.2)' },
   ],
   mistral: [
     { value: 'mistral-large-latest', label: 'Mistral AI (Large)' },
@@ -31,6 +32,7 @@ const providerHelp = {
 };
 
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
+  const isMobile = useIsMobile();
   const currentProvider = aiSettings.aiProvider as keyof typeof providerModels;
   const currentModelKey = `${currentProvider}Model` as keyof AISettings;
   
@@ -38,7 +40,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
     <SectionCard icon="🤖" title="KI-Einstellungen" iconColor="bg-purple-100" titleColor="text-purple-700">
       <div className="space-y-6">
         {/* Mode Selection */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
           <button
             type="button"
             onClick={() => onAISettingsChange({ useDirectAI: false })}
@@ -86,7 +88,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               </Alert>
             )}
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
               <div className="space-y-2">
                 <Label htmlFor="aiProvider">
                   KI-Anbieter & Modell
@@ -117,8 +119,8 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="openai">OpenAI (ChatGPT-5.2)</SelectItem>
                     <SelectItem value="google">Google (Gemini 3 Pro Preview)</SelectItem>
+                    <SelectItem value="openai">OpenAI (ChatGPT-5.2)</SelectItem>
                     <SelectItem value="mistral">Mistral AI (Large)</SelectItem>
                   </SelectContent>
                 </Select>

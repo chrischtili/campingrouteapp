@@ -2,6 +2,7 @@ import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { SectionCard } from "./SectionCard";
 import { CheckboxGroup } from "./CheckboxGroup";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface RouteOptimizationSectionProps {
   formData: FormData;
@@ -36,9 +37,11 @@ const cultureOptions = [
 ];
 
 export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOptimizationSectionProps) {
+  const isMobile = useIsMobile();
+  
   return (
     <SectionCard icon="🎯" title="Routenoptimierung" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-orange-100" titleColor="text-orange-700">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-4 gap-6"}`}>
         <div className="space-y-3">
           <Label className="font-medium">Straßenart Präferenz</Label>
           <CheckboxGroup

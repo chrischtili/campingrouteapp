@@ -1,0 +1,14 @@
+              <Button onClick={() => exportAsHTML(output)} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
+                <FileText className="h-5 w-5" />
+                Als HTML exportieren
+              </Button>
+              
+              <Button onClick={() => exportAsStyledMarkdown(output)} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
+                <FileText className="h-5 w-5" />
+                Als stylisches Markdown exportieren
+              </Button>
+              
+              <Button onClick={() => exportAsPDF(output)} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
+                <FileText className="h-5 w-5" />
+                Als PDF exportieren
+              </Button>

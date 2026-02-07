@@ -74,7 +74,7 @@ export const initialFormData: FormData = {
 };
 
 export const initialAISettings: AISettings = {
-  aiProvider: 'openai',
+  aiProvider: 'google',
   apiKey: '',
   useDirectAI: false,
   openaiModel: 'gpt-5.2',

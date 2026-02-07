@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SectionCard } from "./SectionCard";
 import { CheckboxGroup } from "./CheckboxGroup";
 import { FormSlider } from "./FormSlider";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ActivitiesSectionProps {
   formData: FormData;
@@ -43,9 +44,11 @@ const companionOptions = [
 ];
 
 export function ActivitiesSection({ formData, onChange, onCheckboxChange }: ActivitiesSectionProps) {
+  const isMobile = useIsMobile();
+  
   return (
     <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-yellow-100" titleColor="text-yellow-700">
-      <div className="space-y-6">
+      <div className={`space-y-6 ${isMobile ? "space-y-4" : ""}`}>
         <div className="space-y-3">
           <Label className="font-medium">Aktivitäten & Interessen</Label>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4">

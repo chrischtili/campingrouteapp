@@ -17,7 +17,7 @@ import { VehicleSection } from "./VehicleSection";
 import { AccommodationSection } from "./AccommodationSection";
 import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
-import heroCamper from "@/assets/hero-camper.jpg";
+
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 export function RoutePlanner() {
@@ -216,8 +216,8 @@ export function RoutePlanner() {
         
         {/* Hero image - simple and clean */}
         <img 
-          src={heroCamper} 
-          alt="Wohnmobil in malerischer Landschaft" 
+          src="/campingroute.jpg" 
+          alt="Wohnmobil auf malerischer Reise durch Deutschland - Camping Route KI-Routenplaner für Wohnmobile" 
           className="w-full h-full object-cover"
           width="1920"
           height="1080"

@@ -684,7 +684,7 @@ export function RoutePlanner() {
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Ja, die Grundfunktionen sind komplett kostenlos. Für erweiterte KI-Funktionen kannst du optional deine eigene API einbinden.
+              Ja, die Grundfunktionen sind komplett kostenlos. Du erhältst einen optimierten Prompt, den du in deiner bevorzugten KI verwenden kannst. Wenn du deine eigene API einbindest, kannst du direkt eine Route generieren lassen (die Kosten für die API-Nutzung trägst du selbst).
             </AccordionContent>
           </AccordionItem>
         </Accordion>

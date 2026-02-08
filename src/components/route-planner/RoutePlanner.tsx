@@ -19,6 +19,7 @@ import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 export function RoutePlanner() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -293,62 +294,183 @@ export function RoutePlanner() {
           </div>
         </div>
 
-        {/* Simple Demo Section */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        {/* KI-Beispielroute Section */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8 h-full">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
               <span className="text-blue-600">🎯</span>
             </div>
-            <h2 className="text-lg md:text-xl font-semibold text-blue-700">
-              Beispiel-Route: München → Gardasee
+            <h2 className="text-lg font-semibold text-blue-700">
+              KI-Beispielroute: Karlsruhe → Perleberg
             </h2>
           </div>
           
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="space-y-4">
-              <div className="flex items-start gap-3 p-3 bg-white rounded-md">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center 
-                              text-white text-sm font-bold flex-shrink-0 mt-1">
-                  1
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800">Tag 1: München → Innsbruck (120 km)</p>
-                  <p className="text-sm text-gray-600">Camping Innsbruck • ★ 4.5/5 • 25€/Nacht</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3 p-3 bg-white rounded-md">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center 
-                              text-white text-sm font-bold flex-shrink-0 mt-1">
-                  2
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800">Tag 2: Innsbruck → Bozen (140 km)</p>
-                  <p className="text-sm text-gray-600">Camping Bozen • ★ 4.7/5 • 30€/Nacht</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3 p-3 bg-white rounded-md">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center 
-                              text-white text-sm font-bold flex-shrink-0 mt-1">
-                  3
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800">Tag 3: Bozen → Riva del Garda (60 km)</p>
-                  <p className="text-sm text-gray-600">Camping Bella Italia • ★ 4.8/5 • 35€/Nacht</p>
-                </div>
-              </div>
-            </div>
+          <Tabs defaultValue="route" className="w-full">
+            <TabsList className="grid grid-cols-2 w-full mb-16 sm:mb-6 sm:grid-cols-4 sm:grid-flow-col gap-x-2 gap-y-4 bg-transparent">
+              <TabsTrigger value="route" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Route</TabsTrigger>
+              <TabsTrigger value="stays" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Übernachtungen</TabsTrigger>
+              <TabsTrigger value="highlights" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Highlights</TabsTrigger>
+              <TabsTrigger value="tips" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Tipps</TabsTrigger>
+            </TabsList>
             
-            <div className="mt-4 p-3 bg-blue-50 rounded-md text-center">
-              <p className="text-sm font-medium text-blue-800">
-                📊 Gesamt: 420 km • 3 Übernachtungen • 90€
-              </p>
-            </div>
+            {/* Route Tab */}
+            <TabsContent value="route">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="etappe1">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Etappe 1: Karlsruhe → Volkach (180 km, 3h)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">Route: A5/A6 → Heilbronn → A81 → Würzburg → A7/A70 → Schweinfurt/Bamberg</p>
+                    <p className="mb-2">📍 Pause: Raststätte Würzburg Nord oder Weinberge vor Volkach</p>
+                    <p className="mb-2">🍷 Highlight: Fränkisches Weinland, Weinprobe in Volkach</p>
+                    <p className="text-xs text-gray-500">💡 Tipp: Feiertagsverkehr (Fronleichnam) beachten!</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="etappe2">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Etappe 2: Volkach → Naumburg (210 km, 3h)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">Route: A70/A71 durch Thüringer Wald → Erfurt/Weimar → A4/A9</p>
+                    <p className="mb-2">📍 Pause: Rastplatz "Thüringer Wald" mit toller Aussicht</p>
+                    <p className="mb-2">🍷 Highlight: Nördlichstes Weinbaugebiet Saale-Unstrut</p>
+                    <p className="text-xs text-gray-500">💡 Tipp: A71 ist entspannter als A7!</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="etappe3">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Etappe 3: Naumburg → Perleberg (230 km, 3h)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">Route: A9 → Magdeburg → B189 → Stendal/Wittenberge</p>
+                    <p className="mb-2">📍 Pause: Wasserstraßenkreuz Magdeburg (Technikdenkmal)</p>
+                    <p className="mb-2">🏰 Highlight: Roland-Statue in Perleberg</p>
+                    <p className="text-xs text-gray-500">💡 Tipp: Wildwechsel in Morgen-/Abendstunden!</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
             
-            <div className="mt-3 text-xs text-gray-500 text-center">
-              <p>💡 Dies ist ein Beispiel für die KI-generierte Route. Ohne API erhältst du einen Prompt.</p>
-            </div>
+            {/* Übernachtungen Tab */}
+            <TabsContent value="stays">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="volkach">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Volkach: Campingplatz Ankergrund (35-45€)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">📍 Direkt am Mainufer, historische Altstadt fußläufig</p>
+                    <p className="mb-2">🐕 Hunde willkommen (Hundedusche), Brötchenservice, WLAN</p>
+                    <p className="mb-2">🍽 Restaurant direkt am Platz oder Weinstuben in der Stadt</p>
+                    <p className="text-xs text-gray-500">⭐ Perfekt für Clesana-Nutzer & Autarkie</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="naumburg">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Naumburg: Campingplatz Blütengrund (30-40€)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">📍 Am Zusammenfluss von Saale & Unstrut</p>
+                    <p className="mb-2">🐕 Hunde erlaubt, Ver- & Entsorgung, WLAN</p>
+                    <p className="mb-2">🍽 Gaststätte "Blütengrund" oder Fähre in die Stadt</p>
+                    <p className="text-xs text-gray-500">⭐ Direkt an Wanderwegen & Weinbergen</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+            
+            {/* Highlights Tab */}
+            <TabsContent value="highlights">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="franken">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Franken: Wein & Kultur
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🍷 Wallfahrtskirche Maria im Weingarten (Volkach)</p>
+                    <p className="mb-2">🍇 Weinprobe mit fränkischem Silvaner</p>
+                    <p className="mb-2">🏰 Vogelsburg mit Aussicht über Mainschleife</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="naumburg">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Naumburg: UNESCO & Natur
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🏛 Naumburger Dom (UNESCO-Welterbe)</p>
+                    <p className="mb-2">🍷 Weinwanderung Saale-Unstrut</p>
+                    <p className="mb-2">🏰 Schloss Neuenburg & Rotkäppchen Sektkellerei</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="magdeburg">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Magdeburg: Technik & Architektur
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🌉 Wasserstraßenkreuz Magdeburg</p>
+                    <p className="mb-2">🏗 Grüne Zitadelle (Hundertwasserhaus)</p>
+                    <p className="mb-2">🏙 Altstadt Perleberg mit Roland-Statue</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+            
+            {/* Tipps Tab */}
+            <TabsContent value="tips">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="navigation">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Navigation & Sicherheit
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">📱 Apps: Sygic Truck oder Garmin Camper Navi (Google Maps warnt NICHT vor niedrigen Brücken!)</p>
+                    <p className="mb-2">⚠️ 5,5t & 3,3m Höhe: Immer Maße im Navi hinterlegen!</p>
+                    <p className="mb-2">🚧 Baustellen prüfen: Aktuelle Sperrungen für &gt;3,5t Fahrzeuge</p>
+                    <p className="text-xs text-gray-500">⏱️ +20-30% Fahrzeit einplanen (keine PKW-Zeiten!)</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="budget">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Budget & Kosten
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">⛽ Diesel: ~120-150€ (700km, 11-13L/100km)</p>
+                    <p className="mb-2">🏕 Übernachtungen: ~80-100€ gesamt</p>
+                    <p className="mb-2">🍽 Verpflegung/Aktivitäten: ~150€</p>
+                    <p className="font-bold">💰 Gesamt: ~350-400€</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="equipment">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Ausrüstung & Apps
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🔌 Adapter: CEE-Stecker (blau) + Schuko, 25m Kabel</p>
+                    <p className="mb-2">📱 Essentielle Apps: Park4Night, Promobil Stellplatz-Radar</p>
+                    <p className="mb-2">🚿 Clesana Toilette: Beutel in Restmüll (keine Chemie-Entsorgung nötig!)</p>
+                    <p className="text-xs text-gray-500">💡 Wildcamping: In DE nur "Freistehen" geduldet (max. 10h, kein Campingverhalten!)</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+          </Tabs>
+          
+          <div className="mt-4 p-3 bg-blue-50 rounded-md text-center">
+            <p className="text-sm font-medium text-blue-800">
+              📊 Gesamt: 620 km • 3 Tage • 350-400€ Budget • Slow Travel mit Wein & Geschichte
+            </p>
+          </div>
+          
+          <div className="mt-3 text-xs text-gray-500 text-center">
+            <p>💡 Dies ist ein KI-generiertes Routenbeispiel für ein 5,5t Wohnmobil mit 7,2m Länge. Die Route vermeidet Stauschwerpunkte (A5) und berücksichtigt Feiertagsverkehr (Fronleichnam).</p>
           </div>
         </div>
         {/* Step-by-Step Assistant */}
@@ -379,12 +501,12 @@ export function RoutePlanner() {
                   key={index}
                   type="button"
                   onClick={() => goToStep(index + 1)}
-                  className={`px-2 py-1 rounded text-center transition-colors ${
+                  className={`px-2 py-1 rounded-sm text-center transition-colors ${
                     currentStep === index + 1 
                       ? 'bg-primary text-white font-medium'
                       : completedSteps.includes(index + 1)
-                        ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                        : 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                        ? 'bg-green-200 text-green-900 hover:bg-green-300'
+                        : 'bg-gray-200 text-gray-700 cursor-not-allowed'
                   }`}
                   disabled={!completedSteps.includes(index + 1) && currentStep !== index + 1}
                 >

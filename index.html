@@ -65,7 +65,7 @@
     
     <!-- Security -->
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com https://api.anthropic.com https://api.mistral.ai;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com https://api.anthropic.com https://api.mistral.ai;" />
     
     <!-- Language -->
     <meta http-equiv="Content-Language" content="de" />
@@ -114,14 +114,8 @@
       body { opacity: 0; transition: opacity 0.3s; }
       body.css-loaded { opacity: 1; }
     </style>
-    <!-- Preconnect to critical third-party origins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Critical LCP Optimizations -->
-    <!-- 1. Preconnect to third-party origins for early connection setup -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Lokale Fonts für DSGVO-Konformität -->
+    <link rel="stylesheet" href="/fonts/fonts.css">
     
     <!-- 2. LCP optimization handled by fetchpriority="high" on the image element -->
     

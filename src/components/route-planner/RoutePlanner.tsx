@@ -214,26 +214,10 @@ export function RoutePlanner() {
         {/* Simple gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
         
-          alt="Wohnmobil auf malerischer Reise durch Deutschland - Camping Route KI-Routenplaner für Wohnmobile" 
->>>>>>> a0b3e96b0730808a0f028ef8fc0806864e6752dd
-          className="w-full h-full object-cover"
-          width="1920"
-          height="1080"
-          loading="eager"
-        />
-=======
         {/* Hero image - simple and clean */}
         <img 
           src="/campingroute.jpg" 
           alt="Wohnmobil auf malerischer Reise durch Deutschland - Camping Route KI-Routenplaner für Wohnmobile" 
-          className="w-full h-full object-cover"
-          width="1920"
-          height="1080"
-          loading="eager"
-        />
-=======
-          alt="Wohnmobil auf malerischer Reise durch Deutschland - Camping Route KI-Routenplaner für Wohnmobile" 
->>>>>>> a0b3e96b0730808a0f028ef8fc0806864e6752dd
           className="w-full h-full object-cover"
           width="1920"
           height="1080"

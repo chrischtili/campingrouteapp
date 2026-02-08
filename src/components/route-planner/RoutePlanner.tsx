@@ -580,7 +580,6 @@ export function RoutePlanner() {
                 <li><strong>KI-generierter Prompt:</strong> Wir erstellen einen optimierten Prompt, der genau deine Bedürfnisse beschreibt</li>
                 <li><strong>Volle Kontrolle:</strong> Du siehst den Prompt und kannst ihn in deiner bevorzugten KI verwenden</li>
                 <li><strong>Oder direkte Generierung:</strong> Mit API erhältst du sofort eine fertige Route</li>
-                <li><strong>Automatische Ergebnis-Optimierung:</strong> Bei direkter KI-Nutzung wird dein Ergebnis automatisch aufbereitet und verbessert (Rechtschreibung, Formatierung, Lesbarkeit)</li>
               </ol>
               <p className="mt-2">Anders als allgemeine Reiseplaner generieren wir keine 'Black Box'-Ergebnisse - du behältst immer die Kontrolle über den Prozess!</p>
             </AccordionContent>

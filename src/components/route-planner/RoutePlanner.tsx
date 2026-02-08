@@ -17,8 +17,9 @@ import { VehicleSection } from "./VehicleSection";
 import { AccommodationSection } from "./AccommodationSection";
 import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
-import heroCamper from "@/assets/hero-camper.jpg";
+
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 export function RoutePlanner() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -28,8 +29,21 @@ export function RoutePlanner() {
   const [loadingMessage, setLoadingMessage] = useState<string>('');
   const [aiError, setAIError] = useState<string>('');
   const [aiModel, setAiModel] = useState<string>('');
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const aiSettingsSectionRef = useRef<HTMLDivElement>(null);
+
+  // Schritt-Namen für den Assistenten
+  const steps = [
+    'KI-Einstellungen',
+    'Reiseroute',
+    'Routenoptimierung',
+    'Fahrzeug Filter',
+    'Übernachtung',
+    'Besondere Interessen',
+    'Zusammenfassung'
+  ];
 
   const handleFormChange = (data: Partial<FormData>) => {
     setFormData(prev => ({ ...prev, ...data }));
@@ -50,6 +64,55 @@ export function RoutePlanner() {
     });
   };
 
+  // Navigation zwischen Schritten
+  const nextStep = () => {
+    if (currentStep < steps.length) {
+      const newStep = currentStep + 1;
+      setCurrentStep(newStep);
+      
+      // Markiere aktuellen Schritt als abgeschlossen
+      if (!completedSteps.includes(currentStep)) {
+        setCompletedSteps([...completedSteps, currentStep]);
+      }
+      
+      // Kein Scrollen mehr - Nutzer behält Kontrolle über Scroll-Position
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      // Kein Scrollen mehr
+    }
+  };
+
+  const goToStep = (step: number) => {
+    if (completedSteps.includes(step) || step === currentStep) {
+      setCurrentStep(step);
+      // Kein Scrollen mehr
+    }
+  };
+
+  // Überprüfe ob alle Pflichtfelder für den aktuellen Schritt ausgefüllt sind
+  const isStepValid = () => {
+    switch (currentStep) {
+      case 1: // KI-Einstellungen
+        return aiSettings.useDirectAI ? isModelSelected() : true;
+      case 2: // Reiseroute
+        return !!formData.startPoint && !!formData.destination;
+      case 3: // Routenoptimierung
+        return true; // Optional
+      case 4: // Fahrzeugspezifische Filter
+        return true; // Optional - kein Pflichtfeld
+      case 5: // Übernachtung
+        return true; // Optional
+      case 6: // Aktivitäten
+        return true; // Optional
+      default:
+        return true;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -63,12 +126,32 @@ export function RoutePlanner() {
         if (!aiSettings.apiKey?.trim() || !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey)) {
           setAIError('Bitte gib einen gültigen API-Schlüssel ein (mindestens 20 Zeichen, nur Buchstaben, Zahlen, Bindestriche und Unterstriche).');
           setIsLoading(false);
-          // Scroll to AI settings section
+          // Scroll to AI settings section and switch to step 1
           setTimeout(() => {
-            aiSettingsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+            goToStep(1);
+            setTimeout(() => {
+              aiSettingsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+            }, 100);
           }, 300);
           return;
         }
+        
+        // Wenn wir hier ankommen, hat der Benutzer einen gültigen API-Key eingegeben
+        // Markiere alle Schritte als abgeschlossen, einschließlich des Zusammenfassung-Tabs
+        const allSteps = steps; // Alle Schritte einschließlich des letzten
+        const newCompletedSteps = [...completedSteps];
+        
+        allSteps.forEach((_, index) => {
+          const stepNumber = index + 1;
+          if (!newCompletedSteps.includes(stepNumber)) {
+            newCompletedSteps.push(stepNumber);
+          }
+        });
+        
+        setCompletedSteps(newCompletedSteps);
+        
+        // Springe direkt zum Zusammenfassung-Tab
+        setCurrentStep(steps.length); // Springe zum letzten Schritt (Zusammenfassung)
 
         // Route generieren (direktes Ergebnis ohne Nachbearbeitung)
         const aiResponse = await callAIAPI(formData, aiSettings);
@@ -99,9 +182,12 @@ export function RoutePlanner() {
       } else {
         setAIError('Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.');
       }
-      // Scroll to AI settings section when there's an error
+      // Scroll to AI settings section and switch to step 1 when there's an error
       setTimeout(() => {
-        aiSettingsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        goToStep(1);
+        setTimeout(() => {
+          aiSettingsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }, 100);
       }, 300);
     } finally {
       setIsLoading(false);
@@ -124,260 +210,442 @@ export function RoutePlanner() {
 
   return (
     <main className="min-h-screen bg-background" id="main-content">
-      {/* Hero Section */}
-      <div className="relative h-[40vh] md:h-[50vh] min-h-[300px] md:min-h-[400px] overflow-hidden">
+      {/* Clean Hero Section - Simple & Professional */}
+      <div className="relative h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden">
+        {/* Simple gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
+        
+        {/* Hero image - simple and clean */}
         <img 
-          src={heroCamper} 
-          alt="Wohnmobil auf Reisen" 
+          src="/campingroute.jpg" 
+          alt="Wohnmobil auf malerischer Reise durch Deutschland - Camping Route KI-Routenplaner für Wohnmobile" 
           className="w-full h-full object-cover"
           width="1920"
           height="1080"
-          loading="lazy"
+          loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/40 to-background" />
+        
+        {/* Clean hero content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <div className="flex flex-col items-center mb-3 md:mb-4">
-            <div className="flex items-center">
-              <img src="/favicon-original-final.svg" alt="Camping Route Logo" className="h-16 w-16 md:h-20 md:w-20 -mr-2" width="64" height="64" loading="lazy" />
-              <h1 className="text-2xl md:text-5xl font-bold text-primary-foreground">
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-3 mb-4">
+              <img src="/favicon-original-final.svg" alt="Camping Route Logo" 
+                   className="h-12 w-12 md:h-14 md:w-14" 
+                   width="56" height="56" />
+              <h1 className="text-2xl md:text-4xl font-bold text-white">
                 Camping Route
               </h1>
             </div>
-          </div>
-          <p className="text-base md:text-xl text-primary-foreground/90 max-w-xl md:max-w-2xl">
-            Dein KI-Wohnmobil-Routenplaner – Plane deine perfekte Reise mit umfassenden Informationen
-          </p>
-          <div className="mt-3 md:mt-4 bg-primary/20 backdrop-blur-sm rounded-lg p-3 md:p-4 max-w-xl md:max-w-3xl">
-            <p className="text-sm md:text-base text-primary-foreground font-medium">
-              🌟 Der einzige KI-Routenplaner, der Stellplätze nach deinen Fahrzeugdaten, Interessen und Budget filtert – für stressfreies Reisen mit dem Wohnmobil.
+            
+            <p className="text-lg md:text-xl text-white/90 mb-6 max-w-md">
+              Intelligenter KI-Routenplaner für Wohnmobile
             </p>
+            
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 md:p-5 
+                          shadow-lg max-w-md md:max-w-2xl">
+              <p className="text-sm md:text-base text-gray-800 font-medium">
+                Plane deine perfekte Reise mit Stellplätzen nach deinen Kriterien
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="container py-8 -mt-20 relative z-10">
-        {/* Social Proof Section */}
-        <div className="bg-card rounded-xl shadow-lg p-4 md:p-6 mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
+        {/* Simple Social Proof Section */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                ⭐
+              <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <span className="text-yellow-600">⭐</span>
               </div>
-              <h2 className="text-lg md:text-xl font-semibold text-yellow-700">Von Wohnmobil-Enthusiasten geliebt</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-yellow-700">
+                Von Wohnmobil-Enthusiasten geliebt
+              </h2>
             </div>
-            <div className="flex items-center gap-2 text-yellow-500 justify-center md:justify-start">
-              <span>★★★★☆</span>
-              <span className="text-muted-foreground text-xs md:text-sm">4.7/5</span>
+            <div className="flex items-center gap-2 text-yellow-500">
+              <span className="text-lg font-bold">★★★★☆</span>
+              <span className="text-muted-foreground text-sm">4.7/5</span>
             </div>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 px-2 md:px-4">
-            <div className="bg-muted/50 p-3 md:p-4 rounded-lg break-words">
-              <p className="text-xs md:text-sm italic">"Endlich ein Routenplaner, der wirklich auf meine Bedürfnisse eingeht! Die KI hat mir eine perfekte Route mit tollen Stellplätzen vorgeschlagen."</p>
-              <p className="text-xs text-muted-foreground mt-2">– Markus, Wohnmobil-Reisender</p>
-            </div>
-            <div className="bg-muted/50 p-3 md:p-4 rounded-lg">
-              <p className="text-xs md:text-sm italic">"Die Filteroptionen sind genial! Ich kann nach Budget, Interessen und sogar Fahrzeuggröße filtern – das spart so viel Zeit!"</p>
-              <p className="text-xs text-muted-foreground mt-2">– Sarah, Camperin</p>
-            </div>
-            <div className="bg-muted/50 p-3 md:p-4 rounded-lg">
-              <p className="text-xs md:text-sm italic">"Perfekt für spontane Trips! Innerhalb von Minuten hatte ich eine detaillierte Route mit allen wichtigen Infos."</p>
-              <p className="text-xs text-muted-foreground mt-2">– Thomas, Wochenend-Camper</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Demo Section */}
-        <div className="bg-card rounded-xl shadow-lg p-4 md:p-6 mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              🎥
-            </div>
-            <h2 className="text-lg md:text-xl font-semibold text-blue-700">Beispiel-Ergebnis (bei KI-Nutzung)</h2>
-          </div>
-          <div className="bg-muted/50 rounded-lg p-3 md:p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm md:font-medium">Beispiel-Route: München → Gardasee</h3>
-              <span className="text-xs md:text-sm text-muted-foreground">⏱️ 3 Tage • 💰 Budget: Mittel</span>
-            </div>
-            <div className="space-y-2 md:space-y-3">
-              <div className="flex items-center gap-2 md:gap-3 p-2 md:p-3 bg-background rounded-md">
-                <div className="w-6 h-6 md:w-8 md:h-8 bg-primary rounded-full flex items-center justify-center text-white text-xs md:text-sm font-bold">1</div>
-                <div>
-                  <p className="text-sm md:font-medium">Tag 1: München → Innsbruck (120 km)</p>
-                  <p className="text-xs md:text-sm text-muted-foreground">Stellplatz: Camping Innsbruck, 4.5★ • 💰 25€/Nacht</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 md:gap-3 p-2 md:p-3 bg-background rounded-md">
-                <div className="w-6 h-6 md:w-8 md:h-8 bg-primary rounded-full flex items-center justify-center text-white text-xs md:text-sm font-bold">2</div>
-                <div>
-                  <p className="text-sm md:font-medium">Tag 2: Innsbruck → Bozen (140 km)</p>
-                  <p className="text-xs md:text-sm text-muted-foreground">Stellplatz: Camping Bozen, 4.7★ • 💰 30€/Nacht</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 md:gap-3 p-2 md:p-3 bg-background rounded-md">
-                <div className="w-6 h-6 md:w-8 md:h-8 bg-primary rounded-full flex items-center justify-center text-white text-xs md:text-sm font-bold">3</div>
-                <div>
-                  <p className="text-sm md:font-medium">Tag 3: Bozen → Riva del Garda (60 km)</p>
-                  <p className="text-xs md:text-sm text-muted-foreground">Stellplatz: Camping Bella Italia, 4.8★ • 💰 35€/Nacht</p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-3 md:mt-4 p-2 md:p-3 bg-primary/10 rounded-md text-center">
-              <p className="text-xs md:text-sm text-foreground font-medium">📊 Gesamt: 420 km • 3 Übernachtungen • 90€</p>
-            </div>
-            <div className="mt-2 md:mt-3 text-xs text-muted-foreground text-center">
-              <p>💡 Dies ist ein Beispiel für die KI-generierte Route. Ohne API erhältst du einen Prompt zum manuellen Verwenden.</p>
-            </div>
-          </div>
-        </div>
-{/* Info Box */}
-<div className="bg-card rounded-xl shadow-lg p-6 mb-8">
-  <div className="flex items-center gap-3 mb-4">
-    <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white text-2xl font-bold">
-      📖
-    </div>
-    <h2 className="text-xl md:text-2xl font-bold text-blue-800">So geht's</h2>
-  </div>
-  <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-2 relative overflow-x-auto min-h-[300px]">
-    {/* Schritt 1 */}
-    <div className="flex flex-col items-center text-center p-3 md:p-4 bg-blue-50 rounded-xl shadow-sm w-full max-w-[180px] relative z-10">
-      <div className="flex items-center justify-center w-8 h-8 mb-2 bg-blue-500 text-white rounded-full font-bold text-sm md:text-base">
-        1
-      </div>
-      <div className="flex items-center justify-center w-12 h-12 mb-2 md:mb-3 bg-blue-100 rounded-full">
-        <span className="text-xl md:text-2xl">🗺️</span>
-      </div>
-      <strong className="text-base md:text-lg mb-1">Route planen</strong>
-      <span className="text-xs md:text-sm text-blue-600">Gib Start, Ziel und Reisedaten ein</span>
-    </div>
-
-    {/* Pfeil 1 */}
-    <div className="hidden md:block text-2xl text-blue-300">→</div>
-
-    {/* Schritt 2 */}
-    <div className="flex flex-col items-center text-center p-3 md:p-4 bg-green-50 rounded-xl shadow-sm w-full max-w-[180px] relative z-10">
-      <div className="flex items-center justify-center w-8 h-8 mb-2 bg-green-500 text-white rounded-full font-bold text-sm md:text-base">
-        2
-      </div>
-      <div className="flex items-center justify-center w-12 h-12 mb-2 md:mb-3 bg-green-100 rounded-full">
-        <span className="text-xl md:text-2xl">⚙️</span>
-      </div>
-      <strong className="text-base md:text-lg mb-1">Optionen wählen</strong>
-      <span className="text-xs md:text-sm text-green-800">Fahrzeug, Interessen, Budget</span>
-    </div>
-
-    {/* Pfeil 2 */}
-    <div className="hidden md:block text-2xl text-green-300">→</div>
-
-    {/* Schritt 3 */}
-    <div className="flex flex-col items-center text-center p-3 md:p-4 bg-purple-50 rounded-xl shadow-sm w-full max-w-[180px] relative z-10">
-      <div className="flex items-center justify-center w-8 h-8 mb-2 bg-purple-500 text-white rounded-full font-bold text-sm md:text-base">
-        3
-      </div>
-      <div className="flex items-center justify-center w-12 h-12 mb-2 md:mb-3 bg-purple-100 rounded-full">
-        <span className="text-xl md:text-2xl">✨</span>
-      </div>
-      <strong className="text-base md:text-lg mb-1">Generieren</strong>
-      <span className="text-xs md:text-sm text-purple-800">Route mit einem Klick erstellen</span>
-    </div>
-
-    {/* Pfeil 3 */}
-    <div className="hidden md:block text-2xl text-purple-300">→</div>
-
-    {/* Schritt 4 */}
-    <div className="flex flex-col items-center text-center p-3 md:p-4 bg-orange-50 rounded-xl shadow-sm w-full max-w-[180px] relative z-10">
-      <div className="flex items-center justify-center w-8 h-8 mb-2 bg-orange-500 text-white rounded-full font-bold text-sm md:text-base">
-        4
-      </div>
-      <div className="flex items-center justify-center w-12 h-12 mb-2 md:mb-3 bg-orange-100 rounded-full">
-        <span className="text-xl md:text-2xl">📋</span>
-      </div>
-      <strong className="text-base md:text-lg mb-1">Ergebnis</strong>
-      <span className="text-xs md:text-sm text-orange-800">Detaillierte Routenplanung</span>
-    </div>
-
-    {/* Pfeil 4 */}
-    <div className="hidden md:block text-2xl text-orange-300">→</div>
-
-    {/* Schritt 5 */}
-    <div className="flex flex-col items-center text-center p-3 md:p-4 bg-red-50 rounded-xl shadow-sm w-full max-w-[180px] relative z-10">
-      <div className="flex items-center justify-center w-8 h-8 mb-2 bg-red-500 text-white rounded-full font-bold text-sm md:text-base">
-        5
-      </div>
-      <div className="flex items-center justify-center w-12 h-12 mb-2 md:mb-3 bg-red-100 rounded-full">
-        <span className="text-xl md:text-2xl">💾</span>
-      </div>
-      <strong className="text-base md:text-lg mb-1">Exportieren</strong>
-      <span className="text-xs md:text-sm text-red-800">Drucken oder speichern</span>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div ref={aiSettingsSectionRef}>
-            <AISettingsSection 
-              aiSettings={aiSettings}
-              onAISettingsChange={handleAISettingsChange}
-              aiError={aiError}
-            />
           </div>
           
-          <RouteSection 
-            formData={formData}
-            onChange={handleFormChange}
-          />
-
-          <RouteOptimizationSection 
-            formData={formData}
-            onCheckboxChange={handleCheckboxChange}
-          />
-
-          <VehicleSection 
-            formData={formData}
-            onChange={handleFormChange}
-          />
-
-          <AccommodationSection 
-            formData={formData}
-            onChange={handleFormChange}
-            onCheckboxChange={handleCheckboxChange}
-          />
-
-          <ActivitiesSection 
-            formData={formData}
-            onChange={handleFormChange}
-            onCheckboxChange={handleCheckboxChange}
-          />
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-4">
-            <Button 
-              type="submit" 
-              size="lg" 
-              className="gap-2 px-6 md:px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-full sm:w-auto"
-              disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
-            >
-              <MapPin className="h-5 w-5" />
-              {aiSettings.useDirectAI ? '🚀 Route Generieren' : '📝 Prompt Generieren'}
-            </Button>
-            <Button 
-              type="button" 
-              variant="outline" 
-              size="lg" 
-              onClick={handleReset}
-              className="gap-2 w-full sm:w-auto"
-            >
-              <RotateCcw className="h-5 w-5" />
-              Formular Zurücksetzen
-            </Button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-sm italic text-gray-700">
+                "Endlich ein Routenplaner, der wirklich auf meine Bedürfnisse eingeht! Die KI hat mir eine perfekte Route mit tollen Stellplätzen vorgeschlagen."
+              </p>
+              <p className="text-xs text-gray-500 mt-2">– Markus, Wohnmobil-Reisender</p>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-sm italic text-gray-700">
+                "Die Filteroptionen sind genial! Ich kann nach Budget, Interessen und sogar Fahrzeuggröße filtern – das spart so viel Zeit!"
+              </p>
+              <p className="text-xs text-gray-500 mt-2">– Sarah, Camperin</p>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-sm italic text-gray-700">
+                "Perfekt für spontane Trips! Innerhalb von Minuten hatte ich eine detaillierte Route mit allen wichtigen Infos."
+              </p>
+              <p className="text-xs text-gray-500 mt-2">– Thomas, Wochenend-Camper</p>
+            </div>
           </div>
+        </div>
+
+        {/* KI-Beispielroute Section */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8 h-full">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <span className="text-blue-600">🎯</span>
+            </div>
+            <h2 className="text-lg font-semibold text-blue-700">
+              KI-Beispielroute: Karlsruhe → Perleberg
+            </h2>
+          </div>
+          
+          <Tabs defaultValue="route" className="w-full">
+            <TabsList className="grid grid-cols-2 w-full mb-16 sm:mb-6 sm:grid-cols-4 sm:grid-flow-col gap-x-2 gap-y-4 bg-transparent">
+              <TabsTrigger value="route" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Route</TabsTrigger>
+              <TabsTrigger value="stays" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Übernachtungen</TabsTrigger>
+              <TabsTrigger value="highlights" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Highlights</TabsTrigger>
+              <TabsTrigger value="tips" className="data-[state=active]:bg-[#F59B0A] data-[state=active]:text-white data-[state=active]:shadow-none text-xs sm:text-sm bg-gray-200 border border-gray-300 hover:bg-gray-300 text-gray-700">Tipps</TabsTrigger>
+            </TabsList>
+            
+            {/* Route Tab */}
+            <TabsContent value="route">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="etappe1">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Etappe 1: Karlsruhe → Volkach (180 km, 3h)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">Route: A5/A6 → Heilbronn → A81 → Würzburg → A7/A70 → Schweinfurt/Bamberg</p>
+                    <p className="mb-2">📍 Pause: Raststätte Würzburg Nord oder Weinberge vor Volkach</p>
+                    <p className="mb-2">🍷 Highlight: Fränkisches Weinland, Weinprobe in Volkach</p>
+                    <p className="text-xs text-gray-500">💡 Tipp: Feiertagsverkehr (Fronleichnam) beachten!</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="etappe2">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Etappe 2: Volkach → Naumburg (210 km, 3h)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">Route: A70/A71 durch Thüringer Wald → Erfurt/Weimar → A4/A9</p>
+                    <p className="mb-2">📍 Pause: Rastplatz "Thüringer Wald" mit toller Aussicht</p>
+                    <p className="mb-2">🍷 Highlight: Nördlichstes Weinbaugebiet Saale-Unstrut</p>
+                    <p className="text-xs text-gray-500">💡 Tipp: A71 ist entspannter als A7!</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="etappe3">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Etappe 3: Naumburg → Perleberg (230 km, 3h)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">Route: A9 → Magdeburg → B189 → Stendal/Wittenberge</p>
+                    <p className="mb-2">📍 Pause: Wasserstraßenkreuz Magdeburg (Technikdenkmal)</p>
+                    <p className="mb-2">🏰 Highlight: Roland-Statue in Perleberg</p>
+                    <p className="text-xs text-gray-500">💡 Tipp: Wildwechsel in Morgen-/Abendstunden!</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+            
+            {/* Übernachtungen Tab */}
+            <TabsContent value="stays">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="volkach">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Volkach: Campingplatz Ankergrund (35-45€)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">📍 Direkt am Mainufer, historische Altstadt fußläufig</p>
+                    <p className="mb-2">🐕 Hunde willkommen (Hundedusche), Brötchenservice, WLAN</p>
+                    <p className="mb-2">🍽 Restaurant direkt am Platz oder Weinstuben in der Stadt</p>
+                    <p className="text-xs text-gray-500">⭐ Perfekt für Clesana-Nutzer & Autarkie</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="naumburg">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Naumburg: Campingplatz Blütengrund (30-40€)
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">📍 Am Zusammenfluss von Saale & Unstrut</p>
+                    <p className="mb-2">🐕 Hunde erlaubt, Ver- & Entsorgung, WLAN</p>
+                    <p className="mb-2">🍽 Gaststätte "Blütengrund" oder Fähre in die Stadt</p>
+                    <p className="text-xs text-gray-500">⭐ Direkt an Wanderwegen & Weinbergen</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+            
+            {/* Highlights Tab */}
+            <TabsContent value="highlights">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="franken">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Franken: Wein & Kultur
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🍷 Wallfahrtskirche Maria im Weingarten (Volkach)</p>
+                    <p className="mb-2">🍇 Weinprobe mit fränkischem Silvaner</p>
+                    <p className="mb-2">🏰 Vogelsburg mit Aussicht über Mainschleife</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="naumburg">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Naumburg: UNESCO & Natur
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🏛 Naumburger Dom (UNESCO-Welterbe)</p>
+                    <p className="mb-2">🍷 Weinwanderung Saale-Unstrut</p>
+                    <p className="mb-2">🏰 Schloss Neuenburg & Rotkäppchen Sektkellerei</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="magdeburg">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Magdeburg: Technik & Architektur
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🌉 Wasserstraßenkreuz Magdeburg</p>
+                    <p className="mb-2">🏗 Grüne Zitadelle (Hundertwasserhaus)</p>
+                    <p className="mb-2">🏙 Altstadt Perleberg mit Roland-Statue</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+            
+            {/* Tipps Tab */}
+            <TabsContent value="tips">
+              <Accordion type="single" collapsible className="w-full [&_[data-radix-icon]]:text-[#F59B0A] mt-4 sm:mt-2">
+                <AccordionItem value="navigation">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Navigation & Sicherheit
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">📱 Apps: Sygic Truck oder Garmin Camper Navi (Google Maps warnt NICHT vor niedrigen Brücken!)</p>
+                    <p className="mb-2">⚠️ 5,5t & 3,3m Höhe: Immer Maße im Navi hinterlegen!</p>
+                    <p className="mb-2">🚧 Baustellen prüfen: Aktuelle Sperrungen für &gt;3,5t Fahrzeuge</p>
+                    <p className="text-xs text-gray-500">⏱️ +20-30% Fahrzeit einplanen (keine PKW-Zeiten!)</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="budget">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Budget & Kosten
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">⛽ Diesel: ~120-150€ (700km, 11-13L/100km)</p>
+                    <p className="mb-2">🏕 Übernachtungen: ~80-100€ gesamt</p>
+                    <p className="mb-2">🍽 Verpflegung/Aktivitäten: ~150€</p>
+                    <p className="font-bold">💰 Gesamt: ~350-400€</p>
+                  </AccordionContent>
+                </AccordionItem>
+                
+                <AccordionItem value="equipment">
+                  <AccordionTrigger className="text-sm font-medium [&>svg]:text-[#F59B0A] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-all hover:[&>svg]:scale-110">
+                    Ausrüstung & Apps
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600 p-3 sm:p-0">
+                    <p className="mb-2">🔌 Adapter: CEE-Stecker (blau) + Schuko, 25m Kabel</p>
+                    <p className="mb-2">📱 Essentielle Apps: Park4Night, Promobil Stellplatz-Radar</p>
+                    <p className="mb-2">🚿 Clesana Toilette: Beutel in Restmüll (keine Chemie-Entsorgung nötig!)</p>
+                    <p className="text-xs text-gray-500">💡 Wildcamping: In DE nur "Freistehen" geduldet (max. 10h, kein Campingverhalten!)</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+          </Tabs>
+          
+          <div className="mt-4 p-3 bg-blue-50 rounded-md text-center">
+            <p className="text-sm font-medium text-blue-800">
+              📊 Gesamt: 620 km • 3 Tage • 350-400€ Budget • Slow Travel mit Wein & Geschichte
+            </p>
+          </div>
+          
+          <div className="mt-3 text-xs text-gray-500 text-center">
+            <p>💡 Dies ist ein KI-generiertes Routenbeispiel für ein 5,5t Wohnmobil mit 7,2m Länge. Die Route vermeidet Stauschwerpunkte (A5) und berücksichtigt Feiertagsverkehr (Fronleichnam).</p>
+          </div>
+        </div>
+        {/* Step-by-Step Assistant */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6 mb-8">
+          {/* Progress Bar */}
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-lg font-semibold text-gray-800">
+                Routenplaner-Assistent
+              </h2>
+              <span className="text-sm text-gray-600">
+                Schritt {currentStep} von {steps.length}
+              </span>
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div 
+                className="bg-primary h-2.5 rounded-full transition-all duration-300"
+                style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+              ></div>
+            </div>
+            
+            {/* Step Navigation */}
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2 text-xs">
+              {steps.map((step, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => goToStep(index + 1)}
+                  className={`px-2 py-1 rounded-sm text-center transition-colors ${
+                    currentStep === index + 1 
+                      ? 'bg-primary text-white font-medium'
+                      : completedSteps.includes(index + 1)
+                        ? 'bg-green-200 text-green-900 hover:bg-green-300'
+                        : 'bg-gray-200 text-gray-700 cursor-not-allowed'
+                  }`}
+                  disabled={!completedSteps.includes(index + 1) && currentStep !== index + 1}
+                >
+                  {step}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {/* Current Step Content */}
+          <div className="space-y-6">
+            {/* Step 1: KI-Einstellungen */}
+            {currentStep === 1 && (
+              <div id="step-1" ref={aiSettingsSectionRef}>
+                <AISettingsSection 
+                  aiSettings={aiSettings}
+                  onAISettingsChange={handleAISettingsChange}
+                  aiError={aiError}
+                />
+              </div>
+            )}
+            
+            {/* Step 2: Reiseroute */}
+            {currentStep === 2 && (
+              <div id="step-2">
+                <RouteSection 
+                  formData={formData}
+                  onChange={handleFormChange}
+                />
+              </div>
+            )}
+            
+            {/* Step 3: Routenoptimierung */}
+            {currentStep === 3 && (
+              <div id="step-3">
+                <RouteOptimizationSection 
+                  formData={formData}
+                  onCheckboxChange={handleCheckboxChange}
+                />
+              </div>
+            )}
+            
+            {/* Step 4: Fahrzeug */}
+            {currentStep === 4 && (
+              <div id="step-4">
+                <VehicleSection 
+                  formData={formData}
+                  onChange={handleFormChange}
+                />
+              </div>
+            )}
+            
+            {/* Step 5: Übernachtung */}
+            {currentStep === 5 && (
+              <div id="step-5">
+                <AccommodationSection 
+                  formData={formData}
+                  onChange={handleFormChange}
+                  onCheckboxChange={handleCheckboxChange}
+                />
+              </div>
+            )}
+            
+            {/* Step 6: Aktivitäten */}
+            {currentStep === 6 && (
+              <div id="step-6">
+                <ActivitiesSection 
+                  formData={formData}
+                  onChange={handleFormChange}
+                  onCheckboxChange={handleCheckboxChange}
+                />
+              </div>
+            )}
+            
+            {/* Step 7: Zusammenfassung & Generierung */}
+            {currentStep === 7 && (
+              <div id="step-7">
+                <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                    Zusammenfassung Ihrer Route
+                  </h3>
+                  
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Startpunkt:</span>
+                      <span className="font-medium">{formData.startPoint || 'Nicht angegeben'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Ziel:</span>
+                      <span className="font-medium">{formData.destination || 'Nicht angegeben'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">KI-Methode:</span>
+                      <span className="font-medium">{aiSettings.useDirectAI ? 'Direkte KI-Generierung' : 'Prompt-Generierung'}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          
+          {/* Navigation Buttons */}
+          <div className="flex justify-between items-center mt-8 pt-4 border-t border-gray-200">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={prevStep}
+              disabled={currentStep === 1}
+              className="gap-2"
+            >
+              <ArrowUp className="h-4 w-4 transform -rotate-90" />
+              Zurück
+            </Button>
+            
+            {currentStep < steps.length ? (
+              <Button
+                type="button"
+                onClick={nextStep}
+                disabled={!isStepValid()}
+                className="gap-2 bg-primary hover:bg-primary/90"
+              >
+                Weiter
+                <ArrowUp className="h-4 w-4 transform rotate-90" />
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                onClick={handleSubmit}
+                size="lg"
+                className="gap-2 px-6 bg-primary hover:bg-primary/90 text-primary-foreground"
+                disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
+              >
+                <MapPin className="h-5 w-5" />
+                {aiSettings.useDirectAI ? 'Route Generieren' : 'Prompt Generieren'}
+              </Button>
+            )}
+          </div>
+        </div>
         </form>
+        
 
         {/* Output */}
         <div ref={outputSectionRef}>
@@ -392,212 +660,354 @@ export function RoutePlanner() {
           />
         </div>
 
-        {/* FAQ Section */}
-        <div id="faq" className="bg-card rounded-xl shadow-lg p-4 md:p-6 mt-12 mb-8">
-          <div className="flex items-center gap-3 mb-4 md:mb-6">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              ❓
+        {/* Compact FAQ Section */}
+        <div id="faq" className="bg-white rounded-xl shadow-lg p-6 mt-12 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+              <span className="text-purple-600">❓</span>
             </div>
-            <h2 className="text-lg md:text-xl font-semibold text-purple-700">Häufige Fragen</h2>
+            <h2 className="text-lg md:text-xl font-semibold text-purple-700">
+              Häufige Fragen
+            </h2>
           </div>
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>✨</span>
-                <span>Welches KI-Modell sollte ich wählen?</span>
-              </span>
+        
+        <Accordion type="single" collapsible className="w-full space-y-2">
+          {/* Kosten & API */}
+          <AccordionItem value="costs">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-green-600">💰</span>
+                </div>
+                <span className="font-medium">Ist Camping Route kostenlos?</span>
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
-              <p><strong>Wir haben die Auswahl auf die Top-Modelle beschränkt:</strong> Jeder Anbieter verwendet automatisch sein bestes Modell für optimale Ergebnisse.</p>
-              <p className="mt-2">Die verfügbaren Optionen:</p>
-              <ul className="list-disc list-inside mt-1 space-y-2">
-                <li>
-                  <strong>Google (Gemini 3 Pro Preview):</strong> Unser empfohlenes Top-Modell mit herausragendem Verständnis für geografische Daten, lokale Attraktionen und präzise Stellplatzempfehlungen. Ideal für nationale und internationale Routen - von kurzen Wochenendtrips bis zu komplexen Langstreckenreisen.
-                </li>
-                <li>
-                  <strong>OpenAI (ChatGPT-5.2):</strong> Das leistungsstärkste Modell von OpenAI mit hervorragender Routenplanung und detaillierten Stellplatzempfehlungen. Ideal für komplexe Anforderungen und lange Reisen.
-                </li>
-                <li>
-                  <strong>Mistral AI (Large):</strong> Ein leistungsstarkes Open-Source-Modell mit exzellenter Balance zwischen Qualität und Kosten. Perfekt für europäische Routen.
-                </li>
-              </ul>
-              <p className="mt-3"><strong>Empfehlung:</strong> Basierend auf unseren Erfahrungen empfehlen wir <strong>Google Gemini 3 Pro Preview</strong> als beste Wahl für die meisten Anwendungsfälle.</p>
-              <p className="mt-2">Gemini glänzt nicht nur bei internationalen Routen, sondern liefert auch für nationale Routen in Deutschland und Europa herausragende Ergebnisse mit:</p>
-              <ul className="list-disc list-inside mt-1 space-y-1">
-                <li>Besonders präzisen Stellplatzempfehlungen</li>
-                <li>Hervorragendem Verständnis für lokale Gegebenheiten</li>
-                <li>Ausgezeichneter Balance zwischen Detailtiefe und Übersichtlichkeit</li>
-                <li>Zuverlässiger Performance bei komplexen Routenplanungen</li>
-              </ul>
-              <p className="mt-2">Die anderen Modelle sind ebenfalls exzellent:</p>
-              <ul className="list-disc list-inside mt-1 space-y-1">
-                <li><strong>OpenAI (ChatGPT-5.2):</strong> Für maximale Detailtiefe und komplexe Anforderungen</li>
-                <li><strong>Mistral AI (Large):</strong> Für kosteneffiziente Qualität und europäische Routen</li>
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>🤖</span>
-                <span>Was ist das Besonderen an der KI-Reiseplanung von Camping Route?</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              Bei Camping Route setzen wir auf einen einzigartigen, transparenten Ansatz:
-              <ol className="list-decimal list-inside mt-2 space-y-1">
-                <li><strong>Deine Daten, dein Prompt:</strong> Du gibst Start, Ziel und deine Präferenzen ein</li>
-                <li><strong>KI-generierter Prompt:</strong> Wir erstellen einen optimierten Prompt, der genau deine Bedürfnisse beschreibt</li>
-                <li><strong>Volle Kontrolle:</strong> Du siehst den Prompt und kannst ihn in deiner bevorzugten KI verwenden</li>
-                <li><strong>Oder direkte Generierung:</strong> Mit API erhältst du sofort eine fertige Route</li>
-                <li><strong>Automatische Ergebnis-Optimierung:</strong> Bei direkter KI-Nutzung wird dein Ergebnis automatisch aufbereitet und verbessert (Rechtschreibung, Formatierung, Lesbarkeit)</li>
-              </ol>
-              <p className="mt-2">Anders als allgemeine Reiseplaner generieren wir keine 'Black Box'-Ergebnisse - du behältst immer die Kontrolle über den Prozess!</p>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>⭐</span>
-                <span>Was macht Camping Route einzigartig?</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              Camping Route ist der einzige KI-Routenplaner, der speziell für Wohnmobile und Camper entwickelt wurde. Während allgemeine Reiseplaner nur grobe Routen vorschlagen, finden wir Stellplätze, die perfekt zu deinem Fahrzeug, Budget und deinen Interessen passen. Unsere KI berücksichtigt Fahrzeugdaten, Stellplatz-Qualität, lokale Attraktionen und sogar deine Reiseziele - für eine wirklich maßgeschneiderte Reiseerfahrung.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-4">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>🤖</span>
-                <span>Was ist der Unterschied zwischen Prompt und KI-Generierung?</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              Ohne API: Du erhältst einen optimierten Prompt, den du in deine bevorzugte KI kopieren kannst. Mit API: Die KI generiert direkt eine fertige Route mit Stellplätzen und Details - das Ergebnis hängt vom gewählten KI-Modell ab.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-5">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>✨</span>
-                <span>Wird mein KI-Ergebnis automatisch verbessert?</span>
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              <p><strong>Ja!</strong> Bei direkter KI-Nutzung (mit API-Schlüssel) wird dein Ergebnis automatisch durch unsere <strong>zweistufige KI-Optimierung</strong> aufbereitet:</p>
-              <ol className="list-decimal list-inside mt-2 space-y-1">
-                <li><strong>Erste Stufe:</strong> Die KI generiert die grundlegende Route (Kosten: ~5-7 Cent)</li>
-                <li><strong>Zweite Stufe:</strong> Eine spezielle Optimierungs-KI verbessert Formatierung, Lesbarkeit und Struktur (Kosten: ~3-5 Cent)</li>
-              </ol>
-              <p className="mt-2"><strong>Gesamtkosten:</strong> Nur ~8-12 Cent pro Generierung für deutlich bessere Ergebnisse!</p>
-              <p className="mt-2"><strong>Vorteile der Optimierung:</strong></p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>Korrekte Rechtschreibung und Grammatik</li>
-                <li>Bessere Struktur mit klaren Überschriften</li>
-                <li>Gezielte Verwendung von Emojis für bessere Lesbarkeit</li>
-                <li>Hervorhebung wichtiger Informationen</li>
-                <li>Persönlichere und nutzerfreundlichere Formulierungen</li>
-              </ul>
-              <p className="mt-2"><strong>Hinweis:</strong> Die Optimierung erfolgt automatisch und ist in den Gesamtkosten enthalten. Du kannst das verbesserte Ergebnis direkt verwenden oder bei Bedarf den ursprünglichen Prompt generieren lassen.</p>
+            <AccordionContent className="px-3 pb-3">
+              <div className="space-y-3">
+                <p><strong>✅ Ja, komplett kostenlos!</strong></p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <span>📝</span> Ohne API:
+                    </h4>
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                      <li>Prompt-Generierung</li>
+                      <li>Keine Kosten</li>
+                      <li>Volle Kontrolle über den Prozess</li>
+                    </ul>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <span>🤖</span> Mit API:
+                    </h4>
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                      <li>Direkte Routengenerierung</li>
+                      <li>API-Kosten trägst du selbst (~5-12 Cent pro Anfrage)</li>
+                      <li>Schnellere Ergebnisse</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="bg-blue-50 p-3 rounded-lg text-sm">
+                  <p className="flex items-center gap-2 mb-1">
+                    <span>ℹ️</span>
+                    <strong>Keine versteckten Kosten:</strong>
+                  </p>
+                  <p>Keine Abonnements, keine versteckten Gebühren. Du zahlst nur für deine eigene API-Nutzung, wenn du dich dafür entscheidest.</p>
+                </div>
+              </div>
             </AccordionContent>
           </AccordionItem>
           
-          <AccordionItem value="item-6">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>💰</span>
-                <span>Was kostet eine KI-Abfrage?</span>
-              </span>
+          {/* KI-Modelle */}
+          <AccordionItem value="models">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-blue-600">✨</span>
+                </div>
+                <span className="font-medium">Welches KI-Modell sollte ich wählen?</span>
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
-              Die Kosten für eine KI-Abfrage hängen vom gewählten KI-Modell und Anbieter ab. Typischerweise liegen die Kosten bei aktuellen Modellen wie GPT-5.2 bei ca. 5-7 Cent pro Anfrage, abhängig von der Länge des Prompts und der generierten Antwort.
+            <AccordionContent className="px-3 pb-3">
+              <p className="mb-3"><strong>Empfehlung:</strong> Google Gemini 3 Pro Preview für beste Ergebnisse</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="bg-yellow-50 p-3 rounded-lg">
+                  <h4 className="font-semibold mb-2 flex items-center gap-1 text-sm">
+                    <span>🌟</span> Google Gemini
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1 text-xs">
+                    <li>Beste geografische Daten</li>
+                    <li>Präzise Stellplatzempfehlungen</li>
+                    <li>Kosteneffizient</li>
+                  </ul>
+                </div>
+                <div className="bg-green-50 p-3 rounded-lg">
+                  <h4 className="font-semibold mb-2 flex items-center gap-1 text-sm">
+                    <span>🤖</span> OpenAI GPT-5.2
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1 text-xs">
+                    <li>Maximale Detailtiefe</li>
+                    <li>Komplexe Anforderungen</li>
+                    <li>Höchste Qualität</li>
+                  </ul>
+                </div>
+                <div className="bg-purple-50 p-3 rounded-lg">
+                  <h4 className="font-semibold mb-2 flex items-center gap-1 text-sm">
+                    <span>⚡</span> Mistral AI
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1 text-xs">
+                    <li>Kosteneffizient</li>
+                    <li>Europäische Routen</li>
+                    <li>Gute Qualität</li>
+                  </ul>
+                </div>
+              </div>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-7">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>🔒</span>
-                <span>Wie werden meine Daten geschützt?</span>
-              </span>
+          
+          {/* Einzigartigkeit */}
+          <AccordionItem value="unique">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-yellow-600">⭐</span>
+                </div>
+                <span className="font-medium">Was macht Camping Route einzigartig?</span>
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
-              Alle Daten werden nur lokal in deinem Browser verarbeitet. Wir speichern keine persönlichen Informationen.
+            <AccordionContent className="px-3 pb-3">
+              <p className="mb-3"><strong>Der einzige KI-Routenplaner speziell für Wohnmobile!</strong></p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
+                    <span>🎯</span> Präzise Filter:
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    <li>Fahrzeugdaten (Größe, Gewicht)</li>
+                    <li>Budget (günstig bis premium)</li>
+                    <li>Interessen (Natur, Stadt, Familie)</li>
+                  </ul>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
+                    <span>🗺️</span> Intelligente Routen:
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    <li>Stellplätze nach deinen Kriterien</li>
+                    <li>Lokale Attraktionen</li>
+                    <li>Optimale Etappenplanung</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="bg-blue-50 p-3 rounded-lg mt-3 text-sm">
+                <p className="flex items-center gap-2 mb-1">
+                  <span>💡</span>
+                  <strong>Transparenter Prozess:</strong>
+                </p>
+                <p>Du behältst immer die Kontrolle - keine "Black Box" Ergebnisse wie bei anderen Planern!</p>
+              </div>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-7">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>🗺️</span>
-                <span>Kann ich Routen offline nutzen?</span>
-              </span>
+          
+          {/* Prompt vs KI */}
+          <AccordionItem value="prompt-vs-ai">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-purple-600">🤖</span>
+                </div>
+                <span className="font-medium">Prompt vs. KI-Generierung - was ist der Unterschied?</span>
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
-              Ja! Du kannst generierte Routen kopieren oder als PDF herunterladen und dann offline verwenden. Alle Daten bleiben auf deinem Gerät.
+            <AccordionContent className="px-3 pb-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-orange-50 p-4 rounded-lg text-center">
+                  <div className="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-orange-600 text-xl">📝</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Ohne API (kostenlos)</h4>
+                  <ul className="list-disc list-inside space-y-1 text-sm text-left">
+                    <li>Optimierter Prompt</li>
+                    <li>Für deine bevorzugte KI</li>
+                    <li>Volle Kontrolle</li>
+                    <li>Keine Kosten</li>
+                  </ul>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg text-center">
+                  <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-green-600 text-xl">⚡</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Mit API (Kosten ~8-12 Cent)</h4>
+                  <ul className="list-disc list-inside space-y-1 text-sm text-left">
+                    <li>Direkte Routengenerierung</li>
+                    <li>Fertige Route mit Details</li>
+                    <li>Schnelleres Ergebnis</li>
+                    <li>API-Kosten trägst du</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg mt-4 text-sm">
+                <p className="flex items-center gap-2 mb-1">
+                  <span>ℹ️</span>
+                  <strong>Tipp:</strong>
+                </p>
+                <p>Probiere zuerst die kostenlose Prompt-Generierung aus, bevor du eine API einbindest!</p>
+              </div>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-8">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>🚐</span>
-                <span>Welche Fahrzeugtypen werden unterstützt?</span>
-              </span>
+          
+          {/* Datenschutz */}
+          <AccordionItem value="privacy">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-red-600">🔒</span>
+                </div>
+                <span className="font-medium">Wie werden meine Daten geschützt?</span>
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
-              Aktuell werden Wohnmobile und Camper unterstützt. Wohnwagen sind in Planung und werden in einer zukünftigen Version hinzugefügt.
+            <AccordionContent className="px-3 pb-3">
+              <div className="flex flex-col md:flex-row gap-4 items-start">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                    <span className="text-red-600 text-2xl">🔒</span>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <p className="mb-3"><strong>100% lokal - 100% sicher!</strong></p>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li><strong>Keine Cloud-Speicherung:</strong> Alle Daten bleiben in deinem Browser</li>
+                    <li><strong>Keine Tracking-Cookies:</strong> Wir sammeln keine Nutzerdaten</li>
+                    <li><strong>DSGVO-konform:</strong> Keine Datenweitergabe an Dritte</li>
+                    <li><strong>Offline-fähig:</strong> Einmal generierte Routen kannst du offline nutzen</li>
+                  </ul>
+                </div>
+              </div>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-9">
-            <AccordionTrigger>
-              <span className="flex items-center gap-2">
-                <span>💰</span>
-                <span>Ist Camping Route kostenlos?</span>
-              </span>
+          
+          {/* Offline Nutzung */}
+          <AccordionItem value="offline">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-indigo-600">🗺️</span>
+                </div>
+                <span className="font-medium">Kann ich Routen offline nutzen?</span>
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
-              Ja, die Grundfunktionen sind komplett kostenlos. Für erweiterte KI-Funktionen kannst du optional deine eigene API einbinden.
+            <AccordionContent className="px-3 pb-3">
+              <div className="flex flex-col md:flex-row gap-4 items-start">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <span className="text-indigo-600 text-2xl">📱</span>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <p className="mb-3"><strong>Ja, komplett offline-fähig!</strong></p>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li><strong>Exportieren:</strong> Als Text kopieren oder PDF herunterladen</li>
+                    <li><strong>Speichern:</strong> Alle Daten bleiben auf deinem Gerät</li>
+                    <li><strong>Nutzen:</strong> Ohne Internetverbindung verwenden</li>
+                    <li><strong>Teilen:</strong> Per E-Mail oder Messenger versenden</li>
+                  </ul>
+                  <div className="bg-yellow-50 p-3 rounded-lg mt-3 text-sm">
+                    <p className="flex items-center gap-2">
+                      <span>💡</span>
+                      <strong>Tipp:</strong> Lade deine Route vor der Reise herunter, um unterwegs ohne Internet darauf zugreifen zu können!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          
+          {/* Fahrzeugtypen */}
+          <AccordionItem value="vehicles">
+            <AccordionTrigger className="px-3 py-2 hover:bg-gray-50 rounded-lg transition-all">
+              <div className="flex items-center gap-3 w-full text-left">
+                <div className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-teal-600">🚐</span>
+                </div>
+                <span className="font-medium">Welche Fahrzeugtypen werden unterstützt?</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-3 pb-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-teal-50 p-3 rounded-lg text-center">
+                  <div className="w-12 h-12 bg-teal-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                    <span className="text-teal-600 text-xl">🚐</span>
+                  </div>
+                  <p className="text-sm font-medium">Wohnmobile</p>
+                  <p className="text-xs text-gray-600">Voll unterstützt</p>
+                </div>
+                <div className="bg-teal-50 p-3 rounded-lg text-center">
+                  <div className="w-12 h-12 bg-teal-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                    <span className="text-teal-600 text-xl">🏕️</span>
+                  </div>
+                  <p className="text-sm font-medium">Camper</p>
+                  <p className="text-xs text-gray-600">Voll unterstützt</p>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-lg text-center opacity-70">
+                  <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                    <span className="text-gray-400 text-xl">🚛</span>
+                  </div>
+                  <p className="text-sm font-medium">Wohnwagen</p>
+                  <p className="text-xs text-gray-500">In Planung</p>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-lg text-center opacity-70">
+                  <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                    <span className="text-gray-400 text-xl">🏍️</span>
+                  </div>
+                  <p className="text-sm font-medium">Motorräder</p>
+                  <p className="text-xs text-gray-500">Geplant</p>
+                </div>
+              </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
 
-      {/* Scroll to Top Button */}
+      {/* Modern Scroll to Top Button */}
       <div className="fixed bottom-20 right-4 z-50">
         <Button
           variant="outline"
           size="icon"
-          className="rounded-full w-10 h-10 bg-background/80 backdrop-blur-sm border-border hover:bg-background"
+          className="rounded-full w-12 h-12 bg-background/90 backdrop-blur-lg border-primary/20 
+                    hover:bg-primary/10 hover:border-primary/30 shadow-lg hover:shadow-xl 
+                    transition-all duration-300 transform hover:-translate-y-1"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Nach oben scrollen"
         >
-          <ArrowUp className="h-4 w-4" />
+          <div className="relative">
+            <ArrowUp className="h-5 w-5 text-primary animate-bounce" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent 
+                          rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
         </Button>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-border mt-12 py-6 text-center text-sm text-muted-foreground">
-        <div className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-4">
-          <p className="text-xs md:text-sm">Camping Route – Erstellt mit ❤️ für Wohnmobil-Enthusiasten</p>
-          <div className="grid grid-cols-3 gap-3 md:gap-4 mt-4 md:mt-0">
-            <a href="https://github.com/chrischtili/route-planner-pro" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 md:gap-2 text-muted-foreground hover:text-primary">
-              <img src="/GitHub_Invertocat_Black_Clearspace.png" alt="GitHub Logo" className="h-5 md:h-6" width="20" height="20" loading="lazy" />
-              <span className="text-xs md:text-sm">GitHub</span>
-            </a>
-            <a href="/impressum" className="flex flex-col items-center gap-1 md:gap-2 text-muted-foreground hover:text-primary">
-              📄
-              <span className="text-xs md:text-sm">Impressum</span>
-            </a>
-            <a href="/datenschutz" className="flex flex-col items-center gap-1 md:gap-2 text-muted-foreground hover:text-primary">
-              🔒
-              <span className="text-xs md:text-sm">Datenschutz</span>
-            </a>
+      {/* Simple Footer */}
+      <footer className="border-t border-gray-200 mt-12 py-6">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-gray-600 text-center md:text-left">
+              © {new Date().getFullYear()} Camping Route – KI-Routenplaner für Wohnmobile
+            </p>
+            
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              <a href="/impressum" className="hover:text-primary transition-colors">
+                Impressum
+              </a>
+              <a href="/datenschutz" className="hover:text-primary transition-colors">
+                Datenschutz
+              </a>
+              <a href="https://github.com/chrischtili/route-planner-pro" target="_blank" 
+                 rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                GitHub
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="mt-4 md:mt-6 pt-4 border-t border-border">
-          <p className="text-xs">
-            © {new Date().getFullYear()} Camping Route. Alle Rechte vorbehalten.
-          </p>
         </div>
       </footer>
       </div>

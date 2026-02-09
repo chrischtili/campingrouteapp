@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { Footer } from "@/components/ui/footer";
 
 export default function Impressum() {
   return (
     <div className="min-h-screen bg-background py-12 px-4">
-      <div className="max-w-4xl mx-auto bg-card rounded-xl shadow-lg p-8">
+      <div className="max-w-4xl mx-auto bg-card rounded-xl shadow-lg p-8" id="home">
         <h1 className="text-2xl font-bold mb-6 text-center">Über dieses Projekt</h1>
 
         <div className="space-y-6 text-muted-foreground">
@@ -57,6 +58,7 @@ export default function Impressum() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

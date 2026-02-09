@@ -225,7 +225,6 @@ export function RoutePlanner() {
           height="576"
           loading="eager"
           fetchpriority="high"
-          loading="eager"
         />
         
         {/* Clean hero content */}

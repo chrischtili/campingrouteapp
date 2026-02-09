@@ -1021,7 +1021,11 @@ export function RoutePlanner() {
         </div>
       </footer>
       <div className="text-xs text-gray-500 text-center py-2">
-        <span>MIT Lizenz | </span>
+        <a href="https://github.com/chrischtili/route-planner-pro/blob/main/LICENSE" target="_blank" 
+           rel="noopener noreferrer" className="hover:text-primary transition-colors">
+          MIT Lizenz
+        </a>
+        <span> | </span>
         <a href="https://github.com/chrischtili/route-planner-pro" target="_blank" 
            rel="noopener noreferrer" className="hover:text-primary transition-colors">
           Quellcode auf GitHub

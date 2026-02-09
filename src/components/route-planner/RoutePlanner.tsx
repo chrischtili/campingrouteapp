@@ -216,13 +216,15 @@ export function RoutePlanner() {
         {/* Simple gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
         
-        {/* Hero image - simple and clean */}
+        {/* Hero image - simple and clean - Optimiert für LCP */}
         <img 
-          src="/campingroute.jpg" 
+          src="/campingroute.webp" 
           alt="Wohnmobil auf malerischer Reise durch Deutschland - Camping Route KI-Routenplaner für Wohnmobile" 
           className="w-full h-full object-cover"
-          width="1920"
-          height="1080"
+          width="768"
+          height="576"
+          loading="eager"
+          fetchpriority="high"
           loading="eager"
         />
         

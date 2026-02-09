@@ -113,12 +113,24 @@
 
     <!-- Optimize CSS loading with media attribute -->
     <style>
-      /* Small critical CSS to prevent FOUC */
-      body { opacity: 0; transition: opacity 0.3s; }
+      /* Critical CSS to prevent FOUC and improve LCP */
+      body { opacity: 0; transition: opacity 0.3s; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
       body.css-loaded { opacity: 1; }
+      
+      /* Layout stability for hero section */
+      .hero-section { min-height: 60vh; position: relative; }
+      .hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+      
+      /* Basic typography for early rendering */
+      h1, h2, h3 { font-weight: 600; margin: 0; }
+      p { margin: 0; line-height: 1.5; }
+      
+      /* Prevent layout shifts */
+      header, footer { contain: layout; }
     </style>
-    <!-- Lokale Fonts für DSGVO-Konformität -->
-    <link rel="stylesheet" href="/fonts/fonts.css?v=0.1.2">
+    <!-- Lokale Fonts für DSGVO-Konformität - Preload für bessere Performance -->
+    <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/fonts/fonts.css?v=0.1.2"></noscript>
     
     <!-- 2. LCP optimization handled by fetchpriority="high" on the image element -->
     
@@ -142,6 +154,9 @@
 
   <body>
     <div id="root"></div>
+    <!-- Preload für kritische CSS-Datei - DSGVO konform (lokale Datei) -->
+    <link rel="preload" href="/assets/index.BvZp_Tbf.css" as="style" onload="this.rel='stylesheet'" crossorigin="anonymous">
+    
     <script type="module" src="./src/main.tsx" defer></script>
     <!-- Service Worker Registration -->
 

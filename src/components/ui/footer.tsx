@@ -33,8 +33,8 @@ export function Footer() {
               </Link>
               <a href="https://github.com/chrischtili/route-planner-pro" target="_blank" 
                  rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
-                <img src="/GitHub_Invertocat_Black_Clearspace.png" alt="GitHub" 
-                     className="w-4 h-4" width="16" height="16" />
+                <img src="/GitHub_Invertocat_Black_Clearspace.webp" alt="GitHub" 
+                     className="w-4 h-4" width="16" height="16" loading="lazy" />
                 <span>Open Source</span>
               </a>
             </div>

@@ -210,8 +210,21 @@ export function RoutePlanner() {
 
   return (
     <main className="min-h-screen bg-background" id="main-content">
+      {/* Fixed Logo in top-left corner - always visible, transparent on hero */}
+      <div className="fixed top-4 left-4 z-50">
+        <a href="#home" className="inline-block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900/50" aria-label="Zum Seitenanfang - Camping Route">
+          <img 
+            src="/favicon-original-final.svg" 
+            alt="Camping Route Logo - Zum Seitenanfang"
+            className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 transition-all duration-200 hover:scale-105 drop-shadow-lg"
+            width="48"
+            height="48"
+          />
+        </a>
+      </div>
+      
       {/* Clean Hero Section - Simple & Professional */}
-      <div className="relative h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden">
+      <div className="relative h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden" id="home">
         {/* Simple gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
         
@@ -228,14 +241,9 @@ export function RoutePlanner() {
         {/* Clean hero content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <div className="flex flex-col items-center">
-            <div className="flex items-center gap-3 mb-4">
-              <img src="/favicon-original-final.svg" alt="Camping Route Logo" 
-                   className="h-12 w-12 md:h-14 md:w-14" 
-                   width="56" height="56" />
-              <h1 className="text-2xl md:text-4xl font-bold text-white">
-                Camping Route
-              </h1>
-            </div>
+            <h1 className="text-2xl md:text-4xl font-bold text-white mb-4">
+              Camping Route
+            </h1>
             
             <p className="text-lg md:text-xl text-white/90 mb-6 max-w-md">
               Intelligenter KI-Routenplaner für Wohnmobile

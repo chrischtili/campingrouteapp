@@ -34,6 +34,7 @@ export function RoutePlanner() {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const aiSettingsSectionRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   // Schritt-Namen für den Assistenten
   const steps = [
@@ -76,7 +77,10 @@ export function RoutePlanner() {
         setCompletedSteps([...completedSteps, currentStep]);
       }
       
-      // Kein Scrollen mehr - Nutzer behält Kontrolle über Scroll-Position
+      // Auf mobilen Geräten zum Formular-Anfang scrollen
+      if (window.innerWidth <= 768 && formRef.current) { // md breakpoint
+        formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 
@@ -471,7 +475,7 @@ export function RoutePlanner() {
           </div>
         </div>
         {/* Step-by-Step Assistant */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <form onSubmit={handleSubmit} ref={formRef} className="bg-white rounded-xl shadow-lg p-6 mb-8">
           {/* Progress Bar */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
@@ -605,13 +609,13 @@ export function RoutePlanner() {
             )}
           
           {/* Navigation Buttons */}
-          <div className="flex justify-between items-center mt-8 pt-4 border-t border-gray-200">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-gray-200">
             <Button
               type="button"
               variant="outline"
               onClick={prevStep}
               disabled={currentStep === 1}
-              className="gap-2"
+              className="gap-2 w-full md:w-auto"
             >
               <ArrowUp className="h-4 w-4 transform -rotate-90" />
               Zurück
@@ -622,7 +626,7 @@ export function RoutePlanner() {
                 type="button"
                 onClick={nextStep}
                 disabled={!isStepValid()}
-                className="gap-2 bg-primary hover:bg-primary/90"
+                className="gap-2 bg-primary hover:bg-primary/90 w-full md:w-auto"
               >
                 Weiter
                 <ArrowUp className="h-4 w-4 transform rotate-90" />
@@ -632,7 +636,7 @@ export function RoutePlanner() {
                 type="button"
                 onClick={handleSubmit}
                 size="lg"
-                className="gap-2 px-6 bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="gap-2 px-4 md:px-6 bg-primary hover:bg-primary/90 text-primary-foreground w-full md:w-auto"
                 disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
               >
                 <MapPin className="h-5 w-5" />

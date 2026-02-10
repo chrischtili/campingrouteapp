@@ -18,24 +18,24 @@
 <IfModule mod_expires.c>
   # Expires-Header für Caching
   ExpiresActive On
-  ExpiresDefault "access plus 5 minutes"
+  ExpiresDefault "access plus 10 minutes"
   ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType image/webp "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  ExpiresByType text/css "access plus 5 minutes"
-  ExpiresByType application/javascript "access plus 5 minutes"
-  ExpiresByType application/json "access plus 5 minutes"
+  ExpiresByType image/webp "access plus 1 week"
+  ExpiresByType image/png "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 week"
+  ExpiresByType image/svg+xml "access plus 1 week"
+  ExpiresByType text/css "access plus 10 minutes"
+  ExpiresByType application/javascript "access plus 10 minutes"
+  ExpiresByType application/json "access plus 10 minutes"
 </IfModule>
 
 <IfModule mod_headers.c>
   # Cache-Control-Header - kürzere Cache-Zeiten für bessere Entwicklung
   <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|svg)$">
-    Header set Cache-Control "public, max-age=2592000" # 1 Monat für Bilder
+    Header set Cache-Control "public, max-age=604800" # 1 Woche für Bilder
   </FilesMatch>
   <FilesMatch "\.(js|css)$">
-    Header set Cache-Control "public, max-age=300" # 5 Minuten für JS/CSS
+    Header set Cache-Control "public, max-age=600" # 10 Minuten für JS/CSS
   </FilesMatch>
   <FilesMatch "\.(html|htm)$">
     Header set Cache-Control "public, max-age=0, must-revalidate" # Kein Cache für HTML

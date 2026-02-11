@@ -33,14 +33,12 @@ export function FormSlider({ id, label, value, min, max, step, unit, onChange }:
         max={max}
         step={step}
         onValueChange={([v]) => onChange(v)}
-        className={`w-full ${isMobile ? "h-8" : "h-6"}`}
+        className={`w-full ${isMobile ? "h-10" : "h-8"}`}
       />
-      {isMobile && (
-        <div className="flex justify-between text-xs text-muted-foreground">
-          <span>{min}{unit}</span>
-          <span>{max}{unit}</span>
-        </div>
-      )}
+      <div className="flex justify-between text-xs text-muted-foreground mt-1">
+        <span>{min}{unit}</span>
+        <span>{max}{unit}</span>
+      </div>
     </div>
   );
 }

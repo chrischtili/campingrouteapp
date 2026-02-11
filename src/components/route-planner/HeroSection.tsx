@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export function HeroSection() {
   return (
-    <section className="relative h-[90vh] flex items-center justify-center overflow-hidden pt-20" id="home">
+    <section className="relative min-h-screen md:h-[90vh] flex items-center justify-center overflow-hidden pt-20" id="home">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -20,7 +20,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex items-center justify-center gap-0.5 mb-0 md:mb-6 pt-24 md:pt-0 max-sm:pt-32"
+          className="flex items-center justify-center gap-0.5 mb-0 md:mb-6 pt-20 md:pt-0 max-sm:pt-24"
         >
           <img src="/favicon-original-final.svg" alt="KI-Routenplaner Logo" className="w-12 h-12" style={{ filter: 'brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(600%) hue-rotate(5deg) brightness(100%) contrast(120%)' }} />
           <span className="text-[#F59B0A] font-medium tracking-wide uppercase">
@@ -32,7 +32,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-0 md:mb-6 leading-tight pt-8 md:pt-0"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-0 md:mb-6 leading-tight pt-6 md:pt-0"
         >
           Camping Route
         </motion.h1>
@@ -73,13 +73,13 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-12 flex items-center justify-center gap-6 text-white/60 text-sm"
+          className="mt-12 flex flex-wrap items-center justify-center gap-4 text-white/60 text-sm"
         >
           <span>★★★★★ 4.7/5 Bewertung</span>
-          <span className="w-1 h-1 rounded-full bg-white/40" />
+          <span className="w-1 h-1 rounded-full bg-white/40 hidden sm:block" />
           <span>1.000+ geplante Routen</span>
           <span className="w-1 h-1 rounded-full bg-white/40 hidden sm:block" />
-          <span className="hidden sm:inline">100% kostenlos</span>
+          <span>100% kostenlos</span>
         </motion.div>
       </div>
     </section>

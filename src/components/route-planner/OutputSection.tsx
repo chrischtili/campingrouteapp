@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, Printer, FileText, CheckCircle, Loader2, Route } from "lucide-react";
+import { Copy, Printer, FileText, CheckCircle, Loader2, Route, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -174,6 +174,26 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
               <Route className="h-4 w-4" />
               {aiModel}
             </span>
+          )}
+          {!useDirectAI && (
+            <a
+              href="#model-selection-faq"
+              onClick={(e) => {
+                e.preventDefault();
+                const faqSection = document.getElementById('faq');
+                const trigger = document.getElementById('model-selection-faq');
+                if (faqSection && trigger) {
+                  faqSection.scrollIntoView({ behavior: 'smooth' });
+                  setTimeout(() => {
+                    (trigger as HTMLElement).click();
+                  }, 500);
+                }
+              }}
+              className="text-sm font-normal text-primary hover:underline ml-4 flex items-center gap-1"
+            >
+              <Info className="h-4 w-4" />
+              Welches KI-Modell wählen?
+            </a>
           )}
         </CardTitle>
       </CardHeader>

@@ -93,7 +93,17 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 <Label htmlFor="aiProvider">
                   KI-Anbieter & Modell
                   <span className="text-muted-foreground text-xs ml-2">
-                    <a href="#faq" className="hover:underline">
+                    <a href="#model-selection-faq" onClick={(e) => {
+                      e.preventDefault();
+                      const faqSection = document.getElementById('faq');
+                      const trigger = document.getElementById('model-selection-faq');
+                      if (faqSection && trigger) {
+                        faqSection.scrollIntoView({ behavior: 'smooth' });
+                        setTimeout(() => {
+                          (trigger as HTMLElement).click();
+                        }, 500);
+                      }
+                    }} className="hover:underline cursor-pointer">
                       <Info className="inline h-3 w-3 mb-1" /> Welches Modell wählen?
                     </a>
                   </span>

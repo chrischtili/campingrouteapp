@@ -51,33 +51,33 @@ const faqs = [
         <p className="mb-3"><strong>Empfehlung:</strong> Google Gemini 3 Pro Preview für beste Ergebnisse</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="bg-yellow-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-1 text-sm">
-              <span>🌟</span> Google Gemini
+            <h4 className="font-normal mb-2 flex items-center gap-1 text-sm font-sans">
+              <span>🌟</span> Google/Gemini
             </h4>
             <ul className="list-disc list-inside space-y-1 text-xs">
-              <li>Beste geografische Daten</li>
-              <li>Präzise Stellplatzempfehlungen</li>
-              <li>Kosteneffizient</li>
+              <li>Beste geografische Abdeckung</li>
+              <li>Präzise Stellplatz-Empfehlungen</li>
+              <li>Aktuellste Daten</li>
             </ul>
           </div>
           <div className="bg-green-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-1 text-sm">
-              <span>🤖</span> OpenAI GPT-5.2
+            <h4 className="font-normal mb-2 flex items-center gap-1 text-sm font-sans">
+              <span>🤖</span> OpenAI/GPT5.2
             </h4>
             <ul className="list-disc list-inside space-y-1 text-xs">
               <li>Maximale Detailtiefe</li>
-              <li>Komplexe Anforderungen</li>
-              <li>Höchste Qualität</li>
+              <li>Komplexe Routenplanung</li>
+              <li>Höchste Sprachqualität</li>
             </ul>
           </div>
           <div className="bg-purple-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-1 text-sm">
+            <h4 className="font-normal mb-2 flex items-center gap-1 text-sm font-sans">
               <span>⚡</span> Mistral AI
             </h4>
             <ul className="list-disc list-inside space-y-1 text-xs">
+              <li>Europäisch optimiert</li>
               <li>Kosteneffizient</li>
-              <li>Europäische Routen</li>
-              <li>Gute Qualität</li>
+              <li>Schnelle Antworten</li>
             </ul>
           </div>
         </div>
@@ -278,7 +278,10 @@ export function FAQSection() {
                 value={`faq-${i}`}
                 className="bg-white rounded-xl px-6 border-none shadow-sm"
               >
-                <AccordionTrigger className="font-normal text-foreground text-left hover:no-underline py-5 text-lg md:text-xl font-sans">
+                <AccordionTrigger 
+                  id={i === 1 ? "model-selection-faq" : undefined}
+                  className="font-normal text-foreground text-left hover:no-underline py-5 text-lg md:text-xl font-sans"
+                >
                   {faq.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground pb-5 leading-relaxed font-sans">

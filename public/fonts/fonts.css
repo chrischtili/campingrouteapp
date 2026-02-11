@@ -1,64 +1,20 @@
 /* Fallback auf Systemschriftarten für DSGVO-Compliance */
->>>>>>> feature/v0.1.2
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceSansPro-Regular.woff2') format('woff2');
-=======
-  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
-       local('Arial'), local('Helvetica'), local('sans-serif');
->>>>>>> feature/v0.1.2
-}
 
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceSansPro-Bold.woff2') format('woff2');
-=======
-  src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'),
-       local('Arial Bold'), local('Helvetica Bold'), local('sans-serif');
->>>>>>> feature/v0.1.2
-}
-
-@font-face {
-  font-family: 'Source Serif Pro';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceSerifPro-Regular.woff2') format('woff2');
-=======
-  src: local('Source Serif Pro Regular'), local('SourceSerifPro-Regular'),
-       local('Georgia'), local('Times New Roman'), local('serif');
->>>>>>> feature/v0.1.2
-}
-
-@font-face {
-  font-family: 'Source Code Pro';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceCodePro-Regular.woff2') format('woff2');
-=======
-  src: local('Source Code Pro Regular'), local('SourceCodePro-Regular'),
-       local('Menlo'), local('Monaco'), local('monospace');
->>>>>>> feature/v0.1.2
-}
-=======
-/* Fallback auf Systemschriftarten für DSGVO-Compliance */
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
+       local('Arial'), local('Helvetica'), local('sans-serif');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'),
        local('Arial'), local('Helvetica'), local('sans-serif');
 }
 
@@ -88,57 +44,48 @@
   src: local('Source Code Pro Regular'), local('SourceCodePro-Regular'),
        local('Menlo'), local('Monaco'), local('monospace');
 }
-=======
-/* Fallback auf Systemschriftarten für DSGVO-Compliance */
->>>>>>> feature/v0.1.2
+
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceSansPro-Regular.woff2') format('woff2');
-=======
-  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
+  src: local('Inter Regular'), local('Inter-Regular'),
        local('Arial'), local('Helvetica'), local('sans-serif');
->>>>>>> feature/v0.1.2
 }
 
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Inter Medium'), local('Inter-Medium'),
+       local('Arial'), local('Helvetica'), local('sans-serif');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Inter SemiBold'), local('Inter-SemiBold'),
+       local('Arial'), local('Helvetica'), local('sans-serif');
+}
+
+@font-face {
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceSansPro-Bold.woff2') format('woff2');
-=======
-  src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'),
+  src: local('Inter Bold'), local('Inter-Bold'),
        local('Arial Bold'), local('Helvetica Bold'), local('sans-serif');
->>>>>>> feature/v0.1.2
 }
 
 @font-face {
-  font-family: 'Source Serif Pro';
+  font-family: 'DM Serif Display';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceSerifPro-Regular.woff2') format('woff2');
-=======
-  src: local('Source Serif Pro Regular'), local('SourceSerifPro-Regular'),
+  src: local('DM Serif Display Regular'), local('DMSerifDisplay-Regular'),
        local('Georgia'), local('Times New Roman'), local('serif');
->>>>>>> feature/v0.1.2
-}
-
-@font-face {
-  font-family: 'Source Code Pro';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-<<<<<<< HEAD
-  src: url('/fonts/SourceCodePro-Regular.woff2') format('woff2');
-=======
-  src: local('Source Code Pro Regular'), local('SourceCodePro-Regular'),
-       local('Menlo'), local('Monaco'), local('monospace');
->>>>>>> feature/v0.1.2
 }

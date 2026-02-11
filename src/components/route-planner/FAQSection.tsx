@@ -278,10 +278,10 @@ export function FAQSection() {
                 value={`faq-${i}`}
                 className="bg-white rounded-xl px-6 border-none shadow-sm"
               >
-                <AccordionTrigger className="font-medium text-foreground text-left hover:no-underline py-5">
+                <AccordionTrigger className="font-normal text-foreground text-left hover:no-underline py-5 text-lg md:text-xl font-sans">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-5 leading-relaxed">
+                <AccordionContent className="text-muted-foreground pb-5 leading-relaxed font-sans">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>

@@ -1,4 +1,4 @@
-import { Compass, Zap, Filter, Shield } from "lucide-react";
+import { Compass, Zap, Filter, Shield, Github, Gift } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
@@ -22,6 +22,16 @@ const features = [
     title: "Datenschutz first",
     description: "Keine Datenspeicherung. Alles bleibt lokal in deinem Browser.",
   },
+  {
+    icon: Github,
+    title: "Open Source",
+    description: "Vollständig transparent. Code auf GitHub einsehbar und mitwirkbar.",
+  },
+  {
+    icon: Gift,
+    title: "Kostenlos & Werbefrei",
+    description: "Keine versteckten Kosten. Keine Werbung. Vollständig kostenlose Nutzung.",
+  },
 ];
 
 export function FeaturesSection() {
@@ -43,7 +53,7 @@ export function FeaturesSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f, i) => {
             const Icon = f.icon;
             return (

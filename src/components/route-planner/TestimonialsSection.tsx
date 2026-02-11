@@ -23,7 +23,7 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-24 px-4 bg-background" id="testimonials">
+    <section className="py-24 px-4" style={{ backgroundColor: 'rgb(252, 250, 248)' }} id="testimonials">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
@@ -38,7 +38,7 @@ export function TestimonialsSection() {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="relative rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300" style={{ backgroundColor: 'rgb(250, 248, 245)' }}
             >
               <Quote className="w-8 h-8 text-[#F59B0A]/30 mb-4" />
               <div className="flex gap-0.5 mb-4">
@@ -53,7 +53,7 @@ export function TestimonialsSection() {
                 "{t.text}"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
                   {t.author[0]}
                 </div>
                 <div>

@@ -200,7 +200,7 @@ export function RoutePlanner() {
   };
 
   return (
-    <main className="min-h-screen bg-background" id="main-content">
+    <main className="min-h-screen" style={{ backgroundColor: 'rgb(252, 250, 248)' }} id="main-content">
       {/* Navbar */}
       <Navbar />
       
@@ -286,7 +286,6 @@ export function RoutePlanner() {
                     aiSettings={aiSettings}
                     onAISettingsChange={handleAISettingsChange}
                     aiError={aiError}
-                    showApiKeyValidation={true}
                   />
                 </div>
               )}
@@ -346,10 +345,18 @@ export function RoutePlanner() {
               {/* Step 7: Zusammenfassung & Generierung */}
               {currentStep === 7 && (
                 <div id="step-7">
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                      Zusammenfassung Ihrer Route
-                    </h3>
+                  <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                    <div className="mb-4">
+                      <h3 className="text-lg font-semibold" style={{ color: 'rgb(50, 110, 89)' }}>
+                        <span className="inline-flex items-center gap-2">
+                          <span className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
+                            📋
+                          </span>
+                          Zusammenfassung Ihrer Route
+                        </span>
+                      </h3>
+                      <div className="h-px bg-gray-200 mt-2 -mx-4" />
+                    </div>
                     
                     <div className="space-y-3 text-sm">
                       <div className="flex justify-between">
@@ -426,9 +433,6 @@ export function RoutePlanner() {
       {/* FAQ Section */}
       <FAQSection />
 
-      {/* Anchor Navigation */}
-      <AnchorNavigation />
-      
       {/* Footer */}
       <Footer />
     </main>

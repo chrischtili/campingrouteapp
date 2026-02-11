@@ -11,7 +11,6 @@ interface AISettingsSectionProps {
   aiSettings: AISettings;
   onAISettingsChange: (settings: Partial<AISettings>) => void;
   aiError: string;
-  showApiKeyValidation?: boolean; // Optional: Zeige Validierungsfehler in Echtzeit
 }
 
 const providerModels = {
@@ -138,18 +137,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                   placeholder="Dein API-Schlüssel"
                   value={aiSettings.apiKey}
                   onChange={(e) => onAISettingsChange({ apiKey: e.target.value })}
-                  className={showApiKeyValidation && aiSettings.useDirectAI && aiSettings.apiKey && !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) ? 'border-red-500' : ''}
                 />
-                {showApiKeyValidation && aiSettings.useDirectAI && aiSettings.apiKey && !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && (
-                  <p className="text-xs text-red-500 mt-1">
-                    Bitte gib einen gültigen API-Schlüssel ein (nur Buchstaben, Zahlen, Bindestriche und Unterstriche, mindestens 20 Zeichen).
-                  </p>
-                )}
-                {showApiKeyValidation && aiSettings.useDirectAI && !aiSettings.apiKey?.trim() && (
-                  <p className="text-xs text-red-500 mt-1">
-                    Bitte gib deinen API-Schlüssel ein.
-                  </p>
-                )}
               </div>
             </div>
 

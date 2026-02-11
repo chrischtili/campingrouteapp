@@ -25,7 +25,7 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 px-4 bg-gray-50" id="features">
+    <section className="py-24 px-4" style={{ backgroundColor: 'rgb(250 244 235)' }} id="features">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
@@ -44,7 +44,7 @@ export function FeaturesSection() {
                 key={i}
                 className="bg-white rounded-2xl p-7 shadow-sm hover:shadow-md transition-shadow duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#F59B0A] to-[#E67E22] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="font-bold text-lg text-foreground mb-2">{f.title}</h3>

@@ -17,11 +17,11 @@ export function SectionCard({ icon, title, subtitle, children, className = "", i
       <CardHeader className="bg-card border-b border-border">
         <CardTitle className="flex flex-col gap-1 text-lg">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${iconColor}`}>
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${iconColor}`} style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
               {icon}
             </div>
             <div className="flex flex-col">
-              <span className={titleColor}>{title}</span>
+              <span className={titleColor} style={{ color: 'rgb(50, 110, 89)' }}>{title}</span>
               {subtitle && (
                 <span className="text-sm font-normal text-muted-foreground">{subtitle}</span>
               )}

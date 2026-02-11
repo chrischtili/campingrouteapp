@@ -247,7 +247,7 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="py-24 px-4 bg-gray-50">
+    <section id="faq" className="py-24 px-4" style={{ backgroundColor: 'rgb(250, 244, 235)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">

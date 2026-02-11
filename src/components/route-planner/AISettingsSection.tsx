@@ -100,7 +100,11 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                       if (faqSection && trigger) {
                         faqSection.scrollIntoView({ behavior: 'smooth' });
                         setTimeout(() => {
-                          (trigger as HTMLElement).click();
+                          // Überprüfe, ob der Tab bereits geöffnet ist
+                          const accordionItem = trigger.closest('[data-state="open"]');
+                          if (!accordionItem) {
+                            (trigger as HTMLElement).click();
+                          }
                         }, 500);
                       }
                     }} className="hover:underline cursor-pointer">

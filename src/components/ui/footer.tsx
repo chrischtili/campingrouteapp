@@ -4,25 +4,12 @@ import { Link } from "react-router-dom";
 export function Footer() {
   return (
     <>
-      {/* Fixed Logo in top-left corner - always visible, transparent on hero */}
-      <div className="fixed top-4 left-4 z-50">
-        <a href="#home" className="inline-block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900/50" aria-label="Zum Seitenanfang - Camping Route">
-          <img 
-            src="/favicon-original-final.svg" 
-            alt="Camping Route Logo - Zum Seitenanfang"
-            className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 transition-all duration-200 hover:scale-105 drop-shadow-lg"
-            width="48"
-            height="48"
-          />
-        </a>
-      </div>
-      
       {/* Main Footer - Design aus camping-route-plus mit dunkelgrünlicher Hintergrundfarbe */}
       <footer className="py-12 px-4 mt-16" style={{ backgroundColor: 'rgb(21, 40, 34)' }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
             <div className="flex items-center gap-2">
-              <Compass className="w-6 h-6 text-[#F59B0A]" />
+              <img src="/favicon-original-final.svg" alt="Camping Route Logo" className="h-8 w-8" />
               <span className="font-bold text-xl text-primary-foreground">Camping Route</span>
             </div>
             <p className="text-sm text-white/70 text-center md:text-left">

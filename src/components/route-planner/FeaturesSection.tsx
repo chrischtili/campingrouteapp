@@ -1,4 +1,5 @@
 import { Compass, Zap, Filter, Shield } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -27,21 +28,31 @@ export function FeaturesSection() {
   return (
     <section className="py-24 px-4" style={{ backgroundColor: 'rgb(250 244 235)' }} id="features">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
             Features
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
             Warum Camping Route?
           </h2>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div
+              <motion.div
                 key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="bg-white rounded-2xl p-7 shadow-sm hover:shadow-md transition-shadow duration-300 group"
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
@@ -51,7 +62,7 @@ export function FeaturesSection() {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {f.description}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>

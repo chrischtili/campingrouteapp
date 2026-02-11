@@ -1,4 +1,5 @@
 import { MapPin, Clock, Euro, Wine, Landmark, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const stages = [
   {
@@ -9,15 +10,19 @@ const stages = [
     highlight: "Fränkisches Weinland",
     icon: Wine,
     details: "Weinproben & historische Altstadt",
+    tips: "Achtung: Fronleichnam (Feiertag) - früher starten oder später losfahren",
+    overnight: "Campingplatz Ankergrund (35-45€, Hunde willkommen)",
   },
   {
     from: "Volkach",
     to: "Naumburg",
     distance: "210 km",
     duration: "3h",
-    highlight: "Thüringer Wald",
+    highlight: "Thüringer Wald & Saale-Unstrut",
     icon: Landmark,
-    details: "UNESCO-Weltkulturerbe Dom",
+    details: "UNESCO-Dom Naumburg & Weinwanderungen",
+    tips: "A71 oft entspannter als A7 - moderne Autobahn mit Tunneln",
+    overnight: "Campingplatz Blütengrund (30-40€, direkt an Saale)",
   },
   {
     from: "Naumburg",
@@ -26,7 +31,9 @@ const stages = [
     duration: "3h",
     highlight: "Brandenburg erleben",
     icon: MapPin,
-    details: "Historische Fachwerkstadt",
+    details: "Historische Altstadt & Wasserstraßenkreuz Magdeburg",
+    tips: "B189 gut ausgebaut, aber Achtung Wildwechsel",
+    overnight: "Stellplatz Perleberg (15€, zentral)",
   },
 ];
 
@@ -34,7 +41,13 @@ export function RouteExampleSection() {
   return (
     <section id="example-route" className="py-24 px-4" style={{ backgroundColor: 'rgb(250, 244, 235)' }}>
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
             KI-Beispielroute
           </span>
@@ -44,7 +57,7 @@ export function RouteExampleSection() {
           <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
             3 Tage • 620 km • Slow Travel mit Wein & Geschichte
           </p>
-        </div>
+        </motion.div>
 
         {/* Timeline */}
         <div className="relative">
@@ -56,8 +69,12 @@ export function RouteExampleSection() {
             const isRight = i % 2 === 1;
 
             return (
-              <div
+              <motion.div
                 key={i}
+                initial={{ opacity: 0, x: isRight ? 30 : -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.2 }}
                 className={`relative flex items-start mb-12 last:mb-0 ${
                   isRight ? "md:flex-row-reverse" : ""
                 }`}
@@ -87,15 +104,31 @@ export function RouteExampleSection() {
                     <p className="mt-3 text-sm text-muted-foreground italic">
                       {stage.details}
                     </p>
+                    <div className="mt-4 pt-3 border-t border-gray-100 space-y-2">
+                      <div className="flex items-start gap-2 text-xs">
+                        <span className="text-[#F59B0A] mt-0.5">●</span>
+                        <span className="text-muted-foreground">{stage.tips}</span>
+                      </div>
+                      <div className="flex items-start gap-2 text-xs">
+                        <span className="text-[#F59B0A] mt-0.5">●</span>
+                        <span className="text-muted-foreground">{stage.overnight}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Summary */}
-        <div className="mt-12 bg-white rounded-2xl p-6 shadow-sm flex flex-wrap items-center justify-center gap-8 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-12 bg-white rounded-2xl p-6 shadow-sm flex flex-wrap items-center justify-center gap-8 text-center"
+        >
           {[
             { label: "Gesamtstrecke", value: "620 km" },
             { label: "Reisedauer", value: "3 Tage" },
@@ -109,7 +142,47 @@ export function RouteExampleSection() {
               </p>
             </div>
           ))}
-        </div>
+        </motion.div>
+        
+        {/* Practical Tips */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-8 bg-white rounded-2xl p-6 shadow-sm"
+        >
+          <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+            <span className="text-[#F59B0A]">●</span>
+            Praktische Tipps für deine Reise
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="flex items-start gap-2">
+              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-muted-foreground">
+                Navigation: Nutze Sygic Truck oder Garmin Camper Navi für 5,5t/3,3m Höhe
+              </span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-muted-foreground">
+                Tankstellen: Günstigere Preise in Thüringen (A71)
+              </span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-muted-foreground">
+                Geschwindigkeitsbegrenzung: 80-100 km/h für Fahrzeuge über 3,5t
+              </span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-muted-foreground">
+                Apps: Park4Night & Promobil Stellplatz-Radar
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

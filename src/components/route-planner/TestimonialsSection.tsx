@@ -1,4 +1,5 @@
 import { Star, Quote } from "lucide-react";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -25,19 +26,29 @@ export function TestimonialsSection() {
   return (
     <section className="py-24 px-4" style={{ backgroundColor: 'rgb(252, 250, 248)' }} id="testimonials">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
             Erfahrungen
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
             Von Campern geliebt
           </h2>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
-            <div
+            <motion.div
               key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.15 }}
               className="relative rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300" style={{ backgroundColor: 'rgb(250, 248, 245)' }}
             >
               <Quote className="w-8 h-8 text-[#F59B0A]/30 mb-4" />
@@ -61,7 +72,7 @@ export function TestimonialsSection() {
                   <p className="text-muted-foreground text-xs">{t.role}</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

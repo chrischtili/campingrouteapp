@@ -16,15 +16,35 @@ export function AnchorNavigation() {
   ];
   
   useEffect(() => {
+    // Cache DOM elements to avoid repeated queries
+    const sectionElements = sections.map(section => {
+      const element = document.getElementById(section.id);
+      return element ? {
+        id: section.id,
+        element,
+        offsetTop: element.offsetTop,
+        offsetHeight: element.offsetHeight
+      } : null;
+    }).filter(Boolean);
+    
+    // Debounce the scroll handler to reduce the number of reflows
+    let lastScrollTime = 0;
+    const debounceDelay = 100; // 100ms debounce delay
+    
     const handleScroll = () => {
+      const now = Date.now();
+      if (now - lastScrollTime < debounceDelay) {
+        return; // Skip this scroll event
+      }
+      lastScrollTime = now;
+      
       const scrollPosition = window.scrollY + 120; // 120px offset für Navbar
       
-      // Find the current active section
+      // Find the current active section using cached values
       let currentSection = "";
-      sections.forEach(section => {
-        const element = document.getElementById(section.id);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
+      sectionElements.forEach(section => {
+        if (section) {
+          const { offsetTop, offsetHeight } = section;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             currentSection = section.id;
           }

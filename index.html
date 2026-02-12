@@ -175,7 +175,7 @@
       .font-medium { font-weight: 500; }
     </style>
     <!-- Load fonts asynchronously to reduce critical request chains -->
-    <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low">
+    <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/fonts/fonts.css?v=0.1.2"></noscript>
     
     <!-- Preload critical resources to reduce critical request chains -->

@@ -178,8 +178,8 @@
     <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/fonts/fonts.css?v=0.1.2"></noscript>
     
-    <!-- Preload critical resources to reduce critical request chains -->
-    <link rel="preload" href="/assets/index.Dcw2KRt9.css" as="style" fetchpriority="high">
+    <!-- Load non-critical CSS asynchronously to avoid render-blocking -->
+    <link rel="preload" href="/assets/index.Dcw2KRt9.css" as="style" fetchpriority="high" media="print" onload="this.media='all'">
     
     <!-- 2. LCP optimization handled by fetchpriority="high" on the image element -->
     

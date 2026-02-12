@@ -47,7 +47,7 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
   const isMobile = useIsMobile();
   
   return (
-    <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-yellow-100" titleColor="text-yellow-700">
+    <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-yellow-100 dark:bg-yellow-900" titleColor="text-yellow-700">
       <div className={`space-y-6 ${isMobile ? "space-y-4" : ""}`}>
         <div className="space-y-3">
           <Label className="font-medium">Aktivitäten & Interessen</Label>

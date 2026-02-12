@@ -14,7 +14,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const isMobile = useIsMobile();
   
   return (
-    <SectionCard icon="🚐" title="Fahrzeugspezifische Filter" iconColor="bg-green-100" titleColor="text-green-700">
+    <SectionCard icon="🚐" title="Fahrzeugspezifische Filter" iconColor="bg-green-100 dark:bg-green-900" titleColor="text-green-700">
       <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-3 gap-6"}`}>
         <FormSlider
           id="vehicleLength"

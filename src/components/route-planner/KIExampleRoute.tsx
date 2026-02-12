@@ -383,7 +383,7 @@ export function KIExampleRoute() {
             {/* Wichtige Hinweise */}
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               {exampleRoute.importantNotes.map((note, index) => (
-                <div key={index} className="bg-white p-3 rounded-lg border">
+                <div key={index} className="bg-background p-3 rounded-lg border">
                   <div className="flex items-start gap-3">
                     <div className="bg-primary/10 p-2 rounded-lg">
                       <note.icon className="h-5 w-5 text-primary" />
@@ -524,7 +524,7 @@ export function KIExampleRoute() {
                               Übernachtungsmöglichkeiten
                             </h4>
                             {day.campsites.map((campsite, i) => (
-                              <div key={i} className="bg-white p-4 rounded-lg border">
+                              <div key={i} className="bg-background p-4 rounded-lg border">
                                 <div className="flex justify-between items-start">
                                   <div>
                                     <h5 className="font-medium">{campsite.name}</h5>

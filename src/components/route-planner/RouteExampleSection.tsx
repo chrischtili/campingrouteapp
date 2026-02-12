@@ -39,7 +39,7 @@ const stages = [
 
 export function RouteExampleSection() {
   return (
-    <section id="example-route" className="py-24 px-4" style={{ backgroundColor: 'rgb(250, 244, 235)' }}>
+    <section id="example-route" className="py-24 px-4 bg-[rgb(250,244,235)] dark:bg-gray-900" id="example-route">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export function RouteExampleSection() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 md:-translate-x-px" />
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700 md:-translate-x-px" />
 
           {stages.map((stage, i) => {
             const Icon = stage.icon;
@@ -80,12 +80,12 @@ export function RouteExampleSection() {
                 }`}
               >
                 {/* Timeline dot */}
-                <div className="absolute left-6 md:left-1/2 w-3 h-3 rounded-full bg-[#F59B0A] border-4 border-white -translate-x-1.5 mt-6 z-10" />
+                <div className="absolute left-6 md:left-1/2 w-3 h-3 rounded-full bg-[#F59B0A] border-4 border-background -translate-x-1.5 mt-6 z-10" />
 
                 {/* Card */}
                 <div className={`ml-16 md:ml-0 md:w-[calc(50%-2rem)] ${isRight ? "md:mr-auto md:ml-8" : "md:ml-auto md:mr-8"}`}>
-                  <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <div className="flex items-center gap-2 text-[#F59B0A] font-semibold text-xs uppercase tracking-wider mb-2">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div className="flex items-center gap-2 text-[#F59B0A] dark:text-[#F59B0A] font-semibold text-xs uppercase tracking-wider mb-2">
                       <Icon className="w-4 h-4" />
                       Etappe {i + 1}
                     </div>
@@ -127,7 +127,7 @@ export function RouteExampleSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-12 bg-white rounded-2xl p-6 shadow-sm flex flex-wrap items-center justify-center gap-8 text-center"
+          className="mt-12 bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-sm flex flex-wrap items-center justify-center gap-8 text-center"
         >
           {[
             { label: "Gesamtstrecke", value: "620 km" },
@@ -150,33 +150,33 @@ export function RouteExampleSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-8 bg-white rounded-2xl p-6 shadow-sm"
+          className="mt-8 bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-sm"
         >
           <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-            <span className="text-[#F59B0A]">●</span>
+            <span className="text-[#F59B0A] dark:text-[#F59B0A]">●</span>
             Praktische Tipps für deine Reise
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="flex items-start gap-2">
-              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-[#F59B0A] dark:text-[#F59B0A] mt-1">●</span>
               <span className="text-muted-foreground">
                 Navigation: Nutze Sygic Truck oder Garmin Camper Navi für 5,5t/3,3m Höhe
               </span>
             </div>
             <div className="flex items-start gap-2">
-              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-[#F59B0A] dark:text-[#F59B0A] mt-1">●</span>
               <span className="text-muted-foreground">
                 Tankstellen: Günstigere Preise in Thüringen (A71)
               </span>
             </div>
             <div className="flex items-start gap-2">
-              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-[#F59B0A] dark:text-[#F59B0A] mt-1">●</span>
               <span className="text-muted-foreground">
                 Geschwindigkeitsbegrenzung: 80-100 km/h für Fahrzeuge über 3,5t
               </span>
             </div>
             <div className="flex items-start gap-2">
-              <span className="text-[#F59B0A] mt-1">●</span>
+              <span className="text-[#F59B0A] dark:text-[#F59B0A] mt-1">●</span>
               <span className="text-muted-foreground">
                 Apps: Park4Night & Promobil Stellplatz-Radar
               </span>

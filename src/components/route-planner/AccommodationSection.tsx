@@ -48,7 +48,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   const isMobile = useIsMobile();
   
   return (
-    <SectionCard icon="🏕️" title="Übernachtungsoptionen" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-pink-100" titleColor="text-pink-700">
+    <SectionCard icon="🏕️" title="Übernachtungsoptionen" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-pink-100 dark:bg-pink-900" titleColor="text-pink-700">
       <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-3 gap-6"}`}>
         {/* Row 1 */}
         <div className="space-y-3">

@@ -5,17 +5,17 @@ export function Footer() {
   return (
     <>
       {/* Main Footer - Design aus camping-route-plus mit dunkelgrünlicher Hintergrundfarbe */}
-      <footer className="py-12 px-4 mt-16" style={{ backgroundColor: 'rgb(21, 40, 34)' }}>
+      <footer className="py-12 px-4 bg-[rgb(50,110,89)] dark:bg-[rgb(31,41,55)]">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
-            <p className="text-sm text-white/70 text-center">
+            <p className="text-sm text-white dark:text-foreground/70 text-center">
               © {new Date().getFullYear()} Camping Route · KI-Routenplaner für Wohnmobile
             </p>
           </div>
           
           {/* Deine Links - Impressum und Datenschutz (zentriert) */}
-          <div className="border-t border-green-800 pt-6">
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-white/80">
+          <div className="border-t border-white dark:border-white/20 pt-6">
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-white dark:text-foreground/80">
               <Link to="/impressum" className="hover:text-[#F59B0A] transition-colors">
                 Impressum
               </Link>
@@ -30,7 +30,7 @@ export function Footer() {
               </a>
             </div>
             {/* MIT Lizenz in den dunklen Footer verschoben */}
-            <div className="text-xs text-white/80 text-center mt-4">
+            <div className="text-xs text-foreground/80 text-center mt-4">
               <a href="https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE" target="_blank" 
                  rel="noopener noreferrer" className="hover:text-[#F59B0A] transition-colors">
                 MIT Lizenz

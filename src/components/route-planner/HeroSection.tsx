@@ -11,7 +11,7 @@ export function HeroSection() {
           alt="Wohnmobil auf malerischer Bergstraße bei Sonnenuntergang"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40 dark:from-black/80 dark:to-black/70" />
       </div>
 
       {/* Content */}
@@ -32,7 +32,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-0 md:mb-6 leading-tight pt-6 md:pt-0"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white dark:text-foreground mb-0 md:mb-6 leading-tight pt-6 md:pt-0"
         >
           Camping Route
         </motion.h1>
@@ -41,7 +41,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-xl md:text-2xl text-white/80 font-light mb-16 max-w-2xl mx-auto pt-10"
+          className="text-xl md:text-2xl text-white/80 dark:text-foreground/80 font-light mb-16 max-w-2xl mx-auto pt-10"
         >
           Plane deine perfekte Wohnmobil-Reise mit KI-gestützter Routenplanung
           und intelligenten Empfehlungen.
@@ -55,14 +55,14 @@ export function HeroSection() {
         >
           <a
             href="#planner"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white font-semibold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white dark:text-foreground font-semibold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
           >
             <MapPin className="w-5 h-5" />
             Route jetzt planen
           </a>
           <a
             href="#example-route"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-white/30 text-white font-medium text-lg hover:bg-white/10 transition-colors duration-200"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-white/30 text-white dark:text-foreground font-medium text-lg hover:bg-white/10 dark:hover:bg-foreground/10 transition-colors duration-200"
           >
             Beispielroute ansehen
           </a>
@@ -73,12 +73,12 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-4 text-white/60 text-sm"
+          className="mt-12 flex flex-wrap items-center justify-center gap-4 text-white/60 dark:text-foreground/60 text-sm"
         >
           <span>★★★★★ 4.7/5 Bewertung</span>
-          <span className="w-1 h-1 rounded-full bg-white/40 hidden sm:block" />
+          <span className="w-1 h-1 rounded-full bg-white/40 dark:bg-foreground/40 hidden sm:block" />
           <span>1.000+ geplante Routen</span>
-          <span className="w-1 h-1 rounded-full bg-white/40 hidden sm:block" />
+          <span className="w-1 h-1 rounded-full bg-white/40 dark:bg-foreground/40 hidden sm:block" />
           <span>100% kostenlos</span>
         </motion.div>
       </div>

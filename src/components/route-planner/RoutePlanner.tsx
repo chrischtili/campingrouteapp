@@ -229,7 +229,7 @@ export function RoutePlanner() {
       <RouteExampleSection />
 
       {/* Main Content - Step-by-Step Assistant */}
-      <section id="planner" className="py-24 px-4" style={{ backgroundColor: 'rgb(252, 250, 248)' }}>
+      <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800" id="planner">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -238,7 +238,7 @@ export function RoutePlanner() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
+            <span className="text-[#F59B0A] dark:text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
               Routenplaner
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
@@ -260,7 +260,7 @@ export function RoutePlanner() {
                     disabled={!completedSteps.includes(i + 1) && currentStep !== i + 1}
                     className={`flex flex-col items-center gap-1.5 transition-all duration-300 ${
                       isActive
-                        ? "text-[#F59B0A] scale-110"
+                        ? "text-[#F59B0A] dark:text-[#F59B0A] scale-110"
                         : isDone
                         ? "text-primary"
                         : "text-muted-foreground/40 cursor-not-allowed"
@@ -269,10 +269,10 @@ export function RoutePlanner() {
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isActive
-                          ? "bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white shadow-lg"
+                          ? "bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white dark:text-foreground shadow-lg"
                           : isDone
-                          ? "bg-[rgb(50,110,89)] text-white"
-                          : "bg-gray-200 text-gray-400"
+                          ? "bg-[rgb(50,110,89)] text-white dark:text-foreground"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-300"
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -285,9 +285,9 @@ export function RoutePlanner() {
               })}
             </div>
             {/* Progress line */}
-            <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] rounded-full transition-all duration-300"
+                className="h-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] dark:from-[#F59B0A] dark:to-[#E67E22] rounded-full transition-all duration-300"
                 style={{ width: `${((currentStep) / steps.length) * 100}%` }}
               />
             </div>
@@ -299,7 +299,7 @@ export function RoutePlanner() {
             <div className="space-y-6">
               {/* Step 1: KI-Einstellungen */}
               {currentStep === 1 && (
-                <div id="step-1" ref={aiSettingsSectionRef}>
+                <div id="step-1" className="bg-gray-50 dark:bg-gray-900">
                   <AISettingsSection 
                     aiSettings={aiSettings}
                     onAISettingsChange={handleAISettingsChange}
@@ -310,7 +310,7 @@ export function RoutePlanner() {
               
               {/* Step 2: Reiseroute */}
               {currentStep === 2 && (
-                <div id="step-2">
+                <div id="step-2" className="bg-white dark:bg-gray-800">
                   <RouteSection 
                     formData={formData}
                     onChange={handleFormChange}
@@ -320,7 +320,7 @@ export function RoutePlanner() {
               
               {/* Step 3: Routenoptimierung */}
               {currentStep === 3 && (
-                <div id="step-3">
+                <div id="step-3" className="bg-gray-50 dark:bg-gray-900">
                   <RouteOptimizationSection 
                     formData={formData}
                     onCheckboxChange={handleCheckboxChange}
@@ -330,7 +330,7 @@ export function RoutePlanner() {
               
               {/* Step 4: Fahrzeug */}
               {currentStep === 4 && (
-                <div id="step-4">
+                <div id="step-4" className="bg-white dark:bg-gray-800">
                   <VehicleSection 
                     formData={formData}
                     onChange={handleFormChange}
@@ -340,7 +340,7 @@ export function RoutePlanner() {
               
               {/* Step 5: Übernachtung */}
               {currentStep === 5 && (
-                <div id="step-5">
+                <div id="step-5" className="bg-gray-50 dark:bg-gray-900">
                   <AccommodationSection 
                     formData={formData}
                     onChange={handleFormChange}
@@ -351,7 +351,7 @@ export function RoutePlanner() {
               
               {/* Step 6: Aktivitäten */}
               {currentStep === 6 && (
-                <div id="step-6">
+                <div id="step-6" className="bg-white dark:bg-gray-800">
                   <ActivitiesSection 
                     formData={formData}
                     onChange={handleFormChange}
@@ -362,32 +362,32 @@ export function RoutePlanner() {
               
               {/* Step 7: Zusammenfassung & Generierung */}
               {currentStep === 7 && (
-                <div id="step-7">
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                <div id="step-7" className="bg-gray-50 dark:bg-gray-900">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-700">
                     <div className="mb-4">
-                      <h3 className="text-lg font-semibold" style={{ color: 'rgb(50, 110, 89)' }}>
+                      <h3 className="text-lg font-semibold text-primary">
                         <span className="inline-flex items-center gap-2">
-                          <span className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
+                          <span className="w-10 h-10 rounded-full flex items-center justify-center text-white dark:text-foreground bg-primary">
                             📋
                           </span>
                           Zusammenfassung Ihrer Route
                         </span>
                       </h3>
-                      <div className="h-px bg-gray-200 mt-2 -mx-4" />
+                      <div className="h-px bg-gray-200 dark:bg-gray-700 mt-2 -mx-4" />
                     </div>
                     
                     <div className="space-y-3 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Startpunkt:</span>
-                        <span className="font-medium">{formData.startPoint || 'Nicht angegeben'}</span>
+                        <span className="text-foreground">Startpunkt:</span>
+                        <span className="font-medium text-foreground">{formData.startPoint || 'Nicht angegeben'}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Ziel:</span>
-                        <span className="font-medium">{formData.destination || 'Nicht angegeben'}</span>
+                        <span className="text-foreground">Ziel:</span>
+                        <span className="font-medium text-foreground">{formData.destination || 'Nicht angegeben'}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">KI-Methode:</span>
-                        <span className="font-medium">{aiSettings.useDirectAI ? 'Direkte KI-Generierung' : 'Prompt-Generierung'}</span>
+                        <span className="text-foreground">KI-Methode:</span>
+                        <span className="font-medium text-foreground">{aiSettings.useDirectAI ? 'Direkte KI-Generierung' : 'Prompt-Generierung'}</span>
                       </div>
                     </div>
                   </div>
@@ -398,13 +398,13 @@ export function RoutePlanner() {
 
             {/* Navigation Buttons - Nur anzeigen, wenn wir uns in einem der Schritte befinden */}
             {currentStep <= steps.length && (
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-gray-200">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
                 {currentStep > 1 && (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="gap-2 w-full md:w-auto rounded-full"
+                    className="gap-2 w-full md:w-auto rounded-full text-foreground"
                   >
                     <ChevronLeft className="h-4 w-4" />
                     Zurück
@@ -417,7 +417,7 @@ export function RoutePlanner() {
                       type="button"
                       onClick={nextStep}
                       disabled={!isStepValid()}
-                      className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white w-full md:w-auto rounded-full"
+                      className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground w-full md:w-auto rounded-full"
                     >
                       Weiter
                       <ChevronRight className="h-4 w-4" />
@@ -427,7 +427,7 @@ export function RoutePlanner() {
                       type="button"
                       onClick={handleSubmit}
                       size="lg"
-                      className="gap-2 px-4 md:px-6 bg-[#F59B0A] hover:bg-[#E67E22] text-white w-full md:w-auto rounded-full"
+                      className="gap-2 px-4 md:px-6 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground w-full md:w-auto rounded-full"
                       disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
                     >
                       <MapPin className="h-5 w-5" />

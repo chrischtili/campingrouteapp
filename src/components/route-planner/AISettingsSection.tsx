@@ -37,7 +37,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const currentModelKey = `${currentProvider}Model` as keyof AISettings;
   
   return (
-    <SectionCard icon="🤖" title="KI-Einstellungen" iconColor="bg-purple-100" titleColor="text-purple-700">
+    <SectionCard icon="🤖" title="KI-Einstellungen" iconColor="bg-purple-100 dark:bg-purple-900" titleColor="text-purple-700">
       <div className="space-y-6">
         {/* Mode Selection */}
         <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
@@ -46,8 +46,8 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             onClick={() => onAISettingsChange({ useDirectAI: false })}
             className={`p-4 rounded-lg border-2 text-left transition-all cursor-pointer ${
               !aiSettings.useDirectAI 
-                ? 'border-orange-500 bg-orange-50 shadow-sm' 
-                : 'border-border bg-background hover:border-orange-500 hover:bg-orange-50 hover:shadow-sm'
+                ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20 shadow-sm' 
+                : 'border-border bg-background hover:border-orange-500 hover:bg-orange-50 hover:dark:bg-orange-900/20 hover:shadow-sm'
             }`}
           >
             <div className="flex items-center gap-3 mb-2">
@@ -64,8 +64,8 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             onClick={() => onAISettingsChange({ useDirectAI: true })}
             className={`p-4 rounded-lg border-2 text-left transition-all cursor-pointer ${
               aiSettings.useDirectAI 
-                ? 'border-orange-500 bg-orange-50 shadow-sm' 
-                : 'border-border bg-background hover:border-orange-500 hover:bg-orange-50 hover:shadow-sm'
+                ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20 shadow-sm' 
+                : 'border-border bg-background hover:border-orange-500 hover:bg-orange-50 hover:dark:bg-orange-900/20 hover:shadow-sm'
             }`}
           >
             <div className="flex items-center gap-3 mb-2">
@@ -155,7 +155,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg text-sm">
+            <div className="flex items-start gap-3 p-3 bg-muted/50 dark:bg-muted/30 rounded-lg text-sm">
               <ExternalLink className="h-4 w-4 mt-0.5 text-primary" />
               <div>
                 <a 
@@ -169,9 +169,9 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 bg-accent/50 rounded-lg text-sm">
+            <div className="flex items-center gap-3 p-3 bg-accent/50 dark:bg-accent/30 rounded-lg text-sm">
               <Lock className="h-4 w-4 text-primary" />
-              <p className="text-muted-foreground">
+              <p className="text-foreground dark:text-muted-foreground">
                 Deine API-Schlüssel werden <strong className="text-foreground">niemals gespeichert</strong> und 
                 verlassen <strong className="text-foreground">niemals deinen Browser</strong>.
               </p>

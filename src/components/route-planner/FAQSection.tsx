@@ -10,36 +10,36 @@ const faqs = [
   {
     q: "Ist Camping Route kostenlos?",
     a: (
-      <div className="space-y-3">
+      <div className="space-y-4">
         <p><strong>✅ Ja, komplett kostenlos!</strong></p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-gray-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-2">
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2">
               <span>📝</span> Ohne API:
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-sm">
+            <ul className="list-disc list-inside space-y-2 text-sm">
               <li>Prompt-Generierung</li>
               <li>Keine Kosten</li>
-              <li>Volle Kontrolle über den Prozess</li>
+              <li>Volle Kontrolle</li>
             </ul>
           </div>
-          <div className="bg-gray-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-2">
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2">
               <span>🤖</span> Mit API:
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-sm">
+            <ul className="list-disc list-inside space-y-2 text-sm">
               <li>Direkte Routengenerierung</li>
-              <li>API-Kosten trägst du selbst (~5-12 Cent pro Anfrage)</li>
+              <li>API-Kosten (~5-12 Cent)</li>
               <li>Schnellere Ergebnisse</li>
             </ul>
           </div>
         </div>
-        <div className="bg-blue-50 p-3 rounded-lg text-sm">
-          <p className="flex items-center gap-2 mb-1">
+        <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
+          <p className="flex items-center gap-2 mb-2">
             <span>ℹ️</span>
-            <strong>Keine versteckten Kosten:</strong>
+            <strong>Keine versteckten Kosten</strong>
           </p>
-          <p>Keine Abonnements, keine versteckten Gebühren. Du zahlst nur für deine eigene API-Nutzung, wenn du dich dafür entscheidest.</p>
+          <p className="text-sm">Keine Abos, keine Gebühren - nur optionale API-Kosten.</p>
         </div>
       </div>
     ),
@@ -48,33 +48,33 @@ const faqs = [
     q: "Welches KI-Modell sollte ich wählen?",
     a: (
       <div>
-        <p className="mb-3"><strong>Empfehlung:</strong> Google Gemini 3 Pro Preview für beste Ergebnisse</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div className="bg-yellow-50 p-3 rounded-lg">
-            <h4 className="font-normal mb-2 flex items-center gap-1 text-sm font-sans">
+        <p className="mb-4"><strong>Empfehlung:</strong> Google Gemini 3 Pro Preview</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm">
               <span>🌟</span> Google/Gemini
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-xs">
-              <li>Beste geografische Abdeckung</li>
+            <ul className="list-disc list-inside space-y-2 text-xs">
+              <li>Beste geografische Daten</li>
               <li>Präzise Stellplatz-Empfehlungen</li>
-              <li>Aktuellste Daten</li>
+              <li>Aktuellste Informationen</li>
             </ul>
           </div>
-          <div className="bg-green-50 p-3 rounded-lg">
-            <h4 className="font-normal mb-2 flex items-center gap-1 text-sm font-sans">
+          <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm">
               <span>🤖</span> OpenAI/GPT5.2
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-xs">
+            <ul className="list-disc list-inside space-y-2 text-xs">
               <li>Maximale Detailtiefe</li>
               <li>Komplexe Routenplanung</li>
               <li>Höchste Sprachqualität</li>
             </ul>
           </div>
-          <div className="bg-purple-50 p-3 rounded-lg">
-            <h4 className="font-normal mb-2 flex items-center gap-1 text-sm font-sans">
+          <div className="bg-purple-50 dark:bg-purple-900 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm">
               <span>⚡</span> Mistral AI
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-xs">
+            <ul className="list-disc list-inside space-y-2 text-xs">
               <li>Europäisch optimiert</li>
               <li>Kosteneffizient</li>
               <li>Schnelle Antworten</li>
@@ -88,35 +88,35 @@ const faqs = [
     q: "Was macht Camping Route einzigartig?",
     a: (
       <div>
-        <p className="mb-3"><strong>Der einzige KI-Routenplaner speziell für Wohnmobile!</strong></p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div className="bg-gray-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
-              <span>🎯</span> Präzise Filter:
+        <p className="mb-4"><strong>Der einzige KI-Routenplaner speziell für Wohnmobile!</strong></p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2">
+              <span>🎯</span> Präzise Filter
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-sm">
+            <ul className="list-disc list-inside space-y-2 text-sm">
               <li>Fahrzeugdaten (Größe, Gewicht)</li>
               <li>Budget (günstig bis premium)</li>
               <li>Interessen (Natur, Stadt, Familie)</li>
             </ul>
           </div>
-          <div className="bg-gray-50 p-3 rounded-lg">
-            <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
-              <span>🗺️</span> Intelligente Routen:
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+            <h4 className="font-semibold mb-3 flex items-center gap-2">
+              <span>🗺️</span> Intelligente Routen
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-sm">
+            <ul className="list-disc list-inside space-y-2 text-sm">
               <li>Stellplätze nach deinen Kriterien</li>
               <li>Lokale Attraktionen</li>
               <li>Optimale Etappenplanung</li>
             </ul>
           </div>
         </div>
-        <div className="bg-blue-50 p-3 rounded-lg mt-3 text-sm">
-          <p className="flex items-center gap-2 mb-1">
+        <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mt-4">
+          <p className="flex items-center gap-2 mb-2">
             <span>💡</span>
-            <strong>Transparenter Prozess:</strong>
+            <strong>Transparenter Prozess</strong>
           </p>
-          <p>Du behältst immer die Kontrolle - keine "Black Box" Ergebnisse wie bei anderen Planern!</p>
+          <p className="text-sm">Volle Kontrolle - keine "Black Box" Ergebnisse!</p>
         </div>
       </div>
     ),
@@ -126,37 +126,30 @@ const faqs = [
     a: (
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-orange-50 p-4 rounded-lg text-center">
-            <div className="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-orange-600 text-xl">📝</span>
-            </div>
-            <h4 className="font-semibold mb-2">Ohne API (kostenlos)</h4>
-            <ul className="list-disc list-inside space-y-1 text-sm text-left">
+          <div className="bg-orange-50 dark:bg-orange-900 p-4 rounded-lg text-center">
+            <h4 className="font-semibold mb-3">Ohne API (kostenlos)</h4>
+            <ul className="list-disc list-inside space-y-2 text-sm text-left">
               <li>Optimierter Prompt</li>
-              <li>Für deine bevorzugte KI</li>
+              <li>Für deine KI</li>
               <li>Volle Kontrolle</li>
               <li>Keine Kosten</li>
             </ul>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg text-center">
-            <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-green-600 text-xl">⚡</span>
-            </div>
-            <h4 className="font-semibold mb-2">Mit API (Kosten ~8-12 Cent)</h4>
-            <ul className="list-disc list-inside space-y-1 text-sm text-left">
+          <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg text-center">
+            <h4 className="font-semibold mb-3">Mit API (~8-12 Cent)</h4>
+            <ul className="list-disc list-inside space-y-2 text-sm text-left">
               <li>Direkte Routengenerierung</li>
-              <li>Fertige Route mit Details</li>
+              <li>Fertige Route</li>
               <li>Schnelleres Ergebnis</li>
-              <li>API-Kosten trägst du</li>
+              <li>API-Kosten</li>
             </ul>
           </div>
         </div>
-        <div className="bg-gray-50 p-3 rounded-lg mt-4 text-sm">
-          <p className="flex items-center gap-2 mb-1">
-            <span>ℹ️</span>
-            <strong>Tipp:</strong>
+        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mt-4">
+          <p className="mb-2">
+            <strong>Tipp</strong>
           </p>
-          <p>Probiere zuerst die kostenlose Prompt-Generierung aus, bevor du eine API einbindest!</p>
+          <p className="text-sm">Probiere zuerst die kostenlose Version aus!</p>
         </div>
       </div>
     ),
@@ -164,47 +157,32 @@ const faqs = [
   {
     q: "Wie werden meine Daten geschützt?",
     a: (
-      <div className="flex flex-col md:flex-row gap-4 items-start">
-        <div className="flex-shrink-0">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-            <span className="text-red-600 text-2xl">🔒</span>
-          </div>
-        </div>
-        <div className="flex-1">
-          <p className="mb-3"><strong>100% lokal - 100% sicher!</strong></p>
-          <ul className="list-disc list-inside space-y-2">
-            <li><strong>Keine Cloud-Speicherung:</strong> Alle Daten bleiben in deinem Browser</li>
-            <li><strong>Keine Tracking-Cookies:</strong> Wir sammeln keine Nutzerdaten</li>
-            <li><strong>DSGVO-konform:</strong> Keine Datenweitergabe an Dritte</li>
-            <li><strong>Offline-fähig:</strong> Einmal generierte Routen kannst du offline nutzen</li>
-          </ul>
-        </div>
+      <div>
+        <p className="mb-3"><strong>100% lokal - 100% sicher!</strong></p>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Keine Cloud-Speicherung</strong></li>
+          <li><strong>Keine Tracking-Cookies</strong></li>
+          <li><strong>DSGVO-konform</strong></li>
+          <li><strong>Offline-fähig</strong></li>
+        </ul>
       </div>
     ),
   },
   {
     q: "Kann ich Routen offline nutzen?",
     a: (
-      <div className="flex flex-col md:flex-row gap-4 items-start">
-        <div className="flex-shrink-0">
-          <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center">
-            <span className="text-indigo-600 text-2xl">📱</span>
-          </div>
-        </div>
-        <div className="flex-1">
-          <p className="mb-3"><strong>Ja, komplett offline-fähig!</strong></p>
-          <ul className="list-disc list-inside space-y-2">
-            <li><strong>Exportieren:</strong> Als Text kopieren oder PDF herunterladen</li>
-            <li><strong>Speichern:</strong> Alle Daten bleiben auf deinem Gerät</li>
-            <li><strong>Nutzen:</strong> Ohne Internetverbindung verwenden</li>
-            <li><strong>Teilen:</strong> Per E-Mail oder Messenger versenden</li>
-          </ul>
-          <div className="bg-yellow-50 p-3 rounded-lg mt-3 text-sm">
-            <p className="flex items-center gap-2">
-              <span>💡</span>
-              <strong>Tipp:</strong> Lade deine Route vor der Reise herunter, um unterwegs ohne Internet darauf zugreifen zu können!
-            </p>
-          </div>
+      <div>
+        <p className="mb-3"><strong>Ja, komplett offline-fähig!</strong></p>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Exportieren</strong> als Text/PDF</li>
+          <li><strong>Speichern</strong> auf deinem Gerät</li>
+          <li><strong>Nutzen</strong> ohne Internet</li>
+          <li><strong>Teilen</strong> per E-Mail/Messenger</li>
+        </ul>
+        <div className="bg-yellow-50 dark:bg-yellow-900 p-3 rounded-lg mt-3">
+          <p className="text-sm">
+            <strong>Tipp:</strong> Lade Routen vor der Reise herunter!
+          </p>
         </div>
       </div>
     ),
@@ -212,34 +190,30 @@ const faqs = [
   {
     q: "Welche Fahrzeugtypen werden unterstützt?",
     a: (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="bg-teal-50 p-3 rounded-lg text-center">
-          <div className="w-12 h-12 bg-teal-200 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <span className="text-teal-600 text-xl">🚐</span>
-          </div>
-          <p className="text-sm font-medium">Wohnmobile</p>
-          <p className="text-xs text-gray-600">Voll unterstützt</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-teal-50 dark:bg-teal-900 p-6 rounded-xl text-center border border-teal-200 dark:border-teal-800 shadow-sm">
+          <h3 className="font-semibold text-foreground mb-3">Wohnmobile</h3>
+          <span className="inline-flex items-center gap-1 text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
+            ✅ Voll unterstützt
+          </span>
         </div>
-        <div className="bg-teal-50 p-3 rounded-lg text-center">
-          <div className="w-12 h-12 bg-teal-200 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <span className="text-teal-600 text-xl">🏕️</span>
-          </div>
-          <p className="text-sm font-medium">Camper</p>
-          <p className="text-xs text-gray-600">Voll unterstützt</p>
+        <div className="bg-teal-50 dark:bg-teal-900 p-6 rounded-xl text-center border border-teal-200 dark:border-teal-800 shadow-sm">
+          <h3 className="font-semibold text-foreground mb-3">Camper</h3>
+          <span className="inline-flex items-center gap-1 text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
+            ✅ Voll unterstützt
+          </span>
         </div>
-        <div className="bg-gray-50 p-3 rounded-lg text-center opacity-70">
-          <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <span className="text-gray-400 text-xl">🚛</span>
-          </div>
-          <p className="text-sm font-medium">Wohnwagen</p>
-          <p className="text-xs text-gray-500">In Planung</p>
+        <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center border border-gray-200 dark:border-gray-700 shadow-sm opacity-80">
+          <h3 className="font-semibold text-foreground mb-3">Wohnwagen</h3>
+          <span className="inline-flex items-center gap-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+            🕒 In Planung
+          </span>
         </div>
-        <div className="bg-gray-50 p-3 rounded-lg text-center opacity-70">
-          <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <span className="text-gray-400 text-xl">🏍️</span>
-          </div>
-          <p className="text-sm font-medium">Motorräder</p>
-          <p className="text-xs text-gray-500">Geplant</p>
+        <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center border border-gray-200 dark:border-gray-700 shadow-sm opacity-80">
+          <h3 className="font-semibold text-foreground mb-3">Motorräder</h3>
+          <span className="inline-flex items-center gap-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+            🕒 Geplant
+          </span>
         </div>
       </div>
     ),
@@ -248,7 +222,7 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="py-24 px-4" style={{ backgroundColor: 'rgb(250, 244, 235)' }}>
+    <section id="faq" className="py-24 px-4 bg-[rgb(250,244,235)] dark:bg-gray-900" id="faq">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -276,15 +250,15 @@ export function FAQSection() {
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="bg-white rounded-xl px-6 border-none shadow-sm"
+                className="rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden"
               >
-                <AccordionTrigger 
+                <AccordionTrigger
                   id={i === 1 ? "model-selection-faq" : undefined}
-                  className="font-normal text-foreground text-left hover:no-underline py-5 text-lg md:text-xl font-sans"
+                  className="font-normal text-foreground hover:no-underline py-5 text-lg md:text-xl font-sans px-6 w-full"
                 >
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-5 leading-relaxed font-sans">
+                <AccordionContent className="text-foreground dark:text-white pt-4 pb-6 leading-relaxed font-sans px-6">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>

@@ -24,7 +24,7 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-24 px-4" style={{ backgroundColor: 'rgb(252, 250, 248)' }} id="testimonials">
+    <section className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800" id="testimonials">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -49,14 +49,14 @@ export function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="relative rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300" style={{ backgroundColor: 'rgb(250, 248, 245)' }}
+              className="relative rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 bg-background"
             >
               <Quote className="w-8 h-8 text-[#F59B0A]/30 mb-4" />
               <div className="flex gap-0.5 mb-4">
                 {Array.from({ length: 5 }).map((_, j) => (
                   <Star
                     key={j}
-                    className={`w-4 h-4 ${j < t.rating ? "text-[#F59B0A] fill-[#F59B0A]" : "text-gray-300"}`}
+                    className={`w-4 h-4 ${j < t.rating ? "text-[#F59B0A] fill-[#F59B0A]" : "text-gray-300 dark:text-gray-400"}`}
                   />
                 ))}
               </div>
@@ -64,7 +64,7 @@ export function TestimonialsSection() {
                 "{t.text}"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white dark:text-foreground font-bold text-sm bg-[rgb(50,110,89)] dark:bg-[rgb(80,140,119)]">
                   {t.author[0]}
                 </div>
                 <div>

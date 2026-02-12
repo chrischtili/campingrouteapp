@@ -23,7 +23,7 @@ export function SectionCard({ icon, title, subtitle, children, className = "", i
             <div className="flex flex-col">
               <span className={titleColor} style={{ color: 'rgb(50, 110, 89)' }}>{title}</span>
               {subtitle && (
-                <span className="text-sm font-normal text-muted-foreground">{subtitle}</span>
+                <span className="text-sm font-normal text-muted-foreground dark:text-foreground">{subtitle}</span>
               )}
             </div>
           </div>

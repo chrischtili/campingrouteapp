@@ -36,7 +36,7 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 px-4" style={{ backgroundColor: 'rgb(250 244 235)' }} id="features">
+    <section className="py-24 px-4 bg-[rgb(250,244,235)] dark:bg-gray-900" id="features">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -63,10 +63,10 @@ export function FeaturesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-white rounded-2xl p-7 shadow-sm hover:shadow-md transition-shadow duration-300 group"
+                className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-7 shadow-sm hover:shadow-md transition-shadow duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: 'rgb(50, 110, 89)' }}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 bg-[rgb(50,110,89)] dark:bg-[rgb(80,140,119)]">
+                  <Icon className="w-6 h-6 text-white dark:text-foreground" />
                 </div>
                 <h3 className="font-bold text-lg text-foreground mb-2">{f.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">

@@ -229,7 +229,7 @@ export function RoutePlanner() {
       <RouteExampleSection />
 
       {/* Main Content - Step-by-Step Assistant */}
-      <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800" id="planner">
+      <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

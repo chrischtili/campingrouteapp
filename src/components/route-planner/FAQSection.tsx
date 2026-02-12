@@ -222,7 +222,7 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="py-24 px-4 bg-[rgb(250,244,235)] dark:bg-gray-900" id="faq">
+    <section id="faq" className="py-24 px-4 bg-[rgb(250,244,235)] dark:bg-gray-900">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

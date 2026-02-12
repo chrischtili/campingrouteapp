@@ -25,11 +25,11 @@ import { FAQSection } from "./FAQSection";
 import { AnchorNavigation } from "./AnchorNavigation";
 import { Navbar } from "./Navbar";
 
-// Dynamische Importe für nicht kritische Komponenten
-const DynamicFeaturesSection = lazy(() => import("./FeaturesSection"));
-const DynamicTestimonialsSection = lazy(() => import("./TestimonialsSection"));
-const DynamicRouteExampleSection = lazy(() => import("./RouteExampleSection"));
-const DynamicFAQSection = lazy(() => import("./FAQSection"));
+// Dynamische Importe für nicht kritische Komponenten (vorübergehend deaktiviert)
+// const DynamicFeaturesSection = lazy(() => import("./FeaturesSection"));
+// const DynamicTestimonialsSection = lazy(() => import("./TestimonialsSection"));
+// const DynamicRouteExampleSection = lazy(() => import("./RouteExampleSection"));
+// const DynamicFAQSection = lazy(() => import("./FAQSection"));
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -225,20 +225,14 @@ export function RoutePlanner() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Features Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800"></div>}>
-        <DynamicFeaturesSection />
-      </Suspense>
+      {/* Features Section */}
+      <FeaturesSection />
 
-      {/* Testimonials Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-64 bg-gray-50 dark:bg-gray-900"></div>}>
-        <DynamicTestimonialsSection />
-      </Suspense>
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
-      {/* Route Example Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-96 bg-white dark:bg-gray-800"></div>}>
-        <DynamicRouteExampleSection />
-      </Suspense>
+      {/* Route Example Section */}
+      <RouteExampleSection />
 
       {/* Main Content - Step-by-Step Assistant */}
       <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
@@ -465,10 +459,8 @@ export function RoutePlanner() {
           </div>
       </section>
 
-      {/* FAQ Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-96 bg-gray-50 dark:bg-gray-900"></div>}>
-        <DynamicFAQSection />
-      </Suspense>
+      {/* FAQ Section */}
+      <FAQSection />
 
       {/* Footer */}
       <Footer />

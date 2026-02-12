@@ -25,15 +25,14 @@ if (typeof window !== 'undefined') {
     fetch('/api/count-visit', { method: 'POST' })
       .catch(() => {}); // Fehler ignorieren, da nicht kritisch
   }
-}
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (systemPrefersDark) {
-      htmlElement.classList.add('dark');
-      htmlElement.classList.remove('light');
-    } else {
-      htmlElement.classList.add('light');
-      htmlElement.classList.remove('dark');
-    }
+  
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (systemPrefersDark) {
+    htmlElement.classList.add('dark');
+    htmlElement.classList.remove('light');
+  } else {
+    htmlElement.classList.add('light');
+    htmlElement.classList.remove('dark');
   }
 }
 

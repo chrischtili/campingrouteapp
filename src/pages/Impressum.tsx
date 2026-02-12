@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/route-planner/Footer";
+import { Navbar } from "@/components/route-planner/Navbar";
 
 export default function Impressum() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 py-12 px-4">
+      <Navbar />
+      <div className="flex-1 pt-24 pb-12 px-4">
         <div className="max-w-4xl mx-auto bg-card rounded-xl shadow-lg p-8" id="home">
-          <h1 className="text-2xl font-bold mb-6 text-center">Über dieses Projekt</h1>
+          <h1 className="text-2xl font-bold mb-6 text-center dark:text-foreground">Über dieses Projekt</h1>
 
           <div className="space-y-6 text-muted-foreground">
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Privates Wohnmobil-Routenplaner-Projekt</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Privates Wohnmobil-Routenplaner-Projekt</h2>
               <p>
                 Camping Route ist ein privates, nicht-kommerzielles Open-Source-Projekt zur Planung von Wohnmobil-Routen 
                 mit Hilfe von KI. Die Webseite dient ausschließlich informativen und demonstrativen Zwecken.
@@ -18,7 +20,7 @@ export default function Impressum() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Kontakt</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Kontakt</h2>
               <p>Bei Fragen oder Feedback zum Projekt:</p>
               <p>Christian Kopmann</p>
               <p>E-Mail: info@campingroute.app</p>
@@ -28,7 +30,7 @@ export default function Impressum() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Haftungsausschluss</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Haftungsausschluss</h2>
               <p className="text-sm">
                 Die auf dieser Website bereitgestellten Informationen und Tools dienen ausschließlich zu Demonstrations- 
                 und Informationszwecken. Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der 
@@ -40,7 +42,7 @@ export default function Impressum() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Open Source & Mitwirkung</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Open Source & Mitwirkung</h2>
               <p className="text-sm">
                 Dieses Projekt ist Open Source und steht unter der MIT-Lizenz. Der Quellcode ist auf GitHub verfügbar.
                 Beiträge und Verbesserungsvorschläge sind willkommen!

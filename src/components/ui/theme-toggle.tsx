@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Moon, Sun, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,24 +16,9 @@ interface ThemeToggleProps {
 
 export function ThemeToggle({ onClick, forceLightIcon = false }: ThemeToggleProps) {
   const { setTheme, theme } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
-
-  // Scroll-Verhalten wie in der Navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      const featuresSection = document.getElementById('features');
-      if (featuresSection) {
-        const featuresTop = featuresSection.getBoundingClientRect().top;
-        setScrolled(featuresTop <= 0);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const getThemeIcon = () => {
-    const iconColor = forceLightIcon ? "text-foreground" : (scrolled ? "text-foreground" : "text-white");
+    const iconColor = forceLightIcon ? "text-foreground" : "text-foreground";
     
     switch (theme) {
       case "dark":
@@ -59,7 +44,7 @@ export function ThemeToggle({ onClick, forceLightIcon = false }: ThemeToggleProp
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full w-10 h-10">
+        <Button variant="secondary" size="icon" className="rounded-full w-10 h-10 hover:bg-accent">
           {getThemeIcon()}
           <span className="sr-only">Theme-Toggle</span>
         </Button>

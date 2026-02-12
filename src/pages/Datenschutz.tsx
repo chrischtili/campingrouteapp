@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/route-planner/Footer";
+import { Navbar } from "@/components/route-planner/Navbar";
 
 export default function Datenschutz() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 py-12 px-4">
+      <Navbar />
+      <div className="flex-1 pt-24 pb-12 px-4">
         <div className="max-w-4xl mx-auto bg-card rounded-xl shadow-lg p-8" id="home">
-          <h1 className="text-2xl font-bold mb-6 text-center">Datenschutzerklärung</h1>
+          <h1 className="text-2xl font-bold mb-6 text-center dark:text-foreground">Datenschutzerklärung</h1>
 
           <div className="space-y-6 text-muted-foreground">
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Allgemeines</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Allgemeines</h2>
               <p className="text-sm">
                 Diese Datenschutzerklärung informiert Sie über die Art, den Umfang und Zweck der Verarbeitung von 
                 personenbezogenen Daten im Rahmen der Nutzung unseres Wohnmobil-Routenplaners.
@@ -18,7 +20,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Verantwortlicher</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Verantwortlicher</h2>
               <p className="text-sm">
                 Christian Kopmann<br/>
                 E-Mail: info@campingroute.app
@@ -26,7 +28,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Datenverarbeitung</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Datenverarbeitung</h2>
               <p className="text-sm">
                 <strong>Lokale Datenverarbeitung:</strong> Alle von Ihnen eingegebenen Daten (Reiserouten, Fahrzeugdaten, 
                 Präferenzen) werden ausschließlich in Ihrem Browser gespeichert und nicht an unsere Server übertragen. 
@@ -47,7 +49,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Cookies & Tracking</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Cookies & Tracking</h2>
               <p className="text-sm">
                 Diese Website verwendet ein technisch notwendiges Cookie (sidebar:state), um Ihre Einstellung zur 
                 Seitenleiste (geöffnet/geschlossen) für 7 Tage zu speichern. Dieses Cookie enthält keine 
@@ -60,7 +62,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Ihre Rechte</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Ihre Rechte</h2>
               <p className="text-sm">
                 Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer 
                 personenbezogenen Daten. Da wir keine Daten speichern, können Sie alle Ihre Daten einfach durch 
@@ -69,7 +71,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground mb-2">Änderungen dieser Datenschutzerklärung</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Änderungen dieser Datenschutzerklärung</h2>
               <p className="text-sm">
                 Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder 
                 bei Änderungen des Dienstes anzupassen. Die aktuelle Version ist immer auf dieser Seite einsehbar.

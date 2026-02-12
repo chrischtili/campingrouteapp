@@ -16,10 +16,10 @@ export function Footer() {
           {/* Deine Links - Impressum und Datenschutz (zentriert) */}
           <div className="border-t border-white dark:border-white/20 pt-6">
             <div className="flex flex-wrap justify-center gap-4 text-sm text-white dark:text-foreground/80">
-              <Link to="/impressum" className="hover:text-[#F59B0A] transition-colors">
+              <Link to="/impressum" className="hover:text-[#F59B0A] transition-colors" onClick={() => window.scrollTo(0, 0)}>
                 Impressum
               </Link>
-              <Link to="/datenschutz" className="hover:text-[#F59B0A] transition-colors">
+              <Link to="/datenschutz" className="hover:text-[#F59B0A] transition-colors" onClick={() => window.scrollTo(0, 0)}>
                 Datenschutz
               </Link>
               <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" 

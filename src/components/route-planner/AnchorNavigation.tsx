@@ -16,7 +16,7 @@ export function AnchorNavigation() {
   ];
   
   useEffect(() => {
-    // Cache DOM elements to avoid repeated queries
+    // Cache DOM elements and their positions to avoid repeated queries
     const sectionElements = sections.map(section => {
       const element = document.getElementById(section.id);
       return element ? {
@@ -27,39 +27,66 @@ export function AnchorNavigation() {
       } : null;
     }).filter(Boolean);
     
-    // Debounce the scroll handler to reduce the number of reflows
+    // Use requestAnimationFrame to synchronize with browser repaints
     let lastScrollTime = 0;
+    let lastScrollPosition = window.scrollY;
+    let requestId: number | null = null;
     const debounceDelay = 100; // 100ms debounce delay
     
     const handleScroll = () => {
       const now = Date.now();
+      const scrollPosition = window.scrollY;
+      
+      // Skip if scroll position hasn't changed significantly
+      if (Math.abs(scrollPosition - lastScrollPosition) < 50) {
+        return;
+      }
+      lastScrollPosition = scrollPosition;
+      
+      // Debounce the scroll handler to reduce the number of reflows
       if (now - lastScrollTime < debounceDelay) {
-        return; // Skip this scroll event
+        if (requestId) {
+          cancelAnimationFrame(requestId);
+        }
+        requestId = requestAnimationFrame(handleScroll);
+        return;
       }
       lastScrollTime = now;
       
-      const scrollPosition = window.scrollY + 120; // 120px offset für Navbar
-      
-      // Find the current active section using cached values
-      let currentSection = "";
-      sectionElements.forEach(section => {
-        if (section) {
-          const { offsetTop, offsetHeight } = section;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            currentSection = section.id;
+      // Use requestAnimationFrame to synchronize with browser repaints
+      if (requestId) {
+        cancelAnimationFrame(requestId);
+      }
+      requestId = requestAnimationFrame(() => {
+        const scrollPositionWithOffset = scrollPosition + 120; // 120px offset für Navbar
+        
+        // Find the current active section using cached values
+        let currentSection = "";
+        sectionElements.forEach(section => {
+          if (section) {
+            const { offsetTop, offsetHeight } = section;
+            if (scrollPositionWithOffset >= offsetTop && scrollPositionWithOffset < offsetTop + offsetHeight) {
+              currentSection = section.id;
+            }
           }
+        });
+        
+        // Batch state updates to reduce reflows
+        if (currentSection !== activeSection || (scrollPosition > 400) !== isVisible) {
+          setActiveSection(currentSection);
+          setIsVisible(scrollPosition > 400);
         }
       });
-      
-      setActiveSection(currentSection);
-      
-      // Show/hide navigation based on scroll position
-      setIsVisible(window.scrollY > 400);
     };
     
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (requestId) {
+        cancelAnimationFrame(requestId);
+      }
+    };
+  }, [activeSection, isVisible]);
   
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);

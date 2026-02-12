@@ -52,6 +52,8 @@ const App = () => {
               <Route path="/" element={<Index />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
+              {/* Admin-Seite (nicht verlinkt, nur per direkter URL aufrufbar) */}
+              <Route path="/admin-stats" element={<AdminStats />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

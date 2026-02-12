@@ -18,6 +18,14 @@ if (typeof window !== 'undefined') {
     }
   } else {
     // Standardmäßig Systemeinstellung verwenden
+  }
+  
+  // Zähler erhöhen (falls Backend verfügbar)
+  if (process.env.NODE_ENV === 'production') {
+    fetch('/api/count-visit', { method: 'POST' })
+      .catch(() => {}); // Fehler ignorieren, da nicht kritisch
+  }
+}
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (systemPrefersDark) {
       htmlElement.classList.add('dark');

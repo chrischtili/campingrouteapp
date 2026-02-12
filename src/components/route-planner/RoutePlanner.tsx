@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense } from "react";
 import { Route, RotateCcw, MapPin, ArrowUp, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Sparkles, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
@@ -24,6 +24,12 @@ import { RouteExampleSection } from "./RouteExampleSection";
 import { FAQSection } from "./FAQSection";
 import { AnchorNavigation } from "./AnchorNavigation";
 import { Navbar } from "./Navbar";
+
+// Dynamische Importe für nicht kritische Komponenten
+const DynamicFeaturesSection = React.lazy(() => import("./FeaturesSection"));
+const DynamicTestimonialsSection = React.lazy(() => import("./TestimonialsSection"));
+const DynamicRouteExampleSection = React.lazy(() => import("./RouteExampleSection"));
+const DynamicFAQSection = React.lazy(() => import("./FAQSection"));
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -219,14 +225,20 @@ export function RoutePlanner() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Features Section */}
-      <FeaturesSection />
+      {/* Features Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800"></div>}>
+        <DynamicFeaturesSection />
+      </Suspense>
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
+      {/* Testimonials Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-64 bg-gray-50 dark:bg-gray-900"></div>}>
+        <DynamicTestimonialsSection />
+      </Suspense>
 
-      {/* Route Example Section */}
-      <RouteExampleSection />
+      {/* Route Example Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-96 bg-white dark:bg-gray-800"></div>}>
+        <DynamicRouteExampleSection />
+      </Suspense>
 
       {/* Main Content - Step-by-Step Assistant */}
       <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
@@ -453,8 +465,10 @@ export function RoutePlanner() {
           </div>
       </section>
 
-      {/* FAQ Section */}
-      <FAQSection />
+      {/* FAQ Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-96 bg-gray-50 dark:bg-gray-900"></div>}>
+        <DynamicFAQSection />
+      </Suspense>
 
       {/* Footer */}
       <Footer />

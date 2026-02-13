@@ -1,15 +1,20 @@
 import React from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Impressum from "./pages/Impressum";
-import Datenschutz from "./pages/Datenschutz";
-import AdminStats from "./pages/AdminStats";
+import { Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+// Dynamische Importe für nicht-kritische Seiten
+const Index = lazy(() => import("./pages/Index"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Impressum = lazy(() => import("./pages/Impressum"));
+const Datenschutz = lazy(() => import("./pages/Datenschutz"));
+const AdminStats = lazy(() => import("./pages/AdminStats"));
+
+// Dynamische Importe für UI-Komponenten
+const Toaster = lazy(() => import("@/components/ui/toaster").then((module) => ({ default: module.Toaster })));
+const Sonner = lazy(() => import("@/components/ui/sonner").then((module) => ({ default: module.Toaster })));
 
 const queryClient = new QueryClient();
 
@@ -42,13 +47,15 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="theme-preference">
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
+          <Suspense fallback={null}>
+            <Toaster />
+            <Sonner />
+          </Suspense>
           {/* Skip link for accessibility */}
           <a href="#main-content" className="sr-only focus:not-sr-only">
             Zum Hauptinhalt springen
           </a>
-          <BrowserRouter>
+          <Suspense fallback={<div className="min-h-screen bg-gray-50"></div>}>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/impressum" element={<Impressum />} />
@@ -58,7 +65,7 @@ const App = () => {
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
+          </Suspense>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

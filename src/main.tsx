@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 // Initialisiere das Theme vor dem Rendern, um FOUC zu vermeiden
 if (typeof window !== 'undefined') {
@@ -36,4 +37,17 @@ if (typeof window !== 'undefined') {
   }
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+// React Router v7 Future Flags für bessere Performance
+const router = createBrowserRouter([
+  {
+    path: '/*',
+    element: <App />,
+  },
+], {
+  future: {
+    v7_startTransition: true,
+    v7_relativeSplatPath: true,
+  },
+});
+
+createRoot(document.getElementById("root")!).render(<RouterProvider router={router} />);

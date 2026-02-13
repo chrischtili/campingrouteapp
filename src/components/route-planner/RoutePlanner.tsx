@@ -18,18 +18,15 @@ import { AccommodationSection } from "./AccommodationSection";
 import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
 import { HeroSection } from "./HeroSection";
-import { FeaturesSection } from "./FeaturesSection";
-import { TestimonialsSection } from "./TestimonialsSection";
-import { RouteExampleSection } from "./RouteExampleSection";
-import { FAQSection } from "./FAQSection";
+
 import { AnchorNavigation } from "./AnchorNavigation";
 import { Navbar } from "./Navbar";
 
-// Dynamische Importe für nicht kritische Komponenten (vorübergehend deaktiviert)
-// const DynamicFeaturesSection = lazy(() => import("./FeaturesSection"));
-// const DynamicTestimonialsSection = lazy(() => import("./TestimonialsSection"));
-// const DynamicRouteExampleSection = lazy(() => import("./RouteExampleSection"));
-// const DynamicFAQSection = lazy(() => import("./FAQSection"));
+// Dynamische Importe für nicht kritische Komponenten
+const DynamicFeaturesSection = lazy(() => import("./FeaturesSection").then((module) => ({ default: module.FeaturesSection })));
+const DynamicTestimonialsSection = lazy(() => import("./TestimonialsSection").then((module) => ({ default: module.TestimonialsSection })));
+const DynamicRouteExampleSection = lazy(() => import("./RouteExampleSection").then((module) => ({ default: module.RouteExampleSection })));
+const DynamicFAQSection = lazy(() => import("./FAQSection").then((module) => ({ default: module.FAQSection })));
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -225,14 +222,20 @@ export function RoutePlanner() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Features Section */}
-      <FeaturesSection />
+      {/* Features Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800"></div>}>
+        <DynamicFeaturesSection />
+      </Suspense>
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
+      {/* Testimonials Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-64 bg-gray-50 dark:bg-gray-700"></div>}>
+        <DynamicTestimonialsSection />
+      </Suspense>
 
-      {/* Route Example Section */}
-      <RouteExampleSection />
+      {/* Route Example Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-80 bg-gray-100 dark:bg-gray-800"></div>}>
+        <DynamicRouteExampleSection />
+      </Suspense>
 
       {/* Main Content - Step-by-Step Assistant */}
       <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
@@ -459,8 +462,10 @@ export function RoutePlanner() {
           </div>
       </section>
 
-      {/* FAQ Section */}
-      <FAQSection />
+      {/* FAQ Section - Dynamisch geladen */}
+      <Suspense fallback={<div className="h-96 bg-gray-50 dark:bg-gray-700"></div>}>
+        <DynamicFAQSection />
+      </Suspense>
 
       {/* Footer */}
       <Footer />

@@ -175,11 +175,12 @@
       .font-medium { font-weight: 500; }
     </style>
     <!-- Load fonts asynchronously to reduce critical request chains -->
-    <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low" media="print" onload="this.media='all'">
+    <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low">
     <noscript><link rel="stylesheet" href="/fonts/fonts.css?v=0.1.2"></noscript>
     
-    <!-- Load non-critical CSS asynchronously to avoid render-blocking -->
-    <link rel="preload" href="/assets/index.Dcw2KRt9.css" as="style" fetchpriority="high" media="print" onload="this.media='all'">
+    <!-- Load critical CSS synchronously and non-critical CSS asynchronously -->
+    <link rel="preload" href="/assets/index.Dcw2KRt9.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/index.Dcw2KRt9.css"></noscript>
     
     <!-- 2. LCP optimization handled by fetchpriority="high" on the image element -->
     
@@ -203,22 +204,7 @@
 
   <body>
     <div id="root"></div>
-    <!-- Load non-critical CSS asynchronously -->
-    <script>
-      // Load CSS asynchronously to avoid render-blocking
-      function loadCSS(href) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
-        link.crossorigin = 'anonymous';
-        document.head.appendChild(link);
-      }
-      
-      // Load the main CSS file asynchronously
-      window.addEventListener('load', function() {
-        loadCSS('/assets/index.Dcw2KRt9.css');
-      });
-    </script>
+
     
     <script type="module" src="./src/main.tsx" defer></script>
     <!-- Service Worker Registration -->

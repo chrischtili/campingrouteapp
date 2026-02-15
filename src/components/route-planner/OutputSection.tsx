@@ -161,7 +161,8 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
     }
   };
 
-  if (!output && !isLoading) return null;
+  // Show output section if there's output, loading, or an error
+  if (!output && !isLoading && !aiError) return null;
 
   return (
     <Card className="mt-8 overflow-hidden">

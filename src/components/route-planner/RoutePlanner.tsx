@@ -171,6 +171,13 @@ export function RoutePlanner() {
         // Nach erfolgreicher Generierung: Schritt als abgeschlossen markieren
         // und keinen Schritt mehr als aktiv setzen
         setCurrentStep(steps.length + 1); // Setze auf einen Schritt nach dem letzten
+        
+        // Zur OutputSection scrollen
+        setTimeout(() => {
+          if (outputSectionRef.current) {
+            outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
       } else {
         setLoadingMessage('📝 Dein Prompt wird generiert...');
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -185,6 +192,13 @@ export function RoutePlanner() {
         
         // Nach erfolgreicher Generierung: keinen Schritt mehr als aktiv setzen
         setCurrentStep(steps.length + 1); // Setze auf einen Schritt nach dem letzten
+        
+        // Zur OutputSection scrollen
+        setTimeout(() => {
+          if (outputSectionRef.current) {
+            outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
@@ -195,6 +209,13 @@ export function RoutePlanner() {
       } else {
         setAIError('Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.');
       }
+      
+      // Auch bei Fehlern zur OutputSection scrollen, damit der Benutzer den Fehler sieht
+      setTimeout(() => {
+        if (outputSectionRef.current) {
+          outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     } finally {
       setIsLoading(false);
     }
@@ -449,7 +470,7 @@ export function RoutePlanner() {
           </div>
           
           {/* Output */}
-          <div className="mt-8 max-w-4xl mx-auto">
+          <div className="mt-8 max-w-4xl mx-auto" ref={outputSectionRef}>
             <OutputSection
               output={output}
               isLoading={isLoading}

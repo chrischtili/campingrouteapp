@@ -13,7 +13,7 @@ export function generatePrompt(data: FormData): string {
 ──────────────
 • Startpunkt: ${data.startPoint}
 • Ziel: ${data.destination}
-• Abreisedatum: ${formatGermanDate(data.startDate)}
+${data.stageDestination1 ? '• Etappenziel 1: ' + data.stageDestination1 + '\n' : ''}${data.stageDestination2 ? '• Etappenziel 2: ' + data.stageDestination2 + '\n' : ''}• Abreisedatum: ${formatGermanDate(data.startDate)}
 • Ankunftsdatum: ${formatGermanDate(data.endDate)}
 ${data.distance ? '• Geschätzte Gesamtdistanz: ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• Max. Fahrstrecke pro Tag: ' + data.maxDailyDistance + ' km\n' : ''}${data.routeType ? '• Routentyp: ' + data.routeType + '\n' : ''}
 
@@ -191,6 +191,8 @@ Flexibilität:
 - Tools zur Optimierung: Empfehle Tools oder Apps, mit denen ich die Route unterwegs weiter optimieren oder anpassen kann (z. B. Routenplaner, Campingplatz-Apps, Verkehrs-Apps).
 
 Zusammenfassung: Fasse hier am Ende die wichtigsten Punkte der Route zusammen, damit ich einen schnellen Überblick habe. Betone dabei die Highlights und die wichtigsten Tipps für die Reise.
+GPX-Datei: Wenn möglich, generiere hier eine GPX-Datei mit den wichtigsten Wegpunkten der Route, damit ich sie in mein Navigationsgerät oder meine App importieren kann. Markiere die Datei als XML-Anhang, damit ich sie leicht herunterladen kann.
+
 `;
 }
 
@@ -250,7 +252,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
           { role: 'system', content: 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte in Markdown-Format.' },
           { role: 'user', content: prompt }
         ],
-        ...(usesCompletionTokens ? { max_completion_tokens: 4000 } : { max_tokens: 4000 }),
+        ...(usesCompletionTokens ? { max_completion_tokens: 128000 } : { max_tokens: 128000 }),
         ...(['gpt-5', 'gpt-5.2', 'gpt-5-mini', 'gpt-5-nano'].includes(actualModel) ? { temperature: 1 } : { temperature: 0.7 })
       };
       break;
@@ -271,7 +273,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       requestData = {
         model: mistralModel,
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 4000,
+        max_tokens: 32000,
         temperature: 0.7
       };
       break;

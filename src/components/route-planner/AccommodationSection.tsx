@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionCard } from "./SectionCard";
-import { CheckboxGroup } from "./CheckboxGroup";
+import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -53,7 +53,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         {/* Row 1 */}
         <div className="space-y-3">
           <Label className="font-medium">Reisebegleitung</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="travelCompanions"
             options={companionOptions}
             selectedValues={formData.travelCompanions}
@@ -63,7 +63,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
 
         <div className="space-y-3">
           <Label className="font-medium">Unterkunftstyp</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="accommodationType"
             options={accommodationTypeOptions}
             selectedValues={formData.accommodationType}
@@ -73,7 +73,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
 
         <div className="space-y-3">
           <Label className="font-medium">Benötigte Ausstattung</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="facilities"
             options={facilitiesOptions}
             selectedValues={formData.facilities}

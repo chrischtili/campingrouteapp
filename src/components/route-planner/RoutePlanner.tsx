@@ -393,7 +393,7 @@ export function RoutePlanner() {
               {/* Step 7: Zusammenfassung & Generierung */}
               {currentStep === 7 && (
                 <div id="step-7" className="bg-gray-50 dark:bg-gray-900">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-700">
+                  <div className="bg-white dark:bg-gray-800 p-4 mb-6 border border-gray-200 dark:border-gray-700">
                     <div className="mb-4">
                       <h3 className="text-lg font-semibold text-primary">
                         <span className="inline-flex items-center gap-2">

@@ -1,7 +1,7 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { SectionCard } from "./SectionCard";
-import { CheckboxGroup } from "./CheckboxGroup";
+import { ToggleGroup } from "./ToggleGroup";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface RouteOptimizationSectionProps {
@@ -44,7 +44,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
       <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-4 gap-6"}`}>
         <div className="space-y-3">
           <Label className="font-medium">Straßenart Präferenz</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="routePreferences"
             options={roadTypeOptions}
             selectedValues={formData.routePreferences}
@@ -54,7 +54,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
 
         <div className="space-y-3">
           <Label className="font-medium">Landschaftliche Highlights</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="routePreferences"
             options={landscapeOptions}
             selectedValues={formData.routePreferences}
@@ -64,7 +64,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
 
         <div className="space-y-3">
           <Label className="font-medium">Verkehr & Sicherheit</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="routePreferences"
             options={trafficOptions}
             selectedValues={formData.routePreferences}
@@ -74,7 +74,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
 
         <div className="space-y-3">
           <Label className="font-medium">Kultur & Städte</Label>
-          <CheckboxGroup
+          <ToggleGroup
             name="routePreferences"
             options={cultureOptions}
             selectedValues={formData.routePreferences}

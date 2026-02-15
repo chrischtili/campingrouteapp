@@ -2,7 +2,7 @@ import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { SectionCard } from "./SectionCard";
-import { CheckboxGroup } from "./CheckboxGroup";
+import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -52,19 +52,19 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
         <div className="space-y-3">
           <Label className="font-medium">Aktivitäten & Interessen</Label>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4">
-            <CheckboxGroup
+            <ToggleGroup
               name="activities"
               options={activityOptions.slice(0, 6)}
               selectedValues={formData.activities}
               onChange={onCheckboxChange}
             />
-            <CheckboxGroup
+            <ToggleGroup
               name="activities"
               options={activityOptions.slice(6, 11)}
               selectedValues={formData.activities}
               onChange={onCheckboxChange}
             />
-            <CheckboxGroup
+            <ToggleGroup
               name="activities"
               options={activityOptions.slice(11)}
               selectedValues={formData.activities}

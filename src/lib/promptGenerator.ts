@@ -252,7 +252,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
           { role: 'system', content: 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte in Markdown-Format.' },
           { role: 'user', content: prompt }
         ],
-        ...(usesCompletionTokens ? { max_completion_tokens: 4000 } : { max_tokens: 4000 }),
+        ...(usesCompletionTokens ? { max_completion_tokens: 128000 } : { max_tokens: 128000 }),
         ...(['gpt-5', 'gpt-5.2', 'gpt-5-mini', 'gpt-5-nano'].includes(actualModel) ? { temperature: 1 } : { temperature: 0.7 })
       };
       break;
@@ -273,7 +273,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       requestData = {
         model: mistralModel,
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 4000,
+        max_tokens: 32000,
         temperature: 0.7
       };
       break;

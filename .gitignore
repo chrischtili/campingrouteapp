@@ -25,3 +25,8 @@ dist-ssr
 
 # Ignore counter file (not pushed to GitHub)
 counter.json
+
+# Ignore custom server files (production configuration)
+server/
+public/stats.html
+COUNTER_SERVER_DOKUMENTATION.md

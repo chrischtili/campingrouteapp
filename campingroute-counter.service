@@ -1,0 +1,26 @@
+[Unit]
+Description=CampingRoute.app Counter Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/kopi/route-planner-pro
+ExecStart=/usr/bin/node /home/kopi/route-planner-pro/server/index.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment=NODE_ENV=production
+Environment=PORT=3001
+Environment=HOST=0.0.0.0
+
+# Prevent systemd from considering the service as failed if it exits with success
+SuccessExitStatus=0
+
+# Increase timeout
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

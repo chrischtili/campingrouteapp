@@ -112,7 +112,7 @@ npm run build
 
 ## 🤝 Beitragende
 
-- [Christian Stili](https://github.com/chrischtili) - Lead Developer
+- [chrischtili](https://github.com/chrischtili) - Lead Developer
 - [Mistral Vibe](https://mistral.ai) - KI-Assistent
 
 ## 📄 Lizenz
@@ -241,7 +241,7 @@ npm run build
 
 ## 🤝 Contributors
 
-- [Christian Stili](https://github.com/chrischtili) - Lead Developer
+- [chrischtili](https://github.com/chrischtili) - Lead Developer
 - [Mistral Vibe](https://mistral.ai) - AI Assistant
 
 ## 📄 License

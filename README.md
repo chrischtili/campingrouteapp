@@ -45,11 +45,11 @@
 ## 💻 Technische Details
 
 ### Unterstützte KI-Modelle
-| Anbieter | Modelle | Preis pro Route |
-|----------|---------|-----------------|
-| Google | Gemini 3 Pro Preview, Gemini 2.5 Pro | ~5-10 Cent |
-| OpenAI | GPT-5.2, GPT-5, GPT-5 Mini | ~5-10 Cent |
-| Mistral | Mistral Large, Mistral Small | ~5-10 Cent |
+| Anbieter | Modell | Preis pro Route |
+|----------|--------|-----------------|
+| Google | Gemini 3 Pro Preview | ~5-10 Cent |
+| OpenAI | GPT-5.2 | ~5-10 Cent |
+| Mistral | Mistral Large | ~5-10 Cent |
 
 ### Tech-Stack
 - **Frontend**: React, TypeScript, Vite
@@ -174,11 +174,11 @@ MIT License - [Details](LICENSE)
 ## 💻 Technical Details
 
 ### Supported AI Models
-| Provider | Models | Price per Route |
-|----------|---------|-----------------|
-| Google | Gemini 3 Pro Preview, Gemini 2.5 Pro | ~5-10 cents |
-| OpenAI | GPT-5.2, GPT-5, GPT-5 Mini | ~5-10 cents |
-| Mistral | Mistral Large, Mistral Small | ~5-10 cents |
+| Provider | Model | Price per Route |
+|----------|--------|-----------------|
+| Google | Gemini 3 Pro Preview | ~5-10 cents |
+| OpenAI | GPT-5.2 | ~5-10 cents |
+| Mistral | Mistral Large | ~5-10 cents |
 
 ### Tech Stack
 - **Frontend**: React, TypeScript, Vite

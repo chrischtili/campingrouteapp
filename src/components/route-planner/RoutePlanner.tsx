@@ -457,8 +457,8 @@ export function RoutePlanner() {
             </div>
           )}
 
-            {/* Navigation Buttons - Nur sichtbar wenn in aktivem Schritt */}
-            {currentStep <= steps.length && currentStep > 0 && (
+            {/* Navigation Buttons - Nur sichtbar ab Schritt 2 */}
+            {currentStep <= steps.length && currentStep > 1 && (
               <div className="fixed bottom-0 left-0 right-0 md:relative p-4 bg-background border-t border-gray-200 dark:border-gray-700 z-10">
                 <div className="max-w-4xl mx-auto">
                   <div className="flex flex-col md:flex-row justify-between items-center gap-4">

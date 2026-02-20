@@ -36,7 +36,7 @@ export function TestimonialsSection() {
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
             Erfahrungen
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
+          <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
             Von Campern geliebt
           </h2>
         </motion.div>

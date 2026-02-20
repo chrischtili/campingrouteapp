@@ -48,7 +48,7 @@ export function FeaturesSection() {
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
             Features
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
+          <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
             Warum Camping Route?
           </h2>
         </motion.div>

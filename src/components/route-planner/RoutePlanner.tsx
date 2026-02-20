@@ -331,7 +331,7 @@ export function RoutePlanner() {
             <span className="text-[#F59B0A] dark:text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
               Routenplaner
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
               In 7 Schritten zur perfekten Route
             </h2>
           </motion.div>

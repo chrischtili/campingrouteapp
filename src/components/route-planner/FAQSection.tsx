@@ -363,7 +363,7 @@ export function FAQSection() {
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
             FAQ
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mt-3">
+          <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
             Häufige Fragen
           </h2>
         </motion.div>
@@ -383,7 +383,7 @@ export function FAQSection() {
               >
                 <AccordionTrigger
                   id={i === 2 ? "model-selection-faq" : undefined}
-                  className="font-normal text-foreground hover:no-underline py-5 text-lg md:text-xl font-sans px-6 w-full"
+                  className="font-normal text-foreground hover:no-underline py-3 text-xs md:text-sm font-sans px-6 w-full text-left"
                 >
                   {faq.q}
                 </AccordionTrigger>

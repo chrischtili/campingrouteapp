@@ -4,18 +4,18 @@ import { motion } from "framer-motion";
 const features = [
   {
     icon: Compass,
-    title: "KI-Routenplanung",
-    description: "Intelligente Routen, die Staus vermeiden und Wohnmobil-Beschränkungen berücksichtigen.",
+    title: "KI-Prompt-Generierung",
+    description: "Erstellt optimierte Prompts für deine KI-gestützte Routenplanung mit Wohnmobil-spezifischen Parametern.",
   },
   {
     icon: Filter,
     title: "Smarte Filter",
-    description: "Filtere nach Budget, Fahrzeuggröße, Interessen und Stellplatz-Ausstattung.",
+    description: "Filtere nach Budget, Fahrzeuggröße, Interessen und Stellplatz-Ausstattung für präzise Prompts.",
   },
   {
     icon: Zap,
     title: "Sofort startklar",
-    description: "Keine Registrierung nötig. In unter 3 Minuten zur fertigen Route.",
+    description: "Keine Registrierung nötig. In unter 3 Minuten zum fertigen KI-Prompt.",
   },
   {
     icon: Shield,

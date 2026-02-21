@@ -1,86 +1,74 @@
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/route-planner/Footer";
 import { Navbar } from "@/components/route-planner/Navbar";
+import { useTranslation } from "react-i18next";
 
 export default function Datenschutz() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <div className="flex-1 pt-24 pb-12 px-4">
         <div className="max-w-4xl mx-auto bg-card rounded-xl shadow-lg p-8" id="home">
-          <h1 className="text-2xl font-bold mb-6 text-center dark:text-foreground">Datenschutzerklärung</h1>
+          <h1 className="text-2xl font-bold mb-6 text-center dark:text-foreground">{t("privacy.title")}</h1>
 
           <div className="space-y-6 text-muted-foreground">
             <section>
-              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Allgemeines</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">{t("privacy.general.title")}</h2>
               <p className="text-sm">
-                Diese Datenschutzerklärung informiert Sie über die Art, den Umfang und Zweck der Verarbeitung von 
-                personenbezogenen Daten im Rahmen der Nutzung unseres Wohnmobil-Routenplaners.
+                {t("privacy.general.description")}
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Verantwortlicher</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">{t("privacy.responsible.title")}</h2>
               <p className="text-sm">
-                Christian Kopmann<br/>
-                E-Mail: info@campingroute.app
+                {t("privacy.responsible.name")}<br/>
+                {t("privacy.responsible.email")}
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Datenverarbeitung</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">{t("privacy.dataProcessing.title")}</h2>
               <p className="text-sm">
-                <strong>Lokale Datenverarbeitung:</strong> Alle von Ihnen eingegebenen Daten (Reiserouten, Fahrzeugdaten, 
-                Präferenzen) werden ausschließlich in Ihrem Browser gespeichert und nicht an unsere Server übertragen. 
-                Die Daten bleiben auf Ihrem Gerät und werden gelöscht, wenn Sie den Browser-Cache leeren.
+                <strong>{t("privacy.dataProcessing.local.title")}</strong> {t("privacy.dataProcessing.local.description")}
               </p>
               <p className="text-sm mt-2">
-                <strong>Lokale Fonts:</strong> Diese Website verwendet lokal gehostete Schriftarten (DM Serif Display und Inter), 
-                die auf unseren Servern gespeichert sind. Diese Schriftarten werden direkt von unseren Servern geladen, 
-                um eine optimale Darstellung zu gewährleisten. Es werden keine externen Fonts von Drittanbietern wie 
-                Google Fonts oder anderen CDNs geladen, um maximale DSGVO-Konformität zu gewährleisten. Die Schriftarten 
-                werden nur temporär in Ihrem Browser zwischengespeichert und nicht dauerhaft auf Ihrem Gerät gespeichert.
+                <strong>{t("privacy.dataProcessing.fonts.title")}</strong> {t("privacy.dataProcessing.fonts.description")}
               </p>
               <p className="text-sm mt-2">
-                <strong>KI-Integration:</strong> Wenn Sie die direkte KI-Funktion nutzen, werden Ihre Daten an den von 
-                Ihnen konfigurierten KI-Dienst (z.B. OpenAI, Mistral) übermittelt. Wir haben keinen Zugriff auf diese 
-                Daten und speichern sie nicht.
+                <strong>{t("privacy.dataProcessing.ai.title")}</strong> {t("privacy.dataProcessing.ai.description")}
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Cookies & Tracking</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">{t("privacy.cookies.title")}</h2>
               <p className="text-sm">
-                Diese Website verwendet ein technisch notwendiges Cookie (sidebar:state), um Ihre Einstellung zur 
-                Seitenleiste (geöffnet/geschlossen) für 7 Tage zu speichern. Dieses Cookie enthält keine 
-                personenbezogenen Daten und dient ausschließlich der Benutzerfreundlichkeit.
+                {t("privacy.cookies.sidebar.description")}
               </p>
               <p className="text-sm mt-2">
-                Es werden keine Tracking-Cookies, Analysetools oder Werbe-Cookies verwendet. Es werden keine 
-                personenbezogenen Daten für Werbezwecke gesammelt oder an Dritte weitergegeben.
+                {t("privacy.cookies.noTracking.description")}
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Ihre Rechte</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">{t("privacy.rights.title")}</h2>
               <p className="text-sm">
-                Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer 
-                personenbezogenen Daten. Da wir keine Daten speichern, können Sie alle Ihre Daten einfach durch 
-                Löschen des Browser-Caches entfernen.
+                {t("privacy.rights.description")}
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">Änderungen dieser Datenschutzerklärung</h2>
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">{t("privacy.changes.title")}</h2>
               <p className="text-sm">
-                Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder 
-                bei Änderungen des Dienstes anzupassen. Die aktuelle Version ist immer auf dieser Seite einsehbar.
+                {t("privacy.changes.description")}
               </p>
             </section>
 
             <div className="mt-8 pt-4 border-t border-border text-center">
               <Link to="/" className="text-primary hover:underline">
-                ← Zurück zur Startseite
+                {t("privacy.backToHome")}
               </Link>
             </div>
           </div>

@@ -200,6 +200,75 @@
     "license": "MIT License",
     "sourceCode": "Source code on GitHub"
   },
+  "imprint": {
+    "title": "About this project",
+    "project": {
+      "title": "Private Motorhome Route Planner Project",
+      "description": "Camping Route is a private, non-commercial open-source project for planning motorhome routes using AI. The website serves exclusively for informational and demonstrative purposes."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "For questions or feedback about the project:",
+      "name": "Christian Kopmann",
+      "email": "Email: info@campingroute.app"
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "description1": "The information and tools provided on this website are for demonstration and informational purposes only. No guarantee is given for the accuracy, completeness, or timeliness of the content. Use is at your own risk.",
+      "description2": "External links lead to third-party content for which we take no responsibility."
+    },
+    "openSource": {
+      "title": "Open Source & Contribution",
+      "description1": "This project is open source and is under the MIT license. The source code is available on GitHub. Contributions and suggestions for improvement are welcome!",
+      "link": "→ To the GitHub repository"
+    },
+    "backToHome": "← Back to home"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "general": {
+      "title": "General",
+      "description": "This privacy policy informs you about the type, scope, and purpose of the processing of personal data when using our motorhome route planner."
+    },
+    "responsible": {
+      "title": "Responsible Party",
+      "name": "Christian Kopmann",
+      "email": "Email: info@campingroute.app"
+    },
+    "dataProcessing": {
+      "title": "Data Processing",
+      "local": {
+        "title": "Local Data Processing:",
+        "description": "All data entered by you (itineraries, vehicle data, preferences) are stored exclusively in your browser and are not transmitted to our servers. The data remains on your device and will be deleted when you clear the browser cache."
+      },
+      "fonts": {
+        "title": "Local Fonts:",
+        "description": "This website uses locally hosted fonts (DM Serif Display and Inter) stored on our servers. These fonts are loaded directly from our servers to ensure optimal presentation. No external fonts are loaded from third-party providers like Google Fonts or other CDNs to ensure maximum GDPR compliance. The fonts are only temporarily cached in your browser and are not permanently stored on your device."
+      },
+      "ai": {
+        "title": "AI Integration:",
+        "description": "When you use the direct AI function, your data will be transmitted to the AI service you have configured (e.g., OpenAI, Mistral). We have no access to this data and do not store it."
+      }
+    },
+    "cookies": {
+      "title": "Cookies & Tracking",
+      "sidebar": {
+        "description": "This website uses a technically necessary cookie (sidebar:state) to store your sidebar setting (open/closed) for 7 days. This cookie contains no personal data and serves exclusively for user convenience."
+      },
+      "noTracking": {
+        "description": "No tracking cookies, analysis tools, or advertising cookies are used. No personal data is collected for advertising purposes or passed on to third parties."
+      }
+    },
+    "rights": {
+      "title": "Your Rights",
+      "description": "You have the right to information, correction, deletion, and restriction of the processing of your personal data. Since we do not store any data, you can simply remove all your data by clearing the browser cache."
+    },
+    "changes": {
+      "title": "Changes to this Privacy Policy",
+      "description": "We reserve the right to adapt this privacy policy to changes in legal situations or in the event of changes to the service. The current version can always be viewed on this page."
+    },
+    "backToHome": "← Back to home"
+  },
   "exampleRoute": {
     "badge": "AI Example Route",
     "title": "Karlsruhe → Wismar → Karlsruhe",

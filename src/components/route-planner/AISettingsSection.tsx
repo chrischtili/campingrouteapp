@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { SectionCard } from "./SectionCard";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "react-i18next";
 
 interface AISettingsSectionProps {
   aiSettings: AISettings;
@@ -32,12 +33,12 @@ const providerHelp = {
 };
 
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const currentProvider = aiSettings.aiProvider as keyof typeof providerModels;
-  const currentModelKey = `${currentProvider}Model` as keyof AISettings;
   
   return (
-    <SectionCard icon="🤖" title="KI-Einstellungen" iconColor="bg-purple-100 dark:bg-purple-900" titleColor="text-purple-700">
+    <SectionCard icon="🤖" title={t("planner.ai.title")} iconColor="bg-purple-100 dark:bg-purple-900" titleColor="text-purple-700">
       <div className="space-y-6">
         {/* Mode Selection */}
         <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
@@ -52,10 +53,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
           >
             <div className="flex items-center gap-3 mb-2">
               <FileText className={`h-6 w-6 ${!aiSettings.useDirectAI ? 'text-[rgb(240,146,17)]' : 'text-foreground'}`} />
-              <span className={`font-semibold ${!aiSettings.useDirectAI ? 'text-[rgb(240,146,17)]' : 'text-foreground'}`}>Prompt generieren</span>
+              <span className={`font-semibold ${!aiSettings.useDirectAI ? 'text-[rgb(240,146,17)]' : 'text-foreground'}`}>{t("planner.ai.mode.prompt.title")}</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Erstellt einen fertigen Prompt, den du in deine KI einfügen kannst
+              {t("planner.ai.mode.prompt.desc")}
             </p>
           </button>
           
@@ -70,10 +71,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
           >
             <div className="flex items-center gap-3 mb-2">
               <Bot className={`h-6 w-6 ${aiSettings.useDirectAI ? 'text-[rgb(240,146,17)]' : 'text-foreground'}`} />
-              <span className={`font-semibold ${aiSettings.useDirectAI ? 'text-[rgb(240,146,17)]' : 'text-foreground'}`}>KI direkt nutzen</span>
+              <span className={`font-semibold ${aiSettings.useDirectAI ? 'text-[rgb(240,146,17)]' : 'text-foreground'}`}>{t("planner.ai.mode.direct.title")}</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Ruft die KI direkt auf und zeigt dir das Ergebnis an
+              {t("planner.ai.mode.direct.desc")}
             </p>
           </button>
         </div>
@@ -91,24 +92,22 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
               <div className="space-y-2">
                 <Label htmlFor="aiProvider">
-                  KI-Anbieter & Modell
+                  {t("planner.ai.provider.label")}
                   <span className="text-muted-foreground text-xs ml-2">
                     <a href="#model-selection-faq" onClick={(e) => {
                       e.preventDefault();
-                      const faqSection = document.getElementById('faq');
                       const trigger = document.getElementById('model-selection-faq');
-                      if (faqSection && trigger) {
-                        faqSection.scrollIntoView({ behavior: 'smooth' });
+                      if (trigger) {
+                        trigger.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         setTimeout(() => {
-                          // Überprüfe, ob der Tab bereits geöffnet ist
-                          const accordionItem = trigger.closest('[data-state="open"]');
-                          if (!accordionItem) {
+                          const accordionItem = trigger.closest('[data-state]');
+                          if (accordionItem?.getAttribute('data-state') === 'closed') {
                             (trigger as HTMLElement).click();
                           }
                         }, 500);
                       }
                     }} className="hover:underline cursor-pointer">
-                      <Info className="inline h-3 w-3 mb-1" /> Welches Modell wählen?
+                      <Info className="inline h-3 w-3 mb-1" /> {t("planner.ai.provider.help")}
                     </a>
                   </span>
                 </Label>
@@ -129,7 +128,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     });
                   }}
                 >
-                  <SelectTrigger aria-label="KI-Anbieter und Modell auswählen">
+                  <SelectTrigger aria-label={t("planner.ai.provider.placeholder")}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -142,13 +141,13 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
 
               <div className="space-y-2">
                 <Label htmlFor="apiKey">
-                  API-Schlüssel
-                  <span className="text-muted-foreground text-xs ml-2">(wird nicht gespeichert)</span>
+                  {t("planner.ai.apiKey.label")}
+                  <span className="text-muted-foreground text-xs ml-2">{t("planner.ai.apiKey.hint")}</span>
                 </Label>
                 <Input
                   id="apiKey"
                   type="password"
-                  placeholder="Dein API-Schlüssel"
+                  placeholder={t("planner.ai.apiKey.placeholder")}
                   value={aiSettings.apiKey}
                   onChange={(e) => onAISettingsChange({ apiKey: e.target.value })}
                 />
@@ -164,17 +163,14 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                   rel="noopener noreferrer"
                   className="text-foreground hover:underline font-medium"
                 >
-                  API-Schlüssel bei {providerHelp[currentProvider]?.name} erstellen →
+                  {t("planner.ai.apiKey.create", { name: providerHelp[currentProvider]?.name })}
                 </a>
               </div>
             </div>
 
             <div className="flex items-center gap-3 p-3 bg-accent/50 dark:bg-accent/30 rounded-lg text-sm">
               <Lock className="h-4 w-4 text-primary" />
-              <p className="text-foreground dark:text-muted-foreground">
-                Deine API-Schlüssel werden <strong className="text-foreground">niemals gespeichert</strong> und 
-                verlassen <strong className="text-foreground">niemals deinen Browser</strong>.
-              </p>
+              <p className="text-foreground dark:text-muted-foreground" dangerouslySetInnerHTML={{ __html: t("planner.ai.apiKey.security") }} />
             </div>
           </div>
         )}

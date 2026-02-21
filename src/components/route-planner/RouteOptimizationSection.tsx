@@ -3,47 +3,55 @@ import { Label } from "@/components/ui/label";
 import { SectionCard } from "./SectionCard";
 import { ToggleGroup } from "./ToggleGroup";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "react-i18next";
 
 interface RouteOptimizationSectionProps {
   formData: FormData;
   onCheckboxChange: (name: string, value: string, checked: boolean) => void;
 }
 
-const roadTypeOptions = [
-  { value: 'Autobahnen bevorzugen', label: 'Autobahnen bevorzugen (schnellste Route)' },
-  { value: 'Landstraßen bevorzugen', label: 'Landstraßen bevorzugen (entspannte Fahrt)' },
-  { value: 'Panoramastraßen', label: 'Panoramastraßen (landschaftlich reizvoll)' },
-];
-
-const landscapeOptions = [
-  { value: 'Seenroute', label: 'Seen & Gewässer einbeziehen' },
-  { value: 'Bergstraßen', label: 'Bergpässe & Aussichtspunkte' },
-  { value: 'Küstenroute', label: 'Küstenstraßen & Meerblicke' },
-  { value: 'Waldrouten', label: 'Wälder & Naturparks' },
-];
-
-const trafficOptions = [
-  { value: 'Stau vermeiden', label: 'Stau & Rush-Hour vermeiden' },
-  { value: 'Tunnel vermeiden', label: 'Tunnel vermeiden' },
-  { value: 'Nachtfahrten minimieren', label: 'Nachtfahrten minimieren' },
-  { value: 'Baustellen umfahren', label: 'Baustellen umfahren' },
-  { value: 'Maut vermeiden', label: 'Mautstraßen vermeiden' },
-];
-
-const cultureOptions = [
-  { value: 'Städte einbeziehen', label: 'Städte & Kultur einbeziehen' },
-  { value: 'Ländliche Routen', label: 'Ländliche & abgelegene Routen' },
-  { value: 'Historische Routen', label: 'Historische Straßen (z.B. Römerstraßen)' },
-];
-
 export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOptimizationSectionProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
+
+  const roadTypeOptions = [
+    { value: 'motorways', label: t("planner.optimization.categories.roadType.options.motorways") },
+    { value: 'country', label: t("planner.optimization.categories.roadType.options.country") },
+    { value: 'scenic', label: t("planner.optimization.categories.roadType.options.scenic") },
+  ];
+
+  const landscapeOptions = [
+    { value: 'lakes', label: t("planner.optimization.categories.landscape.options.lakes") },
+    { value: 'mountains', label: t("planner.optimization.categories.landscape.options.mountains") },
+    { value: 'coastal', label: t("planner.optimization.categories.landscape.options.coastal") },
+    { value: 'forest', label: t("planner.optimization.categories.landscape.options.forest") },
+  ];
+
+  const trafficOptions = [
+    { value: 'traffic', label: t("planner.optimization.categories.traffic.options.traffic") },
+    { value: 'tunnels', label: t("planner.optimization.categories.traffic.options.tunnels") },
+    { value: 'night', label: t("planner.optimization.categories.traffic.options.night") },
+    { value: 'construction', label: t("planner.optimization.categories.traffic.options.construction") },
+    { value: 'toll', label: t("planner.optimization.categories.traffic.options.toll") },
+  ];
+
+  const cultureOptions = [
+    { value: 'cities', label: t("planner.optimization.categories.culture.options.cities") },
+    { value: 'rural', label: t("planner.optimization.categories.culture.options.rural") },
+    { value: 'historic', label: t("planner.optimization.categories.culture.options.historic") },
+  ];
   
   return (
-    <SectionCard icon="🎯" title="Routenoptimierung" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-orange-100" titleColor="text-orange-700">
+    <SectionCard 
+      icon="🎯" 
+      title={t("planner.optimization.title")} 
+      subtitle={t("planner.optimization.subtitle")} 
+      iconColor="bg-orange-100" 
+      titleColor="text-orange-700"
+    >
       <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-4 gap-6"}`}>
         <div className="space-y-3">
-          <Label className="font-medium">Straßenart Präferenz</Label>
+          <Label className="font-medium">{t("planner.optimization.categories.roadType.label")}</Label>
           <ToggleGroup
             name="routePreferences"
             options={roadTypeOptions}
@@ -53,7 +61,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
         </div>
 
         <div className="space-y-3">
-          <Label className="font-medium">Landschaftliche Highlights</Label>
+          <Label className="font-medium">{t("planner.optimization.categories.landscape.label")}</Label>
           <ToggleGroup
             name="routePreferences"
             options={landscapeOptions}
@@ -63,7 +71,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
         </div>
 
         <div className="space-y-3">
-          <Label className="font-medium">Verkehr & Sicherheit</Label>
+          <Label className="font-medium">{t("planner.optimization.categories.traffic.label")}</Label>
           <ToggleGroup
             name="routePreferences"
             options={trafficOptions}
@@ -73,7 +81,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
         </div>
 
         <div className="space-y-3">
-          <Label className="font-medium">Kultur & Städte</Label>
+          <Label className="font-medium">{t("planner.optimization.categories.culture.label")}</Label>
           <ToggleGroup
             name="routePreferences"
             options={cultureOptions}

@@ -1,0 +1,639 @@
+{
+  "navbar": {
+    "features": "Features",
+    "exampleRoute": "Example Route",
+    "faq": "FAQ",
+    "planNow": "Plan Now"
+  },
+  "hero": {
+    "badge": "AI Prompt Generator",
+    "title": "Camping Route",
+    "line1": "Plan your perfect motorhome trip with AI-powered route planning.",
+    "line2": "Our intelligent prompt generator creates tailored recommendations",
+    "line3": "for overnight stays, activities and hidden gems with YOUR AI.",
+    "planNow": "Plan Route Now",
+    "viewExample": "View Example Route",
+    "rating": "★★★★★ 4.7/5 Rating",
+    "plannedCount": "1,000+ planned routes",
+    "free": "100% free"
+  },
+  "features": {
+    "badge": "Features",
+    "title": "Why Camping Route?",
+    "promptGen": {
+      "title": "AI Prompt Generation",
+      "description": "Creates optimized prompts for your AI-powered route planning with motorhome-specific parameters."
+    },
+    "smartFilters": {
+      "title": "Smart Filters",
+      "description": "Filter by budget, vehicle size, interests and campsite equipment for precise prompts."
+    },
+    "readyInstantly": {
+      "title": "Ready instantly",
+      "description": "No registration required. Get your finished AI prompt in under 3 minutes."
+    },
+    "privacyFirst": {
+      "title": "Privacy first",
+      "description": "No data storage. Everything stays local in your browser."
+    },
+    "openSource": {
+      "title": "Open Source",
+      "description": "Fully transparent. Code viewable and contributable on GitHub."
+    },
+    "freeAdFree": {
+      "title": "Free & Ad-free",
+      "description": "No hidden costs. No ads. Completely free to use."
+    }
+  },
+  "testimonials": {
+    "badge": "Experiences",
+    "title": "Loved by Campers",
+    "markus": {
+      "text": "Finally a route planner that really addresses my needs! The AI suggested a perfect route with great campsites.",
+      "role": "Motorhome traveler"
+    },
+    "sarah": {
+      "text": "The filter options are brilliant! I can filter by budget, interests and even vehicle size – it saves so much time!",
+      "role": "Camper"
+    },
+    "thomas": {
+      "text": "Perfect for spontaneous trips! Within minutes I had a detailed route with all the important information.",
+      "role": "Weekend camper"
+    }
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "Frequently Asked Questions",
+    "items": {
+      "whatIs": {
+        "q": "What is Camping Route?",
+        "title": "The AI prompt generator for tailored motorhome routes!",
+        "prec": "Precise Prompt Creation",
+        "prec1": "Considers vehicle data (size, weight)",
+        "prec2": "Filters by your interests and budget",
+        "prec3": "Generates optimized prompts for your AI",
+        "ai": "AI-powered Route Planning",
+        "ai1": "Creates prompts for your preferred AI",
+        "ai2": "Includes all relevant parameters",
+        "ai3": "Optimized for best results",
+        "flex": "Two Modes for Maximum Flexibility",
+        "flexDesc": "Prompt generation for full control or direct AI generation (with your API key) for instant results!"
+      },
+      "diff": {
+        "q": "Generate Prompt vs. AI Generation - what's the difference?",
+        "title": "Two ways to your AI prompt:",
+        "gen": "Generate Prompt (free)",
+        "gen1": "Generates an optimized prompt based on your input",
+        "gen2": "You receive the prompt and can paste it into your preferred AI",
+        "gen3": "Full control over the process",
+        "gen4": "No additional costs",
+        "gen5": "Perfect for users with their own AI access",
+        "ai": "AI Generation (approx. 5-10 cents)",
+        "ai1": "Your AI directly generates a route based on our prompt",
+        "ai2": "Faster results without manual prompt entry",
+        "ai3": "Includes GPX file download for your navigation device",
+        "ai4": "Small API costs (approx. 5-10 cents per generation)",
+        "ai5": "Ideal for users who want an instant result",
+        "gpx": "GPX Export (only with AI generation)",
+        "gpxDesc": "When using AI generation with your API key, a GPX file is automatically generated.",
+        "note": "Important",
+        "noteDesc": "In both cases, we are not a route planner, but a prompt generator."
+      },
+      "vehicles": {
+        "q": "Which vehicle types are supported?",
+        "title": "We currently support:",
+        "rv": "Motorhomes",
+        "van": "Camper/Vans",
+        "caravan": "Caravans",
+        "moto": "Motorcycles",
+        "full": "Fully supported",
+        "planned": "In planning",
+        "tip": "Tip",
+        "tipDesc": "Enter your vehicle data in the route planner so we can find the perfect campsites!"
+      },
+      "howItWorks": {
+        "q": "How does prompt creation work?",
+        "title": "Simple steps to your perfect AI prompt:",
+        "step1": "1️⃣ Enter inputs",
+        "step1a": "Set start and destination",
+        "step1b": "Enter vehicle data (optional)",
+        "step1c": "Select interests and budget",
+        "step1d": "Adjust trip duration and stages",
+        "step2": "2️⃣ Select mode",
+        "step2a": "Generate Prompt: Receive an optimized prompt",
+        "step2b": "AI Generation: Your AI directly generates a route",
+        "step3": "3️⃣ Receive result",
+        "step3a": "Optimized prompt with all parameters",
+        "step3b": "Ready to paste into ChatGPT, Gemini, etc.",
+        "step3c": "Optional: Direct AI response with GPX file",
+        "step3d": "Full control over the process"
+      },
+      "cost": {
+        "q": "Is Camping Route free?",
+        "title": "Yes, basic functions are completely free!",
+        "free": "Free",
+        "free1": "Prompt generation without restrictions",
+        "free2": "Full functionality of the route planner",
+        "free3": "No hidden costs or subscriptions",
+        "free4": "Unlimited use",
+        "opt": "Optional (approx. 5-10 cents)",
+        "opt1": "AI generation for direct route creation",
+        "opt2": "GPX file download",
+        "opt3": "Faster results",
+        "opt4": "Only when using the API function",
+        "trans": "Transparent Costs",
+        "transDesc": "You only pay if you use the optional AI generation."
+      },
+      "privacy": {
+        "q": "How is my data protected?",
+        "title": "100% Privacy - 100% local!",
+        "device": "Everything on your device",
+        "device1": "No cloud storage",
+        "device2": "No server transfer",
+        "device3": "No tracking cookies",
+        "sec": "Maximum Security",
+        "sec1": "GDPR compliant",
+        "sec2": "Offline capable",
+        "sec3": "No third-party providers",
+        "trans": "Transparency",
+        "transDesc": "All your data remains exclusively on your device."
+      },
+      "offline": {
+        "q": "Can I use routes offline?",
+        "title": "Yes, completely offline capable!",
+        "exp": "Export",
+        "exp1": "Save as text/PDF",
+        "exp2": "Download GPX file",
+        "exp3": "Save on your device",
+        "use": "Use anywhere",
+        "use1": "Use without internet access",
+        "use2": "Share via email/messenger",
+        "use3": "Import into navigation devices",
+        "tip": "Travel Tip",
+        "tipDesc": "Download your routes before the trip!"
+      },
+      "aiModel": {
+        "q": "Which AI model should I choose?",
+        "title": "The choice depends on your priorities:",
+        "gemini": "Google Gemini",
+        "gemini1": "Best choice for Europe",
+        "gemini2": "Excellent geographic data",
+        "gemini3": "Precise campsite recommendations",
+        "gpt": "OpenAI GPT",
+        "gpt1": "Maximum depth of detail",
+        "gpt2": "Complex route planning",
+        "gpt3": "Highest language quality",
+        "mistral": "Mistral AI",
+        "mistral1": "Optimized for Europe",
+        "mistral2": "Cost-efficient",
+        "mistral3": "Fast answers",
+        "rec": "Recommendation",
+        "recDesc": "For most users, Google Gemini is the best choice."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} Camping Route · AI Prompt Generator for Motorhomes",
+    "imprint": "Imprint",
+    "privacy": "Privacy Policy",
+    "openSource": "Open Source",
+    "license": "MIT License",
+    "sourceCode": "Source code on GitHub"
+  },
+  "exampleRoute": {
+    "badge": "AI Example Route",
+    "title": "Karlsruhe → Wismar → Karlsruhe",
+    "subtitle": "14 days • 1,600 km • Connoisseur tour with Baltic Sea & mountains",
+    "stages": {
+      "stage": "Stage",
+      "stage5to8": "Stage 5-8",
+      "karlsruhe": "Karlsruhe",
+      "fulda": "Fulda/Rhön",
+      "magdeburg": "Magdeburg/Börde",
+      "perleberg": "Perleberg",
+      "wismar": "Wismar (Baltic Sea)",
+      "highlights": {
+        "fulda": "Rhön & Fulda",
+        "magdeburg": "Magdeburg Waterway Junction",
+        "perleberg": "Brandenburg's Nature",
+        "wismar": "Arrival at the Baltic Sea",
+        "return": "Return journey & more details"
+      },
+      "details": {
+        "fulda": "Fulda Cathedral & Wasserkuppe with panoramic views",
+        "magdeburg": "UNESCO World Heritage: Trough bridge over the Elbe",
+        "perleberg": "B189 through scenic regions",
+        "wismar": "Short stage - early check-in possible",
+        "return": "The return journey leads via Lüneburg Heath, Edersee and Bergstraße back to Karlsruhe (stages 5–8)."
+      },
+      "tips": {
+        "fulda": "Avoid Frankfurt rush hour - start after 09:30 AM",
+        "magdeburg": "A7 → A4 → A14, can be busier near Halle",
+        "perleberg": "Relaxed 'cruising' on well-maintained federal roads",
+        "wismar": "B189 → A14 towards Schwerin/Wismar",
+        "return": "For the full 14-day route with all stages, overnight stays and tips, please click 'Show detailed route'."
+      },
+      "overnight": {
+        "fulda": "Knaus Campingpark Hünfeld (35–45€, bread service)",
+        "magdeburg": "Schachtsee Wolmirsleben (30–40€, lake with restaurant)",
+        "perleberg": "Campingplatz Friedensteich (25–35€, forest & swimming lake)",
+        "wismar": "Ostsee-Camping Zierow (50–65€, 5-star with dog beach)",
+        "return": "→ More info in detailed route"
+      }
+    },
+    "summary": {
+      "distance": "Total distance",
+      "duration": "Trip duration",
+      "budget": "Budget",
+      "style": "Style",
+      "styleValue": "Connoisseur tour"
+    },
+    "details": {
+      "show": "Show detailed route",
+      "hide": "Hide details",
+      "generatedAt": "Generated on",
+      "aiModel": "AI Model",
+      "planning": "1. Stage Planning",
+      "planningDesc": "The route is divided into relaxed daily sections that avoid stress and allow time for breaks with the dog.",
+      "outward": "Outward journey: Karlsruhe → Perleberg → Wismar",
+      "return": "Return journey: Wismar → Lüneburg Heath → Karlsruhe",
+      "overnight": "2. Overnight Stays (Dog Friendly)",
+      "overnightHighlights": {
+        "fulda": "Rhön, bread service",
+        "magdeburg": "Lake, Restaurant",
+        "perleberg": "Forest, swimming lake",
+        "wismar": "5-Star, Dog Beach",
+        "heath": "Lüneburg Heath",
+        "edersee": "Edersee, lake access",
+        "lorsch": "Lorsch Abbey"
+      },
+      "highlights": "3. Highlights & Activities",
+      "attractions": {
+        "waterkuppe": "Wasserkuppe Peak",
+        "waterJunction": "Waterway Junction",
+        "zooPerleberg": "Perleberg Zoo",
+        "harbor": "Old Harbor",
+        "poel": "Poel Island",
+        "bothmer": "Bothmer Castle",
+        "heath": "Lüneburg Heath",
+        "edersee": "Edersee Dam",
+        "lorsch": "Lorsch Abbey"
+      },
+      "practicalTips": "4. Practical Tips",
+      "tipsList": {
+        "clesana": "Clesana: Dispose of bags in residual waste",
+        "dogs": "Dogs: Leash requirement on beaches, tick protection in June",
+        "nav": "Navigation: Observe bridge heights (2.90m mostly ok)",
+        "solar": "Solar system: 300W + 200Ah = almost self-sufficient in June"
+      },
+      "summary": "Summary",
+      "summaryDesc": "A relaxed connoisseur tour through Germany with a maximum of 250 km per day. Mix of low mountain ranges (Rhön/Harz) and coast (Wismar/Baltic Sea). Your vehicle is top self-sufficient with solar and Clesana. Important: Reserve the spot in Wismar (Zierow) early!"
+    }
+  },
+  "planner": {
+    "badge": "Route Planner",
+    "title": "Perfect route in 7 steps",
+    "cta": "Plan Route Now",
+    "loading": {
+      "ai": "🤖 Your motorhome route is being generated by AI...",
+      "prompt": "📝 Your prompt is being generated...",
+      "error": "Error calling AI. Please check your API key and internet connection.",
+      "invalidKey": "Please enter a valid API key (at least 20 characters)."
+    },
+    "nav": {
+      "back": "Back",
+      "next": "Next",
+      "generateRoute": "Generate Route",
+      "generatePrompt": "Generate Prompt"
+    },
+    "summary": {
+      "title": "Summary of your route",
+      "start": "Start point",
+      "destination": "Destination",
+      "method": "AI Method",
+      "direct": "Direct AI Generation",
+      "prompt": "Prompt Generation",
+      "notSpecified": "Not specified"
+    },
+    "steps": {
+      "ai": {
+        "label": "AI Settings",
+        "desc": "Choose your preferred AI model and mode."
+      },
+      "route": {
+        "label": "Itinerary",
+        "desc": "Specify start, destination and stopovers."
+      },
+      "optimization": {
+        "label": "Route Optimization",
+        "desc": "Adjust speed, breaks and detours."
+      },
+      "vehicle": {
+        "label": "Vehicle",
+        "desc": "Size, weight and special requirements."
+      },
+      "accommodation": {
+        "label": "Accommodation",
+        "desc": "Pitch type, budget and equipment."
+      },
+      "interests": {
+        "label": "Interests",
+        "desc": "Nature, culture, culinary and more."
+      },
+      "summary": {
+        "label": "Summary",
+        "desc": "Review your information and generate the route."
+      }
+    },
+    "ai": {
+      "title": "AI Settings",
+      "mode": {
+        "prompt": {
+          "title": "Generate prompt",
+          "desc": "Creates a finished prompt that you can paste into your AI"
+        },
+        "direct": {
+          "title": "Use AI directly",
+          "desc": "Calls the AI directly and shows you the result"
+        }
+      },
+      "provider": {
+        "label": "AI Provider & Model",
+        "help": "Which model to choose?",
+        "placeholder": "Select AI provider and model"
+      },
+      "apiKey": {
+        "label": "API Key",
+        "hint": "(not stored)",
+        "placeholder": "Your API key",
+        "create": "Create API key at {{name}} →",
+        "security": "Your API keys are <strong>never stored</strong> and <strong>never leave your browser</strong>."
+      }
+    },
+    "route": {
+      "title": "Itinerary",
+      "type": {
+        "label": "Route type",
+        "placeholder": "-- Please select --",
+        "options": {
+          "oneWay": "One-Way Route",
+          "return": "Round trip (Out & Back)",
+          "roundTrip": "Circuit trip",
+          "multiStage": "Multiple destinations / Multi-stage"
+        }
+      },
+      "style": {
+        "label": "Travel style",
+        "placeholder": "-- Please select --",
+        "options": {
+          "adventure": "Adventure & Outdoor",
+          "relaxation": "Relaxation & Wellness",
+          "culture": "Culture & History",
+          "nature": "Nature & Hiking",
+          "family": "Family & Leisure",
+          "gourmet": "Gourmet & Culinary",
+          "slowTravel": "Slow Travel & Sustainability"
+        }
+      },
+      "start": {
+        "label": "Start",
+        "placeholder": "e.g. Munich, Germany"
+      },
+      "destination": {
+        "label": "Destination",
+        "placeholder": "e.g. Black Forest, Germany"
+      },
+      "stage": {
+        "label": "Intermediate destination {{num}}",
+        "placeholder": "e.g. Stuttgart, Germany"
+      },
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "maxDistance": "Max. driving distance per day (km)",
+      "additional": {
+        "label": "Additional route information",
+        "placeholder": "Special requests for the route (e.g. specific stopovers, personal preferences, special requirements)"
+      }
+    },
+    "optimization": {
+      "title": "Route Optimization",
+      "subtitle": "(Multiple selection possible)",
+      "categories": {
+        "roadType": {
+          "label": "Road type preference",
+          "options": {
+            "motorways": "Prefer motorways (fastest route)",
+            "country": "Prefer country roads (relaxed drive)",
+            "scenic": "Scenic roads (picturesque)"
+          }
+        },
+        "landscape": {
+          "label": "Landscape highlights",
+          "options": {
+            "lakes": "Include lakes & waters",
+            "mountains": "Mountain passes & viewpoints",
+            "coastal": "Coastal roads & sea views",
+            "forest": "Forests & nature parks"
+          }
+        },
+        "traffic": {
+          "label": "Traffic & Safety",
+          "options": {
+            "traffic": "Avoid traffic jams & rush hour",
+            "tunnels": "Avoid tunnels",
+            "night": "Minimize night driving",
+            "construction": "Avoid roadworks",
+            "toll": "Avoid toll roads"
+          }
+        },
+        "culture": {
+          "label": "Culture & Cities",
+          "options": {
+            "cities": "Include cities & culture",
+            "rural": "Rural & remote routes",
+            "historic": "Historic roads (e.g. Roman roads)"
+          }
+        }
+      }
+    },
+    "vehicle": {
+      "title": "Vehicle-specific filters",
+      "length": "Length",
+      "height": "Height",
+      "width": "Width",
+      "weight": "Gross vehicle weight",
+      "axleLoad": "Max. axle load",
+      "fuel": {
+        "label": "Fuel type",
+        "placeholder": "-- Please select --",
+        "options": {
+          "diesel": "Diesel",
+          "petrol": "Petrol",
+          "lpg": "LPG / Autogas",
+          "electric": "Electric",
+          "hybrid": "Hybrid"
+        }
+      },
+      "solar": "Solar power",
+      "battery": "Battery capacity",
+      "toilet": {
+        "label": "Toilet system",
+        "placeholder": "-- Please select --",
+        "options": {
+          "cassette": "Cassette toilet",
+          "chemical": "Chemical toilet",
+          "dry": "Dry separation toilet",
+          "fixed": "Fixed tank toilet",
+          "clesana": "Clesana",
+          "none": "No toilet"
+        }
+      }
+    },
+    "accommodation": {
+      "title": "Accommodation Options",
+      "subtitle": "(Multiple selection possible)",
+      "categories": {
+        "companions": {
+          "label": "Travel companions",
+          "options": {
+            "partner": "Partner / Spouse",
+            "friends": "Friends",
+            "family": "Family",
+            "children": "Children",
+            "babies": "Babies / Toddlers",
+            "pets": "Pets / Dogs",
+            "multiGen": "Multi-generational",
+            "seniors": "Senior group"
+          }
+        },
+        "type": {
+          "label": "Accommodation type",
+          "options": {
+            "camping": "Campsite",
+            "pitch": "Motorhome pitch",
+            "farm": "Farm camping",
+            "winery": "Winery/Vineyard",
+            "wild": "Wild camping (where allowed)",
+            "park4night": "Park4Night spots"
+          }
+        },
+        "facilities": {
+          "label": "Required facilities",
+          "options": {
+            "power": "Electricity",
+            "water": "Fresh water",
+            "disposal": "Disposal station",
+            "wifi": "WLAN/WiFi",
+            "sanitary": "Sanitary facilities",
+            "laundry": "Washing machine",
+            "dogs": "Dog friendly",
+            "pool": "Swimming pool"
+          }
+        }
+      },
+      "travelers": {
+        "label": "Number of travelers",
+        "unit": "People"
+      },
+      "budget": {
+        "label": "Max. budget per night"
+      },
+      "additional": {
+        "label": "Additional accommodation requests",
+        "placeholder": "Specific requests for campsites/pitches (e.g. swimming pool, dog beach, restaurant, bike rental)"
+      }
+    },
+    "interests": {
+      "title": "Special Interests & Activities",
+      "subtitle": "(Multiple selection possible)",
+      "label": "Activities & Interests",
+      "options": {
+        "hiking": "Hiking",
+        "cycling": "Cycling",
+        "water": "Water sports (swimming, sailing, canoe)",
+        "climbing": "Climbing / Mountaineering",
+        "birds": "Bird watching / Nature observation",
+        "fishing": "Fishing",
+        "astronomy": "Astronomy / Stargazing",
+        "museums": "Museums & Galleries",
+        "history": "Historical sites",
+        "markets": "Local markets & crafts",
+        "yoga": "Yoga & Meditation",
+        "wellness": "Wellness & Spa",
+        "gastronomy": "Gastronomy & Wine tasting",
+        "dogs": "Dog-friendly activities",
+        "kids": "Child-friendly activities",
+        "photography": "Photography"
+      },
+      "additional": {
+        "label": "Further information & requests",
+        "placeholder": "General travel information (e.g. dietary needs, allergies, health restrictions, special events during the trip)"
+      }
+    },
+    "output": {
+      "title": {
+        "direct": "AI Route Planning",
+        "prompt": "Generated Prompt"
+      },
+      "loading": {
+        "wait": "Please wait, this may take a moment."
+      },
+      "actions": {
+        "copy": "Copy to clipboard",
+        "copied": "Copied!",
+        "print": "Print / Save as PDF",
+        "downloadGPX": "Download GPX file",
+        "copyError": "Copying failed. Please try manually (Ctrl+C)."
+      },
+      "print": {
+        "title": "Motorhome Route",
+        "generatedAt": "Generated on",
+        "model": "AI Model",
+        "gpxError": "No GPX data found in the response. Not all AI models generate GPX files."
+      }
+    }
+  },
+  "prompt": {
+    "systemRole": "You are a professional motorhome route planner with expert knowledge of Germany and international travel destinations. Based on my information, create a practical, well-structured motorhome route. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and point out what I should still check myself in the navigation system or a camping app. Answer in the language: {{language}}.",
+    "sections": {
+      "route": "ITINERARY",
+      "vehicle": "VEHICLE-SPECIFIC FILTERS",
+      "accommodation": "ACCOMMODATION OPTIONS",
+      "interests": "SPECIAL INTERESTS & ACTIVITIES",
+      "optimization": "ROUTE OPTIMIZATION",
+      "additional": "ADDITIONAL INFORMATION & REQUESTS"
+    },
+    "labels": {
+      "start": "Start point",
+      "destination": "Destination",
+      "stage": "Stopover {{num}}",
+      "departure": "Departure date",
+      "arrival": "Arrival date",
+      "totalDistance": "Estimated total distance",
+      "maxDailyDistance": "Max. driving distance per day",
+      "routeType": "Route type",
+      "length": "Length",
+      "height": "Height",
+      "width": "Width",
+      "weight": "Gross vehicle weight",
+      "axleLoad": "Axle load",
+      "axleLoadUnit": "t per axle",
+      "fuelType": "Fuel type",
+      "solar": "Solar power",
+      "battery": "Battery capacity",
+      "toilet": "Toilet system",
+      "travelers": "Number of travelers",
+      "travelersUnit": "People",
+      "companions": "Travel companions",
+      "accommodationTypes": "Accommodation types",
+      "facilities": "Required facilities",
+      "budget": "Budget per night",
+      "budgetUpTo": "up to",
+      "specialWishes": "Special requests",
+      "travelStyle": "Preferred travel style",
+      "preferences": "Route preferences",
+      "highwayMaut": "Highways/Toll"
+    },
+    "instructions": "Plan the route with the parameters mentioned above and structure your response according to the following modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1. Stage Planning (daily kilometers, driving time, breaks every 2-3 hours, alternative route and brief reasoning if necessary).\n\n2. Overnights (specific camping/pitches (and alternatives) with a short description; provide links and rough price ranges where possible, but mark prices as guidelines).\n\n3. Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4. Practical Tips (navigation, disposal, emergency information).\n\n5. Best Travel Time & Duration (short section).\n\n6. Service on the go (refueling, supermarkets, workshops).\n\n7. Additional Info (budget orientation, sustainability, health, connectivity).\n\n8. Tech & Equipment (short checklist, app recommendations).\n\n9. Flexibility (alternative routes, legal information on wild camping, tools for further optimization).\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. State distances in km and driving times in hours/minutes and label them as estimates (e.g. \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to finally check the route in the GPS (e.g. Google Maps, Here, Garmin, OpenStreetMap app).\n\nGPX File: At the end of the response, generate only the GPX-XML data for this route in GPX 1.1 format. Include the start, all stages, overnight stays, and the destination as waypoints (<wpt>) and the entire route as a track (<trk>). No explanations for the XML."
+  }
+}

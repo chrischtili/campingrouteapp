@@ -5,6 +5,7 @@ import { SectionCard } from "./SectionCard";
 import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "react-i18next";
 
 interface ActivitiesSectionProps {
   formData: FormData;
@@ -12,45 +13,40 @@ interface ActivitiesSectionProps {
   onCheckboxChange: (name: string, value: string, checked: boolean) => void;
 }
 
-const activityOptions = [
-  { value: 'Wandern', label: 'Wandern' },
-  { value: 'Fahrradfahren', label: 'Fahrradfahren' },
-  { value: 'Wassersport', label: 'Wassersport (Schwimmen, Segeln, Kanu)' },
-  { value: 'Klettern', label: 'Klettern / Bergsteigen' },
-  { value: 'Vogelbeobachtung', label: 'Vogelbeobachtung / Naturbeobachtung' },
-  { value: 'Fischen', label: 'Fischen' },
-  { value: 'Astronomie', label: 'Astronomie / Sternenbeobachtung' },
-  { value: 'Museen', label: 'Museen & Galerien' },
-  { value: 'Historische Stätten', label: 'Historische Stätten' },
-  { value: 'Märkte', label: 'Lokale Märkte & Handwerk' },
-  { value: 'Yoga', label: 'Yoga & Meditation' },
-  { value: 'Wellnessangebote', label: 'Wellnessangebote & Spa' },
-  { value: 'Gastronomie', label: 'Gastronomie & Weinverkostung' },
-  { value: 'Hundefreundlich', label: 'Hundefreundliche Aktivitäten' },
-  { value: 'Kinderfreundlich', label: 'Kinderfreundliche Aktivitäten' },
-  { value: 'Fotografieren', label: 'Fotografieren' },
-];
-
-const companionOptions = [
-  { value: 'Solo', label: 'Allein (Solo)' },
-  { value: 'Partner', label: 'Partner / Ehepartner' },
-  { value: 'Freunde', label: 'Freunde' },
-  { value: 'Familie', label: 'Familie' },
-  { value: 'Kinder', label: 'Kinder' },
-  { value: 'Babys', label: 'Babys / Kleinkinder' },
-  { value: 'Haustiere', label: 'Haustiere / Hunde' },
-  { value: 'Mehrgenerationenreise', label: 'Mehrgenerationenreise' },
-  { value: 'Seniorengruppe', label: 'Seniorengruppe' },
-];
-
 export function ActivitiesSection({ formData, onChange, onCheckboxChange }: ActivitiesSectionProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
+
+  const activityOptions = [
+    { value: 'hiking', label: t("planner.interests.options.hiking") },
+    { value: 'cycling', label: t("planner.interests.options.cycling") },
+    { value: 'water', label: t("planner.interests.options.water") },
+    { value: 'climbing', label: t("planner.interests.options.climbing") },
+    { value: 'birds', label: t("planner.interests.options.birds") },
+    { value: 'fishing', label: t("planner.interests.options.fishing") },
+    { value: 'astronomy', label: t("planner.interests.options.astronomy") },
+    { value: 'museums', label: t("planner.interests.options.museums") },
+    { value: 'history', label: t("planner.interests.options.history") },
+    { value: 'markets', label: t("planner.interests.options.markets") },
+    { value: 'yoga', label: t("planner.interests.options.yoga") },
+    { value: 'wellness', label: t("planner.interests.options.wellness") },
+    { value: 'gastronomy', label: t("planner.interests.options.gastronomy") },
+    { value: 'dogs', label: t("planner.interests.options.dogs") },
+    { value: 'kids', label: t("planner.interests.options.kids") },
+    { value: 'photography', label: t("planner.interests.options.photography") },
+  ];
   
   return (
-    <SectionCard icon="✨" title="Besondere Interessen & Aktivitäten" subtitle="(Mehrfachauswahl möglich)" iconColor="bg-yellow-100 dark:bg-yellow-900" titleColor="text-yellow-700">
+    <SectionCard 
+      icon="✨" 
+      title={t("planner.interests.title")} 
+      subtitle={t("planner.interests.subtitle")} 
+      iconColor="bg-yellow-100 dark:bg-yellow-900" 
+      titleColor="text-yellow-700"
+    >
       <div className={`space-y-6 ${isMobile ? "space-y-4" : ""}`}>
         <div className="space-y-3">
-          <Label className="font-medium">Aktivitäten & Interessen</Label>
+          <Label className="font-medium">{t("planner.interests.label")}</Label>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4">
             <ToggleGroup
               name="activities"
@@ -74,10 +70,10 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="additionalInfo">Weitere Informationen & Wünsche</Label>
+          <Label htmlFor="additionalInfo">{t("planner.interests.additional.label")}</Label>
           <Textarea
             id="additionalInfo"
-            placeholder="Allgemeine Reiseinformationen (z. B. Ernährungsbedürfnisse, Allergien, gesundheitliche Einschränkungen, besondere Ereignisse während der Reise)"
+            placeholder={t("planner.interests.additional.placeholder")}
             value={formData.additionalInfo}
             onChange={(e) => onChange({ additionalInfo: e.target.value })}
             rows={3}

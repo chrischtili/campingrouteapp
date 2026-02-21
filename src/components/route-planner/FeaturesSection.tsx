@@ -1,40 +1,43 @@
 import { Compass, Zap, Filter, Shield, Github, Gift } from "lucide-react";
 import { motion } from "framer-motion";
-
-const features = [
-  {
-    icon: Compass,
-    title: "KI-Prompt-Generierung",
-    description: "Erstellt optimierte Prompts für deine KI-gestützte Routenplanung mit Wohnmobil-spezifischen Parametern.",
-  },
-  {
-    icon: Filter,
-    title: "Smarte Filter",
-    description: "Filtere nach Budget, Fahrzeuggröße, Interessen und Stellplatz-Ausstattung für präzise Prompts.",
-  },
-  {
-    icon: Zap,
-    title: "Sofort startklar",
-    description: "Keine Registrierung nötig. In unter 3 Minuten zum fertigen KI-Prompt.",
-  },
-  {
-    icon: Shield,
-    title: "Datenschutz first",
-    description: "Keine Datenspeicherung. Alles bleibt lokal in deinem Browser.",
-  },
-  {
-    icon: Github,
-    title: "Open Source",
-    description: "Vollständig transparent. Code auf GitHub einsehbar und mitwirkbar.",
-  },
-  {
-    icon: Gift,
-    title: "Kostenlos & Werbefrei",
-    description: "Keine versteckten Kosten. Keine Werbung. Vollständig kostenlose Nutzung.",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export function FeaturesSection() {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: Compass,
+      title: t("features.promptGen.title"),
+      description: t("features.promptGen.description"),
+    },
+    {
+      icon: Filter,
+      title: t("features.smartFilters.title"),
+      description: t("features.smartFilters.description"),
+    },
+    {
+      icon: Zap,
+      title: t("features.readyInstantly.title"),
+      description: t("features.readyInstantly.description"),
+    },
+    {
+      icon: Shield,
+      title: t("features.privacyFirst.title"),
+      description: t("features.privacyFirst.description"),
+    },
+    {
+      icon: Github,
+      title: t("features.openSource.title"),
+      description: t("features.openSource.description"),
+    },
+    {
+      icon: Gift,
+      title: t("features.freeAdFree.title"),
+      description: t("features.freeAdFree.description"),
+    },
+  ];
+
   return (
     <section className="py-24 px-4 bg-[rgb(230,225,215)] dark:bg-gray-700" id="features">
       <div className="max-w-6xl mx-auto">
@@ -46,10 +49,10 @@ export function FeaturesSection() {
           className="text-center mb-16"
         >
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
-            Features
+            {t("features.badge")}
           </span>
           <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
-            Warum Camping Route?
+            {t("features.title")}
           </h2>
         </motion.div>
 

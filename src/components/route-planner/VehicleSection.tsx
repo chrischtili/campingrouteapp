@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { SectionCard } from "./SectionCard";
 import { FormSlider } from "./FormSlider";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "react-i18next";
 
 interface VehicleSectionProps {
   formData: FormData;
@@ -11,14 +12,15 @@ interface VehicleSectionProps {
 }
 
 export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   
   return (
-    <SectionCard icon="🚐" title="Fahrzeugspezifische Filter" iconColor="bg-green-100 dark:bg-green-900" titleColor="text-green-700">
+    <SectionCard icon="🚐" title={t("planner.vehicle.title")} iconColor="bg-green-100 dark:bg-green-900" titleColor="text-green-700">
       <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-3 gap-6"}`}>
         <FormSlider
           id="vehicleLength"
-          label="Länge"
+          label={t("planner.vehicle.length")}
           value={parseFloat(formData.vehicleLength) || 7}
           min={5}
           max={12}
@@ -29,7 +31,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
         <FormSlider
           id="vehicleHeight"
-          label="Höhe"
+          label={t("planner.vehicle.height")}
           value={parseFloat(formData.vehicleHeight) || 2.9}
           min={2}
           max={3.8}
@@ -40,7 +42,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
         <FormSlider
           id="vehicleWidth"
-          label="Breite"
+          label={t("planner.vehicle.width")}
           value={parseFloat(formData.vehicleWidth) || 2.3}
           min={1.9}
           max={2.5}
@@ -51,7 +53,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
         <FormSlider
           id="vehicleWeight"
-          label="Zulässiges Gesamtgewicht"
+          label={t("planner.vehicle.weight")}
           value={parseFloat(formData.vehicleWeight) || 3.5}
           min={3.5}
           max={7.5}
@@ -62,7 +64,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
         <FormSlider
           id="axleLoad"
-          label="Max. Achslast"
+          label={t("planner.vehicle.axleLoad")}
           value={parseFloat(formData.axleLoad) || 2.5}
           min={1.5}
           max={4.5}
@@ -72,24 +74,24 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         />
 
         <div className="space-y-2">
-          <Label htmlFor="fuelType">Kraftstoffart</Label>
+          <Label htmlFor="fuelType">{t("planner.vehicle.fuel.label")}</Label>
           <Select value={formData.fuelType} onValueChange={(value) => onChange({ fuelType: value })}>
-            <SelectTrigger aria-label="Kraftstoffart auswählen">
-              <SelectValue placeholder="-- Bitte wählen --" />
+            <SelectTrigger aria-label={t("planner.vehicle.fuel.label")}>
+              <SelectValue placeholder={t("planner.vehicle.fuel.placeholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Diesel">Diesel</SelectItem>
-              <SelectItem value="Benzin">Benzin</SelectItem>
-              <SelectItem value="LPG">LPG / Autogas</SelectItem>
-              <SelectItem value="Elektro">Elektro</SelectItem>
-              <SelectItem value="Hybrid">Hybrid</SelectItem>
+              <SelectItem value="diesel">{t("planner.vehicle.fuel.options.diesel")}</SelectItem>
+              <SelectItem value="petrol">{t("planner.vehicle.fuel.options.petrol")}</SelectItem>
+              <SelectItem value="lpg">{t("planner.vehicle.fuel.options.lpg")}</SelectItem>
+              <SelectItem value="electric">{t("planner.vehicle.fuel.options.electric")}</SelectItem>
+              <SelectItem value="hybrid">{t("planner.vehicle.fuel.options.hybrid")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <FormSlider
           id="solarPower"
-          label="Solaranlage"
+          label={t("planner.vehicle.solar")}
           value={parseFloat(formData.solarPower) || 300}
           min={50}
           max={1000}
@@ -100,7 +102,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
         <FormSlider
           id="batteryCapacity"
-          label="Aufbaubatterie"
+          label={t("planner.vehicle.battery")}
           value={parseFloat(formData.batteryCapacity) || 200}
           min={50}
           max={1000}
@@ -110,18 +112,18 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         />
 
         <div className="space-y-2">
-          <Label htmlFor="toiletteSystem">Toilettensystem</Label>
+          <Label htmlFor="toiletteSystem">{t("planner.vehicle.toilet.label")}</Label>
           <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })}>
-            <SelectTrigger aria-label="Toilettensystem auswählen">
-              <SelectValue placeholder="-- Bitte wählen --" />
+            <SelectTrigger aria-label={t("planner.vehicle.toilet.label")}>
+              <SelectValue placeholder={t("planner.vehicle.toilet.placeholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Kassettentoilette">Kassettentoilette</SelectItem>
-              <SelectItem value="Chemietoilette">Chemietoilette</SelectItem>
-              <SelectItem value="Trockentrenntoilette">Trockentrenntoilette</SelectItem>
-              <SelectItem value="Festtanktoilette">Festtanktoilette</SelectItem>
-              <SelectItem value="Clesana">Clesana</SelectItem>
-              <SelectItem value="Keine">Keine Toilette</SelectItem>
+              <SelectItem value="cassette">{t("planner.vehicle.toilet.options.cassette")}</SelectItem>
+              <SelectItem value="chemical">{t("planner.vehicle.toilet.options.chemical")}</SelectItem>
+              <SelectItem value="dry">{t("planner.vehicle.toilet.options.dry")}</SelectItem>
+              <SelectItem value="fixed">{t("planner.vehicle.toilet.options.fixed")}</SelectItem>
+              <SelectItem value="clesana">{t("planner.vehicle.toilet.options.clesana")}</SelectItem>
+              <SelectItem value="none">{t("planner.vehicle.toilet.options.none")}</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Copy, Printer, FileText, CheckCircle, Loader2, Route, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 
 interface OutputSectionProps {
   output: string;
@@ -14,6 +15,7 @@ interface OutputSectionProps {
 }
 
 export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiProvider, aiError, useDirectAI }: OutputSectionProps) {
+  const { t, i18n } = useTranslation();
   const [showSuccess, setShowSuccess] = useState(false);
 
   const copyToClipboard = async () => {
@@ -62,20 +64,20 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
           if (process.env.NODE_ENV === 'development') {
             console.error('execCommand copy war nicht erfolgreich');
           }
-          alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
+          alert(t("planner.output.actions.copyError"));
         }
       } catch (execError) {
         document.body.removeChild(textarea);
         if (process.env.NODE_ENV === 'development') {
           console.error('execCommand Fehler:', execError);
         }
-        alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
+        alert(t("planner.output.actions.copyError"));
       }
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Unerwarteter Fehler beim Kopieren:', err);
       }
-      alert('Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C).');
+      alert(t("planner.output.actions.copyError"));
     }
   };
 
@@ -95,7 +97,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
 
       URL.revokeObjectURL(url);
     } else {
-      alert('Keine GPX-Daten in der Antwort gefunden. Nicht alle KI-Modelle generieren GPX-Dateien.');
+      alert(t("planner.output.print.gpxError"));
     }
   };
 
@@ -113,12 +115,15 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
       const frameDoc = printFrame.contentDocument || printFrame.contentWindow?.document;
       
       if (frameDoc) {
+        const locale = i18n.language === 'de' ? 'de-DE' : 'en-US';
+        const now = new Date();
+        
         frameDoc.open();
         frameDoc.write(`
           <!DOCTYPE html>
           <html>
             <head>
-              <title>Wohnmobil-Route</title>
+              <title>${t("planner.output.print.title")}</title>
               <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; }
                 .header { text-align: center; margin-bottom: 20px; }
@@ -133,11 +138,11 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
             <body>
               <div class="header">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
-                  <img src="${window.location.origin}/favicon-final.svg" alt="Camping Route Logo" style="height: 60px; width: 60px;" loading="lazy" />
-                  <h1 style="margin: 0;">Wohnmobil-Route</h1>
+                  <img src="${window.location.origin}/favicon-final.svg" alt="Logo" style="height: 60px; width: 60px;" loading="lazy" />
+                  <h1 style="margin: 0;">${t("planner.output.print.title")}</h1>
                 </div>
-                <p>Generiert am: ${new Date().toLocaleDateString('de-DE')} ${new Date().toLocaleTimeString('de-DE')}</p>
-                ${aiModel ? `<p class="model-info">KI-Modell: ${aiModel}</p>` : ''}
+                <p>${t("planner.output.print.generatedAt")}: ${now.toLocaleDateString(locale)} ${now.toLocaleTimeString(locale)}</p>
+                ${aiModel ? `<p class="model-info">${t("planner.output.print.model")}: ${aiModel}</p>` : ''}
               </div>
               <div class="content">${output.replace(/\n/g, '<br>')}</div>
             </body>
@@ -163,7 +168,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
         printWindow.document.write(`
           <html>
             <head>
-              <title>Wohnmobil-Route</title>
+              <title>${t("planner.output.print.title")}</title>
               <script>
                 window.onload = function() {
                   window.print();
@@ -189,7 +194,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
       <CardHeader className="bg-primary/5 border-b border-border">
         <CardTitle className="flex items-center gap-3">
           <FileText className="h-5 w-5 text-primary" />
-          {useDirectAI ? 'KI-Routenplanung' : 'Generierter Prompt'}
+          {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
           {aiModel && (
             <span className="text-sm font-normal bg-primary/10 text-primary px-3 py-1 rounded-full ml-auto flex items-center gap-2">
               <Route className="h-4 w-4" />
@@ -201,23 +206,21 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
               href="#model-selection-faq"
               onClick={(e) => {
                 e.preventDefault();
-                const faqSection = document.getElementById('faq');
                 const trigger = document.getElementById('model-selection-faq');
-                if (faqSection && trigger) {
-                  faqSection.scrollIntoView({ behavior: 'smooth' });
+                if (trigger) {
+                  trigger.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   setTimeout(() => {
-                    // Überprüfe, ob der Tab bereits geöffnet ist
-                    const accordionItem = trigger.closest('[data-state="open"]');
-                    if (!accordionItem) {
+                    const accordionItem = trigger.closest('[data-state]');
+                    if (accordionItem?.getAttribute('data-state') === 'closed') {
                       (trigger as HTMLElement).click();
                     }
                   }, 500);
                 }
               }}
-              className="text-sm font-normal text-primary hover:underline ml-4 flex items-center gap-1"
+              className="text-sm font-normal text-primary hover:underline ml-auto flex items-center gap-1"
             >
               <Info className="h-4 w-4" />
-              Welches KI-Modell wählen?
+              {t("planner.ai.provider.help")}
             </a>
           )}
         </CardTitle>
@@ -227,7 +230,7 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
           <div className="flex flex-col items-center justify-center py-12 gap-4">
             <Loader2 className="h-12 w-12 text-primary animate-spin" />
             <p className="text-lg font-medium">{loadingMessage}</p>
-            <p className="text-muted-foreground text-sm">Bitte warten, dies kann einen Moment dauern.</p>
+            <p className="text-muted-foreground text-sm">{t("planner.output.loading.wait")}</p>
           </div>
         ) : (
           <>
@@ -244,19 +247,19 @@ export function OutputSection({ output, isLoading, loadingMessage, aiModel, aiPr
             <div className="flex flex-wrap gap-3 mt-6">
               <Button onClick={copyToClipboard} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
                 {showSuccess ? <CheckCircle className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
-                {showSuccess ? 'Kopiert!' : 'In Zwischenablage kopieren'}
+                {showSuccess ? t("planner.output.actions.copied") : t("planner.output.actions.copy")}
               </Button>
               
               <Button onClick={printOutput} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
                 <Printer className="h-5 w-5" />
-                Drucken / Als PDF speichern
+                {t("planner.output.actions.print")}
               </Button>
               
               {/* GPX Download Button - nur anzeigen wenn GPX-Daten vorhanden sind */}
               {output.includes('<?xml') && output.includes('</gpx>') && (
                 <Button onClick={extractAndDownloadGPX} variant="outline" size="lg" className="gap-2 min-h-[48px] px-6 py-3">
                   <Route className="h-5 w-5" />
-                  GPX-Datei herunterladen
+                  {t("planner.output.actions.downloadGPX")}
                 </Button>
               )}
             </div>

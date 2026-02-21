@@ -1,28 +1,31 @@
 import { Star, Quote } from "lucide-react";
 import { motion } from "framer-motion";
-
-const testimonials = [
-  {
-    text: "Endlich ein Routenplaner, der wirklich auf meine Bedürfnisse eingeht! Die KI hat mir eine perfekte Route mit tollen Stellplätzen vorgeschlagen.",
-    author: "Markus",
-    role: "Wohnmobil-Reisender",
-    rating: 5,
-  },
-  {
-    text: "Die Filteroptionen sind genial! Ich kann nach Budget, Interessen und sogar Fahrzeuggröße filtern – das spart so viel Zeit!",
-    author: "Sarah",
-    role: "Camperin",
-    rating: 5,
-  },
-  {
-    text: "Perfekt für spontane Trips! Innerhalb von Minuten hatte ich eine detaillierte Route mit allen wichtigen Infos.",
-    author: "Thomas",
-    role: "Wochenend-Camper",
-    rating: 4,
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export function TestimonialsSection() {
+  const { t } = useTranslation();
+
+  const testimonials = [
+    {
+      text: t("testimonials.markus.text"),
+      author: "Markus",
+      role: t("testimonials.markus.role"),
+      rating: 5,
+    },
+    {
+      text: t("testimonials.sarah.text"),
+      author: "Sarah",
+      role: t("testimonials.sarah.role"),
+      rating: 5,
+    },
+    {
+      text: t("testimonials.thomas.text"),
+      author: "Thomas",
+      role: t("testimonials.thomas.role"),
+      rating: 4,
+    },
+  ];
+
   return (
     <section className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800" id="testimonials">
       <div className="max-w-6xl mx-auto">
@@ -34,10 +37,10 @@ export function TestimonialsSection() {
           className="text-center mb-16"
         >
           <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
-            Erfahrungen
+            {t("testimonials.badge")}
           </span>
           <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
-            Von Campern geliebt
+            {t("testimonials.title")}
           </h2>
         </motion.div>
 

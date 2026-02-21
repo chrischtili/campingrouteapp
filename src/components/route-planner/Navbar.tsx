@@ -1,15 +1,21 @@
-import { Compass } from "lucide-react";
+import { Compass, Globe } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface NavbarProps {
   onStartPlanning?: () => void;
 }
 
 export function Navbar({ onStartPlanning }: NavbarProps) {
+  const { t, i18n } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const featuresSectionRef = useRef(null);
+
+  const toggleLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,9 +58,9 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   };
 
   const navLinks = [
-    { label: "Features", href: "/#features" },
-    { label: "Beispielroute", href: "/#example-route" },
-    { label: "FAQ", href: "/#faq" },
+    { label: t("navbar.features"), href: "/#features" },
+    { label: t("navbar.exampleRoute"), href: "/#example-route" },
+    { label: t("navbar.faq"), href: "/#faq" },
   ];
 
   return (
@@ -80,7 +86,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }} className="flex items-center gap-2 cursor-pointer">
-          <img src="/favicon-original-final.svg" alt="Camping Route Logo" className="w-10 h-10 transition-colors dark:invert" />
+          <img src="/favicon-original-final.svg" alt="Logo" className="w-10 h-10 transition-colors dark:invert" />
           <span className={`font-bold text-xl transition-colors ${scrolled ? "text-foreground" : "text-white dark:text-foreground"}`}>
             Camping Route
           </span>
@@ -102,16 +108,35 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
+          <div className="flex items-center mr-2">
+            <button 
+              onClick={() => toggleLanguage(i18n.language === 'de' ? 'en' : 'de')}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              title={i18n.language === 'de' ? "Switch to English" : "Auf Deutsch umstellen"}
+            >
+              <span className="text-2xl leading-none">
+                {i18n.language === 'de' ? '🇬🇧' : '🇩🇪'}
+              </span>
+            </button>
+          </div>
           <button
             onClick={() => onStartPlanning?.()}
             className={`px-5 py-2 rounded-full ${scrolled ? "bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white" : "bg-white text-foreground border border-foreground/20 dark:bg-foreground dark:text-background dark:border-background/20"} font-semibold text-sm shadow-soft hover:scale-105 transition-transform md:ml-4`}
           >
-            Jetzt planen
+            {t("navbar.planNow")}
           </button>
           <ThemeToggle />
         </div>
 
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <button 
+            onClick={() => toggleLanguage(i18n.language === 'de' ? 'en' : 'de')}
+            className="w-8 h-8 flex items-center justify-center"
+          >
+            <span className="text-2xl leading-none">
+              {i18n.language === 'de' ? '🇬🇧' : '🇩🇪'}
+            </span>
+          </button>
           <ThemeToggle />
         </div>
       </div>

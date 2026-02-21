@@ -1,286 +1,84 @@
 import { FormData, AISettings } from "@/types/routePlanner";
+import i18next from "i18next";
 
-function formatGermanDate(dateString: string): string {
+function formatDate(dateString: string): string {
   if (!dateString) return '';
-  const [year, month, day] = dateString.split('-');
-  return `${day}.${month}.${year}`;
+  const date = new Date(dateString);
+  const locale = i18next.language === 'de' ? 'de-DE' : 'en-US';
+  return date.toLocaleDateString(locale);
 }
 
 export function generatePrompt(data: FormData): string {
-  return `Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.
+  const t = (key: string, options?: any) => i18next.t(key, options);
+  const languageName = i18next.language === 'de' ? 'Deutsch' : 'English';
 
-🗺️ REISEROUTE:
+  return `${t("prompt.systemRole", { language: languageName })}
+
+🗺️ ${t("prompt.sections.route")}:
 ──────────────
-• Startpunkt: ${data.startPoint}
-• Ziel: ${data.destination}
-${data.stageDestination1 ? '• Etappenziel 1: ' + data.stageDestination1 + '\n' : ''}${data.stageDestination2 ? '• Etappenziel 2: ' + data.stageDestination2 + '\n' : ''}• Abreisedatum: ${formatGermanDate(data.startDate)}
-• Ankunftsdatum: ${formatGermanDate(data.endDate)}
-${data.distance ? '• Geschätzte Gesamtdistanz: ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• Max. Fahrstrecke pro Tag: ' + data.maxDailyDistance + ' km\n' : ''}${data.routeType ? '• Routentyp: ' + data.routeType + '\n' : ''}
+• ${t("prompt.labels.start")}: ${data.startPoint}
+• ${t("prompt.labels.destination")}: ${data.destination}
+${data.stageDestination1 ? '• ' + t("prompt.labels.stage", { num: 1 }) + ': ' + data.stageDestination1 + '\n' : ''}${data.stageDestination2 ? '• ' + t("prompt.labels.stage", { num: 2 }) + ': ' + data.stageDestination2 + '\n' : ''}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
+• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}
+${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
 
-🚐 FAHRZEUGSPEZIFISCHE FILTER:
+🚐 ${t("prompt.sections.vehicle")}:
 ───────────────────────────
-• Länge: ${data.vehicleLength || '7'} m
-• Höhe: ${data.vehicleHeight || '2.9'} m
-• Breite: ${data.vehicleWidth || '2.3'} m
-• Zulässiges Gesamtgewicht: ${data.vehicleWeight || '3.5'} t
-• Achslast: ${data.axleLoad || '2.5'} t pro Achse
-${data.fuelType ? '• Kraftstoffart: ' + data.fuelType + '\n' : ''}${data.solarPower ? '• Solaranlage: ' + data.solarPower + 'W\n' : ''}${data.batteryCapacity ? '• Aufbaubatterie: ' + data.batteryCapacity + 'Ah\n' : ''}${data.toiletteSystem ? '• Toilettensystem: ' + data.toiletteSystem + '\n' : ''}${data.routeAdditionalInfo ? '• Zusätzliche Routeninfo: ' + data.routeAdditionalInfo + '\n' : ''}
+• ${t("prompt.labels.length")}: ${data.vehicleLength || '7'} m
+• ${t("prompt.labels.height")}: ${data.vehicleHeight || '2.9'} m
+• ${t("prompt.labels.width")}: ${data.vehicleWidth || '2.3'} m
+• ${t("prompt.labels.weight")}: ${data.vehicleWeight || '3.5'} t
+• ${t("prompt.labels.axleLoad")}: ${data.axleLoad || '2.5'} ${t("prompt.labels.axleLoadUnit")}
+${data.fuelType ? '• ' + t("prompt.labels.fuelType") + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${data.solarPower ? '• ' + t("prompt.labels.solar") + ': ' + data.solarPower + 'W\n' : ''}${data.batteryCapacity ? '• ' + t("prompt.labels.battery") + ': ' + data.batteryCapacity + 'Ah\n' : ''}${data.toiletteSystem ? '• ' + t("prompt.labels.toilet") + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}${data.routeAdditionalInfo ? '• ' + t("prompt.labels.additional.label") + ': ' + data.routeAdditionalInfo + '\n' : ''}
 
 ${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.travelCompanions.length > 0 || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.accommodation ? `
-🏕️ ÜBERNACHTUNGSOPTIONEN:
+🏕️ ${t("prompt.sections.accommodation")}:
 ──────────────────────────
-• Anzahl der Reisenden: ${data.numberOfTravelers || '2'} Personen
-${data.travelCompanions.length ? '• Reisebegleitung: ' + data.travelCompanions.map(c => {
-  const companionLabels = {
-    'Partner': 'Partner / Ehepartner',
-    'Freunde': 'Freunde',
-    'Familie': 'Familie',
-    'Kinder': 'Kinder',
-    'Babys': 'Babys / Kleinkinder',
-    'Haustiere': 'Haustiere / Hunde',
-    'Mehrgenerationenreise': 'Mehrgenerationenreise',
-    'Seniorengruppe': 'Seniorengruppe'
-  };
-  return companionLabels[c] || c;
-}).join(', ') + '\n' : ''}
-${data.accommodationType.length ? '• Unterkunftstypen: ' + data.accommodationType.join(', ') + '\n' : ''}
-${data.facilities?.length ? '• Benötigte Ausstattung: ' + data.facilities.join(', ') + '\n' : ''}
-${data.avgCampsitePriceMax ? '• Budget pro Nacht: bis ' + data.avgCampsitePriceMax + '€\n' : ''}
-${data.accommodation ? '• Besondere Wünsche: ' + data.accommodation + '\n' : ''}
+• ${t("prompt.labels.travelers")}: ${data.numberOfTravelers || '2'} ${t("prompt.labels.travelersUnit")}
+${data.travelCompanions.length ? '• ' + t("prompt.labels.companions") + ': ' + data.travelCompanions.map(c => t(`planner.accommodation.categories.companions.options.${c}`)).join(', ') + '\n' : ''}
+${data.accommodationType.length ? '• ' + t("prompt.labels.accommodationTypes") + ': ' + data.accommodationType.map(at => t(`planner.accommodation.categories.type.options.${at}`)).join(', ') + '\n' : ''}
+${data.facilities?.length ? '• ' + t("prompt.labels.facilities") + ': ' + data.facilities.map(f => t(`planner.accommodation.categories.facilities.options.${f}`)).join(', ') + '\n' : ''}
+${data.avgCampsitePriceMax ? '• ' + t("prompt.labels.budget") + ': ' + t("prompt.labels.budgetUpTo") + ' ' + data.avgCampsitePriceMax + '€\n' : ''}
+${data.accommodation ? '• ' + t("prompt.labels.specialWishes") + ': ' + data.accommodation + '\n' : ''}
 ` : ''}
 
 ${data.travelStyle || data.activities.length > 0 ? `
-🌟 BESONDERE INTERESSEN & AKTIVITÄTEN:
+🌟 ${t("prompt.sections.interests")}:
 ──────────────────────────────────
-${data.travelStyle ? '• Bevorzugter Reisestil: ' + data.travelStyle + '\n' : ''}
-${data.activities.length ? data.activities.map(a => {
-  const activityLabels = {
-    'Wandern': 'Wandern',
-    'Fahrradfahren': 'Fahrradfahren',
-    'Wassersport': 'Wassersport (Schwimmen, Segeln, Kanu)',
-    'Klettern': 'Klettern / Bergsteigen',
-    'Vogelbeobachtung': 'Vogelbeobachtung / Naturbeobachtung',
-    'Fischen': 'Fischen',
-    'Astronomie': 'Astronomie / Sternenbeobachtung',
-    'Museen': 'Museen & Galerien',
-    'Historische Stätten': 'Historische Stätten',
-    'Märkte': 'Lokale Märkte & Handwerk',
-    'Yoga': 'Yoga & Meditation',
-    'Wellnessangebote': 'Wellnessangebote & Spa',
-    'Gastronomie': 'Gastronomie & Weinverkostung',
-    'Hundefreundlich': 'Hundefreundliche Aktivitäten',
-    'Kinderfreundlich': 'Kinderfreundliche Aktivitäten',
-    'Fotografieren': 'Fotografieren'
-  };
-  return '• ' + (activityLabels[a] || a);
-}).join('\n') + '\n' : ''}
+${data.travelStyle ? '• ' + t("prompt.labels.travelStyle") + ': ' + t(`planner.route.style.options.${data.travelStyle}`) + '\n' : ''}
+${data.activities.length ? data.activities.map(a => '• ' + t(`planner.interests.options.${a}`)).join('\n') + '\n' : ''}
 ` : ''}
 
 ${data.routePreferences?.length > 0 || data.avoidHighways?.length > 0 ? `
-🛣️ ROUTENOPTIMIERUNG:
+🛣️ ${t("prompt.sections.optimization")}:
 ───────────────────────
-${data.routePreferences?.length ? '• Routenpräferenzen: ' + data.routePreferences.map(p => {
-  const preferenceLabels = {
-    'Autobahnen bevorzugen': 'Autobahnen bevorzugen (schnellste Route)',
-    'Landstraßen bevorzugen': 'Landstraßen bevorzugen (entspannte Fahrt)',
-    'Panoramastraßen': 'Panoramastraßen (landschaftlich reizvoll)',
-    'Seenroute': 'Seen & Gewässer einbeziehen',
-    'Bergstraßen': 'Bergpässe & Aussichtspunkte',
-    'Küstenroute': 'Küstenstraßen & Meerblicke',
-    'Waldrouten': 'Wälder & Naturparks',
-    'Stau vermeiden': 'Stau & Rush-Hour vermeiden',
-    'Tunnel vermeiden': 'Tunnel vermeiden',
-    'Nachtfahrten minimieren': 'Nachtfahrten minimieren',
-    'Baustellen umfahren': 'Baustellen umfahren',
-    'Maut vermeiden': 'Mautstraßen vermeiden',
-    'Städte einbeziehen': 'Städte & Kultur einbeziehen',
-    'Ländliche Routen': 'Ländliche & abgelegene Routen',
-    'Historische Routen': 'Historische Straßen (z.B. Römerstraßen)'
-  };
-  return preferenceLabels[p] || p;
+${data.routePreferences?.length ? '• ' + t("prompt.labels.preferences") + ': ' + data.routePreferences.map(p => {
+  // We need to find which category this key belongs to
+  const categories = ['roadType', 'landscape', 'traffic', 'culture'];
+  for (const cat of categories) {
+    const key = `planner.optimization.categories.${cat}.options.${p}`;
+    const translation = t(key);
+    if (translation !== key) return translation;
+  }
+  return p;
 }).join(', ') + '\n' : ''}
-${data.avoidHighways?.length ? '• Autobahnen/Maut: ' + data.avoidHighways.join(', ') + '\n' : ''}
+${data.avoidHighways?.length ? '• ' + t("prompt.labels.highwayMaut") + ': ' + data.avoidHighways.join(', ') + '\n' : ''}
 ` : ''}
 
 ${data.additionalInfo ? `
-✨ ZUSÄTZLICHE INFORMATIONEN & WÜNSCHE:
+✨ ${t("prompt.sections.additional")}:
 ─────────────────────────────────────
 ${data.additionalInfo}
 
 ` : ''}
-Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.
 
-1. Etappenplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).
-
-2. Übernachtungen (konkrete Camping-/Stellplätze (und Alternativen) mit kurzer Beschreibung; nenne soweit möglich Links und grobe Preisbereiche, aber markiere Preise als Richtwerte).
-
-3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).
-
-4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).
-
-5. Beste Reisezeit & Dauer (Kurzabschnitt).
-
-6. Service unterwegs (Tanken, Supermärkte, Werkstätten).
-
-7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).
-
-8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).
-
-9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).
-
-Wichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. "ca. 230 km / 3:00-3:30 h"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.
-
-Beispiel für eine Etappe:
-
-Etappe 1: Startpunkt – Etappenziel 1
-
-- Entfernung: ca. 230 km
-- Fahrzeit: ca. 3:00-3:30 h
-- Route: Über die A1, dann Abfahrt auf die B123 (alternativ über die A2, ca. 250 km / 3:30-4:00 h, landschaftlich reizvoller)
-- Hinweis: Bei starkem Verkehr kann die Fahrzeit länger dauern. Alternativroute über die B123 ist empfehlenswert, wenn man mehr Zeit hat und die Landschaft genießen möchte.
-- Empfehlung: Tankstelle in Etappenziel 1 aufsuchen, um für die nächste Etappe vorbereitet zu sein.
-
-Beispiel für eine Übernachtung:
-
-Campingplatz "Sonnenschein"
-
-- Lage: Direkt am See, ca. 2 km vom Etappenziel entfernt
-- Ausstattung: Stromanschluss, Sanitäranlagen, Hunde erlaubt
-- Preis: ca. 25-30 € pro Nacht (je nach Saison und Ausstattung)
-- Bewertung: 4,5/5 (sehr empfehlenswert)
-- Link: https://www.camping-sonnenschein.de
-- Hinweis: In der Hauptsaison frühzeitig reservieren, da der Platz sehr beliebt ist.
-
-Alternative Übernachtung: Stellplatz "Am Waldrand" (ca. 15 € pro Nacht, einfache Ausstattung, ruhige Lage, keine Reservierung möglich, first come first serve)
-
-
-Empfehlung für die nächste Etappe:
-Etappe 2: Etappenziel 1 – Etappenziel 2
-
-- Beschreibung: Eine beeindruckende mittelalterliche Burg auf einem Berg, die einen fantastischen Blick über die Umgebung bietet.
-- Kosten: Eintritt ca. 15 € pro Person, Hunde erlaubt (Leinenpflicht)
-- Öffnungszeiten: Täglich von 9:00 bis 18:00 Uhr (letzter Einlass um 17:00 Uhr)
-- Link: [www.burg-hohenzollern.com](http://www.burg-hohenzollern.com)
-- Hinweis: Besonders in der Hauptsaison kann es zu Wartezeiten kommen, daher empfiehlt es sich, früh am Tag zu besuchen oder Tickets im Voraus online zu buchen.
-- Empfehlung: Die Burg ist ein Muss für jeden, der Geschichte und Natur liebt. Der Blick von oben ist atemberaubend und die Aussicht auf die umliegende Landschaft ist unvergesslich.
-
-Praktische Tipps:
-
-- Navigation: Nutze Google Maps oder Here für die Navigation, da sie aktuelle Verkehrsdaten bieten. OpenStreetMap‑Apps sind eine gute Alternative für Offline‑Navigation.
-- Pausen: Plane alle 2–3 Stunden eine Pause ein, um dich zu erholen und die Umgebung zu genießen. Rastplätze entlang der Autobahnen bieten oft gute Möglichkeiten für kurze Pausen.
-- Notfall‑Hinweise: Halte die Notfallnummern bereit (z. B. 112 in Europa) und informiere dich über die Standorte von Krankenhäusern und Werkstätten entlang der Route.
-- Tankstellen: Nutze Apps wie Tankstellensucher oder Shell Box, um die günstigsten Preise zu finden. Plane Tankstopp für die Nachte Etappe ein, um sicherzustellen, dass du genug Kraftstoff hast.
-- Wetter: Überprüfe das Wetter vor der Abfahrt und plane entsprechend. Regelmäßige Wetterupdates während der Reise sind ratsam, besonders in Gebieten mit starkem Wetter.
-
-Zusatzinformationen für die Route:
-
-- Budget‑Orientierung: Schätze die Gesamtkosten für Übernachtungen, Aktivitäten und Verpflegung grob ein, um eine Vorstellung von den Ausgaben zu bekommen. Berücksichtige dabei saisonale Preisunterschiede.
-- Nachhaltigkeit: Berücksichtige umweltfreundliche Optionen, wie z. B. Campingplätze mit nachhaltigen Praktiken, Aktivitäten in der Natur und Möglichkeiten zur Müllvermeidung.
-- Gesundheit: Informiere dich über die Verfügbarkeit von medizinischer Versorgung entlang der Route und packe eine gut ausgestattete Reiseapotheke ein.
-- Konnektivität: Plane für Bereiche mit schlechter Mobilfunkabdeckung Offline‑Karten und wichtige Informationen auf Papier oder in einer Offline‑App zu speichern.
-
-Technik & Ausrüstung:
-
-- Checkliste: Erstelle eine kurze Checkliste für die Reise, die wichtige Ausrüstungsgegenstände, Dokumente und persönliche Gegenstände umfasst.
-- App‑Empfehlungen: Empfehle nützliche Apps für die Reiseplanung, Navigation, Campingplatzsuche und Aktivitäten vor Ort.
-
-Flexibilität:
-
-- Alternativrouten: Biete alternative Routenoptionen an, falls es unterwegs zu unvorhergesehenen Ereignissen kommt (z. B. Verkehr, Wetter, Straßensperrungen).
-- Rechtliche Hinweise: Informiere über die rechtlichen Bestimmungen zum Wildcamping in den jeweiligen Ländern und Regionen.
-- Tools zur Optimierung: Empfehle Tools oder Apps, mit denen ich die Route unterwegs weiter optimieren oder anpassen kann (z. B. Routenplaner, Campingplatz-Apps, Verkehrs-Apps).
-
-Zusammenfassung: Fasse hier am Ende die wichtigsten Punkte der Route zusammen, damit ich einen schnellen Überblick habe. Betone dabei die Highlights und die wichtigsten Tipps für die Reise.
-
-GPX-Datei: Generiere ausschließlich die GPX-XML-Daten für diese Route. Verwende das GPX 1.1 Format mit den folgenden Anforderungen:
-
-XML-Deklaration: <?xml version="1.0" encoding="UTF-8"?>.
-GPX-Version: 1.1.
-Creator: "AI Route Planner".
-Füge sowohl einen Track (<trk>) für die durchgehende Route als auch einzelne Wegpunkte (<wpt>) für die Ziele ein.
-Enthaltene Wegpunkte: Startpunkt, alle Etappenziele, Übernachtungsorte und das Ziel.
-Jeder Wegpunkt muss lat/lon Koordinaten und einen beschreibenden Namen enthalten.
-Keine zusätzlichen Erklärungen oder Markdown-Formatierung – nur die reine XML.
-
-
-Beispielformat:
-<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="AI Route Planner" xmlns="http://www.topografix.com/GPX/1/1">
-  <metadata>
-    <name>Route von Karlsruhe nach Wismar und zurück über Weinregionen</name>
-  </metadata>
-  <!-- Wegpunkte als Markierungen -->
-  <wpt lat="49.0069" lon="8.4037">
-    <name>Start: Karlsruhe</name>
-  </wpt>
-  <wpt lat="50.1990" lon="10.0764">
-    <name>Etappe 1: Bad Kissingen (Knaus Camping)</name>
-  </wpt>
-  <wpt lat="51.7895" lon="11.1484">
-    <name>Etappe 2: Quedlinburg (Harz)</name>
-  </wpt>
-  <wpt lat="53.0768" lon="11.8617">
-    <name>Etappe 3: Perleberg</name>
-  </wpt>
-  <wpt lat="53.9185" lon="11.3835">
-    <name>Ziel: Zierow / Wismar (Stationär 7-14.6.)</name>
-  </wpt>
-  <wpt lat="52.5417" lon="11.9698">
-    <name>Rückreise 1: Tangermünde (Elbe)</name>
-  </wpt>
-  <wpt lat="51.2136" lon="11.7702">
-    <name>Rückreise 2: Freyburg (Unstrut Weinregion)</name>
-  </wpt>
-  <wpt lat="49.8656" lon="10.2263">
-    <name>Rückreise 3: Volkach (Mainschleife)</name>
-  </wpt>
-  <wpt lat="49.0069" lon="8.4037">
-    <name>Ende: Karlsruhe</name>
-  </wpt>
-  <!-- Route als Track -->
-  <trk>
-    <name>Route von Karlsruhe nach Wismar und zurück</name>
-    <trkseg>
-      <trkpt lat="49.0069" lon="8.4037">
-        <name>Start: Karlsruhe</name>
-      </trkpt>
-      <trkpt lat="50.1990" lon="10.0764">
-        <name>Etappe 1: Bad Kissingen (Knaus Camping)</name>
-      </trkpt>
-      <trkpt lat="51.7895" lon="11.1484">
-        <name>Etappe 2: Quedlinburg (Harz)</name>
-      </trkpt>
-      <trkpt lat="53.0768" lon="11.8617">
-        <name>Etappe 3: Perleberg</name>
-      </trkpt>
-      <trkpt lat="53.9185" lon="11.3835">
-        <name>Ziel: Zierow / Wismar (Stationär 7-14.6.)</name>
-      </trkpt>
-      <trkpt lat="52.5417" lon="11.9698">
-        <name>Rückreise 1: Tangermünde (Elbe)</name>
-      </trkpt>
-      <trkpt lat="51.2136" lon="11.7702">
-        <name>Rückreise 2: Freyburg (Unstrut Weinregion)</name>
-      </trkpt>
-      <trkpt lat="49.8656" lon="10.2263">
-        <name>Rückreise 3: Volkach (Mainschleife)</name>
-      </trkpt>
-      <trkpt lat="49.0069" lon="8.4037">
-        <name>Ende: Karlsruhe</name>
-      </trkpt>
-    </trkseg>
-  </trk>
-</gpx>
-
-
-
+${t("prompt.instructions")}
 `;
 }
 
 export async function callAIAPI(formData: FormData, aiSettings: AISettings): Promise<string> {
   const prompt = generatePrompt(formData);
   
-  // Log the API call details for debugging (only in development)
   if (process.env.NODE_ENV === 'development') {
     console.log('=== AI API Call Details ===');
     console.log('Provider:', aiSettings.aiProvider);
@@ -290,9 +88,7 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
   return _callAIAPIInternal(prompt, aiSettings);
 }
 
-// Internal function that can be reused for enhancement
 async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promise<string> {
-  
   let apiUrl = '';
   let headers: Record<string, string> = {};
   let requestData: unknown = {};
@@ -304,41 +100,22 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${aiSettings.apiKey}`
       };
-      // Use the selected model directly (assuming these are actual OpenAI models)
       const actualModel = aiSettings.openaiModel || 'gpt-5.2';
-      
-      // For newer models, use max_completion_tokens instead of max_tokens
-      // Assuming GPT-5 models use the newer parameter format
       const usesCompletionTokens = [
-        'gpt-5.2',
-        'gpt-5',
-        'gpt-5-mini',
-        'gpt-5-nano',
-        'gpt-4o-2024-05-13',
-        'gpt-4o-mini-2024-07-18',
-        'gpt-4-turbo-2024-04-09',
-        'gpt-4-0125-preview',
-        'gpt-4-1106-preview'
+        'gpt-5.2', 'gpt-5', 'gpt-5-mini', 'gpt-5-nano',
+        'gpt-4o-2024-05-13', 'gpt-4o-mini-2024-07-18', 'gpt-4-turbo-2024-04-09'
       ].includes(actualModel);
-      
-      if (process.env.NODE_ENV === 'development') {
-        console.log('OpenAI Model:', aiSettings.openaiModel || 'default (gpt-5.2)');
-        console.log('Actual model used:', actualModel);
-        console.log('Using max_completion_tokens:', usesCompletionTokens);
-      }
       
       requestData = {
         model: actualModel,
         messages: [
-          { role: 'system', content: 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte in Markdown-Format.' },
+          { role: 'system', content: i18next.language === 'de' ? 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte in Markdown-Format.' : 'You are a helpful motorhome route planner. Respond in Markdown format.' },
           { role: 'user', content: prompt }
         ],
         ...(usesCompletionTokens ? { max_completion_tokens: 128000 } : { max_tokens: 128000 }),
-        ...(['gpt-5', 'gpt-5.2', 'gpt-5-mini', 'gpt-5-nano'].includes(actualModel) ? { temperature: 1 } : { temperature: 0.7 })
+        temperature: 0.7
       };
       break;
-    
-
     
     case 'mistral':
       apiUrl = 'https://api.mistral.ai/v1/chat/completions';
@@ -346,13 +123,8 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${aiSettings.apiKey}`
       };
-      const mistralModel = aiSettings.mistralModel || 'mistral-large-latest';
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Mistral Model:', mistralModel);
-      }
-      
       requestData = {
-        model: mistralModel,
+        model: aiSettings.mistralModel || 'mistral-large-latest',
         messages: [{ role: 'user', content: prompt }],
         max_tokens: 32000,
         temperature: 0.7
@@ -360,32 +132,17 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       break;
     
     case 'google':
-      // Handle both current and future Gemini models
       const googleModel = aiSettings.googleModel || 'gemini-1.5-flash-001';
-      console.log('Google Model:', googleModel);
-      
       apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${aiSettings.apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       requestData = {
         contents: [{ parts: [{ text: prompt }] }]
       };
-      // Add safetyNet settings for better control
-      if (googleModel.startsWith('gemini-3') || googleModel.startsWith('gemini-2.5')) {
-        requestData.safetySettings = [
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
-        ];
-        console.log('Added safety settings for newer Gemini models');
-      }
       break;
     
     default:
       throw new Error('Unsupported AI provider');
   }
-  
-  console.log('===========================');
   
   let response;
   try {
@@ -395,71 +152,17 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       body: JSON.stringify(requestData)
     });
   } catch (fetchError) {
-    console.error('Network Error:', fetchError);
-    if (fetchError instanceof TypeError && fetchError.message.includes('Failed to fetch')) {
-      // In Production-Umgebung könnte dies ein CORS-Fehler sein
-      if (process.env.NODE_ENV === 'production') {
-        throw new Error('CORS-Fehler: Die API blockiert Anfragen von dieser Domain. Dies funktioniert in der Entwicklungsumgebung, aber nicht in der Production. Bitte verwende einen Backend-Proxy oder kontaktiere den Support für eine Lösung.');
-      } else {
-        throw new Error('Netzwerkfehler: Bitte überprüfe deine Internetverbindung');
-      }
-    } else if (fetchError instanceof Error && fetchError.message.includes('timeout')) {
-      throw new Error('Timeout: Die Anfrage hat zu lange gedauert. Bitte versuche es später erneut.');
-    } else if (fetchError instanceof Error && (fetchError.message.includes('CORS') || fetchError.message.includes('cross-origin'))) {
-      throw new Error('CORS-Fehler: Die API blockiert Anfragen von dieser Domain. Bitte verwende einen API-Proxy oder kontaktiere den Support.');
-    } else if (aiSettings.aiProvider === 'google') {
-      throw new Error('Gemini API Fehler: Bitte überprüfe deinen API-Schlüssel und stelle sicher, dass er für Gemini freigeschaltet ist. Falls das Problem weiterhin besteht, könnte der Gemini-Server vorübergehend nicht verfügbar sein.');
-    } else {
-      throw new Error('Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.');
-    }
-  }
-  
-  if (!response) {
-    throw new Error('Keine Antwort vom Server erhalten. Bitte versuche es später erneut.');
+    throw new Error(i18next.t("planner.loading.error"));
   }
   
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    const errorMessage = errorData.error?.message || errorData.message || 'API request failed';
-    console.error('API Error Response:', response.status, errorMessage);
-    
-    // Clean up error message to remove API key and provide user-friendly message
-    let userFriendlyMessage = 'Fehler bei der API-Anfrage. ';
-    
-    if (errorMessage.includes('Incorrect API key') || errorMessage.includes('Invalid API key')) {
-      userFriendlyMessage = 'Ungültiger API-Schlüssel. Bitte überprüfe deinen API-Schlüssel.';
-    } else if (errorMessage.includes('API key not found') || errorMessage.includes('authentication')) {
-      userFriendlyMessage = 'API-Schlüssel nicht gefunden oder ungültig. Bitte gib einen gültigen API-Schlüssel ein.';
-    } else if (errorMessage.includes('Insufficient quota') || errorMessage.includes('quota')) {
-      userFriendlyMessage = 'Dein API-Kontingent ist aufgebraucht. Bitte überprüfe dein Konto.';
-    } else if (errorMessage.includes('Rate limit') || errorMessage.includes('rate limit')) {
-      userFriendlyMessage = 'API-Ratenlimit erreicht. Bitte warte einen Moment oder erhöhe dein Limit.';
-    } else if (errorMessage.includes('model not found') || errorMessage.includes('Model not found')) {
-      userFriendlyMessage = 'Das ausgewählte Modell ist nicht verfügbar. Bitte wähle ein anderes Modell.';
-    } else if (errorMessage.includes('permission') || errorMessage.includes('access')) {
-      userFriendlyMessage = 'Zugriff verweigert. Bitte überprüfe deine API-Berechtigungen.';
-    } else {
-      // Generic error message that doesn't expose API details
-      userFriendlyMessage = 'Fehler bei der API-Anfrage. Bitte überprüfe deine Einstellungen und Internetverbindung.';
-    }
-    
-    throw new Error(userFriendlyMessage);
+    throw new Error(i18next.t("planner.loading.error"));
   }
   
   const responseData = await response.json();
   
-  let aiResponse = '';
-  switch (aiSettings.aiProvider) {
-    case 'openai':
-    case 'mistral':
-      aiResponse = responseData.choices[0].message.content;
-      break;
-    case 'google':
-      aiResponse = responseData.candidates[0].content.parts[0].text;
-      break;
+  if (aiSettings.aiProvider === 'google') {
+    return responseData.candidates[0].content.parts[0].text;
   }
-  
-  return aiResponse;
+  return responseData.choices[0].message.content;
 }
-
-

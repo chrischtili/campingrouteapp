@@ -6,8 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { SectionCard } from "./SectionCard";
 import { FormSlider } from "./FormSlider";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "react-i18next";
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   
   // Handle date selection logic
@@ -22,38 +24,38 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   return (
-    <SectionCard icon="🗺️" title="Reiseroute" iconColor="bg-blue-100 dark:bg-blue-900" titleColor="text-blue-700">
+    <SectionCard icon="🗺️" title={t("planner.route.title")} iconColor="bg-blue-100 dark:bg-blue-900" titleColor="text-blue-700">
       {/* Routentyp und Reisestil - ganz oben */}
       <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"} mb-6`}>
         <div className="space-y-2">
-          <Label htmlFor="routeType">Routentyp</Label>
+          <Label htmlFor="routeType">{t("planner.route.type.label")}</Label>
           <Select value={formData.routeType} onValueChange={(value) => onChange({ routeType: value })}>
-            <SelectTrigger aria-label="Routentyp auswählen">
-              <SelectValue placeholder="-- Bitte wählen --" />
+            <SelectTrigger aria-label={t("planner.route.type.label")}>
+              <SelectValue placeholder={t("planner.route.type.placeholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="One-Way Route">One-Way Route</SelectItem>
-              <SelectItem value="Hin- und Rückfahrt">Hin- und Rückfahrt</SelectItem>
-              <SelectItem value="Rundreise">Rundreise</SelectItem>
-              <SelectItem value="Mehrere Ziele">Mehrere Ziele / Etappenreise</SelectItem>
+              <SelectItem value="oneWay">{t("planner.route.type.options.oneWay")}</SelectItem>
+              <SelectItem value="return">{t("planner.route.type.options.return")}</SelectItem>
+              <SelectItem value="roundTrip">{t("planner.route.type.options.roundTrip")}</SelectItem>
+              <SelectItem value="multiStage">{t("planner.route.type.options.multiStage")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="travelStyle">Reisestil</Label>
+          <Label htmlFor="travelStyle">{t("planner.route.style.label")}</Label>
           <Select value={formData.travelStyle} onValueChange={(value) => onChange({ travelStyle: value })}>
-            <SelectTrigger aria-label="Reisestil auswählen">
-              <SelectValue placeholder="-- Bitte wählen --" />
+            <SelectTrigger aria-label={t("planner.route.style.label")}>
+              <SelectValue placeholder={t("planner.route.style.placeholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Abenteuer">Abenteuer & Outdoor</SelectItem>
-              <SelectItem value="Entspannung">Entspannung & Wellness</SelectItem>
-              <SelectItem value="Kultur">Kultur & Geschichte</SelectItem>
-              <SelectItem value="Natur">Natur & Wandern</SelectItem>
-              <SelectItem value="Familie">Familie & Freizeit</SelectItem>
-              <SelectItem value="Gourmet">Gourmet & Kulinarik</SelectItem>
-              <SelectItem value="Slow Travel">Slow Travel & Nachhaltigkeit</SelectItem>
+              <SelectItem value="adventure">{t("planner.route.style.options.adventure")}</SelectItem>
+              <SelectItem value="relaxation">{t("planner.route.style.options.relaxation")}</SelectItem>
+              <SelectItem value="culture">{t("planner.route.style.options.culture")}</SelectItem>
+              <SelectItem value="nature">{t("planner.route.style.options.nature")}</SelectItem>
+              <SelectItem value="family">{t("planner.route.style.options.family")}</SelectItem>
+              <SelectItem value="gourmet">{t("planner.route.style.options.gourmet")}</SelectItem>
+              <SelectItem value="slowTravel">{t("planner.route.style.options.slowTravel")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -63,11 +65,11 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       <div className={`grid grid-cols-1 ${isMobile ? "gap-3" : "md:grid-cols-2 gap-4"}`}>
         <div className="space-y-2">
           <Label htmlFor="startPoint">
-            Start <span className="text-destructive">*</span>
+            {t("planner.route.start.label")} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="startPoint"
-            placeholder="z.B. München, Deutschland"
+            placeholder={t("planner.route.start.placeholder")}
             value={formData.startPoint}
             onChange={(e) => onChange({ startPoint: e.target.value })}
             required
@@ -76,11 +78,11 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-2">
           <Label htmlFor="destination">
-            Ziel <span className="text-destructive">*</span>
+            {t("planner.route.destination.label")} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="destination"
-            placeholder="z.B. Schwarzwald, Deutschland"
+            placeholder={t("planner.route.destination.placeholder")}
             value={formData.destination}
             onChange={(e) => onChange({ destination: e.target.value })}
             required
@@ -88,23 +90,23 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
 
         {/* Etappenziel-Felder - nur bei "Mehrere Ziele / Etappenreise" */}
-        {formData.routeType === 'Mehrere Ziele' && (
+        {formData.routeType === 'multiStage' && (
           <>
             <div className="space-y-2">
-              <Label htmlFor="stageDestination1">Etappenziel 1</Label>
+              <Label htmlFor="stageDestination1">{t("planner.route.stage.label", { num: 1 })}</Label>
               <Input
                 id="stageDestination1"
-                placeholder="z.B. Stuttgart, Deutschland"
+                placeholder={t("planner.route.stage.placeholder")}
                 value={formData.stageDestination1}
                 onChange={(e) => onChange({ stageDestination1: e.target.value })}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="stageDestination2">Etappenziel 2</Label>
+              <Label htmlFor="stageDestination2">{t("planner.route.stage.label", { num: 2 })}</Label>
               <Input
                 id="stageDestination2"
-                placeholder="z.B. Karlsruhe, Deutschland"
+                placeholder={t("planner.route.stage.placeholder")}
                 value={formData.stageDestination2}
                 onChange={(e) => onChange({ stageDestination2: e.target.value })}
               />
@@ -113,7 +115,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="startDate">Abreise</Label>
+          <Label htmlFor="startDate">{t("planner.route.departure")}</Label>
           <div className="relative z-50 mb-8">
             <input
               id="startDate"
@@ -127,7 +129,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="endDate">Ankunft</Label>
+          <Label htmlFor="endDate">{t("planner.route.arrival")}</Label>
           <div className="relative z-50">
             <input
               id="endDate"
@@ -143,7 +145,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="space-y-2">
           <FormSlider
             id="maxDailyDistance"
-            label="Max. Fahrstrecke pro Tag (km)"
+            label={t("planner.route.maxDistance")}
             value={parseInt(formData.maxDailyDistance) || 250}
             min={100}
             max={1000}
@@ -154,10 +156,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="routeAdditionalInfo">Zusätzliche Routeninformationen</Label>
+          <Label htmlFor="routeAdditionalInfo">{t("planner.route.additional.label")}</Label>
           <Textarea
             id="routeAdditionalInfo"
-            placeholder="Besondere Wünsche für die Route (z. B. konkrete Zwischenziele, persönliche Präferenzen, spezielle Anforderungen)"
+            placeholder={t("planner.route.additional.placeholder")}
             value={formData.routeAdditionalInfo}
             onChange={(e) => onChange({ routeAdditionalInfo: e.target.value })}
             rows={3}

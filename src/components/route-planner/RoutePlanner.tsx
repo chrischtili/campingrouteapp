@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { AISettingsSection } from "./AISettingsSection";
+import { useTranslation } from "react-i18next";
 
 // Importiere die providerModels aus der AISettingsSection oder definiere sie hier
 const providerModels = {
@@ -35,6 +36,7 @@ import { motion } from "framer-motion";
 
 // Schritt-Definitionen mit Icons für das neue Design
 export function RoutePlanner() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [aiSettings, setAISettings] = useState<AISettings>(initialAISettings);
   const [output, setOutput] = useState<string>('');
@@ -51,13 +53,13 @@ export function RoutePlanner() {
 
   // Schritt-Namen für den Assistenten mit Icons für das neue Design
   const steps = [
-    { icon: Bot, label: "KI-Einstellungen", description: "Wähle dein bevorzugtes KI-Modell und den Modus." },
-    { icon: Route, label: "Reiseroute", description: "Gib Start, Ziel und Zwischenstopps an." },
-    { icon: Settings2, label: "Routenoptimierung", description: "Passe Geschwindigkeit, Pausen und Umwege an." },
-    { icon: Truck, label: "Fahrzeug", description: "Größe, Gewicht und spezielle Anforderungen." },
-    { icon: Bed, label: "Übernachtung", description: "Stellplatz-Typ, Budget und Ausstattung." },
-    { icon: Heart, label: "Interessen", description: "Natur, Kultur, Kulinarik und mehr." },
-    { icon: FileText, label: "Zusammenfassung", description: "Prüfe deine Angaben und generiere die Route." },
+    { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
+    { icon: Route, label: t("planner.steps.route.label"), description: t("planner.steps.route.desc") },
+    { icon: Settings2, label: t("planner.steps.optimization.label"), description: t("planner.steps.optimization.desc") },
+    { icon: Truck, label: t("planner.steps.vehicle.label"), description: t("planner.steps.vehicle.desc") },
+    { icon: Bed, label: t("planner.steps.accommodation.label"), description: t("planner.steps.accommodation.desc") },
+    { icon: Heart, label: t("planner.steps.interests.label"), description: t("planner.steps.interests.desc") },
+    { icon: FileText, label: t("planner.steps.summary.label"), description: t("planner.steps.summary.desc") },
   ];
 
   const handleFormChange = (data: Partial<FormData>) => {
@@ -147,10 +149,10 @@ export function RoutePlanner() {
 
     try {
       if (aiSettings.useDirectAI) {
-        setLoadingMessage('🤖 Deine Wohnmobil-Route wird von der KI generiert...');
+        setLoadingMessage(t("planner.loading.ai"));
         
         if (!aiSettings.apiKey?.trim() || !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey)) {
-          setAIError('Bitte gib einen gültigen API-Schlüssel ein (mindestens 20 Zeichen, nur Buchstaben, Zahlen, Bindestriche und Unterstriche).');
+          setAIError(t("planner.loading.invalidKey"));
           setIsLoading(false);
           return;
         }
@@ -182,7 +184,7 @@ export function RoutePlanner() {
           }
         }, 100);
       } else {
-        setLoadingMessage('📝 Dein Prompt wird generiert...');
+        setLoadingMessage(t("planner.loading.prompt"));
         await new Promise(resolve => setTimeout(resolve, 1000));
         const generatedOutput = generatePrompt(formData);
         setOutput(generatedOutput);
@@ -210,7 +212,7 @@ export function RoutePlanner() {
       if (error instanceof Error) {
         setAIError(error.message);
       } else {
-        setAIError('Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.');
+        setAIError(t("planner.loading.error"));
       }
       
       // Auch bei Fehlern zur OutputSection scrollen, damit der Benutzer den Fehler sieht
@@ -310,7 +312,7 @@ export function RoutePlanner() {
                 size="lg"
               >
                 <Route className="w-6 h-6" />
-                Jetzt Route planen
+                {t("planner.cta")}
               </Button>
             </motion.div>
           </div>
@@ -329,10 +331,10 @@ export function RoutePlanner() {
             className="text-center mb-16"
           >
             <span className="text-[#F59B0A] dark:text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
-              Routenplaner
+              {t("planner.badge")}
             </span>
             <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
-              In 7 Schritten zur perfekten Route
+              {t("planner.title")}
             </h2>
           </motion.div>
 
@@ -384,7 +386,7 @@ export function RoutePlanner() {
           </div>
 
           {/* Step content */}
-          <div className="p-8 min-h-[240px]" ref={formRef}>
+          <div className="p-8 min-h-[240px] scroll-mt-24" ref={formRef}>
             {/* Current Step Content */}
             <div className="space-y-6">
               {/* Step 1: KI-Einstellungen */}
@@ -460,7 +462,7 @@ export function RoutePlanner() {
                           <span className="w-10 h-10 rounded-full flex items-center justify-center text-white dark:text-foreground bg-primary">
                             📋
                           </span>
-                          Zusammenfassung Ihrer Route
+                          {t("planner.summary.title")}
                         </span>
                       </h3>
                       <div className="h-px bg-gray-200 dark:bg-gray-700 mt-2 -mx-4" />
@@ -468,16 +470,16 @@ export function RoutePlanner() {
                     
                     <div className="space-y-3 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-foreground">Startpunkt:</span>
-                        <span className="font-medium text-foreground">{formData.startPoint || 'Nicht angegeben'}</span>
+                        <span className="text-foreground">{t("planner.summary.start")}:</span>
+                        <span className="font-medium text-foreground">{formData.startPoint || t("planner.summary.notSpecified")}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-foreground">Ziel:</span>
-                        <span className="font-medium text-foreground">{formData.destination || 'Nicht angegeben'}</span>
+                        <span className="text-foreground">{t("planner.summary.destination")}:</span>
+                        <span className="font-medium text-foreground">{formData.destination || t("planner.summary.notSpecified")}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-foreground">KI-Methode:</span>
-                        <span className="font-medium text-foreground">{aiSettings.useDirectAI ? 'Direkte KI-Generierung' : 'Prompt-Generierung'}</span>
+                        <span className="text-foreground">{t("planner.summary.method")}:</span>
+                        <span className="font-medium text-foreground">{aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}</span>
                       </div>
                     </div>
                   </div>
@@ -497,7 +499,7 @@ export function RoutePlanner() {
                     className="gap-2 w-full md:w-auto rounded-full text-foreground"
                   >
                     <ChevronLeft className="h-4 w-4" />
-                    Zurück
+                    {t("planner.nav.back")}
                   </Button>
                 )}
                 
@@ -509,7 +511,7 @@ export function RoutePlanner() {
                       disabled={!isStepValid()}
                       className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground w-full md:w-auto rounded-full"
                     >
-                      Weiter
+                      {t("planner.nav.next")}
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   ) : (
@@ -521,7 +523,7 @@ export function RoutePlanner() {
                       disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
                     >
                       <MapPin className="h-5 w-5" />
-                      {aiSettings.useDirectAI ? 'Route Generieren' : 'Prompt Generieren'}
+                      {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
                     </Button>
                   )}
                 </div>
@@ -530,7 +532,7 @@ export function RoutePlanner() {
           </div>
           
           {/* Output */}
-          <div className="mt-8 max-w-4xl mx-auto" ref={outputSectionRef}>
+          <div className="mt-8 max-w-4xl mx-auto scroll-mt-24" ref={outputSectionRef}>
             <OutputSection
               output={output}
               isLoading={isLoading}

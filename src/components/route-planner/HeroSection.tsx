@@ -1,12 +1,14 @@
 import { MapPin, Compass } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 interface HeroSectionProps {
   onStartPlanning?: () => void;
 }
 
 export function HeroSection({ onStartPlanning }: HeroSectionProps) {
+  const { t, i18n } = useTranslation();
   // Typing Animation State
   const [displayedText, setDisplayedText] = useState({
     line1: "",
@@ -15,16 +17,22 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
   });
   const [showCursor, setShowCursor] = useState(true);
 
-  const fullText = {
-    line1: "Plane deine perfekte Wohnmobil-Reise mit KI-gestützter Routenplanung.",
-    line2: "Unser intelligenter Prompt-Generator erstellt mit DEINER KI maßgeschneiderte",
-    line3: "Empfehlungen für Übernachtungen, Aktivitäten und versteckte Juwelen."
-  };
-
   useEffect(() => {
+    const fullText = {
+      line1: t("hero.line1"),
+      line2: t("hero.line2"),
+      line3: t("hero.line3")
+    };
+
+    let isMounted = true;
+
     const typeText = async () => {
+      setDisplayedText({ line1: "", line2: "", line3: "" });
+      setShowCursor(true);
+
       // Line 1
       for (let i = 0; i <= fullText.line1.length; i++) {
+        if (!isMounted) return;
         setDisplayedText(prev => ({
           ...prev,
           line1: fullText.line1.substring(0, i)
@@ -36,6 +44,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
 
       // Line 2
       for (let i = 0; i <= fullText.line2.length; i++) {
+        if (!isMounted) return;
         setDisplayedText(prev => ({
           ...prev,
           line2: fullText.line2.substring(0, i)
@@ -47,6 +56,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
 
       // Line 3
       for (let i = 0; i <= fullText.line3.length; i++) {
+        if (!isMounted) return;
         setDisplayedText(prev => ({
           ...prev,
           line3: fullText.line3.substring(0, i)
@@ -55,11 +65,15 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
       }
 
       // Cursor entfernen, wenn Animation fertig ist
-      setShowCursor(false);
+      if (isMounted) setShowCursor(false);
     };
 
     typeText();
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [t, i18n.language]);
 
   return (
     <section className="relative min-h-screen md:h-[90vh] flex items-center justify-center overflow-hidden pt-20" id="home">
@@ -67,7 +81,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
       <div className="absolute inset-0">
         <img
           src="/campingroute.webp"
-          alt="Wohnmobil auf malerischer Bergstraße bei Sonnenuntergang"
+          alt={t("hero.title")}
           className="w-full h-full object-cover"
           loading="lazy"
           decoding="async"
@@ -83,9 +97,9 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           transition={{ duration: 0.8 }}
           className="flex items-center justify-center gap-0.5 mb-0 md:mb-6 pt-20 md:pt-0 max-sm:pt-24"
         >
-          <img src="/favicon-original-final.svg" alt="KI-Routenplaner Logo" className="w-12 h-12" style={{ filter: 'brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(600%) hue-rotate(5deg) brightness(100%) contrast(120%)' }} />
+          <img src="/favicon-original-final.svg" alt="Logo" className="w-12 h-12" style={{ filter: 'brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(600%) hue-rotate(5deg) brightness(100%) contrast(120%)' }} />
           <span className="text-[#F59B0A] font-medium tracking-wide uppercase">
-            KI-Routenplaner
+            {t("hero.badge")}
           </span>
         </motion.div>
 
@@ -95,7 +109,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 0.15 }}
           className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white dark:text-foreground mb-0 md:mb-6 leading-tight pt-6 md:pt-0"
         >
-          Camping Route
+          {t("hero.title")}
         </motion.h1>
 
         <motion.div
@@ -126,13 +140,13 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white dark:text-foreground font-semibold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
           >
             <MapPin className="w-5 h-5" />
-            Route jetzt planen
+            {t("hero.planNow")}
           </button>
           <a
             href="#example-route"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-white/30 text-white dark:text-foreground font-medium text-lg hover:bg-white/10 dark:hover:bg-foreground/10 transition-colors duration-200"
           >
-            Beispielroute ansehen
+            {t("hero.viewExample")}
           </a>
         </motion.div>
 
@@ -143,11 +157,11 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-12 flex flex-wrap items-center justify-center gap-4 text-white/60 dark:text-foreground/60 text-sm"
         >
-          <span>★★★★★ 4.7/5 Bewertung</span>
+          <span>{t("hero.rating")}</span>
           <span className="w-1 h-1 rounded-full bg-white/40 dark:bg-foreground/40 hidden sm:block" />
-          <span>1.000+ geplante Routen</span>
+          <span>{t("hero.plannedCount")}</span>
           <span className="w-1 h-1 rounded-full bg-white/40 dark:bg-foreground/40 hidden sm:block" />
-          <span>100% kostenlos</span>
+          <span>{t("hero.free")}</span>
         </motion.div>
       </div>
     </section>

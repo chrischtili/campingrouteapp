@@ -38,10 +38,10 @@ export default defineConfig(({ mode }) => ({
             params: {
               overrides: {
                 cleanupNumericValues: false,
-                removeViewBox: false, // keep the viewBox attribute
               },
             },
           },
+          'removeViewBox',
           'sortAttrs',
           {
             name: 'addAttributesToSVGElement',
@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => ({
         quality: 80,
       },
       webp: {
-        lossless: true,
+        quality: 80,
       },
     }),
   ],

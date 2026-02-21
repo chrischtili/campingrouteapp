@@ -125,13 +125,13 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-center mb-16 max-w-2xl mx-auto pt-10"
         >
-          <div className="text-xl md:text-2xl text-white/80 dark:text-foreground/80 font-light mb-2 min-h-[3.5rem] sm:min-h-[3rem] flex items-center justify-center">
+          <div className="text-xl md:text-2xl text-white/80 dark:text-foreground/80 font-light mb-2 min-h-[4.5rem] sm:min-h-[3.5rem] flex items-center justify-center">
             <p>{displayedText.line1}{showCursor && <span className="blink-cursor">|</span>}</p>
           </div>
-          <div className="text-lg md:text-xl text-white/70 dark:text-foreground/70 font-light mb-1 min-h-[3rem] sm:min-h-[2.5rem] flex items-center justify-center">
+          <div className="text-lg md:text-xl text-white/70 dark:text-foreground/70 font-light mb-1 min-h-[3.5rem] sm:min-h-[2.5rem] flex items-center justify-center">
             <p>{displayedText.line2}</p>
           </div>
-          <div className="text-base md:text-lg text-white/60 dark:text-foreground/60 font-light min-h-[2.5rem] sm:min-h-[2rem] flex items-center justify-center">
+          <div className="text-base md:text-lg text-white/60 dark:text-foreground/60 font-light min-h-[3rem] sm:min-h-[2.5rem] flex items-center justify-center">
             <p>{displayedText.line3}</p>
           </div>
         </motion.div>

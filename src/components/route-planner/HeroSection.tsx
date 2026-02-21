@@ -83,7 +83,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           src="/campingroute.webp"
           alt={t("hero.title")}
           className="w-full h-full object-cover"
-          loading="lazy"
+          fetchpriority="high"
           decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40 dark:from-black/80 dark:to-black/70" />
@@ -97,7 +97,14 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           transition={{ duration: 0.8 }}
           className="flex items-center justify-center gap-0.5 mb-0 md:mb-6 pt-20 md:pt-0 max-sm:pt-24"
         >
-          <img src="/favicon-original-final.svg" alt="Logo" className="w-12 h-12" style={{ filter: 'brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(600%) hue-rotate(5deg) brightness(100%) contrast(120%)' }} />
+          <img 
+            src="/favicon-original-final.svg" 
+            alt="Logo" 
+            className="w-12 h-12" 
+            width="48" 
+            height="48"
+            style={{ filter: 'brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(600%) hue-rotate(5deg) brightness(100%) contrast(120%)' }} 
+          />
           <span className="text-[#F59B0A] font-medium tracking-wide uppercase">
             {t("hero.badge")}
           </span>
@@ -118,15 +125,15 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-center mb-16 max-w-2xl mx-auto pt-10"
         >
-          <p className="text-xl md:text-2xl text-white/80 dark:text-foreground/80 font-light mb-2 min-h-[3rem]">
-            {displayedText.line1}{showCursor && <span className="blink-cursor">|</span>}
-          </p>
-          <p className="text-lg md:text-xl text-white/70 dark:text-foreground/70 font-light mb-1 min-h-[2.5rem]">
-            {displayedText.line2}
-          </p>
-          <p className="text-base md:text-lg text-white/60 dark:text-foreground/60 font-light min-h-[2rem]">
-            {displayedText.line3}
-          </p>
+          <div className="text-xl md:text-2xl text-white/80 dark:text-foreground/80 font-light mb-2 min-h-[3.5rem] sm:min-h-[3rem] flex items-center justify-center">
+            <p>{displayedText.line1}{showCursor && <span className="blink-cursor">|</span>}</p>
+          </div>
+          <div className="text-lg md:text-xl text-white/70 dark:text-foreground/70 font-light mb-1 min-h-[3rem] sm:min-h-[2.5rem] flex items-center justify-center">
+            <p>{displayedText.line2}</p>
+          </div>
+          <div className="text-base md:text-lg text-white/60 dark:text-foreground/60 font-light min-h-[2.5rem] sm:min-h-[2rem] flex items-center justify-center">
+            <p>{displayedText.line3}</p>
+          </div>
         </motion.div>
 
         <motion.div

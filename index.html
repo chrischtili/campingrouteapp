@@ -63,10 +63,8 @@
     <!-- Robots -->
     <meta name="robots" content="index, follow" />
     
-    <!-- Security -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <!-- Security & Caching - Fixed for production performance -->
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
 
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com https://api.anthropic.com https://api.mistral.ai" />
     
@@ -177,10 +175,6 @@
     <!-- Load fonts asynchronously to reduce critical request chains -->
     <link rel="preload" href="/fonts/fonts.css?v=0.1.2" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low">
     <noscript><link rel="stylesheet" href="/fonts/fonts.css?v=0.1.2"></noscript>
-    
-    <!-- Load critical CSS synchronously and non-critical CSS asynchronously -->
-    <link rel="preload" href="/assets/index.Dcw2KRt9.css" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/index.Dcw2KRt9.css"></noscript>
     
     <!-- 2. LCP optimization handled by fetchpriority="high" on the image element -->
     

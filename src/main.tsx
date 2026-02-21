@@ -38,7 +38,7 @@ if (typeof window !== 'undefined') {
   }
 }
 
-// React Router v7 Future Flags für bessere Performance
+// React Router v7 Future Flags für bessere Performance und zur Vermeidung von Warnungen
 const router = createBrowserRouter([
   {
     path: '/*',
@@ -48,6 +48,10 @@ const router = createBrowserRouter([
   future: {
     v7_startTransition: true,
     v7_relativeSplatPath: true,
+    v7_fetcherPersist: true,
+    v7_normalizeFormMethod: true,
+    v7_partialHydration: true,
+    v7_skipActionErrorRevalidation: true,
   },
 });
 

@@ -27,14 +27,31 @@ export default defineConfig(({ mode }) => ({
         // Code-Splitting für bessere Performance
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            // Teile große Bibliotheken in separate Chunks auf
-            if (id.includes('@radix-ui')) return 'radix';
-            if (id.includes('lucide-react')) return 'lucide';
-            if (id.includes('react-router-dom')) return 'router';
-            if (id.includes('react-hook-form')) return 'hook-form';
-            if (id.includes('zod')) return 'zod';
-            if (id.includes('date-fns')) return 'date-fns';
-            if (id.includes('swr')) return 'swr';
+            // Core-Bibliotheken
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+              return 'react-core';
+            }
+            // Animations-Bibliothek (groß!)
+            if (id.includes('framer-motion')) {
+              return 'framer-motion';
+            }
+            // Internationalisierung
+            if (id.includes('i18next') || id.includes('react-i18next')) {
+              return 'i18n';
+            }
+            // UI-Bibliotheken
+            if (id.includes('@radix-ui') || id.includes('class-variance-authority') || id.includes('clsx') || id.includes('tailwind-merge')) {
+              return 'ui-libs';
+            }
+            // Icons
+            if (id.includes('lucide-react')) {
+              return 'icons';
+            }
+            // Formular-Logik
+            if (id.includes('react-hook-form') || id.includes('zod')) {
+              return 'forms';
+            }
+            
             return 'vendor'; // Alle anderen node_modules in vendor chunk
           }
         },

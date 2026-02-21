@@ -12,15 +12,17 @@ const providerModels = {
   openai: ['gpt-5.2', 'gpt-5', 'gpt-5-mini', 'gpt-5-nano'],
   mistral: ['mistral-large-latest', 'mistral-small-latest'],
 };
-import { RouteSection } from "./RouteSection";
-import { RouteOptimizationSection } from "./RouteOptimizationSection";
-import { VehicleSection } from "./VehicleSection";
-import { AccommodationSection } from "./AccommodationSection";
-import { ActivitiesSection } from "./ActivitiesSection";
-import { OutputSection } from "./OutputSection";
-import { HeroSection } from "./HeroSection";
 
-import { AnchorNavigation } from "./AnchorNavigation";
+// Dynamische Importe für alle Sektionen
+const AISettingsSection = lazy(() => import("./AISettingsSection").then((module) => ({ default: module.AISettingsSection })));
+const RouteSection = lazy(() => import("./RouteSection").then((module) => ({ default: module.RouteSection })));
+const RouteOptimizationSection = lazy(() => import("./RouteOptimizationSection").then((module) => ({ default: module.RouteOptimizationSection })));
+const VehicleSection = lazy(() => import("./VehicleSection").then((module) => ({ default: module.VehicleSection })));
+const AccommodationSection = lazy(() => import("./AccommodationSection").then((module) => ({ default: module.AccommodationSection })));
+const ActivitiesSection = lazy(() => import("./ActivitiesSection").then((module) => ({ default: module.ActivitiesSection })));
+const OutputSection = lazy(() => import("./OutputSection").then((module) => ({ default: module.OutputSection })));
+
+import { HeroSection } from "./HeroSection";
 import { Navbar } from "./Navbar";
 
 // Dynamische Importe für nicht kritische Komponenten
@@ -387,18 +389,24 @@ export function RoutePlanner() {
 
           {/* Step content */}
           <div className="p-8 min-h-[240px] scroll-mt-24" ref={formRef}>
-            {/* Current Step Content */}
-            <div className="space-y-6">
-              {/* Step 1: KI-Einstellungen */}
-              {currentStep === 1 && (
-                <div id="step-1" className="bg-gray-50 dark:bg-gray-900">
-                  <AISettingsSection 
-                    aiSettings={aiSettings}
-                    onAISettingsChange={handleAISettingsChange}
-                    aiError={aiError}
-                  />
-                </div>
-              )}
+            <Suspense fallback={
+              <div className="flex flex-col items-center justify-center h-64 gap-4">
+                <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                <p className="text-muted-foreground">Lade Formular...</p>
+              </div>
+            }>
+              {/* Current Step Content */}
+              <div className="space-y-6">
+                {/* Step 1: KI-Einstellungen */}
+                {currentStep === 1 && (
+                  <div id="step-1" className="bg-gray-50 dark:bg-gray-900">
+                    <AISettingsSection 
+                      aiSettings={aiSettings}
+                      onAISettingsChange={handleAISettingsChange}
+                      aiError={aiError}
+                    />
+                  </div>
+                )}
               
               {/* Step 2: Reiseroute */}
               {currentStep === 2 && (
@@ -483,12 +491,12 @@ export function RoutePlanner() {
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-            {/* Navigation Buttons - Nur anzeigen, wenn Formular sichtbar und wir uns in einem der Schritte befinden */}
+                                  </div>
+                                )}
+                              </div>
+                            </Suspense>
+                          </div>
+                            {/* Navigation Buttons - Nur anzeigen, wenn Formular sichtbar und wir uns in einem der Schritte befinden */}
             {showForm && currentStep <= steps.length && (
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
                 {currentStep > 1 && (
@@ -533,15 +541,17 @@ export function RoutePlanner() {
           
           {/* Output */}
           <div className="mt-8 max-w-4xl mx-auto scroll-mt-24" ref={outputSectionRef}>
-            <OutputSection
-              output={output}
-              isLoading={isLoading}
-              loadingMessage={loadingMessage}
-              aiModel={aiModel}
-              aiProvider={aiSettings.aiProvider}
-              aiError={aiError}
-              useDirectAI={aiSettings.useDirectAI}
-            />
+            <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div></div>}>
+              <OutputSection
+                output={output}
+                isLoading={isLoading}
+                loadingMessage={loadingMessage}
+                aiModel={aiModel}
+                aiProvider={aiSettings.aiProvider}
+                aiError={aiError}
+                useDirectAI={aiSettings.useDirectAI}
+              />
+            </Suspense>
           </div>
         </section>
       )}

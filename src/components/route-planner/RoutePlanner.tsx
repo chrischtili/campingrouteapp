@@ -1,42 +1,31 @@
 import { useState, useRef, Suspense, lazy } from "react";
-import { Route, RotateCcw, MapPin, ArrowUp, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Sparkles, Copy } from "lucide-react";
+import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
-import { AISettingsSection } from "./AISettingsSection";
 import { useTranslation } from "react-i18next";
-
-// Importiere die providerModels aus der AISettingsSection oder definiere sie hier
-const providerModels = {
-  google: ['gemini-3-pro-preview', 'gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'],
-  openai: ['gpt-5.2', 'gpt-5', 'gpt-5-mini', 'gpt-5-nano'],
-  mistral: ['mistral-large-latest', 'mistral-small-latest'],
-};
-
-// Dynamische Importe für alle Sektionen
-const AISettingsSection = lazy(() => import("./AISettingsSection").then((module) => ({ default: module.AISettingsSection })));
-const RouteSection = lazy(() => import("./RouteSection").then((module) => ({ default: module.RouteSection })));
-const RouteOptimizationSection = lazy(() => import("./RouteOptimizationSection").then((module) => ({ default: module.RouteOptimizationSection })));
-const VehicleSection = lazy(() => import("./VehicleSection").then((module) => ({ default: module.VehicleSection })));
-const AccommodationSection = lazy(() => import("./AccommodationSection").then((module) => ({ default: module.AccommodationSection })));
-const ActivitiesSection = lazy(() => import("./ActivitiesSection").then((module) => ({ default: module.ActivitiesSection })));
-const OutputSection = lazy(() => import("./OutputSection").then((module) => ({ default: module.OutputSection })));
-
-import { HeroSection } from "./HeroSection";
-import { Navbar } from "./Navbar";
-
-// Dynamische Importe für nicht kritische Komponenten
-const DynamicFeaturesSection = lazy(() => import("./FeaturesSection").then((module) => ({ default: module.FeaturesSection })));
-const DynamicTestimonialsSection = lazy(() => import("./TestimonialsSection").then((module) => ({ default: module.TestimonialsSection })));
-const DynamicRouteExampleSection = lazy(() => import("./RouteExampleSection").then((module) => ({ default: module.RouteExampleSection })));
-const DynamicFAQSection = lazy(() => import("./FAQSection").then((module) => ({ default: module.FAQSection })));
-
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Footer } from "./Footer";
 import { motion } from "framer-motion";
 
-// Schritt-Definitionen mit Icons für das neue Design
+// Statische Importe für wichtige UI-Teile
+import { HeroSection } from "./HeroSection";
+import { Navbar } from "./Navbar";
+import { Footer } from "./Footer";
+
+// Lazy Imports für die Formular-Sektionen
+const AISettingsSection = lazy(() => import("./AISettingsSection").then(m => ({ default: m.AISettingsSection })));
+const RouteSection = lazy(() => import("./RouteSection").then(m => ({ default: m.RouteSection })));
+const RouteOptimizationSection = lazy(() => import("./RouteOptimizationSection").then(m => ({ default: m.RouteOptimizationSection })));
+const VehicleSection = lazy(() => import("./VehicleSection").then(m => ({ default: m.VehicleSection })));
+const AccommodationSection = lazy(() => import("./AccommodationSection").then(m => ({ default: m.AccommodationSection })));
+const ActivitiesSection = lazy(() => import("./ActivitiesSection").then(m => ({ default: m.ActivitiesSection })));
+const OutputSection = lazy(() => import("./OutputSection").then(m => ({ default: m.OutputSection })));
+
+// Lazy Imports für Landingpage-Sektionen
+const FeaturesSection = lazy(() => import("./FeaturesSection").then(m => ({ default: m.FeaturesSection })));
+const TestimonialsSection = lazy(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
+const RouteExampleSection = lazy(() => import("./RouteExampleSection").then(m => ({ default: m.RouteExampleSection })));
+const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQSection })));
+
 export function RoutePlanner() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -48,12 +37,11 @@ export function RoutePlanner() {
   const [aiModel, setAiModel] = useState<string>('');
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [showForm, setShowForm] = useState<boolean>(false); // Formular zunächst versteckt
+  const [showForm, setShowForm] = useState<boolean>(false);
+  
   const outputSectionRef = useRef<HTMLDivElement>(null);
-  const aiSettingsSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Schritt-Namen für den Assistenten mit Icons für das neue Design
   const steps = [
     { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
     { icon: Route, label: t("planner.steps.route.label"), description: t("planner.steps.route.desc") },
@@ -83,18 +71,13 @@ export function RoutePlanner() {
     });
   };
 
-  // Navigation zwischen Schritten
   const nextStep = () => {
     if (currentStep < steps.length) {
       const newStep = currentStep + 1;
       setCurrentStep(newStep);
-      
-      // Markiere aktuellen Schritt als abgeschlossen
       if (!completedSteps.includes(currentStep)) {
         setCompletedSteps([...completedSteps, currentStep]);
       }
-      
-      // Immer zum Formular-Anfang scrollen für bessere Nutzerführung
       setTimeout(() => {
         if (formRef.current) {
           formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -115,29 +98,20 @@ export function RoutePlanner() {
     }
   };
 
-  // Überprüfe ob alle Pflichtfelder für den aktuellen Schritt ausgefüllt sind
+  const isModelSelected = () => {
+    if (!aiSettings.useDirectAI) return true;
+    const currentProvider = aiSettings.aiProvider;
+    const modelKey = `${currentProvider}Model` as 'openaiModel' | 'mistralModel' | 'googleModel';
+    return !!aiSettings[modelKey];
+  };
+
   const isStepValid = () => {
     switch (currentStep) {
-      case 1: // KI-Einstellungen
-        if (!aiSettings.useDirectAI) {
-          return true; // Kein API-Schlüssel nötig, wenn KI nicht direkt genutzt wird
-        }
-        // Wenn KI direkt genutzt wird, brauchen wir:
-        // 1. Einen API-Schlüssel
-        // 2. Ein ausgewähltes Modell
-        const hasValidApiKey = !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
-        const hasSelectedModel = isModelSelected();
-        return hasValidApiKey && hasSelectedModel;
-      case 2: // Reiseroute
+      case 1:
+        if (!aiSettings.useDirectAI) return true;
+        return !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
+      case 2:
         return !!formData.startPoint && !!formData.destination;
-      case 3: // Routenoptimierung
-        return true; // Optional
-      case 4: // Fahrzeug
-        return true; // Optional
-      case 5: // Übernachtung
-        return true; // Optional
-      case 6: // Aktivitäten
-        return true; // Optional
       default:
         return true;
     }
@@ -152,396 +126,152 @@ export function RoutePlanner() {
     try {
       if (aiSettings.useDirectAI) {
         setLoadingMessage(t("planner.loading.ai"));
-        
         if (!aiSettings.apiKey?.trim() || !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey)) {
           setAIError(t("planner.loading.invalidKey"));
           setIsLoading(false);
           return;
         }
-        
-        // Markiere alle Schritte als abgeschlossen
-        const allSteps = steps.map((_, index) => index + 1);
-        const newCompletedSteps = [...completedSteps];
-        
-        allSteps.forEach(stepNumber => {
-          if (!newCompletedSteps.includes(stepNumber)) {
-            newCompletedSteps.push(stepNumber);
-          }
-        });
-        
-        setCompletedSteps(newCompletedSteps);
-        
         const aiResponse = await callAIAPI(formData, aiSettings);
         setOutput(aiResponse);
         setAiModel(aiSettings.aiProvider.toUpperCase());
-        
-        // Nach erfolgreicher Generierung: Schritt als abgeschlossen markieren
-        // und keinen Schritt mehr als aktiv setzen
-        setCurrentStep(steps.length + 1); // Setze auf einen Schritt nach dem letzten
-        
-        // Zur OutputSection scrollen
-        setTimeout(() => {
-          if (outputSectionRef.current) {
-            outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 800));
         const generatedOutput = generatePrompt(formData);
         setOutput(generatedOutput);
         setAiModel('');
-        
-        // Markiere den Zusammenfassungsschritt als abgeschlossen
-        if (!completedSteps.includes(steps.length)) {
-          setCompletedSteps([...completedSteps, steps.length]);
-        }
-        
-        // Nach erfolgreicher Generierung: keinen Schritt mehr als aktiv setzen
-        setCurrentStep(steps.length + 1); // Setze auf einen Schritt nach dem letzten
-        
-        // Zur OutputSection scrollen
-        setTimeout(() => {
-          if (outputSectionRef.current) {
-            outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
-      }
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error:', error);
-      }
-      if (error instanceof Error) {
-        setAIError(error.message);
-      } else {
-        setAIError(t("planner.loading.error"));
       }
       
-      // Auch bei Fehlern zur OutputSection scrollen, damit der Benutzer den Fehler sieht
+      setCurrentStep(steps.length + 1);
       setTimeout(() => {
         if (outputSectionRef.current) {
           outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }, 100);
+    } catch (error) {
+      setAIError(t("planner.loading.error"));
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleReset = () => {
-    setFormData(initialFormData);
-    setOutput('');
-    setAIError('');
-  };
-
-  const isModelSelected = () => {
-    if (!aiSettings.useDirectAI) return true;
-    
-    const currentProvider = aiSettings.aiProvider;
-    const modelKey = `${currentProvider}Model` as 'openaiModel' | 'mistralModel' | 'googleModel';
-    return !!aiSettings[modelKey];
-  };
-
   return (
     <main className="min-h-screen" style={{ backgroundColor: 'rgb(250, 244, 235)' }} id="main-content">
-      {/* Navbar */}
       <Navbar onStartPlanning={() => {
         setShowForm(true);
         setTimeout(() => {
-          const plannerSection = document.getElementById('planner');
-          if (plannerSection) {
-            plannerSection.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
+          document.getElementById('planner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
       }} />
       
-      {/* Hero Section */}
       <HeroSection onStartPlanning={() => {
         setShowForm(true);
         setTimeout(() => {
-          const plannerSection = document.getElementById('planner');
-          if (plannerSection) {
-            plannerSection.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
+          document.getElementById('planner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
       }} />
 
-      {/* Features Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800"></div>}>
-        <DynamicFeaturesSection />
+      <Suspense fallback={<div className="h-96" />}>
+        <FeaturesSection />
+        <TestimonialsSection />
+        <RouteExampleSection />
       </Suspense>
 
-      {/* Testimonials Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-64 bg-gray-50 dark:bg-gray-700"></div>}>
-        <DynamicTestimonialsSection />
-      </Suspense>
-
-      {/* Route Example Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-80 bg-gray-100 dark:bg-gray-800"></div>}>
-        <DynamicRouteExampleSection />
-      </Suspense>
-
-      {/* Call-to-Action - Formular aufrufen */}
       {!showForm && (
-        <section className="py-16 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <Button
-                onClick={() => {
-                  setShowForm(true);
-                  setTimeout(() => {
-                    const plannerSection = document.getElementById('planner');
-                    if (plannerSection) {
-                      plannerSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                      });
-                    }
-                  }, 100);
-                }}
-                className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground text-lg px-8 py-6 rounded-full shadow-lg"
-                size="lg"
-              >
-                <Route className="w-6 h-6" />
-                {t("planner.cta")}
-              </Button>
-            </motion.div>
-          </div>
+        <section className="py-16 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800 text-center">
+          <Button
+            onClick={() => {
+              setShowForm(true);
+              setTimeout(() => {
+                document.getElementById('planner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100);
+            }}
+            className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground text-lg px-8 py-6 rounded-full shadow-lg"
+            size="lg"
+          >
+            <Route className="w-6 h-6" />
+            {t("planner.cta")}
+          </Button>
         </section>
       )}
 
-      {/* Main Content - Step-by-Step Assistant - Beginnt am oberen Bildschirmrand */}
       {showForm && (
         <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
           <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <span className="text-[#F59B0A] dark:text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
-              {t("planner.badge")}
-            </span>
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
-              {t("planner.title")}
-            </h2>
-          </motion.div>
+            <div className="text-center mb-16">
+              <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">{t("planner.badge")}</span>
+              <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">{t("planner.title")}</h2>
+            </div>
 
-          {/* Progress bar - Neues Design */}
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-4">
-              {steps.map((step, i) => {
-                const Icon = step.icon;
-                const isActive = i + 1 === currentStep;
-                const isDone = completedSteps.includes(i + 1);
-                return (
-                  <button
-                    key={i}
-                    onClick={() => goToStep(i + 1)}
-                    disabled={!completedSteps.includes(i + 1) && currentStep !== i + 1}
-                    className={`flex flex-col items-center gap-1.5 transition-all duration-300 ${
-                      isActive
-                        ? "text-[#F59B0A] dark:text-[#F59B0A] scale-110"
-                        : isDone
-                        ? "text-primary"
-                        : "text-muted-foreground/40 cursor-not-allowed"
-                    }`}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        isActive
-                          ? "bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white dark:text-foreground shadow-lg"
-                          : isDone
-                          ? "bg-[rgb(50,110,89)] text-white dark:text-foreground"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-300"
-                      }`}
+            {/* Progress */}
+            <div className="mb-12">
+              <div className="flex items-center justify-between mb-4">
+                {steps.map((step, i) => {
+                  const Icon = step.icon;
+                  const isActive = i + 1 === currentStep;
+                  const isDone = completedSteps.includes(i + 1);
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => goToStep(i + 1)}
+                      disabled={!isDone && !isActive}
+                      className={`flex flex-col items-center gap-1.5 transition-all ${isActive ? "text-[#F59B0A] scale-110" : isDone ? "text-primary" : "text-muted-foreground/40"}`}
                     >
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-[10px] font-medium hidden md:block">
-                      {step.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            {/* Progress line */}
-            <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] dark:from-[#F59B0A] dark:to-[#E67E22] rounded-full transition-all duration-300"
-                style={{ width: `${((currentStep) / steps.length) * 100}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Step content */}
-          <div className="p-8 min-h-[240px] scroll-mt-24" ref={formRef}>
-            <Suspense fallback={
-              <div className="flex flex-col items-center justify-center h-64 gap-4">
-                <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-                <p className="text-muted-foreground">Lade Formular...</p>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isActive ? "bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white" : isDone ? "bg-[rgb(50,110,89)] text-white" : "bg-gray-200 dark:bg-gray-700"}`}>
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-[10px] font-medium hidden md:block">{step.label}</span>
+                    </button>
+                  );
+                })}
               </div>
-            }>
-              {/* Current Step Content */}
-              <div className="space-y-6">
-                {/* Step 1: KI-Einstellungen */}
-                {currentStep === 1 && (
-                  <div id="step-1" className="bg-gray-50 dark:bg-gray-900">
-                    <AISettingsSection 
-                      aiSettings={aiSettings}
-                      onAISettingsChange={handleAISettingsChange}
-                      aiError={aiError}
-                    />
+              <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div className="h-full bg-[#F59B0A] transition-all duration-300" style={{ width: `${(currentStep / steps.length) * 100}%` }} />
+              </div>
+            </div>
+
+            {/* Form Steps */}
+            <div className="p-8 min-h-[240px] scroll-mt-24" ref={formRef}>
+              <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="w-10 h-10 animate-spin text-primary" /></div>}>
+                {currentStep === 1 && <AISettingsSection aiSettings={aiSettings} onAISettingsChange={handleAISettingsChange} aiError={aiError} />}
+                {currentStep === 2 && <RouteSection formData={formData} onChange={handleFormChange} />}
+                {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} />}
+                {currentStep === 4 && <VehicleSection formData={formData} onChange={handleFormChange} />}
+                {currentStep === 5 && <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
+                {currentStep === 6 && <ActivitiesSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
+                {currentStep === 7 && (
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-border">
+                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">📋 {t("planner.summary.title")}</h3>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex justify-between"><span>{t("planner.summary.start")}:</span><strong>{formData.startPoint || t("planner.summary.notSpecified")}</strong></div>
+                      <div className="flex justify-between"><span>{t("planner.summary.destination")}:</span><strong>{formData.destination || t("planner.summary.notSpecified")}</strong></div>
+                      <div className="flex justify-between"><span>{t("planner.summary.method")}:</span><strong>{aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}</strong></div>
+                    </div>
                   </div>
                 )}
-              
-              {/* Step 2: Reiseroute */}
-              {currentStep === 2 && (
-                <div id="step-2" className="bg-white dark:bg-gray-800">
-                  <RouteSection 
-                    formData={formData}
-                    onChange={handleFormChange}
-                  />
-                </div>
-              )}
-              
-              {/* Step 3: Routenoptimierung */}
-              {currentStep === 3 && (
-                <div id="step-3" className="bg-gray-50 dark:bg-gray-900">
-                  <RouteOptimizationSection 
-                    formData={formData}
-                    onCheckboxChange={handleCheckboxChange}
-                  />
-                </div>
-              )}
-              
-              {/* Step 4: Fahrzeug */}
-              {currentStep === 4 && (
-                <div id="step-4" className="bg-white dark:bg-gray-800">
-                  <VehicleSection 
-                    formData={formData}
-                    onChange={handleFormChange}
-                  />
-                </div>
-              )}
-              
-              {/* Step 5: Übernachtung */}
-              {currentStep === 5 && (
-                <div id="step-5" className="bg-gray-50 dark:bg-gray-900">
-                  <AccommodationSection 
-                    formData={formData}
-                    onChange={handleFormChange}
-                    onCheckboxChange={handleCheckboxChange}
-                  />
-                </div>
-              )}
-              
-              {/* Step 6: Aktivitäten */}
-              {currentStep === 6 && (
-                <div id="step-6" className="bg-white dark:bg-gray-800">
-                  <ActivitiesSection 
-                    formData={formData}
-                    onChange={handleFormChange}
-                    onCheckboxChange={handleCheckboxChange}
-                  />
-                </div>
-              )}
-              
-              {/* Step 7: Zusammenfassung & Generierung */}
-              {currentStep === 7 && (
-                <div id="step-7" className="bg-gray-50 dark:bg-gray-900">
-                  <div className="bg-white dark:bg-gray-800 p-4 mb-6 border border-gray-200 dark:border-gray-700">
-                    <div className="mb-4">
-                      <h3 className="text-lg font-semibold text-primary">
-                        <span className="inline-flex items-center gap-2">
-                          <span className="w-10 h-10 rounded-full flex items-center justify-center text-white dark:text-foreground bg-primary">
-                            📋
-                          </span>
-                          {t("planner.summary.title")}
-                        </span>
-                      </h3>
-                      <div className="h-px bg-gray-200 dark:bg-gray-700 mt-2 -mx-4" />
-                    </div>
-                    
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-foreground">{t("planner.summary.start")}:</span>
-                        <span className="font-medium text-foreground">{formData.startPoint || t("planner.summary.notSpecified")}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-foreground">{t("planner.summary.destination")}:</span>
-                        <span className="font-medium text-foreground">{formData.destination || t("planner.summary.notSpecified")}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-foreground">{t("planner.summary.method")}:</span>
-                        <span className="font-medium text-foreground">{aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}</span>
-                      </div>
-                    </div>
-                  </div>
-                                  </div>
-                                )}
-                              </div>
-                            </Suspense>
-                          </div>
-                            {/* Navigation Buttons - Nur anzeigen, wenn Formular sichtbar und wir uns in einem der Schritte befinden */}
-            {showForm && currentStep <= steps.length && (
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-                {currentStep > 1 && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={prevStep}
-                    className="gap-2 w-full md:w-auto rounded-full text-foreground"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                    {t("planner.nav.back")}
+              </Suspense>
+            </div>
+
+            {/* Navigation */}
+            {currentStep <= steps.length && (
+              <div className="flex justify-between mt-8 pt-4 border-t border-border">
+                {currentStep > 1 ? (
+                  <Button variant="outline" onClick={prevStep} className="rounded-full">{t("planner.nav.back")}</Button>
+                ) : <div />}
+                
+                {currentStep < steps.length ? (
+                  <Button onClick={nextStep} disabled={!isStepValid()} className="bg-[#F59B0A] hover:bg-[#E67E22] text-white rounded-full">{t("planner.nav.next")}</Button>
+                ) : (
+                  <Button onClick={handleSubmit} disabled={isLoading || !formData.startPoint || !formData.destination} className="bg-[#F59B0A] hover:bg-[#E67E22] text-white rounded-full">
+                    {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
                   </Button>
                 )}
-                
-                <div className={`w-full flex ${currentStep > 1 ? 'md:w-auto justify-end' : 'justify-end'}`}>
-                  {currentStep < steps.length ? (
-                    <Button
-                      type="button"
-                      onClick={nextStep}
-                      disabled={!isStepValid()}
-                      className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground w-full md:w-auto rounded-full"
-                    >
-                      {t("planner.nav.next")}
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      type="button"
-                      onClick={handleSubmit}
-                      size="lg"
-                      className="gap-2 px-4 md:px-6 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground w-full md:w-auto rounded-full"
-                      disabled={isLoading || !formData.startPoint || !formData.destination || (aiSettings.useDirectAI && !isModelSelected())}
-                    >
-                      <MapPin className="h-5 w-5" />
-                      {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
-                    </Button>
-                  )}
-                </div>
               </div>
             )}
           </div>
-          
-          {/* Output */}
+
           <div className="mt-8 max-w-4xl mx-auto scroll-mt-24" ref={outputSectionRef}>
-            <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div></div>}>
+            <Suspense fallback={null}>
               <OutputSection
                 output={output}
                 isLoading={isLoading}
@@ -556,12 +286,10 @@ export function RoutePlanner() {
         </section>
       )}
 
-      {/* FAQ Section - Dynamisch geladen */}
-      <Suspense fallback={<div className="h-96 bg-gray-50 dark:bg-gray-700"></div>}>
-        <DynamicFAQSection />
+      <Suspense fallback={null}>
+        <FAQSection />
       </Suspense>
-
-      {/* Footer */}
+      
       <Footer />
     </main>
   );

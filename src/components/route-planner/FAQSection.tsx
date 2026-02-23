@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -6,363 +7,115 @@ import {
 } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { HelpCircle, Sparkles, Zap, Shield, Info, CreditCard, Bot, ChevronRight } from "lucide-react";
 
 export function FAQSection() {
   const { t } = useTranslation();
+  const [openItem, setOpenItem] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const handleOpenFAQ = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail && typeof customEvent.detail === 'string') {
+        setOpenItem(customEvent.detail);
+        
+        // Scroll smoothly to the FAQ section
+        setTimeout(() => {
+          const el = document.getElementById(customEvent.detail);
+          if (el) {
+             const y = el.getBoundingClientRect().top + window.scrollY - 100; // 100px offset
+             window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        }, 100);
+      }
+    };
+    
+    window.addEventListener('open-faq', handleOpenFAQ);
+    return () => window.removeEventListener('open-faq', handleOpenFAQ);
+  }, []);
 
   const faqs = [
     {
+      id: "whatIs",
+      icon: HelpCircle,
       q: t("faq.items.whatIs.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>{t("faq.items.whatIs.title")}</strong></p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🎯</span> {t("faq.items.whatIs.prec")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-xs md:text-sm">
-                <li>{t("faq.items.whatIs.prec1")}</li>
-                <li>{t("faq.items.whatIs.prec2")}</li>
-                <li>{t("faq.items.whatIs.prec3")}</li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🤖</span> {t("faq.items.whatIs.ai")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.whatIs.ai1")}</li>
-                <li>{t("faq.items.whatIs.ai2")}</li>
-                <li>{t("faq.items.whatIs.ai3")}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>💡</span>
-              <strong>{t("faq.items.whatIs.flex")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.whatIs.flexDesc")}</p>
-          </div>
-        </div>
-      ),
+      title: t("faq.items.whatIs.title"),
+      content: [
+        { label: t("faq.items.whatIs.prec"), items: [t("faq.items.whatIs.prec1"), t("faq.items.whatIs.prec2"), t("faq.items.whatIs.prec3")] },
+        { label: t("faq.items.whatIs.ai"), items: [t("faq.items.whatIs.ai1"), t("faq.items.whatIs.ai2"), t("faq.items.whatIs.ai3")] }
+      ]
     },
     {
+      id: "diff",
+      icon: Sparkles,
       q: t("faq.items.diff.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>{t("faq.items.diff.title")}</strong></p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-orange-50 dark:bg-orange-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>📝</span> {t("faq.items.diff.gen")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li><strong>{t("faq.items.diff.gen1")}</strong></li>
-                <li>{t("faq.items.diff.gen2")}</li>
-                <li>{t("faq.items.diff.gen3")}</li>
-                <li>{t("faq.items.diff.gen4")}</li>
-                <li>{t("faq.items.diff.gen5")}</li>
-              </ul>
-            </div>
-            <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>⚡</span> {t("faq.items.diff.ai")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li><strong>{t("faq.items.diff.ai1")}</strong></li>
-                <li>{t("faq.items.diff.ai2")}</li>
-                <li>Inklusive <strong>{t("faq.items.diff.ai3")}</strong></li>
-                <li>{t("faq.items.diff.ai4")}</li>
-                <li>{t("faq.items.diff.ai5")}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mt-4">
-            <p className="mb-2">
-              <strong>📥 {t("faq.items.diff.gpx")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.diff.gpxDesc")}</p>
-          </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>💡</span>
-              <strong>{t("faq.items.diff.note")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.diff.noteDesc")}</p>
-          </div>
-        </div>
-      ),
+      title: t("faq.items.diff.title"),
+      content: [
+        { label: t("faq.items.diff.gen"), items: [t("faq.items.diff.gen1"), t("faq.items.diff.gen2"), t("faq.items.diff.gen3"), t("faq.items.diff.gen4")] },
+        { label: t("faq.items.diff.ai"), items: [t("faq.items.diff.ai1"), t("faq.items.diff.ai2"), t("faq.items.diff.ai4")] }
+      ]
     },
     {
-      q: t("faq.items.vehicles.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>{t("faq.items.vehicles.title")}</strong></p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-teal-50 dark:bg-teal-900 p-4 md:p-6 rounded-xl text-center border border-teal-200 dark:border-teal-800 shadow-sm">
-              <h3 className="font-semibold text-foreground mb-3">{t("faq.items.vehicles.rv")}</h3>
-              <span className="inline-flex items-center gap-1 text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
-                ✅ {t("faq.items.vehicles.full")}
-              </span>
-            </div>
-            <div className="bg-teal-50 dark:bg-teal-900 p-4 md:p-6 rounded-xl text-center border border-teal-200 dark:border-teal-800 shadow-sm">
-              <h3 className="font-semibold text-foreground mb-3">{t("faq.items.vehicles.van")}</h3>
-              <span className="inline-flex items-center gap-1 text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
-                ✅ {t("faq.items.vehicles.full")}
-              </span>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-xl text-center border border-gray-200 dark:border-gray-700 shadow-sm opacity-80">
-              <h3 className="font-semibold text-foreground mb-3">{t("faq.items.vehicles.caravan")}</h3>
-              <span className="inline-flex items-center gap-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
-                🕒 {t("faq.items.vehicles.planned")}
-              </span>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-xl text-center border border-gray-200 dark:border-gray-700 shadow-sm opacity-80">
-              <h3 className="font-semibold text-foreground mb-3">{t("faq.items.vehicles.moto")}</h3>
-              <span className="inline-flex items-center gap-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
-                🕒 {t("faq.items.vehicles.planned")}
-              </span>
-            </div>
-          </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>💡</span>
-              <strong>{t("faq.items.vehicles.tip")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.vehicles.tipDesc")}</p>
-          </div>
-        </div>
-      ),
-    },
-    {
+      id: "howItWorks",
+      icon: Info,
       q: t("faq.items.howItWorks.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>{t("faq.items.howItWorks.title")}</strong></p>
-          <div className="space-y-4">
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>{t("faq.items.howItWorks.step1")}</span>
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.howItWorks.step1a")}</li>
-                <li>{t("faq.items.howItWorks.step1b")}</li>
-                <li>{t("faq.items.howItWorks.step1c")}</li>
-                <li>{t("faq.items.howItWorks.step1d")}</li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>{t("faq.items.howItWorks.step2")}</span>
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li><strong>{t("faq.items.howItWorks.step2a")}</strong></li>
-                <li><strong>{t("faq.items.howItWorks.step2b")}</strong></li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>{t("faq.items.howItWorks.step3")}</span>
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.howItWorks.step3a")}</li>
-                <li>{t("faq.items.howItWorks.step3b")}</li>
-                <li>{t("faq.items.howItWorks.step3c")}</li>
-                <li>{t("faq.items.howItWorks.step3d")}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>💡</span>
-              <strong>{t("faq.items.diff.note")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.diff.noteDesc")}</p>
-          </div>
-        </div>
-      ),
+      title: t("faq.items.howItWorks.title"),
+      steps: [
+        { title: t("faq.items.howItWorks.step1"), desc: t("faq.items.howItWorks.step1a") },
+        { title: t("faq.items.howItWorks.step2"), desc: t("faq.items.howItWorks.step2a") },
+        { title: t("faq.items.howItWorks.step3"), desc: t("faq.items.howItWorks.step3a") }
+      ]
     },
     {
+      id: "cost",
+      icon: CreditCard,
       q: t("faq.items.cost.q"),
-      a: (
-        <div className="space-y-4">
-          <p className="text-xs md:text-sm"><strong>✅ {t("faq.items.cost.title")}</strong></p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🆓</span> {t("faq.items.cost.free")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.cost.free1")}</li>
-                <li>{t("faq.items.cost.free2")}</li>
-                <li>{t("faq.items.cost.free3")}</li>
-                <li>{t("faq.items.cost.free4")}</li>
-              </ul>
-            </div>
-            <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>💰</span> {t("faq.items.cost.opt")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.cost.opt1")}</li>
-                <li>{t("faq.items.cost.opt2")}</li>
-                <li>{t("faq.items.cost.opt3")}</li>
-                <li>{t("faq.items.cost.opt4")}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>ℹ️</span>
-              <strong>{t("faq.items.cost.trans")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.cost.transDesc")}</p>
-          </div>
-        </div>
-      ),
+      title: t("faq.items.cost.title"),
+      content: [
+        { label: t("faq.items.cost.free"), items: [t("faq.items.cost.free1"), t("faq.items.cost.free2")] },
+        { label: t("faq.items.cost.opt"), items: [t("faq.items.cost.transDesc")] }
+      ]
     },
     {
+      id: "privacy",
+      icon: Shield,
       q: t("faq.items.privacy.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>🔒 {t("faq.items.privacy.title")}</strong></p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>📱</span> {t("faq.items.privacy.device")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li><strong>{t("faq.items.privacy.device1")}</strong></li>
-                <li><strong>{t("faq.items.privacy.device2")}</strong></li>
-                <li><strong>{t("faq.items.privacy.device3")}</strong></li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🛡️</span> {t("faq.items.privacy.sec")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li><strong>{t("faq.items.privacy.sec1")}</strong></li>
-                <li><strong>{t("faq.items.privacy.sec2")}</strong></li>
-                <li><strong>{t("faq.items.privacy.sec3")}</strong></li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>ℹ️</span>
-              <strong>{t("faq.items.privacy.trans")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.privacy.transDesc")}</p>
-          </div>
-        </div>
-      ),
+      title: t("faq.items.privacy.title"),
+      content: [
+        { label: t("faq.items.privacy.device"), items: [t("faq.items.privacy.device1")] },
+        { label: t("faq.items.privacy.sec"), items: [t("faq.items.privacy.sec1")] }
+      ]
     },
     {
-      q: t("faq.items.offline.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>✅ {t("faq.items.offline.title")}</strong></p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>📥</span> {t("faq.items.offline.exp")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.offline.exp1")}</li>
-                <li>{t("faq.items.offline.exp2")}</li>
-                <li>{t("faq.items.offline.exp3")}</li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🌍</span> {t("faq.items.offline.use")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs md:text-sm">
-                <li>{t("faq.items.offline.use1")}</li>
-                <li>{t("faq.items.offline.use2")}</li>
-                <li>{t("faq.items.offline.use3")}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>💡</span>
-              <strong>{t("faq.items.offline.tip")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.offline.tipDesc")}</p>
-          </div>
-        </div>
-      ),
-    },
-    {
+      id: "aiModel",
+      icon: Bot,
       q: t("faq.items.aiModel.q"),
-      a: (
-        <div>
-          <p className="mb-4 text-xs md:text-sm"><strong>{t("faq.items.aiModel.title")}</strong></p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🌟</span> {t("faq.items.aiModel.gemini")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs">
-                <li><strong>{t("faq.items.aiModel.gemini1")}</strong></li>
-                <li>{t("faq.items.aiModel.gemini2")}</li>
-                <li>{t("faq.items.aiModel.gemini3")}</li>
-                <li>{t("hero.free")}</li>
-              </ul>
-            </div>
-            <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>🤖</span> {t("faq.items.aiModel.gpt")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs">
-                <li><strong>{t("faq.items.aiModel.gpt1")}</strong></li>
-                <li>{t("faq.items.aiModel.gpt2")}</li>
-                <li>{t("faq.items.aiModel.gpt3")}</li>
-                <li>{t("hero.free")}</li>
-              </ul>
-            </div>
-            <div className="bg-purple-50 dark:bg-purple-900 p-4 rounded-lg">
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-xs md:text-sm">
-                <span>⚡</span> {t("faq.items.aiModel.mistral")}
-              </h4>
-              <ul className="list-disc list-inside space-y-2 text-xs">
-                <li><strong>{t("faq.items.aiModel.mistral1")}</strong></li>
-                <li>{t("faq.items.aiModel.mistral2")}</li>
-                <li>{t("faq.items.aiModel.mistral3")}</li>
-                <li>{t("hero.free")}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mt-4">
-            <p className="flex items-center gap-2 mb-2 text-xs md:text-sm">
-              <span>💡</span>
-              <strong>{t("faq.items.aiModel.rec")}</strong>
-            </p>
-            <p className="text-xs md:text-sm">{t("faq.items.aiModel.recDesc")}</p>
-          </div>
-        </div>
-      ),
-    },
+      title: t("faq.items.aiModel.title"),
+      content: [
+        { label: t("faq.items.aiModel.gemini"), items: [t("faq.items.aiModel.gemini1")] },
+        { label: t("faq.items.aiModel.gpt"), items: [t("faq.items.aiModel.gpt1")] },
+        { label: t("faq.items.aiModel.mistral"), items: [t("faq.items.aiModel.mistral1")] }
+      ],
+      footer: t("faq.items.aiModel.recDesc")
+    }
   ];
 
   return (
-    <section id="faq" className="py-24 px-4 bg-[rgb(230,225,215)] dark:bg-gray-700">
-      <div className="max-w-3xl mx-auto">
+    <section id="faq" className="py-32 px-6 bg-secondary relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
+          <span className="inline-block px-6 py-2 rounded-full border-2 border-primary/20 bg-primary/10 text-primary font-black uppercase text-[10px] tracking-[0.4em] mb-8">
             {t("faq.badge")}
           </span>
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.9]">
             {t("faq.title")}
           </h2>
         </motion.div>
@@ -371,23 +124,65 @@ export function FAQSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
-          <Accordion type="single" collapsible className="space-y-3">
+          <Accordion type="single" collapsible value={openItem || ""} onValueChange={(val) => setOpenItem(val || undefined)} className="space-y-4">
             {faqs.map((faq, i) => (
               <AccordionItem
-                key={i}
-                value={`faq-${i}`}
-                className="rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden scroll-mt-24"
+                key={faq.id}
+                id={faq.id}
+                value={faq.id}
+                className="rounded-3xl border-2 border-white/10 bg-white/[0.02] backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04]"
               >
-                <AccordionTrigger
-                  id={i === 7 ? "model-selection-faq" : undefined}
-                  className="font-normal text-foreground hover:no-underline py-3 text-xs md:text-sm font-sans px-6 w-full text-left"
-                >
-                  {faq.q}
+                <AccordionTrigger className="px-8 py-6 hover:no-underline group">
+                  <div className="flex items-center gap-5 text-left">
+                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
+                      <faq.icon className="w-6 h-6" />
+                    </div>
+                    <span className="font-black text-lg md:text-xl tracking-tight text-white uppercase">{faq.q}</span>
+                  </div>
                 </AccordionTrigger>
-                <AccordionContent className="text-foreground dark:text-white pt-4 pb-6 leading-relaxed font-sans px-6">
-                  {faq.a}
+                <AccordionContent className="px-8 pb-8 pt-2">
+                  <div className="pl-16 space-y-6">
+                    <p className="text-white font-bold text-lg">{faq.title}</p>
+                    
+                    {faq.content && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {faq.content.map((col, j) => (
+                          <div key={j} className="space-y-3 p-6 rounded-2xl bg-white/5 border border-white/5">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">{col.label}</h4>
+                            <ul className="space-y-2">
+                              {col.items.map((item, k) => (
+                                <li key={k} className="text-sm text-white/60 flex items-start gap-2 leading-relaxed">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-1.5 shrink-0" />
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {faq.steps && (
+                      <div className="grid grid-cols-1 gap-4">
+                        {faq.steps.map((step, j) => (
+                          <div key={j} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 group/step hover:bg-white/10 transition-colors">
+                            <span className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-xs font-black text-primary border border-primary/20">{j+1}</span>
+                            <div>
+                              <p className="text-sm font-bold text-white uppercase tracking-tight">{step.title}</p>
+                              <p className="text-xs text-white/40">{step.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {faq.footer && (
+                      <div className="p-6 rounded-2xl bg-primary/10 border border-primary/20">
+                        <p className="text-sm text-primary font-bold italic">{faq.footer}</p>
+                      </div>
+                    )}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             ))}

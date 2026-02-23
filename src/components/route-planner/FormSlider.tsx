@@ -1,6 +1,5 @@
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FormSliderProps {
   id: string;
@@ -14,30 +13,39 @@ interface FormSliderProps {
 }
 
 export function FormSlider({ id, label, value, min, max, step, unit, onChange }: FormSliderProps) {
-  const isMobile = useIsMobile();
-  
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <Label id={`${id}-label`} htmlFor={id} className={isMobile ? "text-sm" : ""}>{label}</Label>
-        <span className={`text-sm font-medium text-foreground ${isMobile ? "text-base" : ""}`}>
-          {value} {unit}
-        </span>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <Label id={`${id}-label`} htmlFor={id} className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground block">
+          {label}
+        </Label>
+        <div className="flex items-baseline gap-2">
+          <span className="text-4xl font-black text-foreground tabular-nums leading-none">
+            {value}
+          </span>
+          <span className="text-sm font-bold text-primary tracking-widest">
+            {unit}
+          </span>
+        </div>
       </div>
-      <Slider
-        id={id}
-        aria-labelledby={`${id}-label`}
-        aria-label={`${label} Slider`}
-        value={[value]}
-        min={min}
-        max={max}
-        step={step}
-        onValueChange={([v]) => onChange(v)}
-        className={`w-full ${isMobile ? "h-10" : "h-8"}`}
-      />
-      <div className="flex justify-between text-xs text-muted-foreground mt-1">
-        <span>{min}{unit}</span>
-        <span>{max}{unit}</span>
+      
+      <div className="relative pt-2">
+        <Slider
+          id={id}
+          aria-labelledby={`${id}-label`}
+          aria-label={`${label} Slider`}
+          value={[value]}
+          min={min}
+          max={max}
+          step={step}
+          onValueChange={([v]) => onChange(v)}
+          className="w-full cursor-pointer"
+        />
+        
+        <div className="flex justify-between text-[10px] font-bold text-muted-foreground/30 tracking-[0.2em] mt-4">
+          <span>{min} {unit}</span>
+          <span>{max} {unit}</span>
+        </div>
       </div>
     </div>
   );

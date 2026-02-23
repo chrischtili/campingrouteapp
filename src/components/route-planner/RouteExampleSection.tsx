@@ -1,146 +1,173 @@
-import { MapPin, Clock, Euro, Wine, Landmark, ChevronRight, Info, PlusCircle, ChevronDown, ChevronUp, Compass } from "lucide-react";
-import { motion } from "framer-motion";
+import { MapPin, Clock, Euro, Wine, Landmark, ChevronRight, Info, PlusCircle, ChevronDown, ChevronUp, Compass, Map, Route, Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Button } from "../../ui/button";
+import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
 export function RouteExampleSection() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
 
   const stages = [
     {
       from: t("exampleRoute.stages.karlsruhe"),
       to: t("exampleRoute.stages.fulda"),
-      distance: "210 km",
-      duration: "2:30–3:00 h",
+      distance: t("exampleRoute.stages.distances.karlsruhe_fulda"),
+      duration: t("exampleRoute.stages.times.karlsruhe_fulda"),
       highlight: t("exampleRoute.stages.highlights.fulda"),
       icon: Landmark,
       details: t("exampleRoute.stages.details.fulda"),
-      tips: t("exampleRoute.stages.tips.fulda"),
       overnight: t("exampleRoute.stages.overnight.fulda"),
     },
     {
       from: t("exampleRoute.stages.fulda"),
       to: t("exampleRoute.stages.magdeburg"),
-      distance: "240 km",
-      duration: "3:00–3:30 h",
+      distance: t("exampleRoute.stages.distances.fulda_magdeburg"),
+      duration: t("exampleRoute.stages.times.fulda_magdeburg"),
       highlight: t("exampleRoute.stages.highlights.magdeburg"),
       icon: MapPin,
       details: t("exampleRoute.stages.details.magdeburg"),
-      tips: t("exampleRoute.stages.tips.magdeburg"),
       overnight: t("exampleRoute.stages.overnight.magdeburg"),
     },
     {
       from: t("exampleRoute.stages.magdeburg"),
       to: t("exampleRoute.stages.perleberg"),
-      distance: "130 km",
-      duration: "1:45–2:15 h",
+      distance: t("exampleRoute.stages.distances.magdeburg_perleberg"),
+      duration: t("exampleRoute.stages.times.magdeburg_perleberg"),
       highlight: t("exampleRoute.stages.highlights.perleberg"),
       icon: Wine,
       details: t("exampleRoute.stages.details.perleberg"),
-      tips: t("exampleRoute.stages.tips.perleberg"),
       overnight: t("exampleRoute.stages.overnight.perleberg"),
     },
     {
       from: t("exampleRoute.stages.perleberg"),
       to: t("exampleRoute.stages.wismar"),
-      distance: "95 km",
-      duration: "1:15–1:30 h",
+      distance: t("exampleRoute.stages.distances.perleberg_wismar"),
+      duration: t("exampleRoute.stages.times.perleberg_wismar"),
       highlight: t("exampleRoute.stages.highlights.wismar"),
       icon: MapPin,
       details: t("exampleRoute.stages.details.wismar"),
-      tips: t("exampleRoute.stages.tips.wismar"),
       overnight: t("exampleRoute.stages.overnight.wismar"),
-    },
-    {
-      from: t("exampleRoute.stages.wismar"),
-      to: t("exampleRoute.stages.karlsruhe"),
-      distance: "-",
-      duration: i18n.language === 'en' ? "10 days" : "10 Tage",
-      highlight: t("exampleRoute.stages.highlights.return"),
-      icon: Info,
-      details: t("exampleRoute.stages.details.return"),
-      tips: t("exampleRoute.stages.tips.return"),
-      overnight: t("exampleRoute.stages.overnight.return"),
     },
   ];
 
+  const overnights = [
+    { day: '1', place: t("exampleRoute.stages.overnight.fulda"), price: '35–45 €' },
+    { day: '2', place: t("exampleRoute.stages.overnight.magdeburg"), price: '30–40 €' },
+    { day: '3', place: t("exampleRoute.stages.overnight.perleberg"), price: '25–35 €' },
+    { day: '4–11', place: t("exampleRoute.stages.overnight.wismar"), price: '50–65 €' },
+  ];
+
   return (
-    <section id="example-route" className="py-24 px-4 bg-[rgb(230,225,215)] dark:bg-gray-700">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">
-            {t("exampleRoute.badge")}
-          </span>
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">
-            {t("exampleRoute.title")}
-          </h2>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-            {t("exampleRoute.subtitle")}
-          </p>
-        </motion.div>
+    <section id="example-route" className="py-32 px-6 bg-background relative overflow-hidden">
+      {/* Abstract Map Background Overlay */}
+      <div className="absolute inset-0 opacity-[0.05] pointer-events-none dark:opacity-[0.08]">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700 md:-translate-x-px" />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-24 gap-12 text-left">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="max-w-2xl"
+          >
+            <span className="inline-block px-6 py-2 rounded-full border-2 border-primary/20 bg-primary/10 text-primary font-black uppercase text-[10px] tracking-[0.4em] mb-8">
+              {t("exampleRoute.badge")}
+            </span>
+            <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-foreground tracking-tighter leading-[0.9] mb-8 uppercase">
+              {t("exampleRoute.title")}
+            </h2>
+            <p className="text-muted-foreground text-lg md:text-xl leading-relaxed italic font-serif">
+              {t("exampleRoute.subtitle")}
+            </p>
+          </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="p-10 rounded-[3rem] grid grid-cols-2 gap-8 min-w-[320px] shadow-2xl shadow-black/5"
+            style={{
+              background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              border: "2px solid rgba(255, 255, 255, 0.2)",
+            }}
+          >
+            {[
+              { label: t("exampleRoute.summary.distance"), value: t("exampleRoute.summary.distanceValue"), icon: Route },
+              { label: t("exampleRoute.summary.duration"), value: t("exampleRoute.summary.durationValue"), icon: Clock },
+              { label: t("exampleRoute.summary.budget"), value: t("exampleRoute.summary.budgetValue"), icon: Euro },
+              { label: t("exampleRoute.summary.style"), value: t("exampleRoute.summary.styleValue"), icon: Star },
+            ].map((item) => (
+              <div key={item.label} className="flex flex-col gap-1">
+                <item.icon className="w-5 h-5 text-primary mb-2" />
+                <span className="text-2xl font-black text-foreground">{item.value}</span>
+                <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Modern Timeline Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 items-stretch">
           {stages.map((stage, i) => {
             const Icon = stage.icon;
-            const isRight = i % 2 === 1;
-
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: isRight ? 30 : -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.2 }}
-                className={`relative flex items-start mb-12 last:mb-0 ${
-                  isRight ? "md:flex-row-reverse" : ""
-                }`}
+                transition={{ delay: i * 0.1 }}
+                className="group relative flex flex-col h-full"
               >
-                {/* Timeline dot */}
-                <div className="absolute left-6 md:left-1/2 w-3 h-3 rounded-full bg-[#F59B0A] border-4 border-background -translate-x-1.5 mt-6 z-10" />
-
-                {/* Card */}
-                <div className={`ml-16 md:ml-0 md:w-[calc(50%-2rem)] ${isRight ? "md:mr-auto md:ml-8" : "md:ml-auto md:mr-8"}`}>
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <div className="flex items-center gap-2 text-[#F59B0A] dark:text-[#F59B0A] font-semibold text-xs uppercase tracking-wider mb-2">
-                      <Icon className="w-4 h-4" />
-                      {i === 4 ? t("exampleRoute.stages.stage5to8") : `${t("exampleRoute.stages.stage")} ${i + 1}`}
-                    </div>
-                    <h3 className="font-bold text-xl text-foreground mb-1">
-                      {stage.from} <ChevronRight className="inline w-4 h-4 text-muted-foreground" /> {stage.to}
-                    </h3>
-                    <p className="text-muted-foreground text-sm mb-3">{stage.highlight}</p>
-                    <div className="flex gap-4 text-sm text-foreground/70">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5" /> {stage.distance}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" /> {stage.duration}
-                      </span>
-                    </div>
-                    <p className="mt-3 text-sm text-muted-foreground italic">
+                <div 
+                  className="relative z-10 p-10 rounded-[3rem] flex-1 flex flex-col transition-all duration-500 hover:scale-[1.02] shadow-2xl border-2"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.05)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    borderColor: "rgba(255, 255, 255, 0.2)",
+                  }}
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 border-2 border-white/10 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-lg shrink-0">
+                    <Icon className="w-7 h-7" />
+                  </div>
+                  
+                  <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-3 shrink-0">
+                    {t("exampleRoute.stages.stageLabel")} {i + 1}
+                  </div>
+                  
+                  <h3 className="font-black text-xl text-white mb-6 leading-tight uppercase tracking-tight shrink-0">
+                    {stage.from} <ChevronRight className="inline w-4 h-4 text-primary" /> {stage.to}
+                  </h3>
+                  
+                  <div className="flex-1">
+                    <p className="text-base text-white/70 mb-8 font-medium leading-relaxed">
                       {stage.details}
                     </p>
-                    <div className="mt-4 pt-3 border-t border-gray-100 space-y-2">
-                      <div className="flex items-start gap-2 text-xs">
-                        <span className="text-[#F59B0A] mt-0.5">●</span>
-                        <span className="text-muted-foreground">{stage.tips}</span>
-                      </div>
-                      <div className="flex items-start gap-2 text-xs">
-                        <span className="text-[#F59B0A] mt-0.5">●</span>
-                        <span className="text-muted-foreground">{stage.overnight}</span>
-                      </div>
+                  </div>
+
+                  <div className="space-y-4 pt-8 border-t border-white/10 shrink-0">
+                    <div className="flex items-center gap-3 text-sm font-black text-white uppercase tracking-wider">
+                      <Clock className="w-4 h-4 text-primary" />
+                      {stage.duration}
+                    </div>
+                    <div className="flex items-center gap-3 text-sm font-black text-white uppercase tracking-wider">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      {stage.distance}
                     </div>
                   </div>
                 </div>
@@ -149,209 +176,97 @@ export function RouteExampleSection() {
           })}
         </div>
 
-        {/* Summary */}
+        {/* Detailed View Button */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-12 bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-sm flex flex-wrap items-center justify-center gap-8 text-center"
+          className="mt-20 text-center"
         >
-          {[
-            { label: t("exampleRoute.summary.distance"), value: "1.325 km" },
-            { label: t("exampleRoute.summary.duration"), value: i18n.language === 'en' ? "14 days" : "14 Tage" },
-            { label: t("exampleRoute.summary.budget"), value: "900–1000€" },
-            { label: t("exampleRoute.summary.style"), value: t("exampleRoute.summary.styleValue") },
-          ].map((item) => (
-            <div key={item.label}>
-              <p className="text-2xl font-bold text-foreground">{item.value}</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mt-1">
-                {item.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => setShowDetails(!showDetails)}
+            className="group rounded-2xl border-white/20 bg-white/5 backdrop-blur-md px-12 py-8 hover:bg-white/10 hover:border-white/40 hover:text-primary transition-all duration-300 border-2 font-black uppercase text-lg shadow-xl"
+          >
+            <span className="flex items-center gap-4">
+              {showDetails ? t("exampleRoute.details.hide") : t("exampleRoute.details.show")}
+              {showDetails ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6 transition-transform group-hover:translate-y-1" />}
+            </span>
+          </Button>
 
-        {/* Detailed Route Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-8"
-        >
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
-            <button
-              onClick={() => setShowDetails(!showDetails)}
-              className="w-full flex items-center justify-between p-4 text-[#F59B0A] hover:bg-[#F59B0A]/10 transition-colors"
-            >
-              <span className="flex items-center gap-2 font-medium">
-                <Info className="w-4 h-4" />
-                {showDetails ? t("exampleRoute.details.hide") : t("exampleRoute.details.show")}
-              </span>
-              {showDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+          <AnimatePresence>
             {showDetails && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
+                initial={{ opacity: 0, y: -20, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: -20, height: 0 }}
+                className="mt-16 overflow-hidden text-left"
               >
-                <div className="p-6 pt-0 space-y-6 max-h-[60vh] overflow-y-auto">
-                  {/* Route Header */}
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-                    <h3 className="font-bold text-lg text-foreground mb-2 flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-[#F59B0A]" />
-                      {t("exampleRoute.title")}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-semibold">{t("exampleRoute.details.generatedAt")}:</span> 14.2.2026 17:13:21 • <span className="font-semibold">{t("exampleRoute.details.aiModel")}:</span> GOOGLE
-                    </p>
-                  </div>
-
-                  {/* Etappen */}
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-foreground flex items-center gap-2">
-                      <Compass className="w-4 h-4 text-[#F59B0A]" />
-                      {t("exampleRoute.details.planning")}
-                    </h4>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {t("exampleRoute.details.planningDesc")}
-                    </p>
-
-                    {/* Hinfahrt */}
-                    <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm">
-                      <h5 className="font-semibold text-[#F59B0A] mb-3">{t("exampleRoute.details.outward")}</h5>
-                      <div className="space-y-3 text-sm">
-                        {[
-                          `${t("exampleRoute.stages.karlsruhe")} → ${t("exampleRoute.stages.fulda")} (210 km, 2:30–3:00 h)`,
-                          `${t("exampleRoute.stages.fulda")} → ${t("exampleRoute.stages.magdeburg")} (240 km, 3:00–3:30 h)`,
-                          `${t("exampleRoute.stages.magdeburg")} → ${t("exampleRoute.stages.perleberg")} (130 km, 1:45–2:15 h)`,
-                          `${t("exampleRoute.stages.perleberg")} → ${t("exampleRoute.stages.wismar")} (95 km, 1:15–1:30 h)`
-                        ].map((stage, i) => (
-                          <div key={i} className="flex gap-2">
-                            <span className="text-[#F59B0A] font-medium">{i18n.language === 'en' ? 'Day' : 'Tag'} {i+1}:</span>
-                            <span className="text-muted-foreground">{stage}</span>
-                          </div>
-                        ))}
-                      </div>
+                <div className="p-10 md:p-16 rounded-[4rem] border-2 border-white/20 shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-16"
+                     style={{ background: "rgba(255, 255, 255, 0.05)", backdropFilter: "blur(24px)" }}>
+                  <div className="space-y-10">
+                    <div>
+                      <h4 className="text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
+                        <Compass className="w-8 h-8 text-primary" />
+                        {t("exampleRoute.details.planning")}
+                      </h4>
+                      <p className="text-muted-foreground text-lg leading-relaxed italic font-serif">
+                        {t("exampleRoute.details.planningDesc")}
+                      </p>
                     </div>
 
-                    {/* Rückfahrt */}
-                    <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm">
-                      <h5 className="font-semibold text-[#F59B0A] mb-3">{t("exampleRoute.details.return")}</h5>
-                      <div className="space-y-3 text-sm">
+                    <div className="p-10 rounded-[3rem] border-2 border-white/10" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                      <h5 className="font-black text-primary uppercase tracking-[0.2em] text-xs mb-8">{t("exampleRoute.details.outward")}</h5>
+                      <div className="space-y-6">
                         {[
-                          `${t("exampleRoute.stages.wismar")} → Lüneburger Heide (160 km, 2:00–2:30 h)`,
-                          `Lüneburger Heide → Region Edersee (230 km, 3:00–3:30 h)`,
-                          `Region Edersee → Bergstraße (190 km, 2:30–3:00 h)`,
-                          `Bergstraße → ${t("exampleRoute.stages.karlsruhe")} (70 km, 1:00 h)`
+                          `${t("exampleRoute.stages.karlsruhe")} → ${t("exampleRoute.stages.fulda")}`,
+                          `${t("exampleRoute.stages.fulda")} → ${t("exampleRoute.stages.magdeburg")}`,
+                          `${t("exampleRoute.stages.magdeburg")} → ${t("exampleRoute.stages.perleberg")}`,
+                          `${t("exampleRoute.stages.perleberg")} → ${t("exampleRoute.stages.wismar")}`
                         ].map((stage, i) => (
-                          <div key={i} className="flex gap-2">
-                            <span className="text-[#F59B0A] font-medium">{i18n.language === 'en' ? 'Day' : 'Tag'} {i+11}:</span>
-                            <span className="text-muted-foreground">{stage}</span>
+                          <div key={i} className="flex gap-6 items-center group">
+                            <span className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-xs font-black text-primary border-2 border-white/10 shadow-sm group-hover:bg-primary group-hover:text-white transition-all">{i + 1}</span>
+                            <span className="text-foreground font-black uppercase text-sm tracking-tight">{stage}</span>
                           </div>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  {/* Übernachtungen */}
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-foreground flex items-center gap-2">
-                      <Euro className="w-4 h-4 text-[#F59B0A]" />
-                      {t("exampleRoute.details.overnight")}
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        {day: i18n.language === 'en' ? 'Day 1' : 'Tag 1', place: 'Knaus Campingpark Hünfeld', price: '35–45 €', highlight: t("exampleRoute.details.overnightHighlights.fulda")},
-                        {day: i18n.language === 'en' ? 'Day 2' : 'Tag 2', place: 'Schachtsee Wolmirsleben', price: '30–40 €', highlight: t("exampleRoute.details.overnightHighlights.magdeburg")},
-                        {day: i18n.language === 'en' ? 'Day 3' : 'Tag 3', place: 'Campingplatz Friedensteich', price: '25–35 €', highlight: t("exampleRoute.details.overnightHighlights.perleberg")},
-                        {day: i18n.language === 'en' ? 'Day 4–11' : 'Tag 4–11', place: 'Ostsee-Camping Zierow', price: '50–65 €', highlight: t("exampleRoute.details.overnightHighlights.wismar")},
-                        {day: i18n.language === 'en' ? 'Day 11' : 'Tag 11', place: 'Auf dem Simpel', price: '40–50 €', highlight: t("exampleRoute.details.overnightHighlights.heath")},
-                        {day: i18n.language === 'en' ? 'Day 12' : 'Tag 12', place: 'Ferienpark Teichmann', price: '35–50 €', highlight: t("exampleRoute.details.overnightHighlights.edersee")},
-                        {day: i18n.language === 'en' ? 'Day 13' : 'Tag 13', place: 'Nibelungen-Camping', price: '25–35 €', highlight: t("exampleRoute.details.overnightHighlights.lorsch")},
-                      ].map((stay, i) => (
-                        <div key={i} className="bg-white dark:bg-gray-900 rounded-xl p-3 shadow-sm">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <p className="font-medium text-[#F59B0A] text-sm">{stay.day}</p>
-                              <p className="font-semibold text-foreground mt-1">{stay.place}</p>
-                              <p className="text-xs text-muted-foreground mt-1">{stay.highlight}</p>
+                  <div className="space-y-10">
+                    <div>
+                      <h4 className="text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
+                        <Euro className="w-8 h-8 text-primary" />
+                        {t("exampleRoute.details.overnight")}
+                      </h4>
+                      <div className="grid gap-4">
+                        {overnights.map((stay, i) => (
+                          <div key={i} className="p-8 rounded-3xl flex justify-between items-center border-2 border-white/10 hover:border-white/20 transition-all group" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                            <div className="flex gap-6 items-center">
+                              <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{t("exampleRoute.summary.dayLabel")} {stay.day}</span>
+                              <span className="text-foreground font-black uppercase text-sm">{stay.place}</span>
                             </div>
-                            <span className="font-bold text-foreground">{stay.price}</span>
+                            <span className="font-black text-primary text-lg tracking-tighter">{stay.price}</span>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Highlights */}
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-foreground flex items-center gap-2">
-                      <Landmark className="w-4 h-4 text-[#F59B0A]" />
-                      {t("exampleRoute.details.highlights")}
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        {region: t("exampleRoute.stages.fulda"), attractions: [t("exampleRoute.stages.details.fulda").split("&")[0].trim(), t("exampleRoute.details.attractions.waterkuppe")]},
-                        {region: 'Magdeburg/Perleberg', attractions: [t("exampleRoute.details.attractions.waterJunction"), t("exampleRoute.details.attractions.zooPerleberg")]},
-                        {region: t("exampleRoute.stages.wismar").split(" ")[0], attractions: [t("exampleRoute.details.attractions.harbor"), t("exampleRoute.details.attractions.poel"), t("exampleRoute.details.attractions.bothmer")]},
-                        {region: t("exampleRoute.details.return").split(":")[0], attractions: [t("exampleRoute.details.attractions.heath"), t("exampleRoute.details.attractions.edersee"), t("exampleRoute.details.attractions.lorsch")]},
-                      ].map((area, i) => (
-                        <div key={i} className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm">
-                          <h5 className="font-semibold text-[#F59B0A] mb-2">{area.region}</h5>
-                          <ul className="text-sm text-muted-foreground space-y-1">
-                            {area.attractions.map((attr, j) => (
-                              <li key={j} className="flex items-start gap-2">
-                                <span className="text-[#F59B0A] text-xs mt-1">•</span>
-                                <span>{attr}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                    
+                    <div className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5">
+                      <h4 className="font-black text-primary flex items-center gap-3 mb-4 uppercase text-sm tracking-widest">
+                        <Info className="w-5 h-5" />
+                        {t("exampleRoute.details.summary")}
+                      </h4>
+                      <p className="text-base text-muted-foreground leading-relaxed italic font-serif">
+                        {t("exampleRoute.details.summaryDesc")}
+                      </p>
                     </div>
-                  </div>
-
-                  {/* Praktische Tipps */}
-                  <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm">
-                    <h4 className="font-semibold text-foreground flex items-center gap-2 mb-3">
-                      <Info className="w-4 h-4 text-[#F59B0A]" />
-                      {t("exampleRoute.details.practicalTips")}
-                    </h4>
-                    <ul className="text-sm text-muted-foreground space-y-2">
-                      {[
-                        t("exampleRoute.details.tipsList.clesana"),
-                        t("exampleRoute.details.tipsList.dogs"),
-                        t("exampleRoute.details.tipsList.nav"),
-                        `${t("exampleRoute.summary.budget")}: Ca. 900–1000 €`,
-                        t("exampleRoute.details.tipsList.solar")
-                      ].map((tip, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-[#F59B0A] text-xs mt-1">•</span>
-                          <span>{tip}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Zusammenfassung */}
-                  <div className="bg-[#F59B0A]/10 border border-[#F59B0A]/20 rounded-xl p-4">
-                    <h4 className="font-semibold text-[#F59B0A] flex items-center gap-2 mb-3">
-                      <Info className="w-4 h-4" />
-                      {t("exampleRoute.details.summary")}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {t("exampleRoute.details.summaryDesc")}
-                    </p>
                   </div>
                 </div>
               </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>

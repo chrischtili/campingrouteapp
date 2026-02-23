@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui/label";
+import { motion } from "framer-motion";
 
 interface ToggleOption {
   value: string;
@@ -14,35 +14,29 @@ interface ToggleGroupProps {
 
 export function ToggleGroup({ name, options, selectedValues, onChange }: ToggleGroupProps) {
   return (
-    <div className="grid gap-2">
+    <div className="grid grid-cols-1 gap-3 w-full">
       {options.map((option) => {
         const isChecked = selectedValues.includes(option.value);
         return (
-          <div key={option.value} className="flex items-start space-x-3">
-            <button
-              type="button"
-              onClick={() => onChange(name, option.value, !isChecked)}
-              className={`relative inline-flex flex-shrink-0 items-center h-5 rounded-full w-9 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                isChecked
-                  ? 'bg-[rgb(240,146,17)] focus:ring-[rgb(240,146,17)]'
-                  : 'bg-gray-200 dark:bg-gray-700 focus:ring-gray-400 dark:focus:ring-gray-500'
-              }`}
-              aria-pressed={isChecked}
-            >
-              <span
-                className={`inline-block w-3 h-3 transform bg-white rounded-full transition-transform ${
-                  isChecked ? 'translate-x-4' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <Label 
-              htmlFor={`${name}-${option.value}`} 
-              className="text-sm font-normal cursor-pointer leading-normal"
-              onClick={() => onChange(name, option.value, !isChecked)}
-            >
-              {option.label}
-            </Label>
-          </div>
+          <motion.button
+            key={option.value}
+            type="button"
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onChange(name, option.value, !isChecked)}
+            className={`w-full px-5 py-4 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all duration-300 border-2 flex items-center justify-between ${
+              isChecked
+                ? 'bg-primary border-primary text-white shadow-xl shadow-primary/30'
+                : 'bg-white/5 border-white/10 text-white/60 hover:border-white/30 hover:text-white shadow-sm'
+            }`}
+          >
+            <span>{option.label}</span>
+            <div className={`w-2.5 h-2.5 rounded-full transition-all duration-500 border-2 ${
+              isChecked 
+                ? "bg-white border-white scale-110 shadow-[0_0_10px_rgba(255,255,255,0.8)]" 
+                : "bg-transparent border-white/20"
+            }`} />
+          </motion.button>
         );
       })}
     </div>

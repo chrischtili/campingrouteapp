@@ -1,5 +1,5 @@
-import { useState, useRef, Suspense, lazy } from "react";
-import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useState, useEffect, useRef, Suspense, lazy } from "react";
+import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Users, Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
@@ -25,7 +25,7 @@ const RouteExampleSection = lazy(() => import("./RouteExampleSection").then(m =>
 const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQSection })));
 
 export function RoutePlanner() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [aiSettings, setAISettings] = useState<AISettings>(initialAISettings);
   const [output, setOutput] = useState<string>('');
@@ -39,6 +39,24 @@ export function RoutePlanner() {
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+
+  // AUTO-OPEN LOGIC
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('plan') === 'true') {
+      setShowForm(true);
+      setTimeout(() => {
+        const element = document.getElementById('planner');
+        if (element) {
+          const yOffset = -100;
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 500);
+      // Clean up URL
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const steps = [
     { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
@@ -69,6 +87,17 @@ export function RoutePlanner() {
     });
   };
 
+  const scrollToPlannerProgress = () => {
+    setTimeout(() => {
+      const element = document.getElementById('planner-progress');
+      if (element) {
+        const yOffset = -120;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 50);
+  };
+
   const nextStep = () => {
     if (currentStep < steps.length) {
       const newStep = currentStep + 1;
@@ -76,23 +105,22 @@ export function RoutePlanner() {
       if (!completedSteps.includes(currentStep)) {
         setCompletedSteps([...completedSteps, currentStep]);
       }
-      setTimeout(() => {
-        if (formRef.current) {
-          formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 50);
+      scrollToPlannerProgress();
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      scrollToPlannerProgress();
     }
   };
 
   const goToStep = (step: number) => {
-    if (completedSteps.includes(step) || step === currentStep) {
+    const isNavigable = (formData.startPoint && formData.destination) || completedSteps.includes(step) || step === currentStep;
+    if (isNavigable) {
       setCurrentStep(step);
+      scrollToPlannerProgress();
     }
   };
 
@@ -143,7 +171,9 @@ export function RoutePlanner() {
       setCurrentStep(steps.length + 1);
       setTimeout(() => {
         if (outputSectionRef.current) {
-          outputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const yOffset = -100;
+          const y = outputSectionRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
         }
       }, 100);
     } catch (error) {
@@ -154,18 +184,28 @@ export function RoutePlanner() {
   };
 
   return (
-    <main className="min-h-screen" style={{ backgroundColor: 'rgb(250, 244, 235)' }} id="main-content">
+    <main className="min-h-screen bg-background" id="main-content">
       <Navbar onStartPlanning={() => {
         setShowForm(true);
         setTimeout(() => {
-          document.getElementById('planner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const element = document.getElementById('planner');
+          if (element) {
+            const yOffset = -100;
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
         }, 100);
       }} />
       
       <HeroSection onStartPlanning={() => {
         setShowForm(true);
         setTimeout(() => {
-          document.getElementById('planner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const element = document.getElementById('planner');
+          if (element) {
+            const yOffset = -100;
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
         }, 100);
       }} />
 
@@ -176,99 +216,287 @@ export function RoutePlanner() {
       </Suspense>
 
       {!showForm && (
-        <section className="py-16 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800 text-center">
-          <Button
-            onClick={() => {
-              setShowForm(true);
-              setTimeout(() => {
-                document.getElementById('planner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }, 100);
-            }}
-            className="gap-2 bg-[#F59B0A] hover:bg-[#E67E22] text-white dark:text-foreground text-lg px-8 py-6 rounded-full shadow-lg"
-            size="lg"
+        <section className="py-32 px-4 text-center bg-secondary relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/20 rounded-full blur-[80px] pointer-events-none" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative z-10"
           >
-            <Route className="w-6 h-6" />
-            {t("planner.cta")}
-          </Button>
+            <Button
+              onClick={() => {
+                setShowForm(true);
+                setTimeout(() => {
+                  const element = document.getElementById('planner');
+                  if (element) {
+                    const yOffset = -100;
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  }
+                }, 100);
+              }}
+              className="group gap-4 text-white px-12 py-10 rounded-[2rem] shadow-2xl transition-all hover:scale-105 border-2 border-primary/50"
+              size="lg"
+              style={{
+                background: "rgba(245, 155, 10, 0.3)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+              }}
+            >
+              <Route className="w-8 h-8 group-hover:rotate-12 transition-transform" />
+              <span className="text-2xl font-black uppercase tracking-tighter">{t("planner.cta")}</span>
+            </Button>
+          </motion.div>
         </section>
       )}
 
       {showForm && (
-        <section id="planner" className="py-24 px-4 bg-[rgb(252,250,248)] dark:bg-gray-800">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="text-[#F59B0A] font-semibold text-sm uppercase tracking-widest">{t("planner.badge")}</span>
-              <h2 className="text-2xl md:text-4xl font-bold text-foreground mt-3">{t("planner.title")}</h2>
+        <section id="planner" className="py-24 px-4 bg-[#0a140f] text-white relative overflow-hidden dark:bg-[#0a140f]">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px]" />
+          </div>
+
+          <div className="max-w-5xl mx-auto relative z-10 text-white">
+            <div className="text-center mb-24">
+              <motion.span 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-primary font-black text-xs uppercase tracking-[0.4em] bg-primary/10 px-6 py-2 rounded-full border-2 border-primary/20 inline-block"
+              >
+                {t("planner.badge")}
+              </motion.span>
+              <motion.h2 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-3xl md:text-7xl font-black text-white mt-8 tracking-tighter leading-none"
+              >
+                {t("planner.title")}
+              </motion.h2>
             </div>
 
-            {/* Progress */}
-            <div className="mb-12">
-              <div className="flex items-center justify-between mb-4">
+            {/* Modern Progress Steps - ARROW FLOW VERSION */}
+            <div id="planner-progress" className="mb-16 app-glass p-8 rounded-[2.5rem] relative z-20 shadow-2xl overflow-hidden md:overflow-visible">
+              <div className="flex items-center justify-between relative px-2">
                 {steps.map((step, i) => {
                   const Icon = step.icon;
-                  const isActive = i + 1 === currentStep;
-                  const isDone = completedSteps.includes(i + 1);
+                  const stepNumber = i + 1;
+                  const isActive = stepNumber === currentStep;
+                  const isLast = i === steps.length - 1;
+                  
+                  // CHECK IF STEP IS ACTUALLY FILLED WITH DATA
+                  const isStepCompleted = () => {
+                    switch(stepNumber) {
+                      case 1: return completedSteps.includes(1);
+                      case 2: return !!(formData.startPoint && formData.destination);
+                      case 3: return formData.routePreferences.length > 0;
+                      case 4: 
+                        return formData.vehicleLength !== initialFormData.vehicleLength || 
+                               formData.vehicleWeight !== initialFormData.vehicleWeight;
+                      case 5: return formData.travelCompanions.length > 0 || formData.accommodationType.length > 0;
+                      case 6: return formData.activities.length > 0;
+                      case 7: return !!output; 
+                      default: return false;
+                    }
+                  };
+
+                  const isDone = isStepCompleted();
+                  const isNavigable = (formData.startPoint && formData.destination) || stepNumber <= currentStep || completedSteps.includes(stepNumber);
+
                   return (
-                    <button
-                      key={i}
-                      onClick={() => goToStep(i + 1)}
-                      disabled={!isDone && !isActive}
-                      className={`flex flex-col items-center gap-1.5 transition-all ${isActive ? "text-[#F59B0A] scale-110" : isDone ? "text-primary" : "text-muted-foreground/40"}`}
-                    >
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isActive ? "bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white" : isDone ? "bg-[rgb(50,110,89)] text-white" : "bg-gray-200 dark:bg-gray-700"}`}>
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-medium hidden md:block">{step.label}</span>
-                    </button>
+                    <div key={i} className="flex flex-1 items-center">
+                      <button
+                        onClick={() => goToStep(stepNumber)}
+                        disabled={!isNavigable}
+                        className={`flex flex-col items-center group relative flex-1 transition-all duration-500 ${!isNavigable ? "opacity-20 cursor-not-allowed" : "opacity-100"}`}
+                      >
+                        <div className="relative">
+                          <motion.div 
+                            whileHover={isNavigable ? { scale: 1.1, rotate: 5 } : {}}
+                            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 border-2 shrink-0 ${
+                              isActive 
+                                ? "bg-primary border-primary text-white shadow-xl shadow-primary/40 scale-110 z-10" 
+                                : isDone 
+                                  ? "bg-[#1a2e1a] border-[#2d4d2d] text-[#4ade80] shadow-lg shadow-black/20" 
+                                  : "bg-white/5 border-white/10 text-white/20"
+                            }`}
+                          >
+                            <Icon className="w-5 h-5" />
+                          </motion.div>
+                          
+                          {isDone && (
+                            <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#4ade80] rounded-full flex items-center justify-center border-2 border-[#0a140f] z-30 shadow-lg">
+                              <Check className="w-3 h-3 text-[#0a140f] stroke-[4px]" />
+                            </div>
+                          )}
+                        </div>
+                        <span className={`text-[10px] font-black mt-4 uppercase tracking-[0.1em] transition-colors hidden md:block text-center px-2 ${isActive ? "text-primary" : isDone ? "text-[#4ade80]/60" : "text-white/20"}`}>
+                          {step.label}
+                        </span>
+                      </button>
+
+                      {!isLast && (
+                        <div className="flex items-center justify-center mb-8 md:mb-10">
+                          <ChevronRight className={`w-5 h-5 transition-all duration-500 ${
+                            isActive 
+                              ? "text-primary animate-pulse scale-125" 
+                              : isDone 
+                                ? "text-[#4ade80]/30" 
+                                : "text-white/5"
+                          }`} />
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
-              </div>
-              <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-[#F59B0A] transition-all duration-300" style={{ width: `${(currentStep / steps.length) * 100}%` }} />
               </div>
             </div>
 
             {/* Form Steps */}
-            <div className="p-8 min-h-[240px] scroll-mt-24" ref={formRef}>
-              <div className="space-y-6">
+            <motion.div 
+              key={currentStep}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="app-glass p-10 md:p-16 rounded-[3rem] relative overflow-hidden shadow-2xl" 
+              ref={formRef}
+            >
+              <div className="space-y-12 relative z-10">
                 {currentStep === 1 && <AISettingsSection aiSettings={aiSettings} onAISettingsChange={handleAISettingsChange} aiError={aiError} />}
                 {currentStep === 2 && <RouteSection formData={formData} onChange={handleFormChange} />}
                 {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} />}
                 {currentStep === 4 && <VehicleSection formData={formData} onChange={handleFormChange} />}
                 {currentStep === 5 && <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
                 {currentStep === 6 && <ActivitiesSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
-                {currentStep === 7 && (
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-border">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">📋 {t("planner.summary.title")}</h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between"><span>{t("planner.summary.start")}:</span><strong>{formData.startPoint || t("planner.summary.notSpecified")}</strong></div>
-                      <div className="flex justify-between"><span>{t("planner.summary.destination")}:</span><strong>{formData.destination || t("planner.summary.notSpecified")}</strong></div>
-                      <div className="flex justify-between"><span>{t("planner.summary.method")}:</span><strong>{aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}</strong></div>
+                {currentStep >= 7 && (
+                  <div className="space-y-10">
+                    <div className="space-y-4">
+                      <h3 className="text-3xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
+                        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/20">
+                          <FileText className="w-6 h-6" />
+                        </div>
+                        {t("planner.summary.title")}
+                      </h3>
+                      {!output && (
+                        <p className="text-white/40 italic text-sm ml-16 text-left">
+                          {t("planner.summary.check")}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+                      <div className="md:col-span-2 lg:col-span-2 p-8 rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col gap-6">
+                        <div className="flex items-center justify-between border-b border-white/5 pb-6">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.start")}</span>
+                            <span className="text-xl font-black text-white">{formData.startPoint || t("planner.summary.notSpecified")}</span>
+                          </div>
+                          <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20">
+                            <ChevronRight className="w-6 h-6" />
+                          </div>
+                          <div className="flex flex-col gap-1 text-right">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.destination")}</span>
+                            <span className="text-xl font-black text-white">{formData.destination || t("planner.summary.notSpecified")}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-8">
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40">
+                              <Calendar className="w-5 h-5" />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.period")}</span>
+                              <div className="flex flex-col text-xs font-bold text-white">
+                                <span>{formData.startDate ? new Date(formData.startDate).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US') : '?'} —</span>
+                                <span>{formData.endDate ? new Date(formData.endDate).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US') : '?'}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40">
+                              <Route className="w-5 h-5" />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.maxDist")}</span>
+                              <span className="text-sm font-bold text-white">{formData.maxDailyDistance} km / {t("exampleRoute.summary.dayLabel")}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-8 rounded-[2.5rem] bg-primary/5 border-2 border-primary/20 shadow-xl flex flex-col justify-between">
+                        <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 mb-6">
+                          <Bot className="w-6 h-6" />
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.method")}</span>
+                          <h4 className="text-xl font-black text-white uppercase leading-tight">
+                            {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+                      {[
+                        { label: t("planner.summary.vehicle"), value: formData.vehicleWeight + "t", icon: Truck },
+                        { label: t("planner.summary.people"), value: formData.numberOfTravelers, icon: Users },
+                        { label: t("planner.summary.style"), value: formData.travelStyle ? t(`planner.route.style.options.${formData.travelStyle}`) : t("planner.summary.notSelected"), icon: Sparkles },
+                        { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Heart },
+                      ].map((stat, i) => (
+                        <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">
+                          <stat.icon className="w-5 h-5 text-white/20 group-hover:text-primary transition-colors" />
+                          <div className="flex flex-col">
+                            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-white/30">{stat.label}</span>
+                            <span className="text-xs font-black text-white">{stat.value}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
               </div>
-            </div>
 
-            {/* Navigation */}
-            {currentStep <= steps.length && (
-              <div className="flex justify-between mt-8 pt-4 border-t border-border">
-                {currentStep > 1 ? (
-                  <Button variant="outline" onClick={prevStep} className="rounded-full">{t("planner.nav.back")}</Button>
-                ) : <div />}
-                
-                {currentStep < steps.length ? (
-                  <Button onClick={nextStep} disabled={!isStepValid()} className="bg-[#F59B0A] hover:bg-[#E67E22] text-white rounded-full">{t("planner.nav.next")}</Button>
-                ) : (
-                  <Button onClick={handleSubmit} disabled={isLoading || !formData.startPoint || !formData.destination} className="bg-[#F59B0A] hover:bg-[#E67E22] text-white rounded-full">
-                    {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
-                  </Button>
-                )}
-              </div>
-            )}
+              {/* Navigation - Only hide in the final result step (currentStep > 7) */}
+              {currentStep <= steps.length && (
+                <div className="flex justify-between mt-12 pt-8 border-t border-white/5 relative z-10">
+                  {currentStep > 1 ? (
+                    <Button 
+                      variant="outline" 
+                      onClick={prevStep} 
+                      className="rounded-xl px-6 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 flex items-center gap-2 h-12"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      {t("planner.nav.back")}
+                    </Button>
+                  ) : <div />}
+                  
+                  {currentStep < steps.length ? (
+                    <Button 
+                      onClick={nextStep} 
+                      disabled={!isStepValid()} 
+                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-8 font-black shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 h-12"
+                    >
+                      {t("planner.nav.next")}
+                      <ChevronRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  ) : (
+                    <Button 
+                      onClick={handleSubmit} 
+                      disabled={isLoading || !formData.startPoint || !formData.destination} 
+                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-10 py-6 font-black text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95"
+                    >
+                      {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                    </Button>
+                  )}
+                </div>
+              )}
+            </motion.div>
           </div>
 
-          <div className="mt-8 max-w-4xl mx-auto scroll-mt-24" ref={outputSectionRef}>
+          <div className="mt-16 max-w-5xl mx-auto scroll-mt-24" ref={outputSectionRef}>
             <OutputSection
               output={output}
               isLoading={isLoading}

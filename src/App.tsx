@@ -2,9 +2,18 @@ import React from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
+// ScrollToTop Component
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 // Dynamische Importe für nicht-kritische Seiten
 const Index = lazy(() => import("./pages/Index"));
@@ -61,6 +70,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="theme-preference">
         <TooltipProvider>
+          <ScrollToTop />
           <Suspense fallback={null}>
             <Toaster />
             <Sonner />

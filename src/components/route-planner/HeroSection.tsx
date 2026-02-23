@@ -1,176 +1,149 @@
-import { MapPin, Compass } from "lucide-react";
+import { MapPin, Compass, ChevronRight, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
   onStartPlanning?: () => void;
 }
 
 export function HeroSection({ onStartPlanning }: HeroSectionProps) {
-  const { t, i18n } = useTranslation();
-  // Typing Animation State
-  const [displayedText, setDisplayedText] = useState({
-    line1: "",
-    line2: "",
-    line3: ""
-  });
-  const [showCursor, setShowCursor] = useState(true);
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    const fullText = {
-      line1: t("hero.line1"),
-      line2: t("hero.line2"),
-      line3: t("hero.line3")
-    };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.3,
+      },
+    },
+  };
 
-    let isMounted = true;
-
-    const typeText = async () => {
-      setDisplayedText({ line1: "", line2: "", line3: "" });
-      setShowCursor(true);
-
-      // Line 1
-      for (let i = 0; i <= fullText.line1.length; i++) {
-        if (!isMounted) return;
-        setDisplayedText(prev => ({
-          ...prev,
-          line1: fullText.line1.substring(0, i)
-        }));
-        await new Promise(resolve => setTimeout(resolve, 30));
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Line 2
-      for (let i = 0; i <= fullText.line2.length; i++) {
-        if (!isMounted) return;
-        setDisplayedText(prev => ({
-          ...prev,
-          line2: fullText.line2.substring(0, i)
-        }));
-        await new Promise(resolve => setTimeout(resolve, 30));
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Line 3
-      for (let i = 0; i <= fullText.line3.length; i++) {
-        if (!isMounted) return;
-        setDisplayedText(prev => ({
-          ...prev,
-          line3: fullText.line3.substring(0, i)
-        }));
-        await new Promise(resolve => setTimeout(resolve, 30));
-      }
-
-      // Cursor entfernen, wenn Animation fertig ist
-      if (isMounted) setShowCursor(false);
-    };
-
-    typeText();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [t, i18n.language]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: [0.21, 0.45, 0.32, 0.9] } 
+    },
+  };
 
   return (
-    <section className="relative min-h-screen md:h-[90vh] flex items-center justify-center overflow-hidden pt-20" id="home">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background" id="home">
+      {/* Background Image with Ken Burns Effect */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.img
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 15, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
           src="/campingroute.webp"
           alt={t("hero.title")}
           className="w-full h-full object-cover"
-          fetchpriority="high"
-          decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40 dark:from-black/80 dark:to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-background dark:from-black/95 dark:via-black/70 dark:to-background" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex items-center justify-center gap-0.5 mb-0 md:mb-6 pt-20 md:pt-0 max-sm:pt-24"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8"
         >
-          <img 
-            src="/favicon-original-final.svg" 
-            alt="Logo" 
-            className="w-12 h-12" 
-            width="48" 
-            height="48"
-            style={{ filter: 'brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(600%) hue-rotate(5deg) brightness(100%) contrast(120%)' }} 
-          />
-          <span className="text-[#F59B0A] font-medium tracking-wide uppercase">
+          <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+          <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
             {t("hero.badge")}
           </span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white dark:text-foreground mb-0 md:mb-6 leading-tight pt-6 md:pt-0"
+          transition={{ duration: 1, ease: [0.21, 0.45, 0.32, 0.9] }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[9rem] font-black text-white mb-8 md:mb-12 tracking-tighter leading-[0.9] drop-shadow-2xl text-center w-full"
         >
-          {t("hero.title")}
+          Camping<span className="text-primary">Route</span>
         </motion.h1>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-center mb-16 max-w-2xl mx-auto pt-10"
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="max-w-2xl mx-auto mb-10 md:mb-16 px-4 md:px-0"
         >
-          <div className="text-xl md:text-2xl text-white/80 dark:text-foreground/80 font-light mb-2 min-h-[4.5rem] sm:min-h-[3.5rem] flex items-center justify-center">
-            <p>{displayedText.line1}{showCursor && <span className="blink-cursor">|</span>}</p>
-          </div>
-          <div className="text-lg md:text-xl text-white/70 dark:text-foreground/70 font-light mb-1 min-h-[3.5rem] sm:min-h-[2.5rem] flex items-center justify-center">
-            <p>{displayedText.line2}</p>
-          </div>
-          <div className="text-base md:text-lg text-white/60 dark:text-foreground/60 font-light min-h-[3rem] sm:min-h-[2.5rem] flex items-center justify-center">
-            <p>{displayedText.line3}</p>
-          </div>
+          <p className="text-sm md:text-xl text-white/80 font-medium tracking-tight leading-relaxed drop-shadow-sm">
+            {t("hero.description")}
+          </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          transition={{ duration: 0.6, delay: 1 }}
+          className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center"
         >
-          <button
+          <Button
+            size="lg"
             onClick={() => onStartPlanning?.()}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#F59B0A] to-[#E67E22] text-white dark:text-foreground font-semibold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
+            className="group relative w-full sm:w-auto px-8 md:px-10 py-6 md:py-8 rounded-2xl text-white font-black text-lg md:text-xl shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 border-2 border-primary/50"
+            style={{
+              background: "rgba(245, 155, 10, 0.3)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
           >
-            <MapPin className="w-5 h-5" />
-            {t("hero.planNow")}
-          </button>
-          <a
-            href="#example-route"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-white/30 text-white dark:text-foreground font-medium text-lg hover:bg-white/10 dark:hover:bg-foreground/10 transition-colors duration-200"
+            <span className="relative z-10 flex items-center gap-2 md:gap-3">
+              <MapPin className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-12 transition-transform" />
+              {t("hero.planNow")}
+            </span>
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="lg"
+            asChild
+            className="w-full sm:w-auto px-8 md:px-10 py-6 md:py-8 rounded-2xl border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/40 hover:text-primary transition-all border-2 font-bold group/example"
           >
-            {t("hero.viewExample")}
-          </a>
+            <a href="#example-route">
+              <Play className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 fill-current group-hover/example:text-primary transition-colors" />
+              {t("hero.viewExample")}
+            </a>
+          </Button>
         </motion.div>
 
-        {/* Trust badges */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-4 text-white/60 dark:text-foreground/60 text-sm"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          className="mt-10 md:mt-32 inline-block mx-auto"
         >
-          <span>{t("hero.rating")}</span>
-          <span className="w-1 h-1 rounded-full bg-white/40 dark:bg-foreground/40 hidden sm:block" />
-          <span>{t("hero.plannedCount")}</span>
-          <span className="w-1 h-1 rounded-full bg-white/40 dark:bg-foreground/40 hidden sm:block" />
-          <span>{t("hero.free")}</span>
+          <div className="px-6 py-6 md:px-16 md:py-10 rounded-[2rem] md:rounded-[3rem] border-white/20 bg-white/5 backdrop-blur-md border-2 flex flex-wrap items-center justify-center gap-6 md:gap-16 shadow-2xl shadow-black/10">
+            {[
+              { value: t("hero.stats.rating.value"), label: t("hero.stats.rating.label") },
+              { value: t("hero.stats.routes.value"), label: t("hero.stats.routes.label") },
+              { value: t("hero.stats.price.value"), label: t("hero.stats.price.label") }
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <span className="text-white font-black text-xl md:text-4xl tracking-tighter drop-shadow-md leading-none mb-1 md:mb-2">{stat.value}</span>
+                <span className="text-white/70 text-[8px] md:text-[11px] uppercase tracking-[0.3em] font-black drop-shadow-sm">{stat.label}</span>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30"
+      >
+        <ChevronRight className="w-6 h-6 rotate-90" />
+      </motion.div>
     </section>
   );
 }

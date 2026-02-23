@@ -7,23 +7,34 @@
     "features": "Features",
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
-    "planNow": "Jetzt planen"
+    "planNow": "Jetzt planen",
+    "subtitle": "Smarte KI-Prompts"
   },
   "hero": {
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
-    "line1": "Plane deine perfekte Wohnmobil-Reise mit KI-gestützter Routenplanung.",
-    "line2": "Unser intelligenter Prompt-Generator erstellt mit DEINER KI maßgeschneiderte",
-    "line3": "Empfehlungen für Übernachtungen, Aktivitäten und versteckte Juwelen.",
+    "description": "Erstelle mit unserem intelligenten Prompt-Generator deine individuelle Wohnmobil-Route inklusive maßgeschneiderter Empfehlungen für Stellplätze und Abenteuer.",
     "planNow": "Route jetzt planen",
     "viewExample": "Beispielroute ansehen",
-    "rating": "★★★★★ 4.7/5 Bewertung",
-    "plannedCount": "1.000+ geplante Routen",
-    "free": "100% kostenlos"
+    "stats": {
+      "rating": {
+        "value": "4.9/5",
+        "label": "Bewertung"
+      },
+      "routes": {
+        "value": "10.000+",
+        "label": "Routen"
+      },
+      "price": {
+        "value": "100%",
+        "label": "Kostenlos"
+      }
+    }
   },
   "features": {
     "badge": "Features",
     "title": "Warum Camping Route?",
+    "subtitle": "Alles, was du für dein nächstes Abenteuer brauchst.",
     "promptGen": {
       "title": "KI-Prompt-Generierung",
       "description": "Erstellt optimierte Prompts für deine KI-gestützte Routenplanung mit Wohnmobil-spezifischen Parametern."
@@ -51,18 +62,85 @@
   },
   "testimonials": {
     "badge": "Erfahrungen",
-    "title": "Von Campern geliebt",
+    "title": "Von der Community geliebt",
+    "julia": {
+      "name": "Julia",
+      "text": "Perfekt für spontane Trips! Innerhalb von Minuten hatte ich eine detaillierte Route mit allen wichtigen Infos.",
+      "role": "Wochenend-Reisende"
+    },
     "markus": {
-      "text": "Endlich ein Routenplaner, der wirklich auf meine Bedürfnisse eingeht! Die KI hat mir eine perfekte Route mit tollen Stellplätzen vorgeschlagen.",
-      "role": "Wohnmobil-Reisender"
+      "name": "Markus",
+      "text": "Endlich ein Routenplaner, der wirklich auf meine Bedürfnisse eingeht! Die KI hat mir eine perfekte Route vorgeschlagen.",
+      "role": "Reisender"
     },
     "sarah": {
-      "text": "Die Filteroptionen sind genial! Ich kann nach Budget, Interessen und sogar Fahrzeuggröße filtern – das spart so viel Zeit!",
+      "name": "Sarah",
+      "text": "Die Filteroptionen sind genial! Ich kann nach Budget und Fahrzeuggröße filtern – das spart so viel Zeit!",
       "role": "Camperin"
+    }
+  },
+  "exampleRoute": {
+    "badge": "KI-Beispielroute",
+    "title": "Karlsruhe → Wismar → Karlsruhe",
+    "subtitle": "14 Tage • 1.600 km • Genießer-Tour mit Ostsee & Mittelgebirge",
+    "summary": {
+      "distance": "Gesamtstrecke",
+      "distanceValue": "1.325 km",
+      "duration": "Reisedauer",
+      "durationValue": "14 Tage",
+      "budget": "Budget",
+      "budgetValue": "900–1000€",
+      "style": "Stil",
+      "styleValue": "Genießer-Tour",
+      "dayLabel": "Tag"
     },
-    "thomas": {
-      "text": "Perfekt für spontane Trips! Innerhalb von Minuten hatte ich eine detaillierte Route mit allen wichtigen Infos.",
-      "role": "Wochenend-Camper"
+    "stages": {
+      "stageLabel": "Etappe",
+      "karlsruhe": "Karlsruhe",
+      "fulda": "Fulda",
+      "magdeburg": "Magdeburg",
+      "perleberg": "Perleberg",
+      "wismar": "Wismar",
+      "highlights": {
+        "fulda": "Rhön & Fulda",
+        "magdeburg": "Wasserstraßenkreuz",
+        "perleberg": "Natur pur",
+        "wismar": "Ostsee-Flair"
+      },
+      "details": {
+        "fulda": "Dom zu Fulda & Wasserkuppe mit Panoramablick über die gesamte Rhön.",
+        "magdeburg": "Besuche das UNESCO-Weltkulturerbe: Die beeindruckende Trogbrücke über die Elbe.",
+        "perleberg": "Erlebe die unberührte Natur Brandenburgs auf der B189.",
+        "wismar": "Kurze Etappe - frühzeitiger Check-in möglich. Genieße den alten Hafen."
+      },
+      "overnight": {
+        "fulda": "Knaus Campingpark Hünfeld",
+        "magdeburg": "Schachtsee Wolmirsleben",
+        "perleberg": "Campingplatz Friedensteich",
+        "wismar": "Ostsee-Camping Zierow"
+      },
+      "times": {
+        "karlsruhe_fulda": "2:30–3:00 h",
+        "fulda_magdeburg": "3:00–3:30 h",
+        "magdeburg_perleberg": "1:45–2:15 h",
+        "perleberg_wismar": "1:15–1:30 h"
+      },
+      "distances": {
+        "karlsruhe_fulda": "210 km",
+        "fulda_magdeburg": "240 km",
+        "magdeburg_perleberg": "130 km",
+        "perleberg_wismar": "95 km"
+      }
+    },
+    "details": {
+      "show": "Detaillierte Route anzeigen",
+      "hide": "Details ausblenden",
+      "planning": "1. Etappenplanung",
+      "planningDesc": "Die Route ist in entspannte Tagesabschnitte unterteilt.",
+      "outward": "Hinfahrt",
+      "overnight": "2. Übernachtungen",
+      "summary": "Zusammenfassung",
+      "summaryDesc": "Eine entspannte Genießer-Tour durch Deutschland."
     }
   },
   "faq": {
@@ -71,296 +149,67 @@
     "items": {
       "whatIs": {
         "q": "Was ist Camping Route?",
-        "title": "Der KI-Prompt-Generator für maßgeschneiderte Wohnmobil-Routen!",
-        "prec": "Präzise Prompt-Erstellung",
-        "prec1": "Berücksichtigt Fahrzeugdaten (Größe, Gewicht)",
-        "prec2": "Filtert nach deinen Interessen und Budget",
-        "prec3": "Generiert optimierte Prompts für deine KI",
-        "ai": "KI-gestützte Routenplanung",
-        "ai1": "Erstellt Prompts für deine bevorzugte KI",
-        "ai2": "Inkludiert alle relevanten Parameter",
-        "ai3": "Optimiert für beste Ergebnisse",
-        "flex": "Zwei Modi für maximale Flexibilität",
-        "flexDesc": "Prompt-Generierung für volle Kontrolle oder direkte KI-Generierung (mit deinem API-Schlüssel) für sofortige Ergebnisse!"
+        "title": "Ein intelligenter Assistent für deine Wohnmobil-Routen.",
+        "prec": "Warum ein Prompt-Generator?",
+        "prec1": "Künstliche Intelligenz (wie ChatGPT) ist großartig, aber sie braucht präzise Anweisungen (Prompts), um wirklich brauchbare Ergebnisse zu liefern.",
+        "prec2": "Camping Route ist ein reines Frontend-Tool, das komplett lokal in deinem Browser läuft. Du wählst deine Wünsche über ein einfaches Formular aus.",
+        "prec3": "Wir wandeln deine Angaben in einen perfekt strukturierten Text um, den die KI optimal versteht.",
+        "ai": "Deine Vorteile",
+        "ai1": "Keine Standard-Routen mehr, sondern 100% individualisiert.",
+        "ai2": "Berücksichtigt Fahrzeugmaße, Budget und Vorlieben.",
+        "ai3": "Erspart dir mühsames Tippen und Nachfragen bei der KI."
       },
       "diff": {
-        "q": "Prompt Generieren vs. KI-Generierung - was ist der Unterschied?",
-        "title": "Zwei Wege zu deinem KI-Prompt:",
-        "gen": "Prompt Generieren (kostenlos)",
-        "gen1": "Erzeugt einen optimierten Prompt basierend auf deinen Eingaben",
-        "gen2": "Du erhältst den Prompt und kannst ihn in deine bevorzugte KI einfügen",
-        "gen3": "Volle Kontrolle über den Prozess",
-        "gen4": "Keine zusätzlichen Kosten",
-        "gen5": "Perfekt für Nutzer mit eigenem KI-Zugang",
-        "ai": "KI-Generierung (ca. 5-10 Cent)",
-        "ai1": "Deine KI generiert direkt eine Route basierend auf unserem Prompt",
-        "ai2": "Schnellere Ergebnisse ohne manuellen Prompt-Einzug",
-        "ai3": "Inklusive GPX-Datei zum Download für dein Navigationsgerät",
-        "ai4": "Kleine API-Kosten (ca. 5-10 Cent pro Generierung)",
-        "ai5": "Ideal für Nutzer, die sofort ein Ergebnis wollen",
-        "gpx": "GPX-Export (nur bei KI-Generierung)",
-        "gpxDesc": "Bei Nutzung der KI-Generierung mit deinem API-Schlüssel wird automatisch eine GPX-Datei generiert.",
-        "note": "Wichtig",
-        "noteDesc": "In beiden Fällen sind wir kein Routenplaner, sondern ein Prompt-Generator."
-      },
-      "vehicles": {
-        "q": "Welche Fahrzeugtypen werden unterstützt?",
-        "title": "Aktuell unterstützen wir:",
-        "rv": "Wohnmobile",
-        "van": "Camper/Vans",
-        "caravan": "Wohnwagen",
-        "moto": "Motorräder",
-        "full": "Voll unterstützt",
-        "planned": "In Planung",
-        "tip": "Tipp",
-        "tipDesc": "Gib im Routenplaner deine Fahrzeugdaten ein, damit wir die perfekten Stellplätze finden!"
+        "q": "Prompt vs. KI Direkt – was ist der Unterschied?",
+        "title": "Du hast die Wahl: Kostenlos kopieren oder direkt in der App generieren.",
+        "gen": "Modus: Prompt Generieren (Kostenlos)",
+        "gen1": "Am Ende erhältst du einen fertigen Text-Prompt.",
+        "gen2": "Diesen kopierst du einfach und fügst ihn bei ChatGPT, Claude oder Gemini ein.",
+        "gen3": "Kostenlos und du nutzt deinen bestehenden KI-Account.",
+        "gen4": "Volle Kontrolle über den anschließenden Chat.",
+        "ai": "Modus: KI direkt nutzen (API-Key nötig)",
+        "ai1": "Die Route wird direkt in unserer App generiert und angezeigt.",
+        "ai2": "Kein Hin- und Herkopieren zwischen verschiedenen Tabs.",
+        "ai4": "Du benötigst einen eigenen API-Key deines KI-Anbieters."
       },
       "howItWorks": {
-        "q": "Wie funktioniert die Prompt-Erstellung?",
-        "title": "Einfache Schritte zu deinem perfekten KI-Prompt:",
-        "step1": "1️⃣ Eingaben machen",
-        "step1a": "Start- und Zielort festlegen",
-        "step1b": "Fahrzeugdaten eingeben (optional)",
-        "step1c": "Interessen und Budget auswählen",
-        "step1d": "Reisedauer und Etappen anpassen",
-        "step2": "2️⃣ Modus wählen",
-        "step2a": "Prompt Generieren: Erhältst einen optimierten Prompt",
-        "step2b": "KI-Generierung: Deine KI generiert direkt eine Route",
-        "step3": "3️⃣ Ergebnis erhalten",
-        "step3a": "Optimierter Prompt mit allen Parametern",
-        "step3b": "Fertig zum Einfügen in ChatGPT, Gemini, etc.",
-        "step3c": "Optional: Direkte KI-Antwort mit GPX-Datei",
-        "step3d": "Volle Kontrolle über den Prozess"
+        "q": "Wie funktioniert die Planung genau?",
+        "title": "In wenigen Schritten zur perfekten Reiseroute.",
+        "step1": "Basisdaten",
+        "step1a": "Start, Ziel, Reisedauer und maximale Tageskilometer festlegen.",
+        "step2": "Dein Fahrzeug",
+        "step2a": "Fahrzeugmaße, Gewicht und Autarkie (Strom/Wasser) eintragen.",
+        "step3": "Wünsche & Generierung",
+        "step3a": "Prompt kopieren (und manuell in ChatGPT & Co einfügen) ODER eigenen API-Key eintragen für die direkte Anzeige in der App."
       },
       "cost": {
-        "q": "Ist Camping Route kostenlos?",
-        "title": "Ja, die Grundfunktionen sind komplett kostenlos!",
-        "free": "Kostenlos",
-        "free1": "Prompt-Generierung ohne Einschränkungen",
-        "free2": "Volle Funktionalität des Routenplaners",
-        "free3": "Keine versteckten Kosten oder Abos",
-        "free4": "Unbegrenzte Nutzung",
-        "opt": "Optional (ca. 5-10 Cent)",
-        "opt1": "KI-Generierung für direkte Routenerstellung",
-        "opt2": "GPX-Datei zum Download",
-        "opt3": "Schnellere Ergebnisse",
-        "opt4": "Nur bei Nutzung der API-Funktion",
-        "trans": "Transparente Kosten",
-        "transDesc": "Du zahlst nur, wenn du die optionale KI-Generierung nutzt."
+        "q": "Ist die Nutzung wirklich kostenlos?",
+        "title": "Ja, Camping Route ist ein kostenloses Open-Source Projekt.",
+        "free": "Die App",
+        "free1": "Die Nutzung des Formulars und die Prompt-Erstellung sind 100% kostenlos.",
+        "free2": "Keine Anmeldung, keine Datenbank, kein Backend.",
+        "opt": "KI-API-Kosten",
+        "transDesc": "Nur wenn du die 'KI direkt nutzen' willst, gibst du deinen EIGENEN API-Key ein. Du bezahlst die minimalen API-Nutzungsgebühren (meist im Cent-Bereich pro Route) direkt an deinen KI-Anbieter (OpenAI, Google, Mistral). Wir als App haben damit nichts zu tun, verdienen daran nichts und übernehmen keine API-Kosten!"
       },
       "privacy": {
-        "q": "Wie werden meine Daten geschützt?",
-        "title": "100% Datenschutz - 100% lokal!",
-        "device": "Alles auf deinem Gerät",
-        "device1": "Keine Cloud-Speicherung",
-        "device2": "Keine Serverübertragung",
-        "device3": "Keine Tracking-Cookies",
-        "sec": "Maximale Sicherheit",
-        "sec1": "DSGVO-konform",
-        "sec2": "Offline-fähig",
-        "sec3": "Keine Drittanbieter",
-        "trans": "Transparenz",
-        "transDesc": "Alle deine Daten bleiben ausschließlich auf deinem Gerät."
-      },
-      "offline": {
-        "q": "Kann ich Routen offline nutzen?",
-        "title": "Ja, komplett offline-fähig!",
-        "exp": "Exportieren",
-        "exp1": "Als Text/PDF speichern",
-        "exp2": "GPX-Datei herunterladen",
-        "exp3": "Auf deinem Gerät abspeichern",
-        "use": "Überall nutzen",
-        "use1": "Ohne Internetzugang verwenden",
-        "use2": "Per E-Mail/Messenger teilen",
-        "use3": "In Navigationsgeräte importieren",
-        "tip": "Reisetipp",
-        "tipDesc": "Lade deine Routen vor der Reise herunter!"
+        "q": "Was passiert mit meinen eingegebenen Daten?",
+        "title": "Deine Daten bleiben auf deinem Gerät.",
+        "device": "Lokal & Sicher",
+        "device1": "Wir betreiben kein Backend und keine Datenbank! Alle Eingaben (inkl. API-Keys) werden nur lokal auf deinem Gerät in deinem Browser gespeichert (Local Storage).",
+        "sec": "Keine Server-Übertragung",
+        "sec1": "Deine Daten verlassen dein Gerät nur, wenn du sie direkt an die API des gewählten KI-Anbieters sendest."
       },
       "aiModel": {
-        "q": "Welches KI-Modell sollte ich wählen?",
-        "title": "Die Wahl hängt von deinen Prioritäten ab:",
-        "gemini": "Google Gemini",
-        "gemini1": "Beste Wahl für Europa",
-        "gemini2": "Exzellente geografische Daten",
-        "gemini3": "Präzise Stellplatz-Empfehlungen",
-        "gpt": "OpenAI GPT",
-        "gpt1": "Maximale Detailtiefe",
-        "gpt2": "Komplexe Routenplanung",
-        "gpt3": "Höchste Sprachqualität",
-        "mistral": "Mistral AI",
-        "mistral1": "Europäisch optimiert",
-        "mistral2": "Kosteneffizient",
-        "mistral3": "Schnelle Antworten",
-        "rec": "Empfehlung",
-        "recDesc": "Für die meisten Nutzer ist Google Gemini die beste Wahl."
+        "q": "Welches KI-Modell soll ich wählen?",
+        "title": "Jedes Modell hat seine eigenen Stärken bei der Routenplanung.",
+        "gemini": "Google Gemini 3.1 (Empfehlung)",
+        "gemini1": "Extrem gut bei aktuellen Orten, Stellplätzen und POIs, da es Googles riesigen Datenbestand nutzt. Generiert oft die realistischsten und schönsten Routen für Europa.",
+        "gpt": "OpenAI ChatGPT 5.2",
+        "gpt1": "Logisch unschlagbar. Hält sich penibel an Vorgaben wie maximale Tageskilometer und Budgets. Die Textausgabe der Version 5.2 ist sehr strukturiert und extrem detailliert.",
+        "mistral": "Mistral Large",
+        "mistral1": "Ein starkes, europäisches Modell. Arbeitet sehr schnell und bietet eine hervorragende Preis-Leistung (die API ist oft günstiger als OpenAI).",
+        "recDesc": "Tipp: Für die besten Stellplatz-Empfehlungen und landschaftlichen Highlights empfehlen wir aktuell Google Gemini."
       }
-    }
-  },
-  "footer": {
-    "copyright": "© {{year}} Camping Route · KI-Prompt-Generator für Wohnmobile",
-    "imprint": "Impressum",
-    "privacy": "Datenschutz",
-    "openSource": "Open Source",
-    "license": "MIT Lizenz",
-    "sourceCode": "Quellcode auf GitHub"
-  },
-  "imprint": {
-    "title": "Über dieses Projekt",
-    "project": {
-      "title": "Privates Wohnmobil-Routenplaner-Projekt",
-      "description": "Camping Route ist ein privates, nicht-kommerzielles Open-Source-Projekt zur Planung von Wohnmobil-Routen mit Hilfe von KI. Die Webseite dient ausschließlich informativen und demonstrativen Zwecken."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "description": "Bei Fragen oder Feedback zum Projekt:",
-      "name": "Christian Kopmann",
-      "email": "E-Mail: info@campingroute.app"
-    },
-    "disclaimer": {
-      "title": "Haftungsausschluss",
-      "description1": "Die auf dieser Website bereitgestellten Informationen und Tools dienen ausschließlich zu Demonstrations- und Informationszwecken. Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der Inhalte übernommen. Die Nutzung erfolgt auf eigenes Risiko.",
-      "description2": "Externe Links führen zu Inhalten Dritter, für deren Inhalte wir keine Verantwortung übernehmen."
-    },
-    "openSource": {
-      "title": "Open Source & Mitwirkung",
-      "description1": "Dieses Projekt ist Open Source und steht unter der MIT-Lizenz. Der Quellcode ist auf GitHub verfügbar. Beiträge und Verbesserungsvorschläge sind willkommen!",
-      "link": "→ Zum GitHub-Repository"
-    },
-    "backToHome": "← Zurück zur Startseite"
-  },
-  "privacy": {
-    "title": "Datenschutzerklärung",
-    "general": {
-      "title": "Allgemeines",
-      "description": "Diese Datenschutzerklärung informiert Sie über die Art, den Umfang und Zweck der Verarbeitung von personenbezogenen Daten im Rahmen der Nutzung unseres Wohnmobil-Routenplaners."
-    },
-    "responsible": {
-      "title": "Verantwortlicher",
-      "name": "Christian Kopmann",
-      "email": "E-Mail: info@campingroute.app"
-    },
-    "dataProcessing": {
-      "title": "Datenverarbeitung",
-      "local": {
-        "title": "Lokale Datenverarbeitung:",
-        "description": "Alle von Ihnen eingegebenen Daten (Reiserouten, Fahrzeugdaten, Präferenzen) werden ausschließlich in Ihrem Browser gespeichert und nicht an unsere Server übertragen. Die Daten bleiben auf Ihrem Gerät und werden gelöscht, wenn Sie den Browser-Cache leeren."
-      },
-      "fonts": {
-        "title": "Lokale Fonts:",
-        "description": "Diese Website verwendet lokal gehostete Schriftarten (DM Serif Display und Inter), die auf unseren Servern gespeichert sind. Diese Schriftarten werden direkt von unseren Servern geladen, um eine optimale Darstellung zu gewährleisten. Es werden keine externen Fonts von Drittanbietern wie Google Fonts oder anderen CDNs geladen, um maximale DSGVO-Konformität zu gewährleisten. Die Schriftarten werden nur temporär in Ihrem Browser zwischengespeichert und nicht dauerhaft auf Ihrem Gerät gespeichert."
-      },
-      "ai": {
-        "title": "KI-Integration:",
-        "description": "Wenn Sie die direkte KI-Funktion nutzen, werden Ihre Daten an den von Ihnen konfigurierten KI-Dienst (z.B. OpenAI, Mistral) übermittelt. Wir haben keinen Zugriff auf diese Daten und speichern sie nicht."
-      }
-    },
-    "cookies": {
-      "title": "Cookies & Tracking",
-      "sidebar": {
-        "description": "Diese Website verwendet ein technisch notwendiges Cookie (sidebar:state), um Ihre Einstellung zur Seitenleiste (geöffnet/geschlossen) für 7 Tage zu speichern. Dieses Cookie enthält keine personenbezogenen Daten und dient ausschließlich der Benutzerfreundlichkeit."
-      },
-      "noTracking": {
-        "description": "Es werden keine Tracking-Cookies, Analysetools oder Werbe-Cookies verwendet. Es werden keine personenbezogenen Daten für Werbezwecke gesammelt oder an Dritte weitergegeben."
-      }
-    },
-    "rights": {
-      "title": "Ihre Rechte",
-      "description": "Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten. Da wir keine Daten speichern, können Sie alle Ihre Daten einfach durch Löschen des Browser-Caches entfernen."
-    },
-    "changes": {
-      "title": "Änderungen dieser Datenschutzerklärung",
-      "description": "Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder bei Änderungen des Dienstes anzupassen. Die aktuelle Version ist immer auf dieser Seite einsehbar."
-    },
-    "backToHome": "← Zurück zur Startseite"
-  },
-  "exampleRoute": {
-    "badge": "KI-Beispielroute",
-    "title": "Karlsruhe → Wismar → Karlsruhe",
-    "subtitle": "14 Tage • 1.600 km • Genießer-Tour mit Ostsee & Mittelgebirge",
-    "stages": {
-      "stage": "Etappe",
-      "stage5to8": "Etappe 5-8",
-      "karlsruhe": "Karlsruhe",
-      "fulda": "Fulda/Rhön",
-      "magdeburg": "Magdeburg/Börde",
-      "perleberg": "Perleberg",
-      "wismar": "Wismar (Ostsee)",
-      "highlights": {
-        "fulda": "Rhön & Fulda",
-        "magdeburg": "Wasserstraßenkreuz Magdeburg",
-        "perleberg": "Brandenburgs Natur",
-        "wismar": "Ankunft an der Ostsee",
-        "return": "Rückfahrt & weitere Details"
-      },
-      "details": {
-        "fulda": "Dom zu Fulda & Wasserkuppe mit Panoramablick",
-        "magdeburg": "UNESCO-Weltkulturerbe: Trogbrücke über die Elbe",
-        "perleberg": "B189 durch landschaftlich schöne Regionen",
-        "wismar": "Kurze Etappe - frühzeitiger Check-in möglich",
-        "return": "Die Rückfahrt führt über Lüneburger Heide, Edersee und Bergstraße zurück nach Karlsruhe (Etappen 5–8)."
-      },
-      "tips": {
-        "fulda": "Frankfurt Rush-Hour meiden - erst nach 09:30 Uhr starten",
-        "magdeburg": "A7 → A4 → A14, bei Halle kann es verkehrsreicher werden",
-        "perleberg": "Entspanntes 'Cruisen' auf gut ausgebauten Bundesstraßen",
-        "wismar": "B189 → A14 Richtung Schwerin/Wismar",
-        "return": "Für die komplette 14-Tage-Route mit allen Etappen, Übernachtungen und Tipps bitte 'Detaillierte Route anzeigen' klicken."
-      },
-      "overnight": {
-        "fulda": "Knaus Campingpark Hünfeld (35–45€, Brötchenservice)",
-        "magdeburg": "Schachtsee Wolmirsleben (30–40€, See mit Restaurant)",
-        "perleberg": "Campingplatz Friedensteich (25–35€, Wald & Badesee)",
-        "wismar": "Ostsee-Camping Zierow (50–65€, 5-Sterne mit Hundestrand)",
-        "return": "→ Mehr Infos in detaillierter Route"
-      }
-    },
-    "summary": {
-      "distance": "Gesamtstrecke",
-      "duration": "Reisedauer",
-      "budget": "Budget",
-      "style": "Stil",
-      "styleValue": "Genießer-Tour"
-    },
-    "details": {
-      "show": "Detaillierte Route anzeigen",
-      "hide": "Details ausblenden",
-      "generatedAt": "Generiert am",
-      "aiModel": "KI-Modell",
-      "planning": "1. Etappenplanung",
-      "planningDesc": "Die Route ist in entspannte Tagesabschnitte unterteilt, die Stress vermeiden und Zeit für Pausen mit dem Hund lassen.",
-      "outward": "Hinfahrt: Karlsruhe → Perleberg → Wismar",
-      "return": "Rückfahrt: Wismar → Lüneburger Heide → Karlsruhe",
-      "overnight": "2. Übernachtungen (Hundefreundlich)",
-      "overnightHighlights": {
-        "fulda": "Rhön, Brötchenservice",
-        "magdeburg": "See, Restaurant",
-        "perleberg": "Wald, Badesee",
-        "wismar": "5-Sterne, Hundestrand",
-        "heath": "Lüneburger Heide",
-        "edersee": "Edersee, Seezugang",
-        "lorsch": "Kloster Lorsch"
-      },
-      "highlights": "3. Highlights & Aktivitäten",
-      "attractions": {
-        "waterkuppe": "Wasserkuppe",
-        "waterJunction": "Wasserstraßenkreuz",
-        "zooPerleberg": "Tierpark Perleberg",
-        "harbor": "Alter Hafen",
-        "poel": "Insel Poel",
-        "bothmer": "Schloss Bothmer",
-        "heath": "Lüneburger Heide",
-        "edersee": "Edersee-Staumauer",
-        "lorsch": "Kloster Lorsch"
-      },
-      "practicalTips": "4. Praktische Tipps",
-      "tipsList": {
-        "clesana": "Clesana: Beutel im Restmüll entsorgen",
-        "dogs": "Hunde: Leinenpflicht an Stränden, Zeckenschutz im Juni",
-        "nav": "Navigation: Brückenhöhen beachten (2.90m meist ok)",
-        "solar": "Solaranlage: 300W + 200Ah = fast autark im Juni"
-      },
-      "summary": "Zusammenfassung",
-      "summaryDesc": "Eine entspannte Genießer-Tour durch Deutschland mit maximal 250 km pro Tag. Mix aus Mittelgebirge (Rhön/Harz) und Küste (Wismar/Ostsee). Dein Fahrzeug ist mit Solar und Clesana top autark ausgestattet. Wichtig: Reserviere den Platz in Wismar (Zierow) frühzeitig!"
     }
   },
   "planner": {
@@ -368,10 +217,10 @@
     "title": "In 7 Schritten zur perfekten Route",
     "cta": "Jetzt Route planen",
     "loading": {
-      "ai": "🤖 Deine Wohnmobil-Route wird von der KI generiert...",
-      "prompt": "📝 Dein Prompt wird generiert...",
-      "error": "Fehler beim Aufruf der KI. Bitte überprüfe deinen API-Schlüssel und deine Internetverbindung.",
-      "invalidKey": "Bitte gib einen gültigen API-Schlüssel ein (mindestens 20 Zeichen)."
+      "ai": "🤖 Generiere Route...",
+      "prompt": "📝 Erstelle Prompt...",
+      "error": "KI-Fehler aufgetreten.",
+      "invalidKey": "API-Key ungültig."
     },
     "nav": {
       "back": "Zurück",
@@ -380,112 +229,116 @@
       "generatePrompt": "Prompt Generieren"
     },
     "summary": {
-      "title": "Zusammenfassung Ihrer Route",
+      "title": "Zusammenfassung",
+      "check": "Bitte prüfe deine Angaben.",
       "start": "Startpunkt",
       "destination": "Ziel",
+      "period": "Zeitraum",
+      "maxDist": "Max. Distanz",
       "method": "KI-Methode",
-      "direct": "Direkte KI-Generierung",
-      "prompt": "Prompt-Generierung",
-      "notSpecified": "Nicht angegeben"
+      "direct": "Direkt-Generierung",
+      "prompt": "Prompt-Erstellung",
+      "notSpecified": "Nicht angegeben",
+      "vehicle": "Fahrzeug",
+      "people": "Personen",
+      "style": "Stil",
+      "interests": "Interessen",
+      "selected": "gewählt",
+      "notSelected": "Nicht gewählt"
     },
     "steps": {
       "ai": {
-        "label": "KI-Einstellungen",
-        "desc": "Wähle dein bevorzugtes KI-Modell und den Modus."
+        "label": "KI-Einstellungen"
       },
       "route": {
-        "label": "Reiseroute",
-        "desc": "Gib Start, Ziel und Zwischenstopps an."
+        "label": "Reiseroute"
       },
       "optimization": {
-        "label": "Routenoptimierung",
-        "desc": "Passe Geschwindigkeit, Pausen und Umwege an."
+        "label": "Routenoptimierung"
       },
       "vehicle": {
-        "label": "Fahrzeug",
-        "desc": "Größe, Gewicht und spezielle Anforderungen."
+        "label": "Fahrzeug"
       },
       "accommodation": {
-        "label": "Übernachtung",
-        "desc": "Stellplatz-Typ, Budget und Ausstattung."
+        "label": "Übernachtung"
       },
       "interests": {
-        "label": "Interessen",
-        "desc": "Natur, Kultur, Kulinarik und mehr."
+        "label": "Interessen"
       },
       "summary": {
-        "label": "Zusammenfassung",
-        "desc": "Prüfe deine Angaben und generiere die Route."
+        "label": "Zusammenfassung"
       }
     },
     "ai": {
       "title": "KI-Einstellungen",
+      "description": "Wähle aus, wie du mit der KI interagieren möchtest.",
       "mode": {
         "prompt": {
           "title": "Prompt generieren",
-          "desc": "Erstellt einen fertigen Prompt, den du in deine KI einfügen kannst"
+          "desc": "Fertiger Text für ChatGPT & Co."
         },
         "direct": {
           "title": "KI direkt nutzen",
-          "desc": "Ruft die KI direkt auf und zeigt dir das Ergebnis an"
+          "desc": "Route direkt in der App generieren. Du nutzt deinen EIGENEN API-Key und zahlst direkt an deinen KI-Anbieter (z.B. OpenAI)."
         }
       },
       "provider": {
-        "label": "KI-Anbieter & Modell",
-        "help": "Welches Modell wählen?",
-        "placeholder": "KI-Anbieter und Modell auswählen"
+        "label": "Anbieter & Modell",
+        "placeholder": "KI wählen",
+        "help": "Welches Modell wählen?"
       },
       "apiKey": {
         "label": "API-Schlüssel",
-        "hint": "(wird nicht gespeichert)",
+        "hint": "Dein Key bleibt nur lokal in deinem Browser.",
         "placeholder": "Dein API-Schlüssel",
         "create": "API-Schlüssel bei {{name}} erstellen →",
-        "security": "Deine API-Schlüssel werden <strong>niemals gespeichert</strong> und verlassen <strong>niemals deinen Browser</strong>."
+        "security": "Camping Route ist <b>eine reine Frontend-App ohne Backend oder Datenbank!</b> Wir speichern oder sehen deinen API-Key niemals. Er wird ausschließlich lokal in deinem Browser gespeichert und verschlüsselt direkt an den KI-Anbieter gesendet."
       }
     },
     "route": {
       "title": "Reiseroute",
+      "description": "Lege die Details deiner Reise fest.",
       "type": {
         "label": "Routentyp",
         "placeholder": "-- Bitte wählen --",
         "options": {
-          "oneWay": "One-Way Route",
+          "oneWay": "One-Way",
           "return": "Hin- und Rückfahrt",
           "roundTrip": "Rundreise",
-          "multiStage": "Mehrere Ziele / Etappenreise"
+          "multiStage": "Etappenfahrt"
         }
       },
       "style": {
         "label": "Reisestil",
         "placeholder": "-- Bitte wählen --",
         "options": {
-          "adventure": "Abenteuer & Outdoor",
-          "relaxation": "Entspannung & Wellness",
-          "culture": "Kultur & Geschichte",
-          "nature": "Natur & Wandern",
-          "family": "Familie & Freizeit",
-          "gourmet": "Gourmet & Kulinarik",
-          "slowTravel": "Slow Travel & Nachhaltigkeit"
+          "adventure": "Abenteuer",
+          "relaxation": "Entspannung",
+          "culture": "Kultur",
+          "nature": "Natur",
+          "family": "Familie",
+          "gourmet": "Gourmet",
+          "slowTravel": "Slow Travel"
         }
       },
       "start": {
         "label": "Start",
-        "placeholder": "z.B. München, Deutschland"
+        "placeholder": "z.B. München"
       },
       "destination": {
         "label": "Ziel",
-        "placeholder": "z.B. Schwarzwald, Deutschland"
+        "placeholder": "z.B. Gardasee"
       },
       "stage": {
-        "label": "Etappenziel {{num}}",
-        "placeholder": "z.B. Stuttgart, Deutschland"
+        "label": "Zwischenstopp {{num}}",
+        "placeholder": "z.B. Stuttgart"
       },
       "departure": "Abreise",
       "arrival": "Ankunft",
-      "maxDistance": "Max. Fahrstrecke pro Tag (km)",
+      "maxDistance": "Max. km / Tag",
       "additional": {
-        "label": "Zusätzliche Routeninformationen",
-        "placeholder": "Besondere Wünsche für die Route (z. B. konkrete Zwischenziele, persönliche Präferenzen, spezielle Anforderungen)"
+        "label": "Zusatzinfos",
+        "placeholder": "Wünsche..."
       }
     },
     "optimization": {
@@ -493,220 +346,331 @@
       "subtitle": "(Mehrfachauswahl möglich)",
       "categories": {
         "roadType": {
-          "label": "Straßenart Präferenz",
+          "label": "Streckenprofil",
           "options": {
-            "motorways": "Autobahnen bevorzugen (schnellste Route)",
-            "country": "Landstraßen bevorzugen (entspannte Fahrt)",
-            "scenic": "Panoramastraßen (landschaftlich reizvoll)"
+            "motorways": "Autobahnen bevorzugen",
+            "country": "Landstraßen bevorzugen",
+            "scenic": "Panoramarouten bevorzugen"
+          }
+        },
+        "avoidances": {
+          "label": "Ausschlüsse & Vermeidung",
+          "options": {
+            "toll": "Mautstraßen vermeiden",
+            "traffic": "Staus umfahren",
+            "construction": "Baustellen meiden",
+            "tunnels": "Tunnel meiden",
+            "night": "Nachtfahrten meiden"
           }
         },
         "landscape": {
-          "label": "Landschaftliche Highlights",
+          "label": "Landschaft & Umgebung",
           "options": {
-            "lakes": "Seen & Gewässer einbeziehen",
-            "mountains": "Bergpässe & Aussichtspunkte",
-            "coastal": "Küstenstraßen & Meerblicke",
-            "forest": "Wälder & Naturparks"
+            "mountains": "Berge & Pässe",
+            "coastal": "Küste & Meer",
+            "lakes": "Seen & Flüsse",
+            "forest": "Wälder & Natur"
           }
         },
-        "traffic": {
-          "label": "Verkehr & Sicherheit",
+        "experiences": {
+          "label": "Erlebnisse auf der Strecke",
           "options": {
-            "traffic": "Stau & Rush-Hour vermeiden",
-            "tunnels": "Tunnel vermeiden",
-            "night": "Nachtfahrten minimieren",
-            "construction": "Baustellen umfahren",
-            "toll": "Mautstraßen vermeiden"
-          }
-        },
-        "culture": {
-          "label": "Kultur & Städte",
-          "options": {
-            "cities": "Städte & Kultur einbeziehen",
-            "rural": "Ländliche & abgelegene Routen",
-            "historic": "Historische Straßen (z.B. Römerstraßen)"
+            "cities": "Städte & Kultur",
+            "rural": "Ländliche Idylle",
+            "unesco": "UNESCO Welterbe",
+            "farm": "Bauernhöfe & Hofläden",
+            "markets": "Lokale Märkte"
           }
         }
       }
     },
     "vehicle": {
-      "title": "Fahrzeugspezifische Filter",
+      "title": "Fahrzeug-Filter",
+      "description": "Technische Daten deines Fahrzeugs.",
+      "group": {
+        "dimensions": "Abmessungen",
+        "weight": "Gewicht",
+        "power": "Energie",
+        "systems": "Systeme"
+      },
       "length": "Länge",
       "height": "Höhe",
       "width": "Breite",
-      "weight": "Zulässiges Gesamtgewicht",
-      "axleLoad": "Max. Achslast",
+      "weight": "Gesamtgewicht",
+      "axleLoad": "Achslast",
       "fuel": {
-        "label": "Kraftstoffart",
-        "placeholder": "-- Bitte wählen --",
+        "label": "Kraftstoff",
+        "placeholder": "Wählen",
         "options": {
           "diesel": "Diesel",
           "petrol": "Benzin",
-          "lpg": "LPG / Autogas",
+          "lpg": "LPG",
           "electric": "Elektro",
           "hybrid": "Hybrid"
         }
       },
-      "solar": "Solaranlage",
-      "battery": "Aufbaubatterie",
+      "solar": "Solar",
+      "battery": "Batterie",
       "toilet": {
-        "label": "Toilettensystem",
-        "placeholder": "-- Bitte wählen --",
+        "label": "WC-System",
+        "placeholder": "Wählen",
         "options": {
-          "cassette": "Kassettentoilette",
-          "chemical": "Chemietoilette",
-          "dry": "Trockentrenntoilette",
-          "fixed": "Festtanktoilette",
+          "cassette": "Kassette",
+          "chemical": "Chemie",
+          "dry": "Trocken",
+          "fixed": "Festtank",
           "clesana": "Clesana",
-          "none": "Keine Toilette"
+          "none": "Keine"
         }
       }
     },
     "accommodation": {
-      "title": "Übernachtungsoptionen",
-      "subtitle": "(Mehrfachauswahl möglich)",
+      "title": "Übernachtung",
+      "group": {
+        "travelers": "Reisende",
+        "budget": "Budget"
+      },
       "categories": {
         "companions": {
-          "label": "Reisebegleitung",
+          "label": "Begleitung",
           "options": {
-            "partner": "Partner / Ehepartner",
-            "friends": "Freunde",
+            "solo": "Alleinreisend",
+            "partner": "Paar",
             "family": "Familie",
-            "children": "Kinder",
-            "babies": "Babys / Kleinkinder",
-            "pets": "Haustiere / Hunde",
-            "multiGen": "Mehrgenerationenreise",
-            "seniors": "Seniorengruppe"
+            "friends": "Freunde",
+            "pets": "Mit Hund / Haustier",
+            "seniors": "Senioren"
           }
         },
         "type": {
-          "label": "Unterkunftstyp",
+          "label": "Art der Übernachtung",
           "options": {
-            "camping": "Campingplatz",
+            "camping": "Klassischer Campingplatz",
             "pitch": "Wohnmobilstellplatz",
-            "farm": "Bauernhof-Camping",
-            "winery": "Weingut/Winzer",
-            "wild": "Wildcampen (wo erlaubt)",
-            "park4night": "Park4Night Spots"
+            "farm": "Bauernhof & Weingut",
+            "small": "Kleine, naturnahe Plätze",
+            "wild": "Freistehen / Wildcampen",
+            "premium": "Premium & Glamping"
           }
         },
         "facilities": {
-          "label": "Benötigte Ausstattung",
+          "label": "Wichtige Ausstattung",
           "options": {
             "power": "Stromanschluss",
-            "water": "Frischwasser",
-            "disposal": "Ver-/Entsorgung",
-            "wifi": "WLAN",
+            "water": "Ver- & Entsorgung",
             "sanitary": "Sanitäranlagen",
-            "laundry": "Waschmaschine",
-            "dogs": "Hundefreundlich",
-            "pool": "Schwimmbad"
+            "wifi": "WLAN",
+            "pool": "Pool & Wellness",
+            "restaurant": "Restaurant am Platz",
+            "dogs": "Hunde erlaubt",
+            "kids": "Kinderfreundlich & Spielplatz",
+            "accessible": "Barrierefrei",
+            "winter": "Wintercamping-tauglich"
           }
         }
       },
       "travelers": {
-        "label": "Anzahl Reisende",
-        "unit": "Personen"
+        "label": "Personen",
+        "unit": "Pers."
       },
       "budget": {
-        "label": "Max. Budget pro Nacht"
+        "label": "Max. Budget/Nacht"
       },
       "additional": {
-        "label": "Zusätzliche Übernachtungswünsche",
-        "placeholder": "Spezifische Wünsche für Campingplätze/Stellplätze (z. B. Schwimmbecken, Hundestrand, Restaurant, Fahrradverleih)"
-      }
+        "label": "Zusatzwünsche",
+        "placeholder": "z.B. ruhige Lage..."
+      },
+      "subtitle": "Wo und wie möchtest du auf der Route übernachten?"
     },
     "interests": {
-      "title": "Besondere Interessen & Aktivitäten",
+      "title": "Interessen",
       "subtitle": "(Mehrfachauswahl möglich)",
-      "label": "Aktivitäten & Interessen",
+      "categories": {
+        "active": "Aktiv & Sport",
+        "nature": "Natur & Landschaft",
+        "culture": "Kultur & Kulinarik",
+        "lifestyle": "Entspannung & Lifestyle"
+      },
       "options": {
-        "hiking": "Wandern",
-        "cycling": "Fahrradfahren",
-        "water": "Wassersport (Schwimmen, Segeln, Kanu)",
-        "climbing": "Klettern / Bergsteigen",
-        "birds": "Vogelbeobachtung / Naturbeobachtung",
-        "fishing": "Fischen",
-        "astronomy": "Astronomie / Sternenbeobachtung",
-        "museums": "Museen & Galerien",
-        "history": "Historische Stätten",
-        "markets": "Lokale Märkte & Handwerk",
-        "yoga": "Yoga & Meditation",
-        "wellness": "Wellnessangebote & Spa",
-        "gastronomy": "Gastronomie & Weinverkostung",
-        "dogs": "Hundefreundliche Aktivitäten",
-        "kids": "Kinderfreundliche Aktivitäten",
-        "photography": "Fotografieren"
+        "hiking": "Wandern & Trekking",
+        "cycling": "Fahrrad & E-Bike",
+        "mtb": "Mountainbike",
+        "watersports": "Wassersport & Kanu",
+        "wintersports": "Wintersport",
+        "wildlife": "Tierbeobachtung",
+        "photography": "Fotografie-Spots",
+        "beach": "Strand & Meer",
+        "astronomy": "Sternenbeobachtung",
+        "lakes": "Seen & Flüsse",
+        "cityStroll": "Städtetrips",
+        "history": "Geschichte & Architektur",
+        "museums": "Museen & Kunst",
+        "gastronomy": "Regionale Kulinarik",
+        "events": "Lokale Feste & Events",
+        "wellness": "Wellness & Spa",
+        "slowTravel": "Slow Travel",
+        "shopping": "Shopping & Boutiquen",
+        "badWeather": "Schlechtwetter-Alternativen",
+        "campfire": "Geselligkeit & Lagerfeuer"
       },
       "additional": {
-        "label": "Weitere Informationen & Wünsche",
-        "placeholder": "Allgemeine Reiseinformationen (z. B. Ernährungsbedürfnisse, Allergien, gesundheitliche Einschränkungen, besondere Ereignisse während der Reise)"
+        "label": "Weitere Wünsche",
+        "placeholder": "Allgemeine Wünsche..."
       }
     },
     "output": {
+      "customPrompt": "Individueller Routen-Prompt",
       "title": {
         "direct": "KI-Routenplanung",
-        "prompt": "Generierter Prompt"
+        "prompt": "Dein KI-Prompt"
       },
       "loading": {
-        "wait": "Bitte warten, dies kann einen Moment dauern."
+        "wait": "Bitte warten..."
       },
       "actions": {
-        "copy": "In Zwischenablage kopieren",
+        "copy": "Kopieren",
         "copied": "Kopiert!",
-        "print": "Drucken / Als PDF speichern",
-        "downloadGPX": "GPX-Datei herunterladen",
-        "copyError": "Kopieren fehlgeschlagen. Bitte versuche es manuell (Strg+C)."
+        "print": "Drucken",
+        "downloadGPX": "GPX Download",
+        "copyError": "Fehler!"
+      },
+      "nextSteps": {
+        "title": "Bereit?",
+        "description": "Kopiere den Text und füge ihn bei deiner bevorzugten KI (z.B. ChatGPT, Gemini oder Mistral) ein."
       },
       "print": {
-        "title": "Wohnmobil-Route",
-        "generatedAt": "Generiert am",
-        "model": "KI-Modell",
-        "gpxError": "Keine GPX-Daten in der Antwort gefunden. Nicht alle KI-Modelle generieren GPX-Dateien."
+        "gpxError": "Keine GPX-Daten."
       }
     }
+  },
+  "imprint": {
+    "badge": "Anbieterkennzeichnung",
+    "title": "Impressum",
+    "project": {
+      "title": "Angaben gemäß § 5 TMG"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "name": "Christian Kopmann",
+      "email": "info@campingroute.app"
+    },
+    "disclaimer": {
+      "title": "Haftung für Inhalte und Links",
+      "description1": "Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Die generierten Wohnmobil-Routen werden durch externe Künstliche Intelligenz (wie OpenAI oder Gemini) erzeugt. Wir übernehmen keine Gewähr für die Richtigkeit, Durchführbarkeit oder Sicherheit der vorgeschlagenen Strecken und Übernachtungsplätze. Die Nutzung der Routen erfolgt stets auf eigene Gefahr und Verantwortung des Fahrers.",
+      "description2": "Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen."
+    },
+    "openSource": {
+      "title": "Urheberrecht & Open Source",
+      "description1": "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen der MIT-Lizenz. Das Projekt ist Open-Source. Du kannst den Quellcode auf GitHub einsehen, modifizieren und nutzen.",
+      "link": "Zum GitHub Repository"
+    },
+    "backToHome": "Zur Startseite"
+  },
+  "privacy": {
+    "badge": "Datenschutzerklärung",
+    "title": "Datenschutz",
+    "general": {
+      "title": "Grundsätzliches zur Datenverarbeitung",
+      "description": "Der Schutz deiner Daten ist uns ein wichtiges Anliegen. CampingRoute.app ist als reine Client-Side-Anwendung konzipiert. Das bedeutet, dass wir keine Datenbanken betreiben und keine Nutzerkonten anlegen. Alle von dir eingegebenen Daten verbleiben primär in deinem Browser."
+    },
+    "dataProcessing": {
+      "title": "Datenverarbeitung & KI",
+      "local": {
+        "title": "Lokale Speicherung (Local Storage)",
+        "description": "Um dir die Nutzung so angenehm wie möglich zu machen, speichern wir deine Formulareingaben und Einstellungen (wie z.B. gewählte Sprache oder eingegebene API-Schlüssel) ausschließlich lokal in deinem Browser (Local Storage). Diese Daten werden nicht an unsere Server übertragen."
+      },
+      "ai": {
+        "title": "KI-Integration (OpenAI, Gemini, Mistral)",
+        "description": "Wenn du die direkte KI-Generierung nutzt, werden deine Formulardaten (Start, Ziel, Fahrzeug, Vorlieben) in einen Text umgewandelt (Prompt) und über deinen eigenen API-Key direkt an den von dir gewählten KI-Anbieter (OpenAI, Google Gemini oder Mistral AI) gesendet. Wir speichern diesen Traffic nicht und loggen keine API-Schlüssel. Es gelten die Datenschutzbestimmungen des jeweils von dir genutzten KI-Anbieters."
+      }
+    },
+    "cookies": {
+      "title": "Cookies & Tracking",
+      "sidebar": {
+        "description": "CampingRoute.app verwendet keine einwilligungspflichtigen Tracking-Cookies (wie Google Analytics, Meta Pixel etc.). Wir setzen keine Mechanismen zur Analyse deines Nutzerverhaltens ein."
+      },
+      "noTracking": {
+        "description": "Lediglich essenzielle, technisch notwendige Informationen für das Funktionieren der React-App (z.B. für die Mehrsprachigkeit über i18next) werden lokal im Browser vorgehalten."
+      }
+    },
+    "rights": {
+      "title": "Deine Rechte",
+      "description": "Da wir keine personenbezogenen Daten auf unseren Servern speichern, entfällt das klassische Recht auf Löschung oder Auskunft durch uns. Du hast jederzeit die volle Kontrolle über deine Daten: Um alle von CampingRoute.app gespeicherten Einstellungen zu entfernen, musst du lediglich die Browser-Daten (Local Storage) für diese Webseite in deinem Browser löschen."
+    },
+    "hosting": {
+      "title": "Hosting",
+      "description": "Diese Webseite wird auf einem Cloud-Server der Hetzner Online GmbH betrieben. Der Hostinganbieter erhebt beim Zugriff auf diese Seite systembedingt Zugriffsdaten (Server-Logfiles) wie IP-Adresse, verwendeter Browser und Zeitpunkt des Aufrufs. Diese Daten werden nur für den sicheren Betrieb der Server verwendet und nicht mit anderen Datenquellen zusammengeführt."
+    },
+    "backToHome": "Zurück zur Startseite"
+  },
+  "footer": {
+    "copyright": "© {{year}} Camping Route",
+    "description": "Dein KI-Begleiter für Abenteuer.",
+    "madeWith": "Erstellt mit",
+    "forCommunity": "für die Community",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "openSource": "Open Source",
+    "license": "MIT Lizenz",
+    "sourceCode": "Quellcode auf GitHub"
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte. Antworte in der Sprache: {{language}}.",
     "sections": {
       "route": "REISEROUTE",
-      "vehicle": "FAHRZEUGSPEZIFISCHE FILTER",
-      "accommodation": "ÜBERNACHTUNGSOPTIONEN",
-      "interests": "BESONDERE INTERESSEN & AKTIVITÄTEN",
-      "optimization": "ROUTENOPTIMIERUNG",
+      "vehicle": "FAHRZEUG",
+      "accommodation": "ÜBERNACHTUNG",
+      "interests": "INTERESSEN",
+      "optimization": "OPTIMIERUNG",
       "additional": "ZUSÄTZLICHE INFORMATIONEN & WÜNSCHE"
     },
     "labels": {
       "start": "Startpunkt",
       "destination": "Ziel",
-      "stage": "Etappenziel {{num}}",
-      "departure": "Abreisedatum",
-      "arrival": "Ankunftsdatum",
-      "totalDistance": "Geschätzte Gesamtdistanz",
-      "maxDailyDistance": "Max. Fahrstrecke pro Tag",
+      "stage": "Zwischenstopp {{num}}",
+      "departure": "Abreise",
+      "arrival": "Ankunft",
+      "totalDistance": "Gesamtdistanz",
+      "maxDailyDistance": "Max. km / Tag",
       "routeType": "Routentyp",
       "length": "Länge",
       "height": "Höhe",
       "width": "Breite",
-      "weight": "Zulässiges Gesamtgewicht",
+      "weight": "Gesamtgewicht",
       "axleLoad": "Achslast",
-      "axleLoadUnit": "t pro Achse",
+      "axleLoadUnit": "t / Achse",
       "fuelType": "Kraftstoffart",
       "solar": "Solaranlage",
       "battery": "Aufbaubatterie",
       "toilet": "Toilettensystem",
-      "travelers": "Anzahl der Reisenden",
+      "travelers": "Anzahl Reisende",
       "travelersUnit": "Personen",
       "companions": "Reisebegleitung",
       "accommodationTypes": "Unterkunftstypen",
-      "facilities": "Benötigte Ausstattung",
-      "budget": "Budget pro Nacht",
-      "budgetUpTo": "bis",
-      "specialWishes": "Besondere Wünsche",
-      "travelStyle": "Bevorzugter Reisestil",
+      "facilities": "Ausstattung",
+      "budget": "Max. Budget pro Nacht",
+      "budgetUpTo": "bis zu",
+      "specialWishes": "Zusätzliche Übernachtungswünsche",
+      "travelStyle": "Reisestil",
       "preferences": "Routenpräferenzen",
-      "highwayMaut": "Autobahnen/Maut"
+      "highwayMaut": "Autobahn/Maut",
+      "additional": {
+        "label": "Weitere Informationen & Wünsche"
+      }
     },
-    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappenplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze (und Alternativen) mit kurzer Beschreibung; nenne soweit möglich Links und grobe Preisbereiche, aber markiere Preise als Richtwerte).\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nGPX-Datei: Generiere am Ende der Antwort ausschließlich die GPX-XML-Daten für diese Route im GPX 1.1 Format. Inkludiere Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) und die Gesamtroute als Track (<trk>). Keine Erklärungen für das XML."
+    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze (und Alternativen) mit kurzer Beschreibung; nenne soweit möglich Links und grobe Preisbereiche, aber markiere Preise als Richtwerte).\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nGPX-Datei: Generiere am Ende der Antwort ausschließlich die GPX-XML-Daten für diese Route im GPX 1.1 Format. Inkludiere Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) und die Gesamtroute als Track (<trk>). Keine Erklärungen für das XML."
+  },
+  "anchorNav": {
+    "home": "Start",
+    "features": "Features",
+    "testimonials": "Erfahrungen",
+    "exampleRoute": "Beispielroute",
+    "mainContent": "Routenplaner",
+    "faq": "FAQ",
+    "backToTop": "Nach oben"
+  },
+  "buttons": {
+    "copy": "Kopieren",
+    "print": "Drucken"
   }
 }

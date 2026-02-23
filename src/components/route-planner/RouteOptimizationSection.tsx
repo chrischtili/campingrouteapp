@@ -1,9 +1,9 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
-import { SectionCard } from "./SectionCard";
 import { ToggleGroup } from "./ToggleGroup";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
+import { Target, Navigation, Sparkles, ShieldAlert, Landmark } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface RouteOptimizationSectionProps {
   formData: FormData;
@@ -12,84 +12,111 @@ interface RouteOptimizationSectionProps {
 
 export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOptimizationSectionProps) {
   const { t } = useTranslation();
-  const isMobile = useIsMobile();
 
-  const roadTypeOptions = [
-    { value: 'motorways', label: t("planner.optimization.categories.roadType.options.motorways") },
-    { value: 'country', label: t("planner.optimization.categories.roadType.options.country") },
-    { value: 'scenic', label: t("planner.optimization.categories.roadType.options.scenic") },
+  const categories = [
+    {
+      id: 'roadType',
+      label: t("planner.optimization.categories.roadType.label"),
+      icon: Navigation,
+      accent: "text-primary",
+      options: [
+        { value: 'motorways', label: t("planner.optimization.categories.roadType.options.motorways") },
+        { value: 'country', label: t("planner.optimization.categories.roadType.options.country") },
+        { value: 'scenic', label: t("planner.optimization.categories.roadType.options.scenic") },
+      ]
+    },
+    {
+      id: 'avoidances',
+      label: t("planner.optimization.categories.avoidances.label"),
+      icon: ShieldAlert,
+      accent: "text-secondary",
+      options: [
+        { value: 'toll', label: t("planner.optimization.categories.avoidances.options.toll") },
+        { value: 'traffic', label: t("planner.optimization.categories.avoidances.options.traffic") },
+        { value: 'construction', label: t("planner.optimization.categories.avoidances.options.construction") },
+        { value: 'tunnels', label: t("planner.optimization.categories.avoidances.options.tunnels") },
+        { value: 'night', label: t("planner.optimization.categories.avoidances.options.night") },
+      ]
+    },
+    {
+      id: 'landscape',
+      label: t("planner.optimization.categories.landscape.label"),
+      icon: Sparkles,
+      accent: "text-primary",
+      options: [
+        { value: 'mountains', label: t("planner.optimization.categories.landscape.options.mountains") },
+        { value: 'coastal', label: t("planner.optimization.categories.landscape.options.coastal") },
+        { value: 'lakes', label: t("planner.optimization.categories.landscape.options.lakes") },
+        { value: 'forest', label: t("planner.optimization.categories.landscape.options.forest") },
+      ]
+    },
+    {
+      id: 'experiences',
+      label: t("planner.optimization.categories.experiences.label"),
+      icon: Landmark,
+      accent: "text-secondary",
+      options: [
+        { value: 'cities', label: t("planner.optimization.categories.experiences.options.cities") },
+        { value: 'rural', label: t("planner.optimization.categories.experiences.options.rural") },
+        { value: 'unesco', label: t("planner.optimization.categories.experiences.options.unesco") },
+        { value: 'farm', label: t("planner.optimization.categories.experiences.options.farm") },
+        { value: 'markets', label: t("planner.optimization.categories.experiences.options.markets") },
+      ]
+    }
   ];
 
-  const landscapeOptions = [
-    { value: 'lakes', label: t("planner.optimization.categories.landscape.options.lakes") },
-    { value: 'mountains', label: t("planner.optimization.categories.landscape.options.mountains") },
-    { value: 'coastal', label: t("planner.optimization.categories.landscape.options.coastal") },
-    { value: 'forest', label: t("planner.optimization.categories.landscape.options.forest") },
-  ];
-
-  const trafficOptions = [
-    { value: 'traffic', label: t("planner.optimization.categories.traffic.options.traffic") },
-    { value: 'tunnels', label: t("planner.optimization.categories.traffic.options.tunnels") },
-    { value: 'night', label: t("planner.optimization.categories.traffic.options.night") },
-    { value: 'construction', label: t("planner.optimization.categories.traffic.options.construction") },
-    { value: 'toll', label: t("planner.optimization.categories.traffic.options.toll") },
-  ];
-
-  const cultureOptions = [
-    { value: 'cities', label: t("planner.optimization.categories.culture.options.cities") },
-    { value: 'rural', label: t("planner.optimization.categories.culture.options.rural") },
-    { value: 'historic', label: t("planner.optimization.categories.culture.options.historic") },
-  ];
+  const glassPanelStyle = {
+    background: "rgba(255, 255, 255, 0.05)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    border: "2px solid rgba(255, 255, 255, 0.15)",
+    borderRadius: "2.5rem",
+  };
   
   return (
-    <SectionCard 
-      icon="🎯" 
-      title={t("planner.optimization.title")} 
-      subtitle={t("planner.optimization.subtitle")} 
-      iconColor="bg-orange-100" 
-      titleColor="text-orange-700"
-    >
-      <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 lg:grid-cols-4 gap-6"}`}>
-        <div className="space-y-3">
-          <Label className="font-medium">{t("planner.optimization.categories.roadType.label")}</Label>
-          <ToggleGroup
-            name="routePreferences"
-            options={roadTypeOptions}
-            selectedValues={formData.routePreferences}
-            onChange={onCheckboxChange}
-          />
-        </div>
-
-        <div className="space-y-3">
-          <Label className="font-medium">{t("planner.optimization.categories.landscape.label")}</Label>
-          <ToggleGroup
-            name="routePreferences"
-            options={landscapeOptions}
-            selectedValues={formData.routePreferences}
-            onChange={onCheckboxChange}
-          />
-        </div>
-
-        <div className="space-y-3">
-          <Label className="font-medium">{t("planner.optimization.categories.traffic.label")}</Label>
-          <ToggleGroup
-            name="routePreferences"
-            options={trafficOptions}
-            selectedValues={formData.routePreferences}
-            onChange={onCheckboxChange}
-          />
-        </div>
-
-        <div className="space-y-3">
-          <Label className="font-medium">{t("planner.optimization.categories.culture.label")}</Label>
-          <ToggleGroup
-            name="routePreferences"
-            options={cultureOptions}
-            selectedValues={formData.routePreferences}
-            onChange={onCheckboxChange}
-          />
-        </div>
+    <div className="space-y-12">
+      <div className="space-y-4 text-left">
+        <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white">
+          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-lg border-2 border-primary/20">
+            <Target className="w-6 h-6" />
+          </div>
+          {t("planner.optimization.title")}
+        </h3>
+        <p className="text-white/80 text-lg leading-relaxed italic font-medium">
+          {t("planner.optimization.subtitle")}
+        </p>
       </div>
-    </SectionCard>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {categories.map((cat, i) => (
+          <motion.div 
+            key={cat.id} 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="p-10 shadow-2xl flex flex-col items-start text-left"
+            style={glassPanelStyle}
+          >
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-primary border-2 border-white/20 shadow-md">
+                <cat.icon className="w-6 h-6" />
+              </div>
+              <Label className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                {cat.label}
+              </Label>
+            </div>
+            
+            <div className="w-full text-left">
+              <ToggleGroup
+                name="routePreferences"
+                options={cat.options}
+                selectedValues={formData.routePreferences}
+                onChange={onCheckboxChange}
+              />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }

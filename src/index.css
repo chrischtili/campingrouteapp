@@ -2,112 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom background colors for light mode */
 :root {
-  --bg-light-1: 250, 244, 235;
-  --bg-light-2: 252, 250, 248;
+  /* PURE DARK EXPERIENCE - MIDNIGHT FOREST */
+  --background: 145 35% 5%;      /* Deepest Forest Green */
+  --foreground: 38 30% 94%;      /* Soft Sand White */
+  
+  --card: 145 30% 7%;            /* Slightly lighter forest green */
+  --card-foreground: 38 30% 94%;
+  
+  --popover: 145 30% 7%;
+  --popover-foreground: 38 30% 94%;
+  
+  --primary: 35 92% 50%;         /* Vibrant Camping Orange */
+  --primary-foreground: 145 35% 5%;
+  
+  --secondary: 145 20% 12%;      /* Muted Forest Green */
+  --secondary-foreground: 38 30% 94%;
+  
+  --muted: 145 20% 10%;
+  --muted-foreground: 145 10% 65%;
+  
+  --accent: 145 25% 18%;
+  --accent-foreground: 38 30% 94%;
+  
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 38 30% 94%;
+  
+  --border: 145 20% 12%;
+  --input: 145 20% 12%;
+  --ring: 35 92% 50%;
+  
+  --radius: 1.5rem;
 }
 
-/* Fonts - Fallback auf Systemschriftarten für DSGVO-Compliance */
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: hsl(var(--background));
+  }
 
-/* Typing Animation Cursor */
-.blink-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1.2em;
-  background-color: white;
-  animation: blink 1s step-end infinite;
-  vertical-align: bottom;
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-attachment: fixed;
+    /* Immersive Dynamic Background */
+    background-image: 
+      radial-gradient(circle at 15% 15%, hsla(35, 92%, 50%, 0.15) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, hsla(145, 30%, 20%, 0.12) 0%, transparent 45%),
+      linear-gradient(to bottom, transparent, black);
+  }
+
+  /* MONUMENTAL TYPOGRAPHY */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    @apply font-black tracking-tighter uppercase leading-none;
+  }
+}
+
+@layer components {
+  /* THE MASTER GLASS STYLE */
+  .app-glass {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    WebkitBackdropFilter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* INPUTS */
+  .glass-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 1.25rem !important;
+    @apply text-white font-bold transition-all duration-300 shadow-inner !important;
+  }
+
+  .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-weight: 400 !important;
+  }
+
+  .glass-input:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2) !important;
+  }
+
+  .premium-card {
+    @apply app-glass rounded-[3rem] p-10 !important;
+  }
+}
+
+/* UI Cleanup */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none !important;
 }
 
 @keyframes blink {
-  from, to {
-    background-color: transparent;
-  }
-  50% {
-    background-color: white;
-  }
-}
-
-.dark .blink-cursor {
-  background-color: #f59b0a;
-}
-
-@media (prefers-color-scheme: dark) {
-  .blink-cursor {
-    background-color: #f59b0a;
-  }
-}
-
-:root {
-  --font-display: Georgia, 'Times New Roman', Times, serif;
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  
-  /* Light theme colors (default) */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
-  --sidebar-background: 217.2 32.6% 17.5%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 210 40% 98%;
-  --sidebar-primary-foreground: 222.2 47.4% 11.2%;
-  --sidebar-accent: 215 27.9% 16.9%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 214.3 31.8% 91.4%;
-  --sidebar-ring: 215 27.9% 16.9%;
-}
-
-.dark {
-  /* Dark theme colors */
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
-  --sidebar-background: 217.2 32.6% 17.5%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 210 40% 98%;
-  --sidebar-primary-foreground: 222.2 47.4% 11.2%;
-  --sidebar-accent: 217.2 32.6% 17.5%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 217.2 32.6% 17.5%;
-  --sidebar-ring: 212.7 26.8% 83.9%;
-}
-
-body {
-  font-family: var(--font-body);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
 }

@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function AnchorNavigation() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState<string>("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
   
   const sections = [
-    { id: "home", label: "Start" },
-    { id: "features", label: "Features" },
-    { id: "testimonials", label: "Erfahrungen" },
-    { id: "example-route", label: "Beispielroute" },
-    { id: "main-content", label: "Routenplaner" },
-    { id: "faq", label: "FAQ" }
+    { id: "home", label: t("anchorNav.home") },
+    { id: "features", label: t("anchorNav.features") },
+    { id: "testimonials", label: t("anchorNav.testimonials") },
+    { id: "example-route", label: t("anchorNav.exampleRoute") },
+    { id: "main-content", label: t("anchorNav.mainContent") },
+    { id: "faq", label: t("anchorNav.faq") }
   ];
   
   useEffect(() => {
@@ -130,7 +132,7 @@ export function AnchorNavigation() {
             onClick={() => scrollToSection("home")}
           >
             <ArrowUp className="h-3 w-3" />
-            Nach oben
+            {t("anchorNav.backToTop")}
           </Button>
         </div>
       </div>

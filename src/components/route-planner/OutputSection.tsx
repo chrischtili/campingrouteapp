@@ -149,8 +149,8 @@ export function OutputSection({
             WebkitBackdropFilter: "blur(24px)",
           }}
         >
-          <div className="flex flex-col md:flex-row items-center justify-between px-10 py-8 border-b border-white/10 gap-6 bg-white/5">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 border-b border-white/10 gap-6 bg-white/5">
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
                 <FileText className="w-6 h-6" />
               </div>
@@ -158,43 +158,43 @@ export function OutputSection({
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary leading-none mb-1">
                   {useDirectAI ? `AI Route (${aiModel})` : t("planner.output.customPrompt")}
                 </span>
-                <h2 className="text-2xl font-black text-white uppercase tracking-tight leading-none">
+                <h2 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h2>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+            <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
-                {copied ? <Check className="w-3 h-3 mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-2 group-hover/btn:text-primary transition-colors" />}
+                {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 group-hover/btn:text-primary transition-colors" />}
                 {t("buttons.copy")}
               </Button>
               
               {useDirectAI && (
                 <Button
                   onClick={handleDownloadGPX}
-                  className="flex-1 md:flex-none h-12 px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                  className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
                 >
-                  <Download className="w-3 h-3 mr-2" />
+                  <Download className="w-3 h-3 mr-1 sm:mr-2" />
                   GPX
                 </Button>
               )}
 
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
-                <Printer className="w-3 h-3 mr-2 group-hover/btn:text-primary transition-colors" />
+                <Printer className="w-3 h-3 mr-1 sm:mr-2 group-hover/btn:text-primary transition-colors" />
                 {t("buttons.print")}
               </Button>
             </div>
           </div>
 
-          <div className="p-10 md:p-16">
-            <pre className="whitespace-pre-wrap font-mono text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+          <div className="p-6 sm:p-10 md:p-16">
+            <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
               {output}
             </pre>
           </div>
@@ -205,7 +205,7 @@ export function OutputSection({
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5 flex flex-col md:flex-row items-center gap-8 shadow-xl"
+          className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-primary/20 bg-primary/5 flex flex-col md:flex-row items-center gap-8 shadow-xl"
         >
           <div className="w-16 h-16 rounded-3xl bg-primary flex items-center justify-center text-white shrink-0 shadow-2xl shadow-primary/40 rotate-3">
             <ChevronRight className="w-8 h-8" />

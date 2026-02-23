@@ -24,7 +24,8 @@ export function FAQSection() {
           const el = document.getElementById(customEvent.detail);
           if (el) {
             // Calculate position to scroll to top of the accordion item
-            const y = el.getBoundingClientRect().top + window.scrollY - 20; // 20px offset
+            // Adjust offset to 100px to account for the fixed navbar
+            const y = el.getBoundingClientRect().top + window.scrollY - 100;
             window.scrollTo({ top: y, behavior: 'smooth' });
           }
         }, 100);
@@ -133,7 +134,8 @@ export function FAQSection() {
               setTimeout(() => {
                 const el = document.getElementById(val);
                 if (el) {
-                  const y = el.getBoundingClientRect().top + window.scrollY - 20;
+                  // Adjust offset to 100px to account for the fixed navbar on mobile
+                  const y = el.getBoundingClientRect().top + window.scrollY - 100;
                   window.scrollTo({ top: y, behavior: 'smooth' });
                 }
               }, 300); // Wait for animation to complete
@@ -146,16 +148,16 @@ export function FAQSection() {
                 value={faq.id}
                 className="rounded-3xl border-2 border-white/10 bg-white/[0.02] backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04]"
               >
-                <AccordionTrigger className="px-8 py-6 hover:no-underline group">
-                  <div className="flex items-center gap-5 text-left">
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
-                      <faq.icon className="w-6 h-6" />
+                <AccordionTrigger className="px-6 sm:px-8 py-6 hover:no-underline group">
+                  <div className="flex items-center gap-4 sm:gap-5 text-left">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
+                      <faq.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <span className="font-black text-lg md:text-xl tracking-tight text-white uppercase">{faq.q}</span>
+                    <span className="font-black text-base sm:text-lg md:text-xl tracking-tight text-white uppercase">{faq.q}</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="px-8 pb-8 pt-2">
-                  <div className="pl-16 space-y-6">
+                <AccordionContent className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
+                  <div className="pl-0 sm:pl-[4.25rem] space-y-6 mt-4 sm:mt-0">
                     <p className="text-white font-bold text-lg">{faq.title}</p>
                     
                     {faq.content && (

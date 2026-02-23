@@ -95,7 +95,7 @@ export function RouteExampleSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="p-10 rounded-[3rem] grid grid-cols-2 gap-8 min-w-[320px] shadow-2xl shadow-black/5"
+            className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] grid grid-cols-2 gap-6 sm:gap-8 w-full md:w-auto md:min-w-[320px] shadow-2xl shadow-black/5"
             style={{
               background: "rgba(255, 255, 255, 0.05)",
               backdropFilter: "blur(16px)",
@@ -134,7 +134,7 @@ export function RouteExampleSection() {
                 className="group relative flex flex-col h-full"
               >
                 <div 
-                  className="relative z-10 p-10 rounded-[3rem] flex-1 flex flex-col transition-all duration-500 hover:scale-[1.02] shadow-2xl border-2"
+                  className="relative z-10 p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] flex-1 flex flex-col transition-all duration-500 hover:scale-[1.02] shadow-2xl border-2"
                   style={{
                     background: "rgba(255, 255, 255, 0.05)",
                     backdropFilter: "blur(16px)",
@@ -203,7 +203,7 @@ export function RouteExampleSection() {
                 exit={{ opacity: 0, y: -20, height: 0 }}
                 className="mt-16 overflow-hidden text-left"
               >
-                <div className="p-10 md:p-16 rounded-[4rem] border-2 border-white/20 shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-16"
+                <div className="p-6 sm:p-10 md:p-16 rounded-3xl sm:rounded-[4rem] border-2 border-white/20 shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16"
                      style={{ background: "rgba(255, 255, 255, 0.05)", backdropFilter: "blur(24px)" }}>
                   <div className="space-y-10">
                     <div>
@@ -216,7 +216,7 @@ export function RouteExampleSection() {
                       </p>
                     </div>
 
-                    <div className="p-10 rounded-[3rem] border-2 border-white/10" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                    <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-white/10" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
                       <h5 className="font-black text-primary uppercase tracking-[0.2em] text-xs mb-8">{t("exampleRoute.details.outward")}</h5>
                       <div className="space-y-6">
                         {[
@@ -225,8 +225,8 @@ export function RouteExampleSection() {
                           `${t("exampleRoute.stages.magdeburg")} → ${t("exampleRoute.stages.perleberg")}`,
                           `${t("exampleRoute.stages.perleberg")} → ${t("exampleRoute.stages.wismar")}`
                         ].map((stage, i) => (
-                          <div key={i} className="flex gap-6 items-center group">
-                            <span className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-xs font-black text-primary border-2 border-white/10 shadow-sm group-hover:bg-primary group-hover:text-white transition-all">{i + 1}</span>
+                          <div key={i} className="flex gap-4 sm:gap-6 items-center group">
+                            <span className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center text-xs font-black text-primary border-2 border-white/10 shadow-sm group-hover:bg-primary group-hover:text-white transition-all">{i + 1}</span>
                             <span className="text-foreground font-black uppercase text-sm tracking-tight">{stage}</span>
                           </div>
                         ))}
@@ -242,8 +242,8 @@ export function RouteExampleSection() {
                       </h4>
                       <div className="grid gap-4">
                         {overnights.map((stay, i) => (
-                          <div key={i} className="p-8 rounded-3xl flex justify-between items-center border-2 border-white/10 hover:border-white/20 transition-all group" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
-                            <div className="flex gap-6 items-center">
+                          <div key={i} className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl flex justify-between items-center border-2 border-white/10 hover:border-white/20 transition-all group" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                            <div className="flex gap-4 sm:gap-6 items-center">
                               <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{t("exampleRoute.summary.dayLabel")} {stay.day}</span>
                               <span className="text-foreground font-black uppercase text-sm">{stay.place}</span>
                             </div>
@@ -253,7 +253,7 @@ export function RouteExampleSection() {
                       </div>
                     </div>
                     
-                    <div className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5">
+                    <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-primary/20 bg-primary/5">
                       <h4 className="font-black text-primary flex items-center gap-3 mb-4 uppercase text-sm tracking-widest">
                         <Info className="w-5 h-5" />
                         {t("exampleRoute.details.summary")}

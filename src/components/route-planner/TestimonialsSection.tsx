@@ -47,7 +47,7 @@ export function TestimonialsSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 items-stretch">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
@@ -60,7 +60,7 @@ export function TestimonialsSection() {
               <div className="relative flex-1 flex flex-col mb-8">
                 {/* The "Frosted Glass" Style with h-full to match heights */}
                 <div 
-                  className="relative p-10 rounded-[3rem] shadow-2xl transition-all duration-500 group-hover:scale-[1.02] flex-1 flex flex-col justify-start"
+                  className="relative p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] shadow-2xl transition-all duration-500 group-hover:scale-[1.02] flex-1 flex flex-col justify-start"
                   style={{
                     background: "rgba(255, 255, 255, 0.05)",
                     backdropFilter: "blur(16px)",

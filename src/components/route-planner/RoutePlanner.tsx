@@ -278,8 +278,8 @@ export function RoutePlanner() {
             </div>
 
             {/* Modern Progress Steps - ARROW FLOW VERSION */}
-            <div id="planner-progress" className="mb-12 md:mb-16 app-glass p-4 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] relative z-20 shadow-xl sm:shadow-2xl overflow-x-auto md:overflow-visible">
-              <div className="flex items-center justify-between relative px-2 min-w-[600px] md:min-w-0">
+            <div id="planner-progress" className="mb-8 md:mb-16 app-glass p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] relative z-20 shadow-xl sm:shadow-2xl overflow-x-auto md:overflow-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="flex items-center justify-between relative px-2 pt-2 pb-4 md:pt-0 md:pb-0 min-w-[max-content] md:min-w-0 gap-6 md:gap-0">
                 {steps.map((step, i) => {
                   const Icon = step.icon;
                   const stepNumber = i + 1;
@@ -359,7 +359,7 @@ export function RoutePlanner() {
               key={currentStep}
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="app-glass p-10 md:p-16 rounded-[3rem] relative overflow-hidden shadow-2xl" 
+              className="app-glass p-6 sm:p-10 md:p-16 rounded-3xl md:rounded-[3rem] relative overflow-hidden shadow-2xl" 
               ref={formRef}
             >
               <div className="space-y-12 relative z-10">
@@ -386,22 +386,22 @@ export function RoutePlanner() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-                      <div className="md:col-span-2 lg:col-span-2 p-8 rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col gap-6">
-                        <div className="flex items-center justify-between border-b border-white/5 pb-6">
-                          <div className="flex flex-col gap-1">
+                      <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col gap-6">
+                        <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
+                          <div className="flex flex-col gap-1 text-center sm:text-left">
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.start")}</span>
                             <span className="text-xl font-black text-white">{formData.startPoint || t("planner.summary.notSpecified")}</span>
                           </div>
-                          <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20">
+                          <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20 rotate-90 sm:rotate-0">
                             <ChevronRight className="w-6 h-6" />
                           </div>
-                          <div className="flex flex-col gap-1 text-right">
+                          <div className="flex flex-col gap-1 text-center sm:text-right">
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.destination")}</span>
                             <span className="text-xl font-black text-white">{formData.destination || t("planner.summary.notSpecified")}</span>
                           </div>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                           <div className="flex items-center gap-4">
                             <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40">
                               <Calendar className="w-5 h-5" />
@@ -426,7 +426,7 @@ export function RoutePlanner() {
                         </div>
                       </div>
 
-                      <div className="p-8 rounded-[2.5rem] bg-primary/5 border-2 border-primary/20 shadow-xl flex flex-col justify-between">
+                      <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-primary/5 border-2 border-primary/20 shadow-xl flex flex-col justify-between gap-6 sm:gap-0">
                         <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 mb-6">
                           <Bot className="w-6 h-6" />
                         </div>
@@ -461,15 +461,15 @@ export function RoutePlanner() {
 
               {/* Navigation - Only hide in the final result step (currentStep > 7) */}
               {currentStep <= steps.length && (
-                <div className="flex justify-between mt-12 pt-8 border-t border-white/5 relative z-10">
+                <div className="flex justify-between items-center gap-4 mt-12 pt-8 border-t border-white/5 relative z-10">
                   {currentStep > 1 ? (
                     <Button 
                       variant="outline" 
                       onClick={prevStep} 
-                      className="rounded-xl px-6 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 flex items-center gap-2 h-12"
+                      className="rounded-xl px-4 sm:px-6 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 flex items-center gap-2 h-12 text-sm sm:text-base"
                     >
-                      <ChevronLeft className="w-4 h-4" />
-                      {t("planner.nav.back")}
+                      <ChevronLeft className="w-4 h-4 shrink-0" />
+                      <span className="hidden sm:inline">{t("planner.nav.back")}</span>
                     </Button>
                   ) : <div />}
                   
@@ -477,16 +477,16 @@ export function RoutePlanner() {
                     <Button 
                       onClick={nextStep} 
                       disabled={!isStepValid()} 
-                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-8 font-black shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 h-12"
+                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-8 font-black shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 h-12 text-sm sm:text-base flex-1 sm:flex-none max-w-[200px] sm:max-w-none ml-auto flex items-center justify-center"
                     >
-                      {t("planner.nav.next")}
-                      <ChevronRight className="w-4 h-4 ml-2" />
+                      <span>{t("planner.nav.next")}</span>
+                      <ChevronRight className="w-4 h-4 ml-2 shrink-0" />
                     </Button>
                   ) : (
                     <Button 
                       onClick={handleSubmit} 
                       disabled={isLoading || !formData.startPoint || !formData.destination} 
-                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-10 py-6 font-black text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95"
+                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-10 py-6 font-black text-base sm:text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 flex-1 sm:flex-none ml-auto text-center leading-tight"
                     >
                       {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
                     </Button>

@@ -34,48 +34,48 @@
   "features": {
     "badge": "Features",
     "title": "Why Camping Route?",
-    "subtitle": "Everything you need.",
+    "subtitle": "Everything you need for your next adventure.",
     "promptGen": {
-      "title": "AI Generation",
-      "description": "Optimized prompts."
+      "title": "AI Prompt Generation",
+      "description": "Creates optimized prompts for your AI-supported route planning with motorhome-specific parameters."
     },
     "smartFilters": {
       "title": "Smart Filters",
-      "description": "Tailored results."
+      "description": "Filter by budget, vehicle size, interests, and pitch facilities for precise prompts."
     },
     "readyInstantly": {
       "title": "Ready instantly",
-      "description": "No registration."
+      "description": "No registration required. Get your finished AI prompt in under 3 minutes."
     },
     "privacyFirst": {
       "title": "Privacy first",
-      "description": "Local storage."
+      "description": "No data storage. Everything remains locally in your browser."
     },
     "openSource": {
       "title": "Open Source",
-      "description": "Transparent code."
+      "description": "Fully transparent. Code can be viewed and contributed to on GitHub."
     },
     "freeAdFree": {
       "title": "Free & Ad-free",
-      "description": "No hidden costs."
+      "description": "No hidden costs. No advertising. Completely free to use."
     }
   },
   "testimonials": {
     "badge": "Experiences",
-    "title": "Loved by Community",
+    "title": "Loved by the Community",
     "julia": {
       "name": "Julia",
-      "text": "Perfect for spontaneous trips!",
+      "text": "Perfect for spontaneous trips! Within minutes I had a detailed route with all the important info.",
       "role": "Weekend traveler"
     },
     "markus": {
       "name": "Markus",
-      "text": "Finally a route planner that really addresses my needs!",
+      "text": "Finally a route planner that really caters to my needs! The AI suggested a perfect route for me.",
       "role": "Traveler"
     },
     "sarah": {
       "name": "Sarah",
-      "text": "The filter options are brilliant!",
+      "text": "The filter options are brilliant! I can filter by budget and vehicle size – that saves so much time!",
       "role": "Camper"
     }
   },

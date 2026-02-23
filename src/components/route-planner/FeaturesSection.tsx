@@ -43,7 +43,7 @@ export function FeaturesSection() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-32 space-y-8">
+        <div className="text-center mb-16 sm:mb-32 space-y-4 sm:space-y-8">
           <motion.span 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -60,7 +60,7 @@ export function FeaturesSection() {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
           {features.map((f, i) => (
             <motion.div
               key={i}
@@ -75,7 +75,7 @@ export function FeaturesSection() {
                   Exactly like the hero button: white/5 bg, white/20 border, heavy blur
               */}
               <div 
-                className="absolute inset-0 rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-700 group-hover:scale-[1.02] group-hover:shadow-primary/10"
+                className="absolute inset-0 rounded-3xl sm:rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-700 group-hover:scale-[1.02] group-hover:shadow-primary/10"
                 style={{
                   background: "rgba(255, 255, 255, 0.08)",
                   backdropFilter: "blur(25px) saturate(200%)",
@@ -85,7 +85,7 @@ export function FeaturesSection() {
               />
               
               {/* Content */}
-              <div className="relative z-10 p-12 space-y-8 flex flex-col items-start h-full">
+              <div className="relative z-10 p-8 sm:p-12 space-y-6 sm:space-y-8 flex flex-col items-start h-full">
                 <div className={`w-20 h-20 rounded-[1.5rem] flex items-center justify-center border-2 border-white/20 transition-all duration-700 group-hover:rotate-6 shadow-xl ${f.accent} bg-white/5`}>
                   <f.icon className="w-10 h-10" />
                 </div>

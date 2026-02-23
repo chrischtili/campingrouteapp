@@ -94,7 +94,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="p-10 shadow-2xl flex flex-col items-start text-left"
+            className="p-6 sm:p-10 shadow-2xl flex flex-col items-start text-left"
             style={glassPanelStyle}
           >
             <div className="flex items-center gap-4 mb-8">

@@ -24,6 +24,24 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   
   const isHomePage = location.pathname === "/";
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const navElement = document.getElementById('main-nav');
+      if (mobileMenuOpen && navElement && !navElement.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -67,6 +85,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   return (
     <nav 
+      id="main-nav"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled 
           ? "py-4 bg-[#0a140f]/80 backdrop-blur-xl border-b border-white/10 shadow-2xl" 
@@ -99,7 +118,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           <div className="flex items-center gap-4">
             {navLinks.map((link) => (
               <button
@@ -128,8 +147,8 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-[#0a140f] border-white/10 rounded-xl shadow-xl">
-              <DropdownMenuItem onClick={() => changeLanguage('de')} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">DEUTSCH</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('en')} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ENGLISH</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">DEUTSCH</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ENGLISH</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -148,7 +167,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10"
+          className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
@@ -160,7 +179,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-full left-0 right-0 bg-[#0a140f] border-b border-white/10 p-6 sm:p-8 shadow-xl"
+          className="lg:hidden absolute top-full left-0 right-0 bg-[#0a140f] border-b border-white/10 p-6 sm:p-8 shadow-xl"
         >
           <div className="flex flex-col gap-4 sm:gap-6">
             {navLinks.map((link) => (
@@ -176,8 +195,8 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <div className="h-px bg-white/5 my-2" />
             <div className="flex items-center justify-between">
               <div className="flex gap-3 sm:gap-4">
-                <button onClick={() => changeLanguage('de')} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
-                <button onClick={() => changeLanguage('en')} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
+                <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
+                <button onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
               </div>
               <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black uppercase text-[8px] sm:text-[10px] tracking-widest">
                 {t("navbar.planNow")}

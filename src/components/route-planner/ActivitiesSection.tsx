@@ -72,7 +72,7 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
     borderRadius: "2.5rem",
   };
 
-  const inputClass = "w-full min-h-[150px] p-8 rounded-[2rem] bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
+  const inputClass = "w-full min-h-[150px] p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
 
   return (
     <div className="space-y-12">
@@ -90,7 +90,7 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {categories.map((cat) => (
-          <div key={cat.id} className="p-10 shadow-xl space-y-8 flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div key={cat.id} className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left" style={glassPanelStyle}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10">
                 <cat.icon className="w-5 h-5" />
@@ -111,9 +111,9 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
           </div>
         ))}
 
-        <div className="md:col-span-2 space-y-3 mt-4 text-left">
-          <Label htmlFor="additionalInfo" className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2 ml-4">
-            <MessageSquare className="w-3 h-3 text-primary" /> {t("planner.interests.additional.label")}
+        <div className="md:col-span-2 space-y-4 mt-4 text-left">
+          <Label htmlFor="additionalInfo" className="text-xs md:text-sm font-black uppercase tracking-widest text-white flex items-center gap-2 ml-4">
+            <MessageSquare className="w-4 h-4 text-primary" /> {t("planner.interests.additional.label")}
           </Label>
           <textarea
             id="additionalInfo"

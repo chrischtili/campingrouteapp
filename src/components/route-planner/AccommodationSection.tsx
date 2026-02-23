@@ -72,7 +72,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
     borderRadius: "2.5rem",
   };
 
-  const inputClass = "w-full min-h-[120px] p-8 rounded-[2rem] bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
+  const inputClass = "w-full min-h-[120px] p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
 
   return (
     <div className="space-y-12">
@@ -89,7 +89,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-        <div className="p-10 rounded-[3rem] bg-secondary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
+        <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-secondary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Users className="w-5 h-5 text-primary" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
@@ -99,7 +99,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           <FormSlider id="numberOfTravelers" label={t("planner.accommodation.travelers.label")} value={formData.numberOfTravelers ? parseInt(formData.numberOfTravelers) : 1} min={1} max={8} step={1} unit={t("planner.accommodation.travelers.unit")} onChange={(v) => onChange({ numberOfTravelers: v.toString() })} />
         </div>
 
-        <div className="p-10 rounded-[3rem] bg-primary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
+        <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-primary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Wallet className="w-5 h-5 text-primary" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
@@ -116,7 +116,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             key={cat.id} 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`p-10 shadow-xl space-y-8 flex flex-col items-start text-left ${cat.id === 'facilities' ? 'md:col-span-2' : ''}`} 
+            className={`p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left ${cat.id === 'facilities' ? 'md:col-span-2' : ''}`} 
             style={glassPanelStyle}
           >
             <div className="flex items-center gap-3">
@@ -140,9 +140,9 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         ))}
       </div>
 
-      <div className="space-y-3 text-left">
-        <Label htmlFor="accommodation" className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2 ml-4">
-          <MessageSquare className="w-3 h-3 text-primary" /> {t("planner.accommodation.additional.label")}
+      <div className="space-y-4 text-left">
+        <Label htmlFor="accommodation" className="text-xs md:text-sm font-black uppercase tracking-widest text-white flex items-center gap-2 ml-4">
+          <MessageSquare className="w-4 h-4 text-primary" /> {t("planner.accommodation.additional.label")}
         </Label>
         <textarea
           id="accommodation"

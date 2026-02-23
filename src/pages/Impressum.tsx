@@ -36,7 +36,7 @@ export default function Impressum() {
                   <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20">
                     <Info className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("imprint.project.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("imprint.project.title")}</h2>
                 </div>
                 <p className="text-white/60 leading-relaxed text-lg italic font-serif">
                   {i18n.language === 'de' ? (
@@ -57,7 +57,7 @@ export default function Impressum() {
                   <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary border border-secondary/20">
                     <Mail className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("imprint.contact.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("imprint.contact.title")}</h2>
                 </div>
                 <div className="space-y-4 text-white/80 font-bold">
                   <p className="text-xl">{t("imprint.contact.name")}</p>
@@ -79,7 +79,7 @@ export default function Impressum() {
                   <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500 border border-red-500/20">
                     <AlertTriangle className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("imprint.disclaimer.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("imprint.disclaimer.title")}</h2>
                 </div>
                 <div className="space-y-4 text-white/60 leading-relaxed">
                   <p>{t("imprint.disclaimer.description1")}</p>
@@ -89,7 +89,7 @@ export default function Impressum() {
 
               {/* Open Source */}
               <section className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5 shadow-2xl">
-                <h2 className="text-2xl font-black uppercase tracking-tight mb-6">{t("imprint.openSource.title")}</h2>
+                <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-6">{t("imprint.openSource.title")}</h2>
                 <p className="text-white/70 mb-8 leading-relaxed">
                   {t("imprint.openSource.description1")}
                 </p>

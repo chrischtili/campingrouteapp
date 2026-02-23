@@ -36,7 +36,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
                     <Shield className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("privacy.general.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.general.title")}</h2>
                 </div>
                 <p className="text-white/60 leading-relaxed italic font-serif">
                   {t("privacy.general.description")}
@@ -49,7 +49,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
                     <Database className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("privacy.dataProcessing.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.dataProcessing.title")}</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -70,7 +70,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/40">
                     <EyeOff className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("privacy.cookies.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.cookies.title")}</h2>
                 </div>
                 <div className="space-y-4 text-white/60 text-sm">
                   <p>{t("privacy.cookies.sidebar.description")}</p>
@@ -84,7 +84,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
                     <Lock className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight">{t("privacy.hosting.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.hosting.title")}</h2>
                 </div>
                 <p className="text-white/60 text-sm leading-relaxed">
                   {t("privacy.hosting.description")}
@@ -93,7 +93,7 @@ export default function Datenschutz() {
 
               {/* Rights */}
               <section className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5 shadow-2xl">
-                <h2 className="text-2xl font-black uppercase tracking-tight mb-4">{t("privacy.rights.title")}</h2>
+                <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">{t("privacy.rights.title")}</h2>
                 <p className="text-white/70 leading-relaxed">
                   {t("privacy.rights.description")}
                 </p>

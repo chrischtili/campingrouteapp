@@ -1,5 +1,6 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormSlider } from "./FormSlider";
 import { useTranslation } from "react-i18next";
 import { Map, MapPin, Calendar, Compass, Info, ArrowRight, Sparkles } from "lucide-react";
@@ -29,7 +30,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     borderRadius: "2.5rem",
   };
 
-  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-white placeholder:text-white/60 placeholder:font-normal text-left";
+  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left";
 
   return (
     <div className="space-y-12">
@@ -45,49 +46,50 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-6 p-10 shadow-2xl" style={glassPanelStyle}>
-          <div className="space-y-3">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
-              <Compass className="w-3 h-3" /> {t("planner.route.type.label")}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-6 p-6 sm:p-10 shadow-2xl" style={glassPanelStyle}>
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Compass className="w-4 h-4 text-primary" /> {t("planner.route.type.label")}
             </Label>
-            <select 
-              value={formData.routeType} 
-              onChange={(e) => onChange({ routeType: e.target.value })}
-              className={inputClass}
-            >
-              <option value="" disabled className="bg-[#0a140f] text-white/40">{t("planner.route.type.placeholder")}</option>
-              <option value="oneWay" className="bg-[#0a140f] text-white">{t("planner.route.type.options.oneWay")}</option>
-              <option value="return" className="bg-[#0a140f] text-white">{t("planner.route.type.options.return")}</option>
-              <option value="roundTrip" className="bg-[#0a140f] text-white">{t("planner.route.type.options.roundTrip")}</option>
-              <option value="multiStage" className="bg-[#0a140f] text-white">{t("planner.route.type.options.multiStage")}</option>
-            </select>
+            <Select value={formData.routeType} onValueChange={(value) => onChange({ routeType: value })}>
+              <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                <SelectValue placeholder={t("planner.route.type.placeholder")} />
+              </SelectTrigger>
+              <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectItem value="oneWay">{t("planner.route.type.options.oneWay")}</SelectItem>
+                <SelectItem value="return">{t("planner.route.type.options.return")}</SelectItem>
+                <SelectItem value="roundTrip">{t("planner.route.type.options.roundTrip")}</SelectItem>
+                <SelectItem value="multiStage">{t("planner.route.type.options.multiStage")}</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="space-y-3">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
-              <Sparkles className="w-3 h-3 text-primary" /> {t("planner.route.style.label")}
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-primary" /> {t("planner.route.style.label")}
             </Label>
-            <select 
-              value={formData.travelStyle} 
-              onChange={(e) => onChange({ travelStyle: e.target.value })}
-              className={inputClass}
-            >
-              <option value="" disabled className="bg-[#0a140f] text-white/40">{t("planner.route.style.placeholder")}</option>
-              <option value="adventure" className="bg-[#0a140f] text-white">{t("planner.route.style.options.adventure")}</option>
-              <option value="relaxation" className="bg-[#0a140f] text-white">{t("planner.route.style.options.relaxation")}</option>
-              <option value="culture" className="bg-[#0a140f] text-white">{t("planner.route.style.options.culture")}</option>
-              <option value="nature" className="bg-[#0a140f] text-white">{t("planner.route.style.options.nature")}</option>
-              <option value="family" className="bg-[#0a140f] text-white">{t("planner.route.style.options.family")}</option>
-              <option value="gourmet" className="bg-[#0a140f] text-white">{t("planner.route.style.options.gourmet")}</option>
-              <option value="slowTravel" className="bg-[#0a140f] text-white">{t("planner.route.style.options.slowTravel")}</option>
-            </select>
+            <Select value={formData.travelStyle} onValueChange={(value) => onChange({ travelStyle: value })}>
+              <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                <SelectValue placeholder={t("planner.route.style.placeholder")} />
+              </SelectTrigger>
+              <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectItem value="adventure">{t("planner.route.style.options.adventure")}</SelectItem>
+                <SelectItem value="relaxation">{t("planner.route.style.options.relaxation")}</SelectItem>
+                <SelectItem value="culture">{t("planner.route.style.options.culture")}</SelectItem>
+                <SelectItem value="nature">{t("planner.route.style.options.nature")}</SelectItem>
+                <SelectItem value="family">{t("planner.route.style.options.family")}</SelectItem>
+                <SelectItem value="gourmet">{t("planner.route.style.options.gourmet")}</SelectItem>
+                <SelectItem value="slowTravel">{t("planner.route.style.options.slowTravel")}</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className="space-y-3">
-            <Label htmlFor="startPoint" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-1">
+          <div className="space-y-4">
+            <Label htmlFor="startPoint" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-primary" />
               {t("planner.route.start.label")} 
               <span className="text-primary font-black">*</span>
             </Label>
@@ -100,12 +102,15 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 className={`${inputClass} pl-14`}
                 required
               />
-              <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-primary/40" />
+              <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/40" />
             </div>
           </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="destination" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-1">
+          <div className="space-y-4">
+            <Label htmlFor="destination" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+              </div>
               {t("planner.route.destination.label")}
               <span className="text-primary font-black">*</span>
             </Label>
@@ -118,7 +123,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 className={`${inputClass} pl-14 border-primary/20`}
                 required
               />
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-primary" />
               </div>
             </div>
@@ -134,8 +139,8 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             exit={{ opacity: 0, y: -20 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
-            <div className="space-y-3">
-              <Label htmlFor="stageDestination1" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+            <div className="space-y-4">
+              <Label htmlFor="stageDestination1" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
                 {t("planner.route.stage.label", { num: 1 })}
               </Label>
               <div className="relative">
@@ -146,11 +151,11 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   onChange={(e) => onChange({ stageDestination1: e.target.value })}
                   className={`${inputClass} pl-14`}
                 />
-                <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-primary/30" />
+                <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
               </div>
             </div>
-            <div className="space-y-3">
-              <Label htmlFor="stageDestination2" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+            <div className="space-y-4">
+              <Label htmlFor="stageDestination2" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
                 {t("planner.route.stage.label", { num: 2 })}
               </Label>
               <div className="relative">
@@ -161,42 +166,44 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   onChange={(e) => onChange({ stageDestination2: e.target.value })}
                   className={`${inputClass} pl-14`}
                 />
-                <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-primary/30" />
+                <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="p-8 md:p-12 shadow-2xl space-y-10" style={glassPanelStyle}>
+      <div className="p-6 sm:p-8 md:p-12 shadow-2xl space-y-10" style={glassPanelStyle}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-3">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
-              <Calendar className="w-3 h-3 text-secondary" /> {t("planner.route.departure")}
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-secondary" /> {t("planner.route.departure")}
             </Label>
             <div className="relative">
               <input
                 type="date"
                 value={formData.startDate || ''}
                 onChange={handleStartDateChange}
-                className={`${inputClass} pr-12`}
+                className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                style={{ colorScheme: 'dark' }}
               />
-              <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 pointer-events-none" />
+              <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>
 
-          <div className="space-y-3">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
-              <ArrowRight className="w-3 h-3 text-secondary" /> {t("planner.route.arrival")}
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <ArrowRight className="w-4 h-4 text-secondary" /> {t("planner.route.arrival")}
             </Label>
             <div className="relative">
               <input
                 type="date"
                 value={formData.endDate || ''}
                 onChange={(e) => onChange({ endDate: e.target.value })}
-                className={`${inputClass} pr-12`}
+                className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                style={{ colorScheme: 'dark' }}
               />
-              <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 pointer-events-none" />
+              <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -215,9 +222,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
       </div>
 
-      <div className="space-y-3 text-left">
-        <Label htmlFor="routeAdditionalInfo" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2 ml-4">
-          <Info className="w-3 h-3 text-primary" /> {t("planner.route.additional.label")}
+      <div className="space-y-4 text-left">
+        <Label htmlFor="routeAdditionalInfo" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2 ml-4">
+          <Info className="w-4 h-4 text-primary" /> {t("planner.route.additional.label")}
         </Label>
         <textarea
           id="routeAdditionalInfo"
@@ -225,7 +232,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           value={formData.routeAdditionalInfo}
           onChange={(e) => onChange({ routeAdditionalInfo: e.target.value })}
           rows={4}
-          className={`${inputClass} min-h-[150px] p-8 resize-none`}
+          className={`${inputClass} min-h-[150px] p-6 sm:p-8 resize-none`}
         />
       </div>
     </div>

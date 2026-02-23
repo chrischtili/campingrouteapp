@@ -22,7 +22,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const { t } = useTranslation();
   const currentProvider = aiSettings.aiProvider as keyof typeof providerHelp;
   
-  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-white placeholder:text-white/30 placeholder:font-normal text-left";
+  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
 
   return (
     <div className="space-y-12">
@@ -60,7 +60,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             key={mode.id}
             type="button"
             onClick={() => onAISettingsChange({ useDirectAI: mode.id === 'direct' })}
-            className={`group relative p-10 rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
+            className={`group relative p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
               mode.active 
                 ? 'border-primary bg-primary/10 shadow-xl shadow-primary/10' 
                 : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10 shadow-lg'
@@ -95,7 +95,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="space-y-8 p-10 rounded-[3rem] bg-white/5 backdrop-blur-3xl border-2 border-white/10 shadow-2xl"
+            className="space-y-8 p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-white/5 backdrop-blur-3xl border-2 border-white/10 shadow-2xl"
           >
             {aiError && (
               <Alert variant="destructive" className="rounded-2xl border-destructive/20 bg-destructive/10 p-6">
@@ -105,8 +105,8 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             )}
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="space-y-3 text-left">
-                <Label htmlFor="aiProvider" className="text-sm font-bold text-white mb-3 flex items-center justify-between">
+              <div className="space-y-4 text-left">
+                <Label htmlFor="aiProvider" className="text-base md:text-lg font-bold text-white mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                   {t("planner.ai.provider.label")}
                   <button
                     type="button"
@@ -114,9 +114,9 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                       e.preventDefault();
                       window.dispatchEvent(new CustomEvent('open-faq', { detail: 'aiModel' }));
                     }}
-                    className="text-primary hover:text-primary/80 underline decoration-primary/40 hover:decoration-primary underline-offset-4 transition-all inline-flex items-center gap-1.5 cursor-pointer font-bold"
+                    className="text-primary hover:text-primary/80 underline decoration-primary/40 hover:decoration-primary underline-offset-4 transition-all inline-flex items-center gap-1.5 cursor-pointer font-bold text-sm md:text-base"
                   >
-                    <Info className="w-4 h-4" /> {t("planner.ai.provider.help")}
+                    <Info className="w-5 h-5 md:w-4 md:h-4" /> {t("planner.ai.provider.help")}
                   </button>
                 </Label>
                 <Select 
@@ -141,9 +141,9 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 </Select>
               </div>
 
-              <div className="space-y-3 text-left">
-                <Label htmlFor="apiKey" className="flex items-center gap-2 text-sm font-bold text-white mb-3">
-                  <Lock className="w-4 h-4 text-primary" />
+              <div className="space-y-4 text-left">
+                <Label htmlFor="apiKey" className="flex items-center gap-2 text-base md:text-lg font-bold text-white mb-3">
+                  <Lock className="w-5 h-5 md:w-4 md:h-4 text-primary" />
                   {t("planner.ai.apiKey.hint")}
                 </Label>
                 <div className="relative">
@@ -166,7 +166,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 href={providerHelp[currentProvider]?.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-6 rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-sm font-bold text-white group"
+                className="flex items-center justify-center gap-3 p-6 rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-base md:text-sm font-bold text-white group"
               >
                 <ExternalLink className="w-5 h-5 group-hover:rotate-12 transition-transform text-primary" />
                 {t("planner.ai.apiKey.create", { name: providerHelp[currentProvider]?.name })}

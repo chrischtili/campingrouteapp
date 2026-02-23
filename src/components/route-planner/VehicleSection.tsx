@@ -14,7 +14,7 @@ interface VehicleSectionProps {
 export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const { t } = useTranslation();
   
-  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-white placeholder:text-white/20 placeholder:font-normal text-left";
+  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/20 placeholder:font-normal text-left";
 
   const glassPanelStyle = {
     background: "rgba(255, 255, 255, 0.03)",
@@ -43,7 +43,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-10 shadow-xl space-y-10 flex flex-col items-start text-left" 
+          className="p-6 sm:p-10 shadow-xl space-y-10 flex flex-col items-start text-left" 
           style={glassPanelStyle}
         >
           <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="p-10 shadow-lg space-y-10 flex flex-col items-start text-left" 
+          className="p-6 sm:p-10 shadow-lg space-y-10 flex flex-col items-start text-left" 
           style={{ ...glassPanelStyle, background: "rgba(145, 25, 20, 0.05)" }}
         >
           <div className="flex items-center gap-3">
@@ -86,7 +86,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="p-10 shadow-lg space-y-10 flex flex-col items-start text-left" 
+          className="p-6 sm:p-10 shadow-lg space-y-10 flex flex-col items-start text-left" 
           style={{ ...glassPanelStyle, background: "rgba(245, 155, 10, 0.05)" }}
         >
           <div className="flex items-center gap-3">
@@ -106,7 +106,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="p-10 shadow-xl space-y-10 flex flex-col items-start text-left" 
+          className="p-6 sm:p-10 shadow-xl space-y-10 flex flex-col items-start text-left" 
           style={glassPanelStyle}
         >
           <div className="flex items-center gap-3">
@@ -116,9 +116,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </span>
           </div>
           <div className="space-y-8 w-full">
-            <div className="space-y-3">
-              <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
-                <Fuel className="w-3 h-3" /> {t("planner.vehicle.fuel.label")}
+            <div className="space-y-4">
+              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+                <Fuel className="w-4 h-4" /> {t("planner.vehicle.fuel.label")}
               </Label>
               <Select value={formData.fuelType} onValueChange={(value) => onChange({ fuelType: value })}>
                 <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
@@ -134,9 +134,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
               </Select>
             </div>
 
-            <div className="space-y-3">
-              <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
-                <Droplets className="w-3 h-3 text-secondary" /> {t("planner.vehicle.toilet.label")}
+            <div className="space-y-4">
+              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+                <Droplets className="w-4 h-4 text-secondary" /> {t("planner.vehicle.toilet.label")}
               </Label>
               <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })}>
                 <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>

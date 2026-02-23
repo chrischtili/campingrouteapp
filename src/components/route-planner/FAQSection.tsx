@@ -19,12 +19,13 @@ export function FAQSection() {
       if (customEvent.detail && typeof customEvent.detail === 'string') {
         setOpenItem(customEvent.detail);
         
-        // Scroll smoothly to the FAQ section
+        // Scroll smoothly to the FAQ section with better positioning
         setTimeout(() => {
           const el = document.getElementById(customEvent.detail);
           if (el) {
-             const y = el.getBoundingClientRect().top + window.scrollY - 100; // 100px offset
-             window.scrollTo({ top: y, behavior: 'smooth' });
+            // Calculate position to scroll to top of the accordion item
+            const y = el.getBoundingClientRect().top + window.scrollY - 20; // 20px offset
+            window.scrollTo({ top: y, behavior: 'smooth' });
           }
         }, 100);
       }
@@ -125,7 +126,19 @@ export function FAQSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Accordion type="single" collapsible value={openItem || ""} onValueChange={(val) => setOpenItem(val || undefined)} className="space-y-4">
+          <Accordion type="single" collapsible value={openItem || ""} onValueChange={(val) => {
+            setOpenItem(val || undefined);
+            // Scroll to top of opened accordion item on mobile
+            if (window.innerWidth < 768 && val) {
+              setTimeout(() => {
+                const el = document.getElementById(val);
+                if (el) {
+                  const y = el.getBoundingClientRect().top + window.scrollY - 20;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }, 300); // Wait for animation to complete
+            }
+          }} className="space-y-4">
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={faq.id}

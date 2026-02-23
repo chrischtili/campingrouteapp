@@ -99,13 +99,13 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-10">
-          <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex items-center gap-4">
             {navLinks.map((link) => (
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="text-sm font-black uppercase tracking-widest text-white/60 hover:text-primary transition-colors relative group"
+                className="text-xs sm:text-sm font-black uppercase tracking-widest text-white/60 hover:text-primary transition-colors relative group"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
@@ -113,7 +113,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             ))}
           </div>
 
-          <div className="h-6 w-px bg-white/10 mx-2" />
+          <div className="h-4 w-px bg-white/10 mx-2 hidden sm:block" />
 
           {/* Language Switcher */}
           <DropdownMenu>
@@ -121,21 +121,21 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-white hover:bg-white/5 gap-2 rounded-xl font-black uppercase text-[10px] tracking-widest border border-white/5"
+                className="text-white hover:bg-white/5 gap-1 rounded-lg font-black uppercase text-[8px] sm:text-[10px] tracking-widest border border-white/5 px-2 py-1"
               >
-                <Globe className="w-4 h-4 text-primary" />
+                <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                 {i18n.language.toUpperCase()}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-[#0a140f] border-white/10 rounded-2xl shadow-2xl">
-              <DropdownMenuItem onClick={() => changeLanguage('de')} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1">DEUTSCH</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('en')} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1">ENGLISH</DropdownMenuItem>
+            <DropdownMenuContent align="end" className="bg-[#0a140f] border-white/10 rounded-xl shadow-xl">
+              <DropdownMenuItem onClick={() => changeLanguage('de')} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">DEUTSCH</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('en')} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ENGLISH</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
           <Button
             onClick={handlePlanNow}
-            className="rounded-full px-6 h-10 font-black uppercase text-[10px] tracking-widest transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
+            className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-black uppercase text-[8px] sm:text-[10px] tracking-widest transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
             style={{
               background: "rgba(245, 155, 10, 0.25)",
               backdropFilter: "blur(8px)",
@@ -148,10 +148,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
         {/* Mobile Toggle */}
         <button 
-          className="lg:hidden w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10"
+          className="md:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X /> : <Menu />}
+          {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
         </button>
       </div>
 
@@ -160,26 +160,26 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden absolute top-full left-0 right-0 bg-[#0a140f] border-b border-white/10 p-8 shadow-2xl"
+          className="md:hidden absolute top-full left-0 right-0 bg-[#0a140f] border-b border-white/10 p-6 sm:p-8 shadow-xl"
         >
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             {navLinks.map((link) => (
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="text-2xl font-black uppercase tracking-tighter text-white flex items-center justify-between group"
+                className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white flex items-center justify-between group py-2"
               >
                 {link.name}
-                <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all" />
+                <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             ))}
             <div className="h-px bg-white/5 my-2" />
             <div className="flex items-center justify-between">
-              <div className="flex gap-4">
-                <button onClick={() => changeLanguage('de')} className={`text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
-                <button onClick={() => changeLanguage('en')} className={`text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
+              <div className="flex gap-3 sm:gap-4">
+                <button onClick={() => changeLanguage('de')} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
+                <button onClick={() => changeLanguage('en')} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
               </div>
-              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-6 font-black uppercase text-[10px] tracking-widest">
+              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black uppercase text-[8px] sm:text-[10px] tracking-widest">
                 {t("navbar.planNow")}
               </Button>
             </div>

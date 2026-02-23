@@ -7,22 +7,26 @@ export default {
   theme: {
   	container: {
   		center: true,
-  		padding: '2rem',
+  		padding: '1rem',
   		screens: {
+  			'sm': '640px',
+  			'md': '768px',
+  			'lg': '1024px',
+  			'xl': '1280px',
   			'2xl': '1400px'
   		}
   	},
   	fontSize: {
-  		'xs': '0.875rem',	  // 14px
-  		'sm': '1rem',	      // 16px (increased from 14px)
-  		'base': '1.125rem',  // 18px (increased from 16px)
-  		'lg': '1.25rem',	  // 20px (increased from 18px)
-  		'xl': '1.5rem',	  // 24px (increased from 20px)
-  		'2xl': '1.875rem',	// 30px (increased from 24px)
-  		'3xl': '2.25rem',	// 36px (increased from 30px)
-  		'4xl': '2.75rem',	// 44px (increased from 36px)
-  		'5xl': '3.5rem',	 // 56px (increased from 48px)
-  		'6xl': '4.5rem'	  // 72px (increased from 64px)
+  		'xs': '0.75rem',	  // 12px (reduced for mobile)
+  		'sm': '0.875rem',	  // 14px
+  		'base': '1rem',	  // 16px
+  		'lg': '1.125rem',	  // 18px
+  		'xl': '1.25rem',	  // 20px
+  		'2xl': '1.5rem',	  // 24px
+  		'3xl': '1.875rem',	// 30px
+  		'4xl': '2.25rem',	// 36px
+  		'5xl': '3rem',		 // 48px
+  		'6xl': '3.75rem'	  // 60px
   	},
   	extend: {
   		colors: {
@@ -142,6 +146,13 @@ export default {
   			]
   		}
   	}
+  },
+  screens: {
+  	'sm': '640px',
+  	'md': '768px',
+  	'lg': '1024px',
+  	'xl': '1280px',
+  	'2xl': '1536px'
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

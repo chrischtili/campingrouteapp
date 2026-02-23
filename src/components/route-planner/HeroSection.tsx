@@ -89,15 +89,15 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           <Button
             size="sm"
             onClick={() => onStartPlanning?.()}
-            className="group relative w-full sm:w-auto px-6 md:px-8 lg:px-10 py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl text-white font-black text-sm md:text-base lg:text-lg shadow-xl sm:shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 border-2 border-primary/50"
+            className="group relative w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl text-white font-black text-base sm:text-sm md:text-base lg:text-lg shadow-xl sm:shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 border-2 border-primary/50"
             style={{
               background: "rgba(245, 155, 10, 0.3)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
             }}
           >
-            <span className="relative z-10 flex items-center gap-1 md:gap-2 lg:gap-3">
-              <MapPin className="w-4 h-4 md:w-5 lg:w-6 lg:h-6 group-hover:rotate-12 transition-transform" />
+            <span className="relative z-10 flex items-center gap-2 sm:gap-2 md:gap-2 lg:gap-3">
+              <MapPin className="w-5 h-5 sm:w-4 sm:h-4 md:w-5 lg:w-6 lg:h-6 group-hover:rotate-12 transition-transform" />
               {t("hero.planNow")}
             </span>
           </Button>
@@ -106,10 +106,10 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             variant="outline"
             size="sm"
             asChild
-            className="w-full sm:w-auto px-6 md:px-8 lg:px-10 py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/40 hover:text-primary transition-all border-2 font-bold group/example"
+            className="w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/40 hover:text-primary transition-all border-2 font-bold group/example text-base sm:text-sm md:text-base lg:text-lg"
           >
             <a href="#example-route">
-              <Play className="w-3 h-3 md:w-4 lg:w-5 lg:h-5 mr-1 md:mr-2 lg:mr-3 fill-current group-hover/example:text-primary transition-colors" />
+              <Play className="w-5 h-5 sm:w-3 sm:h-3 md:w-4 lg:w-5 lg:h-5 mr-2 sm:mr-1 md:mr-2 lg:mr-3 fill-current group-hover/example:text-primary transition-colors" />
               {t("hero.viewExample")}
             </a>
           </Button>

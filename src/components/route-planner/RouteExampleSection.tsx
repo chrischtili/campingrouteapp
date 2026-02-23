@@ -1,4 +1,4 @@
-import { MapPin, Clock, Euro, Wine, Landmark, ChevronRight, Info, PlusCircle, ChevronDown, ChevronUp, Compass, Map, Route, Star } from "lucide-react";
+import { MapPin, Clock, Euro, Wine, Landmark, ChevronRight, Info, PlusCircle, ChevronDown, ChevronUp, Compass, Map, Route, Star, ArrowLeftRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -53,9 +53,12 @@ export function RouteExampleSection() {
 
   const overnights = [
     { day: '1', place: t("exampleRoute.stages.overnight.fulda"), price: '35–45 €' },
-    { day: '2', place: t("exampleRoute.stages.overnight.magdeburg"), price: '30–40 €' },
-    { day: '3', place: t("exampleRoute.stages.overnight.perleberg"), price: '25–35 €' },
+    { day: '2', place: t("exampleRoute.stages.overnight.magdeburg"), price: '25–35 €' },
+    { day: '3', place: t("exampleRoute.stages.overnight.perleberg"), price: '15–20 €' },
     { day: '4–11', place: t("exampleRoute.stages.overnight.wismar"), price: '50–65 €' },
+    { day: '12', place: t("exampleRoute.stages.overnight.uelzen"), price: '30–40 €' },
+    { day: '13', place: t("exampleRoute.stages.overnight.harz"), price: '35–45 €' },
+    { day: '14', place: t("exampleRoute.stages.overnight.spessart"), price: '30–40 €' },
   ];
 
   return (
@@ -203,41 +206,58 @@ export function RouteExampleSection() {
                 exit={{ opacity: 0, y: -20, height: 0 }}
                 className="mt-16 overflow-hidden text-left"
               >
-                <div className="p-6 sm:p-10 md:p-16 rounded-3xl sm:rounded-[4rem] border-2 border-white/20 shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16"
+                <div className="p-6 sm:p-10 md:p-16 rounded-3xl sm:rounded-[4rem] border-2 border-white/20 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16"
                      style={{ background: "rgba(255, 255, 255, 0.05)", backdropFilter: "blur(24px)" }}>
-                  <div className="space-y-10">
+                  
+                  {/* 1. Etappenplanung - Full width on all */}
+                  <div className="lg:col-span-2">
                     <div>
-                      <h4 className="text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
-                        <Compass className="w-8 h-8 text-primary" />
+                      <h4 className="text-2xl sm:text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
+                        <Compass className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                         {t("exampleRoute.details.planning")}
                       </h4>
-                      <p className="text-muted-foreground text-lg leading-relaxed italic font-serif">
+                      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed italic font-serif">
                         {t("exampleRoute.details.planningDesc")}
                       </p>
                     </div>
 
-                    <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-white/10" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
-                      <h5 className="font-black text-primary uppercase tracking-[0.2em] text-xs mb-8">{t("exampleRoute.details.outward")}</h5>
-                      <div className="space-y-6">
-                        {[
-                          `${t("exampleRoute.stages.karlsruhe")} → ${t("exampleRoute.stages.fulda")}`,
-                          `${t("exampleRoute.stages.fulda")} → ${t("exampleRoute.stages.magdeburg")}`,
-                          `${t("exampleRoute.stages.magdeburg")} → ${t("exampleRoute.stages.perleberg")}`,
-                          `${t("exampleRoute.stages.perleberg")} → ${t("exampleRoute.stages.wismar")}`
-                        ].map((stage, i) => (
-                          <div key={i} className="flex gap-4 sm:gap-6 items-center group">
-                            <span className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center text-xs font-black text-primary border-2 border-white/10 shadow-sm group-hover:bg-primary group-hover:text-white transition-all">{i + 1}</span>
-                            <span className="text-foreground font-black uppercase text-sm tracking-tight">{stage}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                     <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-white/10" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                       <h5 className="font-black text-primary uppercase tracking-[0.2em] text-xs mb-8">{t("exampleRoute.details.outward")}</h5>
+                       <div className="space-y-6 mb-8">
+                         {[
+                           `${t("exampleRoute.stages.karlsruhe")} → ${t("exampleRoute.stages.fulda")}`,
+                           `${t("exampleRoute.stages.fulda")} → ${t("exampleRoute.stages.magdeburg")}`,
+                           `${t("exampleRoute.stages.magdeburg")} → ${t("exampleRoute.stages.perleberg")}`,
+                           `${t("exampleRoute.stages.perleberg")} → ${t("exampleRoute.stages.wismar")}`
+                         ].map((stage, i) => (
+                           <div key={i} className="flex gap-4 sm:gap-6 items-center group">
+                             <span className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center text-xs font-black text-primary border-2 border-white/10 shadow-sm group-hover:bg-primary group-hover:text-white transition-all">{i + 1}</span>
+                             <span className="text-foreground font-black uppercase text-sm tracking-tight">{stage}</span>
+                           </div>
+                         ))}
+                       </div>
+                       <h5 className="font-black text-primary uppercase tracking-[0.2em] text-xs mb-8">{t("exampleRoute.details.return")}</h5>
+                       <div className="space-y-6">
+                         {[
+                           `${t("exampleRoute.stages.wismar")} → Uelzen`,
+                           `Uelzen → Harz`,
+                           `Harz → Spessart`,
+                           `Spessart → ${t("exampleRoute.stages.karlsruhe")}`
+                         ].map((stage, i) => (
+                           <div key={i} className="flex gap-4 sm:gap-6 items-center group">
+                             <span className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center text-xs font-black text-primary border-2 border-white/10 shadow-sm group-hover:bg-primary group-hover:text-white transition-all">{i + 5}</span>
+                             <span className="text-foreground font-black uppercase text-sm tracking-tight">{stage}</span>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
                   </div>
 
-                  <div className="space-y-10">
+                  {/* 2. Übernachtungen - Left column on desktop */}
+                  <div>
                     <div>
-                      <h4 className="text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
-                        <Euro className="w-8 h-8 text-primary" />
+                      <h4 className="text-2xl sm:text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
+                        <Euro className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                         {t("exampleRoute.details.overnight")}
                       </h4>
                       <div className="grid gap-4">
@@ -252,15 +272,57 @@ export function RouteExampleSection() {
                         ))}
                       </div>
                     </div>
-                    
-                    <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-primary/20 bg-primary/5">
-                      <h4 className="font-black text-primary flex items-center gap-3 mb-4 uppercase text-sm tracking-widest">
-                        <Info className="w-5 h-5" />
-                        {t("exampleRoute.details.summary")}
+
+                     <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-primary/20 bg-primary/5">
+                       <h4 className="font-black text-primary flex items-center gap-3 mb-4 uppercase text-sm tracking-widest">
+                         <Info className="w-5 h-5" />
+                         {t("exampleRoute.details.summary")}
+                       </h4>
+                       <p className="text-base text-muted-foreground leading-relaxed italic font-serif">
+                         {t("exampleRoute.details.summaryDesc")}
+                       </p>
+                     </div>
+                  </div>
+
+                  {/* 3. Highlights - Right column on desktop */}
+                  <div>
+                    <div>
+                      <h4 className="text-2xl sm:text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
+                        <Star className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                        {t("exampleRoute.details.highlights")}
                       </h4>
-                      <p className="text-base text-muted-foreground leading-relaxed italic font-serif">
-                        {t("exampleRoute.details.summaryDesc")}
+                      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed italic font-serif mb-6">
+                        {t("exampleRoute.details.highlightsDesc")}
                       </p>
+                      <div className="space-y-4">
+                        {Object.values(t("exampleRoute.details.highlightsList", { returnObjects: true })).map((highlight, i) => (
+                          <div key={i} className="p-4 sm:p-6 rounded-2xl flex items-center gap-4 border-2 border-white/10 hover:border-white/20 transition-all" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                            <Compass className="w-5 h-5 text-primary shrink-0" />
+                            <span className="text-foreground font-black uppercase text-sm">{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 4. Praktische Tipps - Full width on all */}
+                  <div className="lg:col-span-2">
+                    <div>
+                      <h4 className="text-2xl sm:text-3xl font-black mb-6 flex items-center gap-4 uppercase tracking-tighter">
+                        <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                        {t("exampleRoute.details.practical")}
+                      </h4>
+                      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed italic font-serif mb-6">
+                        {t("exampleRoute.details.practicalDesc")}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {Object.keys(t("exampleRoute.details.practicalItems", { returnObjects: true })).map((key, i) => (
+                          <div key={i} className="p-4 sm:p-6 rounded-2xl border-2 border-white/10 hover:border-white/20 transition-all" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
+                            <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">{t(`exampleRoute.details.practicalItems.${key}`)}</span>
+                            <span className="block text-foreground font-black uppercase text-base mt-2">{t(`exampleRoute.details.practicalValues.${key}`)}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

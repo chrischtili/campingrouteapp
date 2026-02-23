@@ -81,66 +81,112 @@
   },
   "exampleRoute": {
     "badge": "KI-Beispielroute",
-    "title": "Karlsruhe → Wismar → Karlsruhe",
-    "subtitle": "14 Tage • 1.600 km • Genießer-Tour mit Ostsee & Mittelgebirge",
+    "title": "Karlsruhe ⇄ Zierow (Wismar)",
+    "subtitle": "14 Tage • 1.495 km • Slow Travel mit 5,5t Wohnmobil & Hund",
     "summary": {
       "distance": "Gesamtstrecke",
-      "distanceValue": "1.325 km",
+      "distanceValue": "1.495 km",
       "duration": "Reisedauer",
       "durationValue": "14 Tage",
       "budget": "Budget",
-      "budgetValue": "900–1000€",
+      "budgetValue": "1.200–1.500€",
       "style": "Stil",
-      "styleValue": "Genießer-Tour",
+      "styleValue": "Slow Travel",
       "dayLabel": "Tag"
     },
     "stages": {
       "stageLabel": "Etappe",
       "karlsruhe": "Karlsruhe",
-      "fulda": "Fulda",
+      "fulda": "Fulda/Rhön",
       "magdeburg": "Magdeburg",
       "perleberg": "Perleberg",
-      "wismar": "Wismar",
+      "wismar": "Zierow",
       "highlights": {
-        "fulda": "Rhön & Fulda",
+        "fulda": "Rhön & Magdeburg",
         "magdeburg": "Wasserstraßenkreuz",
-        "perleberg": "Natur pur",
-        "wismar": "Ostsee-Flair"
+        "perleberg": "Altstadt & Tierpark",
+        "wismar": "Ostsee-Flair",
+        "uelzen": "Lüneburger Heide",
+        "harz": "Harz-Gebirge",
+        "spessart": "Spessart/Main"
       },
       "details": {
-        "fulda": "Dom zu Fulda & Wasserkuppe mit Panoramablick über die gesamte Rhön.",
-        "magdeburg": "Besuche das UNESCO-Weltkulturerbe: Die beeindruckende Trogbrücke über die Elbe.",
-        "perleberg": "Erlebe die unberührte Natur Brandenburgs auf der B189.",
-        "wismar": "Kurze Etappe - frühzeitiger Check-in möglich. Genieße den alten Hafen."
+        "fulda": "Rhön (Wasserkuppe): Spaziergang auf dem \"Berg der Flieger\" mit Panoramablick.",
+        "magdeburg": "Wasserstraßenkreuz Magdeburg: UNESCO-Trogbrücke über die Elbe. Perfekt für Hunde.",
+        "perleberg": "Perleberg Altstadt mit Rolandstatue & Tierpark Perleberg.",
+        "wismar": "Ankunft in Zierow. Wismar Altstadt (UNESCO), Insel Poel, Schloss Bothmer.",
+        "uelzen": "Hundertwasser-Bahnhof Uelzen: Architektonisches Kunstwerk.",
+        "harz": "Brockenwanderung im Harz oder mit der Brockenbahn (Hunde Maulkorb!).",
+        "spessart": "Wertheim: Historische Altstadt an Main und Tauber mit Burgruine."
       },
       "overnight": {
-        "fulda": "Knaus Campingpark Hünfeld",
-        "magdeburg": "Schachtsee Wolmirsleben",
-        "perleberg": "Campingplatz Friedensteich",
-        "wismar": "Ostsee-Camping Zierow"
+        "fulda": "KNAUS Campingpark Hünfeld",
+        "magdeburg": "Campingplatz Barleber See",
+        "perleberg": "Kristalltherme Bad Wilsnack",
+        "wismar": "Ostsee-Camping-Ferienpark Zierow",
+        "uelzen": "Uhlenköper-Camp Uelzen",
+        "harz": "Am Brocken (Elbingerode)",
+        "spessart": "Camping Main-Spessart"
       },
       "times": {
-        "karlsruhe_fulda": "2:30–3:00 h",
-        "fulda_magdeburg": "3:00–3:30 h",
-        "magdeburg_perleberg": "1:45–2:15 h",
-        "perleberg_wismar": "1:15–1:30 h"
+        "karlsruhe_fulda": "3:00 h",
+        "fulda_magdeburg": "3:30 h",
+        "magdeburg_perleberg": "1:45 h",
+        "perleberg_wismar": "1:30 h",
+        "wismar_uelzen": "2:15 h",
+        "uelzen_harz": "2:00 h",
+        "harz_spessart": "3:30 h",
+        "spessart_karlsruhe": "2:00 h"
       },
       "distances": {
         "karlsruhe_fulda": "210 km",
         "fulda_magdeburg": "240 km",
-        "magdeburg_perleberg": "130 km",
-        "perleberg_wismar": "95 km"
+        "magdeburg_perleberg": "110 km",
+        "perleberg_wismar": "85 km",
+        "wismar_uelzen": "140 km",
+        "uelzen_harz": "130 km",
+        "harz_spessart": "230 km",
+        "spessart_karlsruhe": "160 km"
       }
     },
     "details": {
       "show": "Detaillierte Route anzeigen",
       "hide": "Details ausblenden",
       "planning": "1. Etappenplanung",
-      "planningDesc": "Die Route ist in entspannte Tagesabschnitte unterteilt.",
+      "planningDesc": "Die Route ist auf Slow Travel ausgelegt mit entspannten Tagesabschnitten für 5,5t Wohnmobil und Hund. Start am 04.06.2026 ist Fronleichnam (Feiertag BW) – mit Reiseverkehr rechnen.",
       "outward": "Hinfahrt",
+      "return": "Rückfahrt",
       "overnight": "2. Übernachtungen",
+      "highlights": "3. Highlights & Aktivitäten",
+      "highlightsDesc": "Top-Aktivitäten auf der Route mit Hund (Hundestrände im Nordosten).",
+      "highlightsList": {
+        "wismar": "Wismar Altstadt (UNESCO) & Insel Poel",
+        "perleberg": "Perleberg Altstadt & Tierpark",
+        "magdeburg": "Magdeburg Wasserstraßenkreuz",
+        "uelzen": "Hundertwasser-Bahnhof Uelzen",
+        "harz": "Brockenwanderung im Harz",
+        "wertheim": "Wertheim Altstadt am Main"
+      },
+      "practical": "4. Praktische Tipps",
+      "practicalDesc": "Fahrzeug: 5,5t (L: 7,2m, H: 3,2m). Geschwindigkeit: 80 km/h ohne Zulassung, sonst 100 km/h. LKW-Überholverbote beachten. Wildcamping verboten! Clesana-Toilette nutzbar (Restmüll).",
+      "practicalItems": {
+        "vehicle": "Fahrzeug",
+        "speed": "Geschwindigkeit",
+        "selfSufficient": "Autarkie",
+        "routeStyle": "Route",
+        "time": "Zeit",
+        "wildCamping": "Wildcamping"
+      },
+      "practicalValues": {
+        "vehicle": "5,5t / 7,2m L / 3,2m H",
+        "speed": "80 km/h (bzw. 100 km/h mit Zulassung)",
+        "selfSufficient": "600W Solar / 600Ah / Clesana",
+        "routeStyle": "Slow Travel für Hundeauslauf",
+        "time": "Juni: Lange Tage bis 21:30 Uhr",
+        "wildCamping": "Verboten! Nur Stellplätze"
+      },
       "summary": "Zusammenfassung",
-      "summaryDesc": "Eine entspannte Genießer-Tour durch Deutschland."
+      "summaryDesc": "Eine entspannte Slow-Tour durch Deutschland – ideal für Juni (lange Tage bis 21:30 Uhr Sonnenuntergang)."
     }
   },
   "faq": {

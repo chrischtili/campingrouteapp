@@ -81,66 +81,112 @@
   },
   "exampleRoute": {
     "badge": "AI Example Route",
-    "title": "Karlsruhe → Wismar → Karlsruhe",
-    "subtitle": "14 days • 1,600 km • Connoisseur tour",
+    "title": "Karlsruhe ⇄ Zierow (Wismar)",
+    "subtitle": "14 days • 1,495 km • Slow Travel with 5.5t RV & Dog",
     "summary": {
       "distance": "Total distance",
-      "distanceValue": "1,325 km",
+      "distanceValue": "1,495 km",
       "duration": "Duration",
       "durationValue": "14 Days",
       "budget": "Budget",
-      "budgetValue": "900–1000€",
+      "budgetValue": "1.200–1.500€",
       "style": "Style",
-      "styleValue": "Connoisseur tour",
+      "styleValue": "Slow Travel",
       "dayLabel": "Day"
     },
     "stages": {
       "stageLabel": "Stage",
       "karlsruhe": "Karlsruhe",
-      "fulda": "Fulda",
+      "fulda": "Fulda/Rhön",
       "magdeburg": "Magdeburg",
       "perleberg": "Perleberg",
-      "wismar": "Wismar",
+      "wismar": "Zierow",
       "highlights": {
-        "fulda": "Rhön & Fulda",
+        "fulda": "Rhön & Magdeburg",
         "magdeburg": "Waterway Intersection",
-        "perleberg": "Pure Nature",
-        "wismar": "Baltic Sea Flair"
+        "perleberg": "Old Town & Wildlife Park",
+        "wismar": "Baltic Sea Flair",
+        "uelzen": "Lüneburg Heath",
+        "harz": "Harz Mountains",
+        "spessart": "Spessart/Main"
       },
       "details": {
-        "fulda": "Fulda Cathedral & Wasserkuppe with panoramic views over the entire Rhön.",
-        "magdeburg": "Visit the UNESCO World Heritage Site: The impressive trough bridge over the Elbe.",
-        "perleberg": "Experience the untouched nature of Brandenburg on the B189.",
-        "wismar": "Short stage - early check-in possible. Enjoy the old harbor."
+        "fulda": "Rhön (Wasserkuppe): Walk on the \"Mountain of Aviators\" with panoramic view.",
+        "magdeburg": "Magdeburg Waterway Crossing: UNESCO canal bridge over the Elbe. Perfect for dogs.",
+        "perleberg": "Perleberg Old Town with Roland statue & Perleberg Wildlife Park.",
+        "wismar": "Arrival in Zierow. Wismar Old Town (UNESCO), Poel Island, Castle Bothmer.",
+        "uelzen": "Hundertwasser Station Uelzen: Architectural art work.",
+        "harz": "Brocken hike in the Harz or with the Brocken Railway (dogs muzzle!).",
+        "spessart": "Wertheim: Historic old town at Main and Tauber with castle ruins."
       },
       "overnight": {
-        "fulda": "Knaus Campingpark Hünfeld",
-        "magdeburg": "Schachtsee Wolmirsleben",
-        "perleberg": "Campingplatz Friedensteich",
-        "wismar": "Ostsee-Camping Zierow"
+        "fulda": "KNAUS Campingpark Hünfeld",
+        "magdeburg": "Campingplatz Barleber See",
+        "perleberg": "Kristalltherme Bad Wilsnack",
+        "wismar": "Ostsee-Camping-Ferienpark Zierow",
+        "uelzen": "Uhlenköper-Camp Uelzen",
+        "harz": "Am Brocken (Elbingerode)",
+        "spessart": "Camping Main-Spessart"
       },
       "times": {
-        "karlsruhe_fulda": "2:30–3:00 h",
-        "fulda_magdeburg": "3:00–3:30 h",
-        "magdeburg_perleberg": "1:45–2:15 h",
-        "perleberg_wismar": "1:15–1:30 h"
+        "karlsruhe_fulda": "3:00 h",
+        "fulda_magdeburg": "3:30 h",
+        "magdeburg_perleberg": "1:45 h",
+        "perleberg_wismar": "1:30 h",
+        "wismar_uelzen": "2:15 h",
+        "uelzen_harz": "2:00 h",
+        "harz_spessart": "3:30 h",
+        "spessart_karlsruhe": "2:00 h"
       },
       "distances": {
         "karlsruhe_fulda": "210 km",
         "fulda_magdeburg": "240 km",
-        "magdeburg_perleberg": "130 km",
-        "perleberg_wismar": "95 km"
+        "magdeburg_perleberg": "110 km",
+        "perleberg_wismar": "85 km",
+        "wismar_uelzen": "140 km",
+        "uelzen_harz": "130 km",
+        "harz_spessart": "230 km",
+        "spessart_karlsruhe": "160 km"
       }
     },
     "details": {
       "show": "Show detailed route",
       "hide": "Hide details",
       "planning": "1. Stage Planning",
-      "planningDesc": "The route is divided into relaxed daily sections.",
+      "planningDesc": "The route is designed for slow travel with relaxed daily sections for 5.5t RV and dog. Start on 04.06.2026 is Corpus Christi (holiday in BW) – expect travel traffic.",
       "outward": "Outward Journey",
+      "return": "Return Journey",
       "overnight": "2. Overnights",
+      "highlights": "3. Highlights & Activities",
+      "highlightsDesc": "Top activities on the route with dog (dog beaches in the northeast).",
+      "highlightsList": {
+        "wismar": "Wismar Old Town (UNESCO) & Poel Island",
+        "perleberg": "Perleberg Old Town & Wildlife Park",
+        "magdeburg": "Magdeburg Waterway Crossing",
+        "uelzen": "Hundertwasser Station Uelzen",
+        "harz": "Brocken Hike in the Harz",
+        "wertheim": "Wertheim Old Town on the Main"
+      },
+      "practical": "4. Practical Tips",
+      "practicalDesc": "Vehicle: 5.5t (L: 7.2m, H: 3.2m). Speed: 80 km/h without permit, otherwise 100 km/h. Observe truck overtaking bans. Wild camping prohibited! Clesana toilet usable (residual waste).",
+      "practicalItems": {
+        "vehicle": "Vehicle",
+        "speed": "Speed",
+        "selfSufficient": "Self-sufficiency",
+        "routeStyle": "Route",
+        "time": "Time",
+        "wildCamping": "Wild camping"
+      },
+      "practicalValues": {
+        "vehicle": "5.5t / 7.2m L / 3.2m H",
+        "speed": "80 km/h (or 100 km/h with permit)",
+        "selfSufficient": "600W Solar / 600Ah / Clesana",
+        "routeStyle": "Slow Travel for dog exercise",
+        "time": "June: Long days until 9:30 PM",
+        "wildCamping": "Prohibited! Only pitches allowed"
+      },
       "summary": "Summary",
-      "summaryDesc": "A relaxed connoisseur tour through Germany."
+      "summaryDesc": "A relaxed slow tour through Germany – ideal for June (long days until 9:30 PM sunset)."
     }
   },
   "faq": {

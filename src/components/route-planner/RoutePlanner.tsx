@@ -236,7 +236,7 @@ export function RoutePlanner() {
                   }
                 }, 100);
               }}
-              className="group gap-4 text-white px-12 py-10 rounded-[2rem] shadow-2xl transition-all hover:scale-105 border-2 border-primary/50"
+              className="group gap-2 sm:gap-4 text-white px-6 sm:px-12 py-4 sm:py-10 rounded-[1.5rem] sm:rounded-[2rem] shadow-2xl transition-all hover:scale-105 border-2 border-primary/50"
               size="lg"
               style={{
                 background: "rgba(245, 155, 10, 0.3)",
@@ -244,8 +244,8 @@ export function RoutePlanner() {
                 WebkitBackdropFilter: "blur(12px)",
               }}
             >
-              <Route className="w-8 h-8 group-hover:rotate-12 transition-transform" />
-              <span className="text-2xl font-black uppercase tracking-tighter">{t("planner.cta")}</span>
+              <Route className="w-6 h-6 sm:w-8 sm:h-8 group-hover:rotate-12 transition-transform" />
+              <span className="text-xl sm:text-2xl font-black uppercase tracking-tighter">{t("planner.cta")}</span>
             </Button>
           </motion.div>
         </section>

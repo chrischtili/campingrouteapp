@@ -278,8 +278,8 @@ export function RoutePlanner() {
             </div>
 
             {/* Modern Progress Steps - ARROW FLOW VERSION */}
-            <div id="planner-progress" className="mb-16 app-glass p-8 rounded-[2.5rem] relative z-20 shadow-2xl overflow-hidden md:overflow-visible">
-              <div className="flex items-center justify-between relative px-2">
+            <div id="planner-progress" className="mb-12 md:mb-16 app-glass p-4 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] relative z-20 shadow-xl sm:shadow-2xl overflow-x-auto md:overflow-visible">
+              <div className="flex items-center justify-between relative px-2 min-w-[600px] md:min-w-0">
                 {steps.map((step, i) => {
                   const Icon = step.icon;
                   const stepNumber = i + 1;
@@ -332,14 +332,14 @@ export function RoutePlanner() {
                             </div>
                           )}
                         </div>
-                        <span className={`text-[10px] font-black mt-4 uppercase tracking-[0.1em] transition-colors hidden md:block text-center px-2 ${isActive ? "text-primary" : isDone ? "text-[#4ade80]/60" : "text-white/20"}`}>
+                        <span className={`text-[8px] sm:text-[10px] font-black mt-2 sm:mt-4 uppercase tracking-[0.1em] transition-colors text-center px-1 sm:px-2 ${isActive ? "text-primary" : isDone ? "text-[#4ade80]/60" : "text-white/20"}`}>
                           {step.label}
                         </span>
                       </button>
 
                       {!isLast && (
-                        <div className="flex items-center justify-center mb-8 md:mb-10">
-                          <ChevronRight className={`w-5 h-5 transition-all duration-500 ${
+                        <div className="flex items-center justify-center mb-6 md:mb-8 lg:mb-10">
+                          <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-500 shrink-0 ${
                             isActive 
                               ? "text-primary animate-pulse scale-125" 
                               : isDone 

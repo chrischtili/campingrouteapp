@@ -663,7 +663,7 @@
       "group": {
         "dimensions": "Abmessungen",
         "weight": "Gewicht",
-        "power": "Energie",
+        "power": "Autarkie",
         "systems": "Systeme"
       },
       "length": "Länge",
@@ -683,7 +683,9 @@
         }
       },
       "solar": "Solar",
-      "battery": "Batterie",
+      "battery": "Aufbaubatterie",
+      "autonomyDays": "Autarkie-Tage",
+      "autonomyUnit": "Tage",
       "toilet": {
         "label": "WC-System",
         "placeholder": "Wählen",
@@ -694,6 +696,23 @@
           "fixed": "Festtanktoilette",
           "clesana": "Clesana",
           "none": "Keine"
+        }
+      },
+      "heating": {
+        "label": "Heizung",
+        "placeholder": "Wählen",
+        "options": {
+          "diesel": "Diesel",
+          "gasBottle": "Gasflasche",
+          "gasTank": "Gastank"
+        }
+      },
+      "levelingJacks": {
+        "label": "Hubstützen",
+        "placeholder": "Wählen",
+        "options": {
+          "yes": "Ja",
+          "no": "Nein"
         }
       }
     },
@@ -917,6 +936,10 @@
       "fuelType": "Kraftstoffart",
       "solar": "Solaranlage",
       "battery": "Aufbaubatterie",
+      "autonomyDays": "Autarkie",
+      "autonomyUnit": "Tage",
+      "heating": "Heizung",
+      "levelingJacks": "Hubstützen",
       "toilet": "Toilettensystem",
       "travelers": "Anzahl Reisende",
       "travelersUnit": "Personen",
@@ -933,7 +956,7 @@
         "label": "Weitere Informationen & Wünsche"
       }
     },
-    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze (und Alternativen) mit kurzer Beschreibung; nenne soweit möglich Links und grobe Preisbereiche, aber markiere Preise als Richtwerte).\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nGPX-Datei: Generiere am Ende der Antwort ausschließlich die GPX-XML-Daten für diese Route im GPX 1.1 Format. Inkludiere Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) und die Gesamtroute als Track (<trk>). Keine Erklärungen für das XML."
+    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze (und Alternativen) mit kurzer Beschreibung; nenne soweit möglich Links und grobe Preisbereiche, aber markiere Preise als Richtwerte).\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nGPX-Datei: Generiere am Ende der Antwort ausschließlich die GPX-XML-Daten für diese Route im GPX 1.1 Format.\nErzeuge zusätzlich zu den Wegpunkten eine Garmin-kompatible Route.\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen.\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\nVerwende als Root-Element <gpx version=\"1.1\" creator=\"AI Route Planner\" xmlns=\"http://www.topografix.com/GPX/1/1\">.\n\nGib nur das vollständige XML zurück, ohne zusätzliche Erklärungen, Kommentare oder Formatierungen."
   },
   "anchorNav": {
     "home": "Start",

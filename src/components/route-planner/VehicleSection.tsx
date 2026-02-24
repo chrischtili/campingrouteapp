@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormSlider } from "./FormSlider";
 import { useTranslation } from "react-i18next";
-import { Truck, Ruler, Weight, Zap, Droplets, Fuel, Settings } from "lucide-react";
+import { Truck, Ruler, Weight, Zap, Toilet, Flame, MoveVertical, Fuel, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface VehicleSectionProps {
@@ -96,8 +96,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </span>
           </div>
           <div className="space-y-10 w-full">
-            <FormSlider id="solarPower" label={t("planner.vehicle.solar")} value={formData.solarPower === "" ? 300 : parseFloat(formData.solarPower)} min={0} max={1000} step={50} unit="W" onChange={(v) => onChange({ solarPower: v.toString() })} />
-            <FormSlider id="batteryCapacity" label={t("planner.vehicle.battery")} value={formData.batteryCapacity === "" ? 200 : parseFloat(formData.batteryCapacity)} min={0} max={1000} step={25} unit="Ah" onChange={(v) => onChange({ batteryCapacity: v.toString() })} />
+            <FormSlider id="solarPower" label={t("planner.vehicle.solar")} value={formData.solarPower === "" ? 0 : parseFloat(formData.solarPower)} min={0} max={1000} step={50} unit="W" onChange={(v) => onChange({ solarPower: v.toString() })} />
+            <FormSlider id="batteryCapacity" label={t("planner.vehicle.battery")} value={formData.batteryCapacity === "" ? 0 : parseFloat(formData.batteryCapacity)} min={0} max={1000} step={25} unit="Ah" onChange={(v) => onChange({ batteryCapacity: v.toString() })} />
+            <FormSlider id="autonomyDays" label={t("planner.vehicle.autonomyDays")} value={formData.autonomyDays === "" ? 0 : parseFloat(formData.autonomyDays)} min={0} max={10} step={1} unit={t("planner.vehicle.autonomyUnit")} onChange={(v) => onChange({ autonomyDays: v.toString() })} />
           </div>
         </motion.div>
 
@@ -136,7 +137,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
             <div className="space-y-4">
               <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-                <Droplets className="w-4 h-4 text-primary" /> {t("planner.vehicle.toilet.label")}
+                <Toilet className="w-4 h-4 text-primary" /> {t("planner.vehicle.toilet.label")}
               </Label>
               <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })}>
                 <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
@@ -149,6 +150,37 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                   <SelectItem value="fixed">{t("planner.vehicle.toilet.options.fixed")}</SelectItem>
                   <SelectItem value="clesana">{t("planner.vehicle.toilet.options.clesana")}</SelectItem>
                   <SelectItem value="none">{t("planner.vehicle.toilet.options.none")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-4">
+              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+                <Flame className="w-4 h-4 text-primary" /> {t("planner.vehicle.heating.label")}
+              </Label>
+              <Select value={formData.heatingSystem} onValueChange={(value) => onChange({ heatingSystem: value })}>
+                <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                  <SelectValue placeholder={t("planner.vehicle.heating.placeholder")} />
+                </SelectTrigger>
+                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                  <SelectItem value="diesel">{t("planner.vehicle.heating.options.diesel")}</SelectItem>
+                  <SelectItem value="gasBottle">{t("planner.vehicle.heating.options.gasBottle")}</SelectItem>
+                  <SelectItem value="gasTank">{t("planner.vehicle.heating.options.gasTank")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-4">
+              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+                <MoveVertical className="w-4 h-4 text-primary" /> {t("planner.vehicle.levelingJacks.label")}
+              </Label>
+              <Select value={formData.levelingJacks} onValueChange={(value) => onChange({ levelingJacks: value })}>
+                <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                  <SelectValue placeholder={t("planner.vehicle.levelingJacks.placeholder")} />
+                </SelectTrigger>
+                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                  <SelectItem value="yes">{t("planner.vehicle.levelingJacks.options.yes")}</SelectItem>
+                  <SelectItem value="no">{t("planner.vehicle.levelingJacks.options.no")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

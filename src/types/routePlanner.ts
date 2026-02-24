@@ -17,6 +17,9 @@ export interface FormData {
   toiletteSystem: string;
   solarPower: string;
   batteryCapacity: string;
+  autonomyDays: string;
+  heatingSystem: string;
+  levelingJacks: string;
   routeAdditionalInfo: string;
   routePreferences: string[];
   accommodationType: string[];
@@ -57,8 +60,11 @@ export const initialFormData: FormData = {
   axleLoad: '2.5',
   fuelType: '',
   toiletteSystem: '',
-  solarPower: '300',
-  batteryCapacity: '200',
+  solarPower: '0',
+  batteryCapacity: '0',
+  autonomyDays: '0',
+  heatingSystem: '',
+  levelingJacks: '',
   routeAdditionalInfo: '',
   routePreferences: [],
   accommodationType: [],

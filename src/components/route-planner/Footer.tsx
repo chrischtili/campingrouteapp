@@ -16,6 +16,7 @@ export function Footer() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="absolute -bottom-24 -right-24 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute -top-24 -left-24 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/40 dark:from-black/30 dark:via-black/60 dark:to-black/80" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-24">

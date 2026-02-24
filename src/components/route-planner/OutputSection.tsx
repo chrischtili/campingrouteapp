@@ -114,10 +114,10 @@ export function OutputSection({
           <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
         </div>
         <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black text-white uppercase tracking-tighter">
+          <h3 className="text-2xl font-black text-white/90 uppercase tracking-tighter">
             {loadingMessage || (useDirectAI ? t("planner.loading.ai") : t("planner.loading.prompt"))}
           </h3>
-          <p className="text-white/40 italic">{t("planner.output.loading.wait")}</p>
+          <p className="text-white/70 italic">{t("planner.output.loading.wait")}</p>
         </div>
       </div>
     );

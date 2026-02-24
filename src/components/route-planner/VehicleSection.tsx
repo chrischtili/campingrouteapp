@@ -28,7 +28,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
     <div className="space-y-12">
       <div className="space-y-4 text-left">
         <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white">
-          <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
+          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
             <Truck className="w-6 h-6" />
           </div>
           {t("planner.vehicle.title")}
@@ -70,7 +70,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           style={{ ...glassPanelStyle, background: "rgba(145, 25, 20, 0.05)" }}
         >
           <div className="flex items-center gap-3">
-            <Weight className="w-5 h-5 text-secondary" />
+            <Weight className="w-5 h-5 text-primary" />
             <span className="text-xs font-black uppercase tracking-[0.2em] text-white">
               {t("planner.vehicle.group.weight")}
             </span>
@@ -110,7 +110,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           style={glassPanelStyle}
         >
           <div className="flex items-center gap-3">
-            <Settings className="w-5 h-5 text-white/40" />
+            <Settings className="w-5 h-5 text-primary" />
             <span className="text-xs font-black uppercase tracking-[0.2em] text-white">
               {t("planner.vehicle.group.systems")}
             </span>
@@ -118,7 +118,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           <div className="space-y-8 w-full">
             <div className="space-y-4">
               <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-                <Fuel className="w-4 h-4" /> {t("planner.vehicle.fuel.label")}
+                <Fuel className="w-4 h-4 text-primary" /> {t("planner.vehicle.fuel.label")}
               </Label>
               <Select value={formData.fuelType} onValueChange={(value) => onChange({ fuelType: value })}>
                 <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
@@ -136,7 +136,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
             <div className="space-y-4">
               <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-                <Droplets className="w-4 h-4 text-secondary" /> {t("planner.vehicle.toilet.label")}
+                <Droplets className="w-4 h-4 text-primary" /> {t("planner.vehicle.toilet.label")}
               </Label>
               <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })}>
                 <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>

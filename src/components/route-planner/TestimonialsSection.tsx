@@ -31,6 +31,7 @@ export function TestimonialsSection() {
       {/* Decorative background element for depth */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-background to-transparent opacity-10" />
       <Quote className="absolute -top-10 -left-10 w-64 h-64 text-white/5 -rotate-12 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-black/50 dark:to-black/70" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -39,8 +40,11 @@ export function TestimonialsSection() {
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          <span className="inline-block px-6 py-2 rounded-full border-2 border-primary/20 bg-primary/10 text-primary font-black uppercase text-[10px] tracking-[0.4em] mb-8">
-            {t("testimonials.badge")}
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
+            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+              {t("testimonials.badge")}
+            </span>
           </span>
           <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.9]">
             {t("testimonials.title")}

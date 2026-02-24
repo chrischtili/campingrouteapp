@@ -80,113 +80,339 @@
     }
   },
   "exampleRoute": {
-    "badge": "AI Example Route",
-    "title": "Karlsruhe ⇄ Zierow (Wismar)",
-    "subtitle": "14 days • 1,495 km • Slow Travel with 5.5t RV & Dog",
-    "summary": {
-      "distance": "Total distance",
-      "distanceValue": "1,495 km",
-      "duration": "Duration",
-      "durationValue": "14 Days",
-      "budget": "Budget",
-      "budgetValue": "1.200–1.500€",
-      "style": "Style",
-      "styleValue": "Slow Travel",
-      "dayLabel": "Day"
-    },
-    "stages": {
-      "stageLabel": "Stage",
-      "karlsruhe": "Karlsruhe",
-      "fulda": "Fulda/Rhön",
-      "magdeburg": "Magdeburg",
-      "perleberg": "Perleberg",
-      "wismar": "Zierow",
-      "highlights": {
-        "fulda": "Rhön & Magdeburg",
-        "magdeburg": "Waterway Intersection",
-        "perleberg": "Old Town & Wildlife Park",
-        "wismar": "Baltic Sea Flair",
-        "uelzen": "Lüneburg Heath",
-        "harz": "Harz Mountains",
-        "spessart": "Spessart/Main"
+    "badge": "Example Route",
+    "title": "Karlsruhe ⇄ Zierow",
+    "subtitle": "14 days • approx. 1,495 km • Slow travel with 5.5 t & dog",
+    "lead": "A calm, dog-friendly round trip with clear stages, fixed stops, and plenty of buffer for breaks.",
+    "keyFacts": [
+      {
+        "label": "Start",
+        "value": "June 4, 2026 (Corpus Christi, BW)"
       },
-      "details": {
-        "fulda": "Rhön (Wasserkuppe): Walk on the \"Mountain of Aviators\" with panoramic view.",
-        "magdeburg": "Magdeburg Waterway Crossing: UNESCO canal bridge over the Elbe. Perfect for dogs.",
-        "perleberg": "Perleberg Old Town with Roland statue & Perleberg Wildlife Park.",
-        "wismar": "Arrival in Zierow. Wismar Old Town (UNESCO), Poel Island, Castle Bothmer.",
-        "uelzen": "Hundertwasser Station Uelzen: Architectural art work.",
-        "harz": "Brocken hike in the Harz or with the Brocken Railway (dogs muzzle!).",
-        "spessart": "Wertheim: Historic old town at Main and Tauber with castle ruins."
+      {
+        "label": "Total distance",
+        "value": "approx. 1,495 km"
       },
-      "overnight": {
-        "fulda": "KNAUS Campingpark Hünfeld",
-        "magdeburg": "Campingplatz Barleber See",
-        "perleberg": "Kristalltherme Bad Wilsnack",
-        "wismar": "Ostsee-Camping-Ferienpark Zierow",
-        "uelzen": "Uhlenköper-Camp Uelzen",
-        "harz": "Am Brocken (Elbingerode)",
-        "spessart": "Camping Main-Spessart"
+      {
+        "label": "Trip length",
+        "value": "14 days"
       },
-      "times": {
-        "karlsruhe_fulda": "3:00 h",
-        "fulda_magdeburg": "3:30 h",
-        "magdeburg_perleberg": "1:45 h",
-        "perleberg_wismar": "1:30 h",
-        "wismar_uelzen": "2:15 h",
-        "uelzen_harz": "2:00 h",
-        "harz_spessart": "3:30 h",
-        "spessart_karlsruhe": "2:00 h"
+      {
+        "label": "Vehicle",
+        "value": "7.2 m • 3.2 m • 5.5 t"
       },
-      "distances": {
-        "karlsruhe_fulda": "210 km",
-        "fulda_magdeburg": "240 km",
-        "magdeburg_perleberg": "110 km",
-        "perleberg_wismar": "85 km",
-        "wismar_uelzen": "140 km",
-        "uelzen_harz": "130 km",
-        "harz_spessart": "230 km",
-        "spessart_karlsruhe": "160 km"
+      {
+        "label": "Budget",
+        "value": "€1,200–1,500"
       }
+    ],
+    "ruleNotice": {
+      "title": "Important for 5.5 t",
+      "items": [
+        "Observe truck overtaking bans and speed limits.",
+        "Motorways: 100 km/h only with approval, otherwise 80 km/h; rural roads max. 80 km/h.",
+        "Start on June 4, 2026 is Corpus Christi – expect heavy morning traffic."
+      ]
     },
     "details": {
-      "show": "Show detailed route",
-      "hide": "Hide details",
-      "planning": "1. Stage Planning",
-      "planningDesc": "The route is designed for slow travel with relaxed daily sections for 5.5t RV and dog. Start on 04.06.2026 is Corpus Christi (holiday in BW) – expect travel traffic.",
-      "outward": "Outward Journey",
-      "return": "Return Journey",
-      "overnight": "2. Overnights",
-      "highlights": "3. Highlights & Activities",
-      "highlightsDesc": "Top activities on the route with dog (dog beaches in the northeast).",
-      "highlightsList": {
-        "wismar": "Wismar Old Town (UNESCO) & Poel Island",
-        "perleberg": "Perleberg Old Town & Wildlife Park",
-        "magdeburg": "Magdeburg Waterway Crossing",
-        "uelzen": "Hundertwasser Station Uelzen",
-        "harz": "Brocken Hike in the Harz",
-        "wertheim": "Wertheim Old Town on the Main"
+      "show": "Show details",
+      "hide": "Hide details"
+    },
+    "stages": {
+      "title": "Stage planning",
+      "outward": {
+        "title": "Outbound",
+        "range": "June 4–7, 2026",
+        "items": [
+          {
+            "title": "Stage 1: Karlsruhe → Fulda/Rhön area",
+            "date": "June 4, 2026",
+            "distance": "approx. 210 km",
+            "duration": "approx. 3:00 h",
+            "route": "A5 to Hattenbacher Dreieck, then toward Fulda.",
+            "pause": "After ~1.5 h near Alsfeld for a dog walk.",
+            "note": "Holiday traffic possible."
+          },
+          {
+            "title": "Stage 2: Fulda area → Magdeburg/Elbe area",
+            "date": "June 5, 2026",
+            "distance": "approx. 240 km",
+            "duration": "approx. 3:30 h",
+            "route": "A7 / A4 / A71 north. The Harz bypass is often calmer than the A7 Kassel hills.",
+            "pause": "Near Sangerhausen or south of Magdeburg."
+          },
+          {
+            "title": "Stage 3: Magdeburg area → Perleberg",
+            "date": "June 6, 2026",
+            "distance": "approx. 110 km",
+            "duration": "approx. 1:45 h",
+            "route": "B189 northbound.",
+            "pause": "Short day – plenty of time for Perleberg."
+          },
+          {
+            "title": "Stage 4: Perleberg → Zierow",
+            "date": "June 7, 2026",
+            "distance": "approx. 85 km",
+            "duration": "approx. 1:30 h",
+            "route": "Final easy stretch to the campsite.",
+            "pause": "Relaxed arrival for check-in."
+          }
+        ]
       },
-      "practical": "4. Practical Tips",
-      "practicalDesc": "Vehicle: 5.5t (L: 7.2m, H: 3.2m). Speed: 80 km/h without permit, otherwise 100 km/h. Observe truck overtaking bans. Wild camping prohibited! Clesana toilet usable (residual waste).",
-      "practicalItems": {
-        "vehicle": "Vehicle",
-        "speed": "Speed",
-        "selfSufficient": "Self-sufficiency",
-        "routeStyle": "Route",
-        "time": "Time",
-        "wildCamping": "Wild camping"
+      "stay": {
+        "title": "On-site stay",
+        "range": "June 7–14 (Zierow/Wismar)",
+        "note": "Booked: Ostsee-Camping-Ferienpark Zierow."
       },
-      "practicalValues": {
-        "vehicle": "5.5t / 7.2m L / 3.2m H",
-        "speed": "80 km/h (or 100 km/h with permit)",
-        "selfSufficient": "600W Solar / 600Ah / Clesana",
-        "routeStyle": "Slow Travel for dog exercise",
-        "time": "June: Long days until 9:30 PM",
-        "wildCamping": "Prohibited! Only pitches allowed"
-      },
-      "summary": "Summary",
-      "summaryDesc": "A relaxed slow tour through Germany – ideal for June (long days until 9:30 PM sunset)."
+      "return": {
+        "title": "Return",
+        "range": "June 14–17, 2026",
+        "items": [
+          {
+            "title": "Stage 5: Zierow → Lüneburg Heath (Uelzen area)",
+            "date": "June 14, 2026",
+            "distance": "approx. 140 km",
+            "duration": "approx. 2:15 h",
+            "route": "B208 / B4 southbound (slow travel through the countryside).",
+            "pause": "Good stops at farm shops or field paths."
+          },
+          {
+            "title": "Stage 6: Uelzen area → Harz",
+            "date": "June 15, 2026",
+            "distance": "approx. 130 km",
+            "duration": "approx. 2:00 h",
+            "route": "B4 toward Braunschweig/Harz.",
+            "pause": "Dog-friendly walks near the campsite."
+          },
+          {
+            "title": "Stage 7: Harz → Spessart/Main",
+            "date": "June 16, 2026",
+            "distance": "approx. 230 km",
+            "duration": "approx. 3:30 h",
+            "route": "A7 southbound.",
+            "pause": "Lunch stop at service areas with truck lanes."
+          },
+          {
+            "title": "Stage 8: Spessart → Karlsruhe",
+            "date": "June 17, 2026",
+            "distance": "approx. 160 km",
+            "duration": "approx. 2:00 h",
+            "route": "Final leg home.",
+            "pause": "Arrival in the afternoon."
+          }
+        ]
+      }
+    },
+    "overnights": {
+      "title": "Overnights",
+      "note": "Prices are estimates for 2026 (inflation included).",
+      "items": [
+        {
+          "title": "Outbound • Fulda area",
+          "name": "KNAUS Campingpark Hünfeld",
+          "price": "approx. €35–45 / night",
+          "details": [
+            "Quiet Rhön location near A7",
+            "Restaurant Praforst by the lake",
+            "Good dog-walking paths"
+          ]
+        },
+        {
+          "title": "Outbound • Magdeburg area",
+          "name": "Campingplatz Barleber See",
+          "price": "approx. €25–35 / night",
+          "details": [
+            "Right by the lake",
+            "Snack bar/restaurant on site",
+            "Large pitches for 7 m+"
+          ]
+        },
+        {
+          "title": "Outbound • Perleberg",
+          "name": "Kristalltherme Bad Wilsnack (stellplatz)",
+          "price": "approx. €15–20 + visitor tax",
+          "details": [
+            "Very quiet, wellness option",
+            "Perleberg quickly reachable",
+            "Alternative: Stellplatz am Hagen"
+          ]
+        },
+        {
+          "title": "Destination",
+          "name": "Ostsee-Camping-Ferienpark Zierow",
+          "price": "June 7–14 booked",
+          "details": [
+            "Close to Wismar & Poel Island",
+            "Dog beaches nearby",
+            "Ideal base"
+          ]
+        },
+        {
+          "title": "Return • Lüneburg Heath",
+          "name": "Uhlenköper-Camp Uelzen",
+          "price": "approx. €30–40 / night",
+          "details": [
+            "Eco-focused, dog-friendly",
+            "Organic shop & café",
+            "Canoe rental"
+          ]
+        },
+        {
+          "title": "Return • Harz",
+          "name": "Campingplatz Am Brocken",
+          "price": "approx. €35–45 / night",
+          "details": [
+            "In the heart of the Harz",
+            "Restaurant on site",
+            "Great for hiking"
+          ]
+        },
+        {
+          "title": "Return • Spessart",
+          "name": "Camping Main-Spessart",
+          "price": "approx. €30–40 / night",
+          "details": [
+            "Right on the Main river",
+            "Inn with beer garden",
+            "Beautiful river view"
+          ]
+        }
+      ]
+    },
+    "highlights": {
+      "title": "Highlights & activities",
+      "groups": {
+        "outward": {
+          "title": "Outbound",
+          "items": [
+            "Rhön (Wasserkuppe): panoramic walk",
+            "Magdeburg waterway crossing: canal bridge over the Elbe",
+            "Perleberg old town & wildlife park"
+          ]
+        },
+        "onsite": {
+          "title": "On site",
+          "items": [
+            "Wismar old town (UNESCO) & old harbor",
+            "Poel Island: dog beaches (e.g. Timmendorf)",
+            "Schloss Bothmer in Klütz"
+          ]
+        },
+        "return": {
+          "title": "Return",
+          "items": [
+            "Hundertwasser Station Uelzen",
+            "Brocken hike or Brocken railway (dogs with muzzle)",
+            "Wertheim old town & castle ruins"
+          ]
+        }
+      }
+    },
+    "tips": {
+      "title": "Practical tips",
+      "items": [
+        {
+          "label": "Navigation",
+          "value": "Use a camper GPS with vehicle dimensions (L: 7.2 m • H: 3.2 m • 5.5 t), e.g. TomTom Go Camper or Garmin."
+        },
+        {
+          "label": "Waste",
+          "value": "Clesana toilet = residual waste. Greywater disposal available at all listed sites."
+        },
+        {
+          "label": "Fresh water",
+          "value": "Large tank; refilling possible at each station."
+        },
+        {
+          "label": "Emergency",
+          "value": "Mark veterinary clinics along the route in advance (e.g. Magdeburg, Lüneburg)."
+        }
+      ]
+    },
+    "service": {
+      "title": "On the road services",
+      "items": [
+        {
+          "label": "Fuel",
+          "value": "Truck stops are cheaper than motorway service areas. Use truck lanes if car pumps are too tight."
+        },
+        {
+          "label": "Groceries",
+          "value": "Look for large parking lots in commercial areas (e.g. Kaufland, Globus)."
+        },
+        {
+          "label": "Apps",
+          "value": "Clever Tanken, Park4Night (filter >7 m, dog friendly), Promobil Stellplatz-Radar, NINA alerts."
+        }
+      ]
+    },
+    "extras": {
+      "title": "Extra info",
+      "items": [
+        {
+          "label": "Budget",
+          "value": "Approx. €1,200–1,500 for fuel, pitches, food, and entry fees."
+        },
+        {
+          "label": "Sustainability",
+          "value": "Solar & Clesana mean no chemicals. Dispose bags in residual waste and support local farm shops."
+        },
+        {
+          "label": "Health",
+          "value": "Tick protection for the dog is essential in June; keep the vaccination record handy."
+        },
+        {
+          "label": "Best time",
+          "value": "June is ideal: long days, Baltic Sea around 15–17 °C."
+        }
+      ]
+    },
+    "tech": {
+      "title": "Tech & gear",
+      "items": [
+        {
+          "label": "Checklist",
+          "value": "Long CEE adapter cable, water hose + watering can, heavy-duty leveling ramps."
+        },
+        {
+          "label": "Tires/backup",
+          "value": "Carry a tire repair kit for trucks/RVs."
+        },
+        {
+          "label": "Self-sufficient",
+          "value": "600W solar / 600Ah / Clesana allow flexible site choice."
+        }
+      ]
+    },
+    "flexibility": {
+      "title": "Flexibility & rules",
+      "items": [
+        {
+          "label": "Wild camping",
+          "value": "Prohibited in Germany and strictly enforced in protected areas."
+        },
+        {
+          "label": "Rest break",
+          "value": "One-off overnight on parking lots is tricky with 7.2 m length – use official pitches."
+        },
+        {
+          "label": "Options",
+          "value": "Landvergnügen or farm stays are good spontaneous alternatives."
+        }
+      ]
+    },
+    "alternatives": {
+      "title": "Alternatives if congested",
+      "items": [
+        {
+          "label": "A7 outbound",
+          "value": "Detour via B27 (Fulda → Göttingen) – scenic but slower."
+        },
+        {
+          "label": "Hamburg on return",
+          "value": "Bypass Hamburg widely to the east (Uelzen/B4), avoid the Elbtunnel."
+        }
+      ]
     }
   },
   "faq": {
@@ -281,6 +507,7 @@
       "destination": "Destination",
       "period": "Period",
       "maxDist": "Max. Dist.",
+      "perDay": "day",
       "method": "AI Method",
       "direct": "Direct AI",
       "prompt": "Prompt Creation",
@@ -461,10 +688,10 @@
         "label": "Toilet System",
         "placeholder": "Select",
         "options": {
-          "cassette": "Cassette",
-          "chemical": "Chemical",
-          "dry": "Dry",
-          "fixed": "Fixed",
+          "cassette": "Cassette toilet",
+          "chemical": "Composting toilet",
+          "dry": "Incinerating toilet",
+          "fixed": "Fixed tank toilet",
           "clesana": "Clesana",
           "none": "None"
         }
@@ -503,7 +730,9 @@
           "label": "Essential Facilities",
           "options": {
             "power": "Power connection",
-            "water": "Water & Disposal",
+            "freshWater": "Fresh water supply",
+            "greyWater": "Greywater disposal",
+            "blackWater": "Blackwater disposal",
             "sanitary": "Sanitary facilities",
             "wifi": "WiFi",
             "pool": "Pool & Wellness",

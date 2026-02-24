@@ -15,6 +15,7 @@ export default function Impressum() {
       <main className="flex-1 pt-32 pb-24 px-6 relative overflow-hidden">
         {/* Decorative background orbs */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/40 dark:from-black/30 dark:via-black/60 dark:to-black/80" />
         
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div
@@ -23,8 +24,11 @@ export default function Impressum() {
             className="space-y-12"
           >
             <div className="text-center space-y-4 mb-16">
-              <span className="inline-block px-6 py-2 rounded-full border-2 border-primary/20 bg-primary/10 text-primary font-black uppercase text-[10px] tracking-[0.4em]">
-                {t("imprint.badge")}
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+                <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+                  {t("imprint.badge")}
+                </span>
               </span>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase">{t("imprint.title")}</h1>
             </div>

@@ -80,113 +80,339 @@
     }
   },
   "exampleRoute": {
-    "badge": "KI-Beispielroute",
-    "title": "Karlsruhe ⇄ Zierow (Wismar)",
-    "subtitle": "14 Tage • 1.495 km • Slow Travel mit 5,5t Wohnmobil & Hund",
-    "summary": {
-      "distance": "Gesamtstrecke",
-      "distanceValue": "1.495 km",
-      "duration": "Reisedauer",
-      "durationValue": "14 Tage",
-      "budget": "Budget",
-      "budgetValue": "1.200–1.500€",
-      "style": "Stil",
-      "styleValue": "Slow Travel",
-      "dayLabel": "Tag"
-    },
-    "stages": {
-      "stageLabel": "Etappe",
-      "karlsruhe": "Karlsruhe",
-      "fulda": "Fulda/Rhön",
-      "magdeburg": "Magdeburg",
-      "perleberg": "Perleberg",
-      "wismar": "Zierow",
-      "highlights": {
-        "fulda": "Rhön & Magdeburg",
-        "magdeburg": "Wasserstraßenkreuz",
-        "perleberg": "Altstadt & Tierpark",
-        "wismar": "Ostsee-Flair",
-        "uelzen": "Lüneburger Heide",
-        "harz": "Harz-Gebirge",
-        "spessart": "Spessart/Main"
+    "badge": "Beispielroute",
+    "title": "Karlsruhe ⇄ Zierow",
+    "subtitle": "14 Tage • ca. 1.495 km • Slow Travel mit 5,5 t & Hund",
+    "lead": "Langsame, hundefreundliche Rundreise mit klaren Etappen, festen Stopps und genügend Puffer für Pausen.",
+    "keyFacts": [
+      {
+        "label": "Start",
+        "value": "04.06.2026 (Fronleichnam, BW)"
       },
-      "details": {
-        "fulda": "Rhön (Wasserkuppe): Spaziergang auf dem \"Berg der Flieger\" mit Panoramablick.",
-        "magdeburg": "Wasserstraßenkreuz Magdeburg: UNESCO-Trogbrücke über die Elbe. Perfekt für Hunde.",
-        "perleberg": "Perleberg Altstadt mit Rolandstatue & Tierpark Perleberg.",
-        "wismar": "Ankunft in Zierow. Wismar Altstadt (UNESCO), Insel Poel, Schloss Bothmer.",
-        "uelzen": "Hundertwasser-Bahnhof Uelzen: Architektonisches Kunstwerk.",
-        "harz": "Brockenwanderung im Harz oder mit der Brockenbahn (Hunde Maulkorb!).",
-        "spessart": "Wertheim: Historische Altstadt an Main und Tauber mit Burgruine."
+      {
+        "label": "Gesamtstrecke",
+        "value": "ca. 1.495 km"
       },
-      "overnight": {
-        "fulda": "KNAUS Campingpark Hünfeld",
-        "magdeburg": "Campingplatz Barleber See",
-        "perleberg": "Kristalltherme Bad Wilsnack",
-        "wismar": "Ostsee-Camping-Ferienpark Zierow",
-        "uelzen": "Uhlenköper-Camp Uelzen",
-        "harz": "Am Brocken (Elbingerode)",
-        "spessart": "Camping Main-Spessart"
+      {
+        "label": "Reisedauer",
+        "value": "14 Tage"
       },
-      "times": {
-        "karlsruhe_fulda": "3:00 h",
-        "fulda_magdeburg": "3:30 h",
-        "magdeburg_perleberg": "1:45 h",
-        "perleberg_wismar": "1:30 h",
-        "wismar_uelzen": "2:15 h",
-        "uelzen_harz": "2:00 h",
-        "harz_spessart": "3:30 h",
-        "spessart_karlsruhe": "2:00 h"
+      {
+        "label": "Fahrzeug",
+        "value": "7,2 m • 3,2 m • 5,5 t"
       },
-      "distances": {
-        "karlsruhe_fulda": "210 km",
-        "fulda_magdeburg": "240 km",
-        "magdeburg_perleberg": "110 km",
-        "perleberg_wismar": "85 km",
-        "wismar_uelzen": "140 km",
-        "uelzen_harz": "130 km",
-        "harz_spessart": "230 km",
-        "spessart_karlsruhe": "160 km"
+      {
+        "label": "Budget",
+        "value": "1.200–1.500 €"
       }
+    ],
+    "ruleNotice": {
+      "title": "Wichtiger Hinweis für 5,5 t",
+      "items": [
+        "LKW-Überholverbote beachten und Tempo-Limits einhalten.",
+        "Auf Autobahnen meist 100 km/h nur mit Zulassung, sonst 80 km/h; Landstraße max. 80 km/h.",
+        "Start am 04.06.2026 ist Fronleichnam – am Morgen mit starkem Reiseverkehr rechnen."
+      ]
     },
     "details": {
-      "show": "Detaillierte Route anzeigen",
-      "hide": "Details ausblenden",
-      "planning": "1. Etappenplanung",
-      "planningDesc": "Die Route ist auf Slow Travel ausgelegt mit entspannten Tagesabschnitten für 5,5t Wohnmobil und Hund. Start am 04.06.2026 ist Fronleichnam (Feiertag BW) – mit Reiseverkehr rechnen.",
-      "outward": "Hinfahrt",
-      "return": "Rückfahrt",
-      "overnight": "2. Übernachtungen",
-      "highlights": "3. Highlights & Aktivitäten",
-      "highlightsDesc": "Top-Aktivitäten auf der Route mit Hund (Hundestrände im Nordosten).",
-      "highlightsList": {
-        "wismar": "Wismar Altstadt (UNESCO) & Insel Poel",
-        "perleberg": "Perleberg Altstadt & Tierpark",
-        "magdeburg": "Magdeburg Wasserstraßenkreuz",
-        "uelzen": "Hundertwasser-Bahnhof Uelzen",
-        "harz": "Brockenwanderung im Harz",
-        "wertheim": "Wertheim Altstadt am Main"
+      "show": "Details anzeigen",
+      "hide": "Details verbergen"
+    },
+    "stages": {
+      "title": "Etappenplanung",
+      "outward": {
+        "title": "Hinfahrt",
+        "range": "04.06.–07.06.2026",
+        "items": [
+          {
+            "title": "Etappe 1: Karlsruhe → Raum Fulda/Rhön",
+            "date": "04.06.2026",
+            "distance": "ca. 210 km",
+            "duration": "ca. 3:00 h",
+            "route": "A5 bis Hattenbacher Dreieck, dann Richtung Fulda.",
+            "pause": "Nach ca. 1,5 h im Bereich Alsfeld für Gassi-Runde.",
+            "note": "Feiertagsverkehr möglich."
+          },
+          {
+            "title": "Etappe 2: Raum Fulda → Raum Magdeburg/Elbe",
+            "date": "05.06.2026",
+            "distance": "ca. 240 km",
+            "duration": "ca. 3:30 h",
+            "route": "A7 / A4 / A71 Richtung Norden. Ostumfahrung Harz oft entspannter als A7 Kasseler Berge.",
+            "pause": "Bei Sangerhausen oder südlich von Magdeburg."
+          },
+          {
+            "title": "Etappe 3: Raum Magdeburg → Perleberg",
+            "date": "06.06.2026",
+            "distance": "ca. 110 km",
+            "duration": "ca. 1:45 h",
+            "route": "B189 Richtung Norden.",
+            "pause": "Kurze Etappe – Zeit für Perleberg & Umgebung."
+          },
+          {
+            "title": "Etappe 4: Perleberg → Zierow",
+            "date": "07.06.2026",
+            "distance": "ca. 85 km",
+            "duration": "ca. 1:30 h",
+            "route": "Letztes Stück entspannt bis zum Campingplatz.",
+            "pause": "Ankunft zur Check-in-Zeit in Zierow."
+          }
+        ]
       },
-      "practical": "4. Praktische Tipps",
-      "practicalDesc": "Fahrzeug: 5,5t (L: 7,2m, H: 3,2m). Geschwindigkeit: 80 km/h ohne Zulassung, sonst 100 km/h. LKW-Überholverbote beachten. Wildcamping verboten! Clesana-Toilette nutzbar (Restmüll).",
-      "practicalItems": {
-        "vehicle": "Fahrzeug",
-        "speed": "Geschwindigkeit",
-        "selfSufficient": "Autarkie",
-        "routeStyle": "Route",
-        "time": "Zeit",
-        "wildCamping": "Wildcamping"
+      "stay": {
+        "title": "Aufenthalt vor Ort",
+        "range": "07.06.–14.06. (Zierow/Wismar)",
+        "note": "Zielort fest gebucht: Ostsee-Camping-Ferienpark Zierow."
       },
-      "practicalValues": {
-        "vehicle": "5,5t / 7,2m L / 3,2m H",
-        "speed": "80 km/h (bzw. 100 km/h mit Zulassung)",
-        "selfSufficient": "600W Solar / 600Ah / Clesana",
-        "routeStyle": "Slow Travel für Hundeauslauf",
-        "time": "Juni: Lange Tage bis 21:30 Uhr",
-        "wildCamping": "Verboten! Nur Stellplätze"
-      },
-      "summary": "Zusammenfassung",
-      "summaryDesc": "Eine entspannte Slow-Tour durch Deutschland – ideal für Juni (lange Tage bis 21:30 Uhr Sonnenuntergang)."
+      "return": {
+        "title": "Rückfahrt",
+        "range": "14.06.–17.06.2026",
+        "items": [
+          {
+            "title": "Etappe 5: Zierow → Lüneburger Heide (Raum Uelzen)",
+            "date": "14.06.2026",
+            "distance": "ca. 140 km",
+            "duration": "ca. 2:15 h",
+            "route": "B208 / B4 Richtung Süden (Slow Travel über Land).",
+            "pause": "Geeignete Stopps an Feldwegen oder Hofläden."
+          },
+          {
+            "title": "Etappe 6: Raum Uelzen → Harz",
+            "date": "15.06.2026",
+            "distance": "ca. 130 km",
+            "duration": "ca. 2:00 h",
+            "route": "B4 Richtung Braunschweig/Harz.",
+            "pause": "Hundefreundliche Spaziergänge am Platz."
+          },
+          {
+            "title": "Etappe 7: Harz → Spessart/Main",
+            "date": "16.06.2026",
+            "distance": "ca. 230 km",
+            "duration": "ca. 3:30 h",
+            "route": "A7 Richtung Süden.",
+            "pause": "Lunch-Stopp an Autohöfen mit LKW-Spur."
+          },
+          {
+            "title": "Etappe 8: Spessart → Karlsruhe",
+            "date": "17.06.2026",
+            "distance": "ca. 160 km",
+            "duration": "ca. 2:00 h",
+            "route": "Letzte Etappe nach Hause.",
+            "pause": "Ankunft am Nachmittag."
+          }
+        ]
+      }
+    },
+    "overnights": {
+      "title": "Übernachtungen",
+      "note": "Preise sind Schätzungen für 2026 (Inflation berücksichtigt).",
+      "items": [
+        {
+          "title": "Hinfahrt • Raum Fulda",
+          "name": "KNAUS Campingpark Hünfeld",
+          "price": "ca. 35–45 € / Nacht",
+          "details": [
+            "Ruhige Rhönlage nahe der A7",
+            "Restaurant Praforst am See",
+            "Gute Gassigehwege"
+          ]
+        },
+        {
+          "title": "Hinfahrt • Raum Magdeburg",
+          "name": "Campingplatz Barleber See",
+          "price": "ca. 25–35 € / Nacht",
+          "details": [
+            "Direkt am See",
+            "Imbiss/Restaurant vor Ort",
+            "Große Parzellen für 7 m+"
+          ]
+        },
+        {
+          "title": "Hinfahrt • Perleberg",
+          "name": "Stellplatz Kristalltherme Bad Wilsnack",
+          "price": "ca. 15–20 € + Kurtaxe",
+          "details": [
+            "Sehr ruhig, Wellness-Option",
+            "Perleberg schnell erreichbar",
+            "Alternative: Stellplatz am Hagen"
+          ]
+        },
+        {
+          "title": "Zielort",
+          "name": "Ostsee-Camping-Ferienpark Zierow",
+          "price": "07.–14.06. fest gebucht",
+          "details": [
+            "Wismar & Insel Poel in der Nähe",
+            "Hundestrände erreichbar",
+            "Idealer Ausgangspunkt"
+          ]
+        },
+        {
+          "title": "Rückfahrt • Lüneburger Heide",
+          "name": "Uhlenköper-Camp Uelzen",
+          "price": "ca. 30–40 € / Nacht",
+          "details": [
+            "Ökologisch, hundefreundlich",
+            "Bioladen & Café",
+            "Kanuverleih"
+          ]
+        },
+        {
+          "title": "Rückfahrt • Harz",
+          "name": "Campingplatz Am Brocken",
+          "price": "ca. 35–45 € / Nacht",
+          "details": [
+            "Mitten im Harz",
+            "Restaurant am Platz",
+            "Top zum Wandern"
+          ]
+        },
+        {
+          "title": "Rückfahrt • Spessart",
+          "name": "Camping Main-Spessart",
+          "price": "ca. 30–40 € / Nacht",
+          "details": [
+            "Direkt am Mainufer",
+            "Gasthof mit Biergarten",
+            "Schöner Flussblick"
+          ]
+        }
+      ]
+    },
+    "highlights": {
+      "title": "Highlights & Aktivitäten",
+      "groups": {
+        "outward": {
+          "title": "Hinfahrt",
+          "items": [
+            "Rhön (Wasserkuppe): Spaziergang mit Panorama",
+            "Wasserstraßenkreuz Magdeburg: Trogbrücke über die Elbe",
+            "Perleberg Altstadt & Tierpark"
+          ]
+        },
+        "onsite": {
+          "title": "Vor Ort",
+          "items": [
+            "Wismar Altstadt (UNESCO) & Alter Hafen",
+            "Insel Poel: Hundestrände (z. B. Timmendorf)",
+            "Schloss Bothmer in Klütz"
+          ]
+        },
+        "return": {
+          "title": "Rückfahrt",
+          "items": [
+            "Hundertwasser-Bahnhof Uelzen",
+            "Brockenwanderung oder Brockenbahn (Hund mit Maulkorb)",
+            "Wertheim Altstadt & Burgruine"
+          ]
+        }
+      }
+    },
+    "tips": {
+      "title": "Praktische Tipps",
+      "items": [
+        {
+          "label": "Navigation",
+          "value": "Navi mit Fahrzeugmaßen (L: 7,2 m • H: 3,2 m • 5,5 t) nutzen, z. B. TomTom Go Camper oder Garmin."
+        },
+        {
+          "label": "Entsorgung",
+          "value": "Clesana-Toilette = Restmüll. Grauwasser-Entsorgung auf allen genannten Plätzen."
+        },
+        {
+          "label": "Frischwasser",
+          "value": "Großer Tank, Auffüllen an jeder Station möglich."
+        },
+        {
+          "label": "Notfall",
+          "value": "Tierkliniken entlang der Route vorab markieren (z. B. Magdeburg, Lüneburg)."
+        }
+      ]
+    },
+    "service": {
+      "title": "Service unterwegs",
+      "items": [
+        {
+          "label": "Tanken",
+          "value": "Autohöfe sind günstiger als Autobahn. LKW-Spuren nutzen, wenn PKW-Säulen zu eng sind."
+        },
+        {
+          "label": "Einkaufen",
+          "value": "Große Parkplätze in Gewerbegebieten suchen (z. B. Kaufland, Globus)."
+        },
+        {
+          "label": "Apps",
+          "value": "Clever Tanken, Park4Night (>7 m, Hund erlaubt), Promobil Stellplatz-Radar, Warn-App NINA."
+        }
+      ]
+    },
+    "extras": {
+      "title": "Zusatzinfos",
+      "items": [
+        {
+          "label": "Budget",
+          "value": "Ca. 1.200–1.500 € für Sprit, Stellplätze, Verpflegung und Eintritte."
+        },
+        {
+          "label": "Nachhaltigkeit",
+          "value": "Dank Solar & Clesana ohne Chemie. Beutel im Restmüll entsorgen, regionale Hofläden nutzen."
+        },
+        {
+          "label": "Gesundheit",
+          "value": "Zeckenschutz für den Hund im Juni Pflicht, Impfausweis griffbereit."
+        },
+        {
+          "label": "Reisezeit",
+          "value": "Juni ist ideal: lange Tage, Ostsee ca. 15–17 °C."
+        }
+      ]
+    },
+    "tech": {
+      "title": "Technik & Ausrüstung",
+      "items": [
+        {
+          "label": "Checkliste",
+          "value": "CEE-Adapterkabel (lang), Wasserschlauch + Gießkanne, Auffahrkeile (Heavy Duty)."
+        },
+        {
+          "label": "Reifen/Notfall",
+          "value": "Reifenreparaturset für LKW/Reisemobile mitführen."
+        },
+        {
+          "label": "Autarkie",
+          "value": "600W Solar / 600Ah / Clesana – daher flexible Platzwahl möglich."
+        }
+      ]
+    },
+    "flexibility": {
+      "title": "Flexibilität & Rechtliches",
+      "items": [
+        {
+          "label": "Wildcamping",
+          "value": "In Deutschland verboten, in Schutzgebieten streng kontrolliert."
+        },
+        {
+          "label": "Fahrtüchtigkeit",
+          "value": "Einmaliges Übernachten auf Parkplätzen bei 7,2 m oft schwierig – lieber Stellplätze."
+        },
+        {
+          "label": "Optionen",
+          "value": "Landvergnügen oder Bauernhöfe sind gute spontane Alternativen."
+        }
+      ]
+    },
+    "alternatives": {
+      "title": "Alternativen bei Stau",
+      "items": [
+        {
+          "label": "A7 Hinfahrt",
+          "value": "Ausweichen über die B27 (Fulda → Göttingen) – landschaftlich schön, aber langsamer."
+        },
+        {
+          "label": "Hamburg Rückfahrt",
+          "value": "Hamburg weiträumig östlich umfahren (Uelzen/B4), Elbtunnel meiden."
+        }
+      ]
     }
   },
   "faq": {
@@ -281,6 +507,7 @@
       "destination": "Ziel",
       "period": "Zeitraum",
       "maxDist": "Max. Distanz",
+      "perDay": "Tag",
       "method": "KI-Methode",
       "direct": "Direkt-Generierung",
       "prompt": "Prompt-Erstellung",
@@ -461,10 +688,10 @@
         "label": "WC-System",
         "placeholder": "Wählen",
         "options": {
-          "cassette": "Kassette",
-          "chemical": "Chemie",
-          "dry": "Trocken",
-          "fixed": "Festtank",
+          "cassette": "Kassettentoilette",
+          "chemical": "Trockentrenntoilette",
+          "dry": "Verbrennertoilette",
+          "fixed": "Festtanktoilette",
           "clesana": "Clesana",
           "none": "Keine"
         }
@@ -503,7 +730,9 @@
           "label": "Wichtige Ausstattung",
           "options": {
             "power": "Stromanschluss",
-            "water": "Ver- & Entsorgung",
+            "freshWater": "Frischwasserversorgung",
+            "greyWater": "Grauwasserentsorgung",
+            "blackWater": "Schwarzwasserentsorgung",
             "sanitary": "Sanitäranlagen",
             "wifi": "WLAN",
             "pool": "Pool & Wellness",

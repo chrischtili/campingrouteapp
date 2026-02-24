@@ -36,7 +36,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     <div className="space-y-12">
       <div className="space-y-4 text-left">
         <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-left text-white">
-          <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
+          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
             <Map className="w-6 h-6" />
           </div>
           {t("planner.route.title")}

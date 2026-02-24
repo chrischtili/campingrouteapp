@@ -92,7 +92,7 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
         {categories.map((cat) => (
           <div key={cat.id} className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left" style={glassPanelStyle}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10">
+              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
                 <cat.icon className="w-5 h-5" />
               </div>
               <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">

@@ -40,6 +40,7 @@ export function FeaturesSection() {
           className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-secondary/15 rounded-full blur-[150px]" 
         />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-background/40 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/15 dark:from-black/20 dark:via-black/40 dark:to-black/60" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -47,9 +48,12 @@ export function FeaturesSection() {
           <motion.span 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="inline-block px-6 py-2 rounded-full border-2 border-primary/20 bg-primary/10 text-primary font-black uppercase text-[10px] tracking-[0.4em]"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
           >
-            {t("features.badge")}
+            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+              {t("features.badge")}
+            </span>
           </motion.span>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}

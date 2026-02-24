@@ -216,8 +216,19 @@ export function RoutePlanner() {
       </Suspense>
 
       {!showForm && (
-        <section className="py-32 px-4 text-center bg-secondary relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/20 rounded-full blur-[80px] pointer-events-none" />
+        <section className="py-32 px-4 text-center bg-[#0b1110] relative overflow-hidden border-y border-white/5">
+          <div className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-40">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="map-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1" />
+                  <circle cx="40" cy="40" r="1.5" fill="currentColor" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#map-grid)" />
+            </svg>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/80 pointer-events-none" />
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -236,36 +247,51 @@ export function RoutePlanner() {
                   }
                 }, 100);
               }}
-              className="group gap-2 sm:gap-4 text-white px-6 sm:px-12 py-4 sm:py-10 rounded-[1.5rem] sm:rounded-[2rem] shadow-2xl transition-all hover:scale-105 border-2 border-primary/50"
+              className="relative inline-flex items-center gap-4 px-10 sm:px-12 py-5 sm:py-6 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md text-primary hover:text-primary hover:border-primary/50 transition overflow-hidden"
               size="lg"
               style={{
-                background: "rgba(245, 155, 10, 0.3)",
+                background: "rgba(245, 155, 10, 0.2)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
               }}
             >
-              <Route className="w-6 h-6 sm:w-8 sm:h-8 group-hover:rotate-12 transition-transform" />
-              <span className="text-xl sm:text-2xl font-black uppercase tracking-tighter">{t("planner.cta")}</span>
+              <span aria-hidden className="absolute inset-0">
+                <span className="absolute -top-8 -left-10 h-32 w-32 rounded-full bg-primary/25 blur-2xl" />
+                <span className="absolute -bottom-10 -right-10 h-36 w-36 rounded-full bg-secondary/35 blur-2xl" />
+              </span>
+              <span className="relative z-10 flex h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
+              <span className="relative z-10 text-sm sm:text-base font-black uppercase tracking-[0.3em]">{t("planner.cta")}</span>
             </Button>
           </motion.div>
         </section>
       )}
 
       {showForm && (
-        <section id="planner" className="py-24 px-4 bg-[#0a140f] text-white relative overflow-hidden dark:bg-[#0a140f]">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px]" />
+        <section id="planner" className="py-24 px-4 bg-[#0b1110] text-white relative overflow-hidden border-y border-white/5">
+          <div className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-40">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="map-grid-open" width="80" height="80" patternUnits="userSpaceOnUse">
+                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1" />
+                  <circle cx="40" cy="40" r="1.5" fill="currentColor" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#map-grid-open)" />
+            </svg>
           </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/80 pointer-events-none" />
 
           <div className="max-w-5xl mx-auto relative z-10 text-white">
             <div className="text-center mb-24">
               <motion.span 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-primary font-black text-xs uppercase tracking-[0.4em] bg-primary/10 px-6 py-2 rounded-full border-2 border-primary/20 inline-block"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
               >
-                {t("planner.badge")}
+                <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+                  {t("planner.badge")}
+                </span>
               </motion.span>
               <motion.h2 
                 initial={{ opacity: 0, y: 10 }}
@@ -403,7 +429,7 @@ export function RoutePlanner() {
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40">
+                            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
                               <Calendar className="w-5 h-5" />
                             </div>
                             <div className="flex flex-col">
@@ -415,12 +441,12 @@ export function RoutePlanner() {
                             </div>
                           </div>
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40">
+                            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
                               <Route className="w-5 h-5" />
                             </div>
                             <div className="flex flex-col">
                               <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.maxDist")}</span>
-                              <span className="text-sm font-bold text-white">{formData.maxDailyDistance} km / {t("exampleRoute.summary.dayLabel")}</span>
+                              <span className="text-sm font-bold text-white">{formData.maxDailyDistance} km / {t("planner.summary.perDay")}</span>
                             </div>
                           </div>
                         </div>
@@ -447,7 +473,7 @@ export function RoutePlanner() {
                         { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Heart },
                       ].map((stat, i) => (
                         <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">
-                          <stat.icon className="w-5 h-5 text-white/20 group-hover:text-primary transition-colors" />
+                          <stat.icon className="w-5 h-5 text-primary/80 group-hover:text-primary transition-colors" />
                           <div className="flex flex-col">
                             <span className="text-[8px] font-black uppercase tracking-[0.2em] text-white/30">{stat.label}</span>
                             <span className="text-xs font-black text-white">{stat.value}</span>

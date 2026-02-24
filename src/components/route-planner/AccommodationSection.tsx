@@ -51,7 +51,9 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       name: 'facilities',
       options: [
         { value: 'power', label: t("planner.accommodation.categories.facilities.options.power") },
-        { value: 'water', label: t("planner.accommodation.categories.facilities.options.water") },
+        { value: 'freshWater', label: t("planner.accommodation.categories.facilities.options.freshWater") },
+        { value: 'greyWater', label: t("planner.accommodation.categories.facilities.options.greyWater") },
+        { value: 'blackWater', label: t("planner.accommodation.categories.facilities.options.blackWater") },
         { value: 'sanitary', label: t("planner.accommodation.categories.facilities.options.sanitary") },
         { value: 'wifi', label: t("planner.accommodation.categories.facilities.options.wifi") },
         { value: 'pool', label: t("planner.accommodation.categories.facilities.options.pool") },
@@ -120,7 +122,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             style={glassPanelStyle}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10">
+              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
                 <cat.icon className="w-5 h-5" />
               </div>
               <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">

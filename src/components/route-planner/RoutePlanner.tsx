@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Users, Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
@@ -26,6 +27,9 @@ const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQ
 
 export function RoutePlanner() {
   const { t, i18n } = useTranslation();
+  const STORAGE_KEY = "cr_form_state_v1";
+  const STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [aiSettings, setAISettings] = useState<AISettings>(initialAISettings);
   const [output, setOutput] = useState<string>('');
@@ -36,9 +40,15 @@ export function RoutePlanner() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [saveFormLocally, setSaveFormLocally] = useState<boolean>(false);
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+
+  const sanitizeAISettings = (settings: AISettings): AISettings => ({
+    ...settings,
+    apiKey: ''
+  });
 
   // AUTO-OPEN LOGIC
   useEffect(() => {
@@ -57,6 +67,49 @@ export function RoutePlanner() {
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw);
+      if (!saved?.savedAt || Date.now() - saved.savedAt > STORAGE_TTL_MS) {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+      if (saved?.saveFormLocally) {
+        setFormData({ ...initialFormData, ...(saved.formData || {}) });
+        setAISettings({ ...initialAISettings, ...(saved.aiSettings || {}), apiKey: '' });
+        setSaveFormLocally(true);
+      }
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!saveFormLocally) {
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    const payload = {
+      savedAt: Date.now(),
+      saveFormLocally: true,
+      formData,
+      aiSettings: sanitizeAISettings(aiSettings),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }, [
+    saveFormLocally,
+    formData,
+    aiSettings.aiProvider,
+    aiSettings.useDirectAI,
+    aiSettings.openaiModel,
+    aiSettings.mistralModel,
+    aiSettings.googleModel,
+  ]);
 
   const steps = [
     { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
@@ -480,6 +533,38 @@ export function RoutePlanner() {
                           </div>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-left">
+                      <div className="space-y-2">
+                        <div className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                          {t("planner.summary.save.title")}
+                        </div>
+                        <div className="text-xs text-white/60 leading-relaxed">
+                          {t("planner.summary.save.desc")}
+                        </div>
+                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/80">
+                          {t("planner.summary.save.note")}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <Switch
+                          checked={saveFormLocally}
+                          onCheckedChange={(checked) => setSaveFormLocally(checked)}
+                          aria-label={t("planner.summary.save.title")}
+                          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(245,155,10,0.35)]"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            setSaveFormLocally(false);
+                          }}
+                          className="rounded-xl px-4 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95"
+                        >
+                          {t("planner.summary.save.clear")}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}

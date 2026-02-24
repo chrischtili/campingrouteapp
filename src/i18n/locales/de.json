@@ -467,7 +467,7 @@
         "q": "Was passiert mit meinen eingegebenen Daten?",
         "title": "Deine Daten bleiben auf deinem Gerät.",
         "device": "Lokal & Sicher",
-        "device1": "Wir betreiben kein Backend und keine Datenbank! Alle Eingaben (inkl. API-Keys) werden nur lokal auf deinem Gerät in deinem Browser gespeichert (Local Storage).",
+        "device1": "Wir betreiben kein Backend und keine Datenbank! Wenn du die Speicherung aktivierst, werden deine Eingaben (ohne API-Keys) lokal auf deinem Gerät für 30 Tage gespeichert.",
         "sec": "Keine Server-Übertragung",
         "sec1": "Deine Daten verlassen dein Gerät nur, wenn du sie direkt an die API des gewählten KI-Anbieters sendest."
       },
@@ -517,7 +517,13 @@
       "style": "Stil",
       "interests": "Interessen",
       "selected": "gewählt",
-      "notSelected": "Nicht gewählt"
+      "notSelected": "Nicht gewählt",
+      "save": {
+        "title": "Eingaben lokal speichern",
+        "desc": "Speichert deine Formulareingaben für 30 Tage lokal auf diesem Gerät. Mit „Daten löschen“ entfernst du die gespeicherten Daten von diesem Gerät.",
+        "note": "API-Keys werden niemals gespeichert.",
+        "clear": "Daten löschen"
+      }
     },
     "steps": {
       "ai": {
@@ -562,10 +568,10 @@
       },
       "apiKey": {
         "label": "API-Schlüssel",
-        "hint": "Dein Key bleibt nur lokal in deinem Browser.",
+        "hint": "Dein Key wird nicht gespeichert und nur für diese Sitzung genutzt.",
         "placeholder": "Dein API-Schlüssel",
         "create": "API-Schlüssel bei {{name}} erstellen →",
-        "security": "Camping Route ist <b>eine reine Frontend-App ohne Backend oder Datenbank!</b> Wir speichern oder sehen deinen API-Key niemals. Er wird ausschließlich lokal in deinem Browser gespeichert und verschlüsselt direkt an den KI-Anbieter gesendet."
+        "security": "Camping Route ist <b>eine reine Frontend-App ohne Backend oder Datenbank!</b> Wir speichern oder sehen deinen API-Key niemals. Er bleibt nur in dieser Sitzung im Browser und wird verschlüsselt direkt an den KI-Anbieter gesendet."
       }
     },
     "route": {
@@ -871,7 +877,7 @@
       "title": "Datenverarbeitung & KI",
       "local": {
         "title": "Lokale Speicherung (Local Storage)",
-        "description": "Um dir die Nutzung so angenehm wie möglich zu machen, speichern wir deine Formulareingaben und Einstellungen (wie z.B. gewählte Sprache oder eingegebene API-Schlüssel) ausschließlich lokal in deinem Browser (Local Storage). Diese Daten werden nicht an unsere Server übertragen."
+        "description": "Wenn du die lokale Speicherung aktivierst, werden deine Formulareingaben und Einstellungen (z.B. gewählte Sprache) ausschließlich lokal in deinem Browser gespeichert und nach 30 Tagen automatisch gelöscht. API-Schlüssel werden niemals gespeichert. Diese Daten werden nicht an unsere Server übertragen."
       },
       "ai": {
         "title": "KI-Integration (OpenAI, Gemini, Mistral)",

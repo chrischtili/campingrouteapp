@@ -467,7 +467,7 @@
         "q": "What happens to my entered data?",
         "title": "Your data stays on your device.",
         "device": "Local & Secure",
-        "device1": "We have no backend and no database! All inputs (incl. API keys) are saved only locally on your device in your browser (Local Storage).",
+        "device1": "We have no backend and no database! If you enable saving, your inputs (excluding API keys) are stored locally on your device for 30 days.",
         "sec": "No Server Transmission",
         "sec1": "Your data only leaves your device if you send it directly to the API of the chosen AI provider."
       },
@@ -517,7 +517,13 @@
       "style": "Style",
       "interests": "Interests",
       "selected": "selected",
-      "notSelected": "Not selected"
+      "notSelected": "Not selected",
+      "save": {
+        "title": "Save inputs locally",
+        "desc": "Stores your form inputs on this device for 30 days. Use “Clear data” to remove the saved data from this device.",
+        "note": "API keys are never stored.",
+        "clear": "Clear data"
+      }
     },
     "steps": {
       "ai": {
@@ -562,10 +568,10 @@
       },
       "apiKey": {
         "label": "API Key",
-        "hint": "Your key stays local in your browser only.",
+        "hint": "Your key is not stored and is used only for this session.",
         "placeholder": "Your key",
         "create": "Create API key at {{name}} →",
-        "security": "Camping Route is <b>a pure frontend app with no backend or database!</b> We never store or see your API key. It is stored exclusively locally in your browser and sent encrypted directly to the AI provider."
+        "security": "Camping Route is <b>a pure frontend app with no backend or database!</b> We never store or see your API key. It stays only in this browser session and is sent encrypted directly to the AI provider."
       }
     },
     "route": {
@@ -871,7 +877,7 @@
       "title": "Data Processing & AI",
       "local": {
         "title": "Local Storage",
-        "description": "To make your experience as smooth as possible, we save your form inputs and settings (such as chosen language or entered API keys) exclusively locally in your browser (Local Storage). This data is never transmitted to our servers."
+        "description": "If you enable local saving, your form inputs and settings (e.g., chosen language) are stored only in your browser and are automatically deleted after 30 days. API keys are never stored. This data is never transmitted to our servers."
       },
       "ai": {
         "title": "AI Integration (OpenAI, Gemini, Mistral)",

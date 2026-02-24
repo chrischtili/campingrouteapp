@@ -23,24 +23,24 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8 reveal-once">
           <span className="flex h-2 w-2 rounded-full bg-primary" />
           <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
             {t("hero.badge")}
           </span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem] font-black text-white mb-6 md:mb-8 lg:mb-12 tracking-tighter leading-[0.9] drop-shadow-2xl text-center w-full">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem] font-black text-white mb-6 md:mb-8 lg:mb-12 tracking-tighter leading-[0.9] drop-shadow-2xl text-center w-full reveal-once delay-1">
           Camping<span className="text-primary">Route</span>
         </h1>
 
-        <div className="max-w-xl sm:max-w-2xl mx-auto mb-8 md:mb-12 lg:mb-16 px-4 sm:px-6 md:px-0">
+        <div className="max-w-xl sm:max-w-2xl mx-auto mb-8 md:mb-12 lg:mb-16 px-4 sm:px-6 md:px-0 reveal-once delay-2">
           <p className="text-xs sm:text-sm md:text-base lg:text-xl text-white/80 font-medium tracking-tight leading-relaxed drop-shadow-sm">
             {t("hero.description")}
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 md:gap-4 justify-center items-center">
+        <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 md:gap-4 justify-center items-center reveal-once delay-3">
           <Button
             size="sm"
             onClick={() => onStartPlanning?.()}
@@ -70,7 +70,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           </Button>
         </div>
 
-        <div className="mt-8 md:mt-24 lg:mt-32 inline-block mx-auto w-full max-w-md sm:max-w-xl md:max-w-2xl">
+        <div className="mt-8 md:mt-24 lg:mt-32 inline-block mx-auto w-full max-w-md sm:max-w-xl md:max-w-2xl reveal-once delay-4">
           <div className="px-4 py-4 sm:px-6 sm:py-6 md:px-12 md:py-8 lg:px-16 lg:py-10 rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] border-white/20 bg-white/5 backdrop-blur-md border-2 flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-16 shadow-xl sm:shadow-2xl shadow-black/10">
             {[
               { value: t("hero.stats.rating.value"), label: t("hero.stats.rating.label") },

@@ -103,3 +103,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   from, to { opacity: 1; }
   50% { opacity: 0; }
 }
+
+@keyframes fade-up-once {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-once {
+    animation: fade-up-once 0.55s ease-out both;
+  }
+  .reveal-once.delay-1 { animation-delay: 0.08s; }
+  .reveal-once.delay-2 { animation-delay: 0.16s; }
+  .reveal-once.delay-3 { animation-delay: 0.24s; }
+  .reveal-once.delay-4 { animation-delay: 0.32s; }
+}

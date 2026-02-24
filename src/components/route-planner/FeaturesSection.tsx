@@ -28,13 +28,13 @@ export function FeaturesSection() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16 sm:mb-32 space-y-4 sm:space-y-8">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md reveal-once">
             <span className="flex h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
               {t("features.badge")}
             </span>
           </span>
-          <h2 className="text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tighter uppercase leading-[0.9]">
+          <h2 className="text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tighter uppercase leading-[0.9] reveal-once delay-1">
             {t("features.title")}
           </h2>
         </div>
@@ -43,7 +43,8 @@ export function FeaturesSection() {
           {features.map((f, i) => (
             <div
               key={i}
-              className="relative group h-full"
+              className="relative group h-full reveal-once"
+              style={{ animationDelay: `${Math.min(i, 4) * 0.08}s` }}
             >
               {/* 
                   THE MASTER GLASS CARD

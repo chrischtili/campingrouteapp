@@ -34,13 +34,13 @@ export function TestimonialsSection() {
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-24">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8 reveal-once">
             <span className="flex h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
               {t("testimonials.badge")}
             </span>
           </span>
-          <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.9]">
+          <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.9] reveal-once delay-1">
             {t("testimonials.title")}
           </h2>
         </div>
@@ -49,7 +49,8 @@ export function TestimonialsSection() {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="group flex flex-col h-full"
+              className="group flex flex-col h-full reveal-once"
+              style={{ animationDelay: `${Math.min(i, 4) * 0.08}s` }}
             >
               <div className="relative flex-1 flex flex-col mb-8">
                 {/* The "Frosted Glass" Style with h-full to match heights */}

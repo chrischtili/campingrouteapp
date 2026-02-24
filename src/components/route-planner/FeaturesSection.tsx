@@ -1,5 +1,4 @@
 import { Compass, Zap, Filter, Shield, Github, Gift, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export function FeaturesSection() {
@@ -17,61 +16,33 @@ export function FeaturesSection() {
   return (
     <section className="py-32 px-6 bg-background relative overflow-hidden" id="features">
       {/* 
-          ANIMATED BACKGROUND BLOBS 
-          These are essential! They move behind the glass cards to make the blur effect visible.
+          BACKGROUND BLOBS 
+          Static for performance, still provide depth behind the glass cards.
       */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div 
-          animate={{ 
-            x: [0, 100, 0], 
-            y: [0, 50, 0],
-            rotate: [0, 360]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" 
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, -100, 0], 
-            y: [0, -50, 0],
-            rotate: [360, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-secondary/15 rounded-full blur-[150px]" 
-        />
+        <div className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-secondary/15 rounded-full blur-[150px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-background/40 backdrop-blur-[2px]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/15 dark:from-black/20 dark:via-black/40 dark:to-black/60" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16 sm:mb-32 space-y-4 sm:space-y-8">
-          <motion.span 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+            <span className="flex h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
               {t("features.badge")}
             </span>
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tighter uppercase leading-[0.9]"
-          >
+          </span>
+          <h2 className="text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tighter uppercase leading-[0.9]">
             {t("features.title")}
-          </motion.h2>
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
           {features.map((f, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.8 }}
               className="relative group h-full"
             >
               {/* 
@@ -116,7 +87,7 @@ export function FeaturesSection() {
                   </a>
                 )}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,5 +1,4 @@
-import { Star, Quote, User } from "lucide-react";
-import { motion } from "framer-motion";
+import { Star, Quote } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export function TestimonialsSection() {
@@ -34,14 +33,9 @@ export function TestimonialsSection() {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-black/50 dark:to-black/70" />
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-24"
-        >
+        <div className="text-center mb-24">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
-            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="flex h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
               {t("testimonials.badge")}
             </span>
@@ -49,16 +43,12 @@ export function TestimonialsSection() {
           <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.9]">
             {t("testimonials.title")}
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 items-stretch">
           {testimonials.map((t, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
               className="group flex flex-col h-full"
             >
               <div className="relative flex-1 flex flex-col mb-8">
@@ -95,7 +85,7 @@ export function TestimonialsSection() {
                   <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black">{t.role}</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

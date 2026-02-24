@@ -1,6 +1,4 @@
-import { MapPin, Compass, ChevronRight, Play } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { MapPin, ChevronRight, Play } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
@@ -11,34 +9,11 @@ interface HeroSectionProps {
 export function HeroSection({ onStartPlanning }: HeroSectionProps) {
   const { t } = useTranslation();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.8, ease: [0.21, 0.45, 0.32, 0.9] } 
-    },
-  };
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background" id="home">
       {/* Background Image with Ken Burns Effect */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.img
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 15, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+        <img
           src="/campingroute.webp"
           alt={t("hero.title")}
           className="w-full h-full object-cover"
@@ -48,44 +23,24 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
+          <span className="flex h-2 w-2 rounded-full bg-primary" />
           <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
             {t("hero.badge")}
           </span>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.21, 0.45, 0.32, 0.9] }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem] font-black text-white mb-6 md:mb-8 lg:mb-12 tracking-tighter leading-[0.9] drop-shadow-2xl text-center w-full"
-        >
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem] font-black text-white mb-6 md:mb-8 lg:mb-12 tracking-tighter leading-[0.9] drop-shadow-2xl text-center w-full">
           Camping<span className="text-primary">Route</span>
-        </motion.h1>
+        </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="max-w-xl sm:max-w-2xl mx-auto mb-8 md:mb-12 lg:mb-16 px-4 sm:px-6 md:px-0"
-        >
+        <div className="max-w-xl sm:max-w-2xl mx-auto mb-8 md:mb-12 lg:mb-16 px-4 sm:px-6 md:px-0">
           <p className="text-xs sm:text-sm md:text-base lg:text-xl text-white/80 font-medium tracking-tight leading-relaxed drop-shadow-sm">
             {t("hero.description")}
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="flex flex-col gap-2 sm:flex-row sm:gap-3 md:gap-4 justify-center items-center"
-        >
+        <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 md:gap-4 justify-center items-center">
           <Button
             size="sm"
             onClick={() => onStartPlanning?.()}
@@ -113,14 +68,9 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
               {t("hero.viewExample")}
             </a>
           </Button>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="mt-8 md:mt-24 lg:mt-32 inline-block mx-auto w-full max-w-md sm:max-w-xl md:max-w-2xl"
-        >
+        <div className="mt-8 md:mt-24 lg:mt-32 inline-block mx-auto w-full max-w-md sm:max-w-xl md:max-w-2xl">
           <div className="px-4 py-4 sm:px-6 sm:py-6 md:px-12 md:py-8 lg:px-16 lg:py-10 rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] border-white/20 bg-white/5 backdrop-blur-md border-2 flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-16 shadow-xl sm:shadow-2xl shadow-black/10">
             {[
               { value: t("hero.stats.rating.value"), label: t("hero.stats.rating.label") },
@@ -133,17 +83,13 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30"
-      >
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30">
         <ChevronRight className="w-6 h-6 rotate-90" />
-      </motion.div>
+      </div>
     </section>
   );
 }

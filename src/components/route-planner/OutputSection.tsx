@@ -279,14 +279,14 @@ export function OutputSection({
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-primary/20 bg-primary/5 flex flex-col md:flex-row items-center gap-8 shadow-xl"
+          className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-white/25 bg-white/15 flex flex-col md:flex-row items-center gap-8 shadow-xl"
         >
           <div className="w-16 h-16 rounded-3xl bg-primary flex items-center justify-center text-white shrink-0 shadow-2xl shadow-primary/40 rotate-3">
             <ChevronRight className="w-8 h-8" />
           </div>
-          <div className="space-y-2 text-center md:text-left">
-            <h4 className="text-xl font-black text-white uppercase tracking-tighter">{t("planner.output.nextSteps.title")}</h4>
-            <p className="text-white/60 text-base leading-relaxed">
+          <div className="space-y-2 text-center md:text-left bg-black/45 border border-white/10 rounded-2xl px-5 py-4 backdrop-blur-sm">
+            <h4 className="text-2xl font-black text-white uppercase tracking-tighter drop-shadow">{t("planner.output.nextSteps.title")}</h4>
+            <p className="text-white text-lg leading-relaxed font-bold drop-shadow">
               {t("planner.output.nextSteps.description")}
             </p>
           </div>

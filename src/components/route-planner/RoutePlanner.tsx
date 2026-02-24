@@ -201,6 +201,9 @@ export function RoutePlanner() {
     setIsLoading(true);
     setAIError('');
     setOutput('');
+    setTimeout(() => {
+      outputSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
 
     try {
       if (aiSettings.useDirectAI) {
@@ -613,9 +616,9 @@ export function RoutePlanner() {
               isLoading={isLoading}
               loadingMessage={loadingMessage}
               aiModel={aiModel}
-              aiProvider={aiSettings.aiProvider}
               aiError={aiError}
               useDirectAI={aiSettings.useDirectAI}
+              gpxOutputMode={formData.gpxOutputMode}
             />
           </div>
         </section>

@@ -8,9 +8,20 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString(locale);
 }
 
+function buildGpxInstructions(data: FormData, t: (key: string, options?: any) => string): string {
+  const modes = data.gpxOutputMode || [];
+  if (modes.length === 0) return '';
+  const wantsGarmin = modes.includes('garmin');
+  const wantsRouteTrack = modes.includes('routeTrack');
+  if (wantsGarmin && wantsRouteTrack) return t("prompt.gpx.both");
+  if (wantsGarmin) return t("prompt.gpx.garmin");
+  return t("prompt.gpx.routeTrack");
+}
+
 export function generatePrompt(data: FormData): string {
   const t = (key: string, options?: any) => i18next.t(key, options);
   const languageName = i18next.language === 'de' ? 'Deutsch' : 'English';
+  const gpxInstructions = buildGpxInstructions(data, t);
 
   return `${t("prompt.systemRole", { language: languageName })}
 
@@ -73,6 +84,7 @@ ${data.additionalInfo}
 ` : ''}
 
 ${t("prompt.instructions")}
+${gpxInstructions ? `\n\n${gpxInstructions}` : ''}
 `;
 }
 

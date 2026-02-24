@@ -13,6 +13,7 @@ interface OutputSectionProps {
   aiModel?: string;
   aiError?: string;
   useDirectAI: boolean;
+  gpxOutputMode: string[];
 }
 
 export function OutputSection({ 
@@ -21,10 +22,48 @@ export function OutputSection({
   loadingMessage, 
   aiModel, 
   aiError, 
-  useDirectAI 
+  useDirectAI,
+  gpxOutputMode
 }: OutputSectionProps) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
+
+  const garminMatch = output.match(/BEGIN_GPX_GARMIN\s*([\s\S]*?)\s*END_GPX_GARMIN/);
+  const garminWptMatch = output.match(/BEGIN_GPX_GARMIN_WPT\s*([\s\S]*?)\s*END_GPX_GARMIN_WPT/);
+  const routeTrackMatch = output.match(/BEGIN_GPX_ROUTE_TRACK\s*([\s\S]*?)\s*END_GPX_ROUTE_TRACK/);
+  const wptOnlyMatch = output.match(/BEGIN_GPX_WPT_ONLY\s*([\s\S]*?)\s*END_GPX_WPT_ONLY/);
+  const looksLikeGarmin = (gpx: string) => /<rte[\s>]|<trk[\s>]/i.test(gpx);
+  const stripRteTrk = (gpx: string) => gpx
+    .replace(/<rte[\s\S]*?<\/rte>/gi, '')
+    .replace(/<trk[\s\S]*?<\/trk>/gi, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  let gpxGarmin = garminWptMatch?.[1]?.trim() || garminMatch?.[1]?.trim() || '';
+  let gpxWptOnly = routeTrackMatch?.[1]?.trim() || wptOnlyMatch?.[1]?.trim() || '';
+  let gpxBlocksSwapped = false;
+
+  if (!gpxWptOnly || !gpxGarmin) {
+    const gpxBlocks = output.match(/<gpx[\s\S]*?<\/gpx>/gi) || [];
+    const classified = gpxBlocks.reduce<{ wpt?: string; garmin?: string }>((acc, block) => {
+      if (looksLikeGarmin(block)) acc.garmin = acc.garmin || block;
+      else acc.wpt = acc.wpt || block;
+      return acc;
+    }, {});
+    gpxWptOnly = gpxWptOnly || classified.garmin || '';
+    gpxGarmin = gpxGarmin || classified.wpt || '';
+  }
+
+  if (gpxWptOnly && gpxGarmin && looksLikeGarmin(gpxGarmin) && !looksLikeGarmin(gpxWptOnly)) {
+    const tmp = gpxWptOnly;
+    gpxWptOnly = gpxGarmin;
+    gpxGarmin = tmp;
+    gpxBlocksSwapped = true;
+  }
+
+  if (!gpxWptOnly && gpxGarmin) {
+    gpxWptOnly = stripRteTrk(gpxGarmin);
+  }
 
   const handleCopy = async () => {
     if (!output) return;
@@ -51,6 +90,15 @@ export function OutputSection({
 
   const handlePrint = () => {
     if (!output) return;
+    const escapeHtml = (text: string) =>
+      text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    const titleMatch = output.match(/^#\s*([^\n]+)/m);
+    const docTitle = titleMatch?.[1]?.trim() || t("planner.output.title.direct");
     const iframe = document.createElement('iframe');
     iframe.style.position = 'fixed';
     iframe.style.right = '0';
@@ -64,7 +112,7 @@ export function OutputSection({
       doc.write(`
         <html>
           <head>
-            <title>CampingRoute.app - Deine Route</title>
+            <title>CampingRoute.app - ${escapeHtml(docTitle)}</title>
             <style>
               body { font-family: monospace; padding: 30px; line-height: 1.5; white-space: pre-wrap; color: #000; background: #fff; }
               h1 { font-family: sans-serif; color: #f59e0b; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
@@ -72,8 +120,8 @@ export function OutputSection({
             </style>
           </head>
           <body>
-            <h1>Wohnmobil-Route</h1>
-            <div style="font-size: 12px;">${output.replace(/\n/g, '<br>')}</div>
+            <h1>${escapeHtml(docTitle)}</h1>
+            <pre style="font-size: 12px; white-space: pre-wrap;">${escapeHtml(output)}</pre>
             <div class="footer">Erstellt mit CampingRoute.app am ${new Date().toLocaleDateString()}</div>
           </body>
         </html>
@@ -87,20 +135,18 @@ export function OutputSection({
     }
   };
 
-  const handleDownloadGPX = () => {
-    const gpxMatch = output.match(/<gpx[\s\S]*?<\/gpx>/);
-    if (gpxMatch) {
-      const gpxContent = gpxMatch[0];
+  const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
+    if (gpxContent) {
       const blob = new Blob([gpxContent], { type: 'application/gpx+xml' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `camping-route-${new Date().toISOString().split('T')[0]}.gpx`;
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast.success("GPX-Datei wurde heruntergeladen");
+      toast.success(t(successKey));
     } else {
       toast.error(t("planner.output.print.gpxError") || "Keine GPX-Daten gefunden");
     }
@@ -114,10 +160,12 @@ export function OutputSection({
           <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
         </div>
         <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black text-white/90 uppercase tracking-tighter">
+          <h3 className="text-2xl font-black text-white uppercase tracking-tighter drop-shadow-sm">
             {loadingMessage || (useDirectAI ? t("planner.loading.ai") : t("planner.loading.prompt"))}
           </h3>
-          <p className="text-white/70 italic">{t("planner.output.loading.wait")}</p>
+          <p className="text-white text-base sm:text-lg font-semibold drop-shadow-sm">
+            {t("planner.output.loading.wait")}
+          </p>
         </div>
       </div>
     );
@@ -161,6 +209,11 @@ export function OutputSection({
                 <h2 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h2>
+                {gpxBlocksSwapped && (
+                  <span className="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary/80">
+                    {t("planner.output.actions.gpxSwapNote")}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -173,14 +226,35 @@ export function OutputSection({
                 {t("buttons.copy")}
               </Button>
               
-              {useDirectAI && (
-                <Button
-                  onClick={handleDownloadGPX}
-                  className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
-                >
-                  <Download className="w-3 h-3 mr-1 sm:mr-2" />
-                  GPX
-                </Button>
+              {useDirectAI && gpxOutputMode?.length > 0 && (
+                <>
+                  {(gpxOutputMode.includes('routeTrack')) && (
+                    <Button
+                      onClick={() => handleDownloadGPX(
+                        gpxWptOnly,
+                        `camping-route-route-track-${new Date().toISOString().split('T')[0]}.gpx`,
+                        "planner.output.actions.gpxDownloadedWpt"
+                      )}
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                    >
+                      <Download className="w-3 h-3 mr-1 sm:mr-2" />
+                      {t("planner.output.actions.downloadWpt")}
+                    </Button>
+                  )}
+                  {(gpxOutputMode.includes('garmin')) && (
+                    <Button
+                      onClick={() => handleDownloadGPX(
+                        gpxGarmin,
+                        `camping-route-garmin-waypoints-${new Date().toISOString().split('T')[0]}.gpx`,
+                        "planner.output.actions.gpxDownloadedGarmin"
+                      )}
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                    >
+                      <Download className="w-3 h-3 mr-1 sm:mr-2" />
+                      {t("planner.output.actions.downloadGarmin")}
+                    </Button>
+                  )}
+                </>
               )}
 
               <Button

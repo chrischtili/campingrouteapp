@@ -10,11 +10,12 @@ interface ToggleGroupProps {
   options: ToggleOption[];
   selectedValues: string[];
   onChange: (name: string, value: string, checked: boolean) => void;
+  className?: string;
 }
 
-export function ToggleGroup({ name, options, selectedValues, onChange }: ToggleGroupProps) {
+export function ToggleGroup({ name, options, selectedValues, onChange, className }: ToggleGroupProps) {
   return (
-    <div className="grid grid-cols-1 gap-3 w-full">
+    <div className={`grid gap-3 w-full ${className ?? "grid-cols-1"}`}>
       {options.map((option) => {
         const isChecked = selectedValues.includes(option.value);
         return (

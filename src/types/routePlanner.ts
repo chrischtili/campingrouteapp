@@ -6,6 +6,7 @@ export interface FormData {
   distance: string;
   maxDailyDistance: string;
   routeType: string;
+  gpxOutputMode: string[];
   stageDestination1: string;
   stageDestination2: string;
   vehicleLength: string;
@@ -51,6 +52,7 @@ export const initialFormData: FormData = {
   distance: '',
   maxDailyDistance: '250',
   routeType: '',
+  gpxOutputMode: [],
   stageDestination1: '',
   stageDestination2: '',
   vehicleLength: '7',

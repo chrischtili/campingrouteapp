@@ -5,12 +5,12 @@ export function FeaturesSection() {
   const { t } = useTranslation();
 
   const features = [
-    { icon: Compass, title: t("features.promptGen.title"), description: t("features.promptGen.description"), accent: "text-primary" },
-    { icon: Filter, title: t("features.smartFilters.title"), description: t("features.smartFilters.description"), accent: "text-primary md:text-secondary dark:text-[#4ade80]" },
-    { icon: Zap, title: t("features.readyInstantly.title"), description: t("features.readyInstantly.description"), accent: "text-primary" },
-    { icon: Shield, title: t("features.privacyFirst.title"), description: t("features.privacyFirst.description"), accent: "text-primary md:text-secondary dark:text-[#4ade80]" },
-    { icon: Github, title: t("features.openSource.title"), description: t("features.openSource.description"), accent: "text-primary", link: "https://github.com/chrischtili/campingrouteapp" },
-    { icon: Gift, title: t("features.freeAdFree.title"), description: t("features.freeAdFree.description"), accent: "text-primary md:text-secondary dark:text-[#4ade80]" },
+    { icon: Compass, title: t("features.promptGen.title"), description: t("features.promptGen.description"), accent: "text-indigo-400" },
+    { icon: Filter, title: t("features.smartFilters.title"), description: t("features.smartFilters.description"), accent: "text-sky-400" },
+    { icon: Zap, title: t("features.readyInstantly.title"), description: t("features.readyInstantly.description"), accent: "text-amber-400" },
+    { icon: Shield, title: t("features.privacyFirst.title"), description: t("features.privacyFirst.description"), accent: "text-emerald-400" },
+    { icon: Github, title: t("features.openSource.title"), description: t("features.openSource.description"), accent: "text-violet-400", link: "https://github.com/chrischtili/campingrouteapp" },
+    { icon: Gift, title: t("features.freeAdFree.title"), description: t("features.freeAdFree.description"), accent: "text-rose-400" },
   ];
 
   return (

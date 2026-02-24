@@ -1,6 +1,7 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { useTranslation } from "react-i18next";
 import { Map, MapPin, Calendar, Compass, Info, ArrowRight, Sparkles } from "lucide-react";
@@ -20,6 +21,12 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       startDate: newStartDate,
       endDate: newStartDate 
     });
+  };
+
+  const handleGpxToggle = (name: string, value: string, checked: boolean) => {
+    const current = formData.gpxOutputMode || [];
+    const next = checked ? [...current, value] : current.filter((v) => v !== value);
+    onChange({ gpxOutputMode: next });
   };
 
   const glassPanelStyle = {
@@ -83,6 +90,25 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 <SelectItem value="slowTravel">{t("planner.route.style.options.slowTravel")}</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Info className="w-4 h-4 text-primary" /> {t("planner.route.gpx.label")}
+            </Label>
+            <p className="text-white/50 text-sm leading-relaxed">
+              {t("planner.route.gpx.description")} {t("planner.route.gpx.multiple")}
+            </p>
+            <ToggleGroup
+              name="gpxOutputMode"
+              options={[
+                { value: "garmin", label: t("planner.route.gpx.options.garmin") },
+                { value: "routeTrack", label: t("planner.route.gpx.options.routeTrack") },
+              ]}
+              selectedValues={formData.gpxOutputMode || []}
+              onChange={handleGpxToggle}
+              className="grid-cols-1"
+            />
           </div>
         </div>
 

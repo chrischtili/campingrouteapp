@@ -1,9 +1,21 @@
 {
+  "seo": {
+    "title": "Camping Route - AI camper routeplanner & promptgenerator",
+    "description": "AI‑gestuurde promptgenerator voor perfecte camperroutes! Camping Route vindt campings op basis van voertuig en budget. Jouw slimme campertripplanner voor Europa."
+  },
+  "navbar": {
+    "features": "Features",
+    "exampleRoute": "Voorbeeldroute",
+    "faq": "FAQ",
+    "subtitle": "Slimme AI‑prompts",
+    "planNow": "Nu plannen"
+  },
   "hero": {
     "badge": "Routeplanner",
-    "title": "Plan je perfecte campingroute",
+    "title": "Plan je perfecte camperroute",
     "description": "Beschrijf je vertrekpunt, reisduur en voorkeuren. De AI doet de rest.",
-    "cta": "Nu route plannen",
+    "planNow": "Nu route plannen",
+    "viewExample": "Bekijk voorbeeld",
     "stats": {
       "rating": {
         "value": "5,0",
@@ -19,8 +31,769 @@
       }
     }
   },
-  "planner": {},
-  "features": {},
-  "privacy": {},
-  "footer": {}
+  "features": {
+    "badge": "Features",
+    "title": "Waarom CampingRoute",
+    "subtitle": "Alles wat je nodig hebt voor je volgende avontuur.",
+    "promptGen": {
+      "title": "Slimme routeprompt",
+      "description": "Jouw wensen worden omgezet in een gestructureerde AI‑prompt."
+    },
+    "smartFilters": {
+      "title": "Slimme filters",
+      "description": "Filter op budget, voertuig en stijl – sneller de juiste route."
+    },
+    "readyInstantly": {
+      "title": "Direct klaar",
+      "description": "Ontvang in enkele seconden een complete route."
+    },
+    "privacyFirst": {
+      "title": "Privacy first",
+      "description": "Geen accounts, geen tracking, geen verborgen opslag."
+    },
+    "openSource": {
+      "title": "Open source",
+      "description": "Transparant en community‑gedreven."
+    },
+    "freeAdFree": {
+      "title": "Gratis & advertentievrij",
+      "description": "Geen paywalls, geen advertenties."
+    }
+  },
+  "testimonials": {
+    "badge": "Ervaringen",
+    "title": "Wat gebruikers zeggen",
+    "julia": {
+      "name": "Julia",
+      "text": "Perfect voor spontane trips! In enkele minuten had ik een gedetailleerde route met alle belangrijke info.",
+      "role": "Weekendreiziger"
+    },
+    "markus": {
+      "name": "Markus",
+      "text": "Eindelijk een routeplanner die echt op mijn wensen ingaat! De AI stelde een perfecte route voor.",
+      "role": "Reiziger"
+    },
+    "sarah": {
+      "name": "Sarah",
+      "text": "De filteropties zijn briljant! Ik kan filteren op budget en voertuigsize – dat bespaart enorm veel tijd!",
+      "role": "Camper"
+    }
+  },
+  "exampleRoute": {
+    "badge": "Voorbeeldroute",
+    "title": "Karlsruhe ⇄ Zierow",
+    "subtitle": "14 dagen • ca. 1.495 km • slow travel met 5,5 t & hond",
+    "lead": "Een rustige, hondvriendelijke rondreis met duidelijke etappes, vaste stops en genoeg buffer voor pauzes.",
+    "keyFacts": [
+      { "label": "Start", "value": "4 juni 2026 (Sacramentsdag, BW)" },
+      { "label": "Totale afstand", "value": "ca. 1.495 km" },
+      { "label": "Reisduur", "value": "14 dagen" },
+      { "label": "Voertuig", "value": "7,2 m • 3,2 m • 5,5 t" },
+      { "label": "Budget", "value": "€1.200–1.500" }
+    ],
+    "ruleNotice": {
+      "title": "Belangrijk voor 5,5 t",
+      "items": [
+        "Let op inhaalverboden voor vrachtwagens en snelheidslimieten.",
+        "Snelwegen: 100 km/u alleen met goedkeuring, anders 80 km/u; buitenwegen max. 80 km/u.",
+        "Start op 4 juni 2026 is Sacramentsdag – reken op druk verkeer in de ochtend."
+      ]
+    },
+    "details": {
+      "show": "Details tonen",
+      "hide": "Details verbergen"
+    },
+    "stages": {
+      "title": "Etappeplanning",
+      "outward": {
+        "title": "Heenreis",
+        "range": "4–7 juni 2026",
+        "items": [
+          { "title": "Etappe 1: Karlsruhe → Fulda/Rhön‑regio", "date": "4 juni 2026", "distance": "ca. 210 km", "duration": "ca. 3:00 u", "route": "A5 tot Hattenbacher Dreieck, daarna richting Fulda.", "pause": "Na ~1,5 u bij Alsfeld voor een hondenwandeling.", "note": "Feestdagverkeer mogelijk." },
+          { "title": "Etappe 2: Fulda‑regio → Magdeburg/Elbe‑regio", "date": "5 juni 2026", "distance": "ca. 240 km", "duration": "ca. 3:30 u", "route": "A7 / A4 / A71 noordwaarts. De Harz‑omleiding is vaak rustiger dan de A7‑heuvels bij Kassel.", "pause": "Bij Sangerhausen of ten zuiden van Magdeburg." },
+          { "title": "Etappe 3: Magdeburg‑regio → Perleberg", "date": "6 juni 2026", "distance": "ca. 110 km", "duration": "ca. 1:45 u", "route": "B189 richting noord.", "pause": "Korte dag – ruim de tijd voor Perleberg." },
+          { "title": "Etappe 4: Perleberg → Zierow", "date": "7 juni 2026", "distance": "ca. 85 km", "duration": "ca. 1:30 u", "route": "Laatste ontspannen stuk naar de camping.", "pause": "Relaxte aankomst voor inchecken." }
+        ]
+      },
+      "stay": {
+        "title": "Verblijf ter plaatse",
+        "range": "7–14 juni (Zierow/Wismar)",
+        "note": "Geboekt: Ostsee‑Camping‑Ferienpark Zierow."
+      },
+      "return": {
+        "title": "Terugreis",
+        "range": "14–17 juni 2026",
+        "items": [
+          { "title": "Etappe 5: Zierow → Lüneburger Heide (Uelzen‑regio)", "date": "14 juni 2026", "distance": "ca. 140 km", "duration": "ca. 2:15 u", "route": "B208 / B4 zuidwaarts (rustige rit door het platteland).", "pause": "Leuke stops bij boerderijwinkels of veldpaden." },
+          { "title": "Etappe 6: Uelzen‑regio → Harz", "date": "15 juni 2026", "distance": "ca. 130 km", "duration": "ca. 2:00 u", "route": "B4 richting Braunschweig/Harz.", "pause": "Hondvriendelijke wandelingen nabij de camping." },
+          { "title": "Etappe 7: Harz → Spessart/Main", "date": "16 juni 2026", "distance": "ca. 230 km", "duration": "ca. 3:30 u", "route": "A7 zuidwaarts.", "pause": "Lunchstop op rustplaatsen met vrachtstroken." },
+          { "title": "Etappe 8: Spessart → Karlsruhe", "date": "17 juni 2026", "distance": "ca. 160 km", "duration": "ca. 2:00 u", "route": "Laatste stuk naar huis.", "pause": "Aankomst in de namiddag." }
+        ]
+      }
+    },
+    "overnights": {
+      "title": "Overnachtingen",
+      "note": "Prijzen zijn schattingen voor 2026 (inflatie inbegrepen).",
+      "items": [
+        { "title": "Heenreis • Fulda‑regio", "name": "KNAUS Campingpark Hünfeld", "price": "ca. €35–45 / nacht", "details": ["Rustige Rhön‑locatie bij A7", "Restaurant Praforst aan het meer", "Goede hondenwandelpaden"] },
+        { "title": "Heenreis • Magdeburg‑regio", "name": "Campingplatz Barleber See", "price": "ca. €25–35 / nacht", "details": ["Direct aan het meer", "Snack/restaurant aanwezig", "Grote plaatsen voor 7 m+"] },
+        { "title": "Heenreis • Perleberg", "name": "Kristalltherme Bad Wilsnack (stellplaats)", "price": "ca. €15–20 + toeristenbelasting", "details": ["Zeer rustig, wellness‑optie", "Perleberg snel bereikbaar", "Alternatief: Stellplatz am Hagen"] },
+        { "title": "Bestemming", "name": "Ostsee‑Camping‑Ferienpark Zierow", "price": "7–14 juni geboekt", "details": ["Dicht bij Wismar & eiland Poel", "Hondenstranden in de buurt", "Ideale uitvalsbasis"] },
+        { "title": "Terugreis • Lüneburger Heide", "name": "Uhlenköper‑Camp Uelzen", "price": "ca. €30–40 / nacht", "details": ["Eco‑gericht, hondvriendelijk", "Biowinkel & café", "Kanoverhuur"] },
+        { "title": "Terugreis • Harz", "name": "Campingplatz Am Brocken", "price": "ca. €35–45 / nacht", "details": ["In het hart van de Harz", "Restaurant op het terrein", "Ideaal om te wandelen"] },
+        { "title": "Terugreis • Spessart", "name": "Camping Main‑Spessart", "price": "ca. €30–40 / nacht", "details": ["Direct aan de Main", "Herberg met biergarten", "Mooi uitzicht op de rivier"] }
+      ]
+    },
+    "highlights": {
+      "title": "Highlights & activiteiten",
+      "groups": {
+        "outward": {
+          "title": "Heenreis",
+          "items": ["Rhön (Wasserkuppe): panoramawandeling", "Magdeburg waterkruising: kanaalbrug over de Elbe", "Perleberg oude stad & wildpark"]
+        },
+        "onsite": {
+          "title": "Ter plaatse",
+          "items": ["Wismar oude stad (UNESCO) & oude haven", "Eiland Poel: hondenstranden (bijv. Timmendorf)", "Schloss Bothmer in Klütz"]
+        },
+        "return": {
+          "title": "Terugreis",
+          "items": ["Hundertwasser‑station Uelzen", "Brocken‑wandeling of Brockenbahn (honden met muilkorf)", "Wertheim oude stad & kasteelruïne"]
+        }
+      }
+    },
+    "tips": {
+      "title": "Praktische tips",
+      "items": [
+        { "label": "Navigatie", "value": "Gebruik een camper‑GPS met voertuigafmetingen (L: 7,2 m • H: 3,2 m • 5,5 t), bijv. TomTom Go Camper of Garmin." },
+        { "label": "Afval", "value": "Clesana‑toilet = restafval. Grijswater is bij alle genoemde plaatsen mogelijk." },
+        { "label": "Vers water", "value": "Grote tank; bij elk station bijvullen mogelijk." },
+        { "label": "Nood", "value": "Veteraire klinieken langs de route vooraf markeren (bijv. Magdeburg, Lüneburg)." }
+      ]
+    },
+    "service": {
+      "title": "Service onderweg",
+      "items": [
+        { "label": "Brandstof", "value": "Truckstops zijn goedkoper dan snelwegstations. Gebruik truckbanen als autovakken te krap zijn." },
+        { "label": "Boodschappen", "value": "Zoek grote parkeerterreinen in retailzones (bijv. Kaufland, Globus)." },
+        { "label": "Apps", "value": "Clever Tanken, Park4Night (filter >7 m, hondvriendelijk), Promobil Stellplatz‑Radar, NINA‑alerts." }
+      ]
+    },
+    "extras": {
+      "title": "Extra info",
+      "items": [
+        { "label": "Budget", "value": "Ongeveer €1.200–1.500 voor brandstof, plaatsen, eten en entree." },
+        { "label": "Duurzaamheid", "value": "Zonne‑energie & Clesana betekenen geen chemie. Gooi zakken in restafval en ondersteun lokale boerderijwinkels." },
+        { "label": "Gezondheid", "value": "Tekenenbescherming voor de hond is essentieel in juni; vaccinatieboekje bij de hand houden." },
+        { "label": "Beste tijd", "value": "Juni is ideaal: lange dagen, Oostzee ca. 15–17 °C." }
+      ]
+    },
+    "tech": {
+      "title": "Techniek & uitrusting",
+      "items": [
+        { "label": "Checklist", "value": "Lange CEE‑verlengkabel, waterslang + gieter, zware nivelleerwiggen." },
+        { "label": "Banden/backup", "value": "Neem een bandenreparatieset voor trucks/RV’s mee." },
+        { "label": "Autonomie", "value": "600W zonne‑energie / 600Ah / Clesana zorgen voor flexibele plaatskeuze." }
+      ]
+    },
+    "flexibility": {
+      "title": "Flexibiliteit & regels",
+      "items": [
+        { "label": "Wildkamperen", "value": "In Duitsland verboden en streng gecontroleerd in beschermde gebieden." },
+        { "label": "Rustpauze", "value": "Eenmalig overnachten op parkeerplaatsen is lastig met 7,2 m lengte – gebruik officiële plekken." },
+        { "label": "Opties", "value": "Landvergnügen of boerderijovernachtingen zijn goede spontane alternatieven." }
+      ]
+    },
+    "alternatives": {
+      "title": "Alternatieven bij drukte",
+      "items": [
+        { "label": "A7 heenreis", "value": "Omweg via B27 (Fulda → Göttingen) – mooi maar langzamer." },
+        { "label": "Hamburg terug", "value": "Rijd ruim om Hamburg heen naar het oosten (Uelzen/B4) en vermijd de Elbtunnel." }
+      ]
+    }
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "Veelgestelde vragen",
+    "items": {
+      "whatIs": {
+        "q": "Wat is Camping Route?",
+        "title": "Een intelligente assistent voor camperroutes.",
+        "prec": "Waarom een promptgenerator?",
+        "prec1": "AI (zoals ChatGPT) is krachtig, maar heeft duidelijke instructies nodig voor bruikbare resultaten.",
+        "prec2": "Camping Route is een pure frontend‑tool die volledig in je browser draait. Je kiest je voorkeuren via een eenvoudig formulier.",
+        "prec3": "We zetten jouw input om in een perfect gestructureerde tekst die de AI optimaal begrijpt.",
+        "ai": "Jouw voordelen",
+        "ai1": "Geen standaardroutes, maar 100% individueel.",
+        "ai2": "Houdt rekening met voertuigafmetingen, budget en voorkeuren.",
+        "ai3": "Bespaart tijd en voorkomt eindeloos typen."
+      },
+      "diff": {
+        "q": "Prompt vs. Direct AI – wat is het verschil?",
+        "title": "De keuze is aan jou: gratis kopieren of direct in de app genereren.",
+        "gen": "Modus: Prompt genereren (gratis)",
+        "gen1": "Aan het einde ontvang je een complete prompttekst.",
+        "gen2": "Kopieer deze en plak in ChatGPT, Claude of Gemini.",
+        "gen3": "Gratis en je gebruikt je bestaande AI‑account.",
+        "gen4": "Volledige controle over het vervolggesprek.",
+        "ai": "Modus: AI direct gebruiken (API‑key nodig)",
+        "ai1": "De route wordt direct in de app gegenereerd en getoond.",
+        "ai2": "Geen kopieer‑plak tussen tabbladen.",
+        "ai4": "Je hebt je eigen API‑key van je AI‑provider nodig."
+      },
+      "howItWorks": {
+        "q": "Hoe werkt de planning precies?",
+        "title": "In enkele stappen naar je perfecte route.",
+        "step1": "Basisgegevens",
+        "step1a": "Stel start, bestemming, duur en max. dagkilometers in.",
+        "step2": "Je voertuig",
+        "step2a": "Voer afmetingen, gewicht en autonomie in.",
+        "step3": "Voorkeuren & generatie",
+        "step3a": "Kopieer de prompt (en plak in ChatGPT etc.) OF voer je eigen API‑key in voor directe weergave."
+      },
+      "cost": {
+        "q": "Is het echt gratis?",
+        "title": "Ja, Camping Route is een gratis open‑source project.",
+        "free": "De app",
+        "free1": "Formulier en promptgeneratie zijn 100% gratis.",
+        "free2": "Geen registratie, geen database, geen backend.",
+        "opt": "AI‑API‑kosten",
+        "transDesc": "Alleen bij ‘AI direct gebruiken’ voer je je EIGEN API‑key in. Je betaalt minimale API‑kosten (meestal enkele centen per route) direct aan je provider (OpenAI, Google, Mistral). Wij verdienen hier niets aan en betalen geen API‑kosten."
+      },
+      "privacy": {
+        "q": "Wat gebeurt er met mijn gegevens?",
+        "title": "Je data blijft op je apparaat.",
+        "device": "Lokaal & veilig",
+        "device1": "We hebben geen backend of database. Als je opslaan activeert, worden je gegevens (zonder API‑keys) 30 dagen lokaal bewaard.",
+        "sec": "Geen serveroverdracht",
+        "sec1": "Je data verlaat je apparaat alleen als je deze direct naar de API van de gekozen provider stuurt."
+      },
+      "aiModel": {
+        "q": "Welk AI‑model moet ik kiezen?",
+        "title": "Elk model heeft eigen sterke punten in routeplanning.",
+        "gemini": "Google Gemini 3.1 (aanbevolen)",
+        "gemini1": "Zeer sterk in actuele plaatsen en POI’s dankzij Google‑data. Genereert vaak de meest realistische routes in Europa.",
+        "gpt": "OpenAI ChatGPT 5.2",
+        "gpt1": "Logisch onverslaanbaar. Houdt strikt rekening met max. dagkilometers en budgetten. Output is zeer gestructureerd.",
+        "mistral": "Mistral Large",
+        "mistral1": "Sterk Europees model. Erg snel en goede prijs‑kwaliteit (API vaak goedkoper dan OpenAI).",
+        "recDesc": "Tip: voor de beste camping‑tips en landschappen raden we Google Gemini aan."
+      }
+    }
+  },
+  "planner": {
+    "badge": "Routeplanner",
+    "title": "In 7 stappen naar de perfecte route",
+    "cta": "Nu route plannen",
+    "loading": {
+      "ai": "🤖 Route genereren...",
+      "prompt": "📝 Prompt maken...",
+      "error": "AI‑fout opgetreden.",
+      "invalidKey": "Ongeldige API‑key."
+    },
+    "nav": {
+      "back": "Terug",
+      "next": "Verder",
+      "generateRoute": "Route genereren",
+      "generatePrompt": "Prompt genereren"
+    },
+    "summary": {
+      "title": "Samenvatting",
+      "check": "Controleer je gegevens.",
+      "start": "Startpunt",
+      "destination": "Bestemming",
+      "period": "Periode",
+      "maxDist": "Max. afstand",
+      "perDay": "dag",
+      "method": "AI‑methode",
+      "direct": "Directe generatie",
+      "prompt": "Prompt‑generatie",
+      "notSpecified": "Niet ingevuld",
+      "vehicle": "Voertuig",
+      "people": "Personen",
+      "style": "Stijl",
+      "interests": "Interesses",
+      "selected": "geselecteerd",
+      "notSelected": "Niet gekozen",
+      "save": {
+        "title": "Invoer lokaal opslaan",
+        "desc": "Slaat je formuliergegevens 30 dagen lokaal op dit apparaat op. Met “Gegevens wissen” verwijder je opgeslagen data van dit apparaat.",
+        "note": "API‑keys worden nooit opgeslagen.",
+        "clear": "Gegevens wissen"
+      }
+    },
+    "steps": {
+      "ai": {
+        "label": "AI‑instellingen"
+      },
+      "route": {
+        "label": "Route"
+      },
+      "optimization": {
+        "label": "Route‑optimalisatie"
+      },
+      "vehicle": {
+        "label": "Voertuig"
+      },
+      "accommodation": {
+        "label": "Overnachting"
+      },
+      "interests": {
+        "label": "Interesses"
+      },
+      "summary": {
+        "label": "Samenvatting"
+      }
+    },
+    "ai": {
+      "title": "AI‑instellingen",
+      "description": "Kies hoe je met de AI wilt werken.",
+      "mode": {
+        "prompt": {
+          "title": "Prompt genereren",
+          "desc": "Kant‑en‑klare tekst voor ChatGPT & co."
+        },
+        "direct": {
+          "title": "AI direct gebruiken",
+          "desc": "Route direct in de app genereren. Je gebruikt je EIGEN API‑key en betaalt direct aan de AI‑provider (bijv. OpenAI)."
+        }
+      },
+      "provider": {
+        "label": "Provider & model",
+        "placeholder": "AI kiezen",
+        "help": "Welk model kiezen?"
+      },
+      "apiKey": {
+        "label": "API‑key",
+        "hint": "Je key wordt niet opgeslagen en alleen voor deze sessie gebruikt.",
+        "placeholder": "Je API‑key",
+        "create": "API‑key aanmaken bij {{name}} →",
+        "security": "Camping Route is <b>een pure frontend‑app zonder backend of database!</b> We slaan je API‑key nooit op en zien hem niet. Hij blijft alleen in deze browsersessie en wordt versleuteld direct naar de AI‑provider gestuurd."
+      }
+    },
+    "route": {
+      "title": "Route",
+      "description": "Stel de details van je reis in.",
+      "type": {
+        "label": "Routetype",
+        "placeholder": "Selecteer",
+        "options": {
+          "oneWay": "Enkele reis",
+          "return": "Heen en terug",
+          "roundTrip": "Rondreis",
+          "multiStage": "Meerdaagse etappes"
+        }
+      },
+      "gpx": {
+        "label": "GPX‑uitvoer",
+        "description": "Kies welke GPX‑bestanden je aan het einde wilt ontvangen.",
+        "multiple": "(Meerdere keuzes mogelijk)",
+        "options": {
+          "garmin": "Garmin (waypoints)",
+          "routeTrack": "GPX (route+track)"
+        }
+      },
+      "style": {
+        "label": "Reisstijl",
+        "placeholder": "Selecteer",
+        "options": {
+          "adventure": "Avontuur",
+          "relaxation": "Ontspanning",
+          "culture": "Cultuur",
+          "nature": "Natuur",
+          "family": "Familie",
+          "gourmet": "Gourmet",
+          "slowTravel": "Slow travel"
+        }
+      },
+      "start": {
+        "label": "Start",
+        "placeholder": "bijv. Amsterdam"
+      },
+      "destination": {
+        "label": "Bestemming",
+        "placeholder": "bijv. Parijs"
+      },
+      "stage": {
+        "label": "Tussenstop {{num}}",
+        "placeholder": "bijv. Gent"
+      },
+      "departure": "Vertrek",
+      "arrival": "Aankomst",
+      "maxDistance": "Max km / dag",
+      "additional": {
+        "label": "Extra info",
+        "placeholder": "Wensen..."
+      }
+    },
+    "optimization": {
+      "title": "Route‑optimalisatie",
+      "subtitle": "(Meerdere keuzes mogelijk)",
+      "categories": {
+        "roadType": {
+          "label": "Routeprofiel",
+          "options": {
+            "motorways": "Snelwegen prefereren",
+            "country": "Landwegen prefereren",
+            "scenic": "Panoramaroutes prefereren"
+          }
+        },
+        "avoidances": {
+          "label": "Vermijden",
+          "options": {
+            "toll": "Tolwegen vermijden",
+            "traffic": "Verkeer vermijden",
+            "construction": "Wegenwerken vermijden",
+            "tunnels": "Tunnels vermijden",
+            "night": "Nacht rijden vermijden"
+          }
+        },
+        "landscape": {
+          "label": "Landschap & omgeving",
+          "options": {
+            "mountains": "Bergen & passen",
+            "coastal": "Kust & zee",
+            "lakes": "Meren & rivieren",
+            "forest": "Bossen & natuur"
+          }
+        },
+        "experiences": {
+          "label": "Belevingen onderweg",
+          "options": {
+            "cities": "Steden & cultuur",
+            "rural": "Landelijke charme",
+            "unesco": "UNESCO‑erfgoed",
+            "farm": "Boerderijen & hoevewinkels",
+            "markets": "Lokale markten"
+          }
+        }
+      }
+    },
+    "vehicle": {
+      "title": "Voertuigfilter",
+      "description": "Technische gegevens van je voertuig.",
+      "group": {
+        "dimensions": "Afmetingen",
+        "weight": "Gewicht",
+        "power": "Autonomie",
+        "systems": "Systemen"
+      },
+      "length": "Lengte",
+      "height": "Hoogte",
+      "width": "Breedte",
+      "weight": "Totaalgewicht",
+      "axleLoad": "Aslast",
+      "fuel": {
+        "label": "Brandstof",
+        "placeholder": "Selecteer",
+        "options": {
+          "diesel": "Diesel",
+          "petrol": "Benzine",
+          "lpg": "LPG",
+          "electric": "Elektrisch",
+          "hybrid": "Hybride"
+        }
+      },
+      "solar": "Zonne‑energie",
+      "battery": "Huishoudaccu",
+      "autonomyDays": "Autonomiedagen",
+      "autonomyUnit": "dagen",
+      "heating": {
+        "label": "Verwarming",
+        "placeholder": "Selecteer",
+        "options": {
+          "diesel": "Diesel",
+          "gasBottle": "Gasfles",
+          "gasTank": "Gastank"
+        }
+      },
+      "levelingJacks": {
+        "label": "Steunpoten",
+        "placeholder": "Selecteer",
+        "options": {
+          "yes": "Ja",
+          "no": "Nee"
+        }
+      },
+      "toilet": {
+        "label": "Toilet‑systeem",
+        "placeholder": "Selecteer",
+        "options": {
+          "cassette": "Cassettetoilet",
+          "chemical": "Composttoilet",
+          "dry": "Verbrandingstoilet",
+          "fixed": "Vaste tank",
+          "clesana": "Clesana",
+          "none": "Geen"
+        }
+      }
+    },
+    "accommodation": {
+      "title": "Overnachting",
+      "group": {
+        "travelers": "Reizigers",
+        "budget": "Budget"
+      },
+      "categories": {
+        "companions": {
+          "label": "Reisgezelschap",
+          "options": {
+            "solo": "Alleenreizend",
+            "partner": "Koppel",
+            "family": "Familie",
+            "friends": "Vrienden",
+            "pets": "Met hond / huisdieren",
+            "seniors": "Senioren"
+          }
+        },
+        "type": {
+          "label": "Type overnachting",
+          "options": {
+            "camping": "Klassieke camping",
+            "pitch": "Camperplaats",
+            "farm": "Boerderij & wijngaard",
+            "small": "Kleine, natuurrijke plekken",
+            "wild": "Vrij staan / wildkamperen",
+            "premium": "Premium & glamping"
+          }
+        },
+        "facilities": {
+          "label": "Belangrijke voorzieningen",
+          "options": {
+            "power": "Stroomaansluiting",
+            "freshWater": "Vers water",
+            "greyWater": "Grijswater lozen",
+            "blackWater": "Zwartwater lozen",
+            "sanitary": "Sanitair",
+            "wifi": "Wi‑Fi",
+            "pool": "Zwembad & wellness",
+            "restaurant": "Restaurant op locatie",
+            "dogs": "Honden toegestaan",
+            "kids": "Kindvriendelijk & speeltuin",
+            "accessible": "Toegankelijk",
+            "winter": "Geschikt voor wintercamping"
+          }
+        }
+      },
+      "travelers": {
+        "label": "Personen",
+        "unit": "Pers."
+      },
+      "budget": {
+        "label": "Max. budget/nacht"
+      },
+      "additional": {
+        "label": "Extra wensen",
+        "placeholder": "bijv. rustige ligging..."
+      },
+      "subtitle": "Waar en hoe wil je onderweg overnachten?"
+    },
+    "interests": {
+      "title": "Interesses",
+      "subtitle": "(Meerdere keuzes mogelijk)",
+      "categories": {
+        "active": "Actief & sport",
+        "nature": "Natuur & landschap",
+        "culture": "Cultuur & culinair",
+        "lifestyle": "Ontspanning & lifestyle"
+      },
+    "options": {
+      "hiking": "Wandelen & trekking",
+      "cycling": "Fietsen & e‑bike",
+      "mtb": "Mountainbiken",
+      "watersports": "Watersport & kano",
+      "wintersports": "Wintersport",
+      "wildlife": "Wildlife‑spotting",
+      "photography": "Fotospots",
+      "beach": "Strand & zee",
+      "astronomy": "Sterrenkijken",
+      "lakes": "Meren & rivieren",
+      "cityStroll": "Stedentrips",
+      "history": "Geschiedenis & architectuur",
+      "museums": "Musea & kunst",
+      "gastronomy": "Regionale keuken",
+      "events": "Lokale festivals & events",
+      "wellness": "Wellness & spa",
+      "slowTravel": "Slow travel",
+      "shopping": "Winkelen & boetieks",
+      "badWeather": "Alternatieven bij slecht weer",
+      "campfire": "Samen zijn & kampvuur"
+    },
+      "additional": {
+        "label": "Extra wensen",
+        "placeholder": "Algemene wensen..."
+      }
+    },
+    "output": {
+      "customPrompt": "Individuele route‑prompt",
+      "title": {
+        "direct": "AI‑routeplanning",
+        "prompt": "Jouw AI‑prompt"
+      },
+      "loading": {
+        "wait": "Even geduld... Het resultaat kan per provider en route wat langer duren."
+      },
+      "actions": {
+        "copy": "Kopieren",
+        "copied": "Gekopieerd!",
+        "print": "Afdrukken",
+        "downloadGPX": "GPX‑download",
+        "downloadWpt": "GPX (route+track)",
+        "downloadGarmin": "Garmin (waypoints)",
+        "gpxDownloadedWpt": "GPX (route+track) gedownload",
+        "gpxDownloadedGarmin": "Garmin (waypoints) gedownload",
+        "gpxSwapNote": "GPX‑blokken automatisch gecorrigeerd",
+        "copyError": "Fout!"
+      },
+      "nextSteps": {
+        "title": "Klaar?",
+        "description": "Kopieer de tekst en plak hem in je favoriete AI (bijv. ChatGPT, Gemini of Mistral)."
+      },
+      "print": {
+        "gpxError": "Geen GPX‑gegevens."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} Camping Route",
+    "description": "Jouw AI‑partner voor avonturen.",
+    "madeWith": "Gemaakt met",
+    "forCommunity": "voor de community",
+    "imprint": "Impressum",
+    "privacy": "Privacybeleid",
+    "openSource": "Open source",
+    "license": "MIT‑licentie",
+    "sourceCode": "GitHub‑project"
+  },
+  "buttons": {
+    "copy": "Kopieren",
+    "print": "Afdrukken"
+  },
+  "imprint": {
+    "badge": "Imprint",
+    "title": "Impressum",
+    "project": {
+      "title": "Gegevens volgens § 5 TMG"
+    },
+    "contact": {
+      "title": "Contact",
+      "name": "Christian Kopmann",
+      "email": "info@campingroute.app"
+    },
+    "disclaimer": {
+      "title": "Aansprakelijkheid voor inhoud en links",
+      "description1": "Als aanbieder zijn we volgens § 7 Abs.1 TMG verantwoordelijk voor eigen inhoud. Volgens §§ 8‑10 TMG zijn we niet verplicht om doorgegeven of opgeslagen externe informatie te monitoren. De gegenereerde camperroutes worden door externe AI (zoals OpenAI of Gemini) gemaakt. We geven geen garantie op juistheid, uitvoerbaarheid of veiligheid. Gebruik is op eigen risico.",
+      "description2": "Onze aanbieding bevat links naar externe websites. Op de inhoud hebben we geen invloed en kunnen daarvoor geen aansprakelijkheid aanvaarden."
+    },
+    "openSource": {
+      "title": "Copyright & Open Source",
+      "description1": "De inhoud en werken op deze pagina’s vallen onder de MIT‑licentie. Het project is open‑source. Je kunt de broncode op GitHub bekijken, aanpassen en gebruiken.",
+      "link": "Bekijk GitHub‑repository"
+    },
+    "backToHome": "Terug naar home"
+  },
+  "privacy": {
+    "badge": "Privacybeleid",
+    "title": "Privacy",
+    "general": {
+      "title": "Algemene gegevensverwerking",
+      "description": "Bescherming van je gegevens is belangrijk. CampingRoute.app is een pure client‑side applicatie. We hebben geen database en geen accounts. Alles blijft primair in je browser."
+    },
+    "dataProcessing": {
+      "title": "Gegevensverwerking & AI",
+      "local": {
+        "title": "Lokale opslag",
+        "description": "Als je lokale opslag activeert, worden je formuliergegevens en instellingen (bijv. taalkeuze) uitsluitend lokaal opgeslagen en na 30 dagen automatisch gewist. API‑keys worden nooit opgeslagen. Er is geen overdracht naar onze servers."
+      },
+      "ai": {
+        "title": "AI‑integratie (OpenAI, Gemini, Mistral)",
+        "description": "Als je directe AI‑generatie gebruikt, worden je gegevens omgezet in een prompt en via jouw API‑key naar je gekozen provider gestuurd. We loggen of bewaren die data niet. De privacyvoorwaarden van de provider gelden."
+      },
+      "links": {
+        "title": "Externe links",
+        "description": "Links naar externe websites openen alleen na klik. Er is geen automatische data‑overdracht of link‑preview. De beheerders van de gelinkte sites zijn verantwoordelijk voor hun inhoud en privacy."
+      }
+    },
+    "cookies": {
+      "title": "Cookies & tracking",
+      "sidebar": {
+        "description": "CampingRoute.app gebruikt geen trackingcookies die toestemming vereisen (zoals Google Analytics of Meta Pixel)."
+      },
+      "noTracking": {
+        "description": "Alleen technisch noodzakelijke info (bijv. i18next) wordt lokaal in de browser bewaard."
+      }
+    },
+    "rights": {
+      "title": "Jouw rechten",
+      "description": "Omdat we geen persoonsgegevens op onze servers bewaren, is er geen klassiek recht op inzage/vernietiging via ons. Je hebt volledige controle: verwijder lokale gegevens in je browser."
+    },
+    "hosting": {
+      "title": "Hosting",
+      "description": "Deze website wordt gehost bij Hetzner. De host registreert systeemmatig toegangsdata (IP, browser, tijdstip) voor veilige werking."
+    },
+    "backToHome": "Terug naar home"
+  },
+  "prompt": {
+    "systemRole": "Je bent een professionele camperrouteplanner met gespecialiseerde kennis van Duitsland en internationale reisbestemmingen. Maak op basis van mijn specificaties een praktische, goed gestructureerde camperroute. Houd rekening met voertuigspecificaties, reisdoelen, budget en persoonlijke voorkeuren. Als realtime data (bijv. verkeer, beschikbaarheid, exacte prijzen) niet beschikbaar is, werk dan met plausibele schattingen, markeer die als zodanig en geef aan wat ik zelf moet controleren in het navigatiesysteem of een campingapp. Antwoord in taal: {{language}}.",
+    "sections": {
+      "route": "ROUTEBESCHRIJVING",
+      "vehicle": "VOERTUIGFILTERS",
+      "accommodation": "ACCOMMODATIEOPTIES",
+      "interests": "SPECIALE INTERESSES & ACTIVITEITEN",
+      "optimization": "ROUTE-OPTIMALISATIE",
+      "additional": "AANVULLENDE INFORMATIE & VERZOEKEN"
+    },
+    "labels": {
+      "start": "Startpunt",
+      "destination": "Bestemming",
+      "stage": "Stop {{num}}",
+      "departure": "Vertrekdatum",
+      "arrival": "Aankomstdatum",
+      "totalDistance": "Geschatte totale afstand",
+      "maxDailyDistance": "Max. afstand per dag",
+      "routeType": "Route-type",
+      "length": "Lengte",
+      "height": "Hoogte",
+      "width": "Breedte",
+      "weight": "Totaalgewicht",
+      "axleLoad": "Aslast",
+      "axleLoadUnit": "t per as",
+      "fuelType": "Brandstoftype",
+      "solar": "Zonne-energie",
+      "battery": "Opbouwbatterijcapaciteit",
+      "autonomyDays": "Autarkie",
+      "autonomyUnit": "dagen",
+      "heating": "Verwarming",
+      "levelingJacks": "Nivelleersteunen",
+      "toilet": "Toiletsysteem",
+      "travelers": "Aantal reizigers",
+      "travelersUnit": "Personen",
+      "companions": "Reisgezelschap",
+      "accommodationTypes": "Accommodatietypes",
+      "facilities": "Gewenste voorzieningen",
+      "budget": "Budget per nacht",
+      "budgetUpTo": "tot",
+      "specialWishes": "Speciale wensen",
+      "travelStyle": "Voorkeursreisstijl",
+      "preferences": "Route-voorkeuren",
+      "highwayMaut": "Snelwegen/tol",
+      "additional": {
+        "label": "Extra accommodatiewensen"
+      }
+    },
+    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).",
+    "gpx": {
+      "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe voor Garmin-waypoints:\n\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_GARMIN_WPT\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nNa de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra uitleg, opmerkingen of opmaak buiten het blok.",
+      "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe (Route+Track):\n\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_ROUTE_TRACK\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra uitleg, opmerkingen of opmaak buiten het blok.",
+      "both": "GPX-bestand: Voeg aan het einde van het antwoord twee GPX-varianten toe, elk in een eigen blok met exacte markeringen.\n\nBlok 1 (Garmin-waypoints):\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_GARMIN_WPT\n\nBlok 2 (GPX Route+Track):\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_ROUTE_TRACK\n\nVereisten blok 1 (Garmin-waypoints):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nVereisten blok 2 (GPX Route+Track):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen deze twee GPX-blokken terug, zonder extra uitleg, opmerkingen of opmaak buiten de blokken."
+    }
+  },
+  "anchorNav": {
+    "home": "Home",
+    "features": "Features",
+    "testimonials": "Ervaringen",
+    "exampleRoute": "Voorbeeldroute",
+    "mainContent": "Routeplanner",
+    "faq": "FAQ",
+    "backToTop": "Naar boven"
+  }
 }

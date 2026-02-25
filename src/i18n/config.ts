@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import de from './locales/de.json';
 import en from './locales/en.json';
+import nl from './locales/nl.json';
 
 i18n
   .use(LanguageDetector)
@@ -11,10 +12,16 @@ i18n
   .init({
     resources: {
       de: { translation: de },
-      en: { translation: en }
+      en: { translation: en },
+      nl: { translation: nl }
     },
-    fallbackLng: 'de',
-    lng: localStorage.getItem('i18nextLng') || 'de', // Nutze gespeicherte Sprache oder erzwinge Deutsch
+    supportedLngs: ['de', 'en', 'nl'],
+    nonExplicitSupportedLngs: true,
+    detection: {
+      order: ['querystring', 'localStorage', 'navigator'],
+      caches: ['localStorage']
+    },
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false
     }

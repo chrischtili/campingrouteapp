@@ -1,0 +1,26 @@
+{
+  "hero": {
+    "badge": "Routeplanner",
+    "title": "Plan je perfecte campingroute",
+    "description": "Beschrijf je vertrekpunt, reisduur en voorkeuren. De AI doet de rest.",
+    "cta": "Nu route plannen",
+    "stats": {
+      "rating": {
+        "value": "5,0",
+        "label": "Gebruikersscore"
+      },
+      "routes": {
+        "value": "15.000+",
+        "label": "Routes gemaakt"
+      },
+      "price": {
+        "value": "0 €",
+        "label": "Kosten"
+      }
+    }
+  },
+  "planner": {},
+  "features": {},
+  "privacy": {},
+  "footer": {}
+}

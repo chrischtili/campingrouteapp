@@ -117,7 +117,8 @@ npm run build
 ## 🤝 Beitragende
 
 - [chrischtili](https://github.com/chrischtili) - Lead Developer
-- [Mistral Vibe](https://mistral.ai) - KI-Assistent
+- [Gemini CLI](https://github.com/google/gemini-cli) - KI-Entwicklungsassistent
+- Codex (OpenAI) - KI-Entwicklungsassistent
 
 ## 📄 Lizenz
 
@@ -250,7 +251,8 @@ npm run build
 ## 🤝 Contributors
 
 - [chrischtili](https://github.com/chrischtili) - Lead Developer
-- [Mistral Vibe](https://mistral.ai) - AI Assistant
+- [Gemini CLI](https://github.com/google/gemini-cli) - AI Development Assistant
+- Codex (OpenAI) - AI Development Assistant
 
 ## 📄 License
 

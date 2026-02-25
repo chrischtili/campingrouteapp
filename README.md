@@ -128,6 +128,12 @@ MIT License - [Details](LICENSE)
 - Facilities (power, water, dog-friendly, pool).
 - Activity filters (hiking, culture, gastronomy, photography).
 
+## 🤝 Contributors
+
+- [chrischtili](https://github.com/chrischtili) - Lead Developer
+- [Gemini CLI](https://github.com/google/gemini-cli) - AI Development Assistant
+- Codex (OpenAI) - AI Development Assistant
+
 ---
 
 © 2026 Camping Route - Created with ❤️ for motorhome enthusiasts

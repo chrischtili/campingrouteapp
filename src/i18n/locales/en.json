@@ -896,6 +896,10 @@
       "ai": {
         "title": "AI Integration (OpenAI, Gemini, Mistral)",
         "description": "If you use direct AI generation, your form data (start, destination, vehicle, preferences) is converted into text (prompt) and sent directly to your chosen AI provider (OpenAI, Google Gemini, or Mistral AI) using your own API key. We do not store this traffic or log API keys. The privacy policies of the AI provider you use apply."
+      },
+      "links": {
+        "title": "External Links",
+        "description": "Links to external websites are opened only when you click them. There is no automatic data transfer or link preview. The operators of the linked sites are responsible for their content and privacy policies."
       }
     },
     "cookies": {

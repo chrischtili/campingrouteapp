@@ -29,4 +29,9 @@ counter.json
 # Ignore custom server files (production configuration)
 server/
 public/stats.html
+public/stats.html.gz
+public/stats.html.br
+dist/stats.html
+dist/stats.html.gz
+dist/stats.html.br
 COUNTER_SERVER_DOKUMENTATION.md

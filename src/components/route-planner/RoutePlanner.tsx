@@ -491,8 +491,8 @@ export function RoutePlanner() {
                             <div className="flex flex-col">
                               <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.period")}</span>
                               <div className="flex flex-col text-xs font-bold text-white">
-                                <span>{formData.startDate ? new Date(formData.startDate).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US') : '?'} —</span>
-                                <span>{formData.endDate ? new Date(formData.endDate).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US') : '?'}</span>
+                                <span>{formData.startDate ? new Date(formData.startDate).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : i18n.language === 'nl' ? 'nl-NL' : 'en-US') : '?'} —</span>
+                                <span>{formData.endDate ? new Date(formData.endDate).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : i18n.language === 'nl' ? 'nl-NL' : 'en-US') : '?'}</span>
                               </div>
                             </div>
                           </div>

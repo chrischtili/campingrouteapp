@@ -4,7 +4,7 @@ import i18next from "i18next";
 function formatDate(dateString: string): string {
   if (!dateString) return '';
   const date = new Date(dateString);
-  const locale = i18next.language === 'de' ? 'de-DE' : 'en-US';
+  const locale = i18next.language === 'de' ? 'de-DE' : i18next.language === 'nl' ? 'nl-NL' : 'en-US';
   return date.toLocaleDateString(locale);
 }
 
@@ -20,7 +20,7 @@ function buildGpxInstructions(data: FormData, t: (key: string, options?: any) =>
 
 export function generatePrompt(data: FormData): string {
   const t = (key: string, options?: any) => i18next.t(key, options);
-  const languageName = i18next.language === 'de' ? 'Deutsch' : 'English';
+  const languageName = i18next.language === 'de' ? 'Deutsch' : i18next.language === 'nl' ? 'Nederlands' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t);
 
   return `${t("prompt.systemRole", { language: languageName })}
@@ -121,7 +121,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       requestData = {
         model: actualModel,
         messages: [
-          { role: 'system', content: i18next.language === 'de' ? 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte in Markdown-Format.' : 'You are a helpful motorhome route planner. Respond in Markdown format.' },
+          { role: 'system', content: i18next.language === 'de' ? 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte im Markdown-Format.' : i18next.language === 'nl' ? 'Je bent een behulpzame camperrouteplanner. Antwoord in Markdown-formaat.' : 'You are a helpful motorhome route planner. Respond in Markdown format.' },
           { role: 'user', content: prompt }
         ],
         ...(usesCompletionTokens ? { max_completion_tokens: 128000 } : { max_tokens: 128000 }),

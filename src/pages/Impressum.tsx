@@ -47,6 +47,10 @@ export default function Impressum() {
                     <>
                       Camping Route ist ein privates, nicht-kommerzielles <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline decoration-primary/30 underline-offset-4">Open-Source-Projekt</a> zur Planung von Wohnmobil-Routen mit Hilfe von KI. Die Webseite dient ausschließlich informativen und demonstrativen Zwecken.
                     </>
+                  ) : i18n.language === 'nl' ? (
+                    <>
+                      Camping Route is een privé, niet‑commercieel <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline decoration-primary/30 underline-offset-4">open‑sourceproject</a> voor het plannen van camperroutes met AI. De website is uitsluitend bedoeld voor informatieve en demonstratieve doeleinden.
+                    </>
                   ) : (
                     <>
                       Camping Route is a private, non-commercial <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline decoration-primary/30 underline-offset-4">open-source project</a> for planning motorhome routes using AI. The website is for informational and demonstrative purposes only.

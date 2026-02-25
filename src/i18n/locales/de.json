@@ -522,7 +522,8 @@
         "title": "Eingaben lokal speichern",
         "desc": "Speichert deine Formulareingaben für 30 Tage lokal auf diesem Gerät. Mit „Daten löschen“ entfernst du die gespeicherten Daten von diesem Gerät.",
         "note": "API-Keys werden niemals gespeichert.",
-        "coffee": "Kauf mir einen Kaffee, vielen Dank",
+        "coffee": "Support CampingRoute",
+        "coffeeHint": "CampingRoute.app ist offen & werbefrei – dein Support hilft bei Serverkosten + Entwicklungskosten. Danke!",
         "clear": "Daten löschen"
       }
     },

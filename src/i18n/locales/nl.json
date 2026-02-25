@@ -318,7 +318,8 @@
         "title": "Invoer lokaal opslaan",
         "desc": "Slaat je formuliergegevens 30 dagen lokaal op dit apparaat op. Met “Gegevens wissen” verwijder je opgeslagen data van dit apparaat.",
         "note": "API‑keys worden nooit opgeslagen.",
-        "coffee": "Koop me een koffie, dank je",
+        "coffee": "Steun CampingRoute",
+        "coffeeHint": "CampingRoute.app is open‑source en reclamevrij — je steun helpt met server- en ontwikkelkosten. Dank je!",
         "clear": "Gegevens wissen"
       }
     },

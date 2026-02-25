@@ -522,7 +522,8 @@
         "title": "Save inputs locally",
         "desc": "Stores your form inputs on this device for 30 days. Use “Clear data” to remove the saved data from this device.",
         "note": "API keys are never stored.",
-        "coffee": "Buy me a coffee, many thanks",
+        "coffee": "Support CampingRoute",
+        "coffeeHint": "CampingRoute.app is open-source and ad-free — your support helps with server and development costs. Thank you!",
         "clear": "Clear data"
       }
     },

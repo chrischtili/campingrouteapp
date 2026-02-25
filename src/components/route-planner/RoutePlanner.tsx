@@ -569,7 +569,7 @@ export function RoutePlanner() {
                         </Button>
                       </div>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex flex-col items-center gap-2 text-center">
                       <a
                         href="https://www.buymeacoffee.com/k92x2k48wm2"
                         target="_blank"
@@ -578,6 +578,9 @@ export function RoutePlanner() {
                       >
                         ☕ {t("planner.summary.save.coffee")}
                       </a>
+                      <div className="text-[11px] text-white/60 max-w-xl">
+                        {t("planner.summary.save.coffeeHint")}
+                      </div>
                     </div>
                   </div>
                 )}

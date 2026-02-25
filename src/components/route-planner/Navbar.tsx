@@ -149,6 +149,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <DropdownMenuContent align="end" className="bg-[#0a140f] border-white/10 rounded-xl shadow-xl">
               <DropdownMenuItem onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">DEUTSCH</DropdownMenuItem>
               <DropdownMenuItem onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ENGLISH</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => { changeLanguage('nl'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">NEDERLANDS</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -194,10 +195,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             ))}
             <div className="h-px bg-white/5 my-2" />
             <div className="flex items-center justify-between">
-              <div className="flex gap-3 sm:gap-4">
-                <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
-                <button onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
-              </div>
+                <div className="flex gap-3 sm:gap-4">
+                  <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
+                  <button onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
+                  <button onClick={() => { changeLanguage('nl'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'nl' ? 'text-primary' : 'text-white/40'}`}>NL</button>
+                </div>
               <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black uppercase text-[8px] sm:text-[10px] tracking-widest">
                 {t("navbar.planNow")}
               </Button>

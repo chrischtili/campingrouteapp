@@ -507,6 +507,7 @@
         "title": "Enregistrer les saisies en local",
         "desc": "Enregistre vos saisies sur cet appareil pendant 30 jours. Utilisez « Effacer les données » pour supprimer les données enregistrées sur cet appareil.",
         "note": "Les clés API ne sont jamais stockées.",
+        "coffee": "Offre‑moi un café, merci",
         "clear": "Effacer les données"
       }
     },

@@ -268,9 +268,36 @@ export function OutputSection({
           </div>
 
           <div className="p-6 sm:p-10 md:p-16">
-            <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
-              {output}
-            </pre>
+            {useDirectAI ? (
+              <div className="space-y-8">
+                <div
+                  className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none"
+                  dangerouslySetInnerHTML={{
+                    __html: output
+                      .split(/BEGIN_GPX_GARMIN_WPT|BEGIN_GPX_ROUTE_TRACK|BEGIN_GPX_GARMIN|BEGIN_GPX_WPT_ONLY/)[0]
+                      .trim()
+                      .replace(/&/g, "&amp;")
+                      .replace(/</g, "&lt;")
+                      .replace(/>/g, "&gt;")
+                      .replace(/\"/g, "&quot;")
+                      .replace(/'/g, "&#39;")
+                      .replace(/(https?:\/\/[^\s)>\"]+)/g, '<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary underline underline-offset-4\">$1</a>')
+                      .replace(/\n/g, '<br />'),
+                  }}
+                />
+                <div className="space-y-6">
+                  {output.match(/BEGIN_GPX_GARMIN_WPT[\s\S]*?END_GPX_GARMIN_WPT|BEGIN_GPX_GARMIN[\s\S]*?END_GPX_GARMIN|BEGIN_GPX_ROUTE_TRACK[\s\S]*?END_GPX_ROUTE_TRACK|BEGIN_GPX_WPT_ONLY[\s\S]*?END_GPX_WPT_ONLY/g)?.map((block, idx) => (
+                    <pre key={idx} className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                      {block}
+                    </pre>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                {output}
+              </pre>
+            )}
           </div>
         </div>
       </div>

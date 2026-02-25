@@ -150,6 +150,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <DropdownMenuItem onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">DEUTSCH</DropdownMenuItem>
               <DropdownMenuItem onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ENGLISH</DropdownMenuItem>
               <DropdownMenuItem onClick={() => { changeLanguage('nl'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">NEDERLANDS</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className="text-white hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">FRANÇAIS</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -199,6 +200,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                   <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>
                   <button onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-white/40'}`}>EN</button>
                   <button onClick={() => { changeLanguage('nl'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'nl' ? 'text-primary' : 'text-white/40'}`}>NL</button>
+                  <button onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-white/40'}`}>FR</button>
                 </div>
               <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black uppercase text-[8px] sm:text-[10px] tracking-widest">
                 {t("navbar.planNow")}

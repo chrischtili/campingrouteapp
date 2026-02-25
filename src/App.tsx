@@ -54,6 +54,57 @@ const App = () => {
     }
     // Update lang attribute on html tag
     document.documentElement.lang = i18n.language;
+
+    const languageMap: Record<string, string> = {
+      de: 'de-DE',
+      en: 'en-US',
+      nl: 'nl-NL',
+      fr: 'fr-FR'
+    };
+    const supported = Object.keys(languageMap);
+
+    const url = new URL(window.location.href);
+    const baseUrl = `${url.origin}${url.pathname}`;
+
+    const upsertLink = (hreflang: string, href: string) => {
+      let link = document.head.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`) as HTMLLinkElement | null;
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'alternate');
+        link.setAttribute('hreflang', hreflang);
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', href);
+    };
+
+    supported.forEach((lng) => {
+      const altUrl = new URL(baseUrl);
+      altUrl.searchParams.set('lng', lng);
+      upsertLink(lng, altUrl.toString());
+    });
+    upsertLink('x-default', baseUrl);
+
+    const upsertMeta = (property: string, content: string) => {
+      let meta = document.head.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('property', property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
+
+    const currentLocale = languageMap[i18n.language] || 'en-US';
+    upsertMeta('og:locale', currentLocale);
+    const alternates = supported.filter((lng) => lng !== i18n.language).map((lng) => languageMap[lng]);
+    // Remove old alternate metas
+    document.querySelectorAll('meta[property="og:locale:alternate"]').forEach((m) => m.remove());
+    alternates.forEach((loc) => {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:locale:alternate');
+      meta.setAttribute('content', loc);
+      document.head.appendChild(meta);
+    });
   }, [t, i18n.language]);
 
   // Use requestIdleCallback for non-critical initialization

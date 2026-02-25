@@ -45,6 +45,44 @@ if (typeof window !== 'undefined' && !('requestIdleCallback' in window)) {
 const App = () => {
   const { t, i18n } = useTranslation();
 
+  React.useEffect(() => {
+    const key = "cr_chunk_reload";
+    const shouldReload = (message?: string) => {
+      if (!message) return false;
+      const msg = message.toLowerCase();
+      return msg.includes("dynamically imported module") || msg.includes("importing a module script failed");
+    };
+
+    const handleError = (event: ErrorEvent) => {
+      if (shouldReload(event.message)) {
+        const already = sessionStorage.getItem(key);
+        if (already !== "1") {
+          sessionStorage.setItem(key, "1");
+          window.location.reload();
+        }
+      }
+    };
+
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      const reason = event?.reason;
+      const message = typeof reason === "string" ? reason : reason?.message;
+      if (shouldReload(message)) {
+        const already = sessionStorage.getItem(key);
+        if (already !== "1") {
+          sessionStorage.setItem(key, "1");
+          window.location.reload();
+        }
+      }
+    };
+
+    window.addEventListener("error", handleError);
+    window.addEventListener("unhandledrejection", handleRejection);
+    return () => {
+      window.removeEventListener("error", handleError);
+      window.removeEventListener("unhandledrejection", handleRejection);
+    };
+  }, []);
+
   // Dynamically update SEO tags based on language
   React.useEffect(() => {
     document.title = t("seo.title");

@@ -4,7 +4,8 @@ import i18next from "i18next";
 function formatDate(dateString: string): string {
   if (!dateString) return '';
   const date = new Date(dateString);
-  const locale = i18next.language === 'de' ? 'de-DE' : i18next.language === 'nl' ? 'nl-NL' : i18next.language === 'fr' ? 'fr-FR' : 'en-US';
+  const lang = (i18next.resolvedLanguage || i18next.language || 'en').toLowerCase();
+  const locale = lang.startsWith('de') ? 'de-DE' : lang.startsWith('nl') ? 'nl-NL' : lang.startsWith('fr') ? 'fr-FR' : 'en-US';
   return date.toLocaleDateString(locale);
 }
 
@@ -20,7 +21,8 @@ function buildGpxInstructions(data: FormData, t: (key: string, options?: any) =>
 
 export function generatePrompt(data: FormData): string {
   const t = (key: string, options?: any) => i18next.t(key, options);
-  const languageName = i18next.language === 'de' ? 'Deutsch' : i18next.language === 'nl' ? 'Nederlands' : i18next.language === 'fr' ? 'Français' : 'English';
+  const lang = (i18next.resolvedLanguage || i18next.language || 'en').toLowerCase();
+  const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t);
 
   return `${t("prompt.systemRole", { language: languageName })}
@@ -101,6 +103,7 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
 }
 
 async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promise<string> {
+  const lang = (i18next.resolvedLanguage || i18next.language || 'en').toLowerCase();
   let apiUrl = '';
   let headers: Record<string, string> = {};
   let requestData: unknown = {};
@@ -121,7 +124,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       requestData = {
         model: actualModel,
         messages: [
-          { role: 'system', content: i18next.language === 'de' ? 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte im Markdown-Format.' : i18next.language === 'nl' ? 'Je bent een behulpzame camperrouteplanner. Antwoord in Markdown-formaat.' : i18next.language === 'fr' ? 'Tu es un planificateur d’itinéraires camping‑car utile. Réponds au format Markdown.' : 'You are a helpful motorhome route planner. Respond in Markdown format.' },
+          { role: 'system', content: lang.startsWith('de') ? 'Du bist ein hilfreicher Wohnmobil-Routenplaner. Antworte im Markdown-Format.' : lang.startsWith('nl') ? 'Je bent een behulpzame camperrouteplanner. Antwoord in Markdown-formaat.' : lang.startsWith('fr') ? 'Tu es un planificateur d’itinéraires camping‑car utile. Réponds au format Markdown.' : 'You are a helpful motorhome route planner. Respond in Markdown format.' },
           { role: 'user', content: prompt }
         ],
         ...(usesCompletionTokens ? { max_completion_tokens: 128000 } : { max_tokens: 128000 }),

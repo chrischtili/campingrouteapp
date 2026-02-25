@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner
 
-[![Version](https://img.shields.io/badge/version-v0.2.21-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -12,9 +12,13 @@
 
 ---
 
-## 🌟 Highlights
+## 🌟 Highlights (v0.4.0)
 
+- **Mehrsprachig erweitert**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷
+- **Mehrsprachige SEO-Auszeichnung** (hreflang/og:locale) für bessere Auffindbarkeit je Land
+- **Prompt-Sprache folgt der Auswahl** – konsistente KI-Antwortsprache
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte
+- **GPX-Ausgabe**: Garmin-Wegpunkte oder Route+Track
 - **Fahrzeugspezifische Filter** (Größe, Gewicht, Ausstattung)
 - **Stellplatz-Empfehlungen** nach Budget und Interessen
 - **100% kostenlose Basisversion** mit optionalem Premium-KI-Zugriff
@@ -129,7 +133,7 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Motorhome Route Planner
 
-[![Version](https://img.shields.io/badge/version-v0.2.21-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -141,9 +145,13 @@ MIT License - [Details](LICENSE)
 
 ---
 
-## 🌟 Highlights
+## 🌟 Highlights (v0.4.0)
 
+- **Expanded languages**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷
+- **Multilingual SEO markup** (hreflang/og:locale) for better regional discovery
+- **Prompt language follows selection** – consistent AI response language
 - **AI-powered route planning** with GPX export for navigation devices
+- **GPX output**: Garmin waypoints or Route+Track
 - **Vehicle-specific filters** (size, weight, equipment)
 - **Campsite recommendations** based on budget and interests
 - **100% free basic version** with optional premium AI access

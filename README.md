@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
 
-[![Version](https://img.shields.io/badge/version-v0.3.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,11 +10,13 @@
 
 ---
 
-## 🌟 Highlights (v0.3.0)
+## 🌟 Highlights (v0.4.0)
 
-- **NEU: Mehrsprachigkeit** – Die gesamte Anwendung ist jetzt in **Deutsch 🇩🇪 und Englisch 🇬🇧** verfügbar.
-- **NEU: Mehrsprachige KI-Prompts** – Generiert optimierte Prompts in deiner gewählten Sprache.
+- **NEU: Mehrsprachigkeit erweitert** – Jetzt **Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷**.
+- **NEU: Mehrsprachige SEO-Auszeichnung** (hreflang/og:locale) für bessere Auffindbarkeit in den jeweiligen Ländern.
+- **NEU: Sprachlogik im Prompt** – KI-Antworten folgen zuverlässig der gewählten Sprache.
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
+- **GPX-Ausgabe nach Bedarf**: Garmin-Wegpunkte oder Route+Track.
 - **Fahrzeugspezifische Filter** (Größe, Gewicht, Ausstattung).
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
 
@@ -76,7 +78,7 @@ npm run dev
 - [ ] Benutzerkonten mit Routenspeicherung
 - [ ] Community-Features (Route teilen & bewerten)
 - [ ] Integration mit Navigations-Apps (Komoot, Garmin)
-- [ ] Erweiterung auf weitere Sprachen (Französisch, Italienisch, Spanisch)
+- [ ] Erweiterung auf weitere Sprachen (Italienisch, Spanisch)
 
 ## 🤝 Beitragende
 
@@ -91,17 +93,19 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.3.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
 
 ---
 
-## 🌟 Highlights (v0.3.0)
+## 🌟 Highlights (v0.4.0)
 
-- **NEW: Multi-language Support** – The entire application is now available in **German 🇩🇪 and English 🇬🇧**.
-- **NEW: Multi-language AI Prompts** – Generates optimized prompts in your chosen language.
+- **NEW: Expanded languages** – Now **German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷**.
+- **NEW: Multilingual SEO markup** (hreflang/og:locale) for better regional discovery.
+- **NEW: Prompt language logic** – AI responses follow the selected language reliably.
 - **AI-powered Route Planning** with GPX export for navigation devices.
+- **On-demand GPX output**: Garmin waypoints or Route+Track.
 - **Vehicle-specific Filters** (size, weight, equipment).
 - **100% Free** – Prompt generation possible without any API costs.
 

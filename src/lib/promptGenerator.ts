@@ -4,26 +4,36 @@ import i18next from "i18next";
 function formatDate(dateString: string): string {
   if (!dateString) return '';
   const date = new Date(dateString);
-  const lang = (i18next.resolvedLanguage || i18next.language || 'en').toLowerCase();
+  const lang = (i18next.language || 'en').toLowerCase();
   const locale = lang.startsWith('de') ? 'de-DE' : lang.startsWith('nl') ? 'nl-NL' : lang.startsWith('fr') ? 'fr-FR' : 'en-US';
   return date.toLocaleDateString(locale);
 }
 
-function buildGpxInstructions(data: FormData, t: (key: string, options?: any) => string): string {
+type GpxFormat = 'codeblock' | 'plain';
+
+function buildGpxInstructions(
+  data: FormData,
+  t: (key: string, options?: any) => string,
+  format: GpxFormat
+): string {
   const modes = data.gpxOutputMode || [];
   if (modes.length === 0) return '';
+  const baseKey = format === 'codeblock' ? 'prompt.gpx' : 'prompt.gpxPlain';
   const wantsGarmin = modes.includes('garmin');
   const wantsRouteTrack = modes.includes('routeTrack');
-  if (wantsGarmin && wantsRouteTrack) return t("prompt.gpx.both");
-  if (wantsGarmin) return t("prompt.gpx.garmin");
-  return t("prompt.gpx.routeTrack");
+  if (wantsGarmin && wantsRouteTrack) return t(`${baseKey}.both`);
+  if (wantsGarmin) return t(`${baseKey}.garmin`);
+  return t(`${baseKey}.routeTrack`);
 }
 
-export function generatePrompt(data: FormData): string {
+export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat }): string {
   const t = (key: string, options?: any) => i18next.t(key, options);
-  const lang = (i18next.resolvedLanguage || i18next.language || 'en').toLowerCase();
+  const lang = (i18next.language || 'en').toLowerCase();
   const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : 'English';
-  const gpxInstructions = buildGpxInstructions(data, t);
+  const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
+  const includeStages = data.routeType === 'multiStage';
+  const stage1 = includeStages && data.stageDestination1 ? '• ' + t("prompt.labels.stage", { num: 1 }) + ': ' + data.stageDestination1 + '\n' : '';
+  const stage2 = includeStages && data.stageDestination2 ? '• ' + t("prompt.labels.stage", { num: 2 }) + ': ' + data.stageDestination2 + '\n' : '';
 
   return `${t("prompt.systemRole", { language: languageName })}
 
@@ -31,7 +41,7 @@ export function generatePrompt(data: FormData): string {
 ──────────────
 • ${t("prompt.labels.start")}: ${data.startPoint}
 • ${t("prompt.labels.destination")}: ${data.destination}
-${data.stageDestination1 ? '• ' + t("prompt.labels.stage", { num: 1 }) + ': ' + data.stageDestination1 + '\n' : ''}${data.stageDestination2 ? '• ' + t("prompt.labels.stage", { num: 2 }) + ': ' + data.stageDestination2 + '\n' : ''}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
+${stage1}${stage2}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
 • ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}
 ${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
 
@@ -91,7 +101,7 @@ ${gpxInstructions ? `\n\n${gpxInstructions}` : ''}
 }
 
 export async function callAIAPI(formData: FormData, aiSettings: AISettings): Promise<string> {
-  const prompt = generatePrompt(formData);
+  const prompt = generatePrompt(formData, { gpxFormat: 'plain' });
   
   if (process.env.NODE_ENV === 'development') {
     console.log('=== AI API Call Details ===');
@@ -103,7 +113,7 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
 }
 
 async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promise<string> {
-  const lang = (i18next.resolvedLanguage || i18next.language || 'en').toLowerCase();
+  const lang = (i18next.language || 'en').toLowerCase();
   let apiUrl = '';
   let headers: Record<string, string> = {};
   let requestData: unknown = {};

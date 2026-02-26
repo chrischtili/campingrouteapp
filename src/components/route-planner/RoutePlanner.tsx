@@ -303,20 +303,20 @@ export function RoutePlanner() {
                   }
                 }, 100);
               }}
-              className="relative inline-flex items-center gap-4 px-10 sm:px-12 py-5 sm:py-6 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md text-primary hover:text-primary hover:border-primary/50 transition overflow-hidden"
+              className="group relative inline-flex items-center gap-4 px-12 sm:px-16 py-6 sm:py-7 rounded-full bg-primary text-white border-2 border-primary/70 shadow-2xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 hover:scale-[1.02] overflow-hidden"
               size="lg"
               style={{
-                background: "rgba(245, 155, 10, 0.2)",
+                background: "linear-gradient(135deg, rgba(245, 155, 10, 0.98), rgba(245, 155, 10, 0.75))",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
               }}
             >
               <span aria-hidden className="absolute inset-0">
-                <span className="absolute -top-8 -left-10 h-32 w-32 rounded-full bg-primary/25 blur-2xl" />
-                <span className="absolute -bottom-10 -right-10 h-36 w-36 rounded-full bg-secondary/35 blur-2xl" />
+                <span className="absolute -top-10 -left-12 h-36 w-36 rounded-full bg-white/20 blur-2xl" />
+                <span className="absolute -bottom-12 -right-14 h-40 w-40 rounded-full bg-black/10 blur-2xl" />
               </span>
-              <span className="relative z-10 flex h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
-              <span className="relative z-10 text-sm sm:text-base font-black uppercase tracking-[0.3em]">{t("planner.cta")}</span>
+              <span className="relative z-10 flex h-3 w-3 rounded-full bg-white/90 animate-pulse" />
+              <span className="relative z-10 text-base sm:text-lg font-black uppercase tracking-[0.25em]">{t("planner.cta")}</span>
             </Button>
           </motion.div>
         </section>
@@ -376,7 +376,17 @@ export function RoutePlanner() {
                       case 3: return formData.routePreferences.length > 0;
                       case 4: 
                         return formData.vehicleLength !== initialFormData.vehicleLength || 
-                               formData.vehicleWeight !== initialFormData.vehicleWeight;
+                               formData.vehicleHeight !== initialFormData.vehicleHeight ||
+                               formData.vehicleWidth !== initialFormData.vehicleWidth ||
+                               formData.weightClass !== initialFormData.weightClass ||
+                               formData.vehicleType !== initialFormData.vehicleType ||
+                               formData.fuelType !== initialFormData.fuelType ||
+                               formData.toiletteSystem !== initialFormData.toiletteSystem ||
+                               formData.heatingSystem !== initialFormData.heatingSystem ||
+                               formData.levelingJacks !== initialFormData.levelingJacks ||
+                               formData.solarPower !== initialFormData.solarPower ||
+                               formData.batteryCapacity !== initialFormData.batteryCapacity ||
+                               formData.autonomyDays !== initialFormData.autonomyDays;
                       case 5: return formData.travelCompanions.length > 0 || formData.accommodationType.length > 0;
                       case 6: return formData.activities.length > 0;
                       case 7: return !!output; 
@@ -447,7 +457,7 @@ export function RoutePlanner() {
               <div className="space-y-12 relative z-10">
                 {currentStep === 1 && <AISettingsSection aiSettings={aiSettings} onAISettingsChange={handleAISettingsChange} aiError={aiError} />}
                 {currentStep === 2 && <RouteSection formData={formData} onChange={handleFormChange} />}
-                {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} />}
+                {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />}
                 {currentStep === 4 && <VehicleSection formData={formData} onChange={handleFormChange} />}
                 {currentStep === 5 && <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
                 {currentStep === 6 && <ActivitiesSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
@@ -523,7 +533,18 @@ export function RoutePlanner() {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
                       {[
-                        { label: t("planner.summary.vehicle"), value: formData.vehicleWeight + "t", icon: Truck },
+                        { 
+                          label: t("planner.summary.vehicle"), 
+                          value: (() => {
+                            const typeLabel = formData.vehicleType ? t(`planner.vehicle.type.options.${formData.vehicleType}`) : "";
+                            const weightLabel = formData.weightClass ? t(`planner.vehicle.weightClass.options.${formData.weightClass}`) : "";
+                            if (typeLabel && weightLabel) return `${typeLabel} · ${weightLabel}`;
+                            if (typeLabel) return typeLabel;
+                            if (weightLabel) return weightLabel;
+                            return t("planner.summary.notSelected");
+                          })(),
+                          icon: Truck 
+                        },
                         { label: t("planner.summary.people"), value: formData.numberOfTravelers, icon: Users },
                         { label: t("planner.summary.style"), value: formData.travelStyle ? t(`planner.route.style.options.${formData.travelStyle}`) : t("planner.summary.notSelected"), icon: Sparkles },
                         { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Heart },
@@ -623,7 +644,7 @@ export function RoutePlanner() {
             </motion.div>
           </div>
 
-          <div className="mt-16 max-w-5xl mx-auto scroll-mt-24" ref={outputSectionRef}>
+      <div className="mt-16 max-w-5xl mx-auto scroll-mt-24" ref={outputSectionRef}>
             <OutputSection
               output={output}
               isLoading={isLoading}
@@ -632,6 +653,17 @@ export function RoutePlanner() {
               aiError={aiError}
               useDirectAI={aiSettings.useDirectAI}
               gpxOutputMode={formData.gpxOutputMode}
+              summary={{
+                startPoint: formData.startPoint,
+                destination: formData.destination,
+                startDate: formData.startDate,
+                endDate: formData.endDate,
+                maxDailyDistance: formData.maxDailyDistance,
+                routeType: formData.routeType,
+                travelPace: formData.travelPace,
+                budgetLevel: formData.budgetLevel,
+                quietPlaces: formData.quietPlaces,
+              }}
             />
           </div>
         </section>

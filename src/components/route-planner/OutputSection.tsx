@@ -14,6 +14,17 @@ interface OutputSectionProps {
   aiError?: string;
   useDirectAI: boolean;
   gpxOutputMode: string[];
+  summary?: {
+    startPoint: string;
+    destination: string;
+    startDate: string;
+    endDate: string;
+    maxDailyDistance: string;
+    routeType: string;
+    travelPace: string;
+    budgetLevel: string;
+    quietPlaces: boolean;
+  };
 }
 
 export function OutputSection({ 
@@ -23,7 +34,8 @@ export function OutputSection({
   aiModel, 
   aiError, 
   useDirectAI,
-  gpxOutputMode
+  gpxOutputMode,
+  summary
 }: OutputSectionProps) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -289,7 +301,24 @@ export function OutputSection({
             </div>
           </div>
 
-          <div className="p-6 sm:p-10 md:p-16">
+          <div className="p-6 sm:p-10 md:p-16 space-y-10">
+            {summary && (
+              <div className="p-6 rounded-3xl bg-white/5 border-2 border-white/10 shadow-xl">
+                <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4">
+                  {t("planner.output.summary.title")}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-white/80 font-semibold">
+                  <div>• {t("planner.summary.start")}: {summary.startPoint || t("planner.summary.notSpecified")}</div>
+                  <div>• {t("planner.summary.destination")}: {summary.destination || t("planner.summary.notSpecified")}</div>
+                  <div>• {t("planner.summary.period")}: {summary.startDate ? new Date(summary.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US') : '?'} — {summary.endDate ? new Date(summary.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US') : '?'}</div>
+                  <div>• {t("planner.summary.maxDist")}: {summary.maxDailyDistance || '250'} km</div>
+                  <div>• {t("planner.summary.style")}: {summary.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected")}</div>
+                  <div>• {t("planner.accommodation.budgetLevel.label")}: {summary.budgetLevel ? t(`planner.accommodation.budgetLevel.options.${summary.budgetLevel}`) : t("planner.summary.notSelected")}</div>
+                  <div>• {t("planner.route.type.label")}: {summary.routeType ? t(`planner.route.type.options.${summary.routeType}`) : t("planner.summary.notSelected")}</div>
+                  <div>• {t("planner.accommodation.quietPlaces.label")}: {summary.quietPlaces ? t("prompt.labels.yes") : t("planner.summary.notSelected")}</div>
+                </div>
+              </div>
+            )}
             {useDirectAI ? (
               <div className="space-y-8">
                 <div
@@ -315,6 +344,26 @@ export function OutputSection({
                 {output}
               </pre>
             )}
+
+            {gpxOutputMode?.length > 0 && (
+              <div className="text-[11px] text-white/60 font-bold uppercase tracking-[0.2em]">
+                {t("planner.output.gpxHint")}
+              </div>
+            )}
+
+            <div className="p-6 rounded-3xl bg-white/5 border-2 border-white/10 shadow-xl">
+              <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4">
+                {t("planner.output.checklist.title")}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80 font-semibold">
+                <div>• {t("planner.output.checklist.items.water")}</div>
+                <div>• {t("planner.output.checklist.items.power")}</div>
+                <div>• {t("planner.output.checklist.items.gas")}</div>
+                <div>• {t("planner.output.checklist.items.waste")}</div>
+                <div>• {t("planner.output.checklist.items.documents")}</div>
+                <div>• {t("planner.output.checklist.items.apps")}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -3,17 +3,21 @@ export interface FormData {
   destination: string;
   startDate: string;
   endDate: string;
+  startTime: string;
+  endTime: string;
+  durationFlexible: boolean;
   distance: string;
   maxDailyDistance: string;
+  travelPace: string;
   routeType: string;
   gpxOutputMode: string[];
   stageDestination1: string;
   stageDestination2: string;
   vehicleLength: string;
   vehicleHeight: string;
-  vehicleWeight: string;
   vehicleWidth: string;
-  axleLoad: string;
+  weightClass: string;
+  vehicleType: string;
   fuelType: string;
   toiletteSystem: string;
   solarPower: string;
@@ -25,11 +29,15 @@ export interface FormData {
   routePreferences: string[];
   accommodationType: string[];
   avgCampsitePriceMax: string;
+  budgetLevel: string;
+  quietPlaces: boolean;
   accommodation: string;
   travelStyle: string;
   activities: string[];
   travelCompanions: string[];
   avoidHighways: string[];
+  avoidTollCountries: string[];
+  avoidRegions: string;
   facilities: string[];
   numberOfTravelers: string;
   additionalInfo: string;
@@ -49,17 +57,21 @@ export const initialFormData: FormData = {
   destination: '',
   startDate: new Date().toISOString().split('T')[0],
   endDate: new Date().toISOString().split('T')[0],
+  startTime: '',
+  endTime: '',
+  durationFlexible: false,
   distance: '',
   maxDailyDistance: '250',
+  travelPace: '',
   routeType: '',
   gpxOutputMode: [],
   stageDestination1: '',
   stageDestination2: '',
   vehicleLength: '7',
   vehicleHeight: '2.9',
-  vehicleWeight: '3.5',
   vehicleWidth: '2.3',
-  axleLoad: '2.5',
+  weightClass: '',
+  vehicleType: '',
   fuelType: '',
   toiletteSystem: '',
   solarPower: '0',
@@ -71,11 +83,15 @@ export const initialFormData: FormData = {
   routePreferences: [],
   accommodationType: [],
   avgCampsitePriceMax: '50',
+  budgetLevel: '',
+  quietPlaces: false,
   accommodation: '',
   travelStyle: '',
   activities: [],
   travelCompanions: [],
   avoidHighways: [],
+  avoidTollCountries: [],
+  avoidRegions: '',
   facilities: [],
   numberOfTravelers: '2',
   additionalInfo: ''

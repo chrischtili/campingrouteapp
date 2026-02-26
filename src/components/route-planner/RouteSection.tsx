@@ -2,9 +2,10 @@ import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ToggleGroup } from "./ToggleGroup";
+import { Switch } from "@/components/ui/switch";
 import { FormSlider } from "./FormSlider";
 import { useTranslation } from "react-i18next";
-import { Map, MapPin, Calendar, Compass, Info, ArrowRight, Sparkles } from "lucide-react";
+import { Map, MapPin, Calendar, Compass, Info, ArrowRight, Sparkles, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface RouteSectionProps {
@@ -28,6 +29,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     const next = checked ? [...current, value] : current.filter((v) => v !== value);
     onChange({ gpxOutputMode: next });
   };
+  
+  const handlePaceChange = (_name: string, value: string, checked: boolean) => {
+    onChange({ travelPace: checked ? value : '' });
+  };
 
   const glassPanelStyle = {
     background: "rgba(255, 255, 255, 0.03)",
@@ -38,6 +43,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left";
+  const requiredError = "text-[10px] font-black uppercase tracking-[0.2em] text-red-400";
+  const isStartMissing = !formData.startPoint?.trim();
+  const isDestinationMissing = !formData.destination?.trim();
 
   return (
     <div className="space-y-12">
@@ -125,11 +133,12 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 placeholder={t("planner.route.start.placeholder")}
                 value={formData.startPoint}
                 onChange={(e) => onChange({ startPoint: e.target.value })}
-                className={`${inputClass} pl-14`}
+                className={`${inputClass} pl-14 ${isStartMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
                 required
               />
               <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/40" />
             </div>
+            {isStartMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
           </div>
 
           <div className="space-y-4">
@@ -146,55 +155,65 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 placeholder={t("planner.route.destination.placeholder")}
                 value={formData.destination}
                 onChange={(e) => onChange({ destination: e.target.value })}
-                className={`${inputClass} pl-14 border-primary/20`}
+                className={`${inputClass} pl-14 border-primary/20 ${isDestinationMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
                 required
               />
               <div className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-primary" />
               </div>
             </div>
+            {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
           </div>
         </div>
       </div>
 
       <AnimatePresence>
-        {formData.routeType === 'multiStage' && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${formData.routeType !== 'multiStage' ? "opacity-40 pointer-events-none" : ""}`}
+        >
+          <div className="space-y-4">
+            <Label htmlFor="stageDestination1" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+              {t("planner.route.stage.label", { num: 1 })}
+            </Label>
+            <div className="relative">
+              <input
+                id="stageDestination1"
+                placeholder={t("planner.route.stage.placeholder")}
+                value={formData.stageDestination1}
+                onChange={(e) => onChange({ stageDestination1: e.target.value })}
+                className={`${inputClass} pl-14`}
+                disabled={formData.routeType !== 'multiStage'}
+              />
+              <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <Label htmlFor="stageDestination2" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+              {t("planner.route.stage.label", { num: 2 })}
+            </Label>
+            <div className="relative">
+              <input
+                id="stageDestination2"
+                placeholder={t("planner.route.stage.placeholder")}
+                value={formData.stageDestination2}
+                onChange={(e) => onChange({ stageDestination2: e.target.value })}
+                className={`${inputClass} pl-14`}
+                disabled={formData.routeType !== 'multiStage'}
+              />
+              <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
+            </div>
+          </div>
+        </motion.div>
+        {formData.routeType !== 'multiStage' && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-xs font-black uppercase tracking-[0.2em] text-white/40"
           >
-            <div className="space-y-4">
-              <Label htmlFor="stageDestination1" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
-                {t("planner.route.stage.label", { num: 1 })}
-              </Label>
-              <div className="relative">
-                <input
-                  id="stageDestination1"
-                  placeholder={t("planner.route.stage.placeholder")}
-                  value={formData.stageDestination1}
-                  onChange={(e) => onChange({ stageDestination1: e.target.value })}
-                  className={`${inputClass} pl-14`}
-                />
-                <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
-              </div>
-            </div>
-            <div className="space-y-4">
-              <Label htmlFor="stageDestination2" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
-                {t("planner.route.stage.label", { num: 2 })}
-              </Label>
-              <div className="relative">
-                <input
-                  id="stageDestination2"
-                  placeholder={t("planner.route.stage.placeholder")}
-                  value={formData.stageDestination2}
-                  onChange={(e) => onChange({ stageDestination2: e.target.value })}
-                  className={`${inputClass} pl-14`}
-                />
-                <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
-              </div>
-            </div>
+            {t("planner.route.stageHint")}
           </motion.div>
         )}
       </AnimatePresence>
@@ -228,10 +247,62 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 onChange={(e) => onChange({ endDate: e.target.value })}
                 className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
                 style={{ colorScheme: 'dark' }}
+                min={formData.startDate || undefined}
               />
               <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              {t("planner.route.departureTime")}
+            </Label>
+            <div className="relative">
+              <input
+                type="time"
+                value={formData.startTime || ''}
+                onChange={(e) => onChange({ startTime: e.target.value })}
+                className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                style={{ colorScheme: 'dark' }}
+              />
+              <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              {t("planner.route.arrivalTime")}
+            </Label>
+            <div className="relative">
+              <input
+                type="time"
+                value={formData.endTime || ''}
+                onChange={(e) => onChange({ endTime: e.target.value })}
+                className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                style={{ colorScheme: 'dark' }}
+              />
+              <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-6 rounded-2xl bg-white/5 border-2 border-white/10 p-5">
+          <div className="space-y-1">
+            <div className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+              {t("planner.route.flexibleDuration.label")}
+            </div>
+            <div className="text-white/60 text-sm">
+              {t("planner.route.flexibleDuration.description")}
+            </div>
+          </div>
+          <Switch
+            checked={formData.durationFlexible}
+            onCheckedChange={(checked) => onChange({ durationFlexible: checked })}
+            aria-label={t("planner.route.flexibleDuration.label")}
+            className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(245,155,10,0.35)]"
+          />
         </div>
 
         <div className="pt-10 border-t border-white/5">
@@ -244,6 +315,26 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             step={50}
             unit="km"
             onChange={(value) => onChange({ maxDailyDistance: value.toString() })}
+          />
+        </div>
+
+        <div className="pt-6">
+          <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2 mb-4">
+            <Sparkles className="w-4 h-4 text-primary" /> {t("planner.route.travelPace.label")}
+          </Label>
+          <div className="text-white/60 text-xs font-semibold mb-4">
+            {t("planner.route.travelPace.note")}
+          </div>
+          <ToggleGroup
+            name="travelPace"
+            options={[
+              { value: 'short', label: t("planner.route.travelPace.options.short") },
+              { value: 'balanced', label: t("planner.route.travelPace.options.balanced") },
+              { value: 'long', label: t("planner.route.travelPace.options.long") },
+            ]}
+            selectedValues={formData.travelPace ? [formData.travelPace] : []}
+            onChange={handlePaceChange}
+            className="grid-cols-1 md:grid-cols-3"
           />
         </div>
       </div>

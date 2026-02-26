@@ -8,9 +8,10 @@ import { motion } from "framer-motion";
 interface RouteOptimizationSectionProps {
   formData: FormData;
   onCheckboxChange: (name: string, value: string, checked: boolean) => void;
+  onChange: (data: Partial<FormData>) => void;
 }
 
-export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOptimizationSectionProps) {
+export function RouteOptimizationSection({ formData, onCheckboxChange, onChange }: RouteOptimizationSectionProps) {
   const { t } = useTranslation();
 
   const categories = [
@@ -116,6 +117,39 @@ export function RouteOptimizationSection({ formData, onCheckboxChange }: RouteOp
             </div>
           </motion.div>
         ))}
+      </div>
+
+      <div className="space-y-4 text-left">
+        <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+          <ShieldAlert className="w-4 h-4 text-primary" /> {t("planner.optimization.tollCountries.label")}
+        </Label>
+        <ToggleGroup
+          name="avoidTollCountries"
+          options={[
+            { value: 'at', label: t("planner.optimization.tollCountries.options.at") },
+            { value: 'ch', label: t("planner.optimization.tollCountries.options.ch") },
+            { value: 'fr', label: t("planner.optimization.tollCountries.options.fr") },
+            { value: 'it', label: t("planner.optimization.tollCountries.options.it") },
+            { value: 'es', label: t("planner.optimization.tollCountries.options.es") },
+            { value: 'si', label: t("planner.optimization.tollCountries.options.si") },
+          ]}
+          selectedValues={formData.avoidTollCountries}
+          onChange={onCheckboxChange}
+          className="grid-cols-1 md:grid-cols-2"
+        />
+      </div>
+
+      <div className="space-y-4 text-left">
+        <Label htmlFor="avoidRegions" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+          <ShieldAlert className="w-4 h-4 text-primary" /> {t("planner.optimization.avoidRegions.label")}
+        </Label>
+        <textarea
+          id="avoidRegions"
+          placeholder={t("planner.optimization.avoidRegions.placeholder")}
+          value={formData.avoidRegions}
+          onChange={(e) => onChange({ avoidRegions: e.target.value })}
+          className="w-full min-h-[120px] p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
+        />
       </div>
     </div>
   );

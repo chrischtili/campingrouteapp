@@ -32,8 +32,13 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
   const includeStages = data.routeType === 'multiStage';
+  const isMotorcycleTent = data.vehicleType === 'motorcycleTent';
   const stage1 = includeStages && data.stageDestination1 ? '• ' + t("prompt.labels.stage", { num: 1 }) + ': ' + data.stageDestination1 + '\n' : '';
   const stage2 = includeStages && data.stageDestination2 ? '• ' + t("prompt.labels.stage", { num: 2 }) + ': ' + data.stageDestination2 + '\n' : '';
+  const startTime = data.startTime ? '• ' + t("prompt.labels.startTime") + ': ' + data.startTime + '\n' : '';
+  const endTime = data.endTime ? '• ' + t("prompt.labels.endTime") + ': ' + data.endTime + '\n' : '';
+  const flexibleDuration = data.durationFlexible ? '• ' + t("prompt.labels.flexibleDuration") + ': ' + t("prompt.labels.yes") + '\n' : '';
+  const travelPace = data.travelPace ? '• ' + t("prompt.labels.travelPace") + ': ' + t(`planner.route.travelPace.options.${data.travelPace}`) + ' (' + t("prompt.labels.travelPaceNote") + ')\n' : '';
 
   return `${t("prompt.systemRole", { language: languageName })}
 
@@ -42,19 +47,17 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
 • ${t("prompt.labels.start")}: ${data.startPoint}
 • ${t("prompt.labels.destination")}: ${data.destination}
 ${stage1}${stage2}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
-• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}
-${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
+${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}
+${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${travelPace}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
 
 🚐 ${t("prompt.sections.vehicle")}:
 ───────────────────────────
-• ${t("prompt.labels.length")}: ${data.vehicleLength || '7'} m
+${!isMotorcycleTent ? `• ${t("prompt.labels.length")}: ${data.vehicleLength || '7'} m
 • ${t("prompt.labels.height")}: ${data.vehicleHeight || '2.9'} m
 • ${t("prompt.labels.width")}: ${data.vehicleWidth || '2.3'} m
-• ${t("prompt.labels.weight")}: ${data.vehicleWeight || '3.5'} t
-• ${t("prompt.labels.axleLoad")}: ${data.axleLoad || '2.5'} ${t("prompt.labels.axleLoadUnit")}
-${data.fuelType ? '• ' + t("prompt.labels.fuelType") + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${data.solarPower ? '• ' + t("prompt.labels.solar") + ': ' + data.solarPower + 'W\n' : ''}${data.batteryCapacity ? '• ' + t("prompt.labels.battery") + ': ' + data.batteryCapacity + 'Ah\n' : ''}${data.autonomyDays ? '• ' + t("prompt.labels.autonomyDays") + ': ' + data.autonomyDays + ' ' + t("prompt.labels.autonomyUnit") + '\n' : ''}${data.heatingSystem ? '• ' + t("prompt.labels.heating") + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${data.levelingJacks ? '• ' + t("prompt.labels.levelingJacks") + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${data.toiletteSystem ? '• ' + t("prompt.labels.toilet") + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}${data.routeAdditionalInfo ? '• ' + t("prompt.labels.additional.label") + ': ' + data.routeAdditionalInfo + '\n' : ''}
+` : ''}${data.weightClass ? '• ' + t("prompt.labels.weightClass") + ': ' + t(`planner.vehicle.weightClass.options.${data.weightClass}`) + '\n' : ''}${data.vehicleType ? '• ' + t("prompt.labels.vehicleType") + ': ' + t(`planner.vehicle.type.options.${data.vehicleType}`) + '\n' : ''}${!isMotorcycleTent && data.fuelType ? '• ' + t("prompt.labels.fuelType") + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${!isMotorcycleTent && data.solarPower ? '• ' + t("prompt.labels.solar") + ': ' + data.solarPower + 'W\n' : ''}${!isMotorcycleTent && data.batteryCapacity ? '• ' + t("prompt.labels.battery") + ': ' + data.batteryCapacity + 'Ah\n' : ''}${!isMotorcycleTent && data.autonomyDays ? '• ' + t("prompt.labels.autonomyDays") + ': ' + data.autonomyDays + ' ' + t("prompt.labels.autonomyUnit") + '\n' : ''}${!isMotorcycleTent && data.heatingSystem ? '• ' + t("prompt.labels.heating") + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${!isMotorcycleTent && data.levelingJacks ? '• ' + t("prompt.labels.levelingJacks") + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${!isMotorcycleTent && data.toiletteSystem ? '• ' + t("prompt.labels.toilet") + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}${data.routeAdditionalInfo ? '• ' + t("prompt.labels.additional.label") + ': ' + data.routeAdditionalInfo + '\n' : ''}
 
-${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.travelCompanions.length > 0 || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.accommodation ? `
+${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.travelCompanions.length > 0 || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.budgetLevel || data.quietPlaces || data.accommodation ? `
 🏕️ ${t("prompt.sections.accommodation")}:
 ──────────────────────────
 • ${t("prompt.labels.travelers")}: ${data.numberOfTravelers || '2'} ${t("prompt.labels.travelersUnit")}
@@ -62,6 +65,8 @@ ${data.travelCompanions.length ? '• ' + t("prompt.labels.companions") + ': ' +
 ${data.accommodationType.length ? '• ' + t("prompt.labels.accommodationTypes") + ': ' + data.accommodationType.map(at => t(`planner.accommodation.categories.type.options.${at}`)).join(', ') + '\n' : ''}
 ${data.facilities?.length ? '• ' + t("prompt.labels.facilities") + ': ' + data.facilities.map(f => t(`planner.accommodation.categories.facilities.options.${f}`)).join(', ') + '\n' : ''}
 ${data.avgCampsitePriceMax ? '• ' + t("prompt.labels.budget") + ': ' + t("prompt.labels.budgetUpTo") + ' ' + data.avgCampsitePriceMax + '€\n' : ''}
+${data.budgetLevel ? '• ' + t("prompt.labels.budgetLevel") + ': ' + t(`planner.accommodation.budgetLevel.options.${data.budgetLevel}`) + '\n' : ''}
+${data.quietPlaces ? '• ' + t("prompt.labels.quietPlaces") + ': ' + t("prompt.labels.yes") + '\n' : ''}
 ${data.accommodation ? '• ' + t("prompt.labels.specialWishes") + ': ' + data.accommodation + '\n' : ''}
 ` : ''}
 
@@ -72,7 +77,7 @@ ${data.travelStyle ? '• ' + t("prompt.labels.travelStyle") + ': ' + t(`planner
 ${data.activities.length ? data.activities.map(a => '• ' + t(`planner.interests.options.${a}`)).join('\n') + '\n' : ''}
 ` : ''}
 
-${data.routePreferences?.length > 0 || data.avoidHighways?.length > 0 ? `
+${data.routePreferences?.length > 0 || data.avoidHighways?.length > 0 || data.avoidTollCountries?.length > 0 || data.avoidRegions ? `
 🛣️ ${t("prompt.sections.optimization")}:
 ───────────────────────
 ${data.routePreferences?.length ? '• ' + t("prompt.labels.preferences") + ': ' + data.routePreferences.map(p => {
@@ -86,6 +91,8 @@ ${data.routePreferences?.length ? '• ' + t("prompt.labels.preferences") + ': '
   return p;
 }).join(', ') + '\n' : ''}
 ${data.avoidHighways?.length ? '• ' + t("prompt.labels.highwayMaut") + ': ' + data.avoidHighways.join(', ') + '\n' : ''}
+${data.avoidTollCountries?.length ? '• ' + t("prompt.labels.tollCountries") + ': ' + data.avoidTollCountries.map(c => t(`planner.optimization.tollCountries.options.${c}`)).join(', ') + '\n' : ''}
+${data.avoidRegions ? '• ' + t("prompt.labels.avoidRegions") + ': ' + data.avoidRegions + '\n' : ''}
 ` : ''}
 
 ${data.additionalInfo ? `

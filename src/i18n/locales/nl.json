@@ -34,7 +34,6 @@
   "features": {
     "badge": "Features",
     "title": "Waarom CampingRoute",
-    "subtitle": "Alles wat je nodig hebt voor je volgende avontuur.",
     "promptGen": {
       "title": "Slimme routeprompt",
       "description": "Jouw wensen worden omgezet in een gestructureerde AI‑prompt."
@@ -280,33 +279,7 @@
       ]
     },
     "highlights": {
-      "title": "Highlights & activiteiten",
-      "groups": {
-        "outward": {
-          "title": "Heenreis",
-          "items": [
-            "Rhön (Wasserkuppe): panoramawandeling",
-            "Magdeburg waterkruising: kanaalbrug over de Elbe",
-            "Perleberg oude stad & wildpark"
-          ]
-        },
-        "onsite": {
-          "title": "Ter plaatse",
-          "items": [
-            "Wismar oude stad (UNESCO) & oude haven",
-            "Eiland Poel: hondenstranden (bijv. Timmendorf)",
-            "Schloss Bothmer in Klütz"
-          ]
-        },
-        "return": {
-          "title": "Terugreis",
-          "items": [
-            "Hundertwasser‑station Uelzen",
-            "Brocken‑wandeling of Brockenbahn (honden met muilkorf)",
-            "Wertheim oude stad & kasteelruïne"
-          ]
-        }
-      }
+      "title": "Highlights & activiteiten"
     },
     "tips": {
       "title": "Praktische tips",
@@ -450,7 +423,7 @@
         "step1": "Basisgegevens",
         "step1a": "Stel start, bestemming, duur en max. dagkilometers in.",
         "step2": "Je voertuig",
-        "step2a": "Voer afmetingen, gewicht en autonomie in.",
+        "step2a": "Voer afmetingen, gewichtsklasse, voertuigtype en je autarkie‑setup in (zonnepaneel, huishoudaccu, autonomiedagen).",
         "step3": "Voorkeuren & generatie",
         "step3a": "Kopieer de prompt (en plak in ChatGPT etc.) OF voer je eigen API‑key in voor directe weergave."
       },
@@ -565,11 +538,9 @@
       },
       "provider": {
         "label": "Provider & model",
-        "placeholder": "AI kiezen",
         "help": "Welk model kiezen?"
       },
       "apiKey": {
-        "label": "API‑key",
         "hint": "Je key wordt niet opgeslagen en alleen voor deze sessie gebruikt.",
         "placeholder": "Je API‑key",
         "create": "API‑key aanmaken bij {{name}} →",
@@ -603,12 +574,12 @@
         "placeholder": "Selecteer",
         "options": {
           "adventure": "Avontuur",
-          "relaxation": "Ontspanning",
+          "relaxation": "Wellness & rust",
           "culture": "Cultuur",
           "nature": "Natuur",
           "family": "Familie",
           "gourmet": "Gourmet",
-          "slowTravel": "Slow travel"
+          "slowTravel": "Slow travel (rustig tempo)"
         }
       },
       "start": {
@@ -621,14 +592,31 @@
       },
       "stage": {
         "label": "Tussenstop {{num}}",
-        "placeholder": "bijv. Gent"
+        "placeholder": "bijv. Innsbruck of Bolzano"
       },
       "departure": "Vertrek",
       "arrival": "Aankomst",
       "maxDistance": "Max km / dag",
       "additional": {
         "label": "Extra info",
-        "placeholder": "Wensen..."
+        "placeholder": "bijv. geboekte campings, vaste afspraken, must‑see plekken, speciale wensen"
+      },
+      "departureTime": "Vertrektijd",
+      "arrivalTime": "Aankomsttijd",
+      "flexibleDuration": {
+        "label": "Flexibele reisduur",
+        "description": "AI mag duur/etappes aanpassen indien zinvol."
+      },
+      "requiredHint": "Verplicht",
+      "stageHint": "Tussenstops alleen bij etappe‑route",
+      "travelPace": {
+        "label": "Reistempo (snelkeuze)",
+        "options": {
+          "short": "Korte etappes",
+          "balanced": "Gebalanceerd",
+          "long": "Lange etappes"
+        },
+        "note": "Max km/dag heeft prioriteit; reistempo is een zachte voorkeur."
       }
     },
     "optimization": {
@@ -672,6 +660,21 @@
             "markets": "Lokale markten"
           }
         }
+      },
+      "avoidRegions": {
+        "label": "Regio's vermijden",
+        "placeholder": "bijv. grote steden, bergpassen, tollanden"
+      },
+      "tollCountries": {
+        "label": "Tollanden vermijden",
+        "options": {
+          "at": "Oostenrijk",
+          "ch": "Zwitserland",
+          "fr": "Frankrijk",
+          "it": "Italië",
+          "es": "Spanje",
+          "si": "Slovenië"
+        }
       }
     },
     "vehicle": {
@@ -679,15 +682,38 @@
       "description": "Technische gegevens van je voertuig.",
       "group": {
         "dimensions": "Afmetingen",
-        "weight": "Gewicht",
+        "weight": "Klasse & type",
         "power": "Autonomie",
         "systems": "Systemen"
       },
       "length": "Lengte",
       "height": "Hoogte",
       "width": "Breedte",
-      "weight": "Totaalgewicht",
-      "axleLoad": "Aslast",
+      "weightClass": {
+        "label": "Gewichtsklasse",
+        "placeholder": "Selecteer",
+        "options": {
+          "lt35": "tot 3,5 t",
+          "bt35_75": "3,5–7,5 t",
+          "gt75": "meer dan 7,5 t"
+        }
+      },
+      "type": {
+        "label": "Voertuigtype",
+        "placeholder": "Selecteer",
+        "options": {
+          "campervan": "Campervan",
+          "semiIntegrated": "Half‑integraal",
+          "integrated": "Integraal",
+          "alcove": "Alkoof",
+          "expedition": "Expeditie‑truck",
+          "caravan": "Caravan (aanhanger)",
+          "pickupCamper": "Pickup‑camper",
+          "tent": "Tent",
+          "motorcycleTent": "Motor + tent"
+        }
+      },
+      "typeNote": "Bij motor + tent worden afmetingen, autonomie en systemen genegeerd.",
       "fuel": {
         "label": "Brandstof",
         "placeholder": "Selecteer",
@@ -791,7 +817,20 @@
         "label": "Extra wensen",
         "placeholder": "bijv. rustige ligging..."
       },
-      "subtitle": "Waar en hoe wil je onderweg overnachten?"
+      "subtitle": "Waar en hoe wil je onderweg overnachten?",
+      "budgetLevel": {
+        "label": "Budgetniveau",
+        "placeholder": "bijv. midden",
+        "options": {
+          "low": "Laag",
+          "medium": "Midden",
+          "high": "Premium"
+        }
+      },
+      "quietPlaces": {
+        "label": "Rustige plekken",
+        "description": "Geef de voorkeur aan rustige, natuurgerichte plekken."
+      }
     },
     "interests": {
       "title": "Interesses",
@@ -819,14 +858,14 @@
         "gastronomy": "Regionale keuken",
         "events": "Lokale festivals & events",
         "wellness": "Wellness & spa",
-        "slowTravel": "Slow travel",
+        "slowTravel": "Kleine dorpen & landelijke cafés",
         "shopping": "Winkelen & boetieks",
         "badWeather": "Alternatieven bij slecht weer",
         "campfire": "Samen zijn & kampvuur"
       },
       "additional": {
         "label": "Extra wensen",
-        "placeholder": "Algemene wensen..."
+        "placeholder": "bijv. uitzichtpunten, boerderijwinkels, fotospots, drempelarme routes"
       }
     },
     "output": {
@@ -839,14 +878,9 @@
         "wait": "Even geduld... Het resultaat kan per provider en route wat langer duren."
       },
       "actions": {
-        "copy": "Kopieren",
         "copied": "Gekopieerd!",
-        "print": "Afdrukken",
-        "downloadGPX": "GPX‑download",
         "downloadWpt": "GPX (route+track)",
         "downloadGarmin": "Garmin (waypoints)",
-        "gpxDownloadedWpt": "GPX (route+track) gedownload",
-        "gpxDownloadedGarmin": "Garmin (waypoints) gedownload",
         "gpxSwapNote": "GPX‑blokken automatisch gecorrigeerd",
         "copyError": "Fout!"
       },
@@ -859,6 +893,21 @@
       },
       "print": {
         "gpxError": "Geen GPX‑gegevens."
+      },
+      "summary": {
+        "title": "Korte samenvatting"
+      },
+      "gpxHint": "GPX gemaakt – opslaan als .gpx",
+      "checklist": {
+        "title": "Checklist",
+        "items": {
+          "water": "Water & drinkwater",
+          "power": "Stroom & adapters",
+          "gas": "Gas & verwarming",
+          "waste": "Afval & toilet",
+          "documents": "Documenten & verzekering",
+          "apps": "Apps & offline kaarten"
+        }
       }
     }
   },
@@ -916,10 +965,6 @@
       "ai": {
         "title": "AI‑integratie (OpenAI, Gemini, Mistral)",
         "description": "Als je directe AI‑generatie gebruikt, worden je gegevens omgezet in een prompt en via jouw API‑key naar je gekozen provider gestuurd. We loggen of bewaren die data niet. De privacyvoorwaarden van de provider gelden."
-      },
-      "links": {
-        "title": "Externe links",
-        "description": "Links naar externe websites openen alleen na klik. Er is geen automatische data‑overdracht of link‑preview. De beheerders van de gelinkte sites zijn verantwoordelijk voor hun inhoud en privacy."
       }
     },
     "cookies": {
@@ -963,9 +1008,8 @@
       "length": "Lengte",
       "height": "Hoogte",
       "width": "Breedte",
-      "weight": "Totaalgewicht",
-      "axleLoad": "Aslast",
-      "axleLoadUnit": "t per as",
+      "weightClass": "Gewichtsklasse",
+      "vehicleType": "Voertuigtype",
       "fuelType": "Brandstoftype",
       "solar": "Zonne-energie",
       "battery": "Opbouwbatterijcapaciteit",
@@ -987,19 +1031,19 @@
       "highwayMaut": "Snelwegen/tol",
       "additional": {
         "label": "Extra accommodatiewensen"
-      }
+      },
+      "startTime": "Vertrektijd",
+      "endTime": "Aankomsttijd",
+      "flexibleDuration": "Flexibele reisduur",
+      "yes": "Ja",
+      "budgetLevel": "Budgetniveau",
+      "avoidRegions": "Regio's vermijden",
+      "travelPace": "Reistempo",
+      "quietPlaces": "Rustige plekken",
+      "tollCountries": "Tollanden vermijden",
+      "travelPaceNote": "zachte voorkeur, max km/dag heeft prioriteit"
     },
-    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Schrijf links altijd volledig met https:// (bijv. https://voorbeeld.nl). Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",
-    "gpx": {
-      "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand voor Garmin-waypoints toe.\n\nBelangrijk: Geef het GPX-bestand als een eigen codeblock (```gpx) weer. Het codeblock mag alleen het GPX-bestand bevatten, zonder extra markers zoals BEGIN/END.\n\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nNa de normale antwoordsecties geef je alleen dit codeblock terug, zonder extra tekst buiten het codeblock.",
-      "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand toe (Route+Track).\n\nBelangrijk: Geef het GPX-bestand als een eigen codeblock (```gpx) weer. Het codeblock mag alleen het GPX-bestand bevatten, zonder extra markers zoals BEGIN/END.\n\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen dit codeblock terug, zonder extra tekst buiten het codeblock.",
-      "both": "GPX-bestand: Voeg aan het einde van het antwoord twee GPX-bestanden toe, elk in een eigen codeblock (```gpx).\n\nBelangrijk: Elk codeblock mag alleen het GPX-bestand bevatten, zonder extra markers zoals BEGIN/END.\n\nBlok 1 (Garmin-waypoints):\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nBlok 2 (GPX Route+Track):\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nVereisten blok 1 (Garmin-waypoints):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nVereisten blok 2 (GPX Route+Track):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen deze twee codeblocks terug, zonder extra tekst buiten de codeblocks."
-    },
-    "gpxPlain": {
-      "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe voor Garmin-waypoints. BEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_GARMIN_WPT Vereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit. Na de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra tekst buiten het GPX-blok.",
-      "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe (Route+Track). BEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_ROUTE_TRACK Vereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>). Na de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra tekst buiten het GPX-blok.",
-      "both": "GPX-bestand: Voeg aan het einde van het antwoord twee GPX-varianten toe, elk in een eigen GPX-blok met exacte markeringen. Blok 1 (Garmin-waypoints):\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_GARMIN_WPT Blok 2 (GPX Route+Track):\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_ROUTE_TRACK Vereisten blok 1 (Garmin-waypoints):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit. Vereisten blok 2 (GPX Route+Track):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>). Na de normale antwoordsecties geef je alleen deze twee GPX-bloks terug, zonder extra tekst buiten de GPX-bloks."
-    }
+    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Schrijf links altijd volledig met https:// (bijv. https://voorbeeld.nl). Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android."
   },
   "anchorNav": {
     "home": "Home",

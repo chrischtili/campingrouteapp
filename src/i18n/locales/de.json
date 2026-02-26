@@ -34,7 +34,6 @@
   "features": {
     "badge": "Features",
     "title": "Warum Camping Route?",
-    "subtitle": "Alles, was du für dein nächstes Abenteuer brauchst.",
     "promptGen": {
       "title": "KI-Prompt-Generierung",
       "description": "Erstellt optimierte Prompts für deine KI-gestützte Routenplanung mit Wohnmobil-spezifischen Parametern."
@@ -280,33 +279,7 @@
       ]
     },
     "highlights": {
-      "title": "Highlights & Aktivitäten",
-      "groups": {
-        "outward": {
-          "title": "Hinfahrt",
-          "items": [
-            "Rhön (Wasserkuppe): Spaziergang mit Panorama",
-            "Wasserstraßenkreuz Magdeburg: Trogbrücke über die Elbe",
-            "Perleberg Altstadt & Tierpark"
-          ]
-        },
-        "onsite": {
-          "title": "Vor Ort",
-          "items": [
-            "Wismar Altstadt (UNESCO) & Alter Hafen",
-            "Insel Poel: Hundestrände (z. B. Timmendorf)",
-            "Schloss Bothmer in Klütz"
-          ]
-        },
-        "return": {
-          "title": "Rückfahrt",
-          "items": [
-            "Hundertwasser-Bahnhof Uelzen",
-            "Brockenwanderung oder Brockenbahn (Hund mit Maulkorb)",
-            "Wertheim Altstadt & Burgruine"
-          ]
-        }
-      }
+      "title": "Highlights & Aktivitäten"
     },
     "tips": {
       "title": "Praktische Tipps",
@@ -450,7 +423,7 @@
         "step1": "Basisdaten",
         "step1a": "Start, Ziel, Reisedauer und maximale Tageskilometer festlegen.",
         "step2": "Dein Fahrzeug",
-        "step2a": "Fahrzeugmaße, Gewicht und Autarkie (Strom/Wasser) eintragen.",
+        "step2a": "Fahrzeugmaße, Gewichtsklasse, Fahrzeugtyp sowie Solar, Aufbaubatterie und Autarkie-Tage eintragen.",
         "step3": "Wünsche & Generierung",
         "step3a": "Prompt kopieren (und manuell in ChatGPT & Co einfügen) ODER eigenen API-Key eintragen für die direkte Anzeige in der App."
       },
@@ -565,11 +538,9 @@
       },
       "provider": {
         "label": "Anbieter & Modell",
-        "placeholder": "KI wählen",
         "help": "Welches Modell wählen?"
       },
       "apiKey": {
-        "label": "API-Schlüssel",
         "hint": "Dein Key wird nicht gespeichert und nur für diese Sitzung genutzt.",
         "placeholder": "Dein API-Schlüssel",
         "create": "API-Schlüssel bei {{name}} erstellen →",
@@ -603,12 +574,12 @@
         "placeholder": "-- Bitte wählen --",
         "options": {
           "adventure": "Abenteuer",
-          "relaxation": "Entspannung",
+          "relaxation": "Wellness & Ruhe",
           "culture": "Kultur",
           "nature": "Natur",
           "family": "Familie",
           "gourmet": "Gourmet",
-          "slowTravel": "Slow Travel"
+          "slowTravel": "Slow Travel (langsames Reisen)"
         }
       },
       "start": {
@@ -621,14 +592,31 @@
       },
       "stage": {
         "label": "Zwischenstopp {{num}}",
-        "placeholder": "z.B. Stuttgart"
+        "placeholder": "z. B. Innsbruck oder Bozen"
       },
       "departure": "Abreise",
       "arrival": "Ankunft",
       "maxDistance": "Max. km / Tag",
       "additional": {
         "label": "Zusatzinfos",
-        "placeholder": "Wünsche..."
+        "placeholder": "z. B. bereits gebuchte Plätze, feste Termine, must‑see Orte, spezielle Wünsche"
+      },
+      "departureTime": "Abfahrtszeit",
+      "arrivalTime": "Ankunftszeit",
+      "flexibleDuration": {
+        "label": "Reisedauer flexibel",
+        "description": "KI darf Dauer/Etappen anpassen, wenn sinnvoll."
+      },
+      "requiredHint": "Pflichtfeld",
+      "stageHint": "Zwischenstopps nur bei Etappenfahrt",
+      "travelPace": {
+        "label": "Fahrstil (Schnellwahl)",
+        "options": {
+          "short": "Kurze Etappen",
+          "balanced": "Ausgewogen",
+          "long": "Lange Etappen"
+        },
+        "note": "Max. km/Tag hat Vorrang; Fahrstil ist eine weiche Präferenz."
       }
     },
     "optimization": {
@@ -672,6 +660,21 @@
             "markets": "Lokale Märkte"
           }
         }
+      },
+      "avoidRegions": {
+        "label": "Regionen meiden",
+        "placeholder": "z. B. Großstädte, Alpenpässe, Mautländer"
+      },
+      "tollCountries": {
+        "label": "Mautländer vermeiden",
+        "options": {
+          "at": "Österreich",
+          "ch": "Schweiz",
+          "fr": "Frankreich",
+          "it": "Italien",
+          "es": "Spanien",
+          "si": "Slowenien"
+        }
       }
     },
     "vehicle": {
@@ -679,15 +682,38 @@
       "description": "Technische Daten deines Fahrzeugs.",
       "group": {
         "dimensions": "Abmessungen",
-        "weight": "Gewicht",
+        "weight": "Klasse & Typ",
         "power": "Autarkie",
         "systems": "Systeme"
       },
       "length": "Länge",
       "height": "Höhe",
       "width": "Breite",
-      "weight": "Gesamtgewicht",
-      "axleLoad": "Achslast",
+      "weightClass": {
+        "label": "Gewichtsklasse",
+        "placeholder": "Wählen",
+        "options": {
+          "lt35": "bis 3,5 t",
+          "bt35_75": "3,5–7,5 t",
+          "gt75": "über 7,5 t"
+        }
+      },
+      "type": {
+        "label": "Fahrzeugtyp",
+        "placeholder": "Wählen",
+        "options": {
+          "campervan": "Kastenwagen",
+          "semiIntegrated": "Teilintegriert",
+          "integrated": "Vollintegriert",
+          "alcove": "Alkoven",
+          "expedition": "Lkw-Expeditionsmobil",
+          "caravan": "Wohnwagen (Anhänger)",
+          "pickupCamper": "Camper-Pickup",
+          "tent": "Zelt",
+          "motorcycleTent": "Motorrad + Zelt"
+        }
+      },
+      "typeNote": "Bei Motorrad + Zelt werden Maße, Autarkie und Systeme ignoriert.",
       "fuel": {
         "label": "Kraftstoff",
         "placeholder": "Wählen",
@@ -791,7 +817,20 @@
         "label": "Zusatzwünsche",
         "placeholder": "z.B. ruhige Lage..."
       },
-      "subtitle": "Wo und wie möchtest du auf der Route übernachten?"
+      "subtitle": "Wo und wie möchtest du auf der Route übernachten?",
+      "budgetLevel": {
+        "label": "Budget-Level",
+        "placeholder": "z. B. mittel",
+        "options": {
+          "low": "Günstig",
+          "medium": "Mittel",
+          "high": "Premium"
+        }
+      },
+      "quietPlaces": {
+        "label": "Ruhige Plätze",
+        "description": "Bevorzuge ruhige, naturnahe Stellplätze."
+      }
     },
     "interests": {
       "title": "Interessen",
@@ -819,14 +858,14 @@
         "gastronomy": "Regionale Kulinarik",
         "events": "Lokale Feste & Events",
         "wellness": "Wellness & Spa",
-        "slowTravel": "Slow Travel",
+        "slowTravel": "Kleine Dörfer & Landcafés",
         "shopping": "Shopping & Boutiquen",
         "badWeather": "Schlechtwetter-Alternativen",
         "campfire": "Geselligkeit & Lagerfeuer"
       },
       "additional": {
         "label": "Weitere Wünsche",
-        "placeholder": "Allgemeine Wünsche..."
+        "placeholder": "z. B. Aussichtspunkte, Hofläden, Fotospots, barrierearme Wege"
       }
     },
     "output": {
@@ -839,14 +878,9 @@
         "wait": "Bitte warten... Das Ergebnis kann je nach Anbieter und Route etwas dauern."
       },
       "actions": {
-        "copy": "Kopieren",
         "copied": "Kopiert!",
-        "print": "Drucken",
-        "downloadGPX": "GPX Download",
         "downloadWpt": "GPX (Route+Track)",
         "downloadGarmin": "Garmin (Wegpunkte)",
-        "gpxDownloadedWpt": "GPX (Route+Track) heruntergeladen",
-        "gpxDownloadedGarmin": "Garmin (Wegpunkte) heruntergeladen",
         "gpxSwapNote": "GPX-Blöcke automatisch korrigiert",
         "copyError": "Fehler!"
       },
@@ -859,6 +893,21 @@
       },
       "print": {
         "gpxError": "Keine GPX-Daten."
+      },
+      "summary": {
+        "title": "Kurzfassung"
+      },
+      "gpxHint": "GPX erstellt – bitte als .gpx speichern",
+      "checklist": {
+        "title": "Checkliste",
+        "items": {
+          "water": "Wasser & Frischwasser",
+          "power": "Strom & Adapter",
+          "gas": "Gas & Heizung",
+          "waste": "Entsorgung & WC",
+          "documents": "Dokumente & Versicherung",
+          "apps": "Apps & Offline‑Karten"
+        }
       }
     }
   },
@@ -901,10 +950,6 @@
       "ai": {
         "title": "KI-Integration (OpenAI, Gemini, Mistral)",
         "description": "Wenn du die direkte KI-Generierung nutzt, werden deine Formulardaten (Start, Ziel, Fahrzeug, Vorlieben) in einen Text umgewandelt (Prompt) und über deinen eigenen API-Key direkt an den von dir gewählten KI-Anbieter (OpenAI, Google Gemini oder Mistral AI) gesendet. Wir speichern diesen Traffic nicht und loggen keine API-Schlüssel. Es gelten die Datenschutzbestimmungen des jeweils von dir genutzten KI-Anbieters."
-      },
-      "links": {
-        "title": "Externe Links",
-        "description": "Links zu externen Websites werden nur bei Klick geöffnet. Es erfolgt keine automatische Datenübertragung oder Link-Vorschau. Für die Inhalte und Datenschutzbestimmungen der verlinkten Seiten sind deren Betreiber verantwortlich."
       }
     },
     "cookies": {
@@ -959,9 +1004,8 @@
       "length": "Länge",
       "height": "Höhe",
       "width": "Breite",
-      "weight": "Gesamtgewicht",
-      "axleLoad": "Achslast",
-      "axleLoadUnit": "t / Achse",
+      "weightClass": "Gewichtsklasse",
+      "vehicleType": "Fahrzeugtyp",
       "fuelType": "Kraftstoffart",
       "solar": "Solaranlage",
       "battery": "Aufbaubatterie",
@@ -983,19 +1027,19 @@
       "highwayMaut": "Autobahn/Maut",
       "additional": {
         "label": "Weitere Informationen & Wünsche"
-      }
+      },
+      "startTime": "Abfahrtszeit",
+      "endTime": "Ankunftszeit",
+      "flexibleDuration": "Reisedauer flexibel",
+      "yes": "Ja",
+      "budgetLevel": "Budget-Level",
+      "avoidRegions": "Regionen meiden",
+      "travelPace": "Fahrstil",
+      "quietPlaces": "Ruhige Plätze",
+      "tollCountries": "Mautländer vermeiden",
+      "travelPaceNote": "weiche Präferenz, Max. km/Tag hat Vorrang"
     },
-    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze und Alternativen mit kurzer Beschreibung; nenne, wenn verfügbar, die offizielle Website, Adresse und Telefonnummer. Links sind sehr wichtig und sollten in der Regel vorhanden sein. Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Nenne grobe Preisbereiche, aber markiere Preise als Richtwerte. Suche zwingend mindestens eine Alternative pro Übernachtung mit denselben Angaben.)\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
-    "gpx": {
-      "garmin": "GPX-Datei: Hänge am Ende der Antwort genau eine GPX-Datei für Garmin-Wegpunkte an.\n\nWichtig: Gib die GPX-Datei als eigenen Codeblock (```gpx) aus. Der Codeblock darf nur die GPX-Datei enthalten, ohne zusätzliche Marker wie BEGIN/END.\n\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben.\n\nGib nach den normalen Antwortabschnitten ausschließlich diesen Codeblock zurück, ohne zusätzlichen Text außerhalb des Codeblocks.",
-      "routeTrack": "GPX-Datei: Hänge am Ende der Antwort genau eine GPX-Datei (Route+Track) an.\n\nWichtig: Gib die GPX-Datei als eigenen Codeblock (```gpx) aus. Der Codeblock darf nur die GPX-Datei enthalten, ohne zusätzliche Marker wie BEGIN/END.\n\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\n\nGib nach den normalen Antwortabschnitten ausschließlich diesen Codeblock zurück, ohne zusätzlichen Text außerhalb des Codeblocks.",
-      "both": "GPX-Datei: Hänge am Ende der Antwort zwei GPX-Dateien an, jeweils als eigener Codeblock (```gpx).\n\nWichtig: Jeder Codeblock darf nur die jeweilige GPX-Datei enthalten, ohne zusätzliche Marker wie BEGIN/END.\n\nBlock 1 (Garmin Wegpunkte):\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nBlock 2 (GPX Route+Track):\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nAnforderungen Block 1 (Garmin Wegpunkte):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben.\n\nAnforderungen Block 2 (GPX Route+Track):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\n\nGib nach den normalen Antwortabschnitten ausschließlich diese beiden Codeblöcke zurück, ohne zusätzlichen Text außerhalb der Codeblöcke."
-    },
-    "gpxPlain": {
-      "garmin": "GPX-Datei: Hänge am Ende der Antwort genau einen GPX-Block für Garmin Wegpunkte an. BEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_GARMIN_WPT Anforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben. Gib nach den normalen Antwortabschnitten ausschließlich diesen GPX-Block zurück, ohne zusätzlichen Text außerhalb des GPX-Blocks.",
-      "routeTrack": "GPX-Datei: Hänge am Ende der Antwort genau einen GPX-Block (Route+Track) an. BEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_ROUTE_TRACK Anforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen. Gib nach den normalen Antwortabschnitten ausschließlich diesen GPX-Block zurück, ohne zusätzlichen Text außerhalb des GPX-Blocks.",
-      "both": "GPX-Datei: Hänge am Ende der Antwort zwei GPX-Varianten an, jeweils als eigener GPX-Block mit exakten Markern. Block 1 (Garmin Wegpunkte):\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_GARMIN_WPT Block 2 (GPX Route+Track):\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_ROUTE_TRACK Anforderungen Block 1 (Garmin Wegpunkte):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben. Anforderungen Block 2 (GPX Route+Track):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen. Gib nach den normalen Antwortabschnitten ausschließlich diese beiden GPX-Blöcke zurück, ohne zusätzlichen Text außerhalb der GPX-Blöcke."
-    }
+    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze und Alternativen mit kurzer Beschreibung; nenne, wenn verfügbar, die offizielle Website, Adresse und Telefonnummer. Links sind sehr wichtig und sollten in der Regel vorhanden sein. Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Nenne grobe Preisbereiche, aber markiere Preise als Richtwerte. Suche zwingend mindestens eine Alternative pro Übernachtung mit denselben Angaben.)\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android."
   },
   "anchorNav": {
     "home": "Start",

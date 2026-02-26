@@ -2,6 +2,8 @@ import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "react-i18next";
 import { Bed, Users, Home, Settings, Wallet, MessageSquare, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -109,7 +111,39 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             </span>
           </div>
           <FormSlider id="avgCampsitePriceMax" label={t("planner.accommodation.budget.label")} value={formData.avgCampsitePriceMax ? parseInt(formData.avgCampsitePriceMax) : 0} min={0} max={150} step={5} unit="€" onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })} />
+          <div className="w-full mt-6 space-y-3">
+            <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">
+              {t("planner.accommodation.budgetLevel.label")}
+            </Label>
+            <Select value={formData.budgetLevel} onValueChange={(value) => onChange({ budgetLevel: value })}>
+              <SelectTrigger className="w-full h-12 px-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm text-white">
+                <SelectValue placeholder={t("planner.accommodation.budgetLevel.placeholder")} />
+              </SelectTrigger>
+              <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectItem value="low">{t("planner.accommodation.budgetLevel.options.low")}</SelectItem>
+                <SelectItem value="medium">{t("planner.accommodation.budgetLevel.options.medium")}</SelectItem>
+                <SelectItem value="high">{t("planner.accommodation.budgetLevel.options.high")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-6 rounded-2xl bg-white/5 border-2 border-white/10 p-5">
+        <div className="space-y-1">
+          <div className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+            {t("planner.accommodation.quietPlaces.label")}
+          </div>
+          <div className="text-white/60 text-sm">
+            {t("planner.accommodation.quietPlaces.description")}
+          </div>
+        </div>
+        <Switch
+          checked={formData.quietPlaces}
+          onCheckedChange={(checked) => onChange({ quietPlaces: checked })}
+          aria-label={t("planner.accommodation.quietPlaces.label")}
+          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(245,155,10,0.35)]"
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-left">

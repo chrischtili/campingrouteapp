@@ -219,7 +219,7 @@ export function RoutePlanner() {
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
         await new Promise(resolve => setTimeout(resolve, 800));
-        const generatedOutput = generatePrompt(formData);
+        const generatedOutput = generatePrompt(formData, { gpxFormat: 'codeblock' });
         setOutput(generatedOutput);
         setAiModel('');
       }

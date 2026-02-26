@@ -135,9 +135,31 @@ export function OutputSection({
     }
   };
 
+  const sanitizeGpxContent = (input: string) => {
+    if (!input) return '';
+    let text = input.trim();
+    // Remove GPX marker wrappers
+    text = text
+      .replace(/BEGIN_GPX_GARMIN_WPT|END_GPX_GARMIN_WPT/gi, '')
+      .replace(/BEGIN_GPX_ROUTE_TRACK|END_GPX_ROUTE_TRACK/gi, '')
+      .replace(/BEGIN_GPX_GARMIN|END_GPX_GARMIN/gi, '')
+      .replace(/BEGIN_GPX_WPT_ONLY|END_GPX_WPT_ONLY/gi, '');
+    // Remove fenced code blocks and bold markers
+    text = text
+      .replace(/```(?:xml|gpx)?/gi, '')
+      .replace(/```/g, '')
+      .replace(/^\*+\s*/g, '')
+      .replace(/\s*\*+$/g, '');
+    text = text.trim();
+    // Keep only the GPX content if extra text slipped in
+    const match = text.match(/<gpx[\s\S]*<\/gpx>/i);
+    return match ? match[0].trim() : text;
+  };
+
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
-    if (gpxContent) {
-      const blob = new Blob([gpxContent], { type: 'application/gpx+xml' });
+    const cleaned = sanitizeGpxContent(gpxContent);
+    if (cleaned) {
+      const blob = new Blob([cleaned], { type: 'application/gpx+xml' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -275,6 +297,8 @@ export function OutputSection({
                   dangerouslySetInnerHTML={{
                     __html: output
                       .split(/BEGIN_GPX_GARMIN_WPT|BEGIN_GPX_ROUTE_TRACK|BEGIN_GPX_GARMIN|BEGIN_GPX_WPT_ONLY/)[0]
+                      .replace(/\n*#{2,3}\s*GPX[^\n]*$/i, '')
+                      .replace(/\n*GPX[- ]?Dateien[^\n]*$/i, '')
                       .trim()
                       .replace(/&/g, "&amp;")
                       .replace(/</g, "&lt;")
@@ -285,13 +309,6 @@ export function OutputSection({
                       .replace(/\n/g, '<br />'),
                   }}
                 />
-                <div className="space-y-6">
-                  {output.match(/BEGIN_GPX_GARMIN_WPT[\s\S]*?END_GPX_GARMIN_WPT|BEGIN_GPX_GARMIN[\s\S]*?END_GPX_GARMIN|BEGIN_GPX_ROUTE_TRACK[\s\S]*?END_GPX_ROUTE_TRACK|BEGIN_GPX_WPT_ONLY[\s\S]*?END_GPX_WPT_ONLY/g)?.map((block, idx) => (
-                    <pre key={idx} className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
-                      {block}
-                    </pre>
-                  ))}
-                </div>
               </div>
             ) : (
               <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
@@ -303,21 +320,112 @@ export function OutputSection({
       </div>
 
       {!useDirectAI && (
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] border-2 border-white/25 bg-white/15 flex flex-col md:flex-row items-center gap-8 shadow-xl"
-        >
-          <div className="w-16 h-16 rounded-3xl bg-primary flex items-center justify-center text-white shrink-0 shadow-2xl shadow-primary/40 rotate-3">
-            <ChevronRight className="w-8 h-8" />
+        <div className="relative rounded-[3rem] border-2 border-white/10 shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 bg-white/5">
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
+                <ChevronRight className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary leading-none mb-1">
+                  {t("planner.output.nextSteps.title")}
+                </span>
+                <h4 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight leading-none">
+                  {t("planner.output.customPrompt")}
+                </h4>
+                <p className="text-white/70 text-sm sm:text-base font-semibold">
+                  {t("planner.output.nextSteps.description")}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
+              <Button
+                onClick={handleCopy}
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+              >
+                {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 group-hover/btn:text-primary transition-colors" />}
+                {t("buttons.copy")}
+              </Button>
+              <Button
+                onClick={handlePrint}
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+              >
+                <Printer className="w-3 h-3 mr-1 sm:mr-2 group-hover/btn:text-primary transition-colors" />
+                {t("buttons.print")}
+              </Button>
+            </div>
           </div>
-          <div className="space-y-2 text-center md:text-left bg-black/45 border border-white/10 rounded-2xl px-5 py-4 backdrop-blur-sm">
-            <h4 className="text-2xl font-black text-white uppercase tracking-tighter drop-shadow">{t("planner.output.nextSteps.title")}</h4>
-            <p className="text-white text-lg leading-relaxed font-bold drop-shadow">
-              {t("planner.output.nextSteps.description")}
-            </p>
+        </div>
+      )}
+
+      {useDirectAI && (
+        <div className="relative rounded-[3rem] border-2 border-white/10 shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 bg-white/5">
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary leading-none mb-1">
+                  {useDirectAI ? t("planner.output.results.title") : t("planner.output.customPrompt")}
+                </span>
+                <h4 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight leading-none">
+                  {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
+                </h4>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
+              <Button
+                onClick={handleCopy}
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+              >
+                {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 group-hover/btn:text-primary transition-colors" />}
+                {t("buttons.copy")}
+              </Button>
+
+              {useDirectAI && gpxOutputMode?.length > 0 && (
+                <>
+                  {(gpxOutputMode.includes('routeTrack')) && (
+                    <Button
+                      onClick={() => handleDownloadGPX(
+                        gpxWptOnly,
+                        `camping-route-route-track-${new Date().toISOString().split('T')[0]}.gpx`,
+                        "planner.output.actions.gpxDownloadedWpt"
+                      )}
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                    >
+                      <Download className="w-3 h-3 mr-1 sm:mr-2" />
+                      {t("planner.output.actions.downloadWpt")}
+                    </Button>
+                  )}
+                  {(gpxOutputMode.includes('garmin')) && (
+                    <Button
+                      onClick={() => handleDownloadGPX(
+                        gpxGarmin,
+                        `camping-route-garmin-waypoints-${new Date().toISOString().split('T')[0]}.gpx`,
+                        "planner.output.actions.gpxDownloadedGarmin"
+                      )}
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                    >
+                      <Download className="w-3 h-3 mr-1 sm:mr-2" />
+                      {t("planner.output.actions.downloadGarmin")}
+                    </Button>
+                  )}
+                </>
+              )}
+
+              <Button
+                onClick={handlePrint}
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+              >
+                <Printer className="w-3 h-3 mr-1 sm:mr-2 group-hover/btn:text-primary transition-colors" />
+                {t("buttons.print")}
+              </Button>
+            </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </motion.div>
   );

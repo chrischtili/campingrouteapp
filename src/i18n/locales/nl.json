@@ -85,11 +85,26 @@
     "subtitle": "14 dagen • ca. 1.495 km • slow travel met 5,5 t & hond",
     "lead": "Een rustige, hondvriendelijke rondreis met duidelijke etappes, vaste stops en genoeg buffer voor pauzes.",
     "keyFacts": [
-      { "label": "Start", "value": "4 juni 2026 (Sacramentsdag, BW)" },
-      { "label": "Totale afstand", "value": "ca. 1.495 km" },
-      { "label": "Reisduur", "value": "14 dagen" },
-      { "label": "Voertuig", "value": "7,2 m • 3,2 m • 5,5 t" },
-      { "label": "Budget", "value": "€1.200–1.500" }
+      {
+        "label": "Start",
+        "value": "4 juni 2026 (Sacramentsdag, BW)"
+      },
+      {
+        "label": "Totale afstand",
+        "value": "ca. 1.495 km"
+      },
+      {
+        "label": "Reisduur",
+        "value": "14 dagen"
+      },
+      {
+        "label": "Voertuig",
+        "value": "7,2 m • 3,2 m • 5,5 t"
+      },
+      {
+        "label": "Budget",
+        "value": "€1.200–1.500"
+      }
     ],
     "ruleNotice": {
       "title": "Belangrijk voor 5,5 t",
@@ -109,10 +124,39 @@
         "title": "Heenreis",
         "range": "4–7 juni 2026",
         "items": [
-          { "title": "Etappe 1: Karlsruhe → Fulda/Rhön‑regio", "date": "4 juni 2026", "distance": "ca. 210 km", "duration": "ca. 3:00 u", "route": "A5 tot Hattenbacher Dreieck, daarna richting Fulda.", "pause": "Na ~1,5 u bij Alsfeld voor een hondenwandeling.", "note": "Feestdagverkeer mogelijk." },
-          { "title": "Etappe 2: Fulda‑regio → Magdeburg/Elbe‑regio", "date": "5 juni 2026", "distance": "ca. 240 km", "duration": "ca. 3:30 u", "route": "A7 / A4 / A71 noordwaarts. De Harz‑omleiding is vaak rustiger dan de A7‑heuvels bij Kassel.", "pause": "Bij Sangerhausen of ten zuiden van Magdeburg." },
-          { "title": "Etappe 3: Magdeburg‑regio → Perleberg", "date": "6 juni 2026", "distance": "ca. 110 km", "duration": "ca. 1:45 u", "route": "B189 richting noord.", "pause": "Korte dag – ruim de tijd voor Perleberg." },
-          { "title": "Etappe 4: Perleberg → Zierow", "date": "7 juni 2026", "distance": "ca. 85 km", "duration": "ca. 1:30 u", "route": "Laatste ontspannen stuk naar de camping.", "pause": "Relaxte aankomst voor inchecken." }
+          {
+            "title": "Etappe 1: Karlsruhe → Fulda/Rhön‑regio",
+            "date": "4 juni 2026",
+            "distance": "ca. 210 km",
+            "duration": "ca. 3:00 u",
+            "route": "A5 tot Hattenbacher Dreieck, daarna richting Fulda.",
+            "pause": "Na ~1,5 u bij Alsfeld voor een hondenwandeling.",
+            "note": "Feestdagverkeer mogelijk."
+          },
+          {
+            "title": "Etappe 2: Fulda‑regio → Magdeburg/Elbe‑regio",
+            "date": "5 juni 2026",
+            "distance": "ca. 240 km",
+            "duration": "ca. 3:30 u",
+            "route": "A7 / A4 / A71 noordwaarts. De Harz‑omleiding is vaak rustiger dan de A7‑heuvels bij Kassel.",
+            "pause": "Bij Sangerhausen of ten zuiden van Magdeburg."
+          },
+          {
+            "title": "Etappe 3: Magdeburg‑regio → Perleberg",
+            "date": "6 juni 2026",
+            "distance": "ca. 110 km",
+            "duration": "ca. 1:45 u",
+            "route": "B189 richting noord.",
+            "pause": "Korte dag – ruim de tijd voor Perleberg."
+          },
+          {
+            "title": "Etappe 4: Perleberg → Zierow",
+            "date": "7 juni 2026",
+            "distance": "ca. 85 km",
+            "duration": "ca. 1:30 u",
+            "route": "Laatste ontspannen stuk naar de camping.",
+            "pause": "Relaxte aankomst voor inchecken."
+          }
         ]
       },
       "stay": {
@@ -124,10 +168,38 @@
         "title": "Terugreis",
         "range": "14–17 juni 2026",
         "items": [
-          { "title": "Etappe 5: Zierow → Lüneburger Heide (Uelzen‑regio)", "date": "14 juni 2026", "distance": "ca. 140 km", "duration": "ca. 2:15 u", "route": "B208 / B4 zuidwaarts (rustige rit door het platteland).", "pause": "Leuke stops bij boerderijwinkels of veldpaden." },
-          { "title": "Etappe 6: Uelzen‑regio → Harz", "date": "15 juni 2026", "distance": "ca. 130 km", "duration": "ca. 2:00 u", "route": "B4 richting Braunschweig/Harz.", "pause": "Hondvriendelijke wandelingen nabij de camping." },
-          { "title": "Etappe 7: Harz → Spessart/Main", "date": "16 juni 2026", "distance": "ca. 230 km", "duration": "ca. 3:30 u", "route": "A7 zuidwaarts.", "pause": "Lunchstop op rustplaatsen met vrachtstroken." },
-          { "title": "Etappe 8: Spessart → Karlsruhe", "date": "17 juni 2026", "distance": "ca. 160 km", "duration": "ca. 2:00 u", "route": "Laatste stuk naar huis.", "pause": "Aankomst in de namiddag." }
+          {
+            "title": "Etappe 5: Zierow → Lüneburger Heide (Uelzen‑regio)",
+            "date": "14 juni 2026",
+            "distance": "ca. 140 km",
+            "duration": "ca. 2:15 u",
+            "route": "B208 / B4 zuidwaarts (rustige rit door het platteland).",
+            "pause": "Leuke stops bij boerderijwinkels of veldpaden."
+          },
+          {
+            "title": "Etappe 6: Uelzen‑regio → Harz",
+            "date": "15 juni 2026",
+            "distance": "ca. 130 km",
+            "duration": "ca. 2:00 u",
+            "route": "B4 richting Braunschweig/Harz.",
+            "pause": "Hondvriendelijke wandelingen nabij de camping."
+          },
+          {
+            "title": "Etappe 7: Harz → Spessart/Main",
+            "date": "16 juni 2026",
+            "distance": "ca. 230 km",
+            "duration": "ca. 3:30 u",
+            "route": "A7 zuidwaarts.",
+            "pause": "Lunchstop op rustplaatsen met vrachtstroken."
+          },
+          {
+            "title": "Etappe 8: Spessart → Karlsruhe",
+            "date": "17 juni 2026",
+            "distance": "ca. 160 km",
+            "duration": "ca. 2:00 u",
+            "route": "Laatste stuk naar huis.",
+            "pause": "Aankomst in de namiddag."
+          }
         ]
       }
     },
@@ -135,13 +207,76 @@
       "title": "Overnachtingen",
       "note": "Prijzen zijn schattingen voor 2026 (inflatie inbegrepen).",
       "items": [
-        { "title": "Heenreis • Fulda‑regio", "name": "KNAUS Campingpark Hünfeld", "price": "ca. €35–45 / nacht", "details": ["Rustige Rhön‑locatie bij A7", "Restaurant Praforst aan het meer", "Goede hondenwandelpaden"] },
-        { "title": "Heenreis • Magdeburg‑regio", "name": "Campingplatz Barleber See", "price": "ca. €25–35 / nacht", "details": ["Direct aan het meer", "Snack/restaurant aanwezig", "Grote plaatsen voor 7 m+"] },
-        { "title": "Heenreis • Perleberg", "name": "Kristalltherme Bad Wilsnack (stellplaats)", "price": "ca. €15–20 + toeristenbelasting", "details": ["Zeer rustig, wellness‑optie", "Perleberg snel bereikbaar", "Alternatief: Stellplatz am Hagen"] },
-        { "title": "Bestemming", "name": "Ostsee‑Camping‑Ferienpark Zierow", "price": "7–14 juni geboekt", "details": ["Dicht bij Wismar & eiland Poel", "Hondenstranden in de buurt", "Ideale uitvalsbasis"] },
-        { "title": "Terugreis • Lüneburger Heide", "name": "Uhlenköper‑Camp Uelzen", "price": "ca. €30–40 / nacht", "details": ["Eco‑gericht, hondvriendelijk", "Biowinkel & café", "Kanoverhuur"] },
-        { "title": "Terugreis • Harz", "name": "Campingplatz Am Brocken", "price": "ca. €35–45 / nacht", "details": ["In het hart van de Harz", "Restaurant op het terrein", "Ideaal om te wandelen"] },
-        { "title": "Terugreis • Spessart", "name": "Camping Main‑Spessart", "price": "ca. €30–40 / nacht", "details": ["Direct aan de Main", "Herberg met biergarten", "Mooi uitzicht op de rivier"] }
+        {
+          "title": "Heenreis • Fulda‑regio",
+          "name": "KNAUS Campingpark Hünfeld",
+          "price": "ca. €35–45 / nacht",
+          "details": [
+            "Rustige Rhön‑locatie bij A7",
+            "Restaurant Praforst aan het meer",
+            "Goede hondenwandelpaden"
+          ]
+        },
+        {
+          "title": "Heenreis • Magdeburg‑regio",
+          "name": "Campingplatz Barleber See",
+          "price": "ca. €25–35 / nacht",
+          "details": [
+            "Direct aan het meer",
+            "Snack/restaurant aanwezig",
+            "Grote plaatsen voor 7 m+"
+          ]
+        },
+        {
+          "title": "Heenreis • Perleberg",
+          "name": "Kristalltherme Bad Wilsnack (stellplaats)",
+          "price": "ca. €15–20 + toeristenbelasting",
+          "details": [
+            "Zeer rustig, wellness‑optie",
+            "Perleberg snel bereikbaar",
+            "Alternatief: Stellplatz am Hagen"
+          ]
+        },
+        {
+          "title": "Bestemming",
+          "name": "Ostsee‑Camping‑Ferienpark Zierow",
+          "price": "7–14 juni geboekt",
+          "details": [
+            "Dicht bij Wismar & eiland Poel",
+            "Hondenstranden in de buurt",
+            "Ideale uitvalsbasis"
+          ]
+        },
+        {
+          "title": "Terugreis • Lüneburger Heide",
+          "name": "Uhlenköper‑Camp Uelzen",
+          "price": "ca. €30–40 / nacht",
+          "details": [
+            "Eco‑gericht, hondvriendelijk",
+            "Biowinkel & café",
+            "Kanoverhuur"
+          ]
+        },
+        {
+          "title": "Terugreis • Harz",
+          "name": "Campingplatz Am Brocken",
+          "price": "ca. €35–45 / nacht",
+          "details": [
+            "In het hart van de Harz",
+            "Restaurant op het terrein",
+            "Ideaal om te wandelen"
+          ]
+        },
+        {
+          "title": "Terugreis • Spessart",
+          "name": "Camping Main‑Spessart",
+          "price": "ca. €30–40 / nacht",
+          "details": [
+            "Direct aan de Main",
+            "Herberg met biergarten",
+            "Mooi uitzicht op de rivier"
+          ]
+        }
       ]
     },
     "highlights": {
@@ -149,65 +284,134 @@
       "groups": {
         "outward": {
           "title": "Heenreis",
-          "items": ["Rhön (Wasserkuppe): panoramawandeling", "Magdeburg waterkruising: kanaalbrug over de Elbe", "Perleberg oude stad & wildpark"]
+          "items": [
+            "Rhön (Wasserkuppe): panoramawandeling",
+            "Magdeburg waterkruising: kanaalbrug over de Elbe",
+            "Perleberg oude stad & wildpark"
+          ]
         },
         "onsite": {
           "title": "Ter plaatse",
-          "items": ["Wismar oude stad (UNESCO) & oude haven", "Eiland Poel: hondenstranden (bijv. Timmendorf)", "Schloss Bothmer in Klütz"]
+          "items": [
+            "Wismar oude stad (UNESCO) & oude haven",
+            "Eiland Poel: hondenstranden (bijv. Timmendorf)",
+            "Schloss Bothmer in Klütz"
+          ]
         },
         "return": {
           "title": "Terugreis",
-          "items": ["Hundertwasser‑station Uelzen", "Brocken‑wandeling of Brockenbahn (honden met muilkorf)", "Wertheim oude stad & kasteelruïne"]
+          "items": [
+            "Hundertwasser‑station Uelzen",
+            "Brocken‑wandeling of Brockenbahn (honden met muilkorf)",
+            "Wertheim oude stad & kasteelruïne"
+          ]
         }
       }
     },
     "tips": {
       "title": "Praktische tips",
       "items": [
-        { "label": "Navigatie", "value": "Gebruik een camper‑GPS met voertuigafmetingen (L: 7,2 m • H: 3,2 m • 5,5 t), bijv. TomTom Go Camper of Garmin." },
-        { "label": "Afval", "value": "Clesana‑toilet = restafval. Grijswater is bij alle genoemde plaatsen mogelijk." },
-        { "label": "Vers water", "value": "Grote tank; bij elk station bijvullen mogelijk." },
-        { "label": "Nood", "value": "Veteraire klinieken langs de route vooraf markeren (bijv. Magdeburg, Lüneburg)." }
+        {
+          "label": "Navigatie",
+          "value": "Gebruik een camper‑GPS met voertuigafmetingen (L: 7,2 m • H: 3,2 m • 5,5 t), bijv. TomTom Go Camper of Garmin."
+        },
+        {
+          "label": "Afval",
+          "value": "Clesana‑toilet = restafval. Grijswater is bij alle genoemde plaatsen mogelijk."
+        },
+        {
+          "label": "Vers water",
+          "value": "Grote tank; bij elk station bijvullen mogelijk."
+        },
+        {
+          "label": "Nood",
+          "value": "Veteraire klinieken langs de route vooraf markeren (bijv. Magdeburg, Lüneburg)."
+        }
       ]
     },
     "service": {
       "title": "Service onderweg",
       "items": [
-        { "label": "Brandstof", "value": "Truckstops zijn goedkoper dan snelwegstations. Gebruik truckbanen als autovakken te krap zijn." },
-        { "label": "Boodschappen", "value": "Zoek grote parkeerterreinen in retailzones (bijv. Kaufland, Globus)." },
-        { "label": "Apps", "value": "Clever Tanken, Park4Night (filter >7 m, hondvriendelijk), Promobil Stellplatz‑Radar, NINA‑alerts." }
+        {
+          "label": "Brandstof",
+          "value": "Truckstops zijn goedkoper dan snelwegstations. Gebruik truckbanen als autovakken te krap zijn."
+        },
+        {
+          "label": "Boodschappen",
+          "value": "Zoek grote parkeerterreinen in retailzones (bijv. Kaufland, Globus)."
+        },
+        {
+          "label": "Apps",
+          "value": "Clever Tanken, Park4Night (filter >7 m, hondvriendelijk), Promobil Stellplatz‑Radar, NINA‑alerts."
+        }
       ]
     },
     "extras": {
       "title": "Extra info",
       "items": [
-        { "label": "Budget", "value": "Ongeveer €1.200–1.500 voor brandstof, plaatsen, eten en entree." },
-        { "label": "Duurzaamheid", "value": "Zonne‑energie & Clesana betekenen geen chemie. Gooi zakken in restafval en ondersteun lokale boerderijwinkels." },
-        { "label": "Gezondheid", "value": "Tekenenbescherming voor de hond is essentieel in juni; vaccinatieboekje bij de hand houden." },
-        { "label": "Beste tijd", "value": "Juni is ideaal: lange dagen, Oostzee ca. 15–17 °C." }
+        {
+          "label": "Budget",
+          "value": "Ongeveer €1.200–1.500 voor brandstof, plaatsen, eten en entree."
+        },
+        {
+          "label": "Duurzaamheid",
+          "value": "Zonne‑energie & Clesana betekenen geen chemie. Gooi zakken in restafval en ondersteun lokale boerderijwinkels."
+        },
+        {
+          "label": "Gezondheid",
+          "value": "Tekenenbescherming voor de hond is essentieel in juni; vaccinatieboekje bij de hand houden."
+        },
+        {
+          "label": "Beste tijd",
+          "value": "Juni is ideaal: lange dagen, Oostzee ca. 15–17 °C."
+        }
       ]
     },
     "tech": {
       "title": "Techniek & uitrusting",
       "items": [
-        { "label": "Checklist", "value": "Lange CEE‑verlengkabel, waterslang + gieter, zware nivelleerwiggen." },
-        { "label": "Banden/backup", "value": "Neem een bandenreparatieset voor trucks/RV’s mee." },
-        { "label": "Autonomie", "value": "600W zonne‑energie / 600Ah / Clesana zorgen voor flexibele plaatskeuze." }
+        {
+          "label": "Checklist",
+          "value": "Lange CEE‑verlengkabel, waterslang + gieter, zware nivelleerwiggen."
+        },
+        {
+          "label": "Banden/backup",
+          "value": "Neem een bandenreparatieset voor trucks/RV’s mee."
+        },
+        {
+          "label": "Autonomie",
+          "value": "600W zonne‑energie / 600Ah / Clesana zorgen voor flexibele plaatskeuze."
+        }
       ]
     },
     "flexibility": {
       "title": "Flexibiliteit & regels",
       "items": [
-        { "label": "Wildkamperen", "value": "In Duitsland verboden en streng gecontroleerd in beschermde gebieden." },
-        { "label": "Rustpauze", "value": "Eenmalig overnachten op parkeerplaatsen is lastig met 7,2 m lengte – gebruik officiële plekken." },
-        { "label": "Opties", "value": "Landvergnügen of boerderijovernachtingen zijn goede spontane alternatieven." }
+        {
+          "label": "Wildkamperen",
+          "value": "In Duitsland verboden en streng gecontroleerd in beschermde gebieden."
+        },
+        {
+          "label": "Rustpauze",
+          "value": "Eenmalig overnachten op parkeerplaatsen is lastig met 7,2 m lengte – gebruik officiële plekken."
+        },
+        {
+          "label": "Opties",
+          "value": "Landvergnügen of boerderijovernachtingen zijn goede spontane alternatieven."
+        }
       ]
     },
     "alternatives": {
       "title": "Alternatieven bij drukte",
       "items": [
-        { "label": "A7 heenreis", "value": "Omweg via B27 (Fulda → Göttingen) – mooi maar langzamer." },
-        { "label": "Hamburg terug", "value": "Rijd ruim om Hamburg heen naar het oosten (Uelzen/B4) en vermijd de Elbtunnel." }
+        {
+          "label": "A7 heenreis",
+          "value": "Omweg via B27 (Fulda → Göttingen) – mooi maar langzamer."
+        },
+        {
+          "label": "Hamburg terug",
+          "value": "Rijd ruim om Hamburg heen naar het oosten (Uelzen/B4) en vermijd de Elbtunnel."
+        }
       ]
     }
   },
@@ -598,28 +802,28 @@
         "culture": "Cultuur & culinair",
         "lifestyle": "Ontspanning & lifestyle"
       },
-    "options": {
-      "hiking": "Wandelen & trekking",
-      "cycling": "Fietsen & e‑bike",
-      "mtb": "Mountainbiken",
-      "watersports": "Watersport & kano",
-      "wintersports": "Wintersport",
-      "wildlife": "Wildlife‑spotting",
-      "photography": "Fotospots",
-      "beach": "Strand & zee",
-      "astronomy": "Sterrenkijken",
-      "lakes": "Meren & rivieren",
-      "cityStroll": "Stedentrips",
-      "history": "Geschiedenis & architectuur",
-      "museums": "Musea & kunst",
-      "gastronomy": "Regionale keuken",
-      "events": "Lokale festivals & events",
-      "wellness": "Wellness & spa",
-      "slowTravel": "Slow travel",
-      "shopping": "Winkelen & boetieks",
-      "badWeather": "Alternatieven bij slecht weer",
-      "campfire": "Samen zijn & kampvuur"
-    },
+      "options": {
+        "hiking": "Wandelen & trekking",
+        "cycling": "Fietsen & e‑bike",
+        "mtb": "Mountainbiken",
+        "watersports": "Watersport & kano",
+        "wintersports": "Wintersport",
+        "wildlife": "Wildlife‑spotting",
+        "photography": "Fotospots",
+        "beach": "Strand & zee",
+        "astronomy": "Sterrenkijken",
+        "lakes": "Meren & rivieren",
+        "cityStroll": "Stedentrips",
+        "history": "Geschiedenis & architectuur",
+        "museums": "Musea & kunst",
+        "gastronomy": "Regionale keuken",
+        "events": "Lokale festivals & events",
+        "wellness": "Wellness & spa",
+        "slowTravel": "Slow travel",
+        "shopping": "Winkelen & boetieks",
+        "badWeather": "Alternatieven bij slecht weer",
+        "campfire": "Samen zijn & kampvuur"
+      },
       "additional": {
         "label": "Extra wensen",
         "placeholder": "Algemene wensen..."
@@ -649,6 +853,9 @@
       "nextSteps": {
         "title": "Klaar?",
         "description": "Kopieer de tekst en plak hem in je favoriete AI (bijv. ChatGPT, Gemini of Mistral)."
+      },
+      "results": {
+        "title": "Je resultaten"
       },
       "print": {
         "gpxError": "Geen GPX‑gegevens."
@@ -735,7 +942,7 @@
     "backToHome": "Terug naar home"
   },
   "prompt": {
-    "systemRole": "Je bent een professionele camperrouteplanner met gespecialiseerde kennis van Duitsland en internationale reisbestemmingen. Maak op basis van mijn specificaties een praktische, goed gestructureerde camperroute. Houd rekening met voertuigspecificaties, reisdoelen, budget en persoonlijke voorkeuren. Als realtime data (bijv. verkeer, beschikbaarheid, exacte prijzen) niet beschikbaar is, werk dan met plausibele schattingen, markeer die als zodanig en geef aan wat ik zelf moet controleren in het navigatiesysteem of een campingapp. Antwoord in taal: {{language}}.",
+    "systemRole": "Je bent een professionele camperrouteplanner met gespecialiseerde kennis van Duitsland en internationale reisbestemmingen. Maak op basis van mijn specificaties een praktische, goed gestructureerde camperroute. Houd rekening met voertuigspecificaties, reisdoelen, budget en persoonlijke voorkeuren. Als realtime data (bijv. verkeer, beschikbaarheid, exacte prijzen) niet beschikbaar is, werk dan met plausibele schattingen, markeer die als zodanig en geef aan wat ik zelf moet controleren in het navigatiesysteem of een campingapp.",
     "sections": {
       "route": "ROUTEBESCHRIJVING",
       "vehicle": "VOERTUIGFILTERS",
@@ -782,11 +989,16 @@
         "label": "Extra accommodatiewensen"
       }
     },
-    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).",
+    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Schrijf links altijd volledig met https:// (bijv. https://voorbeeld.nl). Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",
     "gpx": {
-      "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe voor Garmin-waypoints:\n\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_GARMIN_WPT\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nNa de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra uitleg, opmerkingen of opmaak buiten het blok.",
-      "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe (Route+Track):\n\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_ROUTE_TRACK\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra uitleg, opmerkingen of opmaak buiten het blok.",
-      "both": "GPX-bestand: Voeg aan het einde van het antwoord twee GPX-varianten toe, elk in een eigen blok met exacte markeringen.\n\nBlok 1 (Garmin-waypoints):\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_GARMIN_WPT\n\nBlok 2 (GPX Route+Track):\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\nEND_GPX_ROUTE_TRACK\n\nVereisten blok 1 (Garmin-waypoints):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nVereisten blok 2 (GPX Route+Track):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen deze twee GPX-blokken terug, zonder extra uitleg, opmerkingen of opmaak buiten de blokken."
+      "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand voor Garmin-waypoints toe.\n\nBelangrijk: Geef het GPX-bestand als een eigen codeblock (```gpx) weer. Het codeblock mag alleen het GPX-bestand bevatten, zonder extra markers zoals BEGIN/END.\n\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nNa de normale antwoordsecties geef je alleen dit codeblock terug, zonder extra tekst buiten het codeblock.",
+      "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand toe (Route+Track).\n\nBelangrijk: Geef het GPX-bestand als een eigen codeblock (```gpx) weer. Het codeblock mag alleen het GPX-bestand bevatten, zonder extra markers zoals BEGIN/END.\n\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nVereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen dit codeblock terug, zonder extra tekst buiten het codeblock.",
+      "both": "GPX-bestand: Voeg aan het einde van het antwoord twee GPX-bestanden toe, elk in een eigen codeblock (```gpx).\n\nBelangrijk: Elk codeblock mag alleen het GPX-bestand bevatten, zonder extra markers zoals BEGIN/END.\n\nBlok 1 (Garmin-waypoints):\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nBlok 2 (GPX Route+Track):\n```gpx\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nVereisten blok 1 (Garmin-waypoints):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit.\n\nVereisten blok 2 (GPX Route+Track):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>).\n\nNa de normale antwoordsecties geef je alleen deze twee codeblocks terug, zonder extra tekst buiten de codeblocks."
+    },
+    "gpxPlain": {
+      "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe voor Garmin-waypoints. BEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_GARMIN_WPT Vereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit. Na de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra tekst buiten het GPX-blok.",
+      "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-blok toe (Route+Track). BEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_ROUTE_TRACK Vereisten:\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>). Na de normale antwoordsecties geef je alleen dit GPX-blok terug, zonder extra tekst buiten het GPX-blok.",
+      "both": "GPX-bestand: Voeg aan het einde van het antwoord twee GPX-varianten toe, elk in een eigen GPX-blok met exacte markeringen. Blok 1 (Garmin-waypoints):\nBEGIN_GPX_GARMIN_WPT\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_GARMIN_WPT Blok 2 (GPX Route+Track):\nBEGIN_GPX_ROUTE_TRACK\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\"> ...\n</gpx>\nEND_GPX_ROUTE_TRACK Vereisten blok 1 (Garmin-waypoints):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nGeef geen route (<rte>) of track (<trk>) uit. Vereisten blok 2 (GPX Route+Track):\nMaak waypoints (<wpt>) voor de start, alle etappes, overnachtingen en de bestemming. Voor overnachtingen: voeg adres, website en telefoonnummer toe in <desc> (indien beschikbaar). Zet alternatieve plaatsen altijd alleen in <desc> met naam, adres, website en telefoonnummer (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde als routepunten (<rtept>) zodat Garmin het als route herkent.\nMaak daarnaast de volledige route als track (<trk> met <trkseg> en <trkpt>). Na de normale antwoordsecties geef je alleen deze twee GPX-bloks terug, zonder extra tekst buiten de GPX-bloks."
     }
   },
   "anchorNav": {

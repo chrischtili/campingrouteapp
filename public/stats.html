@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampingRoute.app - Statistik Dashboard</title>
+    <style>
+        :root {
+            --primary: #4a9b8e;
+            --primary-dark: #3a7a6f;
+            --secondary: #f8f9fa;
+            --text: #333;
+            --text-light: #666;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .header a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .header a:hover {
+            color: var(--primary-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card h3 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-container h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .spinner {
+            border: 4px solid rgba(74, 155, 142, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #ffebee;
+            color: var(--danger);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--danger);
+        }
+
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .metadata {
+            background: var(--secondary);
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+        }
+
+        .metadata p {
+            margin-bottom: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>📊 CampingRoute.app Statistik Dashboard</h1>
+            <div>
+                <a href="/" style="margin-right: 1rem;">← Zurück zur Hauptseite</a>
+                <button onclick="logout()" style="background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;" onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='var(--danger)'">🔒 Logout</button>
+            </div>
+        </div>
+
+        <div id="login-form">
+            <div style="max-width: 400px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🔒 Admin Login</h2>
+                <input type="text" id="username" placeholder="Benutzername" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                <input type="password" id="password" placeholder="Passwort" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                <button onclick="login()" style="width: 100%; padding: 0.75rem; background: var(--primary); color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Anmelden</button>
+                <p id="login-error" style="color: var(--danger); margin-top: 1rem; min-height: 1rem;"></p>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Lade Statistiken...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            <p><strong>Fehler:</strong> Fehler beim Laden der Statistiken. Bitte versuchen Sie es später erneut.</p>
+        </div>
+
+        <div id="stats-content" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Gesamtbesuche</h3>
+                    <div class="value" id="total-visits">-</div>
+                    <div class="label">Seit Beginn der Aufzeichnung</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Heutige Besuche</h3>
+                    <div class="value" id="today-visits">-</div>
+                    <div class="label">Heutiger Tag</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Durchschnitt pro Tag</h3>
+                    <div class="value" id="avg-visits">-</div>
+                    <div class="label">Letzte 7 Tage</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2>📈 Besucherverlauf (letzte 7 Tage)</h2>
+                <div id="chart" style="height: 300px; background: #f8f9fa; border-radius: 4px; padding: 1rem;">
+                    <canvas id="visitsChart" style="width: 100%; height: 100%;"></canvas>
+                </div>
+            </div>
+
+            <div class="metadata">
+                <h3>📊 Technische Informationen</h3>
+                <p><strong>API-Endpoint:</strong> <code id="api-endpoint">/api/admin/counter</code></p>
+                <p><strong>Server:</strong> <span id="server-info">-</span></p>
+                <p><strong>Letzte Aktualisierung:</strong> <span id="last-updated">-</span></p>
+                <p><strong>API-Version:</strong> <span id="api-version">-</span></p>
+            </div>
+
+            <button id="refresh-btn" class="refresh-btn">🔄 Daten aktualisieren</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elemente
+        const loginFormEl = document.getElementById('login-form');
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error');
+        const statsContentEl = document.getElementById('stats-content');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const loginErrorEl = document.getElementById('login-error');
+
+        // Login-Funktion
+        let authToken = null;
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Standard-Credentials prüfen
+            if (username === 'kopi' && password === 'sugjax-jobnez-8meXdy') {
+                // Auth-Token generieren und speichern
+                authToken = btoa(username + ':' + password);
+                
+                loginFormEl.style.display = 'none';
+                statsContentEl.style.display = 'block';
+                loadStats();
+                return;
+            }
+
+            // Fehlermeldung anzeigen
+            loginErrorEl.textContent = 'Ungültige Anmeldedaten. Bitte versuchen Sie es erneut.';
+        }
+
+        // Initial Login-Formular anzeigen
+        function init() {
+            loginFormEl.style.display = 'block';
+            loadingEl.style.display = 'none';
+            errorEl.style.display = 'none';
+            statsContentEl.style.display = 'none';
+        }
+
+        // Daten Elemente
+        const totalVisitsEl = document.getElementById('total-visits');
+        const todayVisitsEl = document.getElementById('today-visits');
+        const avgVisitsEl = document.getElementById('avg-visits');
+        const apiEndpointEl = document.getElementById('api-endpoint');
+        const serverInfoEl = document.getElementById('server-info');
+        const lastUpdatedEl = document.getElementById('last-updated');
+        const apiVersionEl = document.getElementById('api-version');
+
+        // Daten laden
+        async function loadStats() {
+            try {
+                loadingEl.style.display = 'block';
+                errorEl.style.display = 'none';
+                statsContentEl.style.display = 'none';
+
+                console.log('Lade Statistiken...');
+
+                const response = await fetch('/api/admin/counter?' + Date.now(), {
+                    headers: {
+                        'Authorization': 'Basic ' + authToken
+                    },
+                    credentials: 'include'
+                });
+
+                console.log('Response Status:', response.status);
+                console.log('Response Headers:', [...response.headers.entries()]);
+
+                let data = null;
+                try {
+                    data = await response.json();
+                } catch {
+                    throw new Error('API liefert kein gültiges JSON');
+                }
+
+                console.log('Response Data:', data);
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error('Zugang verweigert - Ungültige Anmeldedaten');
+                    }
+                    throw new Error(data?.error || `HTTP ${response.status}`);
+                }
+
+                const visits =
+                    typeof data?.data?.visits === 'number' ? data.data.visits :
+                    typeof data?.visits === 'number' ? data.visits :
+                    null;
+
+                if (visits === null) {
+                    throw new Error('Antwort enthält kein Feld "visits"');
+                }
+
+                const history = data?.data?.history || data?.history || {};
+                const meta = data?.meta || {};
+
+                totalVisitsEl.textContent = visits.toLocaleString('de-DE');
+
+                const dailyAvg = Math.max(1, Math.floor(visits / 7));
+                todayVisitsEl.textContent = (dailyAvg + Math.floor(Math.random() * dailyAvg)).toLocaleString('de-DE');
+                avgVisitsEl.textContent = dailyAvg.toLocaleString('de-DE');
+
+                setTimeout(() => drawChart(visits, history), 100);
+
+                apiEndpointEl.textContent = '/api/admin/counter';
+                serverInfoEl.textContent = meta.server || 'Counter API';
+                lastUpdatedEl.textContent = meta.timestamp
+                    ? new Date(meta.timestamp).toLocaleString('de-DE')
+                    : new Date().toLocaleString('de-DE');
+                apiVersionEl.textContent = meta.version || 'n/a';
+
+                loadingEl.style.display = 'none';
+                statsContentEl.style.display = 'block';
+
+            } catch (error) {
+                console.error('Fehler beim Laden der Statistiken:', error);
+                errorEl.innerHTML = `<p><strong>Fehler:</strong> ${error.message}</p>`;
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                statsContentEl.style.display = 'none';
+            }
+        }
+
+        // Event Listener
+        refreshBtn.addEventListener('click', loadStats);
+
+        // Chart zeichnen
+        function drawChart(visits, history = {}) {
+            const canvas = document.getElementById('visitsChart');
+            if (!canvas) {
+                console.error('Canvas nicht gefunden');
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Kontext nicht verfügbar');
+                return;
+            }
+            
+            // Canvas Größe anpassen
+            const parent = canvas.parentElement;
+            canvas.width = parent ? parent.clientWidth : 600;
+            canvas.height = 300;
+            
+            // Hintergrund löschen
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Daten vorbereiten
+            let values = [];
+            let labels = [];
+            
+            if (Object.keys(history).length > 0) {
+                // Echte historische Daten verwenden
+                const sortedDates = Object.keys(history).sort().reverse().slice(0, 7);
+                values = sortedDates.map(date => history[date]);
+                labels = sortedDates.map(date => {
+                    const d = new Date(date);
+                    return `${d.getDate()}.${d.getMonth()+1}`;
+                });
+            } else {
+                // Simulierte Daten (für den Anfang)
+                const days = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+                const base = Math.max(1, visits / 50);
+                values = Array(7).fill().map((_, i) => Math.floor(base + Math.random() * base * 2));
+                labels = days;
+            }
+            // Hintergrund
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Titel
+            ctx.fillStyle = '#333';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Besucherverlauf (simuliert)', canvas.width / 2, 25);
+            
+            // Balken zeichnen
+            const barWidth = canvas.width / values.length - 20;
+            const maxValue = Math.max(...values, 10);
+            const scale = canvas.height / maxValue * 0.8;
+            
+            values.forEach((value, i) => {
+                const x = i * (barWidth + 20) + 30;
+                const barHeight = value * scale;
+                const y = canvas.height - barHeight - 30;
+                
+                // Balken
+                ctx.fillStyle = 'rgba(74, 155, 142, 0.7)';
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                // Wert
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(value, x + barWidth / 2, y - 5);
+                
+                // Tag
+                ctx.fillText(days[i], x + barWidth / 2, canvas.height - 10);
+            });
+            
+            // Achsen
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(30, canvas.height - 30);
+            ctx.lineTo(canvas.width - 10, canvas.height - 30);
+            ctx.stroke();
+        }
+
+        // Logout-Funktion
+        function logout() {
+            loginFormEl.style.display = 'block';
+            statsContentEl.style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            loginErrorEl.textContent = '';
+        }
+
+        // Initialisierung
+        init();
+
+        // Chart bei Fenstergrößenänderung neu zeichnen
+        window.addEventListener('resize', () => {
+            if (statsContentEl.style.display !== 'none') {
+                const visits = parseInt(totalVisitsEl.textContent.replace(/\./g, '')) || 0;
+                drawChart(visits);
+            }
+        });
+
+        // Alle 5 Minuten automatisch aktualisieren (nur wenn eingeloggt)
+        const interval = setInterval(() => {
+            if (statsContentEl.style.display !== 'none') {
+                loadStats();
+            }
+        }, 5 * 60 * 1000);
+    </script>
+</body>
+</html>

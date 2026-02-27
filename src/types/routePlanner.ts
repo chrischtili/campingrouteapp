@@ -107,5 +107,5 @@ export const initialAISettings: AISettings = {
   useDirectAI: false,
   openaiModel: 'gpt-5.2',
   mistralModel: 'mistral-large-latest',
-  googleModel: 'gemini-3-pro-preview'
+  googleModel: 'gemini-3.1-pro-preview'
 };

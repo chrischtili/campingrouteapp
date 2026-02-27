@@ -170,7 +170,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       break;
     
     case 'google':
-      const googleModel = aiSettings.googleModel || 'gemini-1.5-flash-001';
+      const googleModel = aiSettings.googleModel || 'gemini-3.1-pro-preview';
       apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${aiSettings.apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       requestData = {

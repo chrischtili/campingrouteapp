@@ -22,10 +22,10 @@ i18n
     supportedLngs: ['de', 'en', 'nl', 'fr', 'it'],
     nonExplicitSupportedLngs: true,
     detection: {
-      order: ['querystring', 'localStorage', 'navigator'],
+      order: ['querystring', 'localStorage', 'htmlTag', 'navigator'],
       caches: ['localStorage']
     },
-    fallbackLng: 'en',
+    fallbackLng: 'de',
     interpolation: {
       escapeValue: false
     }

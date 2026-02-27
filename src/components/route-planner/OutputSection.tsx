@@ -80,8 +80,9 @@ export function OutputSection({
   const handleCopy = async () => {
     if (!output) return;
     try {
+      const cleaned = sanitizeCopyText(output);
       const textArea = document.createElement("textarea");
-      textArea.value = output;
+      textArea.value = cleaned;
       textArea.style.position = "fixed";
       textArea.style.left = "-9999px";
       textArea.style.top = "0";
@@ -102,6 +103,7 @@ export function OutputSection({
 
   const handlePrint = () => {
     if (!output) return;
+    const cleaned = sanitizeCopyText(output);
     const escapeHtml = (text: string) =>
       text
         .replace(/&/g, "&amp;")
@@ -133,7 +135,7 @@ export function OutputSection({
           </head>
           <body>
             <h1>${escapeHtml(docTitle)}</h1>
-            <pre style="font-size: 12px; white-space: pre-wrap;">${escapeHtml(output)}</pre>
+            <pre style="font-size: 12px; white-space: pre-wrap;">${escapeHtml(cleaned)}</pre>
             <div class="footer">Erstellt mit CampingRoute.app am ${new Date().toLocaleDateString()}</div>
           </body>
         </html>
@@ -160,12 +162,26 @@ export function OutputSection({
     text = text
       .replace(/```(?:xml|gpx)?/gi, '')
       .replace(/```/g, '')
+      .replace(/`/g, '')
       .replace(/^\*+\s*/g, '')
       .replace(/\s*\*+$/g, '');
     text = text.trim();
     // Keep only the GPX content if extra text slipped in
     const match = text.match(/<gpx[\s\S]*<\/gpx>/i);
     return match ? match[0].trim() : text;
+  };
+
+  const sanitizeCopyText = (text: string) => {
+    return text
+      // strip fenced code markers but keep the content
+      .replace(/```(?:xml|gpx)?/gi, '')
+      .replace(/```/g, '')
+      // strip GPX marker wrappers
+      .replace(/BEGIN_GPX_[A-Z_]+/gi, '')
+      .replace(/END_GPX_[A-Z_]+/gi, '')
+      // strip stray backticks
+      .replace(/`/g, '')
+      .trim();
   };
 
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
@@ -310,7 +326,7 @@ export function OutputSection({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-white/80 font-semibold">
                   <div>• {t("planner.summary.start")}: {summary.startPoint || t("planner.summary.notSpecified")}</div>
                   <div>• {t("planner.summary.destination")}: {summary.destination || t("planner.summary.notSpecified")}</div>
-                  <div>• {t("planner.summary.period")}: {summary.startDate ? new Date(summary.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US') : '?'} — {summary.endDate ? new Date(summary.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US') : '?'}</div>
+                  <div>• {t("planner.summary.period")}: {summary.startDate ? new Date(summary.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'} — {summary.endDate ? new Date(summary.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'}</div>
                   <div>• {t("planner.summary.maxDist")}: {summary.maxDailyDistance || '250'} km</div>
                   <div>• {t("planner.summary.style")}: {summary.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected")}</div>
                   <div>• {t("planner.accommodation.budgetLevel.label")}: {summary.budgetLevel ? t(`planner.accommodation.budgetLevel.options.${summary.budgetLevel}`) : t("planner.summary.notSelected")}</div>
@@ -322,7 +338,7 @@ export function OutputSection({
             {useDirectAI ? (
               <div className="space-y-8">
                 <div
-                  className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none"
+                  className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-relaxed selection:bg-primary/30 selection:text-white outline-none"
                   dangerouslySetInnerHTML={{
                     __html: output
                       .split(/BEGIN_GPX_GARMIN_WPT|BEGIN_GPX_ROUTE_TRACK|BEGIN_GPX_GARMIN|BEGIN_GPX_WPT_ONLY/)[0]
@@ -340,14 +356,10 @@ export function OutputSection({
                 />
               </div>
             ) : (
-              <pre className="whitespace-pre-wrap font-mono text-xs sm:text-sm md:text-base text-white/80 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
-                {output}
-              </pre>
-            )}
-
-            {gpxOutputMode?.length > 0 && (
-              <div className="text-[11px] text-white/60 font-bold uppercase tracking-[0.2em]">
-                {t("planner.output.gpxHint")}
+              <div>
+                <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                  {output}
+                </pre>
               </div>
             )}
 

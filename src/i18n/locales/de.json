@@ -279,7 +279,33 @@
       ]
     },
     "highlights": {
-      "title": "Highlights & Aktivitäten"
+      "title": "Highlights & Aktivitäten",
+      "groups": {
+        "outward": {
+          "title": "Hinfahrt",
+          "items": [
+            "Rhön (Wasserkuppe): Spaziergang mit Panorama",
+            "Wasserstraßenkreuz Magdeburg: Trogbrücke über die Elbe",
+            "Perleberg Altstadt & Tierpark"
+          ]
+        },
+        "onsite": {
+          "title": "Vor Ort",
+          "items": [
+            "Wismar Altstadt (UNESCO) & Alter Hafen",
+            "Insel Poel: Hundestrände (z. B. Timmendorf)",
+            "Schloss Bothmer in Klütz"
+          ]
+        },
+        "return": {
+          "title": "Rückfahrt",
+          "items": [
+            "Hundertwasser-Bahnhof Uelzen",
+            "Brockenwanderung oder Brockenbahn (Hund mit Maulkorb)",
+            "Wertheim Altstadt & Burgruine"
+          ]
+        }
+      }
     },
     "tips": {
       "title": "Praktische Tipps",
@@ -592,7 +618,8 @@
       },
       "stage": {
         "label": "Zwischenstopp {{num}}",
-        "placeholder": "z. B. Innsbruck oder Bozen"
+        "placeholder": "z. B. Innsbruck oder Bozen",
+        "arrivalTime": "Ankunftszeit Zwischenstopp {{num}}"
       },
       "departure": "Abreise",
       "arrival": "Ankunft",
@@ -882,7 +909,9 @@
         "downloadWpt": "GPX (Route+Track)",
         "downloadGarmin": "Garmin (Wegpunkte)",
         "gpxSwapNote": "GPX-Blöcke automatisch korrigiert",
-        "copyError": "Fehler!"
+        "copyError": "Fehler!",
+        "gpxDownloadedWpt": "GPX (Route+Track) heruntergeladen",
+        "gpxDownloadedGarmin": "Garmin (Wegpunkte) heruntergeladen"
       },
       "nextSteps": {
         "title": "Bereit?",
@@ -897,7 +926,6 @@
       "summary": {
         "title": "Kurzfassung"
       },
-      "gpxHint": "GPX erstellt – bitte als .gpx speichern",
       "checklist": {
         "title": "Checkliste",
         "items": {
@@ -996,6 +1024,7 @@
       "start": "Startpunkt",
       "destination": "Ziel",
       "stage": "Zwischenstopp {{num}}",
+      "stageArrival": "Ankunft Zwischenstopp {{num}}",
       "departure": "Abreise",
       "arrival": "Ankunft",
       "totalDistance": "Gesamtdistanz",
@@ -1021,6 +1050,7 @@
       "facilities": "Ausstattung",
       "budget": "Max. Budget pro Nacht",
       "budgetUpTo": "bis zu",
+      "budgetNote": "Budget ist die harte Obergrenze; Budget-Level ist die Qualitätsrichtung innerhalb dieses Limits.",
       "specialWishes": "Zusätzliche Übernachtungswünsche",
       "travelStyle": "Reisestil",
       "preferences": "Routenpräferenzen",
@@ -1039,7 +1069,17 @@
       "tollCountries": "Mautländer vermeiden",
       "travelPaceNote": "weiche Präferenz, Max. km/Tag hat Vorrang"
     },
-    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze und Alternativen mit kurzer Beschreibung; nenne, wenn verfügbar, die offizielle Website, Adresse und Telefonnummer. Links sind sehr wichtig und sollten in der Regel vorhanden sein. Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Nenne grobe Preisbereiche, aber markiere Preise als Richtwerte. Suche zwingend mindestens eine Alternative pro Übernachtung mit denselben Angaben.)\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android."
+    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze und Alternativen mit kurzer Beschreibung; nenne, wenn verfügbar, die offizielle Website, Adresse und Telefonnummer. Links sind sehr wichtig und sollten in der Regel vorhanden sein. Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Nenne grobe Preisbereiche, aber markiere Preise als Richtwerte. Suche zwingend mindestens eine Alternative pro Übernachtung mit denselben Angaben.)\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
+    "gpx": {
+      "garmin": "GPX-Datei: Hänge am Ende der Antwort genau eine GPX-Datei für Garmin-Wegpunkte an.\n\nWichtig: Gib die GPX-Datei als reinen XML-Block aus, ohne Markdown, ohne Backticks und ohne zusätzliche Marker wie BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben.\n\nGib nach den normalen Antwortabschnitten ausschließlich den GPX-Block zurück, ohne zusätzlichen Text außerhalb des GPX-Blocks.",
+      "routeTrack": "GPX-Datei: Hänge am Ende der Antwort genau eine GPX-Datei (Route+Track) an.\n\nWichtig: Gib die GPX-Datei als reinen XML-Block aus, ohne Markdown, ohne Backticks und ohne zusätzliche Marker wie BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\n\nGib nach den normalen Antwortabschnitten ausschließlich den GPX-Block zurück, ohne zusätzlichen Text außerhalb des GPX-Blocks.",
+      "both": "GPX-Datei: Hänge am Ende der Antwort zwei GPX-Dateien an.\n\nWichtig: Jeder GPX-Block muss als reiner XML-Block ausgegeben werden, ohne Markdown, ohne Backticks und ohne zusätzliche Marker wie BEGIN/END.\n\nBlock 1 (Garmin Wegpunkte):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nBlock 2 (GPX Route+Track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nAnforderungen Block 1 (Garmin Wegpunkte):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben.\n\nAnforderungen Block 2 (GPX Route+Track):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\n\nGib nach den normalen Antwortabschnitten ausschließlich diese beiden GPX-Blöcke zurück, ohne zusätzlichen Text außerhalb der GPX-Blöcke."
+    },
+    "gpxPlain": {
+      "garmin": "GPX-Datei: Hänge am Ende der Antwort genau eine GPX-Datei für Garmin-Wegpunkte an.\n\nWichtig: Gib die GPX-Datei als reinen XML-Block aus, ohne Markdown, ohne Backticks und ohne zusätzliche Marker wie BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben.\n\nGib nach den normalen Antwortabschnitten ausschließlich den GPX-Block zurück, ohne zusätzlichen Text außerhalb des GPX-Blocks.",
+      "routeTrack": "GPX-Datei: Hänge am Ende der Antwort genau eine GPX-Datei (Route+Track) an.\n\nWichtig: Gib die GPX-Datei als reinen XML-Block aus, ohne Markdown, ohne Backticks und ohne zusätzliche Marker wie BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nAnforderungen:\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\n\nGib nach den normalen Antwortabschnitten ausschließlich den GPX-Block zurück, ohne zusätzlichen Text außerhalb des GPX-Blocks.",
+      "both": "GPX-Datei: Hänge am Ende der Antwort zwei GPX-Dateien an.\n\nWichtig: Jeder GPX-Block muss als reiner XML-Block ausgegeben werden, ohne Markdown, ohne Backticks und ohne zusätzliche Marker wie BEGIN/END.\n\nBlock 1 (Garmin Wegpunkte):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nBlock 2 (GPX Route+Track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nAnforderungen Block 1 (Garmin Wegpunkte):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nKeine Route (<rte>) und keinen Track (<trk>) ausgeben.\n\nAnforderungen Block 2 (GPX Route+Track):\nJeden Start, alle Etappen, Übernachtungen und das Ziel als Wegpunkte (<wpt>) anlegen. Für Übernachtungen in <desc> Adresse, Website und Telefonnummer angeben (falls vorhanden). Alternativplätze (zwingend angeben) ausschließlich in <desc> mit Namen, Adresse, Website und Telefonnummer aufnehmen (falls vorhanden).\nEine Route (<rte>) mit allen Punkten in Reihenfolge erzeugen (<rtept>), sodass Garmin sie als Route erkennt.\nDie Gesamtroute außerdem als Track (<trk> mit <trkseg> und <trkpt>) anlegen.\n\nGib nach den normalen Antwortabschnitten ausschließlich diese beiden GPX-Blöcke zurück, ohne zusätzlichen Text außerhalb der GPX-Blöcke."
+    }
   },
   "anchorNav": {
     "home": "Start",

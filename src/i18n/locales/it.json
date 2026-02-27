@@ -1,0 +1,1097 @@
+{
+  "seo": {
+    "title": "Camping Route - Pianificatore itinerari camper con IA & generatore di prompt | Gratuito",
+    "description": "Generatore di prompt basato sull'IA per itinerari camper perfetti! Camping Route trova aree di sosta in base ai dati del veicolo & al budget. Il tuo intelligente pianificatore itinerari camper per l'Europa."
+  },
+  "navbar": {
+    "features": "Funzionalità",
+    "exampleRoute": "Itinerario d'esempio",
+    "faq": "FAQ",
+    "planNow": "Pianifica ora",
+    "subtitle": "Prompt IA smart"
+  },
+  "hero": {
+    "badge": "Generatore di prompt IA",
+    "title": "Camping Route",
+    "description": "Crea con il nostro intelligente generatore di prompt il tuo itinerario in camper personalizzato, incluse raccomandazioni su misura per aree di sosta e avventure.",
+    "planNow": "Pianifica itinerario ora",
+    "viewExample": "Guarda l'itinerario d'esempio",
+    "stats": {
+      "rating": {
+        "value": "4.9/5",
+        "label": "Valutazione"
+      },
+      "routes": {
+        "value": "10.000+",
+        "label": "Itinerari"
+      },
+      "price": {
+        "value": "100%",
+        "label": "Gratuito"
+      }
+    }
+  },
+  "features": {
+    "badge": "Funzionalità",
+    "title": "Perché Camping Route?",
+    "promptGen": {
+      "title": "Generazione di prompt IA",
+      "description": "Crea prompt ottimizzati per la tua pianificazione itinerari assistita dall'IA con parametri specifici per camper."
+    },
+    "smartFilters": {
+      "title": "Filtri smart",
+      "description": "Filtra per budget, dimensioni del veicolo, interessi e dotazioni dell'area di sosta per prompt precisi."
+    },
+    "readyInstantly": {
+      "title": "Pronto subito",
+      "description": "Nessuna registrazione necessaria. In meno di 3 minuti ottieni il prompt IA pronto."
+    },
+    "privacyFirst": {
+      "title": "Privacy prima di tutto",
+      "description": "Nessuna memorizzazione dei dati. Tutto resta localmente nel tuo browser."
+    },
+    "openSource": {
+      "title": "Open source",
+      "description": "Completamente trasparente. Codice consultabile su GitHub e aperto ai contributi."
+    },
+    "freeAdFree": {
+      "title": "Gratuito & senza pubblicità",
+      "description": "Nessun costo nascosto. Nessuna pubblicità. Utilizzo completamente gratuito."
+    }
+  },
+  "testimonials": {
+    "badge": "Esperienze",
+    "title": "Amata dalla community",
+    "julia": {
+      "name": "Julia",
+      "text": "Perfetto per viaggi spontanei! In pochi minuti avevo un itinerario dettagliato con tutte le informazioni importanti.",
+      "role": "Viaggiatrice del weekend"
+    },
+    "markus": {
+      "name": "Markus",
+      "text": "Finalmente un pianificatore che risponde davvero alle mie esigenze! L'IA mi ha proposto un itinerario perfetto.",
+      "role": "Viaggiatore"
+    },
+    "sarah": {
+      "name": "Sarah",
+      "text": "Le opzioni di filtro sono geniali! Posso filtrare per budget e dimensioni del veicolo – fa risparmiare un sacco di tempo!",
+      "role": "Camperista"
+    }
+  },
+  "exampleRoute": {
+    "badge": "Itinerario d'esempio",
+    "title": "Karlsruhe ⇄ Zierow",
+    "subtitle": "14 giorni • ca. 1.495 km • Slow Travel con 5,5 t & cane",
+    "lead": "Giro lento e dog‑friendly con tappe chiare, soste fisse e abbastanza margine per le pause.",
+    "keyFacts": [
+      {
+        "label": "Partenza",
+        "value": "04.06.2026 (Corpus Domini, BW)"
+      },
+      {
+        "label": "Distanza totale",
+        "value": "ca. 1.495 km"
+      },
+      {
+        "label": "Durata del viaggio",
+        "value": "14 giorni"
+      },
+      {
+        "label": "Veicolo",
+        "value": "7,2 m • 3,2 m • 5,5 t"
+      },
+      {
+        "label": "Budget",
+        "value": "1.200–1.500 €"
+      }
+    ],
+    "ruleNotice": {
+      "title": "Avviso importante per 5,5 t",
+      "items": [
+        "Rispettare i divieti di sorpasso per camion e i limiti di velocità.",
+        "In autostrada spesso 100 km/h solo con omologazione, altrimenti 80 km/h; su statale max. 80 km/h.",
+        "La partenza il 04.06.2026 è Corpus Domini – al mattino prevedere traffico turistico intenso."
+      ]
+    },
+    "details": {
+      "show": "Mostra dettagli",
+      "hide": "Nascondi dettagli"
+    },
+    "stages": {
+      "title": "Pianificazione tappe",
+      "outward": {
+        "title": "Andata",
+        "range": "04.06.–07.06.2026",
+        "items": [
+          {
+            "title": "Tappa 1: Karlsruhe → zona Fulda/Rhön",
+            "date": "04.06.2026",
+            "distance": "ca. 210 km",
+            "duration": "ca. 3:00 h",
+            "route": "A5 fino al nodo Hattenbacher Dreieck, poi verso Fulda.",
+            "pause": "Dopo ca. 1,5 h nella zona di Alsfeld per una passeggiata per il cane.",
+            "note": "Possibile traffico festivo."
+          },
+          {
+            "title": "Tappa 2: zona Fulda → zona Magdeburg/Elbe",
+            "date": "05.06.2026",
+            "distance": "ca. 240 km",
+            "duration": "ca. 3:30 h",
+            "route": "A7 / A4 / A71 verso nord. La tangenziale est dell'Harz spesso è più rilassata della A7 Kasseler Berge.",
+            "pause": "A Sangerhausen o a sud di Magdeburg."
+          },
+          {
+            "title": "Tappa 3: zona Magdeburg → Perleberg",
+            "date": "06.06.2026",
+            "distance": "ca. 110 km",
+            "duration": "ca. 1:45 h",
+            "route": "B189 verso nord.",
+            "pause": "Tappa breve – tempo per Perleberg & dintorni."
+          },
+          {
+            "title": "Tappa 4: Perleberg → Zierow",
+            "date": "07.06.2026",
+            "distance": "ca. 85 km",
+            "duration": "ca. 1:30 h",
+            "route": "Ultimo tratto tranquillo fino al campeggio.",
+            "pause": "Arrivo in orario per il check‑in a Zierow."
+          }
+        ]
+      },
+      "stay": {
+        "title": "Soggiorno in loco",
+        "range": "07.06.–14.06. (Zierow/Wismar)",
+        "note": "Destinazione prenotata: Ostsee-Camping-Ferienpark Zierow."
+      },
+      "return": {
+        "title": "Ritorno",
+        "range": "14.06.–17.06.2026",
+        "items": [
+          {
+            "title": "Tappa 5: Zierow → Lüneburger Heide (zona Uelzen)",
+            "date": "14.06.2026",
+            "distance": "ca. 140 km",
+            "duration": "ca. 2:15 h",
+            "route": "B208 / B4 verso sud (Slow Travel su strade secondarie).",
+            "pause": "Soste adatte su strade di campagna o presso fattorie."
+          },
+          {
+            "title": "Tappa 6: zona Uelzen → Harz",
+            "date": "15.06.2026",
+            "distance": "ca. 130 km",
+            "duration": "ca. 2:00 h",
+            "route": "B4 verso Braunschweig/Harz.",
+            "pause": "Passeggiate dog‑friendly presso l'area di sosta."
+          },
+          {
+            "title": "Tappa 7: Harz → Spessart/Main",
+            "date": "16.06.2026",
+            "distance": "ca. 230 km",
+            "duration": "ca. 3:30 h",
+            "route": "A7 verso sud.",
+            "pause": "Sosta pranzo in aree di servizio con corsia camion."
+          },
+          {
+            "title": "Tappa 8: Spessart → Karlsruhe",
+            "date": "17.06.2026",
+            "distance": "ca. 160 km",
+            "duration": "ca. 2:00 h",
+            "route": "Ultima tappa verso casa.",
+            "pause": "Arrivo nel pomeriggio."
+          }
+        ]
+      }
+    },
+    "overnights": {
+      "title": "Pernottamenti",
+      "note": "I prezzi sono stime per il 2026 (inflazione inclusa).",
+      "items": [
+        {
+          "title": "Andata • zona Fulda",
+          "name": "KNAUS Campingpark Hünfeld",
+          "price": "ca. 35–45 € / notte",
+          "details": [
+            "Posizione tranquilla nella Rhön vicino alla A7",
+            "Restaurant Praforst am See",
+            "Buoni percorsi per passeggiare con il cane"
+          ]
+        },
+        {
+          "title": "Andata • zona Magdeburg",
+          "name": "Campingplatz Barleber See",
+          "price": "ca. 25–35 € / notte",
+          "details": [
+            "Direttamente sul lago",
+            "Snack bar/ristorante in loco",
+            "Piazzole grandi per 7 m+"
+          ]
+        },
+        {
+          "title": "Andata • Perleberg",
+          "name": "Stellplatz Kristalltherme Bad Wilsnack",
+          "price": "ca. 15–20 € + tassa di soggiorno",
+          "details": [
+            "Molto tranquillo, opzione wellness",
+            "Perleberg raggiungibile rapidamente",
+            "Alternativa: Stellplatz am Hagen"
+          ]
+        },
+        {
+          "title": "Destinazione",
+          "name": "Ostsee-Camping-Ferienpark Zierow",
+          "price": "07.–14.06. prenotato",
+          "details": [
+            "Wismar & Insel Poel nelle vicinanze",
+            "Spiagge per cani raggiungibili",
+            "Punto di partenza ideale"
+          ]
+        },
+        {
+          "title": "Ritorno • Lüneburger Heide",
+          "name": "Uhlenköper-Camp Uelzen",
+          "price": "ca. 30–40 € / notte",
+          "details": [
+            "Ecologico, dog‑friendly",
+            "Negozio bio & caffè",
+            "Noleggio canoe"
+          ]
+        },
+        {
+          "title": "Ritorno • Harz",
+          "name": "Campingplatz Am Brocken",
+          "price": "ca. 35–45 € / notte",
+          "details": [
+            "Nel cuore dell'Harz",
+            "Ristorante in struttura",
+            "Top per escursioni"
+          ]
+        },
+        {
+          "title": "Ritorno • Spessart",
+          "name": "Camping Main-Spessart",
+          "price": "ca. 30–40 € / notte",
+          "details": [
+            "Direttamente sul Main",
+            "Locanda con biergarten",
+            "Bella vista sul fiume"
+          ]
+        }
+      ]
+    },
+    "highlights": {
+      "title": "Highlights & attività",
+      "groups": {
+        "outward": {
+          "title": "Andata",
+          "items": [
+            "Rhön (Wasserkuppe): passeggiata con panorama",
+            "Incrocio delle vie d'acqua di Magdeburg: ponte‑canale sopra l'Elbe",
+            "Centro storico di Perleberg & zoo"
+          ]
+        },
+        "onsite": {
+          "title": "Sul posto",
+          "items": [
+            "Centro storico di Wismar (UNESCO) & Porto Vecchio",
+            "Insel Poel: spiagge per cani (ad es. Timmendorf)",
+            "Schloss Bothmer a Klütz"
+          ]
+        },
+        "return": {
+          "title": "Ritorno",
+          "items": [
+            "Hundertwasser-Bahnhof Uelzen",
+            "Escursione al Brocken o Brockenbahn (cane con museruola)",
+            "Centro storico di Wertheim & ruderi del castello"
+          ]
+        }
+      }
+    },
+    "tips": {
+      "title": "Consigli pratici",
+      "items": [
+        {
+          "label": "Navigazione",
+          "value": "Usa un navigatore con misure del veicolo (L: 7,2 m • H: 3,2 m • 5,5 t), ad es. TomTom Go Camper o Garmin."
+        },
+        {
+          "label": "Smaltimento",
+          "value": "Toilette Clesana = rifiuto indifferenziato. Scarico acque grigie in tutte le aree indicate."
+        },
+        {
+          "label": "Acqua potabile",
+          "value": "Serbatoio grande, rifornimento possibile a ogni tappa."
+        },
+        {
+          "label": "Emergenza",
+          "value": "Segna in anticipo le cliniche veterinarie lungo il percorso (ad es. Magdeburg, Lüneburg)."
+        }
+      ]
+    },
+    "service": {
+      "title": "Servizi in viaggio",
+      "items": [
+        {
+          "label": "Carburante",
+          "value": "I truck stop (Autohof) sono più economici delle aree autostradali. Usa corsie camion se le colonnine auto sono troppo strette."
+        },
+        {
+          "label": "Spesa",
+          "value": "Cerca grandi parcheggi in zone commerciali (ad es. Kaufland, Globus)."
+        },
+        {
+          "label": "App",
+          "value": "Clever Tanken, Park4Night (>7 m, cane ammesso), Promobil Stellplatz-Radar, app di allerta NINA."
+        }
+      ]
+    },
+    "extras": {
+      "title": "Informazioni aggiuntive",
+      "items": [
+        {
+          "label": "Budget",
+          "value": "Ca. 1.200–1.500 € per carburante, aree di sosta, vitto e ingressi."
+        },
+        {
+          "label": "Sostenibilità",
+          "value": "Grazie a solare & Clesana senza chimica. Smaltire i sacchetti nell'indifferenziato, usare fattorie locali."
+        },
+        {
+          "label": "Salute",
+          "value": "Protezione zecche per il cane obbligatoria a giugno, libretto vaccinale a portata di mano."
+        },
+        {
+          "label": "Periodo",
+          "value": "Giugno è ideale: giorni lunghi, Mar Baltico ca. 15–17 °C."
+        }
+      ]
+    },
+    "tech": {
+      "title": "Tecnica & attrezzatura",
+      "items": [
+        {
+          "label": "Checklist",
+          "value": "Cavo adattatore CEE (lungo), tubo acqua + annaffiatoio, cunei di livellamento (Heavy Duty)."
+        },
+        {
+          "label": "Pneumatici/emergenza",
+          "value": "Portare un kit riparazione pneumatici per camion/camper."
+        },
+        {
+          "label": "Autonomia",
+          "value": "600W solare / 600Ah / Clesana – quindi scelta del posto più flessibile."
+        }
+      ]
+    },
+    "flexibility": {
+      "title": "Flessibilità & aspetti legali",
+      "items": [
+        {
+          "label": "Wild camping",
+          "value": "In Germania vietato, nelle aree protette controllato rigidamente."
+        },
+        {
+          "label": "Sosta notturna",
+          "value": "Una notte singola in parcheggio con 7,2 m spesso è difficile – meglio aree di sosta."
+        },
+        {
+          "label": "Opzioni",
+          "value": "Landvergnügen o agriturismi sono buone alternative spontanee."
+        }
+      ]
+    },
+    "alternatives": {
+      "title": "Alternative in caso di traffico",
+      "items": [
+        {
+          "label": "A7 andata",
+          "value": "Deviazione via B27 (Fulda → Göttingen) – paesaggisticamente bella, ma più lenta."
+        },
+        {
+          "label": "Amburgo ritorno",
+          "value": "Aggira Amburgo ampiamente a est (Uelzen/B4), evita l'Elbtunnel."
+        }
+      ]
+    }
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "Domande frequenti",
+    "items": {
+      "whatIs": {
+        "q": "Che cos'è Camping Route?",
+        "title": "Un assistente intelligente per i tuoi itinerari in camper.",
+        "prec": "Perché un generatore di prompt?",
+        "prec1": "L'intelligenza artificiale (come ChatGPT) è fantastica, ma ha bisogno di istruzioni precise (prompt) per fornire risultati davvero utili.",
+        "prec2": "Camping Route è uno strumento solo frontend che gira completamente in locale nel tuo browser. Selezioni le tue preferenze tramite un semplice modulo.",
+        "prec3": "Convertiamo i tuoi input in un testo perfettamente strutturato che l'IA comprende al meglio.",
+        "ai": "I tuoi vantaggi",
+        "ai1": "Niente più itinerari standard, ma 100% personalizzati.",
+        "ai2": "Tiene conto di misure del veicolo, budget e preferenze.",
+        "ai3": "Ti evita di digitare e chiedere chiarimenti all'IA."
+      },
+      "diff": {
+        "q": "Prompt vs. IA diretta – qual è la differenza?",
+        "title": "Hai scelta: copiare gratis o generare direttamente nell'app.",
+        "gen": "Modalità: Genera prompt (gratuito)",
+        "gen1": "Alla fine ottieni un prompt di testo pronto.",
+        "gen2": "Lo copi e lo incolli semplicemente in ChatGPT, Claude o Gemini.",
+        "gen3": "Gratuito e usi il tuo account IA esistente.",
+        "gen4": "Pieno controllo sulla chat successiva.",
+        "ai": "Modalità: usa l'IA direttamente (chiave API necessaria)",
+        "ai1": "L'itinerario viene generato e mostrato direttamente nella nostra app.",
+        "ai2": "Niente copia‑incolla tra schede diverse.",
+        "ai4": "Hai bisogno di una tua chiave API del tuo fornitore IA."
+      },
+      "howItWorks": {
+        "q": "Come funziona esattamente la pianificazione?",
+        "title": "In pochi passaggi verso l'itinerario perfetto.",
+        "step1": "Dati di base",
+        "step1a": "Definisci partenza, destinazione, durata e chilometri massimi al giorno.",
+        "step2": "Il tuo veicolo",
+        "step2a": "Inserisci misure del veicolo, classe di peso, tipo di veicolo, oltre a solare, batteria servizi e giorni di autonomia.",
+        "step3": "Preferenze & generazione",
+        "step3a": "Copia il prompt (e incollalo manualmente in ChatGPT & co.) OPPURE inserisci la tua chiave API per visualizzare direttamente nell'app."
+      },
+      "cost": {
+        "q": "L'uso è davvero gratuito?",
+        "title": "Sì, Camping Route è un progetto open-source gratuito.",
+        "free": "L'app",
+        "free1": "L'uso del modulo e la creazione del prompt sono 100% gratuiti.",
+        "free2": "Nessuna registrazione, nessun database, nessun backend.",
+        "opt": "Costi API dell'IA",
+        "transDesc": "Solo se vuoi 'usare l'IA direttamente' inserisci la tua chiave API PERSONALE. Paghi le minime commissioni di utilizzo API (di solito nell'ordine di centesimi per itinerario) direttamente al tuo fornitore IA (OpenAI, Google, Mistral). Noi, come app, non c'entriamo: non guadagniamo nulla e non copriamo costi API!"
+      },
+      "privacy": {
+        "q": "Cosa succede ai dati che inserisco?",
+        "title": "I tuoi dati restano sul tuo dispositivo.",
+        "device": "Locale & sicuro",
+        "device1": "Non gestiamo alcun backend né database! Se attivi il salvataggio, i tuoi input (senza chiavi API) vengono salvati localmente sul tuo dispositivo per 30 giorni.",
+        "sec": "Nessun invio al server",
+        "sec1": "I tuoi dati lasciano il dispositivo solo quando li invii direttamente all'API del fornitore IA scelto."
+      },
+      "aiModel": {
+        "q": "Quale modello IA dovrei scegliere?",
+        "title": "Ogni modello ha i suoi punti di forza nella pianificazione itinerari.",
+        "gemini": "Google Gemini 3.1 (consigliato)",
+        "gemini1": "Eccezionale per luoghi attuali, aree di sosta e POI perché usa l'enorme database di Google. Spesso genera gli itinerari più realistici e piacevoli per l'Europa.",
+        "gpt": "OpenAI ChatGPT 5.2",
+        "gpt1": "Imbattibile sul piano logico. Rispetta scrupolosamente vincoli come chilometri massimi al giorno e budget. L'output testuale della versione 5.2 è molto strutturato ed estremamente dettagliato.",
+        "mistral": "Mistral Large",
+        "mistral1": "Un modello europeo molto solido. Lavora molto velocemente e offre un ottimo rapporto qualità‑prezzo (l'API spesso è più economica di OpenAI).",
+        "recDesc": "Consiglio: per le migliori raccomandazioni di aree di sosta e highlight paesaggistici consigliamo attualmente Google Gemini."
+      }
+    }
+  },
+  "planner": {
+    "badge": "Pianificatore itinerari",
+    "title": "In 7 passaggi verso l'itinerario perfetto",
+    "cta": "Pianifica itinerario ora",
+    "loading": {
+      "ai": "🤖 Genero itinerario...",
+      "prompt": "📝 Creo prompt...",
+      "error": "Si è verificato un errore IA.",
+      "invalidKey": "Chiave API non valida."
+    },
+    "nav": {
+      "back": "Indietro",
+      "next": "Avanti",
+      "generateRoute": "Genera itinerario",
+      "generatePrompt": "Genera prompt"
+    },
+    "summary": {
+      "title": "Riepilogo",
+      "check": "Per favore controlla i tuoi dati.",
+      "start": "Partenza",
+      "destination": "Destinazione",
+      "period": "Periodo",
+      "maxDist": "Distanza max.",
+      "perDay": "giorno",
+      "method": "Metodo IA",
+      "direct": "Generazione diretta",
+      "prompt": "Creazione del prompt",
+      "notSpecified": "Non specificato",
+      "vehicle": "Veicolo",
+      "people": "Persone",
+      "style": "Stile",
+      "interests": "Interessi",
+      "selected": "selezionato",
+      "notSelected": "Non selezionato",
+      "save": {
+        "title": "Salva input localmente",
+        "desc": "Salva i tuoi input del modulo localmente su questo dispositivo per 30 giorni. Con „Elimina dati“ rimuovi i dati salvati da questo dispositivo.",
+        "note": "Le chiavi API non vengono mai salvate.",
+        "coffee": "Supporta CampingRoute",
+        "coffeeHint": "CampingRoute.app è open‑source & senza pubblicità – il tuo supporto aiuta a coprire i costi server + sviluppo. Grazie!",
+        "clear": "Elimina dati"
+      }
+    },
+    "steps": {
+      "ai": {
+        "label": "Impostazioni IA"
+      },
+      "route": {
+        "label": "Itinerario"
+      },
+      "optimization": {
+        "label": "Ottimizzazione percorso"
+      },
+      "vehicle": {
+        "label": "Veicolo"
+      },
+      "accommodation": {
+        "label": "Pernottamento"
+      },
+      "interests": {
+        "label": "Interessi"
+      },
+      "summary": {
+        "label": "Riepilogo"
+      }
+    },
+    "ai": {
+      "title": "Impostazioni IA",
+      "description": "Scegli come vuoi interagire con l'IA.",
+      "mode": {
+        "prompt": {
+          "title": "Genera prompt",
+          "desc": "Testo pronto per ChatGPT & co."
+        },
+        "direct": {
+          "title": "Usa l'IA direttamente",
+          "desc": "Genera e mostra l'itinerario direttamente nell'app. Usi la TUA chiave API e paghi direttamente al tuo fornitore IA (ad es. OpenAI)."
+        }
+      },
+      "provider": {
+        "label": "Fornitore & modello",
+        "help": "Quale modello scegliere?"
+      },
+      "apiKey": {
+        "hint": "La tua chiave non viene salvata e viene usata solo per questa sessione.",
+        "placeholder": "La tua chiave API",
+        "create": "Crea una chiave API su {{name}} →",
+        "security": "Camping Route è <b>un'app frontend pura senza backend né database!</b> Non salviamo né vediamo mai la tua chiave API. Resta solo in questa sessione nel browser e viene inviata cifrata direttamente al fornitore IA."
+      }
+    },
+    "route": {
+      "title": "Itinerario",
+      "description": "Definisci i dettagli del tuo viaggio.",
+      "type": {
+        "label": "Tipo di percorso",
+        "placeholder": "-- Seleziona --",
+        "options": {
+          "oneWay": "Solo andata",
+          "return": "Andata e ritorno",
+          "roundTrip": "Tour ad anello",
+          "multiStage": "Percorso a tappe"
+        }
+      },
+      "gpx": {
+        "label": "Output GPX",
+        "description": "Scegli quale/i file GPX vuoi ricevere alla fine.",
+        "multiple": "(Selezione multipla possibile)",
+        "options": {
+          "garmin": "Garmin (waypoint)",
+          "routeTrack": "GPX (rotta+traccia)"
+        }
+      },
+      "style": {
+        "label": "Stile di viaggio",
+        "placeholder": "-- Seleziona --",
+        "options": {
+          "adventure": "Avventura",
+          "relaxation": "Benessere & tranquillità",
+          "culture": "Cultura",
+          "nature": "Natura",
+          "family": "Famiglia",
+          "gourmet": "Gourmet",
+          "slowTravel": "Slow Travel (viaggio lento)"
+        }
+      },
+      "start": {
+        "label": "Partenza",
+        "placeholder": "ad es. Monaco di Baviera"
+      },
+      "destination": {
+        "label": "Destinazione",
+        "placeholder": "ad es. Lago di Garda"
+      },
+      "stage": {
+        "label": "Tappa intermedia {{num}}",
+        "placeholder": "ad es. Innsbruck o Bolzano",
+        "arrivalTime": "Ora di arrivo tappa intermedia {{num}}"
+      },
+      "departure": "Partenza",
+      "arrival": "Arrivo",
+      "maxDistance": "Max. km / giorno",
+      "additional": {
+        "label": "Info aggiuntive",
+        "placeholder": "ad es. posti già prenotati, appuntamenti fissi, luoghi must‑see, richieste speciali"
+      },
+      "departureTime": "Ora di partenza",
+      "arrivalTime": "Ora di arrivo",
+      "flexibleDuration": {
+        "label": "Durata del viaggio flessibile",
+        "description": "L'IA può adattare durata/tappe se ha senso."
+      },
+      "requiredHint": "Campo obbligatorio",
+      "stageHint": "Tappe intermedie solo per percorso a tappe",
+      "travelPace": {
+        "label": "Stile di guida (selezione rapida)",
+        "options": {
+          "short": "Tappe brevi",
+          "balanced": "Equilibrato",
+          "long": "Tappe lunghe"
+        },
+        "note": "Max. km/giorno ha la priorità; lo stile di guida è una preferenza morbida."
+      }
+    },
+    "optimization": {
+      "title": "Ottimizzazione percorso",
+      "subtitle": "(Selezione multipla possibile)",
+      "categories": {
+        "roadType": {
+          "label": "Profilo stradale",
+          "options": {
+            "motorways": "Preferisci autostrade",
+            "country": "Preferisci strade secondarie",
+            "scenic": "Preferisci strade panoramiche"
+          }
+        },
+        "avoidances": {
+          "label": "Esclusioni & evitare",
+          "options": {
+            "toll": "Evitare strade a pedaggio",
+            "traffic": "Aggirare traffico",
+            "construction": "Evitare cantieri",
+            "tunnels": "Evitare gallerie",
+            "night": "Evitare guida notturna"
+          }
+        },
+        "landscape": {
+          "label": "Paesaggio & dintorni",
+          "options": {
+            "mountains": "Montagne & passi",
+            "coastal": "Costa & mare",
+            "lakes": "Laghi & fiumi",
+            "forest": "Boschi & natura"
+          }
+        },
+        "experiences": {
+          "label": "Esperienze lungo il percorso",
+          "options": {
+            "cities": "Città & cultura",
+            "rural": "Idillio rurale",
+            "unesco": "Patrimonio UNESCO",
+            "farm": "Fattorie & spacci",
+            "markets": "Mercati locali"
+          }
+        }
+      },
+      "avoidRegions": {
+        "label": "Evitare regioni",
+        "placeholder": "ad es. grandi città, passi alpini, paesi a pedaggio"
+      },
+      "tollCountries": {
+        "label": "Evitare paesi a pedaggio",
+        "options": {
+          "at": "Austria",
+          "ch": "Svizzera",
+          "fr": "Francia",
+          "it": "Italia",
+          "es": "Spagna",
+          "si": "Slovenia"
+        }
+      }
+    },
+    "vehicle": {
+      "title": "Filtri veicolo",
+      "description": "Dati tecnici del tuo veicolo.",
+      "group": {
+        "dimensions": "Dimensioni",
+        "weight": "Classe & tipo",
+        "power": "Autonomia",
+        "systems": "Sistemi"
+      },
+      "length": "Lunghezza",
+      "height": "Altezza",
+      "width": "Larghezza",
+      "weightClass": {
+        "label": "Classe di peso",
+        "placeholder": "Seleziona",
+        "options": {
+          "lt35": "fino a 3,5 t",
+          "bt35_75": "3,5–7,5 t",
+          "gt75": "oltre 7,5 t"
+        }
+      },
+      "type": {
+        "label": "Tipo di veicolo",
+        "placeholder": "Seleziona",
+        "options": {
+          "campervan": "Furgone camperizzato",
+          "semiIntegrated": "Semintegrale",
+          "integrated": "Integrale",
+          "alcove": "Alcova",
+          "expedition": "Camper expedition su camion",
+          "caravan": "Caravan (rimorchio)",
+          "pickupCamper": "Camper su pickup",
+          "tent": "Tenda",
+          "motorcycleTent": "Moto + tenda"
+        }
+      },
+      "typeNote": "Con Moto + tenda le misure, l'autonomia e i sistemi vengono ignorati.",
+      "fuel": {
+        "label": "Carburante",
+        "placeholder": "Seleziona",
+        "options": {
+          "diesel": "Diesel",
+          "petrol": "Benzina",
+          "lpg": "GPL",
+          "electric": "Elettrico",
+          "hybrid": "Ibrido"
+        }
+      },
+      "solar": "Solare",
+      "battery": "Batteria servizi",
+      "autonomyDays": "Giorni di autonomia",
+      "autonomyUnit": "giorni",
+      "toilet": {
+        "label": "Sistema WC",
+        "placeholder": "Seleziona",
+        "options": {
+          "cassette": "WC a cassetta",
+          "chemical": "Toilette a separazione",
+          "dry": "Toilette a incenerimento",
+          "fixed": "Toilette a serbatoio fisso",
+          "clesana": "Clesana",
+          "none": "Nessuno"
+        }
+      },
+      "heating": {
+        "label": "Riscaldamento",
+        "placeholder": "Seleziona",
+        "options": {
+          "diesel": "Diesel",
+          "gasBottle": "Bombola gas",
+          "gasTank": "Serbatoio gas"
+        }
+      },
+      "levelingJacks": {
+        "label": "Piedini di livellamento",
+        "placeholder": "Seleziona",
+        "options": {
+          "yes": "Sì",
+          "no": "No"
+        }
+      }
+    },
+    "accommodation": {
+      "title": "Pernottamento",
+      "group": {
+        "travelers": "Viaggiatori",
+        "budget": "Budget"
+      },
+      "categories": {
+        "companions": {
+          "label": "Compagnia",
+          "options": {
+            "solo": "Viaggio da solo",
+            "partner": "Coppia",
+            "family": "Famiglia",
+            "friends": "Amici",
+            "pets": "Con cane / animale domestico",
+            "seniors": "Senior"
+          }
+        },
+        "type": {
+          "label": "Tipo di pernottamento",
+          "options": {
+            "camping": "Campeggio classico",
+            "pitch": "Area di sosta camper",
+            "farm": "Agriturismo & cantina",
+            "small": "Piccole aree nella natura",
+            "wild": "Sosta libera / wild camping",
+            "premium": "Premium & glamping"
+          }
+        },
+        "facilities": {
+          "label": "Servizi importanti",
+          "options": {
+            "power": "Allaccio elettrico",
+            "freshWater": "Rifornimento acqua potabile",
+            "greyWater": "Scarico acque grigie",
+            "blackWater": "Scarico acque nere",
+            "sanitary": "Servizi igienici",
+            "wifi": "Wi‑Fi",
+            "pool": "Piscina & benessere",
+            "restaurant": "Ristorante in struttura",
+            "dogs": "Cani ammessi",
+            "kids": "A misura di bambini & parco giochi",
+            "accessible": "Accessibile",
+            "winter": "Adatto al campeggio invernale"
+          }
+        }
+      },
+      "travelers": {
+        "label": "Persone",
+        "unit": "pers."
+      },
+      "budget": {
+        "label": "Budget max./notte"
+      },
+      "additional": {
+        "label": "Desideri extra",
+        "placeholder": "ad es. posizione tranquilla..."
+      },
+      "subtitle": "Dove e come vorresti pernottare lungo l'itinerario?",
+      "budgetLevel": {
+        "label": "Livello budget",
+        "placeholder": "ad es. medio",
+        "options": {
+          "low": "Economico",
+          "medium": "Medio",
+          "high": "Premium"
+        }
+      },
+      "quietPlaces": {
+        "label": "Posti tranquilli",
+        "description": "Preferisci aree di sosta tranquille e a contatto con la natura."
+      }
+    },
+    "interests": {
+      "title": "Interessi",
+      "subtitle": "(Selezione multipla possibile)",
+      "categories": {
+        "active": "Attività & sport",
+        "nature": "Natura & paesaggio",
+        "culture": "Cultura & gastronomia",
+        "lifestyle": "Relax & lifestyle"
+      },
+      "options": {
+        "hiking": "Escursioni & trekking",
+        "cycling": "Bici & e‑bike",
+        "mtb": "Mountain bike",
+        "watersports": "Sport acquatici & canoa",
+        "wintersports": "Sport invernali",
+        "wildlife": "Osservazione animali",
+        "photography": "Spot fotografici",
+        "beach": "Spiaggia & mare",
+        "astronomy": "Osservazione delle stelle",
+        "lakes": "Laghi & fiumi",
+        "cityStroll": "Viaggi in città",
+        "history": "Storia & architettura",
+        "museums": "Musei & arte",
+        "gastronomy": "Gastronomia regionale",
+        "events": "Feste locali & eventi",
+        "wellness": "Benessere & spa",
+        "slowTravel": "Piccoli villaggi & caffè di campagna",
+        "shopping": "Shopping & boutique",
+        "badWeather": "Alternative in caso di maltempo",
+        "campfire": "Socialità & falò"
+      },
+      "additional": {
+        "label": "Ulteriori desideri",
+        "placeholder": "ad es. punti panoramici, spacci, spot foto, percorsi accessibili"
+      }
+    },
+    "output": {
+      "customPrompt": "Prompt itinerario personalizzato",
+      "title": {
+        "direct": "Pianificazione itinerario IA",
+        "prompt": "Il tuo prompt IA"
+      },
+      "loading": {
+        "wait": "Attendere... Il risultato può richiedere un po' di tempo a seconda del fornitore e dell'itinerario."
+      },
+      "actions": {
+        "copied": "Copiato!",
+        "downloadWpt": "GPX (rotta+traccia)",
+        "downloadGarmin": "Garmin (waypoint)",
+        "gpxSwapNote": "Blocchi GPX corretti automaticamente",
+        "copyError": "Errore!",
+        "gpxDownloadedWpt": "GPX (rotta+traccia) scaricato",
+        "gpxDownloadedGarmin": "Garmin (waypoint) scaricato"
+      },
+      "nextSteps": {
+        "title": "Pronto?",
+        "description": "Copia il testo e incollalo nella tua IA preferita (ad es. ChatGPT, Gemini o Mistral)."
+      },
+      "results": {
+        "title": "I tuoi risultati"
+      },
+      "print": {
+        "gpxError": "Nessun dato GPX."
+      },
+      "summary": {
+        "title": "Sintesi"
+      },
+      "checklist": {
+        "title": "Lista di controllo",
+        "items": {
+          "water": "Acqua & acqua potabile",
+          "power": "Elettricità & adattatori",
+          "gas": "Gas & riscaldamento",
+          "waste": "Scarico & WC",
+          "documents": "Documenti & assicurazione",
+          "apps": "App & mappe offline"
+        }
+      }
+    }
+  },
+  "imprint": {
+    "badge": "Dati del fornitore",
+    "title": "Note legali",
+    "project": {
+      "title": "Dati ai sensi del § 5 TMG"
+    },
+    "contact": {
+      "title": "Contatto",
+      "name": "Christian Kopmann",
+      "email": "info@campingroute.app"
+    },
+    "disclaimer": {
+      "title": "Responsabilità per contenuti e link",
+      "description1": "In qualità di fornitore di servizi siamo responsabili, ai sensi del § 7 comma 1 TMG, dei contenuti propri su queste pagine secondo le leggi generali. Ai sensi dei §§ 8–10 TMG, tuttavia, non siamo obbligati a monitorare informazioni esterne trasmesse o memorizzate. Gli itinerari camper generati sono creati da intelligenze artificiali esterne (come OpenAI o Gemini). Non ci assumiamo alcuna garanzia per correttezza, fattibilità o sicurezza di percorsi e aree di pernottamento proposti. L'utilizzo degli itinerari avviene sempre a rischio e responsabilità del conducente.",
+      "description2": "La nostra offerta contiene link a siti web esterni di terzi sui cui contenuti non abbiamo alcun influsso. Pertanto non possiamo assumerci alcuna responsabilità per tali contenuti esterni."
+    },
+    "openSource": {
+      "title": "Copyright & open source",
+      "description1": "I contenuti e le opere creati dai gestori del sito su queste pagine sono soggetti alla licenza MIT. Il progetto è open source. Puoi consultare, modificare e utilizzare il codice sorgente su GitHub.",
+      "link": "Al repository GitHub"
+    },
+    "backToHome": "Torna alla homepage"
+  },
+  "privacy": {
+    "badge": "Informativa sulla privacy",
+    "title": "Informativa privacy",
+    "general": {
+      "title": "Informazioni generali sul trattamento dei dati",
+      "description": "La protezione dei tuoi dati è importante per noi. CampingRoute.app è progettata come applicazione solo client-side. Ciò significa che non gestiamo database e non creiamo account utente. Tutti i dati che inserisci restano principalmente nel tuo browser."
+    },
+    "dataProcessing": {
+      "title": "Trattamento dati & IA",
+      "local": {
+        "title": "Memorizzazione locale (Local Storage)",
+        "description": "Se attivi la memorizzazione locale, i tuoi input e le impostazioni (ad es. lingua scelta) vengono salvati esclusivamente in locale nel tuo browser e cancellati automaticamente dopo 30 giorni. Le chiavi API non vengono mai salvate. Questi dati non vengono trasferiti ai nostri server."
+      },
+      "ai": {
+        "title": "Integrazione IA (OpenAI, Gemini, Mistral)",
+        "description": "Se usi la generazione IA diretta, i dati del modulo (partenza, destinazione, veicolo, preferenze) vengono convertiti in un testo (prompt) e inviati, tramite la tua chiave API personale, direttamente al fornitore IA da te scelto (OpenAI, Google Gemini o Mistral AI). Non memorizziamo questo traffico e non logghiamo chiavi API. Si applicano le informative privacy del rispettivo fornitore IA."
+      }
+    },
+    "cookies": {
+      "title": "Cookie & tracking",
+      "sidebar": {
+        "description": "CampingRoute.app non utilizza cookie di tracking che richiedono consenso (come Google Analytics, Meta Pixel ecc.). Non utilizziamo meccanismi per analizzare il tuo comportamento d'uso."
+      },
+      "noTracking": {
+        "description": "Solo informazioni essenziali e tecnicamente necessarie per il funzionamento dell'app React (ad es. la multilingua tramite i18next) vengono mantenute localmente nel browser."
+      }
+    },
+    "rights": {
+      "title": "I tuoi diritti",
+      "description": "Poiché non salviamo dati personali sui nostri server, non si applica il classico diritto alla cancellazione o all'accesso tramite noi. Hai sempre pieno controllo sui tuoi dati: per rimuovere tutte le impostazioni salvate da CampingRoute.app, devi solo eliminare i dati del browser (Local Storage) per questo sito nel tuo browser."
+    },
+    "hosting": {
+      "title": "Servizio hosting",
+      "description": "Questo sito è ospitato su un server cloud di Hetzner Online GmbH. Il provider di hosting, per motivi tecnici, raccoglie dati di accesso (server log) come indirizzo IP, browser utilizzato e orario di accesso. Questi dati vengono usati solo per il funzionamento sicuro dei server e non vengono uniti ad altre fonti di dati."
+    },
+    "backToHome": "Torna alla homepage"
+  },
+  "footer": {
+    "copyright": "© {{year}} Camping Route",
+    "description": "Il tuo compagno IA per l'avventura.",
+    "madeWith": "Creato con",
+    "forCommunity": "per la community",
+    "imprint": "Note legali",
+    "privacy": "Privacy",
+    "openSource": "Open source",
+    "license": "Licenza MIT",
+    "sourceCode": "Codice sorgente su GitHub"
+  },
+  "prompt": {
+    "systemRole": "Sei un pianificatore professionale di itinerari in camper con conoscenze specialistiche per la Germania e destinazioni internazionali. Crea, in base ai miei dati, un itinerario in camper pratico e ben strutturato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",
+    "sections": {
+      "route": "ITINERARIO",
+      "vehicle": "VEICOLO",
+      "accommodation": "PERNOTTAMENTO",
+      "interests": "INTERESSI",
+      "optimization": "OTTIMIZZAZIONE",
+      "additional": "INFORMAZIONI AGGIUNTIVE & DESIDERI"
+    },
+    "labels": {
+      "start": "Partenza",
+      "destination": "Destinazione",
+      "stage": "Tappa intermedia {{num}}",
+      "stageArrival": "Arrivo tappa intermedia {{num}}",
+      "departure": "Partenza",
+      "arrival": "Arrivo",
+      "totalDistance": "Distanza totale",
+      "maxDailyDistance": "Max. km / giorno",
+      "routeType": "Tipo di percorso",
+      "length": "Lunghezza",
+      "height": "Altezza",
+      "width": "Larghezza",
+      "weightClass": "Classe di peso",
+      "vehicleType": "Tipo di veicolo",
+      "fuelType": "Tipo di carburante",
+      "solar": "Impianto solare",
+      "battery": "Batteria servizi",
+      "autonomyDays": "Autonomia",
+      "autonomyUnit": "giorni",
+      "heating": "Riscaldamento",
+      "levelingJacks": "Piedini di livellamento",
+      "toilet": "Sistema WC",
+      "travelers": "Numero di viaggiatori",
+      "travelersUnit": "persone",
+      "companions": "Compagnia",
+      "accommodationTypes": "Tipi di pernottamento",
+      "facilities": "Servizi",
+      "budget": "Budget max. per notte",
+      "budgetUpTo": "fino a",
+      "budgetNote": "Il budget è il limite massimo rigido; il livello budget indica la qualità all'interno di questo limite.",
+      "specialWishes": "Desideri aggiuntivi per il pernottamento",
+      "travelStyle": "Stile di viaggio",
+      "preferences": "Preferenze percorso",
+      "highwayMaut": "Autostrada/pedaggio",
+      "additional": {
+        "label": "Ulteriori informazioni & desideri"
+      },
+      "startTime": "Ora di partenza",
+      "endTime": "Ora di arrivo",
+      "flexibleDuration": "Durata del viaggio flessibile",
+      "yes": "Sì",
+      "budgetLevel": "Livello budget",
+      "avoidRegions": "Evitare regioni",
+      "travelPace": "Stile di guida",
+      "quietPlaces": "Posti tranquilli",
+      "tollCountries": "Evitare paesi a pedaggio",
+      "travelPaceNote": "preferenza morbida, Max. km/giorno ha priorità"
+    },
+    "instructions": "Pianifica l'itinerario con i parametri sopra indicati e struttura la tua risposta secondo i seguenti blocchi con titoli chiari. Non usare asterischi (*) o doppi asterischi (**) nella risposta.\n\n1. Pianificazione tappe (chilometri giornalieri, tempi di guida, pause ogni 2-3 h, eventualmente itinerario alternativo e breve motivazione).\n\n2. Pernottamenti (campeggi/aree di sosta concreti e alternative con breve descrizione; indica, se disponibile, il sito ufficiale, indirizzo e numero di telefono. I link sono molto importanti e di solito dovrebbero essere presenti. Scrivi sempre i link per esteso con https:// (ad es. https://beispiel.de). Scrivi sempre i link per esteso con https:// (ad es. https://beispiel.de). Indica fasce di prezzo indicative, ma contrassegna i prezzi come valori orientativi. Trova obbligatoriamente almeno un'alternativa per ogni pernottamento con gli stessi dati.)\n\n3. Highlights & attività (top 3 per tappa, brevi con costi/orari di apertura, se noti).\n\n4. Consigli pratici (navigazione, smaltimento, note per emergenze).\n\n5. Miglior periodo & durata (sezione breve).\n\n6. Servizi in viaggio (carburante, supermercati, officine).\n\n7. Informazioni aggiuntive (orientamento budget, sostenibilità, salute, connettività).\n\n8. Tecnica & attrezzatura (breve checklist, consigli app).\n\n9. Flessibilità (itinerari alternativi, note legali sul wild camping, strumenti per ulteriore ottimizzazione).\n\nImportante: usa, se disponibile, la tua conoscenza interna delle mappe per stimare grossolanamente distanze e tempi di guida tipici tra le tappe. Indica distanze in km e tempi di guida in ore/minuti e contrassegnali come stima (ad es. \"ca. 230 km / 3:00-3:30 h\"). Evita precisione eccessiva se non hai accesso a dati di routing aggiornati e chiedimi esplicitamente di verificare l'itinerario finale nel navigatore (ad es. Google Maps, Here, Garmin, app OpenStreetMap).\n\nSe la tua piattaforma offre un download di file, salva sempre il file GPX con estensione .gpx (non .txt). Se il download non è possibile, restituisci esclusivamente il file GPX senza testo o marker aggiuntivi. Crea inoltre una breve guida al download per macOS, iOS, Windows e Android.",
+    "gpx": {
+      "garmin": "File GPX: allega alla fine della risposta esattamente un file GPX per waypoint Garmin.\n\nImportante: restituisci il file GPX come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti:\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nNon restituire alcuna rotta (<rte>) e alcuna traccia (<trk>).\n\nDopo le normali sezioni della risposta, restituisci esclusivamente il blocco GPX, senza testo aggiuntivo fuori dal blocco GPX.",
+      "routeTrack": "File GPX: allega alla fine della risposta esattamente un file GPX (rotta+traccia).\n\nImportante: restituisci il file GPX come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti:\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nCrea una rotta (<rte>) con tutti i punti in ordine (<rtept>), in modo che Garmin la riconosca come rotta.\nCrea inoltre la rotta complessiva come traccia (<trk> con <trkseg> e <trkpt>).\n\nDopo le normali sezioni della risposta, restituisci esclusivamente il blocco GPX, senza testo aggiuntivo fuori dal blocco GPX.",
+      "both": "File GPX: allega alla fine della risposta due file GPX.\n\nImportante: ogni blocco GPX deve essere restituito come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\nBlocco 1 (waypoint Garmin):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nBlocco 2 (GPX rotta+traccia):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti blocco 1 (waypoint Garmin):\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nNon restituire alcuna rotta (<rte>) e alcuna traccia (<trk>).\n\nRequisiti blocco 2 (GPX rotta+traccia):\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nCrea una rotta (<rte>) con tutti i punti in ordine (<rtept>), in modo che Garmin la riconosca come rotta.\nCrea inoltre la rotta complessiva come traccia (<trk> con <trkseg> e <trkpt>).\n\nDopo le normali sezioni della risposta, restituisci esclusivamente questi due blocchi GPX, senza testo aggiuntivo fuori dai blocchi GPX."
+    },
+    "gpxPlain": {
+      "garmin": "File GPX: allega alla fine della risposta esattamente un file GPX per waypoint Garmin.\n\nImportante: restituisci il file GPX come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti:\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nNon restituire alcuna rotta (<rte>) e alcuna traccia (<trk>).\n\nDopo le normali sezioni della risposta, restituisci esclusivamente il blocco GPX, senza testo aggiuntivo fuori dal blocco GPX.",
+      "routeTrack": "File GPX: allega alla fine della risposta esattamente un file GPX (rotta+traccia).\n\nImportante: restituisci il file GPX come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti:\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nCrea una rotta (<rte>) con tutti i punti in ordine (<rtept>), in modo che Garmin la riconosca come rotta.\nCrea inoltre la rotta complessiva come traccia (<trk> con <trkseg> e <trkpt>).\n\nDopo le normali sezioni della risposta, restituisci esclusivamente il blocco GPX, senza testo aggiuntivo fuori dal blocco GPX.",
+      "both": "File GPX: allega alla fine della risposta due file GPX.\n\nImportante: ogni blocco GPX deve essere restituito come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\nBlocco 1 (waypoint Garmin):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nBlocco 2 (GPX rotta+traccia):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti blocco 1 (waypoint Garmin):\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nNon restituire alcuna rotta (<rte>) e alcuna traccia (<trk>).\n\nRequisiti blocco 2 (GPX rotta+traccia):\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nCrea una rotta (<rte>) con tutti i punti in ordine (<rtept>), in modo che Garmin la riconosca come rotta.\nCrea inoltre la rotta complessiva come traccia (<trk> con <trkseg> e <trkpt>).\n\nDopo le normali sezioni della risposta, restituisci esclusivamente questi due blocchi GPX, senza testo aggiuntivo fuori dai blocchi GPX."
+    }
+  },
+  "anchorNav": {
+    "home": "Inizio",
+    "features": "Funzionalità",
+    "testimonials": "Esperienze",
+    "exampleRoute": "Itinerario d'esempio",
+    "mainContent": "Pianificatore itinerari",
+    "faq": "FAQ",
+    "backToTop": "Torna su"
+  },
+  "buttons": {
+    "copy": "Copia",
+    "print": "Stampa"
+  }
+}

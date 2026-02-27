@@ -13,6 +13,8 @@ export interface FormData {
   gpxOutputMode: string[];
   stageDestination1: string;
   stageDestination2: string;
+  stageArrivalTime1: string;
+  stageArrivalTime2: string;
   vehicleLength: string;
   vehicleHeight: string;
   vehicleWidth: string;
@@ -67,6 +69,8 @@ export const initialFormData: FormData = {
   gpxOutputMode: [],
   stageDestination1: '',
   stageDestination2: '',
+  stageArrivalTime1: '',
+  stageArrivalTime2: '',
   vehicleLength: '7',
   vehicleHeight: '2.9',
   vehicleWidth: '2.3',

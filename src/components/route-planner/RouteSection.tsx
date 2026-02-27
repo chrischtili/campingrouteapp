@@ -46,6 +46,12 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const requiredError = "text-[10px] font-black uppercase tracking-[0.2em] text-red-400";
   const isStartMissing = !formData.startPoint?.trim();
   const isDestinationMissing = !formData.destination?.trim();
+  const departureLabel = formData.startPoint?.trim()
+    ? `${t("planner.route.departure")} (${formData.startPoint.trim()})`
+    : t("planner.route.departure");
+  const arrivalLabel = formData.destination?.trim()
+    ? `${t("planner.route.arrival")} (${formData.destination.trim()})`
+    : t("planner.route.arrival");
 
   return (
     <div className="space-y-12">
@@ -169,13 +175,14 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
       <AnimatePresence>
         <motion.div 
+          key="stage-fields"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${formData.routeType !== 'multiStage' ? "opacity-40 pointer-events-none" : ""}`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${formData.routeType !== 'multiStage' ? "opacity-30 pointer-events-none" : ""}`}
         >
           <div className="space-y-4">
-            <Label htmlFor="stageDestination1" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+            <Label htmlFor="stageDestination1" className={`text-xs md:text-sm font-black uppercase tracking-[0.2em] ${formData.routeType !== 'multiStage' ? "text-white/40" : "text-white"}`}>
               {t("planner.route.stage.label", { num: 1 })}
             </Label>
             <div className="relative">
@@ -187,11 +194,28 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 className={`${inputClass} pl-14`}
                 disabled={formData.routeType !== 'multiStage'}
               />
-              <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
+              <Info className={`absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-primary/30"}`} />
+            </div>
+            <div className="space-y-3">
+              <Label htmlFor="stageArrivalTime1" className={`text-[10px] md:text-xs font-black uppercase tracking-[0.2em] ${formData.routeType !== 'multiStage' ? "text-white/30" : "text-white/70"}`}>
+                {t("planner.route.stage.arrivalTime", { num: 1 })}
+              </Label>
+              <div className="relative">
+                <input
+                  id="stageArrivalTime1"
+                  type="time"
+                  value={formData.stageArrivalTime1 || ''}
+                  onChange={(e) => onChange({ stageArrivalTime1: e.target.value })}
+                  className={`${inputClass} pr-10 ${formData.routeType !== 'multiStage' ? "text-white/40" : ""}`}
+                  style={{ colorScheme: 'dark' }}
+                  disabled={formData.routeType !== 'multiStage'}
+                />
+                <Clock className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-white/30"}`} />
+              </div>
             </div>
           </div>
           <div className="space-y-4">
-            <Label htmlFor="stageDestination2" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+            <Label htmlFor="stageDestination2" className={`text-xs md:text-sm font-black uppercase tracking-[0.2em] ${formData.routeType !== 'multiStage' ? "text-white/40" : "text-white"}`}>
               {t("planner.route.stage.label", { num: 2 })}
             </Label>
             <div className="relative">
@@ -203,12 +227,30 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 className={`${inputClass} pl-14`}
                 disabled={formData.routeType !== 'multiStage'}
               />
-              <Info className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/30" />
+              <Info className={`absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-primary/30"}`} />
+            </div>
+            <div className="space-y-3">
+              <Label htmlFor="stageArrivalTime2" className={`text-[10px] md:text-xs font-black uppercase tracking-[0.2em] ${formData.routeType !== 'multiStage' ? "text-white/30" : "text-white/70"}`}>
+                {t("planner.route.stage.arrivalTime", { num: 2 })}
+              </Label>
+              <div className="relative">
+                <input
+                  id="stageArrivalTime2"
+                  type="time"
+                  value={formData.stageArrivalTime2 || ''}
+                  onChange={(e) => onChange({ stageArrivalTime2: e.target.value })}
+                  className={`${inputClass} pr-10 ${formData.routeType !== 'multiStage' ? "text-white/40" : ""}`}
+                  style={{ colorScheme: 'dark' }}
+                  disabled={formData.routeType !== 'multiStage'}
+                />
+                <Clock className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-white/30"}`} />
+              </div>
             </div>
           </div>
         </motion.div>
         {formData.routeType !== 'multiStage' && (
           <motion.div 
+            key="stage-hint"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-xs font-black uppercase tracking-[0.2em] text-white/40"
@@ -222,7 +264,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-secondary" /> {t("planner.route.departure")}
+              <Calendar className="w-4 h-4 text-secondary" /> {departureLabel}
             </Label>
             <div className="relative">
               <input
@@ -238,7 +280,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
           <div className="space-y-4">
             <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-secondary" /> {t("planner.route.arrival")}
+              <ArrowRight className="w-4 h-4 text-secondary" /> {arrivalLabel}
             </Label>
             <div className="relative">
               <input

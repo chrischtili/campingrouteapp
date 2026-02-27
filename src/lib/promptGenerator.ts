@@ -5,7 +5,7 @@ function formatDate(dateString: string): string {
   if (!dateString) return '';
   const date = new Date(dateString);
   const lang = (i18next.language || 'en').toLowerCase();
-  const locale = lang.startsWith('de') ? 'de-DE' : lang.startsWith('nl') ? 'nl-NL' : lang.startsWith('fr') ? 'fr-FR' : 'en-US';
+  const locale = lang.startsWith('de') ? 'de-DE' : lang.startsWith('nl') ? 'nl-NL' : lang.startsWith('fr') ? 'fr-FR' : lang.startsWith('it') ? 'it-IT' : 'en-US';
   return date.toLocaleDateString(locale);
 }
 
@@ -29,16 +29,22 @@ function buildGpxInstructions(
 export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat }): string {
   const t = (key: string, options?: any) => i18next.t(key, options);
   const lang = (i18next.language || 'en').toLowerCase();
-  const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : 'English';
+  const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : lang.startsWith('it') ? 'Italiano' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
   const includeStages = data.routeType === 'multiStage';
   const isMotorcycleTent = data.vehicleType === 'motorcycleTent';
   const stage1 = includeStages && data.stageDestination1 ? '• ' + t("prompt.labels.stage", { num: 1 }) + ': ' + data.stageDestination1 + '\n' : '';
+  const stage1Arrival = includeStages && data.stageArrivalTime1 ? '• ' + t("prompt.labels.stageArrival", { num: 1 }) + ': ' + data.stageArrivalTime1 + '\n' : '';
   const stage2 = includeStages && data.stageDestination2 ? '• ' + t("prompt.labels.stage", { num: 2 }) + ': ' + data.stageDestination2 + '\n' : '';
+  const stage2Arrival = includeStages && data.stageArrivalTime2 ? '• ' + t("prompt.labels.stageArrival", { num: 2 }) + ': ' + data.stageArrivalTime2 + '\n' : '';
   const startTime = data.startTime ? '• ' + t("prompt.labels.startTime") + ': ' + data.startTime + '\n' : '';
   const endTime = data.endTime ? '• ' + t("prompt.labels.endTime") + ': ' + data.endTime + '\n' : '';
   const flexibleDuration = data.durationFlexible ? '• ' + t("prompt.labels.flexibleDuration") + ': ' + t("prompt.labels.yes") + '\n' : '';
   const travelPace = data.travelPace ? '• ' + t("prompt.labels.travelPace") + ': ' + t(`planner.route.travelPace.options.${data.travelPace}`) + ' (' + t("prompt.labels.travelPaceNote") + ')\n' : '';
+  const budgetNote =
+    data.avgCampsitePriceMax && data.budgetLevel
+      ? '• ' + t("prompt.labels.budgetNote") + '\n'
+      : '';
 
   return `${t("prompt.systemRole", { language: languageName })}
 
@@ -46,7 +52,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
 ──────────────
 • ${t("prompt.labels.start")}: ${data.startPoint}
 • ${t("prompt.labels.destination")}: ${data.destination}
-${stage1}${stage2}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
+${stage1}${stage1Arrival}${stage2}${stage2Arrival}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
 ${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}
 ${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${travelPace}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
 
@@ -65,7 +71,7 @@ ${data.travelCompanions.length ? '• ' + t("prompt.labels.companions") + ': ' +
 ${data.accommodationType.length ? '• ' + t("prompt.labels.accommodationTypes") + ': ' + data.accommodationType.map(at => t(`planner.accommodation.categories.type.options.${at}`)).join(', ') + '\n' : ''}
 ${data.facilities?.length ? '• ' + t("prompt.labels.facilities") + ': ' + data.facilities.map(f => t(`planner.accommodation.categories.facilities.options.${f}`)).join(', ') + '\n' : ''}
 ${data.avgCampsitePriceMax ? '• ' + t("prompt.labels.budget") + ': ' + t("prompt.labels.budgetUpTo") + ' ' + data.avgCampsitePriceMax + '€\n' : ''}
-${data.budgetLevel ? '• ' + t("prompt.labels.budgetLevel") + ': ' + t(`planner.accommodation.budgetLevel.options.${data.budgetLevel}`) + '\n' : ''}
+${data.budgetLevel ? '• ' + t("prompt.labels.budgetLevel") + ': ' + t(`planner.accommodation.budgetLevel.options.${data.budgetLevel}`) + '\n' : ''}${budgetNote}
 ${data.quietPlaces ? '• ' + t("prompt.labels.quietPlaces") + ': ' + t("prompt.labels.yes") + '\n' : ''}
 ${data.accommodation ? '• ' + t("prompt.labels.specialWishes") + ': ' + data.accommodation + '\n' : ''}
 ` : ''}

@@ -183,6 +183,9 @@ export function RoutePlanner() {
     const modelKey = `${currentProvider}Model` as 'openaiModel' | 'mistralModel' | 'googleModel';
     return !!aiSettings[modelKey];
   };
+  const isAIConfigValid = !aiSettings.useDirectAI
+    ? true
+    : !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
 
   const isStepValid = () => {
     switch (currentStep) {
@@ -371,7 +374,9 @@ export function RoutePlanner() {
                   // CHECK IF STEP IS ACTUALLY FILLED WITH DATA
                   const isStepCompleted = () => {
                     switch(stepNumber) {
-                      case 1: return completedSteps.includes(1);
+                      case 1:
+                        if (!aiSettings.useDirectAI) return true;
+                        return isAIConfigValid;
                       case 2: return !!(formData.startPoint && formData.destination);
                       case 3: return formData.routePreferences.length > 0;
                       case 4: 
@@ -501,8 +506,8 @@ export function RoutePlanner() {
                             <div className="flex flex-col">
                               <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.period")}</span>
                               <div className="flex flex-col text-xs font-bold text-white">
-                                <span>{formData.startDate ? new Date(formData.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US') : '?'} —</span>
-                                <span>{formData.endDate ? new Date(formData.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US') : '?'}</span>
+                                <span>{formData.startDate ? new Date(formData.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'} —</span>
+                                <span>{formData.endDate ? new Date(formData.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'}</span>
                               </div>
                             </div>
                           </div>

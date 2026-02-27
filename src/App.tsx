@@ -97,7 +97,8 @@ const App = () => {
       de: 'de-DE',
       en: 'en-US',
       nl: 'nl-NL',
-      fr: 'fr-FR'
+      fr: 'fr-FR',
+      it: 'it-IT'
     };
     const supported = Object.keys(languageMap);
 

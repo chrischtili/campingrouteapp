@@ -279,7 +279,33 @@
       ]
     },
     "highlights": {
-      "title": "Highlights & activities"
+      "title": "Highlights & activities",
+      "groups": {
+        "outward": {
+          "title": "Outbound",
+          "items": [
+            "Rhön (Wasserkuppe): panoramic walk",
+            "Magdeburg waterway crossing: canal bridge over the Elbe",
+            "Perleberg old town & wildlife park"
+          ]
+        },
+        "onsite": {
+          "title": "On site",
+          "items": [
+            "Wismar old town (UNESCO) & old harbor",
+            "Poel Island: dog beaches (e.g. Timmendorf)",
+            "Schloss Bothmer in Klütz"
+          ]
+        },
+        "return": {
+          "title": "Return",
+          "items": [
+            "Hundertwasser Station Uelzen",
+            "Brocken hike or Brocken railway (dogs with muzzle)",
+            "Wertheim old town & castle ruins"
+          ]
+        }
+      }
     },
     "tips": {
       "title": "Practical tips",
@@ -592,7 +618,8 @@
       },
       "stage": {
         "label": "Stopover {{num}}",
-        "placeholder": "e.g. Innsbruck or Bolzano"
+        "placeholder": "e.g. Innsbruck or Bolzano",
+        "arrivalTime": "Arrival time stopover {{num}}"
       },
       "departure": "Departure",
       "arrival": "Arrival",
@@ -882,7 +909,9 @@
         "downloadWpt": "GPX (Route+Track)",
         "downloadGarmin": "Garmin (Waypoints)",
         "gpxSwapNote": "GPX blocks auto-corrected",
-        "copyError": "Error!"
+        "copyError": "Error!",
+        "gpxDownloadedWpt": "GPX (Route+Track) downloaded",
+        "gpxDownloadedGarmin": "Garmin (Waypoints) downloaded"
       },
       "nextSteps": {
         "title": "Ready?",
@@ -897,7 +926,6 @@
       "summary": {
         "title": "Quick summary"
       },
-      "gpxHint": "GPX created – please save as .gpx",
       "checklist": {
         "title": "Checklist",
         "items": {
@@ -996,6 +1024,7 @@
       "start": "Start point",
       "destination": "Destination",
       "stage": "Stopover {{num}}",
+      "stageArrival": "Arrival at stopover {{num}}",
       "departure": "Departure date",
       "arrival": "Arrival date",
       "totalDistance": "Estimated total distance",
@@ -1021,6 +1050,7 @@
       "facilities": "Required facilities",
       "budget": "Budget per night",
       "budgetUpTo": "up to",
+      "budgetNote": "Budget is the hard ceiling; budget level is the quality preference within that limit.",
       "specialWishes": "Special requests",
       "travelStyle": "Preferred travel style",
       "preferences": "Route preferences",
@@ -1039,7 +1069,17 @@
       "tollCountries": "Avoid toll countries",
       "travelPaceNote": "soft preference, max km/day has priority"
     },
-    "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1. Stage Planning (Daily kilometers, driving time, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2. Overnight Stays (Specific campsites/pitches and alternatives with brief descriptions; include the official website, address, and phone number if available. Links are very important and should usually exist. Always write full links with https:// (e.g., https://example.com). Always write full links with https:// (e.g., https://example.com). Include approximate price ranges, but mark prices as estimates. Always find at least one alternative per overnight stay with the same details.)\n\n3. Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4. Practical Tips (Navigation, waste disposal, emergency information).\n\n5. Best Travel Time & Duration (Brief section).\n\n6. Services on the Road (Fuel, supermarkets, workshops).\n\n7. Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8. Technology & Equipment (Short checklist, app recommendations).\n\n9. Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android."
+    "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1. Stage Planning (Daily kilometers, driving time, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2. Overnight Stays (Specific campsites/pitches and alternatives with brief descriptions; include the official website, address, and phone number if available. Links are very important and should usually exist. Always write full links with https:// (e.g., https://example.com). Always write full links with https:// (e.g., https://example.com). Include approximate price ranges, but mark prices as estimates. Always find at least one alternative per overnight stay with the same details.)\n\n3. Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4. Practical Tips (Navigation, waste disposal, emergency information).\n\n5. Best Travel Time & Duration (Brief section).\n\n6. Services on the Road (Fuel, supermarkets, workshops).\n\n7. Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8. Technology & Equipment (Short checklist, app recommendations).\n\n9. Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",
+    "gpx": {
+      "garmin": "GPX file: Append exactly one GPX file for Garmin waypoints at the end of the response.\n\nImportant: Output the GPX as a plain XML block, without Markdown, without backticks, and without additional markers like BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequirements:\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nDo not output a route (<rte>) or a track (<trk>).\n\nAfter the normal response sections, output only the GPX block with no extra text outside it.",
+      "routeTrack": "GPX file: Append exactly one GPX file (route+track) at the end of the response.\n\nImportant: Output the GPX as a plain XML block, without Markdown, without backticks, and without additional markers like BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequirements:\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nCreate a route (<rte>) with all points in order (<rtept>) so Garmin recognizes it as a route.\nAlso create the full route as a track (<trk> with <trkseg> and <trkpt>).\n\nAfter the normal response sections, output only the GPX block with no extra text outside it.",
+      "both": "GPX file: Append two GPX files at the end of the response.\n\nImportant: Each GPX block must be plain XML, without Markdown, without backticks, and without additional markers like BEGIN/END.\n\nBlock 1 (Garmin waypoints):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nBlock 2 (GPX route+track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequirements Block 1 (Garmin waypoints):\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nDo not output a route (<rte>) or a track (<trk>).\n\nRequirements Block 2 (GPX route+track):\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nCreate a route (<rte>) with all points in order (<rtept>) so Garmin recognizes it as a route.\nAlso create the full route as a track (<trk> with <trkseg> and <trkpt>).\n\nAfter the normal response sections, output only these two GPX blocks with no extra text outside them."
+    },
+    "gpxPlain": {
+      "garmin": "GPX file: Append exactly one GPX file for Garmin waypoints at the end of the response.\n\nImportant: Output the GPX as a plain XML block, without Markdown, without backticks, and without additional markers like BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequirements:\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nDo not output a route (<rte>) or a track (<trk>).\n\nAfter the normal response sections, output only the GPX block with no extra text outside it.",
+      "routeTrack": "GPX file: Append exactly one GPX file (route+track) at the end of the response.\n\nImportant: Output the GPX as a plain XML block, without Markdown, without backticks, and without additional markers like BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequirements:\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nCreate a route (<rte>) with all points in order (<rtept>) so Garmin recognizes it as a route.\nAlso create the full route as a track (<trk> with <trkseg> and <trkpt>).\n\nAfter the normal response sections, output only the GPX block with no extra text outside it.",
+      "both": "GPX file: Append two GPX files at the end of the response.\n\nImportant: Each GPX block must be plain XML, without Markdown, without backticks, and without additional markers like BEGIN/END.\n\nBlock 1 (Garmin waypoints):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nBlock 2 (GPX route+track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequirements Block 1 (Garmin waypoints):\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nDo not output a route (<rte>) or a track (<trk>).\n\nRequirements Block 2 (GPX route+track):\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nCreate a route (<rte>) with all points in order (<rtept>) so Garmin recognizes it as a route.\nAlso create the full route as a track (<trk> with <trkseg> and <trkpt>).\n\nAfter the normal response sections, output only these two GPX blocks with no extra text outside them."
+    }
   },
   "anchorNav": {
     "home": "Home",

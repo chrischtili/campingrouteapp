@@ -174,6 +174,66 @@
             margin-bottom: 0.3rem;
         }
 
+        .feedback-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .feedback-item {
+            border: 1px solid #e4e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #fafbfc;
+        }
+
+        .feedback-item-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feedback-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feedback-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .feedback-badge.helpful {
+            background: rgba(40, 167, 69, 0.12);
+            color: var(--success);
+        }
+
+        .feedback-badge.not-helpful {
+            background: rgba(220, 53, 69, 0.12);
+            color: var(--danger);
+        }
+
+        .feedback-badge.meta {
+            background: rgba(74, 155, 142, 0.12);
+            color: var(--primary-dark);
+        }
+
+        .feedback-message {
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .feedback-empty {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .dashboard-container {
                 padding: 1rem;
@@ -262,6 +322,13 @@
                 </div>
             </div>
 
+            <div class="chart-container">
+                <h2>💬 Letzte Feedbacks</h2>
+                <div id="feedback-list" class="feedback-list">
+                    <div class="feedback-empty">Noch kein Feedback vorhanden.</div>
+                </div>
+            </div>
+
             <div class="metadata">
                 <h3>📊 Technische Informationen</h3>
                 <p><strong>API-Endpoint:</strong> <code id="api-endpoint">/api/admin/counter</code></p>
@@ -320,6 +387,7 @@
         const feedbackTotalEl = document.getElementById('feedback-total');
         const feedbackHelpfulRateEl = document.getElementById('feedback-helpful-rate');
         const feedbackCommentsEl = document.getElementById('feedback-comments');
+        const feedbackListEl = document.getElementById('feedback-list');
         const apiEndpointEl = document.getElementById('api-endpoint');
         const serverInfoEl = document.getElementById('server-info');
         const lastUpdatedEl = document.getElementById('last-updated');
@@ -334,6 +402,43 @@
             feedbackTotalEl.textContent = total.toLocaleString('de-DE');
             feedbackHelpfulRateEl.textContent = `${helpfulRate} %`;
             feedbackCommentsEl.textContent = comments.toLocaleString('de-DE');
+        }
+
+        function renderFeedbackList(items = []) {
+            if (!Array.isArray(items) || items.length === 0) {
+                feedbackListEl.innerHTML = '<div class="feedback-empty">Noch kein Feedback vorhanden.</div>';
+                return;
+            }
+
+            feedbackListEl.innerHTML = items.map((item) => {
+                const ratingLabel = item.rating === 'helpful' ? 'Hilfreich' : 'Nicht hilfreich';
+                const ratingClass = item.rating === 'helpful' ? 'helpful' : 'not-helpful';
+                const modeLabel = item.mode === 'route' ? 'Route' : 'Prompt';
+                const createdAt = item.createdAt
+                    ? new Date(item.createdAt).toLocaleString('de-DE')
+                    : '-';
+                const provider = item.provider || 'unbekannt';
+                const message = item.message && item.message.trim()
+                    ? item.message
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                    : '<span class="feedback-empty">Kein Freitext hinterlegt.</span>';
+
+                return `
+                    <div class="feedback-item">
+                        <div class="feedback-item-header">
+                            <div class="feedback-badges">
+                                <span class="feedback-badge ${ratingClass}">${ratingLabel}</span>
+                                <span class="feedback-badge meta">${modeLabel}</span>
+                                <span class="feedback-badge meta">${provider}</span>
+                            </div>
+                            <div style="color: var(--text-light); font-size: 0.85rem;">${createdAt}</div>
+                        </div>
+                        <div class="feedback-message">${message}</div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Daten laden
@@ -365,6 +470,7 @@
                 console.log('Response Data:', data);
 
                 let feedbackSummary = { total: 0, helpful: 0, comments: 0 };
+                let feedbackItems = [];
                 try {
                     const feedbackResponse = await fetch('/api/admin/feedback?' + Date.now(), {
                         headers: {
@@ -375,6 +481,7 @@
                     if (feedbackResponse.ok) {
                         const feedbackData = await feedbackResponse.json();
                         feedbackSummary = feedbackData?.summary || feedbackData || feedbackSummary;
+                        feedbackItems = feedbackData?.latest || [];
                     }
                 } catch (feedbackError) {
                     console.warn('Feedback konnte nicht geladen werden:', feedbackError);
@@ -405,6 +512,7 @@
                 todayVisitsEl.textContent = (dailyAvg + Math.floor(Math.random() * dailyAvg)).toLocaleString('de-DE');
                 avgVisitsEl.textContent = dailyAvg.toLocaleString('de-DE');
                 updateFeedbackStats(feedbackSummary);
+                renderFeedbackList(feedbackItems);
 
                 setTimeout(() => drawChart(visits, history), 100);
 

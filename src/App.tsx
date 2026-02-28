@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 // ScrollToTop Component
 const ScrollToTop = () => {
@@ -47,17 +48,24 @@ const App = () => {
 
   React.useEffect(() => {
     const key = "cr_chunk_reload";
+    const noticeKey = "cr_chunk_reload_notice";
     const shouldReload = (message?: string) => {
       if (!message) return false;
       const msg = message.toLowerCase();
       return msg.includes("dynamically imported module") || msg.includes("importing a module script failed");
     };
 
+    if (sessionStorage.getItem(noticeKey) === "1") {
+      sessionStorage.removeItem(noticeKey);
+      toast.info(t("app.reloadNotice"));
+    }
+
     const handleError = (event: ErrorEvent) => {
       if (shouldReload(event.message)) {
         const already = sessionStorage.getItem(key);
         if (already !== "1") {
           sessionStorage.setItem(key, "1");
+          sessionStorage.setItem(noticeKey, "1");
           window.location.reload();
         }
       }
@@ -70,6 +78,7 @@ const App = () => {
         const already = sessionStorage.getItem(key);
         if (already !== "1") {
           sessionStorage.setItem(key, "1");
+          sessionStorage.setItem(noticeKey, "1");
           window.location.reload();
         }
       }
@@ -81,7 +90,7 @@ const App = () => {
       window.removeEventListener("error", handleError);
       window.removeEventListener("unhandledrejection", handleRejection);
     };
-  }, []);
+  }, [t]);
 
   // Dynamically update SEO tags based on language
   React.useEffect(() => {

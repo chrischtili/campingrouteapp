@@ -1120,5 +1120,8 @@
     "mainContent": "Routeplanner",
     "faq": "FAQ",
     "backToTop": "Naar boven"
+  },
+  "app": {
+    "reloadNotice": "De pagina is na een update automatisch opnieuw geladen."
   }
 }

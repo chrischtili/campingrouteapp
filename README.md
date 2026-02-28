@@ -23,7 +23,7 @@
 
 ---
 
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee%2C%20many%20thanks-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/k92x2k48wm2)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee%2C%20many%20thanks-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/campingroute)
 
 ## 📦 Features
 

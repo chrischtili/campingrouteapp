@@ -597,7 +597,7 @@ export function RoutePlanner() {
                     </div>
                     <div className="flex flex-col items-center gap-2 text-center">
                       <a
-                        href="https://www.buymeacoffee.com/k92x2k48wm2"
+                        href="https://www.buymeacoffee.com/campingroute"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-[0.2em] border-2 border-[#000000] text-[#000000] bg-[#b1dd8c] hover:bg-[#c2e6a3] transition-colors shadow-lg"

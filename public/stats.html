@@ -235,6 +235,24 @@
                     <div class="value" id="avg-visits">-</div>
                     <div class="label">Letzte 7 Tage</div>
                 </div>
+
+                <div class="stat-card">
+                    <h3>Feedback gesamt</h3>
+                    <div class="value" id="feedback-total">-</div>
+                    <div class="label">Abgesendete Rückmeldungen</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Hilfreich-Quote</h3>
+                    <div class="value" id="feedback-helpful-rate">-</div>
+                    <div class="label">Anteil positives Feedback</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Kommentare</h3>
+                    <div class="value" id="feedback-comments">-</div>
+                    <div class="label">Mit Freitext</div>
+                </div>
             </div>
 
             <div class="chart-container">
@@ -299,10 +317,24 @@
         const totalVisitsEl = document.getElementById('total-visits');
         const todayVisitsEl = document.getElementById('today-visits');
         const avgVisitsEl = document.getElementById('avg-visits');
+        const feedbackTotalEl = document.getElementById('feedback-total');
+        const feedbackHelpfulRateEl = document.getElementById('feedback-helpful-rate');
+        const feedbackCommentsEl = document.getElementById('feedback-comments');
         const apiEndpointEl = document.getElementById('api-endpoint');
         const serverInfoEl = document.getElementById('server-info');
         const lastUpdatedEl = document.getElementById('last-updated');
         const apiVersionEl = document.getElementById('api-version');
+
+        function updateFeedbackStats(data) {
+            const total = typeof data?.total === 'number' ? data.total : 0;
+            const helpful = typeof data?.helpful === 'number' ? data.helpful : 0;
+            const comments = typeof data?.comments === 'number' ? data.comments : 0;
+            const helpfulRate = total > 0 ? Math.round((helpful / total) * 100) : 0;
+
+            feedbackTotalEl.textContent = total.toLocaleString('de-DE');
+            feedbackHelpfulRateEl.textContent = `${helpfulRate} %`;
+            feedbackCommentsEl.textContent = comments.toLocaleString('de-DE');
+        }
 
         // Daten laden
         async function loadStats() {
@@ -332,6 +364,22 @@
 
                 console.log('Response Data:', data);
 
+                let feedbackSummary = { total: 0, helpful: 0, comments: 0 };
+                try {
+                    const feedbackResponse = await fetch('/api/admin/feedback?' + Date.now(), {
+                        headers: {
+                            'Authorization': 'Basic ' + authToken
+                        },
+                        credentials: 'include'
+                    });
+                    if (feedbackResponse.ok) {
+                        const feedbackData = await feedbackResponse.json();
+                        feedbackSummary = feedbackData?.summary || feedbackData || feedbackSummary;
+                    }
+                } catch (feedbackError) {
+                    console.warn('Feedback konnte nicht geladen werden:', feedbackError);
+                }
+
                 if (!response.ok) {
                     if (response.status === 401) {
                         throw new Error('Zugang verweigert - Ungültige Anmeldedaten');
@@ -356,6 +404,7 @@
                 const dailyAvg = Math.max(1, Math.floor(visits / 7));
                 todayVisitsEl.textContent = (dailyAvg + Math.floor(Math.random() * dailyAvg)).toLocaleString('de-DE');
                 avgVisitsEl.textContent = dailyAvg.toLocaleString('de-DE');
+                updateFeedbackStats(feedbackSummary);
 
                 setTimeout(() => drawChart(visits, history), 100);
 

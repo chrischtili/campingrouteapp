@@ -937,6 +937,29 @@
           "apps": "App & mappe offline"
         }
       }
+    },
+    "feedback": {
+      "badge": "Feedback rapido",
+      "title": "Come ti sembra Camping Route?",
+      "description": {
+        "prompt": "Hai appena generato un prompt. Due clic mi aiutano molto a migliorare il prodotto nei punti giusti.",
+        "route": "Hai appena generato un itinerario. Due clic mi aiutano molto a valutare meglio qualità e utilità."
+      },
+      "options": {
+        "helpful": "Utile",
+        "helpfulHint": "Il risultato era coerente e utilizzabile.",
+        "notHelpful": "Poco utile",
+        "notHelpfulHint": "Qualcosa era poco chiaro, non adatto o mancante."
+      },
+      "messageLabel": "Facoltativo: cosa dovrei migliorare?",
+      "messagePlaceholder": "Per esempio: aree di sosta migliori, tappe più realistiche, output GPX più pulito, usabilità mobile ...",
+      "privacy": "Non inserire dati personali. Il feedback viene salvato solo per migliorare il prodotto.",
+      "thanks": "Grazie per il tuo feedback.",
+      "actions": {
+        "later": "Più tardi",
+        "send": "Invia feedback",
+        "sending": "Invio in corso ..."
+      }
     }
   },
   "imprint": {
@@ -978,6 +1001,10 @@
       "ai": {
         "title": "Integrazione IA (OpenAI, Gemini, Mistral)",
         "description": "Se usi la generazione IA diretta, i dati del modulo (partenza, destinazione, veicolo, preferenze) vengono convertiti in un testo (prompt) e inviati, tramite la tua chiave API personale, direttamente al fornitore IA da te scelto (OpenAI, Google Gemini o Mistral AI). Non memorizziamo questo traffico e non logghiamo chiavi API. Si applicano le informative privacy del rispettivo fornitore IA."
+      },
+      "feedback": {
+        "title": "Feedback dopo la generazione",
+        "description": "Dopo la generazione riuscita di un itinerario o di un prompt, possiamo chiederti facoltativamente un breve feedback sul prodotto. Memorizziamo solo la tua valutazione (ad es. utile / poco utile), un testo libero opzionale, dati tecnici come lingua, modalità scelta, provider o modello IA e un timestamp. Ti preghiamo di non inserire dati personali o sensibili nei campi di testo libero. Il trattamento avviene esclusivamente per migliorare CampingRoute.app; non avviene alcuna comunicazione a terzi."
       }
     },
     "cookies": {

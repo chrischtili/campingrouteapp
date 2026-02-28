@@ -6,6 +6,7 @@ import { FormData, AISettings, initialFormData, initialAISettings } from "@/type
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 // Statische Importe für ALLES was zum Formular gehört - SICHERHEIT GEHT VOR
 import { HeroSection } from "./HeroSection";
@@ -18,6 +19,7 @@ import { VehicleSection } from "./VehicleSection";
 import { AccommodationSection } from "./AccommodationSection";
 import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
+import { FeedbackModal } from "./FeedbackModal";
 
 // Nur die Sektionen unter dem Formular bleiben Lazy
 const FeaturesSection = lazy(() => import("./FeaturesSection").then(m => ({ default: m.FeaturesSection })));
@@ -29,6 +31,8 @@ export function RoutePlanner() {
   const { t, i18n } = useTranslation();
   const STORAGE_KEY = "cr_form_state_v1";
   const STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+  const FEEDBACK_LATER_KEY = "cr_feedback_prompt_later_until";
+  const FEEDBACK_DONE_KEY = "cr_feedback_submitted_at";
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [aiSettings, setAISettings] = useState<AISettings>(initialAISettings);
@@ -41,6 +45,8 @@ export function RoutePlanner() {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [saveFormLocally, setSaveFormLocally] = useState<boolean>(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
+  const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -199,6 +205,61 @@ export function RoutePlanner() {
     }
   };
 
+  const shouldPromptForFeedback = () => {
+    if (typeof window === "undefined") return false;
+    const submittedAt = Number(localStorage.getItem(FEEDBACK_DONE_KEY) || "0");
+    const remindAt = Number(localStorage.getItem(FEEDBACK_LATER_KEY) || "0");
+    const now = Date.now();
+
+    if (submittedAt && now - submittedAt < 90 * 24 * 60 * 60 * 1000) return false;
+    if (remindAt && remindAt > now) return false;
+    return true;
+  };
+
+  const handleFeedbackClose = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(FEEDBACK_LATER_KEY, String(Date.now() + 7 * 24 * 60 * 60 * 1000));
+    }
+    setShowFeedbackModal(false);
+  };
+
+  const handleFeedbackSubmit = async ({ rating, message }: { rating: "helpful" | "not_helpful"; message: string }) => {
+    const payload = {
+      rating,
+      message,
+      mode: feedbackMode,
+      language: i18n.language,
+      provider: aiSettings.useDirectAI ? aiSettings.aiProvider : "prompt",
+      model: aiSettings.useDirectAI
+        ? aiSettings.aiProvider === "google"
+          ? aiSettings.googleModel
+          : aiSettings.aiProvider === "openai"
+            ? aiSettings.openaiModel
+            : aiSettings.mistralModel
+        : "prompt-generator",
+      routeType: formData.routeType || "",
+      timestamp: new Date().toISOString(),
+    };
+
+    try {
+      await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch {
+      // Feedback is optional and must not block the planner flow.
+    }
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem(FEEDBACK_DONE_KEY, String(Date.now()));
+      localStorage.removeItem(FEEDBACK_LATER_KEY);
+    }
+
+    setShowFeedbackModal(false);
+    toast.success(t("planner.feedback.thanks"));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -219,12 +280,20 @@ export function RoutePlanner() {
         const aiResponse = await callAIAPI(formData, aiSettings);
         setOutput(aiResponse);
         setAiModel(aiSettings.aiProvider.toUpperCase());
+        if (shouldPromptForFeedback()) {
+          setFeedbackMode("route");
+          setShowFeedbackModal(true);
+        }
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
         await new Promise(resolve => setTimeout(resolve, 800));
         const generatedOutput = generatePrompt(formData, { gpxFormat: 'codeblock' });
         setOutput(generatedOutput);
         setAiModel('');
+        if (shouldPromptForFeedback()) {
+          setFeedbackMode("prompt");
+          setShowFeedbackModal(true);
+        }
       }
       
       setCurrentStep(steps.length + 1);
@@ -673,6 +742,13 @@ export function RoutePlanner() {
           </div>
         </section>
       )}
+
+      <FeedbackModal
+        open={showFeedbackModal}
+        mode={feedbackMode}
+        onClose={handleFeedbackClose}
+        onSubmit={handleFeedbackSubmit}
+      />
 
       <Suspense fallback={null}>
         <FAQSection />

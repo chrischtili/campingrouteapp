@@ -56,7 +56,7 @@ export default function Datenschutz() {
                   <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.dataProcessing.title")}</h2>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="space-y-3">
                     <h3 className="font-black text-primary uppercase text-sm tracking-widest">{t("privacy.dataProcessing.local.title")}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.local.description")}</p>
@@ -64,6 +64,10 @@ export default function Datenschutz() {
                   <div className="space-y-3">
                     <h3 className="font-black text-primary uppercase text-sm tracking-widest">{t("privacy.dataProcessing.ai.title")}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.ai.description")}</p>
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="font-black text-primary uppercase text-sm tracking-widest">{t("privacy.dataProcessing.feedback.title")}</h3>
+                    <p className="text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.feedback.description")}</p>
                   </div>
                 </div>
               </section>

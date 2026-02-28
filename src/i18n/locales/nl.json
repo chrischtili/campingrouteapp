@@ -937,6 +937,29 @@
           "apps": "Apps & offline kaarten"
         }
       }
+    },
+    "feedback": {
+      "badge": "Snelle feedback",
+      "title": "Hoe komt Camping Route over?",
+      "description": {
+        "prompt": "Je hebt net een prompt gegenereerd. Met twee klikken kan ik het product gericht verbeteren.",
+        "route": "Je hebt net een route gegenereerd. Met twee klikken kan ik kwaliteit en bruikbaarheid veel beter beoordelen."
+      },
+      "options": {
+        "helpful": "Nuttig",
+        "helpfulHint": "Het resultaat was bruikbaar en logisch.",
+        "notHelpful": "Niet nuttig",
+        "notHelpfulHint": "Iets was onduidelijk, niet passend of ontbrak."
+      },
+      "messageLabel": "Optioneel: wat kan beter?",
+      "messagePlaceholder": "Bijvoorbeeld: betere campings, realistischer etappes, schonere GPX-uitvoer, mobiele bediening ...",
+      "privacy": "Voer geen persoonsgegevens in. Feedback wordt alleen opgeslagen voor productverbetering.",
+      "thanks": "Bedankt voor je feedback.",
+      "actions": {
+        "later": "Later",
+        "send": "Feedback versturen",
+        "sending": "Bezig met verzenden ..."
+      }
     }
   },
   "footer": {
@@ -993,6 +1016,10 @@
       "ai": {
         "title": "AI‑integratie (OpenAI, Gemini, Mistral)",
         "description": "Als je directe AI‑generatie gebruikt, worden je gegevens omgezet in een prompt en via jouw API‑key naar je gekozen provider gestuurd. We loggen of bewaren die data niet. De privacyvoorwaarden van de provider gelden."
+      },
+      "feedback": {
+        "title": "Feedback na generatie",
+        "description": "Na het succesvol genereren van een route of prompt kunnen we je vrijwillig om korte productfeedback vragen. We slaan alleen je beoordeling op (bijv. nuttig / niet nuttig), een optionele vrije tekst, technische gegevens zoals taal, gekozen modus, AI-provider of model en een tijdstempel. Vul geen persoonsgegevens of gevoelige gegevens in vrije tekstvelden in. De verwerking gebeurt uitsluitend om CampingRoute.app te verbeteren; er vindt geen doorgifte aan derden plaats."
       }
     },
     "cookies": {

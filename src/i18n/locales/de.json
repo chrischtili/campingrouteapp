@@ -937,6 +937,29 @@
           "apps": "Apps & Offline‑Karten"
         }
       }
+    },
+    "feedback": {
+      "badge": "Kurzes Feedback",
+      "title": "Wie kommt Camping Route an?",
+      "description": {
+        "prompt": "Du hast gerade einen Prompt generiert. Zwei Klicks helfen mir sehr, die Seite gezielt weiter zu verbessern.",
+        "route": "Du hast gerade eine Route generiert. Zwei Klicks helfen mir sehr, die Qualität und Nutzbarkeit besser einzuordnen."
+      },
+      "options": {
+        "helpful": "Hilfreich",
+        "helpfulHint": "Das Ergebnis war stimmig und brauchbar.",
+        "notHelpful": "Nicht hilfreich",
+        "notHelpfulHint": "Etwas war unklar, unpassend oder hat gefehlt."
+      },
+      "messageLabel": "Optional: Was sollte ich verbessern?",
+      "messagePlaceholder": "Zum Beispiel: bessere Stellplätze, realistischere Etappen, klarere GPX-Ausgabe, mobile Bedienung ...",
+      "privacy": "Bitte keine personenbezogenen Daten eingeben. Das Feedback wird nur zur Produktverbesserung gespeichert.",
+      "thanks": "Danke für dein Feedback.",
+      "actions": {
+        "later": "Später",
+        "send": "Feedback senden",
+        "sending": "Wird gesendet ..."
+      }
     }
   },
   "imprint": {
@@ -978,6 +1001,10 @@
       "ai": {
         "title": "KI-Integration (OpenAI, Gemini, Mistral)",
         "description": "Wenn du die direkte KI-Generierung nutzt, werden deine Formulardaten (Start, Ziel, Fahrzeug, Vorlieben) in einen Text umgewandelt (Prompt) und über deinen eigenen API-Key direkt an den von dir gewählten KI-Anbieter (OpenAI, Google Gemini oder Mistral AI) gesendet. Wir speichern diesen Traffic nicht und loggen keine API-Schlüssel. Es gelten die Datenschutzbestimmungen des jeweils von dir genutzten KI-Anbieters."
+      },
+      "feedback": {
+        "title": "Feedback nach Generierung",
+        "description": "Nach einer erfolgreich generierten Route oder Prompt-Ausgabe können wir dich freiwillig um kurzes Produktfeedback bitten. Gespeichert werden dabei nur deine Bewertung (z. B. hilfreich / nicht hilfreich), ein optionaler Freitext, technische Angaben wie Sprache, gewählter Modus, KI-Anbieter bzw. Modell sowie ein Zeitstempel. Bitte gib in Freitextfeldern keine personenbezogenen oder sensiblen Daten ein. Die Verarbeitung erfolgt ausschließlich zur Verbesserung von CampingRoute.app; eine Weitergabe an Dritte findet nicht statt."
       }
     },
     "cookies": {

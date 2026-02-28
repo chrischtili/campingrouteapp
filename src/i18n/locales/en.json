@@ -937,6 +937,29 @@
           "apps": "Apps & offline maps"
         }
       }
+    },
+    "feedback": {
+      "badge": "Quick feedback",
+      "title": "How does Camping Route feel?",
+      "description": {
+        "prompt": "You just generated a prompt. Two clicks help me improve the product in the right places.",
+        "route": "You just generated a route. Two clicks help me judge quality and usefulness much better."
+      },
+      "options": {
+        "helpful": "Helpful",
+        "helpfulHint": "The result was solid and usable.",
+        "notHelpful": "Not helpful",
+        "notHelpfulHint": "Something was unclear, off, or missing."
+      },
+      "messageLabel": "Optional: What should be improved?",
+      "messagePlaceholder": "For example: better campsites, more realistic stages, cleaner GPX output, mobile usability ...",
+      "privacy": "Please do not enter personal data. Feedback is stored only for product improvement.",
+      "thanks": "Thanks for your feedback.",
+      "actions": {
+        "later": "Later",
+        "send": "Send feedback",
+        "sending": "Sending ..."
+      }
     }
   },
   "imprint": {
@@ -978,6 +1001,10 @@
       "ai": {
         "title": "AI Integration (OpenAI, Gemini, Mistral)",
         "description": "If you use direct AI generation, your form data (start, destination, vehicle, preferences) is converted into text (prompt) and sent directly to your chosen AI provider (OpenAI, Google Gemini, or Mistral AI) using your own API key. We do not store this traffic or log API keys. The privacy policies of the AI provider you use apply."
+      },
+      "feedback": {
+        "title": "Feedback after generation",
+        "description": "After a route or prompt has been generated successfully, we may optionally ask you for short product feedback. We only store your rating (for example helpful / not helpful), an optional message, technical metadata such as language, selected mode, AI provider or model, and a timestamp. Please do not enter personal or sensitive data in free-text fields. Processing is carried out solely to improve CampingRoute.app; no disclosure to third parties takes place."
       }
     },
     "cookies": {

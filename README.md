@@ -23,7 +23,7 @@
 
 ---
 
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee%2C%20many%20thanks-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/campingroute)
+[![Support CampingRoute](https://img.shields.io/badge/Support%20CampingRoute-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/campingroute)
 
 ## 📦 Features
 
@@ -114,6 +114,8 @@ MIT License - [Details](LICENSE)
 - **100% Free** – Prompt generation possible without any API costs.
 
 ---
+
+[![Support CampingRoute](https://img.shields.io/badge/Support%20CampingRoute-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/campingroute)
 
 ## 📦 Features
 

@@ -441,6 +441,22 @@
             }).join('');
         }
 
+        function getLastSevenDays(history = {}) {
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setHours(0, 0, 0, 0);
+                date.setDate(date.getDate() - i);
+                const key = date.toISOString().slice(0, 10);
+                days.push({
+                    key,
+                    label: `${date.getDate()}.${date.getMonth() + 1}`,
+                    value: Number(history[key] || 0)
+                });
+            }
+            return days;
+        }
+
         // Daten laden
         async function loadStats() {
             try {
@@ -505,16 +521,19 @@
 
                 const history = data?.data?.history || data?.history || {};
                 const meta = data?.meta || {};
+                const lastSevenDays = getLastSevenDays(history);
+                const todayKey = new Date().toISOString().slice(0, 10);
+                const todayVisits = Number(history[todayKey] || 0);
+                const sevenDayTotal = lastSevenDays.reduce((sum, day) => sum + day.value, 0);
+                const averageVisits = lastSevenDays.length ? sevenDayTotal / lastSevenDays.length : 0;
 
                 totalVisitsEl.textContent = visits.toLocaleString('de-DE');
-
-                const dailyAvg = Math.max(1, Math.floor(visits / 7));
-                todayVisitsEl.textContent = (dailyAvg + Math.floor(Math.random() * dailyAvg)).toLocaleString('de-DE');
-                avgVisitsEl.textContent = dailyAvg.toLocaleString('de-DE');
+                todayVisitsEl.textContent = todayVisits.toLocaleString('de-DE');
+                avgVisitsEl.textContent = averageVisits.toFixed(1).replace('.', ',');
                 updateFeedbackStats(feedbackSummary);
                 renderFeedbackList(feedbackItems);
 
-                setTimeout(() => drawChart(visits, history), 100);
+                setTimeout(() => drawChart(lastSevenDays), 100);
 
                 apiEndpointEl.textContent = '/api/admin/counter';
                 serverInfoEl.textContent = meta.server || 'Counter API';
@@ -539,7 +558,7 @@
         refreshBtn.addEventListener('click', loadStats);
 
         // Chart zeichnen
-        function drawChart(visits, history = {}) {
+        function drawChart(days = []) {
             const canvas = document.getElementById('visitsChart');
             if (!canvas) {
                 console.error('Canvas nicht gefunden');
@@ -561,24 +580,12 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Daten vorbereiten
-            let values = [];
-            let labels = [];
-            
-            if (Object.keys(history).length > 0) {
-                // Echte historische Daten verwenden
-                const sortedDates = Object.keys(history).sort().reverse().slice(0, 7);
-                values = sortedDates.map(date => history[date]);
-                labels = sortedDates.map(date => {
-                    const d = new Date(date);
-                    return `${d.getDate()}.${d.getMonth()+1}`;
-                });
-            } else {
-                // Simulierte Daten (für den Anfang)
-                const days = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
-                const base = Math.max(1, visits / 50);
-                values = Array(7).fill().map((_, i) => Math.floor(base + Math.random() * base * 2));
-                labels = days;
-            }
+            const preparedDays = Array.isArray(days) && days.length
+                ? days
+                : getLastSevenDays({});
+            const values = preparedDays.map((day) => day.value);
+            const labels = preparedDays.map((day) => day.label);
+
             // Hintergrund
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -587,7 +594,7 @@
             ctx.fillStyle = '#333';
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('Besucherverlauf (simuliert)', canvas.width / 2, 25);
+            ctx.fillText('Besucherverlauf (letzte 7 Tage)', canvas.width / 2, 25);
             
             // Balken zeichnen
             const barWidth = canvas.width / values.length - 20;
@@ -610,7 +617,7 @@
                 ctx.fillText(value, x + barWidth / 2, y - 5);
                 
                 // Tag
-                ctx.fillText(days[i], x + barWidth / 2, canvas.height - 10);
+                ctx.fillText(labels[i], x + barWidth / 2, canvas.height - 10);
             });
             
             // Achsen
@@ -637,8 +644,7 @@
         // Chart bei Fenstergrößenänderung neu zeichnen
         window.addEventListener('resize', () => {
             if (statsContentEl.style.display !== 'none') {
-                const visits = parseInt(totalVisitsEl.textContent.replace(/\./g, '')) || 0;
-                drawChart(visits);
+                loadStats();
             }
         });
 

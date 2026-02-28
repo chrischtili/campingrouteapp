@@ -25,6 +25,7 @@ interface OutputSectionProps {
     budgetLevel: string;
     quietPlaces: boolean;
   };
+  onEngagement?: () => void;
 }
 
 export function OutputSection({ 
@@ -35,7 +36,8 @@ export function OutputSection({
   aiError, 
   useDirectAI,
   gpxOutputMode,
-  summary
+  summary,
+  onEngagement
 }: OutputSectionProps) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -92,6 +94,7 @@ export function OutputSection({
       const successful = document.execCommand('copy');
       document.body.removeChild(textArea);
       if (successful) {
+        onEngagement?.();
         setCopied(true);
         toast.success(t("planner.output.actions.copied"));
         setTimeout(() => setCopied(false), 2000);
@@ -103,6 +106,7 @@ export function OutputSection({
 
   const handlePrint = () => {
     if (!output) return;
+    onEngagement?.();
     const cleaned = sanitizeCopyText(output);
     const escapeHtml = (text: string) =>
       text
@@ -187,6 +191,7 @@ export function OutputSection({
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
     const cleaned = sanitizeGpxContent(gpxContent);
     if (cleaned) {
+      onEngagement?.();
       const blob = new Blob([cleaned], { type: 'application/gpx+xml' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');

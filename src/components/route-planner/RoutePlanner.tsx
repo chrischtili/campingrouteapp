@@ -47,6 +47,7 @@ export function RoutePlanner() {
   const [saveFormLocally, setSaveFormLocally] = useState<boolean>(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
+  const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -260,11 +261,19 @@ export function RoutePlanner() {
     toast.success(t("planner.feedback.thanks"));
   };
 
+  const handleOutputEngagement = () => {
+    if (!feedbackEligible || !shouldPromptForFeedback()) return;
+    setFeedbackMode(aiSettings.useDirectAI ? "route" : "prompt");
+    setShowFeedbackModal(true);
+    setFeedbackEligible(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setAIError('');
     setOutput('');
+    setFeedbackEligible(false);
     setTimeout(() => {
       outputSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
@@ -280,20 +289,14 @@ export function RoutePlanner() {
         const aiResponse = await callAIAPI(formData, aiSettings);
         setOutput(aiResponse);
         setAiModel(aiSettings.aiProvider.toUpperCase());
-        if (shouldPromptForFeedback()) {
-          setFeedbackMode("route");
-          setShowFeedbackModal(true);
-        }
+        setFeedbackEligible(true);
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
         await new Promise(resolve => setTimeout(resolve, 800));
         const generatedOutput = generatePrompt(formData, { gpxFormat: 'codeblock' });
         setOutput(generatedOutput);
         setAiModel('');
-        if (shouldPromptForFeedback()) {
-          setFeedbackMode("prompt");
-          setShowFeedbackModal(true);
-        }
+        setFeedbackEligible(true);
       }
       
       setCurrentStep(steps.length + 1);
@@ -738,6 +741,7 @@ export function RoutePlanner() {
                 budgetLevel: formData.budgetLevel,
                 quietPlaces: formData.quietPlaces,
               }}
+              onEngagement={handleOutputEngagement}
             />
           </div>
         </section>

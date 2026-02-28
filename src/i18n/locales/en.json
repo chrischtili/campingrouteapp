@@ -952,7 +952,7 @@
         "notHelpfulHint": "Something was unclear, off, or missing."
       },
       "messageLabel": "Optional: What should be improved?",
-      "messagePlaceholder": "For example: better campsites, more realistic stages, cleaner GPX output, mobile usability ...",
+      "messagePlaceholder": "For example: clearer prompts, better stage logic, more helpful guidance, or easier handling ...",
       "privacy": "Please do not enter personal data. Feedback is stored only for product improvement.",
       "thanks": "Thanks for your feedback.",
       "actions": {

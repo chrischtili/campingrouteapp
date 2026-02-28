@@ -952,7 +952,7 @@
         "notHelpfulHint": "Etwas war unklar, unpassend oder hat gefehlt."
       },
       "messageLabel": "Optional: Was sollte ich verbessern?",
-      "messagePlaceholder": "Zum Beispiel: bessere Stellplätze, realistischere Etappen, klarere GPX-Ausgabe, mobile Bedienung ...",
+      "messagePlaceholder": "Zum Beispiel: klarere Prompts, bessere Etappenlogik, hilfreichere Hinweise oder einfachere Bedienung ...",
       "privacy": "Bitte keine personenbezogenen Daten eingeben. Das Feedback wird nur zur Produktverbesserung gespeichert.",
       "thanks": "Danke für dein Feedback.",
       "actions": {

@@ -952,7 +952,7 @@
         "notHelpfulHint": "Quelque chose manquait, était flou ou inadapté."
       },
       "messageLabel": "Optionnel : que dois-je améliorer ?",
-      "messagePlaceholder": "Par exemple : meilleurs campings, étapes plus réalistes, sortie GPX plus propre, ergonomie mobile ...",
+      "messagePlaceholder": "Par exemple : des prompts plus clairs, une meilleure logique d’étapes, des conseils plus utiles ou une utilisation plus simple ...",
       "privacy": "Merci de ne pas saisir de données personnelles. Le retour est conservé uniquement pour améliorer le produit.",
       "thanks": "Merci pour ton retour.",
       "actions": {

@@ -952,7 +952,7 @@
         "notHelpfulHint": "Qualcosa era poco chiaro, non adatto o mancante."
       },
       "messageLabel": "Facoltativo: cosa dovrei migliorare?",
-      "messagePlaceholder": "Per esempio: aree di sosta migliori, tappe più realistiche, output GPX più pulito, usabilità mobile ...",
+      "messagePlaceholder": "Per esempio: prompt più chiari, migliore logica delle tappe, indicazioni più utili o utilizzo più semplice ...",
       "privacy": "Non inserire dati personali. Il feedback viene salvato solo per migliorare il prodotto.",
       "thanks": "Grazie per il tuo feedback.",
       "actions": {

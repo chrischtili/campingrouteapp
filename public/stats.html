@@ -8,12 +8,16 @@
         :root {
             --primary: #4a9b8e;
             --primary-dark: #3a7a6f;
-            --secondary: #f8f9fa;
-            --text: #333;
-            --text-light: #666;
+            --secondary: #eef3f2;
+            --surface: rgba(255, 255, 255, 0.88);
+            --surface-strong: rgba(255, 255, 255, 0.96);
+            --text: #1f2a2a;
+            --text-light: #5e6e6c;
             --success: #28a745;
             --warning: #ffc107;
             --danger: #dc3545;
+            --border: rgba(74, 155, 142, 0.16);
+            --shadow: 0 20px 60px rgba(10, 24, 24, 0.12);
         }
 
         * {
@@ -24,9 +28,13 @@
         }
 
         body {
-            background-color: #f5f7fa;
+            background:
+                radial-gradient(circle at top left, rgba(74, 155, 142, 0.18), transparent 35%),
+                radial-gradient(circle at top right, rgba(255, 193, 7, 0.14), transparent 28%),
+                linear-gradient(180deg, #eef4f3 0%, #f7faf9 48%, #eef4f2 100%);
             color: var(--text);
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .dashboard-container {
@@ -40,24 +48,64 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--primary);
+            padding: 1.5rem 1.75rem;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
         }
 
         .header h1 {
             color: var(--primary);
             font-size: 1.8rem;
+            letter-spacing: -0.04em;
         }
 
-        .header a {
-            color: var(--primary);
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-link,
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            font-weight: 700;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
         }
 
-        .header a:hover {
+        .header-link {
+            background: rgba(74, 155, 142, 0.08);
+            color: var(--primary);
+        }
+
+        .header-link:hover,
+        .logout-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px rgba(10, 24, 24, 0.08);
+        }
+
+        .header-link:hover {
             color: var(--primary-dark);
+            background: rgba(74, 155, 142, 0.12);
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border-color: rgba(220, 53, 69, 0.22);
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
         }
 
         .stats-grid {
@@ -68,11 +116,12 @@
         }
 
         .stat-card {
-            background: white;
-            border-radius: 8px;
+            background: var(--surface-strong);
+            border-radius: 18px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 28px rgba(10, 24, 24, 0.08);
             border-left: 4px solid var(--primary);
+            border-top: 1px solid rgba(255, 255, 255, 0.45);
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
@@ -102,11 +151,12 @@
         }
 
         .chart-container {
-            background: white;
-            border-radius: 8px;
+            background: var(--surface-strong);
+            border-radius: 18px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 28px rgba(10, 24, 24, 0.08);
             margin-bottom: 2rem;
+            border: 1px solid rgba(74, 155, 142, 0.1);
         }
 
         .chart-container h2 {
@@ -137,10 +187,10 @@
         }
 
         .error {
-            background: #ffebee;
+            background: rgba(255, 235, 238, 0.95);
             color: var(--danger);
             padding: 1rem;
-            border-radius: 4px;
+            border-radius: 12px;
             margin-bottom: 1rem;
             border-left: 4px solid var(--danger);
         }
@@ -164,10 +214,11 @@
         .metadata {
             background: var(--secondary);
             padding: 1rem;
-            border-radius: 4px;
+            border-radius: 16px;
             font-size: 0.85rem;
             color: var(--text-light);
             margin-top: 1rem;
+            border: 1px solid rgba(74, 155, 142, 0.08);
         }
 
         .metadata p {
@@ -181,9 +232,10 @@
 
         .feedback-item {
             border: 1px solid #e4e7eb;
-            border-radius: 8px;
+            border-radius: 14px;
             padding: 1rem;
-            background: #fafbfc;
+            background: linear-gradient(180deg, #ffffff 0%, #f7fbfb 100%);
+            box-shadow: 0 8px 20px rgba(10, 24, 24, 0.04);
         }
 
         .feedback-item-header {
@@ -244,6 +296,17 @@
                 align-items: flex-start;
                 gap: 1rem;
             }
+
+            .header-actions {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-link,
+            .logout-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -251,18 +314,20 @@
     <div class="dashboard-container">
         <div class="header">
             <h1>📊 CampingRoute.app Statistik Dashboard</h1>
-            <div>
-                <a href="/" style="margin-right: 1rem;">← Zurück zur Hauptseite</a>
-                <button onclick="logout()" style="background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;" onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='var(--danger)'">🔒 Logout</button>
+            <div class="header-actions">
+                <a href="/" class="header-link">← Zurück zur Hauptseite</a>
+                <button id="logout-btn" class="logout-btn" onclick="logout()" style="display: none;">🔒 Logout</button>
             </div>
         </div>
 
         <div id="login-form">
-            <div style="max-width: 400px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
-                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🔒 Admin Login</h2>
-                <input type="text" id="username" placeholder="Benutzername" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
-                <input type="password" id="password" placeholder="Passwort" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
-                <button onclick="login()" style="width: 100%; padding: 0.75rem; background: var(--primary); color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Anmelden</button>
+            <div style="max-width: 440px; margin: 2rem auto; background: var(--surface-strong); padding: 2.25rem; border-radius: 22px; box-shadow: var(--shadow); text-align: center; border: 1px solid rgba(74, 155, 142, 0.12);">
+                <div style="display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 58px; border-radius: 18px; background: rgba(74, 155, 142, 0.12); color: var(--primary); margin-bottom: 1rem; font-size: 1.5rem;">🔒</div>
+                <h2 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.7rem; letter-spacing: -0.04em;">Admin Login</h2>
+                <p style="color: var(--text-light); margin-bottom: 1.5rem;">Interner Zugriff auf Besuche, Nutzung und Feedback.</p>
+                <input type="text" id="username" placeholder="Benutzername" style="width: 100%; padding: 0.9rem 1rem; margin-bottom: 0.9rem; border: 1px solid rgba(74, 155, 142, 0.16); border-radius: 14px; font-size: 1rem; background: #fff;">
+                <input type="password" id="password" placeholder="Passwort" style="width: 100%; padding: 0.9rem 1rem; margin-bottom: 1rem; border: 1px solid rgba(74, 155, 142, 0.16); border-radius: 14px; font-size: 1rem; background: #fff;">
+                <button onclick="login()" style="width: 100%; padding: 0.95rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 999px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 12px 24px rgba(58,122,111,0.22)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Anmelden</button>
                 <p id="login-error" style="color: var(--danger); margin-top: 1rem; min-height: 1rem;"></p>
             </div>
         </div>
@@ -294,6 +359,18 @@
                     <h3>Durchschnitt pro Tag</h3>
                     <div class="value" id="avg-visits">-</div>
                     <div class="label">Letzte 7 Tage</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Prompts generiert</h3>
+                    <div class="value" id="prompt-generations">-</div>
+                    <div class="label">Modus „Prompt generieren“</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>KI direkt genutzt</h3>
+                    <div class="value" id="route-generations">-</div>
+                    <div class="label">Modus „Route generieren“</div>
                 </div>
 
                 <div class="stat-card">
@@ -349,6 +426,7 @@
         const statsContentEl = document.getElementById('stats-content');
         const refreshBtn = document.getElementById('refresh-btn');
         const loginErrorEl = document.getElementById('login-error');
+        const logoutBtn = document.getElementById('logout-btn');
         let latestChartDays = [];
         let resizeTimer = null;
 
@@ -366,6 +444,7 @@
                 
                 loginFormEl.style.display = 'none';
                 statsContentEl.style.display = 'block';
+                logoutBtn.style.display = 'inline-flex';
                 loadStats();
                 return;
             }
@@ -380,6 +459,7 @@
             loadingEl.style.display = 'none';
             errorEl.style.display = 'none';
             statsContentEl.style.display = 'none';
+            logoutBtn.style.display = 'none';
             latestChartDays = [];
         }
 
@@ -387,6 +467,8 @@
         const totalVisitsEl = document.getElementById('total-visits');
         const todayVisitsEl = document.getElementById('today-visits');
         const avgVisitsEl = document.getElementById('avg-visits');
+        const promptGenerationsEl = document.getElementById('prompt-generations');
+        const routeGenerationsEl = document.getElementById('route-generations');
         const feedbackTotalEl = document.getElementById('feedback-total');
         const feedbackHelpfulRateEl = document.getElementById('feedback-helpful-rate');
         const feedbackCommentsEl = document.getElementById('feedback-comments');
@@ -534,17 +616,22 @@
                 }
 
                 const history = data?.data?.history || data?.history || {};
+                const generations = data?.data?.generations || data?.generations || {};
                 const meta = data?.meta || {};
                 const lastSevenDays = getLastSevenDays(history);
                 const todayKey = toLocalDateKey();
                 const todayVisits = Number(history[todayKey] || 0);
                 const sevenDayTotal = lastSevenDays.reduce((sum, day) => sum + day.value, 0);
                 const averageVisits = lastSevenDays.length ? sevenDayTotal / lastSevenDays.length : 0;
+                const promptGenerations = Number(generations.prompt || 0);
+                const routeGenerations = Number(generations.route || 0);
                 latestChartDays = lastSevenDays;
 
                 totalVisitsEl.textContent = visits.toLocaleString('de-DE');
                 todayVisitsEl.textContent = todayVisits.toLocaleString('de-DE');
                 avgVisitsEl.textContent = averageVisits.toFixed(1).replace('.', ',');
+                promptGenerationsEl.textContent = promptGenerations.toLocaleString('de-DE');
+                routeGenerationsEl.textContent = routeGenerations.toLocaleString('de-DE');
                 updateFeedbackStats(feedbackSummary);
                 renderFeedbackList(feedbackItems);
 
@@ -646,8 +733,10 @@
 
         // Logout-Funktion
         function logout() {
+            authToken = null;
             loginFormEl.style.display = 'block';
             statsContentEl.style.display = 'none';
+            logoutBtn.style.display = 'none';
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             loginErrorEl.textContent = '';

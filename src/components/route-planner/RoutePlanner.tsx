@@ -277,6 +277,20 @@ export function RoutePlanner() {
     setFeedbackEligible(false);
   };
 
+  const trackGeneration = async (mode: "prompt" | "route") => {
+    try {
+      await fetch("/api/count-generation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mode }),
+      });
+    } catch {
+      // Stats tracking must never block the planner flow.
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -299,6 +313,7 @@ export function RoutePlanner() {
         setOutput(aiResponse);
         setAiModel(aiSettings.aiProvider.toUpperCase());
         setFeedbackEligible(true);
+        void trackGeneration("route");
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
         await new Promise(resolve => setTimeout(resolve, 800));
@@ -306,6 +321,7 @@ export function RoutePlanner() {
         setOutput(generatedOutput);
         setAiModel('');
         setFeedbackEligible(true);
+        void trackGeneration("prompt");
       }
       
       setCurrentStep(steps.length + 1);

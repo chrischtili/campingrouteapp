@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
 
-[![Version](https://img.shields.io/badge/version-v0.4.1-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.2-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,15 +10,15 @@
 
 ---
 
-## 🌟 Highlights (v0.4.1)
+## 🌟 Highlights (v0.4.2)
 
-- **NEU: Italienisch vollständig integriert** – Jetzt **Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹**.
-- **NEU: SEO für Italienisch** (it-IT, hreflang/locale) für bessere Sichtbarkeit in Italien.
-- **Verbesserte Prompt-/GPX-Logik** für konsistenten GPX-Export und sauberere Ausgabe.
-- **UI-Verbesserungen im Planer** (Routing-Formular, Sichtbarkeit, Zustandslogik, Copy/Print-Flows).
+- **Überarbeitete Routenoptimierung** mit klareren Kategorien und neuen wohnmobilrelevanten Ausschlüssen wie Innenstädte, Altstädte, schmale Straßen, unbefestigte Straßen, Fähren und Serpentinen.
+- **Bessere Formularführung**: Start/Ziel stehen früher im Fokus, Fortschrittsleiste ist verständlicher und auf Mobilgeräten klarer nutzbar.
+- **Übernachtungslogik präzisiert**: Budget bleibt harte Obergrenze, zusätzliche Qualitätssteuerung für Stellplätze wurde verständlicher formuliert.
+- **Verbesserte Stats-Seite** mit echten 7-Tage-Werten, stabilerer mobiler Bedienung und saubererem Verhalten auf iPhone/iPad.
+- **Feedback-System & Datenschutz** weiter integriert, inklusive Dashboard-Auswertung.
+- **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
-- **GPX-Ausgabe nach Bedarf**: Garmin-Wegpunkte oder Route+Track.
-- **Fahrzeugspezifische Filter** (Größe, Gewicht, Ausstattung).
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
 
 ---
@@ -52,7 +52,7 @@
 ### Unterstützte KI-Modelle
 | Anbieter | Modell | Empfehlung |
 |----------|--------|------------|
-| Google | Gemini 3 Pro Preview | Beste Wahl für Europa |
+| Google | Gemini 3.1 Pro Preview | Beste Wahl für Europa |
 | OpenAI | GPT-5.2 | Höchste Sprachqualität |
 | Mistral | Mistral Large | Europäisch optimiert |
 
@@ -96,21 +96,21 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.4.1-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.2-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
 
 ---
 
-## 🌟 Highlights (v0.4.1)
+## 🌟 Highlights (v0.4.2)
 
-- **NEW: Full Italian support** – Now **German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹**.
-- **NEW: Italian SEO targeting** (it-IT hreflang/locale) for better discovery in Italy.
-- **Improved prompt/GPX handling** for cleaner GPX output and better downstream compatibility.
-- **Planner UI polish** (form behavior, visibility, state logic, copy/print flows).
+- **Refined route optimization** with clearer categories and new motorhome-relevant avoidances like city centers, old towns, narrow roads, unpaved roads, ferries, and hairpin roads.
+- **Improved form guidance**: start/destination are prioritized earlier, the progress bar is easier to understand, and mobile navigation is clearer.
+- **Accommodation logic clarified**: budget remains the hard ceiling, while the campsite quality preference is now explained more clearly.
+- **Improved stats dashboard** with real 7-day values, more stable mobile behavior, and better iPhone/iPad handling.
+- **Feedback system and privacy updates** are now integrated into the dashboard flow.
+- **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **AI-powered Route Planning** with GPX export for navigation devices.
-- **On-demand GPX output**: Garmin waypoints or Route+Track.
-- **Vehicle-specific Filters** (size, weight, equipment).
 - **100% Free** – Prompt generation possible without any API costs.
 
 ---

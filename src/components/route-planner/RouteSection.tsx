@@ -72,7 +72,53 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <Label htmlFor="startPoint" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-primary" />
+              {t("planner.route.start.label")} 
+              <span className="text-primary font-black">*</span>
+            </Label>
+            <div className="relative">
+              <input
+                id="startPoint"
+                placeholder={t("planner.route.start.placeholder")}
+                value={formData.startPoint}
+                onChange={(e) => onChange({ startPoint: e.target.value })}
+                className={`${inputClass} pl-14 ${isStartMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
+                required
+              />
+              <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/40" />
+            </div>
+            {isStartMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
+          </div>
+
+          <div className="space-y-4">
+            <Label htmlFor="destination" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+              </div>
+              {t("planner.route.destination.label")}
+              <span className="text-primary font-black">*</span>
+            </Label>
+            <div className="relative">
+              <input
+                id="destination"
+                placeholder={t("planner.route.destination.placeholder")}
+                value={formData.destination}
+                onChange={(e) => onChange({ destination: e.target.value })}
+                className={`${inputClass} pl-14 border-primary/20 ${isDestinationMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
+                required
+              />
+              <div className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+              </div>
+            </div>
+            {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
+          </div>
+        </div>
+
         <div className="space-y-6 p-6 sm:p-10 shadow-2xl" style={glassPanelStyle}>
           <div className="space-y-4">
             <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
@@ -128,52 +174,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               onChange={handleGpxToggle}
               className="grid-cols-1"
             />
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <Label htmlFor="startPoint" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-primary" />
-              {t("planner.route.start.label")} 
-              <span className="text-primary font-black">*</span>
-            </Label>
-            <div className="relative">
-              <input
-                id="startPoint"
-                placeholder={t("planner.route.start.placeholder")}
-                value={formData.startPoint}
-                onChange={(e) => onChange({ startPoint: e.target.value })}
-                className={`${inputClass} pl-14 ${isStartMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
-                required
-              />
-              <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-primary/40" />
-            </div>
-            {isStartMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
-          </div>
-
-          <div className="space-y-4">
-            <Label htmlFor="destination" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-              </div>
-              {t("planner.route.destination.label")}
-              <span className="text-primary font-black">*</span>
-            </Label>
-            <div className="relative">
-              <input
-                id="destination"
-                placeholder={t("planner.route.destination.placeholder")}
-                value={formData.destination}
-                onChange={(e) => onChange({ destination: e.target.value })}
-                className={`${inputClass} pl-14 border-primary/20 ${isDestinationMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
-                required
-              />
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-              </div>
-            </div>
-            {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
           </div>
         </div>
       </div>

@@ -547,7 +547,9 @@
       },
       "summary": {
         "label": "Résumé"
-      }
+      },
+      "hint": "Tu peux aussi appuyer directement sur une étape ci-dessus pour l’ouvrir.",
+      "openStep": "Ouvrir l’étape"
     },
     "ai": {
       "title": "Paramètres IA",
@@ -847,16 +849,16 @@
       },
       "additional": {
         "label": "Souhaits particuliers",
-        "placeholder": "ex. emplacement calme..."
+        "placeholder": "p. ex. vue sur le lac, plage pour chiens, emplacement ombragé ..."
       },
       "subtitle": "Où et comment souhaitez‑vous passer la nuit pendant l’itinéraire ?",
       "budgetLevel": {
-        "label": "Niveau de budget",
-        "placeholder": "ex. moyen",
+        "label": "Niveau de confort de l’emplacement",
+        "placeholder": "Veuillez choisir",
         "options": {
-          "low": "Économique",
-          "medium": "Moyen",
-          "high": "Premium"
+          "low": "Simple",
+          "medium": "Standard",
+          "high": "Confortable"
         }
       },
       "quietPlaces": {
@@ -1082,7 +1084,7 @@
       "facilities": "Équipements requis",
       "budget": "Budget par nuit",
       "budgetUpTo": "jusqu’à",
-      "budgetNote": "Le budget est le plafond strict ; le niveau de budget indique la qualité recherchée dans cette limite.",
+      "budgetNote": "Le budget max par nuit est la limite stricte. Le niveau de confort de l’emplacement aide l’IA à choisir plus justement dans cette limite.",
       "specialWishes": "Demandes spéciales",
       "travelStyle": "Style de voyage",
       "preferences": "Préférences d’itinéraire",
@@ -1094,7 +1096,7 @@
       "endTime": "Heure d’arrivée",
       "flexibleDuration": "Durée flexible",
       "yes": "Oui",
-      "budgetLevel": "Niveau de budget",
+      "budgetLevel": "Niveau de confort de l’emplacement",
       "avoidRegions": "Régions à éviter",
       "travelPace": "Rythme de voyage",
       "quietPlaces": "Endroits calmes",

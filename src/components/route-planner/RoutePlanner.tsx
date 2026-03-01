@@ -177,7 +177,12 @@ export function RoutePlanner() {
   };
 
   const goToStep = (step: number) => {
-    const isNavigable = (formData.startPoint && formData.destination) || completedSteps.includes(step) || step === currentStep;
+    const hasRouteBasics = !!(formData.startPoint && formData.destination);
+    const isNavigable =
+      step === 1 ||
+      (step === 2 && (currentStep === 1 || hasRouteBasics || completedSteps.includes(step) || step === currentStep)) ||
+      (step > 2 && (hasRouteBasics || completedSteps.includes(step) || step <= currentStep));
+
     if (isNavigable) {
       setCurrentStep(step);
       scrollToPlannerProgress();
@@ -442,6 +447,7 @@ export function RoutePlanner() {
                   const stepNumber = i + 1;
                   const isActive = stepNumber === currentStep;
                   const isLast = i === steps.length - 1;
+                  const hasRouteBasics = !!(formData.startPoint && formData.destination);
                   
                   // CHECK IF STEP IS ACTUALLY FILLED WITH DATA
                   const isStepCompleted = () => {
@@ -472,14 +478,18 @@ export function RoutePlanner() {
                   };
 
                   const isDone = isStepCompleted();
-                  const isNavigable = (formData.startPoint && formData.destination) || stepNumber <= currentStep || completedSteps.includes(stepNumber);
+                  const isNavigable =
+                    stepNumber === 1 ||
+                    (stepNumber === 2 && (currentStep === 1 || hasRouteBasics || stepNumber <= currentStep || completedSteps.includes(stepNumber))) ||
+                    (stepNumber > 2 && (hasRouteBasics || stepNumber <= currentStep || completedSteps.includes(stepNumber)));
 
                   return (
                     <div key={i} className="flex flex-1 items-center">
                       <button
                         onClick={() => goToStep(stepNumber)}
                         disabled={!isNavigable}
-                        className={`flex flex-col items-center group relative flex-1 transition-all duration-500 ${!isNavigable ? "opacity-20 cursor-not-allowed" : "opacity-100"}`}
+                        title={isNavigable ? t("planner.steps.openStep") : undefined}
+                        className={`flex flex-col items-center group relative flex-1 transition-all duration-500 ${!isNavigable ? "opacity-20 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                       >
                         <div className="relative">
                           <motion.div 
@@ -489,7 +499,7 @@ export function RoutePlanner() {
                                 ? "bg-primary border-primary text-white shadow-xl shadow-primary/40 scale-110 z-10" 
                                 : isDone 
                                   ? "bg-[#1a2e1a] border-[#2d4d2d] text-[#4ade80] shadow-lg shadow-black/20" 
-                                  : "bg-white/5 border-white/10 text-white/20"
+                                  : "bg-white/5 border-white/10 text-white/20 group-hover:border-primary/50 group-hover:bg-primary/10 group-hover:text-white/80"
                             }`}
                           >
                             <Icon className="w-5 h-5" />
@@ -520,6 +530,9 @@ export function RoutePlanner() {
                     </div>
                   );
                 })}
+              </div>
+              <div className="mt-3 md:mt-5 px-2 text-xs sm:text-sm font-semibold text-white/60">
+                {t("planner.steps.hint")}
               </div>
             </div>
 

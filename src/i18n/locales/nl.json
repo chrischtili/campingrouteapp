@@ -547,7 +547,9 @@
       },
       "summary": {
         "label": "Samenvatting"
-      }
+      },
+      "hint": "Je kunt hierboven ook direct op een stap tikken om die te openen.",
+      "openStep": "Stap openen"
     },
     "ai": {
       "title": "AI‑instellingen",
@@ -847,16 +849,16 @@
       },
       "additional": {
         "label": "Extra wensen",
-        "placeholder": "bijv. rustige ligging..."
+        "placeholder": "bijv. uitzicht op het meer, hondenstrand, schaduwrijke plek ..."
       },
       "subtitle": "Waar en hoe wil je onderweg overnachten?",
       "budgetLevel": {
-        "label": "Budgetniveau",
-        "placeholder": "bijv. midden",
+        "label": "Comfortniveau van de plek",
+        "placeholder": "Kies een optie",
         "options": {
-          "low": "Laag",
-          "medium": "Midden",
-          "high": "Premium"
+          "low": "Eenvoudig",
+          "medium": "Standaard",
+          "high": "Comfortabel"
         }
       },
       "quietPlaces": {
@@ -1086,7 +1088,7 @@
       "facilities": "Gewenste voorzieningen",
       "budget": "Budget per nacht",
       "budgetUpTo": "tot",
-      "budgetNote": "Budget is de harde bovengrens; budgetniveau is de kwaliteitsrichting binnen die limiet.",
+      "budgetNote": "Het maximale budget per nacht is de harde bovengrens. Het comfortniveau van de plek helpt de AI om binnen die limiet passender te kiezen.",
       "specialWishes": "Speciale wensen",
       "travelStyle": "Voorkeursreisstijl",
       "preferences": "Route-voorkeuren",
@@ -1098,7 +1100,7 @@
       "endTime": "Aankomsttijd",
       "flexibleDuration": "Flexibele reisduur",
       "yes": "Ja",
-      "budgetLevel": "Budgetniveau",
+      "budgetLevel": "Comfortniveau van de plek",
       "avoidRegions": "Regio's vermijden",
       "travelPace": "Reistempo",
       "quietPlaces": "Rustige plekken",

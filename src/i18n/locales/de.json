@@ -547,7 +547,9 @@
       },
       "summary": {
         "label": "Zusammenfassung"
-      }
+      },
+      "hint": "Du kannst auch direkt auf einen Schritt oben tippen.",
+      "openStep": "Schritt öffnen"
     },
     "ai": {
       "title": "KI-Einstellungen",
@@ -847,16 +849,16 @@
       },
       "additional": {
         "label": "Zusatzwünsche",
-        "placeholder": "z.B. ruhige Lage..."
+        "placeholder": "z. B. Seeblick, Hundestrand, schattiger Platz ..."
       },
       "subtitle": "Wo und wie möchtest du auf der Route übernachten?",
       "budgetLevel": {
-        "label": "Budget-Level",
-        "placeholder": "z. B. mittel",
+        "label": "Komfortniveau des Platzes",
+        "placeholder": "Bitte wählen",
         "options": {
-          "low": "Günstig",
-          "medium": "Mittel",
-          "high": "Premium"
+          "low": "Einfach",
+          "medium": "Standard",
+          "high": "Komfortabel"
         }
       },
       "quietPlaces": {
@@ -1082,7 +1084,7 @@
       "facilities": "Ausstattung",
       "budget": "Max. Budget pro Nacht",
       "budgetUpTo": "bis zu",
-      "budgetNote": "Budget ist die harte Obergrenze; Budget-Level ist die Qualitätsrichtung innerhalb dieses Limits.",
+      "budgetNote": "Das Max. Budget pro Nacht ist die harte Obergrenze. Das Komfortniveau des Platzes hilft der KI dabei, innerhalb dieses Limits passender auszuwählen.",
       "specialWishes": "Zusätzliche Übernachtungswünsche",
       "travelStyle": "Reisestil",
       "preferences": "Routenpräferenzen",
@@ -1094,7 +1096,7 @@
       "endTime": "Ankunftszeit",
       "flexibleDuration": "Reisedauer flexibel",
       "yes": "Ja",
-      "budgetLevel": "Budget-Level",
+      "budgetLevel": "Komfortniveau des Platzes",
       "avoidRegions": "Regionen meiden",
       "travelPace": "Fahrstil",
       "quietPlaces": "Ruhige Plätze",

@@ -547,7 +547,9 @@
       },
       "summary": {
         "label": "Summary"
-      }
+      },
+      "hint": "You can also tap a step above to open it directly.",
+      "openStep": "Open step"
     },
     "ai": {
       "title": "AI Settings",
@@ -847,16 +849,16 @@
       },
       "additional": {
         "label": "Special Wishes",
-        "placeholder": "e.g. quiet location..."
+        "placeholder": "e.g. lake view, dog beach, shaded pitch ..."
       },
       "subtitle": "Where and how would you like to stay overnight on the route?",
       "budgetLevel": {
-        "label": "Budget level",
-        "placeholder": "e.g. medium",
+        "label": "Comfort level of the place",
+        "placeholder": "Please choose",
         "options": {
-          "low": "Low",
-          "medium": "Medium",
-          "high": "Premium"
+          "low": "Simple",
+          "medium": "Standard",
+          "high": "Comfortable"
         }
       },
       "quietPlaces": {
@@ -1082,7 +1084,7 @@
       "facilities": "Required facilities",
       "budget": "Budget per night",
       "budgetUpTo": "up to",
-      "budgetNote": "Budget is the hard ceiling; budget level is the quality preference within that limit.",
+      "budgetNote": "Max budget per night is the hard ceiling. The place comfort level helps the AI choose more appropriately within that limit.",
       "specialWishes": "Special requests",
       "travelStyle": "Preferred travel style",
       "preferences": "Route preferences",
@@ -1094,7 +1096,7 @@
       "endTime": "Arrival time",
       "flexibleDuration": "Flexible trip duration",
       "yes": "Yes",
-      "budgetLevel": "Budget level",
+      "budgetLevel": "Comfort level of the place",
       "avoidRegions": "Avoid regions",
       "travelPace": "Travel pace",
       "quietPlaces": "Quiet places",

@@ -115,6 +115,9 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">
               {t("planner.accommodation.budgetLevel.label")}
             </Label>
+            <p className="text-sm text-white/60 leading-relaxed">
+              {t("prompt.labels.budgetNote")}
+            </p>
             <Select value={formData.budgetLevel} onValueChange={(value) => onChange({ budgetLevel: value })}>
               <SelectTrigger className="w-full h-12 px-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm text-white">
                 <SelectValue placeholder={t("planner.accommodation.budgetLevel.placeholder")} />

@@ -547,7 +547,9 @@
       },
       "summary": {
         "label": "Riepilogo"
-      }
+      },
+      "hint": "Puoi anche toccare direttamente un passaggio qui sopra per aprirlo.",
+      "openStep": "Apri passaggio"
     },
     "ai": {
       "title": "Impostazioni IA",
@@ -847,16 +849,16 @@
       },
       "additional": {
         "label": "Desideri extra",
-        "placeholder": "ad es. posizione tranquilla..."
+        "placeholder": "ad es. vista lago, spiaggia per cani, piazzola ombreggiata ..."
       },
       "subtitle": "Dove e come vorresti pernottare lungo l'itinerario?",
       "budgetLevel": {
-        "label": "Livello budget",
-        "placeholder": "ad es. medio",
+        "label": "Livello di comfort della struttura",
+        "placeholder": "Seleziona",
         "options": {
-          "low": "Economico",
-          "medium": "Medio",
-          "high": "Premium"
+          "low": "Semplice",
+          "medium": "Standard",
+          "high": "Confortevole"
         }
       },
       "quietPlaces": {
@@ -1082,7 +1084,7 @@
       "facilities": "Servizi",
       "budget": "Budget max. per notte",
       "budgetUpTo": "fino a",
-      "budgetNote": "Il budget è il limite massimo rigido; il livello budget indica la qualità all'interno di questo limite.",
+      "budgetNote": "Il budget massimo per notte è il limite rigido. Il livello di comfort della struttura aiuta l’IA a scegliere in modo più adatto entro questo limite.",
       "specialWishes": "Desideri aggiuntivi per il pernottamento",
       "travelStyle": "Stile di viaggio",
       "preferences": "Preferenze percorso",
@@ -1094,7 +1096,7 @@
       "endTime": "Ora di arrivo",
       "flexibleDuration": "Durata del viaggio flessibile",
       "yes": "Sì",
-      "budgetLevel": "Livello budget",
+      "budgetLevel": "Livello di comfort della struttura",
       "avoidRegions": "Evitare regioni",
       "travelPace": "Stile di guida",
       "quietPlaces": "Posti tranquilli",

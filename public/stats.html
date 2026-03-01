@@ -349,6 +349,8 @@
         const statsContentEl = document.getElementById('stats-content');
         const refreshBtn = document.getElementById('refresh-btn');
         const loginErrorEl = document.getElementById('login-error');
+        let latestChartDays = [];
+        let resizeTimer = null;
 
         // Login-Funktion
         let authToken = null;
@@ -378,6 +380,7 @@
             loadingEl.style.display = 'none';
             errorEl.style.display = 'none';
             statsContentEl.style.display = 'none';
+            latestChartDays = [];
         }
 
         // Daten Elemente
@@ -441,13 +444,20 @@
             }).join('');
         }
 
+        function toLocalDateKey(date = new Date()) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function getLastSevenDays(history = {}) {
             const days = [];
             for (let i = 6; i >= 0; i--) {
                 const date = new Date();
                 date.setHours(0, 0, 0, 0);
                 date.setDate(date.getDate() - i);
-                const key = date.toISOString().slice(0, 10);
+                const key = toLocalDateKey(date);
                 days.push({
                     key,
                     label: `${date.getDate()}.${date.getMonth() + 1}`,
@@ -458,11 +468,15 @@
         }
 
         // Daten laden
-        async function loadStats() {
+        async function loadStats(options = {}) {
+            const { silent = false } = options;
             try {
-                loadingEl.style.display = 'block';
+                const hasVisibleContent = statsContentEl.style.display !== 'none';
+                loadingEl.style.display = silent || hasVisibleContent ? 'none' : 'block';
                 errorEl.style.display = 'none';
-                statsContentEl.style.display = 'none';
+                if (!silent && !hasVisibleContent) {
+                    statsContentEl.style.display = 'none';
+                }
 
                 console.log('Lade Statistiken...');
 
@@ -522,10 +536,11 @@
                 const history = data?.data?.history || data?.history || {};
                 const meta = data?.meta || {};
                 const lastSevenDays = getLastSevenDays(history);
-                const todayKey = new Date().toISOString().slice(0, 10);
+                const todayKey = toLocalDateKey();
                 const todayVisits = Number(history[todayKey] || 0);
                 const sevenDayTotal = lastSevenDays.reduce((sum, day) => sum + day.value, 0);
                 const averageVisits = lastSevenDays.length ? sevenDayTotal / lastSevenDays.length : 0;
+                latestChartDays = lastSevenDays;
 
                 totalVisitsEl.textContent = visits.toLocaleString('de-DE');
                 todayVisitsEl.textContent = todayVisits.toLocaleString('de-DE');
@@ -533,7 +548,7 @@
                 updateFeedbackStats(feedbackSummary);
                 renderFeedbackList(feedbackItems);
 
-                setTimeout(() => drawChart(lastSevenDays), 100);
+                setTimeout(() => drawChart(latestChartDays), 100);
 
                 apiEndpointEl.textContent = '/api/admin/counter';
                 serverInfoEl.textContent = meta.server || 'Counter API';
@@ -555,7 +570,7 @@
         }
 
         // Event Listener
-        refreshBtn.addEventListener('click', loadStats);
+        refreshBtn.addEventListener('click', () => loadStats({ silent: true }));
 
         // Chart zeichnen
         function drawChart(days = []) {
@@ -644,14 +659,17 @@
         // Chart bei Fenstergrößenänderung neu zeichnen
         window.addEventListener('resize', () => {
             if (statsContentEl.style.display !== 'none') {
-                loadStats();
+                window.clearTimeout(resizeTimer);
+                resizeTimer = window.setTimeout(() => {
+                    drawChart(latestChartDays);
+                }, 150);
             }
         });
 
         // Alle 5 Minuten automatisch aktualisieren (nur wenn eingeloggt)
         const interval = setInterval(() => {
             if (statsContentEl.style.display !== 'none') {
-                loadStats();
+                loadStats({ silent: true });
             }
         }, 5 * 60 * 1000);
     </script>

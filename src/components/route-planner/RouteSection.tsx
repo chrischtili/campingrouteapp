@@ -43,6 +43,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left";
+  const timeInputClass = `${inputClass} pr-12 appearance-none min-h-[56px]`;
   const requiredError = "text-[10px] font-black uppercase tracking-[0.2em] text-red-400";
   const isStartMissing = !formData.startPoint?.trim();
   const isDestinationMissing = !formData.destination?.trim();
@@ -52,6 +53,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const arrivalLabel = formData.destination?.trim()
     ? `${t("planner.route.arrival")} (${formData.destination.trim()})`
     : t("planner.route.arrival");
+  const timeInputStyle = {
+    colorScheme: 'dark' as const,
+    WebkitTextFillColor: 'rgba(255,255,255,0.95)',
+  };
 
   return (
     <div className="space-y-12">
@@ -200,16 +205,21 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               <Label htmlFor="stageArrivalTime1" className={`text-[10px] md:text-xs font-black uppercase tracking-[0.2em] ${formData.routeType !== 'multiStage' ? "text-white/30" : "text-white/70"}`}>
                 {t("planner.route.stage.arrivalTime", { num: 1 })}
               </Label>
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl">
                 <input
                   id="stageArrivalTime1"
                   type="time"
                   value={formData.stageArrivalTime1 || ''}
                   onChange={(e) => onChange({ stageArrivalTime1: e.target.value })}
-                  className={`${inputClass} pr-10 ${formData.routeType !== 'multiStage' ? "text-white/40" : ""}`}
-                  style={{ colorScheme: 'dark' }}
+                  className={`${timeInputClass} ${formData.routeType !== 'multiStage' ? "text-white/40" : ""}`}
+                  style={timeInputStyle}
                   disabled={formData.routeType !== 'multiStage'}
                 />
+                {!formData.stageArrivalTime1 && (
+                  <span className={`pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-white/55"}`}>
+                    --:--
+                  </span>
+                )}
                 <Clock className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-white/30"}`} />
               </div>
             </div>
@@ -233,16 +243,21 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               <Label htmlFor="stageArrivalTime2" className={`text-[10px] md:text-xs font-black uppercase tracking-[0.2em] ${formData.routeType !== 'multiStage' ? "text-white/30" : "text-white/70"}`}>
                 {t("planner.route.stage.arrivalTime", { num: 2 })}
               </Label>
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl">
                 <input
                   id="stageArrivalTime2"
                   type="time"
                   value={formData.stageArrivalTime2 || ''}
                   onChange={(e) => onChange({ stageArrivalTime2: e.target.value })}
-                  className={`${inputClass} pr-10 ${formData.routeType !== 'multiStage' ? "text-white/40" : ""}`}
-                  style={{ colorScheme: 'dark' }}
+                  className={`${timeInputClass} ${formData.routeType !== 'multiStage' ? "text-white/40" : ""}`}
+                  style={timeInputStyle}
                   disabled={formData.routeType !== 'multiStage'}
                 />
+                {!formData.stageArrivalTime2 && (
+                  <span className={`pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-white/55"}`}>
+                    --:--
+                  </span>
+                )}
                 <Clock className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none ${formData.routeType !== 'multiStage' ? "text-white/20" : "text-white/30"}`} />
               </div>
             </div>
@@ -301,14 +316,19 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
               {t("planner.route.departureTime")}
             </Label>
-            <div className="relative">
+            <div className="relative overflow-hidden rounded-2xl">
               <input
                 type="time"
                 value={formData.startTime || ''}
                 onChange={(e) => onChange({ startTime: e.target.value })}
-                className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                style={{ colorScheme: 'dark' }}
+                className={timeInputClass}
+                style={timeInputStyle}
               />
+              {!formData.startTime && (
+                <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55">
+                  --:--
+                </span>
+              )}
               <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>
@@ -317,14 +337,19 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
               {t("planner.route.arrivalTime")}
             </Label>
-            <div className="relative">
+            <div className="relative overflow-hidden rounded-2xl">
               <input
                 type="time"
                 value={formData.endTime || ''}
                 onChange={(e) => onChange({ endTime: e.target.value })}
-                className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                style={{ colorScheme: 'dark' }}
+                className={timeInputClass}
+                style={timeInputStyle}
               />
+              {!formData.endTime && (
+                <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55">
+                  --:--
+                </span>
+              )}
               <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>

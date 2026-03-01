@@ -560,7 +560,12 @@
         "direct": {
           "title": "Usa l'IA direttamente",
           "desc": "Genera e mostra l'itinerario direttamente nell'app. Usi la TUA chiave API e paghi direttamente al tuo fornitore IA (ad es. OpenAI)."
-        }
+        },
+        "label": "Come vuoi pianificare?",
+        "selected": "Selezionato",
+        "trigger": "Scegli come vuoi interagire con l’IA.",
+        "current": "Attuale: {{mode}}",
+        "button": "Scegli modalità"
       },
       "provider": {
         "label": "Fornitore & modello",

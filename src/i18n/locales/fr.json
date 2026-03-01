@@ -560,7 +560,12 @@
         "direct": {
           "title": "Utiliser l’IA directement",
           "desc": "Générez l’itinéraire dans l’app. Vous utilisez VOTRE clé API et payez directement votre fournisseur (ex. OpenAI)."
-        }
+        },
+        "label": "Comment veux-tu planifier ?",
+        "selected": "Sélectionné",
+        "trigger": "Choisis comment tu veux interagir avec l’IA.",
+        "current": "Actuel : {{mode}}",
+        "button": "Choisir le mode"
       },
       "provider": {
         "label": "Fournisseur & modèle",

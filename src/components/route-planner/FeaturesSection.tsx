@@ -61,16 +61,16 @@ export function FeaturesSection() {
               />
               
               {/* Content */}
-              <div className="relative z-10 p-8 sm:p-12 space-y-6 sm:space-y-8 flex flex-col items-start h-full">
-                <div className={`w-20 h-20 rounded-[1.5rem] flex items-center justify-center border-2 border-white/20 transition-all duration-700 group-hover:rotate-6 shadow-xl ${f.accent} bg-white/5`}>
-                  <f.icon className="w-10 h-10" />
+              <div className="relative z-10 p-6 sm:p-12 space-y-5 sm:space-y-8 flex flex-col items-start h-full">
+                <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-[1.2rem] sm:rounded-[1.5rem] flex items-center justify-center border-2 border-white/20 transition-all duration-700 group-hover:rotate-6 shadow-xl ${f.accent} bg-white/5`}>
+                  <f.icon className="w-7 h-7 sm:w-10 sm:h-10" />
                 </div>
                 
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-black text-foreground tracking-tight uppercase leading-none group-hover:text-primary transition-colors">
+                <div className="space-y-3 sm:space-y-4">
+                  <h3 className="text-xl sm:text-2xl font-black text-foreground tracking-tight uppercase leading-none group-hover:text-primary transition-colors">
                     {f.title}
                   </h3>
-                  <p className="text-foreground/70 text-lg font-bold leading-relaxed">
+                  <p className="text-foreground/70 text-base sm:text-lg font-bold leading-relaxed">
                     {f.description}
                   </p>
                 </div>

@@ -560,7 +560,12 @@
         "direct": {
           "title": "Use AI Directly",
           "desc": "Generate route directly in the app. You use your OWN API key and pay directly to your AI provider (e.g. OpenAI)."
-        }
+        },
+        "label": "How would you like to plan?",
+        "selected": "Selected",
+        "trigger": "Choose how you want to interact with AI.",
+        "current": "Current: {{mode}}",
+        "button": "Choose mode"
       },
       "provider": {
         "label": "Provider & Model",

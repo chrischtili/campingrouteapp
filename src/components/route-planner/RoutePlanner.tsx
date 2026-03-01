@@ -532,7 +532,13 @@ export function RoutePlanner() {
               ref={formRef}
             >
               <div className="space-y-12 relative z-10">
-                {currentStep === 1 && <AISettingsSection aiSettings={aiSettings} onAISettingsChange={handleAISettingsChange} aiError={aiError} />}
+                {currentStep === 1 && (
+                  <AISettingsSection
+                    aiSettings={aiSettings}
+                    onAISettingsChange={handleAISettingsChange}
+                    aiError={aiError}
+                  />
+                )}
                 {currentStep === 2 && <RouteSection formData={formData} onChange={handleFormChange} />}
                 {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />}
                 {currentStep === 4 && <VehicleSection formData={formData} onChange={handleFormChange} />}

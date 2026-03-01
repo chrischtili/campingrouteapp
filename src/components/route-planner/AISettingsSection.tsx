@@ -1,4 +1,5 @@
-import { Bot, FileText, AlertCircle, Lock, ExternalLink, Info, Sparkles, Wand2, Shield } from "lucide-react";
+import { useRef, useState } from "react";
+import { Bot, FileText, AlertCircle, Lock, ExternalLink, Info, Sparkles, Wand2, Shield, ChevronDown } from "lucide-react";
 import { AISettings } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -21,8 +22,18 @@ const providerHelp = {
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
   const { t } = useTranslation();
   const currentProvider = aiSettings.aiProvider as keyof typeof providerHelp;
+  const [showModeCardsMobile, setShowModeCardsMobile] = useState(false);
+  const modeHeaderRef = useRef<HTMLDivElement>(null);
   
   const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
+  const selectedModeTitle = aiSettings.useDirectAI ? t("planner.ai.mode.direct.title") : t("planner.ai.mode.prompt.title");
+
+  const openMobileModePicker = () => {
+    setShowModeCardsMobile((prev) => !prev);
+    setTimeout(() => {
+      modeHeaderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
 
   return (
     <div className="space-y-12">
@@ -39,7 +50,31 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
       </div>
 
       {/* Mode Selection Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div ref={modeHeaderRef} className="space-y-3 text-left">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-white">
+            {t("planner.ai.mode.label")}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={openMobileModePicker}
+          className="md:hidden w-full rounded-2xl border-2 border-primary/25 bg-primary/10 px-5 py-4 text-left shadow-lg shadow-primary/10 transition-all active:scale-[0.99]"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <div className="text-sm font-black uppercase tracking-[0.18em] text-white">
+                {t("planner.ai.mode.button")}
+              </div>
+              <div className="mt-2 text-xs font-semibold text-white/70">
+                {t("planner.ai.mode.current", { mode: selectedModeTitle })}
+              </div>
+            </div>
+            <ChevronDown className={`h-5 w-5 text-primary transition-transform ${showModeCardsMobile ? "rotate-180" : ""}`} />
+          </div>
+        </button>
+      </div>
+      <div className={`${showModeCardsMobile ? "grid" : "hidden"} md:grid grid-cols-1 md:grid-cols-2 gap-6`}>
         {[
           { 
             id: 'prompt', 
@@ -59,30 +94,38 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
           <button
             key={mode.id}
             type="button"
-            onClick={() => onAISettingsChange({ useDirectAI: mode.id === 'direct' })}
-            className={`group relative p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
+            onClick={() => {
+              const nextUseDirectAI = mode.id === 'direct';
+              onAISettingsChange({ useDirectAI: nextUseDirectAI });
+            }}
+            className={`group relative p-4 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
               mode.active 
                 ? 'border-primary bg-primary/10 shadow-xl shadow-primary/10' 
                 : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10 shadow-lg'
             }`}
           >
-            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 ${mode.active ? "bg-primary text-white scale-110 rotate-3 shadow-lg shadow-primary/30" : "bg-white/5 text-white/40 group-hover:text-white"}`}>
-              <mode.icon className="h-8 w-8" />
+            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-8 transition-all duration-500 ${mode.active ? "bg-primary text-white scale-110 rotate-3 shadow-lg shadow-primary/30" : "bg-white/5 text-white/40 group-hover:text-white"}`}>
+              <mode.icon className="h-6 w-6 sm:h-8 sm:w-8" />
             </div>
-            <h4 className={`text-2xl font-black mb-3 transition-colors uppercase tracking-tight ${mode.active ? "text-white" : "text-white/40 group-hover:text-white"}`}>
+            <h4 className={`text-xl sm:text-2xl font-black mb-2 sm:mb-3 transition-colors uppercase tracking-tight ${mode.active ? "text-white" : "text-white/40 group-hover:text-white"}`}>
               {mode.title}
             </h4>
-            <p className={`text-sm leading-relaxed transition-colors ${mode.active ? "text-white/80" : "text-white/30 group-hover:text-white/50"}`}>
+            <p className={`text-xs sm:text-sm leading-relaxed transition-colors ${mode.active ? "text-white/80" : "text-white/30 group-hover:text-white/50"}`}>
               {mode.desc}
             </p>
             
             {mode.active && (
-              <motion.div 
-                layoutId="active-check"
-                className="absolute top-8 right-8 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-lg"
-              >
-                <Sparkles className="w-4 h-4 text-white" />
-              </motion.div>
+              <>
+                <motion.div 
+                  layoutId="active-check"
+                  className="absolute top-8 right-8 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-lg"
+                >
+                  <Sparkles className="w-4 h-4 text-white" />
+                </motion.div>
+                <div className="mt-6 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                  {t("planner.ai.mode.selected")}
+                </div>
+              </>
             )}
           </button>
         ))}

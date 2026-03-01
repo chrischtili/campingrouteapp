@@ -560,7 +560,12 @@
         "direct": {
           "title": "KI direkt nutzen",
           "desc": "Route direkt in der App generieren. Du nutzt deinen EIGENEN API-Key und zahlst direkt an deinen KI-Anbieter (z.B. OpenAI)."
-        }
+        },
+        "label": "Wie möchtest du planen?",
+        "selected": "Ausgewählt",
+        "trigger": "Wähle aus, wie du mit der KI interagieren möchtest.",
+        "current": "Aktuell: {{mode}}",
+        "button": "Modus auswählen"
       },
       "provider": {
         "label": "Anbieter & Modell",

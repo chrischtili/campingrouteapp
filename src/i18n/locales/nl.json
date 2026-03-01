@@ -560,7 +560,12 @@
         "direct": {
           "title": "AI direct gebruiken",
           "desc": "Route direct in de app genereren. Je gebruikt je EIGEN API‑key en betaalt direct aan de AI‑provider (bijv. OpenAI)."
-        }
+        },
+        "label": "Hoe wil je plannen?",
+        "selected": "Geselecteerd",
+        "trigger": "Kies hoe je met AI wilt werken.",
+        "current": "Huidig: {{mode}}",
+        "button": "Modus kiezen"
       },
       "provider": {
         "label": "Provider & model",

@@ -28,11 +28,28 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
   const selectedModeTitle = aiSettings.useDirectAI ? t("planner.ai.mode.direct.title") : t("planner.ai.mode.prompt.title");
 
+  const scrollModeHeaderBelowNavbar = () => {
+    if (!modeHeaderRef.current) return;
+    const navbarOffset = 110;
+    const top = modeHeaderRef.current.getBoundingClientRect().top + window.pageYOffset - navbarOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   const openMobileModePicker = () => {
     setShowModeCardsMobile((prev) => !prev);
     setTimeout(() => {
-      modeHeaderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollModeHeaderBelowNavbar();
     }, 80);
+  };
+
+  const selectMode = (useDirectAI: boolean) => {
+    onAISettingsChange({ useDirectAI });
+
+    if (useDirectAI) {
+      setTimeout(() => {
+        scrollModeHeaderBelowNavbar();
+      }, 80);
+    }
   };
 
   return (
@@ -94,10 +111,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
           <button
             key={mode.id}
             type="button"
-            onClick={() => {
-              const nextUseDirectAI = mode.id === 'direct';
-              onAISettingsChange({ useDirectAI: nextUseDirectAI });
-            }}
+            onClick={() => selectMode(mode.id === 'direct')}
             className={`group relative p-4 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
               mode.active 
                 ? 'border-primary bg-primary/10 shadow-xl shadow-primary/10' 

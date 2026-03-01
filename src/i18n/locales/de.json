@@ -658,7 +658,7 @@
       "subtitle": "(Mehrfachauswahl möglich)",
       "categories": {
         "roadType": {
-          "label": "Streckenprofil",
+          "label": "Fahrprofil",
           "options": {
             "motorways": "Autobahnen bevorzugen",
             "country": "Landstraßen bevorzugen",
@@ -666,7 +666,7 @@
           }
         },
         "avoidances": {
-          "label": "Ausschlüsse & Vermeidung",
+          "label": "Allgemein vermeiden",
           "options": {
             "toll": "Mautstraßen vermeiden",
             "traffic": "Staus umfahren",
@@ -676,28 +676,40 @@
           }
         },
         "landscape": {
-          "label": "Landschaft & Umgebung",
+          "label": "Landschaft & Umgebung einbeziehen",
           "options": {
             "mountains": "Berge & Pässe",
             "coastal": "Küste & Meer",
             "lakes": "Seen & Flüsse",
-            "forest": "Wälder & Natur"
+            "forest": "Wälder & Natur",
+            "rural": "Ländliche Umgebung"
           }
         },
         "experiences": {
-          "label": "Erlebnisse auf der Strecke",
+          "label": "Stopps & Erlebnisse einbeziehen",
           "options": {
             "cities": "Städte & Kultur",
-            "rural": "Ländliche Idylle",
+            "rural": "Ländliche Umgebung",
             "unesco": "UNESCO Welterbe",
             "farm": "Bauernhöfe & Hofläden",
             "markets": "Lokale Märkte"
           }
+        },
+        "restrictions": {
+          "label": "Straßen & Bereiche meiden",
+          "options": {
+            "innerCities": "Innenstädte meiden",
+            "oldTowns": "Altstädte meiden",
+            "narrowRoads": "Schmale Straßen meiden",
+            "unpavedRoads": "Unbefestigte Straßen meiden",
+            "ferries": "Fähren meiden",
+            "hairpins": "Serpentinen meiden"
+          }
         }
       },
       "avoidRegions": {
-        "label": "Regionen meiden",
-        "placeholder": "z. B. Großstädte, Alpenpässe, Mautländer"
+        "label": "Weitere Wünsche zur Route",
+        "placeholder": "z. B. bestimmte Küstenregionen, Alpenpässe, einzelne Orte oder Bereiche, die vermieden oder hinzugenommen werden sollen"
       },
       "tollCountries": {
         "label": "Mautländer vermeiden",

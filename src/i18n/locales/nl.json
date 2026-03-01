@@ -658,7 +658,7 @@
       "subtitle": "(Meerdere keuzes mogelijk)",
       "categories": {
         "roadType": {
-          "label": "Routeprofiel",
+          "label": "Rijprofiel",
           "options": {
             "motorways": "Snelwegen prefereren",
             "country": "Landwegen prefereren",
@@ -666,7 +666,7 @@
           }
         },
         "avoidances": {
-          "label": "Vermijden",
+          "label": "Algemeen vermijden",
           "options": {
             "toll": "Tolwegen vermijden",
             "traffic": "Verkeer vermijden",
@@ -676,28 +676,40 @@
           }
         },
         "landscape": {
-          "label": "Landschap & omgeving",
+          "label": "Landschap en omgeving meenemen",
           "options": {
             "mountains": "Bergen & passen",
             "coastal": "Kust & zee",
             "lakes": "Meren & rivieren",
-            "forest": "Bossen & natuur"
+            "forest": "Bossen & natuur",
+            "rural": "Landelijke omgeving"
           }
         },
         "experiences": {
-          "label": "Belevingen onderweg",
+          "label": "Stops en belevenissen meenemen",
           "options": {
             "cities": "Steden & cultuur",
-            "rural": "Landelijke charme",
+            "rural": "Landelijke omgeving",
             "unesco": "UNESCO‑erfgoed",
             "farm": "Boerderijen & hoevewinkels",
             "markets": "Lokale markten"
           }
+        },
+        "restrictions": {
+          "label": "Wegen en zones vermijden",
+          "options": {
+            "innerCities": "Binnensteden vermijden",
+            "oldTowns": "Oude stadscentra vermijden",
+            "narrowRoads": "Smalle wegen vermijden",
+            "unpavedRoads": "Onverharde wegen vermijden",
+            "ferries": "Veerboten vermijden",
+            "hairpins": "Serpentines vermijden"
+          }
         }
       },
       "avoidRegions": {
-        "label": "Regio's vermijden",
-        "placeholder": "bijv. grote steden, bergpassen, tollanden"
+        "label": "Aanvullende routewensen",
+        "placeholder": "bijv. bepaalde kustregio’s, Alpenpassen, afzonderlijke plaatsen of gebieden die vermeden of juist opgenomen moeten worden"
       },
       "tollCountries": {
         "label": "Tollanden vermijden",

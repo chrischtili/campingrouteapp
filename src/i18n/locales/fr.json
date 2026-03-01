@@ -658,7 +658,7 @@
       "subtitle": "(Sélection multiple possible)",
       "categories": {
         "roadType": {
-          "label": "Profil d’itinéraire",
+          "label": "Profil de trajet",
           "options": {
             "motorways": "Préférer les autoroutes",
             "country": "Préférer les routes secondaires",
@@ -666,7 +666,7 @@
           }
         },
         "avoidances": {
-          "label": "À éviter",
+          "label": "À éviter en général",
           "options": {
             "toll": "Éviter les routes à péage",
             "traffic": "Éviter le trafic",
@@ -676,28 +676,40 @@
           }
         },
         "landscape": {
-          "label": "Paysage & environnement",
+          "label": "Inclure paysages et environnement",
           "options": {
             "mountains": "Montagnes & cols",
             "coastal": "Côte & mer",
             "lakes": "Lacs & rivières",
-            "forest": "Forêts & nature"
+            "forest": "Forêts & nature",
+            "rural": "Environnement rural"
           }
         },
         "experiences": {
-          "label": "Expériences en route",
+          "label": "Inclure étapes et découvertes",
           "options": {
             "cities": "Villes & culture",
-            "rural": "Charme rural",
+            "rural": "Environnement rural",
             "unesco": "Patrimoine UNESCO",
             "farm": "Fermes & boutiques",
             "markets": "Marchés locaux"
           }
+        },
+        "restrictions": {
+          "label": "Routes et zones à éviter",
+          "options": {
+            "innerCities": "Éviter les centres-villes",
+            "oldTowns": "Éviter les vieilles villes",
+            "narrowRoads": "Éviter les routes étroites",
+            "unpavedRoads": "Éviter les routes non goudronnées",
+            "ferries": "Éviter les ferries",
+            "hairpins": "Éviter les routes en lacets"
+          }
         }
       },
       "avoidRegions": {
-        "label": "Régions à éviter",
-        "placeholder": "ex. grandes villes, cols, pays à péage"
+        "label": "Autres souhaits pour l’itinéraire",
+        "placeholder": "p. ex. certaines régions côtières, cols alpins, lieux précis ou zones à éviter ou à inclure"
       },
       "tollCountries": {
         "label": "Éviter les pays à péage",

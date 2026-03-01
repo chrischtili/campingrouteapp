@@ -88,7 +88,7 @@ ${data.routePreferences?.length > 0 || data.avoidHighways?.length > 0 || data.av
 ───────────────────────
 ${data.routePreferences?.length ? '• ' + t("prompt.labels.preferences") + ': ' + data.routePreferences.map(p => {
   // We need to find which category this key belongs to
-  const categories = ['roadType', 'landscape', 'avoidances', 'experiences'];
+  const categories = ['roadType', 'landscape', 'avoidances', 'restrictions', 'experiences'];
   for (const cat of categories) {
     const key = `planner.optimization.categories.${cat}.options.${p}`;
     const translation = t(key);

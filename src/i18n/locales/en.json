@@ -658,7 +658,7 @@
       "subtitle": "(Multiple selection possible)",
       "categories": {
         "roadType": {
-          "label": "Route Profile",
+          "label": "Driving profile",
           "options": {
             "motorways": "Prefer motorways",
             "country": "Prefer country roads",
@@ -666,7 +666,7 @@
           }
         },
         "avoidances": {
-          "label": "Avoidances",
+          "label": "General avoidances",
           "options": {
             "toll": "Avoid toll roads",
             "traffic": "Avoid traffic",
@@ -676,28 +676,40 @@
           }
         },
         "landscape": {
-          "label": "Landscape & Surroundings",
+          "label": "Include landscapes & surroundings",
           "options": {
             "mountains": "Mountains & Passes",
             "coastal": "Coast & Sea",
             "lakes": "Lakes & Rivers",
-            "forest": "Forests & Nature"
+            "forest": "Forests & Nature",
+            "rural": "Rural surroundings"
           }
         },
         "experiences": {
-          "label": "On-Route Experiences",
+          "label": "Include stops & highlights",
           "options": {
             "cities": "Cities & Culture",
-            "rural": "Rural Idyll",
+            "rural": "Rural surroundings",
             "unesco": "UNESCO Heritage",
             "farm": "Farms & Farm Shops",
             "markets": "Local Markets"
           }
+        },
+        "restrictions": {
+          "label": "Roads & areas to avoid",
+          "options": {
+            "innerCities": "Avoid city centers",
+            "oldTowns": "Avoid historic old towns",
+            "narrowRoads": "Avoid narrow roads",
+            "unpavedRoads": "Avoid unpaved roads",
+            "ferries": "Avoid ferries",
+            "hairpins": "Avoid hairpin roads"
+          }
         }
       },
       "avoidRegions": {
-        "label": "Avoid regions",
-        "placeholder": "e.g. big cities, mountain passes, toll countries"
+        "label": "Additional route wishes",
+        "placeholder": "e.g. specific coastal regions, alpine passes, individual places or areas that should be avoided or included"
       },
       "tollCountries": {
         "label": "Avoid toll countries",

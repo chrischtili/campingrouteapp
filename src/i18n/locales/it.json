@@ -658,7 +658,7 @@
       "subtitle": "(Selezione multipla possibile)",
       "categories": {
         "roadType": {
-          "label": "Profilo stradale",
+          "label": "Profilo di guida",
           "options": {
             "motorways": "Preferisci autostrade",
             "country": "Preferisci strade secondarie",
@@ -666,7 +666,7 @@
           }
         },
         "avoidances": {
-          "label": "Esclusioni & evitare",
+          "label": "Da evitare in generale",
           "options": {
             "toll": "Evitare strade a pedaggio",
             "traffic": "Aggirare traffico",
@@ -676,28 +676,40 @@
           }
         },
         "landscape": {
-          "label": "Paesaggio & dintorni",
+          "label": "Includere paesaggio e dintorni",
           "options": {
             "mountains": "Montagne & passi",
             "coastal": "Costa & mare",
             "lakes": "Laghi & fiumi",
-            "forest": "Boschi & natura"
+            "forest": "Boschi & natura",
+            "rural": "Ambiente rurale"
           }
         },
         "experiences": {
-          "label": "Esperienze lungo il percorso",
+          "label": "Includere soste ed esperienze",
           "options": {
             "cities": "Città & cultura",
-            "rural": "Idillio rurale",
+            "rural": "Ambiente rurale",
             "unesco": "Patrimonio UNESCO",
             "farm": "Fattorie & spacci",
             "markets": "Mercati locali"
           }
+        },
+        "restrictions": {
+          "label": "Strade e zone da evitare",
+          "options": {
+            "innerCities": "Evitare i centri città",
+            "oldTowns": "Evitare i centri storici",
+            "narrowRoads": "Evitare le strade strette",
+            "unpavedRoads": "Evitare le strade non asfaltate",
+            "ferries": "Evitare i traghetti",
+            "hairpins": "Evitare i tornanti"
+          }
         }
       },
       "avoidRegions": {
-        "label": "Evitare regioni",
-        "placeholder": "ad es. grandi città, passi alpini, paesi a pedaggio"
+        "label": "Ulteriori preferenze per il percorso",
+        "placeholder": "ad es. specifiche regioni costiere, passi alpini, singoli luoghi o aree da evitare o da includere"
       },
       "tollCountries": {
         "label": "Evitare paesi a pedaggio",

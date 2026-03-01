@@ -2,7 +2,7 @@ import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
 import { useTranslation } from "react-i18next";
-import { Target, Navigation, Sparkles, ShieldAlert, Landmark } from "lucide-react";
+import { Target, Navigation, Sparkles, ShieldAlert, Landmark, TriangleAlert } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface RouteOptimizationSectionProps {
@@ -40,6 +40,20 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
       ]
     },
     {
+      id: 'restrictions',
+      label: t("planner.optimization.categories.restrictions.label"),
+      icon: TriangleAlert,
+      accent: "text-secondary",
+      options: [
+        { value: 'innerCities', label: t("planner.optimization.categories.restrictions.options.innerCities") },
+        { value: 'oldTowns', label: t("planner.optimization.categories.restrictions.options.oldTowns") },
+        { value: 'hairpins', label: t("planner.optimization.categories.restrictions.options.hairpins") },
+        { value: 'narrowRoads', label: t("planner.optimization.categories.restrictions.options.narrowRoads") },
+        { value: 'unpavedRoads', label: t("planner.optimization.categories.restrictions.options.unpavedRoads") },
+        { value: 'ferries', label: t("planner.optimization.categories.restrictions.options.ferries") },
+      ]
+    },
+    {
       id: 'landscape',
       label: t("planner.optimization.categories.landscape.label"),
       icon: Sparkles,
@@ -49,6 +63,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
         { value: 'coastal', label: t("planner.optimization.categories.landscape.options.coastal") },
         { value: 'lakes', label: t("planner.optimization.categories.landscape.options.lakes") },
         { value: 'forest', label: t("planner.optimization.categories.landscape.options.forest") },
+        { value: 'rural', label: t("planner.optimization.categories.landscape.options.rural") },
       ]
     },
     {
@@ -58,7 +73,6 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
       accent: "text-secondary",
       options: [
         { value: 'cities', label: t("planner.optimization.categories.experiences.options.cities") },
-        { value: 'rural', label: t("planner.optimization.categories.experiences.options.rural") },
         { value: 'unesco', label: t("planner.optimization.categories.experiences.options.unesco") },
         { value: 'farm', label: t("planner.optimization.categories.experiences.options.farm") },
         { value: 'markets', label: t("planner.optimization.categories.experiences.options.markets") },

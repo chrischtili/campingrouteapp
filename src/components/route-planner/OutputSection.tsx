@@ -17,6 +17,8 @@ interface OutputSectionProps {
   summary?: {
     startPoint: string;
     destination: string;
+    vacationDestination?: string;
+    destinationStayPlanned?: boolean;
     startDate: string;
     endDate: string;
     maxDailyDistance: string;
@@ -41,12 +43,22 @@ export function OutputSection({
 }: OutputSectionProps) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
+  const summaryDestinationLabel = summary?.destinationStayPlanned ? t("planner.route.returnDestination.label") : t("planner.summary.destination");
+  const summaryVacationLine = summary?.destinationStayPlanned && summary.vacationDestination
+    ? (
+      <div>• {t("planner.route.vacationDestination.label")}: {summary.vacationDestination}</div>
+    )
+    : null;
 
   const garminMatch = output.match(/BEGIN_GPX_GARMIN\s*([\s\S]*?)\s*END_GPX_GARMIN/);
   const garminWptMatch = output.match(/BEGIN_GPX_GARMIN_WPT\s*([\s\S]*?)\s*END_GPX_GARMIN_WPT/);
   const routeTrackMatch = output.match(/BEGIN_GPX_ROUTE_TRACK\s*([\s\S]*?)\s*END_GPX_ROUTE_TRACK/);
   const wptOnlyMatch = output.match(/BEGIN_GPX_WPT_ONLY\s*([\s\S]*?)\s*END_GPX_WPT_ONLY/);
-  const looksLikeGarmin = (gpx: string) => /<rte[\s>]|<trk[\s>]/i.test(gpx);
+  const gpxBlocks = output.match(/<gpx[\s\S]*?<\/gpx>/gi) || [];
+  const hasWaypoints = (gpx: string) => /<wpt[\s>]/i.test(gpx);
+  const hasRouteOrTrack = (gpx: string) => /<rte[\s>]|<trk[\s>]/i.test(gpx);
+  const isValidGarminBlock = (gpx: string) => hasWaypoints(gpx) && !hasRouteOrTrack(gpx) && !/\.\.\./.test(gpx);
+  const isValidRouteTrackBlock = (gpx: string) => hasWaypoints(gpx) && hasRouteOrTrack(gpx) && !/\.\.\./.test(gpx);
   const stripRteTrk = (gpx: string) => gpx
     .replace(/<rte[\s\S]*?<\/rte>/gi, '')
     .replace(/<trk[\s\S]*?<\/trk>/gi, '')
@@ -55,20 +67,29 @@ export function OutputSection({
 
   let gpxGarmin = garminWptMatch?.[1]?.trim() || garminMatch?.[1]?.trim() || '';
   let gpxWptOnly = routeTrackMatch?.[1]?.trim() || wptOnlyMatch?.[1]?.trim() || '';
+  const firstBlock = gpxBlocks[0]?.trim() || '';
+  const secondBlock = gpxBlocks[1]?.trim() || '';
   let gpxBlocksSwapped = false;
 
-  if (!gpxWptOnly || !gpxGarmin) {
-    const gpxBlocks = output.match(/<gpx[\s\S]*?<\/gpx>/gi) || [];
-    const classified = gpxBlocks.reduce<{ wpt?: string; garmin?: string }>((acc, block) => {
-      if (looksLikeGarmin(block)) acc.garmin = acc.garmin || block;
-      else acc.wpt = acc.wpt || block;
-      return acc;
-    }, {});
-    gpxWptOnly = gpxWptOnly || classified.garmin || '';
-    gpxGarmin = gpxGarmin || classified.wpt || '';
+  if (!gpxGarmin && firstBlock && isValidGarminBlock(firstBlock)) {
+    gpxGarmin = firstBlock;
   }
 
-  if (gpxWptOnly && gpxGarmin && looksLikeGarmin(gpxGarmin) && !looksLikeGarmin(gpxWptOnly)) {
+  if (!gpxWptOnly && secondBlock && isValidRouteTrackBlock(secondBlock)) {
+    gpxWptOnly = secondBlock;
+  }
+
+  if (!gpxWptOnly || !gpxGarmin) {
+    const classified = gpxBlocks.reduce<{ garmin?: string; routeTrack?: string }>((acc, block) => {
+      if (isValidRouteTrackBlock(block)) acc.routeTrack = acc.routeTrack || block;
+      else if (isValidGarminBlock(block)) acc.garmin = acc.garmin || block;
+      return acc;
+    }, {});
+    gpxGarmin = gpxGarmin || classified.garmin || '';
+    gpxWptOnly = gpxWptOnly || classified.routeTrack || '';
+  }
+
+  if (gpxWptOnly && gpxGarmin && hasRouteOrTrack(gpxGarmin) && !hasRouteOrTrack(gpxWptOnly)) {
     const tmp = gpxWptOnly;
     gpxWptOnly = gpxGarmin;
     gpxGarmin = tmp;
@@ -170,9 +191,13 @@ export function OutputSection({
       .replace(/^\*+\s*/g, '')
       .replace(/\s*\*+$/g, '');
     text = text.trim();
-    // Keep only the GPX content if extra text slipped in
-    const match = text.match(/<gpx[\s\S]*<\/gpx>/i);
-    return match ? match[0].trim() : text;
+    // Keep only one GPX document if extra text or multiple blocks slipped in
+    const match = text.match(/<gpx[\s\S]*?<\/gpx>/i);
+    const gpxOnly = (match ? match[0] : text).trim();
+    return gpxOnly.startsWith('<?xml')
+      ? gpxOnly
+      : `<?xml version="1.0" encoding="UTF-8"?>
+${gpxOnly}`;
   };
 
   const sanitizeCopyText = (text: string) => {
@@ -330,7 +355,8 @@ export function OutputSection({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-white/80 font-semibold">
                   <div>• {t("planner.summary.start")}: {summary.startPoint || t("planner.summary.notSpecified")}</div>
-                  <div>• {t("planner.summary.destination")}: {summary.destination || t("planner.summary.notSpecified")}</div>
+                  <div>• {summaryDestinationLabel}: {summary.destination || t("planner.summary.notSpecified")}</div>
+                  {summaryVacationLine}
                   <div>• {t("planner.summary.period")}: {summary.startDate ? new Date(summary.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'} — {summary.endDate ? new Date(summary.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'}</div>
                   <div>• {t("planner.summary.maxDist")}: {summary.maxDailyDistance || '250'} km</div>
                   <div>• {t("planner.summary.style")}: {summary.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected")}</div>

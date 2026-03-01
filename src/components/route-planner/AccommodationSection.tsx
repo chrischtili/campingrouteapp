@@ -93,7 +93,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-        <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-secondary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
+        <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-secondary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Users className="w-5 h-5 text-primary" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
@@ -103,14 +103,14 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           <FormSlider id="numberOfTravelers" label={t("planner.accommodation.travelers.label")} value={formData.numberOfTravelers ? parseInt(formData.numberOfTravelers) : 1} min={1} max={8} step={1} unit={t("planner.accommodation.travelers.unit")} onChange={(v) => onChange({ numberOfTravelers: v.toString() })} />
         </div>
 
-        <div className="p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-primary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
+        <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-primary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Wallet className="w-5 h-5 text-primary" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
               {t("planner.accommodation.group.budget")}
             </span>
           </div>
-          <FormSlider id="avgCampsitePriceMax" label={t("planner.accommodation.budget.label")} value={formData.avgCampsitePriceMax ? parseInt(formData.avgCampsitePriceMax) : 0} min={0} max={150} step={5} unit="€" onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })} />
+          <FormSlider id="avgCampsitePriceMax" label={t("planner.accommodation.budget.label")} value={formData.avgCampsitePriceMax ? parseInt(formData.avgCampsitePriceMax) : 0} min={0} max={300} step={5} unit="€" onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })} />
           <div className="w-full mt-6 space-y-3">
             <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">
               {t("planner.accommodation.budgetLevel.label")}

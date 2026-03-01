@@ -31,14 +31,35 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const lang = (i18next.language || 'en').toLowerCase();
   const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : lang.startsWith('it') ? 'Italiano' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
-  const includeStages = data.routeType === 'multiStage';
+  const includeStages = data.routeType === 'multiStage' && data.stages.length > 0;
+  const hasDestinationStay = data.destinationStayPlanned && (data.routeType === 'return' || data.routeType === 'roundTrip');
   const isMotorcycleTent = data.vehicleType === 'motorcycleTent';
-  const stage1 = includeStages && data.stageDestination1 ? '• ' + t("prompt.labels.stage", { num: 1 }) + ': ' + data.stageDestination1 + '\n' : '';
-  const stage1Arrival = includeStages && data.stageArrivalTime1 ? '• ' + t("prompt.labels.stageArrival", { num: 1 }) + ': ' + data.stageArrivalTime1 + '\n' : '';
-  const stage2 = includeStages && data.stageDestination2 ? '• ' + t("prompt.labels.stage", { num: 2 }) + ': ' + data.stageDestination2 + '\n' : '';
-  const stage2Arrival = includeStages && data.stageArrivalTime2 ? '• ' + t("prompt.labels.stageArrival", { num: 2 }) + ': ' + data.stageArrivalTime2 + '\n' : '';
-  const startTime = data.startTime ? '• ' + t("prompt.labels.startTime") + ': ' + data.startTime + '\n' : '';
-  const endTime = data.endTime ? '• ' + t("prompt.labels.endTime") + ': ' + data.endTime + '\n' : '';
+  const stageLines = includeStages
+    ? data.stages.map((stage, index) => {
+        const lines = [];
+        if (stage.destination) {
+          lines.push('• ' + t("prompt.labels.stage", { num: index + 1 }) + ': ' + stage.destination);
+        }
+        if (stage.arrivalDate) {
+          lines.push('• ' + t("prompt.labels.stageArrivalDate", { num: index + 1 }) + ': ' + formatDate(stage.arrivalDate));
+        }
+        if (stage.arrivalTime) {
+          lines.push('• ' + t("prompt.labels.stageArrival", { num: index + 1 }) + ': ' + stage.arrivalTime);
+        }
+        return lines.join('\n');
+      }).filter(Boolean).join('\n') + (data.stages.length ? '\n' : '')
+    : '';
+  const effectiveDestination = hasDestinationStay ? data.returnDestination || data.destination : data.destination;
+  const destinationLineLabel = hasDestinationStay ? t("prompt.labels.returnDestination") : t("prompt.labels.destination");
+  const vacationDestinationLine = hasDestinationStay && data.vacationDestination
+    ? `• ${t("prompt.labels.vacationDestination")}: ${data.vacationDestination}\n`
+    : '';
+  const startTime = data.startTime
+    ? '• ' + t(hasDestinationStay ? "prompt.labels.destinationArrivalTime" : "prompt.labels.startTime") + ': ' + data.startTime + '\n'
+    : '';
+  const endTime = data.endTime
+    ? '• ' + t(hasDestinationStay ? "prompt.labels.destinationDepartureTime" : "prompt.labels.endTime") + ': ' + data.endTime + '\n'
+    : '';
   const flexibleDuration = data.durationFlexible ? '• ' + t("prompt.labels.flexibleDuration") + ': ' + t("prompt.labels.yes") + '\n' : '';
   const travelPace = data.travelPace ? '• ' + t("prompt.labels.travelPace") + ': ' + t(`planner.route.travelPace.options.${data.travelPace}`) + ' (' + t("prompt.labels.travelPaceNote") + ')\n' : '';
   const budgetNote =
@@ -46,14 +67,20 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       ? '• ' + t("prompt.labels.budgetNote") + '\n'
       : '';
 
+  const timingBlock = hasDestinationStay
+    ? `• ${t("prompt.labels.destinationArrivalBy")}: ${formatDate(data.startDate)}
+${startTime}• ${t("prompt.labels.destinationDeparture")}: ${formatDate(data.endDate)}
+${endTime}${flexibleDuration}• ${t("prompt.labels.returnScheduleHint")}\n`
+    : `• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
+${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}\n`;
+
   return `${t("prompt.systemRole", { language: languageName })}
 
 🗺️ ${t("prompt.sections.route")}:
 ──────────────
 • ${t("prompt.labels.start")}: ${data.startPoint}
-• ${t("prompt.labels.destination")}: ${data.destination}
-${stage1}${stage1Arrival}${stage2}${stage2Arrival}• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
-${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}
+• ${destinationLineLabel}: ${effectiveDestination}
+${vacationDestinationLine}${stageLines}${timingBlock}
 ${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${travelPace}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
 
 🚐 ${t("prompt.sections.vehicle")}:

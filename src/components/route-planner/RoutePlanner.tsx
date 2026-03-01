@@ -51,6 +51,8 @@ export function RoutePlanner() {
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const summaryDestinationLabel = formData.destinationStayPlanned ? t("planner.route.returnDestination.label") : t("planner.summary.destination");
+  const summaryPrimaryDestination = formData.destinationStayPlanned ? formData.vacationDestination : formData.destination;
 
   const sanitizeAISettings = (settings: AISettings): AISettings => ({
     ...settings,
@@ -205,7 +207,9 @@ export function RoutePlanner() {
         if (!aiSettings.useDirectAI) return true;
         return !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
       case 2:
-        return !!formData.startPoint && !!formData.destination;
+        return !!formData.startPoint &&
+          !!formData.destination &&
+          (!formData.destinationStayPlanned || !!formData.vacationDestination);
       default:
         return true;
     }
@@ -584,10 +588,17 @@ export function RoutePlanner() {
                             <ChevronRight className="w-6 h-6" />
                           </div>
                           <div className="flex flex-col gap-1 text-center sm:text-right">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.destination")}</span>
-                            <span className="text-xl font-black text-white">{formData.destination || t("planner.summary.notSpecified")}</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{formData.destinationStayPlanned ? t("planner.route.vacationDestination.label") : t("planner.summary.destination")}</span>
+                            <span className="text-xl font-black text-white">{summaryPrimaryDestination || t("planner.summary.notSpecified")}</span>
                           </div>
                         </div>
+
+                        {formData.destinationStayPlanned && (
+                          <div className="flex flex-col gap-1 border-b border-white/5 pb-6 text-center sm:text-left">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{summaryDestinationLabel}</span>
+                            <span className="text-base font-black text-white">{formData.destination || t("planner.summary.notSpecified")}</span>
+                          </div>
+                        )}
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                           <div className="flex items-center gap-4">
@@ -729,7 +740,7 @@ export function RoutePlanner() {
                   ) : (
                     <Button 
                       onClick={handleSubmit} 
-                      disabled={isLoading || !formData.startPoint || !formData.destination} 
+                      disabled={isLoading || !formData.startPoint || !formData.destination || (formData.destinationStayPlanned && !formData.vacationDestination)}
                       className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-10 py-6 font-black text-base sm:text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 flex-1 sm:flex-none ml-auto text-center leading-tight"
                     >
                       {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
@@ -752,6 +763,8 @@ export function RoutePlanner() {
               summary={{
                 startPoint: formData.startPoint,
                 destination: formData.destination,
+                vacationDestination: formData.vacationDestination,
+                destinationStayPlanned: formData.destinationStayPlanned,
                 startDate: formData.startDate,
                 endDate: formData.endDate,
                 maxDailyDistance: formData.maxDailyDistance,

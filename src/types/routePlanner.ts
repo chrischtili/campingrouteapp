@@ -1,8 +1,17 @@
+export interface RouteStage {
+  destination: string;
+  arrivalDate: string;
+  arrivalTime: string;
+}
+
 export interface FormData {
   startPoint: string;
   destination: string;
+  returnDestination: string;
+  vacationDestination: string;
   startDate: string;
   endDate: string;
+  destinationStayPlanned: boolean;
   startTime: string;
   endTime: string;
   durationFlexible: boolean;
@@ -11,10 +20,7 @@ export interface FormData {
   travelPace: string;
   routeType: string;
   gpxOutputMode: string[];
-  stageDestination1: string;
-  stageDestination2: string;
-  stageArrivalTime1: string;
-  stageArrivalTime2: string;
+  stages: RouteStage[];
   vehicleLength: string;
   vehicleHeight: string;
   vehicleWidth: string;
@@ -57,8 +63,11 @@ export interface AISettings {
 export const initialFormData: FormData = {
   startPoint: '',
   destination: '',
+  returnDestination: '',
+  vacationDestination: '',
   startDate: new Date().toISOString().split('T')[0],
   endDate: new Date().toISOString().split('T')[0],
+  destinationStayPlanned: false,
   startTime: '',
   endTime: '',
   durationFlexible: false,
@@ -67,10 +76,7 @@ export const initialFormData: FormData = {
   travelPace: '',
   routeType: '',
   gpxOutputMode: [],
-  stageDestination1: '',
-  stageDestination2: '',
-  stageArrivalTime1: '',
-  stageArrivalTime2: '',
+  stages: [],
   vehicleLength: '7',
   vehicleHeight: '2.9',
   vehicleWidth: '2.3',

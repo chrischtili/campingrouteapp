@@ -14,8 +14,13 @@ interface FormSliderProps {
 }
 
 export function FormSlider({ id, label, value, min, max, step, unit, onChange, disabled = false }: FormSliderProps) {
+  const formatBound = (bound: number) => {
+    const hasFraction = Math.abs(bound % 1) > Number.EPSILON;
+    return hasFraction ? bound.toFixed(1) : String(bound);
+  };
+
   return (
-    <div className={`space-y-6 ${disabled ? "opacity-40" : ""}`}>
+    <div className={`w-full space-y-6 ${disabled ? "opacity-40" : ""}`}>
       <div className="space-y-2">
         <Label id={`${id}-label`} htmlFor={id} className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground block">
           {label}
@@ -44,9 +49,9 @@ export function FormSlider({ id, label, value, min, max, step, unit, onChange, d
           disabled={disabled}
         />
         
-        <div className="flex justify-between text-[10px] font-bold text-muted-foreground/30 tracking-[0.2em] mt-4">
-          <span>{min} {unit}</span>
-          <span>{max} {unit}</span>
+        <div className="mt-4 flex items-center justify-between text-xs sm:text-sm font-bold text-white/55 tabular-nums">
+          <span className="whitespace-nowrap">{formatBound(min)} {unit}</span>
+          <span className="whitespace-nowrap">{formatBound(max)} {unit}</span>
         </div>
       </div>
     </div>

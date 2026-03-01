@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
 
-[![Version](https://img.shields.io/badge/version-v0.4.2-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.3-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,12 +10,13 @@
 
 ---
 
-## 🌟 Highlights (v0.4.2)
+## 🌟 Highlights (v0.4.3)
 
-- **Überarbeitete Routenoptimierung** mit klareren Kategorien und neuen wohnmobilrelevanten Ausschlüssen wie Innenstädte, Altstädte, schmale Straßen, unbefestigte Straßen, Fähren und Serpentinen.
-- **Bessere Formularführung**: Start/Ziel stehen früher im Fokus, Fortschrittsleiste ist verständlicher und auf Mobilgeräten klarer nutzbar.
-- **Übernachtungslogik präzisiert**: Budget bleibt harte Obergrenze, zusätzliche Qualitätssteuerung für Stellplätze wurde verständlicher formuliert.
-- **Feedback-System & Datenschutz** weiter integriert, inklusive Dashboard-Auswertung.
+- **Neue Urlaubsziel-Logik für Hin- und Rückreise**: Startpunkt, Rückkehrziel und festes Urlaubsziel lassen sich getrennt planen, damit die KI Anreise, Aufenthalt und Rückfahrt realistischer berechnet.
+- **Etappenreise ausgebaut**: dynamische Etappenziele mit eigenem Datum und Uhrzeit statt starrer Zwischenstopps.
+- **GPX-Downloads robuster**: Garmin- und Route/Track-Dateien werden jetzt deutlich strenger extrahiert, damit falsche oder gemischte XML-Blöcke nicht mehr heruntergeladen werden.
+- **Routenoptimierung klarer strukturiert** mit wohnmobilrelevanten Ausschlüssen wie Innenstädte, Altstädte, schmale Straßen, unbefestigte Straßen, Fähren und Serpentinen.
+- **Formular- und Mobile-UX verbessert**: verständlichere Modusauswahl, bessere Slider-Lesbarkeit und klarere Feldlogik in der Reiseroute.
 - **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
@@ -95,18 +96,19 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.4.2-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.3-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
 
 ---
 
-## 🌟 Highlights (v0.4.2)
+## 🌟 Highlights (v0.4.3)
 
+- **New vacation-destination logic for outbound and return trips**: start point, return destination, and fixed vacation destination can now be planned separately so the AI can calculate departure, stay, and return more realistically.
+- **Stage travel expanded**: dynamic stage destinations with their own date and time instead of two rigid stop fields.
+- **More robust GPX downloads**: Garmin and route/track files are now extracted much more strictly, so mixed or invalid XML blocks are no longer downloaded.
 - **Refined route optimization** with clearer categories and new motorhome-relevant avoidances like city centers, old towns, narrow roads, unpaved roads, ferries, and hairpin roads.
-- **Improved form guidance**: start/destination are prioritized earlier, the progress bar is easier to understand, and mobile navigation is clearer.
-- **Accommodation logic clarified**: budget remains the hard ceiling, while the campsite quality preference is now explained more clearly.
-- **Feedback system and privacy updates** are now integrated into the dashboard flow.
+- **Improved form and mobile UX**: clearer mode selection, better slider readability, and cleaner route-field logic.
 - **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **AI-powered Route Planning** with GPX export for navigation devices.
 - **100% Free** – Prompt generation possible without any API costs.

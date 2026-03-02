@@ -24,6 +24,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const currentProvider = aiSettings.aiProvider as keyof typeof providerHelp;
   const [showModeCardsMobile, setShowModeCardsMobile] = useState(false);
   const modeHeaderRef = useRef<HTMLDivElement>(null);
+  const providerSectionRef = useRef<HTMLDivElement>(null);
   
   const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
   const selectedModeTitle = aiSettings.useDirectAI ? t("planner.ai.mode.direct.title") : t("planner.ai.mode.prompt.title");
@@ -32,6 +33,13 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
     if (!modeHeaderRef.current) return;
     const navbarOffset = 110;
     const top = modeHeaderRef.current.getBoundingClientRect().top + window.pageYOffset - navbarOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  const scrollProviderSectionBelowNavbar = () => {
+    if (!providerSectionRef.current) return;
+    const navbarOffset = 110;
+    const top = providerSectionRef.current.getBoundingClientRect().top + window.pageYOffset - navbarOffset;
     window.scrollTo({ top, behavior: "smooth" });
   };
 
@@ -47,8 +55,12 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
 
     if (useDirectAI) {
       setTimeout(() => {
-        scrollModeHeaderBelowNavbar();
-      }, 80);
+        if (window.innerWidth < 768) {
+          scrollProviderSectionBelowNavbar();
+        } else {
+          scrollModeHeaderBelowNavbar();
+        }
+      }, 180);
     }
   };
 
@@ -149,10 +161,11 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
       <AnimatePresence>
         {aiSettings.useDirectAI && (
           <motion.div 
+            ref={providerSectionRef}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="space-y-8 p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-white/5 backdrop-blur-3xl border-2 border-white/10 shadow-2xl"
+            className="space-y-8 p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-white/5 backdrop-blur-3xl border-2 border-white/10 shadow-2xl scroll-mt-28"
           >
             {aiError && (
               <Alert variant="destructive" className="rounded-2xl border-destructive/20 bg-destructive/10 p-6">

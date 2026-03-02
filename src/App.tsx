@@ -99,6 +99,10 @@ const App = () => {
     if (metaDescription) {
       metaDescription.setAttribute("content", t("seo.description"));
     }
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute("content", t("seo.keywords"));
+    }
     // Update lang attribute on html tag
     document.documentElement.lang = i18n.language;
 

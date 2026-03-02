@@ -71,8 +71,11 @@ export function RouteExampleSection() {
   const keyFactIcons = [Calendar, Route, Clock, Car, Wallet];
 
   return (
-    <section id="example-route" className="py-32 px-6 bg-background">
-      <div className="max-w-7xl mx-auto">
+    <section id="example-route" className="py-32 px-6 bg-secondary relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-black/50 dark:to-black/70" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
           <motion.div
             initial={{ opacity: 0, y: 16 }}

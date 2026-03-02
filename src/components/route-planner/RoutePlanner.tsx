@@ -278,6 +278,10 @@ export function RoutePlanner() {
   };
 
   const trackGeneration = async (mode: "prompt" | "route") => {
+    if (import.meta.env.DEV) {
+      return;
+    }
+
     try {
       await fetch("/api/count-generation", {
         method: "POST",

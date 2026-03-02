@@ -717,16 +717,19 @@ export function RoutePlanner() {
                         </Button>
                       </div>
                     </div>
-                    <div className="flex flex-col items-center gap-2 text-center">
+                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(245,155,10,0.12)]">
+                      <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/80">
+                        Open Source Support
+                      </div>
                       <a
                         href="https://www.buymeacoffee.com/campingroute"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-[0.2em] border-2 border-[#000000] text-[#000000] bg-[#b1dd8c] hover:bg-[#c2e6a3] transition-colors shadow-lg"
+                        className="inline-flex items-center justify-center gap-3 min-w-[260px] px-6 py-3.5 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-[0.18em] border-2 border-primary/40 text-white bg-primary/90 hover:bg-primary transition-colors shadow-[0_18px_50px_rgba(245,155,10,0.28)]"
                       >
                         ☕ {t("planner.summary.save.coffee")}
                       </a>
-                      <div className="text-[11px] text-white/60 max-w-xl">
+                      <div className="text-[11px] sm:text-xs text-white/70 leading-relaxed max-w-lg">
                         {t("planner.summary.save.coffeeHint")}
                       </div>
                     </div>

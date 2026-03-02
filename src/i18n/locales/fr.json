@@ -491,7 +491,8 @@
       "ai": "🤖 Génération de l’itinéraire...",
       "prompt": "📝 Création du prompt...",
       "error": "Erreur IA.",
-      "invalidKey": "Clé invalide."
+      "invalidKey": "Clé invalide.",
+      "googleUnavailable": "Gemini est actuellement surchargé. Réessayez dans quelques instants ou choisissez temporairement un autre fournisseur."
     },
     "nav": {
       "back": "Retour",
@@ -973,6 +974,11 @@
       },
       "summary": {
         "title": "Résumé rapide"
+      },
+      "view": {
+        "label": "Affichage",
+        "formatted": "Formaté",
+        "raw": "Texte brut"
       },
       "checklist": {
         "title": "Check‑list",

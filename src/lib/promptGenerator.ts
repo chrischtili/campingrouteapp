@@ -221,6 +221,20 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
   }
   
   if (!response.ok) {
+    let errorData: any = null;
+    try {
+      errorData = await response.json();
+    } catch {
+      // ignore parse errors and fall back to generic copy
+    }
+
+    if (
+      aiSettings.aiProvider === 'google' &&
+      (response.status === 503 || errorData?.error?.status === 'UNAVAILABLE')
+    ) {
+      throw new Error(i18next.t("planner.loading.googleUnavailable"));
+    }
+
     throw new Error(i18next.t("planner.loading.error"));
   }
   

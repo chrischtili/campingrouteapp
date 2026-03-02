@@ -491,7 +491,8 @@
       "ai": "🤖 Genero itinerario...",
       "prompt": "📝 Creo prompt...",
       "error": "Si è verificato un errore IA.",
-      "invalidKey": "Chiave API non valida."
+      "invalidKey": "Chiave API non valida.",
+      "googleUnavailable": "Gemini è attualmente sovraccarico. Riprova tra poco oppure scegli temporaneamente un altro provider."
     },
     "nav": {
       "back": "Indietro",
@@ -973,6 +974,11 @@
       },
       "summary": {
         "title": "Sintesi"
+      },
+      "view": {
+        "label": "Vista",
+        "formatted": "Formattato",
+        "raw": "Testo grezzo"
       },
       "checklist": {
         "title": "Lista di controllo",

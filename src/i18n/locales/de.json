@@ -491,7 +491,8 @@
       "ai": "🤖 Generiere Route...",
       "prompt": "📝 Erstelle Prompt...",
       "error": "KI-Fehler aufgetreten.",
-      "invalidKey": "API-Key ungültig."
+      "invalidKey": "API-Key ungültig.",
+      "googleUnavailable": "Gemini ist aktuell überlastet. Bitte versuche es in Kürze erneut oder wähle vorübergehend einen anderen Anbieter."
     },
     "nav": {
       "back": "Zurück",
@@ -973,6 +974,11 @@
       },
       "summary": {
         "title": "Kurzfassung"
+      },
+      "view": {
+        "label": "Ansicht",
+        "formatted": "Formatiert",
+        "raw": "Rohtext"
       },
       "checklist": {
         "title": "Checkliste",

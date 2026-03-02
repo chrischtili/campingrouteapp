@@ -491,7 +491,8 @@
       "ai": "🤖 Generating route...",
       "prompt": "📝 Creating prompt...",
       "error": "AI Error.",
-      "invalidKey": "Invalid Key."
+      "invalidKey": "Invalid Key.",
+      "googleUnavailable": "Gemini is currently under high demand. Please try again shortly or temporarily switch to another provider."
     },
     "nav": {
       "back": "Back",
@@ -973,6 +974,11 @@
       },
       "summary": {
         "title": "Quick summary"
+      },
+      "view": {
+        "label": "View",
+        "formatted": "Formatted",
+        "raw": "Raw text"
       },
       "checklist": {
         "title": "Checklist",

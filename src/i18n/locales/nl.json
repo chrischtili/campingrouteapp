@@ -491,7 +491,8 @@
       "ai": "🤖 Route genereren...",
       "prompt": "📝 Prompt maken...",
       "error": "AI‑fout opgetreden.",
-      "invalidKey": "Ongeldige API‑key."
+      "invalidKey": "Ongeldige API‑key.",
+      "googleUnavailable": "Gemini heeft momenteel te veel verkeer. Probeer het zo opnieuw of kies tijdelijk een andere aanbieder."
     },
     "nav": {
       "back": "Terug",
@@ -973,6 +974,11 @@
       },
       "summary": {
         "title": "Korte samenvatting"
+      },
+      "view": {
+        "label": "Weergave",
+        "formatted": "Opgemaakt",
+        "raw": "Ruwe tekst"
       },
       "checklist": {
         "title": "Checklist",

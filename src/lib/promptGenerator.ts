@@ -62,6 +62,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const flexibleDuration = data.durationFlexible ? '• ' + t("prompt.labels.flexibleDuration") + ': ' + t("prompt.labels.yes") + '\n' : '';
   const travelPace = data.travelPace ? '• ' + t("prompt.labels.travelPace") + ': ' + t(`planner.route.travelPace.options.${data.travelPace}`) + ' (' + t("prompt.labels.travelPaceNote") + ')\n' : '';
+  const maxDailyDistance = Number(data.maxDailyDistance || 0);
+  const maxDailyDriveHours = Number(data.maxDailyDriveHours || 0);
+  const hasDailyLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0 && !!data.dailyLimitPriority;
   const budgetNote =
     data.avgCampsitePriceMax && data.budgetLevel
       ? '• ' + t("prompt.labels.budgetNote") + '\n'
@@ -81,7 +84,7 @@ ${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${fo
 • ${t("prompt.labels.start")}: ${data.startPoint}
 • ${destinationLineLabel}: ${effectiveDestination}
 ${vacationDestinationLine}${stageLines}${timingBlock}
-${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${data.maxDailyDistance ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${travelPace}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
+${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${maxDailyDistance > 0 ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${maxDailyDriveHours > 0 ? '• ' + t("prompt.labels.maxDailyDriveTime") + ': ' + data.maxDailyDriveHours + ' h\n' : ''}${hasDailyLimitPriority ? '• ' + t("prompt.labels.dailyLimitPriority") + ': ' + t(`planner.route.limitPriority.options.${data.dailyLimitPriority}`) + '\n' : ''}${travelPace}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
 
 🚐 ${t("prompt.sections.vehicle")}:
 ───────────────────────────

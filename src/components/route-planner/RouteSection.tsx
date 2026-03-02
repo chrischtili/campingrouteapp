@@ -52,6 +52,16 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const endDateLabel = isVacationRoute ? t("planner.route.vacationDeparture") : (formData.destination?.trim() ? `${t("planner.route.arrival")} (${formData.destination.trim()})` : t("planner.route.arrival"));
   const startTimeLabel = isVacationRoute ? t("planner.route.vacationArrivalTime") : t("planner.route.departureTime");
   const endTimeLabel = isVacationRoute ? t("planner.route.vacationDepartureTime") : t("planner.route.arrivalTime");
+  const maxDailyDistance = Number(formData.maxDailyDistance || 0);
+  const maxDailyDriveHours = Number(formData.maxDailyDriveHours || 0);
+  const showLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0;
+
+  const formatDriveHours = (hours: number) => {
+    const totalMinutes = Math.round(hours * 60);
+    const displayHours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${displayHours}:${String(minutes).padStart(2, "0")}`;
+  };
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = e.target.value;
@@ -495,17 +505,52 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           />
         </div>
 
-        <div className="pt-10 border-t border-white/5">
+        <div className="pt-10 border-t border-white/5 space-y-8">
           <FormSlider
             id="maxDailyDistance"
             label={t("planner.route.maxDistance")}
-            value={parseInt(formData.maxDailyDistance) || 250}
-            min={100}
+            value={maxDailyDistance}
+            min={0}
             max={1000}
             step={50}
             unit="km"
             onChange={(value) => onChange({ maxDailyDistance: value.toString() })}
           />
+
+          <FormSlider
+            id="maxDailyDriveHours"
+            label={t("planner.route.maxDriveTime")}
+            value={maxDailyDriveHours}
+            min={0}
+            max={8}
+            step={0.5}
+            unit="h"
+            formatValue={formatDriveHours}
+            formatBound={formatDriveHours}
+            onChange={(value) => onChange({ maxDailyDriveHours: value.toString() })}
+          />
+
+          {showLimitPriority && (
+            <div className="space-y-4 rounded-2xl border-2 border-white/10 bg-white/5 p-5">
+              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+                <Compass className="w-4 h-4 text-primary" />
+                {t("planner.route.limitPriority.label")}
+              </Label>
+              <div className="text-white/60 text-sm">
+                {t("planner.route.limitPriority.description")}
+              </div>
+              <ToggleGroup
+                name="dailyLimitPriority"
+                options={[
+                  { value: "distance", label: t("planner.route.limitPriority.options.distance") },
+                  { value: "time", label: t("planner.route.limitPriority.options.time") },
+                ]}
+                selectedValues={formData.dailyLimitPriority ? [formData.dailyLimitPriority] : []}
+                onChange={(_name, value, checked) => onChange({ dailyLimitPriority: checked ? value : "" })}
+                className="grid-cols-1 md:grid-cols-2"
+              />
+            </div>
+          )}
         </div>
 
         <div className="pt-6">

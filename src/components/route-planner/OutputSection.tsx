@@ -22,6 +22,8 @@ interface OutputSectionProps {
     startDate: string;
     endDate: string;
     maxDailyDistance: string;
+    maxDailyDriveHours?: string;
+    dailyLimitPriority?: string;
     routeType: string;
     travelPace: string;
     budgetLevel: string;
@@ -446,7 +448,16 @@ ${gpxOnly}`;
       label: t("planner.summary.period"),
       value: `${summary?.startDate ? new Date(summary.startDate).toLocaleDateString(locale) : '?'} — ${summary?.endDate ? new Date(summary.endDate).toLocaleDateString(locale) : '?'}`
     },
-    { label: t("planner.summary.maxDist"), value: `${summary?.maxDailyDistance || '250'} km` },
+    {
+      label: t("planner.summary.maxDist"),
+      value: Number(summary?.maxDailyDistance || 0) > 0 ? `${summary?.maxDailyDistance} km` : t("planner.summary.notSelected")
+    },
+    ...(Number(summary?.maxDailyDriveHours || 0) > 0
+      ? [{ label: t("planner.route.maxDriveTime"), value: `${summary?.maxDailyDriveHours} h` }]
+      : []),
+    ...(summary?.dailyLimitPriority
+      ? [{ label: t("planner.route.limitPriority.label"), value: t(`planner.route.limitPriority.options.${summary.dailyLimitPriority}`) }]
+      : []),
     {
       label: t("planner.summary.style"),
       value: summary?.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected")

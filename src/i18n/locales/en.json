@@ -635,6 +635,7 @@
       "departure": "Departure",
       "arrival": "Arrival",
       "maxDistance": "Max km / day",
+      "maxDriveTime": "Max drive time / day",
       "additional": {
         "label": "Additional Info",
         "placeholder": "e.g. booked campsites, fixed appointments, must‑see places, special requests"
@@ -647,6 +648,14 @@
       },
       "requiredHint": "Required",
       "stageHint": "Stage destinations only for staged journeys",
+      "limitPriority": {
+        "label": "What matters more?",
+        "description": "If both daily limits are set, the AI can prioritize the more important one.",
+        "options": {
+          "distance": "Max km / day",
+          "time": "Max drive time / day"
+        }
+      },
       "travelPace": {
         "label": "Travel pace (quick pick)",
         "options": {
@@ -1111,6 +1120,8 @@
       "arrival": "Arrival date",
       "totalDistance": "Estimated total distance",
       "maxDailyDistance": "Max. distance per day",
+      "maxDailyDriveTime": "Max. drive time per day",
+      "dailyLimitPriority": "Priority for daily limits",
       "routeType": "Route type",
       "length": "Length",
       "height": "Height",

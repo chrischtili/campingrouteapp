@@ -635,6 +635,7 @@
       "departure": "Abreise",
       "arrival": "Ankunft",
       "maxDistance": "Max. km / Tag",
+      "maxDriveTime": "Max. Fahrzeit / Tag",
       "additional": {
         "label": "Zusatzinfos",
         "placeholder": "z. B. bereits gebuchte Plätze, feste Termine, must‑see Orte, spezielle Wünsche"
@@ -647,6 +648,14 @@
       },
       "requiredHint": "Pflichtfeld",
       "stageHint": "Etappenziele nur bei Etappenreise",
+      "limitPriority": {
+        "label": "Was ist wichtiger?",
+        "description": "Wenn beide Tageslimits gesetzt sind, kann die KI die wichtigere Vorgabe bevorzugen.",
+        "options": {
+          "distance": "Max. km / Tag",
+          "time": "Max. Fahrzeit / Tag"
+        }
+      },
       "travelPace": {
         "label": "Fahrstil (Schnellwahl)",
         "options": {
@@ -1111,6 +1120,8 @@
       "arrival": "Ankunft",
       "totalDistance": "Gesamtdistanz",
       "maxDailyDistance": "Max. km / Tag",
+      "maxDailyDriveTime": "Max. Fahrzeit / Tag",
+      "dailyLimitPriority": "Priorität bei Tageslimits",
       "routeType": "Routentyp",
       "length": "Länge",
       "height": "Höhe",

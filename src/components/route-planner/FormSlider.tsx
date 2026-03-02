@@ -11,13 +11,30 @@ interface FormSliderProps {
   unit: string;
   onChange: (value: number) => void;
   disabled?: boolean;
+  formatValue?: (value: number) => string;
+  formatBound?: (value: number) => string;
 }
 
-export function FormSlider({ id, label, value, min, max, step, unit, onChange, disabled = false }: FormSliderProps) {
-  const formatBound = (bound: number) => {
+export function FormSlider({
+  id,
+  label,
+  value,
+  min,
+  max,
+  step,
+  unit,
+  onChange,
+  disabled = false,
+  formatValue,
+  formatBound: customFormatBound,
+}: FormSliderProps) {
+  const defaultFormatBound = (bound: number) => {
     const hasFraction = Math.abs(bound % 1) > Number.EPSILON;
     return hasFraction ? bound.toFixed(1) : String(bound);
   };
+  const displayValue = formatValue ? formatValue(value) : defaultFormatBound(value);
+  const displayMin = customFormatBound ? customFormatBound(min) : defaultFormatBound(min);
+  const displayMax = customFormatBound ? customFormatBound(max) : defaultFormatBound(max);
 
   return (
     <div className={`w-full space-y-6 ${disabled ? "opacity-40" : ""}`}>
@@ -27,7 +44,7 @@ export function FormSlider({ id, label, value, min, max, step, unit, onChange, d
         </Label>
         <div className="flex items-baseline gap-2">
           <span className="text-4xl font-black text-foreground tabular-nums leading-none">
-            {value}
+            {displayValue}
           </span>
           <span className="text-sm font-bold text-primary tracking-widest">
             {unit}
@@ -50,8 +67,8 @@ export function FormSlider({ id, label, value, min, max, step, unit, onChange, d
         />
         
         <div className="mt-4 flex items-center justify-between text-xs sm:text-sm font-bold text-white/55 tabular-nums">
-          <span className="whitespace-nowrap">{formatBound(min)} {unit}</span>
-          <span className="whitespace-nowrap">{formatBound(max)} {unit}</span>
+          <span className="whitespace-nowrap">{displayMin} {unit}</span>
+          <span className="whitespace-nowrap">{displayMax} {unit}</span>
         </div>
       </div>
     </div>

@@ -639,7 +639,16 @@ export function RoutePlanner() {
                             </div>
                             <div className="flex flex-col">
                               <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.maxDist")}</span>
-                              <span className="text-sm font-bold text-white">{formData.maxDailyDistance} km / {t("planner.summary.perDay")}</span>
+                              <span className="text-sm font-bold text-white">
+                                {Number(formData.maxDailyDistance || 0) > 0
+                                  ? `${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`
+                                  : t("planner.summary.notSelected")}
+                              </span>
+                              {Number(formData.maxDailyDriveHours || 0) > 0 && (
+                                <span className="text-xs font-semibold text-white/70">
+                                  {`${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -791,6 +800,8 @@ export function RoutePlanner() {
                 startDate: formData.startDate,
                 endDate: formData.endDate,
                 maxDailyDistance: formData.maxDailyDistance,
+                maxDailyDriveHours: formData.maxDailyDriveHours,
+                dailyLimitPriority: formData.dailyLimitPriority,
                 routeType: formData.routeType,
                 travelPace: formData.travelPace,
                 budgetLevel: formData.budgetLevel,

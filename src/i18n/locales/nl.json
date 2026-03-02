@@ -635,6 +635,7 @@
       "departure": "Vertrek",
       "arrival": "Aankomst",
       "maxDistance": "Max km / dag",
+      "maxDriveTime": "Max. rijtijd / dag",
       "additional": {
         "label": "Extra info",
         "placeholder": "bijv. geboekte campings, vaste afspraken, must‑see plekken, speciale wensen"
@@ -647,6 +648,14 @@
       },
       "requiredHint": "Verplicht",
       "stageHint": "Etappedoelen alleen bij etappereis",
+      "limitPriority": {
+        "label": "Wat is belangrijker?",
+        "description": "Als beide daglimieten zijn ingesteld, kan de AI de belangrijkste grens prioriteren.",
+        "options": {
+          "distance": "Max km / dag",
+          "time": "Max. rijtijd / dag"
+        }
+      },
       "travelPace": {
         "label": "Reistempo (snelkeuze)",
         "options": {
@@ -1115,6 +1124,8 @@
       "arrival": "Aankomstdatum",
       "totalDistance": "Geschatte totale afstand",
       "maxDailyDistance": "Max. afstand per dag",
+      "maxDailyDriveTime": "Max. rijtijd per dag",
+      "dailyLimitPriority": "Prioriteit bij daglimieten",
       "routeType": "Route-type",
       "length": "Lengte",
       "height": "Hoogte",

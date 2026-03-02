@@ -635,6 +635,7 @@
       "departure": "Partenza",
       "arrival": "Arrivo",
       "maxDistance": "Max. km / giorno",
+      "maxDriveTime": "Tempo di guida max / giorno",
       "additional": {
         "label": "Info aggiuntive",
         "placeholder": "ad es. posti già prenotati, appuntamenti fissi, luoghi must‑see, richieste speciali"
@@ -647,6 +648,14 @@
       },
       "requiredHint": "Campo obbligatorio",
       "stageHint": "Destinazioni di tappa solo per viaggio a tappe",
+      "limitPriority": {
+        "label": "Che cosa conta di più?",
+        "description": "Se entrambi i limiti giornalieri sono impostati, l'IA può dare priorità al vincolo più importante.",
+        "options": {
+          "distance": "Max. km / giorno",
+          "time": "Tempo di guida max / giorno"
+        }
+      },
       "travelPace": {
         "label": "Stile di guida (selezione rapida)",
         "options": {
@@ -1111,6 +1120,8 @@
       "arrival": "Arrivo",
       "totalDistance": "Distanza totale",
       "maxDailyDistance": "Max. km / giorno",
+      "maxDailyDriveTime": "Tempo di guida max al giorno",
+      "dailyLimitPriority": "Priorità dei limiti giornalieri",
       "routeType": "Tipo di percorso",
       "length": "Lunghezza",
       "height": "Altezza",

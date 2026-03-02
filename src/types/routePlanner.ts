@@ -17,6 +17,8 @@ export interface FormData {
   durationFlexible: boolean;
   distance: string;
   maxDailyDistance: string;
+  maxDailyDriveHours: string;
+  dailyLimitPriority: string;
   travelPace: string;
   routeType: string;
   gpxOutputMode: string[];
@@ -72,7 +74,9 @@ export const initialFormData: FormData = {
   endTime: '',
   durationFlexible: false,
   distance: '',
-  maxDailyDistance: '250',
+  maxDailyDistance: '0',
+  maxDailyDriveHours: '0',
+  dailyLimitPriority: '',
   travelPace: '',
   routeType: '',
   gpxOutputMode: [],

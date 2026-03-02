@@ -72,8 +72,10 @@ export function RouteExampleSection() {
 
   return (
     <section id="example-route" className="py-32 px-6 bg-secondary relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-black/50 dark:to-black/70" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.12),transparent_42%),linear-gradient(180deg,rgba(17,24,39,0.88),rgba(3,7,18,0.96))] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[920px] h-[920px] bg-primary/10 rounded-full blur-[140px] pointer-events-none opacity-80" />
+      <div className="absolute -top-24 right-0 w-[420px] h-[420px] bg-primary/12 rounded-full blur-[120px] pointer-events-none opacity-60" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-black/10 to-black/45 dark:from-black/45 dark:via-black/55 dark:to-black/75" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">

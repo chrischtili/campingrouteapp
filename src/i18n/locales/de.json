@@ -657,13 +657,13 @@
         }
       },
       "travelPace": {
-        "label": "Fahrstil (Schnellwahl)",
+        "label": "Etappenstil (Schnellwahl)",
         "options": {
           "short": "Kurze Etappen",
           "balanced": "Ausgewogen",
           "long": "Lange Etappen"
         },
-        "note": "Max. km/Tag hat Vorrang; Fahrstil ist eine weiche Präferenz."
+        "note": "Max. km/Tag und Fahrzeit/Tag haben Vorrang; der Etappenstil ist eine weiche Präferenz."
       },
       "destinationStay": {
         "label": "Aufenthalt an einem Urlaubsziel",
@@ -1157,10 +1157,10 @@
       "yes": "Ja",
       "budgetLevel": "Komfortniveau des Platzes",
       "avoidRegions": "Regionen meiden",
-      "travelPace": "Fahrstil",
+      "travelPace": "Etappenstil",
       "quietPlaces": "Ruhige Plätze",
       "tollCountries": "Mautländer vermeiden",
-      "travelPaceNote": "weiche Präferenz, Max. km/Tag hat Vorrang",
+      "travelPaceNote": "weiche Präferenz, km/Tag und Fahrzeit/Tag haben Vorrang",
       "destinationArrivalBy": "Ankunft am Urlaubsziel",
       "destinationDeparture": "Abreise vom Ziel",
       "destinationArrivalTime": "Gewünschte Ankunftszeit am Urlaubsziel",

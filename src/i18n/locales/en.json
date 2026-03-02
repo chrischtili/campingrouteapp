@@ -663,7 +663,7 @@
           "balanced": "Balanced",
           "long": "Long stages"
         },
-        "note": "Max km/day has priority; travel pace is a soft preference."
+        "note": "Max km/day and drive time/day take priority; stage style is a soft preference."
       },
       "destinationStay": {
         "label": "Stay at a holiday destination",
@@ -1157,10 +1157,10 @@
       "yes": "Yes",
       "budgetLevel": "Comfort level of the place",
       "avoidRegions": "Avoid regions",
-      "travelPace": "Travel pace",
+      "travelPace": "Stage style",
       "quietPlaces": "Quiet places",
       "tollCountries": "Avoid toll countries",
-      "travelPaceNote": "soft preference, max km/day has priority",
+      "travelPaceNote": "soft preference, km/day and drive time/day take priority",
       "destinationArrivalBy": "Arrival at holiday destination",
       "destinationDeparture": "Departure from destination",
       "destinationArrivalTime": "Desired arrival time at the vacation destination",

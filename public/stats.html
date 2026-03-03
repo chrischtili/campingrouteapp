@@ -871,6 +871,13 @@
                     const y = chartBottom - barHeight;
                     ctx.fillStyle = legendItems[seriesIndex].color;
                     ctx.fillRect(x, y, barWidth, Math.max(barHeight, value > 0 ? 3 : 0));
+
+                    if (value > 0) {
+                        ctx.fillStyle = '#435553';
+                        ctx.font = '11px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(String(value), x + barWidth / 2, Math.max(chartTop + 10, y - 6));
+                    }
                 });
             });
 

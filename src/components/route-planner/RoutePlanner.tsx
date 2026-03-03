@@ -714,9 +714,15 @@ export function RoutePlanner() {
                         href="https://www.buymeacoffee.com/campingroute"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-3 min-w-[260px] px-6 py-3.5 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-[0.18em] border-2 border-primary/40 text-white bg-primary/90 hover:bg-primary transition-colors shadow-[0_18px_50px_rgba(255,128,0,0.28)]"
+                        className="inline-flex min-w-[260px] flex-col items-center justify-center gap-1 px-6 py-3.5 rounded-2xl border-2 border-primary/40 text-white bg-primary/90 hover:bg-primary transition-colors shadow-[0_18px_50px_rgba(255,128,0,0.28)]"
                       >
-                        ☕ {t("planner.summary.save.coffee")}
+                        <span className="flex items-center justify-center gap-2 text-sm sm:text-base font-bold tracking-normal">
+                          <span aria-hidden="true">☕</span>
+                          <span>{t("planner.summary.save.coffee")}</span>
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-semibold text-white/80 tracking-normal">
+                          (Buy me a coffee)
+                        </span>
                       </a>
                       <div className="text-[11px] sm:text-xs text-white/70 leading-relaxed max-w-lg">
                         {t("planner.summary.save.coffeeHint")}

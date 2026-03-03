@@ -46,7 +46,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             onClick={() => onStartPlanning?.()}
             className="group relative w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl text-white font-black text-base sm:text-sm md:text-base lg:text-lg shadow-xl sm:shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 border-2 border-primary/50"
             style={{
-              background: "rgba(255, 128, 0, 0.3)",
+              background: "rgba(255, 128, 0, 0.72)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
             }}
@@ -61,7 +61,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             variant="outline"
             size="sm"
             asChild
-            className="w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/40 hover:text-primary transition-all border-2 font-bold group/example text-base sm:text-sm md:text-base lg:text-lg"
+            className="w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl border-white/25 bg-black/35 backdrop-blur-md text-white hover:bg-black/45 hover:border-white/45 hover:text-primary transition-all border-2 font-bold group/example text-base sm:text-sm md:text-base lg:text-lg"
           >
             <a href="#example-route">
               <Play className="w-5 h-5 sm:w-3 sm:h-3 md:w-4 lg:w-5 lg:h-5 mr-2 sm:mr-1 md:mr-2 lg:mr-3 fill-current group-hover/example:text-primary transition-colors" />

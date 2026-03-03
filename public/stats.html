@@ -8,6 +8,11 @@
         :root {
             --primary: #4a9b8e;
             --primary-dark: #3a7a6f;
+            --accent-visits: #4a9b8e;
+            --accent-prompts: #f59e0b;
+            --accent-direct: #6366f1;
+            --accent-feedback: #e11d48;
+            --accent-neutral: #64748b;
             --secondary: #eef3f2;
             --surface: rgba(255, 255, 255, 0.88);
             --surface-strong: rgba(255, 255, 255, 0.96);
@@ -108,11 +113,28 @@
             background: #c82333;
         }
 
+        .section-title {
+            margin: 0 0 1rem;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
+        }
+
+        .stats-grid.primary {
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        }
+
+        .stats-grid.secondary {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         }
 
         .stat-card {
@@ -150,8 +172,57 @@
             font-size: 0.9rem;
         }
 
-        .stats-grid.compact .stat-card .value {
+        .stats-grid.secondary .stat-card .value {
             font-size: 2.1rem;
+        }
+
+        .stat-card.emphasis {
+            border-left-width: 5px;
+            box-shadow: 0 16px 34px rgba(10, 24, 24, 0.1);
+        }
+
+        .stat-card.neutral {
+            border-left-color: rgba(74, 155, 142, 0.28);
+        }
+
+        .stat-card.visits {
+            border-left-color: var(--accent-visits);
+        }
+
+        .stat-card.visits .value {
+            color: var(--accent-visits);
+        }
+
+        .stat-card.prompts {
+            border-left-color: var(--accent-prompts);
+        }
+
+        .stat-card.prompts .value {
+            color: var(--accent-prompts);
+        }
+
+        .stat-card.direct {
+            border-left-color: var(--accent-direct);
+        }
+
+        .stat-card.direct .value {
+            color: var(--accent-direct);
+        }
+
+        .stat-card.feedback {
+            border-left-color: var(--accent-feedback);
+        }
+
+        .stat-card.feedback .value {
+            color: var(--accent-feedback);
+        }
+
+        .stat-card.neutral .value {
+            color: var(--accent-neutral);
+        }
+
+        .dashboard-section {
+            margin-bottom: 2rem;
         }
 
         .chart-container {
@@ -346,73 +417,38 @@
         </div>
 
         <div id="stats-content" style="display: none;">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Gesamtbesuche</h3>
-                    <div class="value" id="total-visits">-</div>
-                    <div class="label">Seit Beginn der Aufzeichnung</div>
-                </div>
+            <div class="dashboard-section">
+                <h2 class="section-title">Heute im Blick</h2>
+                <div class="stats-grid primary">
+                    <div class="stat-card emphasis visits">
+                        <h3>Heutige Besuche</h3>
+                        <div class="value" id="today-visits">-</div>
+                        <div class="label">Heutiger Tag</div>
+                    </div>
 
-                <div class="stat-card">
-                    <h3>Heutige Besuche</h3>
-                    <div class="value" id="today-visits">-</div>
-                    <div class="label">Heutiger Tag</div>
-                </div>
+                    <div class="stat-card emphasis prompts">
+                        <h3>Prompts heute</h3>
+                        <div class="value" id="prompt-generations-today">-</div>
+                        <div class="label">Heute erstellt</div>
+                    </div>
 
-                <div class="stat-card">
-                    <h3>Durchschnitt pro Tag</h3>
-                    <div class="value" id="avg-visits">-</div>
-                    <div class="label">Letzte 7 Tage</div>
-                </div>
+                    <div class="stat-card emphasis direct">
+                        <h3>KI direkt heute</h3>
+                        <div class="value" id="route-generations-today">-</div>
+                        <div class="label">Heute direkt genutzt</div>
+                    </div>
 
-                <div class="stat-card">
-                    <h3>Prompts generiert</h3>
-                    <div class="value" id="prompt-generations">-</div>
-                    <div class="label">Modus „Prompt generieren“</div>
-                </div>
+                    <div class="stat-card emphasis feedback">
+                        <h3>Feedback heute</h3>
+                        <div class="value" id="feedback-today">-</div>
+                        <div class="label">Heutige Rückmeldungen</div>
+                    </div>
 
-                <div class="stat-card">
-                    <h3>KI direkt genutzt</h3>
-                    <div class="value" id="route-generations">-</div>
-                    <div class="label">Modus „Route generieren“</div>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Feedback gesamt</h3>
-                    <div class="value" id="feedback-total">-</div>
-                    <div class="label">Abgesendete Rückmeldungen</div>
-                </div>
-            </div>
-
-            <div class="stats-grid compact">
-                <div class="stat-card">
-                    <h3>Prompts heute</h3>
-                    <div class="value" id="prompt-generations-today">-</div>
-                    <div class="label">Heute erstellt</div>
-                </div>
-
-                <div class="stat-card">
-                    <h3>KI direkt heute</h3>
-                    <div class="value" id="route-generations-today">-</div>
-                    <div class="label">Heute direkt genutzt</div>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Feedback heute</h3>
-                    <div class="value" id="feedback-today">-</div>
-                    <div class="label">Heutige Rückmeldungen</div>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Hilfreich-Quote</h3>
-                    <div class="value" id="feedback-helpful-rate">-</div>
-                    <div class="label">Anteil positives Feedback</div>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Kommentare</h3>
-                    <div class="value" id="feedback-comments">-</div>
-                    <div class="label">Mit Freitext</div>
+                    <div class="stat-card emphasis neutral">
+                        <h3>Durchschnitt pro Tag</h3>
+                        <div class="value" id="avg-visits">-</div>
+                        <div class="label">Letzte 7 Tage</div>
+                    </div>
                 </div>
             </div>
 
@@ -420,6 +456,47 @@
                 <h2>📈 Verlauf der letzten 7 Tage</h2>
                 <div id="chart" style="height: 300px; background: #f8f9fa; border-radius: 4px; padding: 1rem;">
                     <canvas id="visitsChart" style="width: 100%; height: 100%;"></canvas>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2 class="section-title">Gesamt & Qualität</h2>
+                <div class="stats-grid secondary">
+                    <div class="stat-card neutral visits">
+                    <h3>Gesamtbesuche</h3>
+                    <div class="value" id="total-visits">-</div>
+                    <div class="label">Seit Beginn der Aufzeichnung</div>
+                </div>
+
+                <div class="stat-card neutral prompts">
+                    <h3>Prompts generiert</h3>
+                    <div class="value" id="prompt-generations">-</div>
+                    <div class="label">Modus „Prompt generieren“</div>
+                </div>
+
+                <div class="stat-card neutral direct">
+                    <h3>KI direkt genutzt</h3>
+                    <div class="value" id="route-generations">-</div>
+                    <div class="label">Modus „Route generieren“</div>
+                </div>
+
+                <div class="stat-card neutral feedback">
+                    <h3>Feedback gesamt</h3>
+                    <div class="value" id="feedback-total">-</div>
+                    <div class="label">Abgesendete Rückmeldungen</div>
+                </div>
+
+                <div class="stat-card neutral feedback">
+                    <h3>Hilfreich-Quote</h3>
+                    <div class="value" id="feedback-helpful-rate">-</div>
+                    <div class="label">Anteil positives Feedback</div>
+                </div>
+
+                <div class="stat-card neutral neutral">
+                    <h3>Kommentare</h3>
+                    <div class="value" id="feedback-comments">-</div>
+                    <div class="label">Mit Freitext</div>
+                </div>
                 </div>
             </div>
 
@@ -762,30 +839,8 @@
             const chartTop = 48;
             const chartWidth = chartRight - chartLeft;
             const chartHeight = chartBottom - chartTop;
-            const stepX = labels.length > 1 ? chartWidth / (labels.length - 1) : chartWidth;
+            const groupWidth = labels.length ? chartWidth / labels.length : chartWidth;
             const scaleY = chartHeight / maxValue;
-
-            const drawLine = (values, color) => {
-                ctx.beginPath();
-                values.forEach((value, index) => {
-                    const x = chartLeft + stepX * index;
-                    const y = chartBottom - value * scaleY;
-                    if (index === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                });
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                values.forEach((value, index) => {
-                    const x = chartLeft + stepX * index;
-                    const y = chartBottom - value * scaleY;
-                    ctx.beginPath();
-                    ctx.arc(x, y, 4, 0, Math.PI * 2);
-                    ctx.fillStyle = color;
-                    ctx.fill();
-                });
-            };
 
             const legendItems = [
                 { label: 'Besuche', color: 'rgba(74, 155, 142, 0.95)' },
@@ -804,13 +859,23 @@
                 ctx.fillText(item.label, x + 26, 40);
             });
 
-            drawLine(visitValues, legendItems[0].color);
-            drawLine(promptValues, legendItems[1].color);
-            drawLine(directValues, legendItems[2].color);
-            drawLine(feedbackValues, legendItems[3].color);
+            const barSeries = [visitValues, promptValues, directValues, feedbackValues];
+            const innerGroupWidth = Math.max(26, groupWidth * 0.72);
+            const gap = 4;
+            const barWidth = Math.max(6, Math.min(18, (innerGroupWidth - gap * 3) / 4));
+
+            barSeries.forEach((values, seriesIndex) => {
+                values.forEach((value, index) => {
+                    const x = chartLeft + groupWidth * index + (groupWidth - innerGroupWidth) / 2 + (barWidth + gap) * seriesIndex;
+                    const barHeight = value * scaleY;
+                    const y = chartBottom - barHeight;
+                    ctx.fillStyle = legendItems[seriesIndex].color;
+                    ctx.fillRect(x, y, barWidth, Math.max(barHeight, value > 0 ? 3 : 0));
+                });
+            });
 
             labels.forEach((label, index) => {
-                const x = chartLeft + stepX * index;
+                const x = chartLeft + groupWidth * index + groupWidth / 2;
                 ctx.fillStyle = '#333';
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'center';

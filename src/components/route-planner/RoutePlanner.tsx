@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Users, Sparkles, Check } from "lucide-react";
+import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
@@ -179,7 +179,7 @@ export function RoutePlanner() {
   };
 
   const goToStep = (step: number) => {
-    const hasRouteBasics = !!(formData.startPoint && formData.destination);
+    const hasRouteBasics = isRouteStepValid;
     const isNavigable =
       step === 1 ||
       (step === 2 && (currentStep === 1 || hasRouteBasics || completedSteps.includes(step) || step === currentStep)) ||
@@ -200,6 +200,11 @@ export function RoutePlanner() {
   const isAIConfigValid = !aiSettings.useDirectAI
     ? true
     : !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
+  const hasInvalidStage = formData.routeType === "multiStage" && formData.stages.some((stage) => !stage.destination?.trim());
+  const isRouteStepValid = !!formData.startPoint &&
+    !!formData.destination &&
+    (!formData.destinationStayPlanned || !!formData.vacationDestination) &&
+    !hasInvalidStage;
 
   const isStepValid = () => {
     switch (currentStep) {
@@ -207,9 +212,7 @@ export function RoutePlanner() {
         if (!aiSettings.useDirectAI) return true;
         return !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
       case 2:
-        return !!formData.startPoint &&
-          !!formData.destination &&
-          (!formData.destinationStayPlanned || !!formData.vacationDestination);
+        return isRouteStepValid;
       default:
         return true;
     }
@@ -247,7 +250,7 @@ export function RoutePlanner() {
             ? aiSettings.openaiModel
             : aiSettings.mistralModel
         : "prompt-generator",
-      routeType: formData.routeType || "",
+      routeType: formData.routeType === "return" ? "roundTrip" : (formData.routeType || ""),
       timestamp: new Date().toISOString(),
     };
 
@@ -372,74 +375,33 @@ export function RoutePlanner() {
       <Suspense fallback={<div className="h-96" />}>
         <FeaturesSection />
         <TestimonialsSection />
-        <RouteExampleSection />
+        <RouteExampleSection onStartPlanning={() => {
+          setShowForm(true);
+          setTimeout(() => {
+            const element = document.getElementById('planner');
+            if (element) {
+              const yOffset = -100;
+              const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+          }, 100);
+        }} />
       </Suspense>
-
-      {!showForm && (
-        <section className="py-32 px-4 text-center bg-[#0b1110] relative overflow-hidden border-y border-white/5">
-          <div className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-40">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="map-grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1" />
-                  <circle cx="40" cy="40" r="1.5" fill="currentColor" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#map-grid)" />
-            </svg>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/80 pointer-events-none" />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative z-10"
-          >
-            <Button
-              onClick={() => {
-                setShowForm(true);
-                setTimeout(() => {
-                  const element = document.getElementById('planner');
-                  if (element) {
-                    const yOffset = -100;
-                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
-                  }
-                }, 100);
-              }}
-              className="group relative inline-flex items-center gap-4 px-12 sm:px-16 py-6 sm:py-7 rounded-full bg-primary text-white border-2 border-primary/70 shadow-2xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 hover:scale-[1.02] overflow-hidden"
-              size="lg"
-              style={{
-                background: "linear-gradient(135deg, rgba(245, 155, 10, 0.98), rgba(245, 155, 10, 0.75))",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
-            >
-              <span aria-hidden className="absolute inset-0">
-                <span className="absolute -top-10 -left-12 h-36 w-36 rounded-full bg-white/20 blur-2xl" />
-                <span className="absolute -bottom-12 -right-14 h-40 w-40 rounded-full bg-black/10 blur-2xl" />
-              </span>
-              <span className="relative z-10 flex h-3 w-3 rounded-full bg-white/90 animate-pulse" />
-              <span className="relative z-10 text-base sm:text-lg font-black uppercase tracking-[0.25em]">{t("planner.cta")}</span>
-            </Button>
-          </motion.div>
-        </section>
-      )}
 
       {showForm && (
         <section id="planner" className="py-24 px-4 bg-[#0b1110] text-white relative overflow-hidden border-y border-white/5">
-          <div className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-40">
+          <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.08]">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern id="map-grid-open" width="80" height="80" patternUnits="userSpaceOnUse">
                   <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1" />
-                  <circle cx="40" cy="40" r="1.5" fill="currentColor" />
+                  <circle cx="40" cy="40" r="0.9" fill="currentColor" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#map-grid-open)" />
             </svg>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/80 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/40 to-black/68 pointer-events-none" />
 
           <div className="max-w-5xl mx-auto relative z-10 text-white">
             <div className="text-center mb-24">
@@ -471,7 +433,7 @@ export function RoutePlanner() {
                   const stepNumber = i + 1;
                   const isActive = stepNumber === currentStep;
                   const isLast = i === steps.length - 1;
-                  const hasRouteBasics = !!(formData.startPoint && formData.destination);
+                  const hasRouteBasics = isRouteStepValid;
                   
                   // CHECK IF STEP IS ACTUALLY FILLED WITH DATA
                   const isStepCompleted = () => {
@@ -479,7 +441,7 @@ export function RoutePlanner() {
                       case 1:
                         if (!aiSettings.useDirectAI) return true;
                         return isAIConfigValid;
-                      case 2: return !!(formData.startPoint && formData.destination);
+                      case 2: return isRouteStepValid;
                       case 3: return formData.routePreferences.length > 0;
                       case 4: 
                         return formData.vehicleLength !== initialFormData.vehicleLength || 
@@ -535,7 +497,7 @@ export function RoutePlanner() {
                             </div>
                           )}
                         </div>
-                        <span className={`text-[8px] sm:text-[10px] font-black mt-2 sm:mt-4 uppercase tracking-[0.1em] transition-colors text-center px-1 sm:px-2 ${isActive ? "text-primary" : isDone ? "text-[#4ade80]/60" : "text-white/20"}`}>
+                        <span className={`text-[8px] sm:text-[10px] font-semibold mt-2 sm:mt-4 tracking-[0.04em] transition-colors text-center px-1 sm:px-2 ${isActive ? "text-primary" : isDone ? "text-[#4ade80]/60" : "text-white/20"}`}>
                           {step.label}
                         </span>
                       </button>
@@ -557,6 +519,11 @@ export function RoutePlanner() {
               </div>
               <div className="mt-3 md:mt-5 px-2 text-xs sm:text-sm font-semibold text-white/60">
                 {t("planner.steps.hint")}
+                {!isRouteStepValid && currentStep >= 2 && (
+                  <div className="mt-2 text-xs sm:text-sm font-semibold text-amber-300">
+                    {t("planner.steps.routeIncomplete")}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -633,24 +600,37 @@ export function RoutePlanner() {
                               </div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
-                              <Route className="w-5 h-5" />
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.maxDist")}</span>
-                              <span className="text-sm font-bold text-white">
-                                {Number(formData.maxDailyDistance || 0) > 0
-                                  ? `${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`
-                                  : t("planner.summary.notSelected")}
-                              </span>
-                              {Number(formData.maxDailyDriveHours || 0) > 0 && (
-                                <span className="text-xs font-semibold text-white/70">
-                                  {`${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`}
-                                </span>
-                              )}
-                            </div>
-                          </div>
+                          {(() => {
+                            const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
+                            const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
+                            const summaryLabel = hasDistanceLimit
+                              ? t("planner.summary.maxDist")
+                              : hasDriveTimeLimit
+                                ? t("planner.route.maxDriveTime")
+                                : null;
+                            const summaryValue = hasDistanceLimit
+                              ? `${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`
+                              : hasDriveTimeLimit
+                                ? `${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`
+                                : null;
+
+                            return summaryLabel && summaryValue ? (
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
+                                  {hasDistanceLimit ? <Route className="w-5 h-5" /> : <Clock3 className="w-5 h-5" />}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{summaryLabel}</span>
+                                  <span className="text-sm font-bold text-white">{summaryValue}</span>
+                                  {hasDistanceLimit && hasDriveTimeLimit && (
+                                    <span className="text-xs font-semibold text-white/70">
+                                      {`${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ) : null;
+                          })()}
                         </div>
                       </div>
 
@@ -712,7 +692,7 @@ export function RoutePlanner() {
                           checked={saveFormLocally}
                           onCheckedChange={(checked) => setSaveFormLocally(checked)}
                           aria-label={t("planner.summary.save.title")}
-                          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(245,155,10,0.35)]"
+                          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
                         />
                         <Button
                           type="button"
@@ -726,7 +706,7 @@ export function RoutePlanner() {
                         </Button>
                       </div>
                     </div>
-                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(245,155,10,0.12)]">
+                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(255,128,0,0.12)]">
                       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/80">
                         Open Source Support
                       </div>
@@ -734,7 +714,7 @@ export function RoutePlanner() {
                         href="https://www.buymeacoffee.com/campingroute"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-3 min-w-[260px] px-6 py-3.5 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-[0.18em] border-2 border-primary/40 text-white bg-primary/90 hover:bg-primary transition-colors shadow-[0_18px_50px_rgba(245,155,10,0.28)]"
+                        className="inline-flex items-center justify-center gap-3 min-w-[260px] px-6 py-3.5 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-[0.18em] border-2 border-primary/40 text-white bg-primary/90 hover:bg-primary transition-colors shadow-[0_18px_50px_rgba(255,128,0,0.28)]"
                       >
                         ☕ {t("planner.summary.save.coffee")}
                       </a>
@@ -772,7 +752,7 @@ export function RoutePlanner() {
                   ) : (
                     <Button 
                       onClick={handleSubmit} 
-                      disabled={isLoading || !formData.startPoint || !formData.destination || (formData.destinationStayPlanned && !formData.vacationDestination)}
+                      disabled={isLoading || !formData.startPoint || !formData.destination || (formData.destinationStayPlanned && !formData.vacationDestination) || hasInvalidStage}
                       className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-10 py-6 font-black text-base sm:text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 flex-1 sm:flex-none ml-auto text-center leading-tight"
                     >
                       {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
@@ -783,33 +763,38 @@ export function RoutePlanner() {
             </motion.div>
           </div>
 
-      <div className="mt-16 max-w-5xl mx-auto scroll-mt-24" ref={outputSectionRef}>
-            <OutputSection
-              output={output}
-              isLoading={isLoading}
-              loadingMessage={loadingMessage}
-              aiModel={aiModel}
-              aiError={aiError}
-              useDirectAI={aiSettings.useDirectAI}
-              gpxOutputMode={formData.gpxOutputMode}
-              summary={{
-                startPoint: formData.startPoint,
-                destination: formData.destination,
-                vacationDestination: formData.vacationDestination,
-                destinationStayPlanned: formData.destinationStayPlanned,
-                startDate: formData.startDate,
-                endDate: formData.endDate,
-                maxDailyDistance: formData.maxDailyDistance,
-                maxDailyDriveHours: formData.maxDailyDriveHours,
-                dailyLimitPriority: formData.dailyLimitPriority,
-                routeType: formData.routeType,
-                travelPace: formData.travelPace,
-                budgetLevel: formData.budgetLevel,
-                quietPlaces: formData.quietPlaces,
-              }}
-              onEngagement={handleOutputEngagement}
-            />
-          </div>
+      {(output || isLoading || aiError) && (
+        <div
+          className="mt-16 max-w-5xl mx-auto scroll-mt-24 rounded-[2rem] bg-[linear-gradient(180deg,rgba(7,12,11,0.88),rgba(7,12,11,0.96))] shadow-[0_24px_80px_rgba(0,0,0,0.24)] backdrop-blur-[2px] px-3 py-3 sm:px-4 sm:py-4"
+          ref={outputSectionRef}
+        >
+          <OutputSection
+            output={output}
+            isLoading={isLoading}
+            loadingMessage={loadingMessage}
+            aiModel={aiModel}
+            aiError={aiError}
+            useDirectAI={aiSettings.useDirectAI}
+            gpxOutputMode={formData.gpxOutputMode}
+            summary={{
+              startPoint: formData.startPoint,
+              destination: formData.destination,
+              vacationDestination: formData.vacationDestination,
+              destinationStayPlanned: formData.destinationStayPlanned,
+              startDate: formData.startDate,
+              endDate: formData.endDate,
+              maxDailyDistance: formData.maxDailyDistance,
+              maxDailyDriveHours: formData.maxDailyDriveHours,
+              dailyLimitPriority: formData.dailyLimitPriority,
+              routeType: formData.routeType === "return" ? "roundTrip" : formData.routeType,
+              travelPace: formData.travelPace,
+              budgetLevel: formData.budgetLevel,
+              quietPlaces: formData.quietPlaces,
+            }}
+            onEngagement={handleOutputEngagement}
+          />
+        </div>
+      )}
         </section>
       )}
 

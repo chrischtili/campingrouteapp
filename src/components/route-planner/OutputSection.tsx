@@ -468,7 +468,7 @@ ${gpxOnly}`;
     },
     {
       label: t("planner.route.type.label"),
-      value: summary?.routeType ? t(`planner.route.type.options.${summary.routeType}`) : t("planner.summary.notSelected")
+      value: summary?.routeType ? t(`planner.route.type.options.${summary.routeType === "return" ? "roundTrip" : summary.routeType}`) : t("planner.summary.notSelected")
     },
     {
       label: t("planner.accommodation.quietPlaces.label"),
@@ -484,7 +484,7 @@ ${gpxOnly}`;
     >
       <div className="relative group">
         <div 
-          className="relative rounded-[3rem] border-2 border-white/10 shadow-2xl overflow-hidden"
+          className="relative rounded-[3rem] border border-white/6 shadow-2xl overflow-hidden"
           style={{
             background: "linear-gradient(180deg, rgba(10,14,12,0.96), rgba(10,14,12,0.93))",
             backdropFilter: "blur(28px)",
@@ -494,7 +494,7 @@ ${gpxOnly}`;
           <div className="relative flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 border-b border-white/10 gap-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-              <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-[0_12px_32px_rgba(245,155,10,0.16)]">
+              <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-[0_12px_32px_rgba(255,128,0,0.16)]">
                 <FileText className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
@@ -567,7 +567,7 @@ ${gpxOnly}`;
 
           <div className="p-6 sm:p-10 md:p-14 space-y-10 bg-[linear-gradient(180deg,rgba(8,12,10,0.82),rgba(8,12,10,0.88))]">
             {summary && (
-              <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border-2 border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+              <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
                 <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
                   {t("planner.output.summary.title")}
                 </div>
@@ -599,15 +599,15 @@ ${gpxOnly}`;
                 ))}
               </div>
             )}
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[rgba(8,12,10,0.92)] p-2">
-              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-white/35 px-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-white/10 bg-[rgba(8,12,10,0.92)] p-2">
+              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-white/35 px-3 py-1 sm:py-0">
                 {t("planner.output.view.label")}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto sm:items-center">
                 <button
                   type="button"
                   onClick={() => setOutputView("formatted")}
-                  className={`rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-colors ${
+                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
                     outputView === "formatted"
                       ? "bg-primary text-white"
                       : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
@@ -618,7 +618,7 @@ ${gpxOnly}`;
                 <button
                   type="button"
                   onClick={() => setOutputView("raw")}
-                  className={`rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-colors ${
+                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
                     outputView === "raw"
                       ? "bg-primary text-white"
                       : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
@@ -631,7 +631,7 @@ ${gpxOnly}`;
             {useDirectAI ? (
               <div className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-6 sm:px-8 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
                 <div className="flex items-center gap-3 pb-4 border-b border-white/10">
-                  <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(245,155,10,0.8)]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
                   <div className="text-[10px] font-black uppercase tracking-[0.32em] text-white/45">
                     {t("planner.output.title.direct")}
                   </div>
@@ -652,7 +652,7 @@ ${gpxOnly}`;
             ) : (
               <div className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-6 sm:px-8 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
                 <div className="flex items-center gap-3 pb-4 border-b border-white/10">
-                  <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(245,155,10,0.8)]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
                   <div className="text-[10px] font-black uppercase tracking-[0.32em] text-white/45">
                     {t("planner.output.title.prompt")}
                   </div>
@@ -672,7 +672,7 @@ ${gpxOnly}`;
               </div>
             )}
 
-            <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border-2 border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.2)]">
+            <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.2)]">
               <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4">
                 {t("planner.output.checklist.title")}
               </div>
@@ -690,7 +690,7 @@ ${gpxOnly}`;
       </div>
 
       {!useDirectAI && (
-        <div className="relative rounded-[3rem] border-2 border-white/10 shadow-2xl overflow-hidden">
+        <div className="relative rounded-[3rem] border border-white/6 shadow-2xl overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 bg-white/5">
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
@@ -730,7 +730,7 @@ ${gpxOnly}`;
       )}
 
       {useDirectAI && (
-        <div className="relative rounded-[3rem] border-2 border-white/10 shadow-2xl overflow-hidden">
+        <div className="relative rounded-[3rem] border border-white/6 shadow-2xl overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 bg-white/5">
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">

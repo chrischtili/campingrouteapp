@@ -103,10 +103,9 @@ export function FAQSection() {
   ];
 
   return (
-    <section id="faq" className="py-32 px-6 bg-secondary relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-black/50 dark:to-black/70" />
+    <section id="faq" className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(8,10,12,0.98),rgba(11,13,15,0.98))]" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/25" />
       
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
@@ -121,7 +120,7 @@ export function FAQSection() {
               {t("faq.badge")}
             </span>
           </span>
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.9]">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[0.95]">
             {t("faq.title")}
           </h2>
         </motion.div>
@@ -157,7 +156,7 @@ export function FAQSection() {
                     <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
                       <faq.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <span className="font-black text-base sm:text-lg md:text-xl tracking-tight text-white uppercase">{faq.q}</span>
+                    <span className="font-black text-base sm:text-lg md:text-xl tracking-tight text-white">{faq.q}</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">

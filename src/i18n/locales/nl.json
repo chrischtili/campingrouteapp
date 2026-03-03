@@ -530,28 +530,36 @@
     },
     "steps": {
       "ai": {
-        "label": "AI‑instellingen"
+        "label": "AI‑instellingen",
+        "desc": ""
       },
       "route": {
-        "label": "Route"
+        "label": "Reisroute",
+        "desc": ""
       },
       "optimization": {
-        "label": "Route‑optimalisatie"
+        "label": "Route‑optimalisatie",
+        "desc": ""
       },
       "vehicle": {
-        "label": "Voertuig"
+        "label": "Voertuig",
+        "desc": ""
       },
       "accommodation": {
-        "label": "Overnachting"
+        "label": "Overnachting",
+        "desc": ""
       },
       "interests": {
-        "label": "Interesses"
+        "label": "Interesses",
+        "desc": ""
       },
       "summary": {
-        "label": "Samenvatting"
+        "label": "Samenvatting",
+        "desc": ""
       },
       "hint": "Je kunt hierboven ook direct op een stap tikken om die te openen.",
-      "openStep": "Stap openen"
+      "openStep": "Stap openen",
+      "routeIncomplete": "Vul start, bestemming en elke toegevoegde etappebestemming in."
     },
     "ai": {
       "title": "AI‑instellingen",
@@ -590,7 +598,6 @@
         "placeholder": "Selecteer",
         "options": {
           "oneWay": "Enkele reis",
-          "return": "Heen en terug",
           "roundTrip": "Rondreis",
           "multiStage": "Etappereis"
         }
@@ -679,8 +686,8 @@
       },
       "vacationArrival": "Aankomst op vakantiebestemming",
       "vacationDeparture": "Vertrek vanaf vakantiebestemming",
-      "vacationArrivalTime": "Gewenste aankomsttijd op vakantiebestemming",
-      "vacationDepartureTime": "Gewenste vertrektijd vanaf vakantiebestemming",
+      "vacationArrivalTime": "Aankomsttijd op de vakantiebestemming",
+      "vacationDepartureTime": "Vertrektijd vanaf de vakantiebestemming",
       "returnDestination": {
         "label": "Terugkeerbestemming",
         "placeholder": "bijv. Karlsruhe"
@@ -690,7 +697,8 @@
         "description": "Voeg zoveel etappedoelen toe als je nodig hebt voor de etappereis.",
         "add": "Etappedoel toevoegen",
         "remove": "Verwijderen",
-        "empty": "Nog geen etappedoelen toegevoegd"
+        "empty": "Nog geen etappedoelen toegevoegd",
+        "required": "Een locatie is verplicht zodra een etappebestemming is toegevoegd."
       }
     },
     "optimization": {
@@ -1118,8 +1126,8 @@
     "labels": {
       "start": "Startpunt",
       "destination": "Bestemming",
-      "stage": "Stop {{num}}",
-      "stageArrival": "Aankomst stop {{num}}",
+      "stage": "Etappedoel {{num}}",
+      "stageArrival": "Aankomsttijd bij etappedoel {{num}}",
       "departure": "Vertrekdatum",
       "arrival": "Aankomstdatum",
       "totalDistance": "Geschatte totale afstand",
@@ -1166,13 +1174,17 @@
       "tollCountries": "Tollanden vermijden",
       "travelPaceNote": "zachte voorkeur, km/dag en rijtijd/dag hebben prioriteit",
       "destinationArrivalBy": "Aankomst op vakantiebestemming",
-      "destinationDeparture": "Vertrek vanaf bestemming",
-      "destinationArrivalTime": "Gewenste aankomsttijd op de vakantiebestemming",
-      "destinationDepartureTime": "Gewenste vertrektijd vanaf de vakantiebestemming",
+      "destinationDeparture": "Vertrek vanaf de vakantiebestemming",
+      "destinationArrivalTime": "Aankomsttijd op de vakantiebestemming",
+      "destinationDepartureTime": "Vertrektijd vanaf de vakantiebestemming",
       "returnScheduleHint": "Bereken hiermee wanneer vertrek vanaf het startpunt nodig is en wanneer aankomst op de terugkeerbestemming realistisch is",
       "returnDestination": "Terugkeerbestemming",
       "vacationDestination": "Vakantiebestemming",
-      "stageArrivalDate": "Aankomstdatum tussenstop {{num}}"
+      "stageArrivalDate": "Aankomst bij etappedoel {{num}}",
+      "startDeparture": "Vertrek vanaf startpunt",
+      "startDepartureTime": "Vertrektijd vanaf startpunt",
+      "finalArrival": "Aankomst op bestemming",
+      "finalArrivalTime": "Aankomsttijd op bestemming"
     },
     "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Schrijf links altijd volledig met https:// (bijv. https://voorbeeld.nl). Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",
     "gpx": {

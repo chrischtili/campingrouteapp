@@ -530,28 +530,36 @@
     },
     "steps": {
       "ai": {
-        "label": "AI Settings"
+        "label": "AI Settings",
+        "desc": ""
       },
       "route": {
-        "label": "Itinerary"
+        "label": "Route",
+        "desc": ""
       },
       "optimization": {
-        "label": "Route Optimization"
+        "label": "Route Optimization",
+        "desc": ""
       },
       "vehicle": {
-        "label": "Vehicle"
+        "label": "Vehicle",
+        "desc": ""
       },
       "accommodation": {
-        "label": "Accommodation"
+        "label": "Accommodation",
+        "desc": ""
       },
       "interests": {
-        "label": "Interests"
+        "label": "Interests",
+        "desc": ""
       },
       "summary": {
-        "label": "Summary"
+        "label": "Summary",
+        "desc": ""
       },
       "hint": "You can also tap a step above to open it directly.",
-      "openStep": "Open step"
+      "openStep": "Open step",
+      "routeIncomplete": "Please fill in start, destination, and every added stage destination."
     },
     "ai": {
       "title": "AI Settings",
@@ -590,7 +598,6 @@
         "placeholder": "Select",
         "options": {
           "oneWay": "One-Way",
-          "return": "Return",
           "roundTrip": "Round Trip",
           "multiStage": "Staged journey"
         }
@@ -679,8 +686,8 @@
       },
       "vacationArrival": "Arrival at holiday destination",
       "vacationDeparture": "Departure from holiday destination",
-      "vacationArrivalTime": "Desired arrival time at holiday destination",
-      "vacationDepartureTime": "Desired departure time from holiday destination",
+      "vacationArrivalTime": "Arrival time at holiday destination",
+      "vacationDepartureTime": "Departure time from holiday destination",
       "returnDestination": {
         "label": "Return destination",
         "placeholder": "e.g. Karlsruhe"
@@ -690,7 +697,8 @@
         "description": "Add as many stage destinations as you need for the staged journey.",
         "add": "Add stage destination",
         "remove": "Remove",
-        "empty": "No stage destinations added yet"
+        "empty": "No stage destinations added yet",
+        "required": "A location is required as soon as a stage destination is added."
       }
     },
     "optimization": {
@@ -1114,8 +1122,8 @@
     "labels": {
       "start": "Start point",
       "destination": "Destination",
-      "stage": "Stopover {{num}}",
-      "stageArrival": "Arrival at stopover {{num}}",
+      "stage": "Stage destination {{num}}",
+      "stageArrival": "Arrival time at stage destination {{num}}",
       "departure": "Departure date",
       "arrival": "Arrival date",
       "totalDistance": "Estimated total distance",
@@ -1162,13 +1170,17 @@
       "tollCountries": "Avoid toll countries",
       "travelPaceNote": "soft preference, km/day and drive time/day take priority",
       "destinationArrivalBy": "Arrival at holiday destination",
-      "destinationDeparture": "Departure from destination",
-      "destinationArrivalTime": "Desired arrival time at the vacation destination",
-      "destinationDepartureTime": "Desired departure time from the vacation destination",
+      "destinationDeparture": "Departure from the vacation destination",
+      "destinationArrivalTime": "Arrival time at the vacation destination",
+      "destinationDepartureTime": "Departure time from the vacation destination",
       "returnScheduleHint": "Use this to calculate when departure from the starting point is needed and when arrival at the return destination is realistic",
       "returnDestination": "Return destination",
       "vacationDestination": "Holiday destination",
-      "stageArrivalDate": "Arrival date stopover {{num}}"
+      "stageArrivalDate": "Arrival at stage destination {{num}}",
+      "startDeparture": "Departure from start point",
+      "startDepartureTime": "Departure time from start point",
+      "finalArrival": "Arrival at destination",
+      "finalArrivalTime": "Arrival time at destination"
     },
     "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1. Stage Planning (Daily kilometers, driving time, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2. Overnight Stays (Specific campsites/pitches and alternatives with brief descriptions; include the official website, address, and phone number if available. Links are very important and should usually exist. Always write full links with https:// (e.g., https://example.com). Always write full links with https:// (e.g., https://example.com). Include approximate price ranges, but mark prices as estimates. Always find at least one alternative per overnight stay with the same details.)\n\n3. Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4. Practical Tips (Navigation, waste disposal, emergency information).\n\n5. Best Travel Time & Duration (Brief section).\n\n6. Services on the Road (Fuel, supermarkets, workshops).\n\n7. Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8. Technology & Equipment (Short checklist, app recommendations).\n\n9. Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",
     "gpx": {

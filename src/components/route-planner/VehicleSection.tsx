@@ -15,7 +15,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const { t } = useTranslation();
   const isMotorcycleTent = formData.vehicleType === "motorcycleTent";
   
-  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/20 placeholder:font-normal text-left";
+  const inputClass = "w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/20 placeholder:font-normal text-left";
   const disabledInputClass = "opacity-50 cursor-not-allowed";
 
   const glassPanelStyle = {
@@ -29,8 +29,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   return (
     <div className="space-y-12">
       <div className="space-y-4 text-left">
-        <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white">
-          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
             <Truck className="w-6 h-6" />
           </div>
           {t("planner.vehicle.title")}
@@ -50,7 +50,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         >
           <div className="flex items-center gap-3">
             <Ruler className="w-5 h-5 text-primary" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-white">
+            <span className="text-xs font-semibold tracking-[0.08em] text-white/75">
               {t("planner.vehicle.group.dimensions")}
             </span>
           </div>
@@ -73,13 +73,13 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         >
           <div className="flex items-center gap-3">
             <Tag className="w-5 h-5 text-primary" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-white">
+            <span className="text-xs font-semibold tracking-[0.08em] text-white/75">
               {t("planner.vehicle.group.weight")}
             </span>
           </div>
           <div className="space-y-8 w-full">
             <div className="space-y-4">
-              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
                 <Weight className="w-4 h-4 text-primary" /> {t("planner.vehicle.weightClass.label")}
               </Label>
               <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })}>
@@ -89,7 +89,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                 >
                   <SelectValue placeholder={t("planner.vehicle.weightClass.placeholder")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                   <SelectItem value="lt35">{t("planner.vehicle.weightClass.options.lt35")}</SelectItem>
                   <SelectItem value="bt35_75">{t("planner.vehicle.weightClass.options.bt35_75")}</SelectItem>
                   <SelectItem value="gt75">{t("planner.vehicle.weightClass.options.gt75")}</SelectItem>
@@ -97,7 +97,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
               </Select>
             </div>
             <div className="space-y-4">
-              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
                 <Car className="w-4 h-4 text-primary" /> {t("planner.vehicle.type.label")}
               </Label>
               <Select value={formData.vehicleType} onValueChange={(value) => onChange({ vehicleType: value })}>
@@ -107,7 +107,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                 >
                   <SelectValue placeholder={t("planner.vehicle.type.placeholder")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                   <SelectItem value="campervan">{t("planner.vehicle.type.options.campervan")}</SelectItem>
                   <SelectItem value="semiIntegrated">{t("planner.vehicle.type.options.semiIntegrated")}</SelectItem>
                   <SelectItem value="integrated">{t("planner.vehicle.type.options.integrated")}</SelectItem>
@@ -134,11 +134,11 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className={`p-6 sm:p-10 shadow-lg space-y-10 flex flex-col items-start text-left ${isMotorcycleTent ? "opacity-40 pointer-events-none" : ""}`}
-          style={{ ...glassPanelStyle, background: "rgba(245, 155, 10, 0.05)" }}
+          style={{ ...glassPanelStyle, background: "rgba(255, 128, 0, 0.05)" }}
         >
           <div className="flex items-center gap-3">
             <Zap className="w-5 h-5 text-primary" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-white">
+            <span className="text-xs font-semibold tracking-[0.08em] text-white/75">
               {t("planner.vehicle.group.power")}
             </span>
           </div>
@@ -159,20 +159,20 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         >
           <div className="flex items-center gap-3">
             <Settings className="w-5 h-5 text-primary" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-white">
+            <span className="text-xs font-semibold tracking-[0.08em] text-white/75">
               {t("planner.vehicle.group.systems")}
             </span>
           </div>
           <div className="space-y-8 w-full">
             <div className="space-y-4">
-              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
                 <Fuel className="w-4 h-4 text-primary" /> {t("planner.vehicle.fuel.label")}
               </Label>
               <Select value={formData.fuelType} onValueChange={(value) => onChange({ fuelType: value })} disabled={isMotorcycleTent}>
                 <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
                   <SelectValue placeholder={t("planner.vehicle.fuel.placeholder")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                   <SelectItem value="diesel">{t("planner.vehicle.fuel.options.diesel")}</SelectItem>
                   <SelectItem value="petrol">{t("planner.vehicle.fuel.options.petrol")}</SelectItem>
                   <SelectItem value="lpg">{t("planner.vehicle.fuel.options.lpg")}</SelectItem>
@@ -183,14 +183,14 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </div>
 
             <div className="space-y-4">
-              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
                 <Toilet className="w-4 h-4 text-primary" /> {t("planner.vehicle.toilet.label")}
               </Label>
               <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })} disabled={isMotorcycleTent}>
                 <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
                   <SelectValue placeholder={t("planner.vehicle.toilet.placeholder")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                   <SelectItem value="cassette">{t("planner.vehicle.toilet.options.cassette")}</SelectItem>
                   <SelectItem value="chemical">{t("planner.vehicle.toilet.options.chemical")}</SelectItem>
                   <SelectItem value="dry">{t("planner.vehicle.toilet.options.dry")}</SelectItem>
@@ -202,14 +202,14 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </div>
 
             <div className="space-y-4">
-              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
                 <Flame className="w-4 h-4 text-primary" /> {t("planner.vehicle.heating.label")}
               </Label>
               <Select value={formData.heatingSystem} onValueChange={(value) => onChange({ heatingSystem: value })} disabled={isMotorcycleTent}>
                 <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
                   <SelectValue placeholder={t("planner.vehicle.heating.placeholder")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                   <SelectItem value="diesel">{t("planner.vehicle.heating.options.diesel")}</SelectItem>
                   <SelectItem value="gasBottle">{t("planner.vehicle.heating.options.gasBottle")}</SelectItem>
                   <SelectItem value="gasTank">{t("planner.vehicle.heating.options.gasTank")}</SelectItem>
@@ -218,14 +218,14 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </div>
 
             <div className="space-y-4">
-              <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+              <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
                 <MoveVertical className="w-4 h-4 text-primary" /> {t("planner.vehicle.levelingJacks.label")}
               </Label>
               <Select value={formData.levelingJacks} onValueChange={(value) => onChange({ levelingJacks: value })} disabled={isMotorcycleTent}>
                 <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
                   <SelectValue placeholder={t("planner.vehicle.levelingJacks.placeholder")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                   <SelectItem value="yes">{t("planner.vehicle.levelingJacks.options.yes")}</SelectItem>
                   <SelectItem value="no">{t("planner.vehicle.levelingJacks.options.no")}</SelectItem>
                 </SelectContent>

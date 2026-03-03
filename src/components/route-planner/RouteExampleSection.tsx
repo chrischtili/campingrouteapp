@@ -20,6 +20,7 @@ import {
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 type StageItem = {
   title: string;
@@ -48,7 +49,11 @@ type HighlightGroup = {
   items: string[];
 };
 
-export function RouteExampleSection() {
+type RouteExampleSectionProps = {
+  onStartPlanning?: () => void;
+};
+
+export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProps) {
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
 
@@ -71,99 +76,91 @@ export function RouteExampleSection() {
   const keyFactIcons = [Calendar, Route, Clock, Car, Wallet];
 
   return (
-    <section id="example-route" className="py-32 px-6 bg-secondary relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.12),transparent_42%),linear-gradient(180deg,rgba(17,24,39,0.88),rgba(3,7,18,0.96))] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[920px] h-[920px] bg-primary/10 rounded-full blur-[140px] pointer-events-none opacity-80" />
-      <div className="absolute -top-24 right-0 w-[420px] h-[420px] bg-primary/12 rounded-full blur-[120px] pointer-events-none opacity-60" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-black/10 to-black/45 dark:from-black/45 dark:via-black/55 dark:to-black/75" />
+    <section id="example-route" className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,128,0,0.10),transparent_40%),linear-gradient(180deg,rgba(10,12,14,0.98),rgba(8,10,12,0.98))] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[920px] h-[920px] bg-primary/8 rounded-full blur-[140px] pointer-events-none opacity-70" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/15 via-transparent to-black/30" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
-              <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
-                {t("exampleRoute.badge")}
-              </span>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center space-y-4"
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+            <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+              {t("exampleRoute.badge")}
             </span>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
-              {t("exampleRoute.title")}
-            </h2>
-            <p className="text-lg text-muted-foreground">{t("exampleRoute.subtitle")}</p>
-            <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
-              {t("exampleRoute.lead")}
-            </p>
-          </motion.div>
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[0.95]">
+            {t("exampleRoute.title")}
+          </h2>
+          <p className="text-lg text-muted-foreground">{t("exampleRoute.subtitle")}</p>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-14 mx-auto max-w-5xl rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(24,24,28,0.92),rgba(19,20,24,0.96))] shadow-[0_28px_80px_rgba(0,0,0,0.35)] p-8 sm:p-10"
+        >
+          <p className="text-base text-foreground/78 leading-relaxed mb-8">
+            {t("exampleRoute.lead")}
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-7 mb-8">
             {keyFacts.map((fact, index) => {
               const Icon = keyFactIcons[index] ?? Calendar;
               return (
-                <div
-                  key={fact.label}
-                  className="rounded-2xl border border-border bg-card p-5 flex items-start gap-4 shadow-sm"
-                >
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <Icon className="h-5 w-5" />
+                <div key={fact.label} className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-2xl bg-primary/12 text-primary flex items-center justify-center shrink-0">
+                    <Icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       {fact.label}
                     </div>
-                    <div className="text-base font-semibold text-foreground">{fact.value}</div>
+                    <div className="mt-1 text-lg font-semibold text-foreground">{fact.value}</div>
                   </div>
                 </div>
               );
             })}
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 rounded-2xl border border-border bg-primary/5 p-6 grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4"
-        >
-          <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-            <ShieldAlert className="h-6 w-6" />
           </div>
-          <div className="space-y-2">
-            <div className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-              {t("exampleRoute.ruleNotice.title")}
+
+          <div className="rounded-[1.4rem] border border-primary/25 bg-primary/[0.08] p-6">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-foreground">
+                  {t("exampleRoute.ruleNotice.title")}
+                </h3>
+                <ul className="space-y-2 text-sm text-foreground/70 leading-relaxed">
+                  {(t("exampleRoute.ruleNotice.items", { returnObjects: true }) as string[]).map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="text-primary/80">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <ul className="space-y-2 text-foreground/80">
-              {(t("exampleRoute.ruleNotice.items", { returnObjects: true }) as string[]).map((item) => (
-                <li key={item} className="flex gap-2">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-primary" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+          </div>
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+            <Button onClick={() => onStartPlanning?.()} className="flex-1 rounded-full h-12 text-base font-semibold text-white">
+              {t("hero.planNow")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowDetails((prev) => !prev)}
+              className="flex-1 rounded-full h-12 text-base font-semibold border-white/15 bg-black/40 hover:bg-black/60"
+            >
+              {showDetails ? t("exampleRoute.details.hide") : t("exampleRoute.details.show")}
+            </Button>
           </div>
         </motion.div>
-
-        <div className="mt-12 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setShowDetails((prev) => !prev)}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md text-primary hover:text-primary hover:border-primary/50 transition text-base"
-          >
-            <span className="flex h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-black uppercase tracking-[0.3em]">
-              {showDetails ? t("exampleRoute.details.hide") : t("exampleRoute.details.show")}
-            </span>
-          </button>
-        </div>
 
         {showDetails && (
           <div className="mt-10 space-y-12">
@@ -425,6 +422,12 @@ export function RouteExampleSection() {
                 ))}
               </div>
             </div>
+          </div>
+
+          <div className="pt-2 flex justify-center">
+            <Button onClick={() => onStartPlanning?.()} className="rounded-full px-10 h-12 text-base font-semibold text-white">
+              {t("hero.planNow")}
+            </Button>
           </div>
           </div>
         )}

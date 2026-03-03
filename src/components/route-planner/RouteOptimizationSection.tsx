@@ -91,8 +91,8 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
   return (
     <div className="space-y-12">
       <div className="space-y-4 text-left">
-        <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white">
-          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-lg border-2 border-primary/20">
+        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-lg border-2 border-primary/20">
             <Target className="w-6 h-6" />
           </div>
           {t("planner.optimization.title")}
@@ -116,7 +116,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
               <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-primary border-2 border-white/20 shadow-md">
                 <cat.icon className="w-6 h-6" />
               </div>
-              <Label className="text-sm font-black uppercase tracking-[0.2em] text-white">
+              <Label className="text-sm font-semibold tracking-[0.04em] text-white">
                 {cat.label}
               </Label>
             </div>
@@ -134,7 +134,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
       </div>
 
       <div className="space-y-4 text-left">
-        <Label className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+        <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 text-primary" /> {t("planner.optimization.tollCountries.label")}
         </Label>
         <ToggleGroup
@@ -154,7 +154,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
       </div>
 
       <div className="space-y-4 text-left">
-        <Label htmlFor="avoidRegions" className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+        <Label htmlFor="avoidRegions" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 text-primary" /> {t("planner.optimization.avoidRegions.label")}
         </Label>
         <textarea
@@ -162,7 +162,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
           placeholder={t("planner.optimization.avoidRegions.placeholder")}
           value={formData.avoidRegions}
           onChange={(e) => onChange({ avoidRegions: e.target.value })}
-          className="w-full min-h-[120px] p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
+          className="w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
         />
       </div>
     </div>

@@ -72,13 +72,13 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
     borderRadius: "2.5rem",
   };
 
-  const inputClass = "w-full min-h-[150px] p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
+  const inputClass = "w-full min-h-[130px] sm:min-h-[150px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
 
   return (
     <div className="space-y-12">
       <div className="space-y-4 text-left">
-        <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white text-left">
-          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white text-left">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
             <Sparkles className="w-6 h-6" />
           </div>
           {t("planner.interests.title")}
@@ -95,7 +95,7 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
               <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
                 <cat.icon className="w-5 h-5" />
               </div>
-              <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">
+              <Label className="text-xs font-semibold tracking-[0.04em] text-white">
                 {cat.label}
               </Label>
             </div>
@@ -112,7 +112,7 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
         ))}
 
         <div className="md:col-span-2 space-y-4 mt-4 text-left">
-          <Label htmlFor="additionalInfo" className="text-xs md:text-sm font-black uppercase tracking-widest text-white flex items-center gap-2 ml-4">
+          <Label htmlFor="additionalInfo" className="text-xs md:text-sm font-semibold tracking-[0.06em] text-white flex items-center gap-2 ml-4">
             <MessageSquare className="w-4 h-4 text-primary" /> {t("planner.interests.additional.label")}
           </Label>
           <textarea

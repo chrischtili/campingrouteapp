@@ -99,13 +99,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center gap-3 group"
         >
-          <img 
-            src="/favicon-original-final.svg" 
-            alt="Logo" 
-            className="w-8 h-8 transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110" 
-            style={{ 
-              filter: 'brightness(0) saturate(100%) invert(60%) sepia(80%) saturate(2000%) hue-rotate(10deg) brightness(100%) contrast(105%)' 
-            }}
+          <img
+            src="/android-chrome-192x192.png"
+            alt="Logo"
+            className="w-8 h-8 transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110"
           />
           <div className="flex flex-col">
             <span className="font-black text-2xl tracking-tighter text-white uppercase leading-none">
@@ -159,7 +156,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             onClick={handlePlanNow}
             className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-black uppercase text-[8px] sm:text-[10px] tracking-widest transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
             style={{
-              background: "rgba(245, 155, 10, 0.25)",
+              background: "rgba(255, 128, 0, 0.25)",
               backdropFilter: "blur(8px)",
               WebkitBackdropFilter: "blur(8px)",
             }}

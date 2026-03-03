@@ -530,28 +530,36 @@
     },
     "steps": {
       "ai": {
-        "label": "KI-Einstellungen"
+        "label": "KI-Einstellungen",
+        "desc": ""
       },
       "route": {
-        "label": "Reiseroute"
+        "label": "Reiseroute",
+        "desc": ""
       },
       "optimization": {
-        "label": "Routenoptimierung"
+        "label": "Routenoptimierung",
+        "desc": ""
       },
       "vehicle": {
-        "label": "Fahrzeug"
+        "label": "Fahrzeug",
+        "desc": ""
       },
       "accommodation": {
-        "label": "Übernachtung"
+        "label": "Übernachtung",
+        "desc": ""
       },
       "interests": {
-        "label": "Interessen"
+        "label": "Interessen",
+        "desc": ""
       },
       "summary": {
-        "label": "Zusammenfassung"
+        "label": "Zusammenfassung",
+        "desc": ""
       },
       "hint": "Du kannst auch direkt auf einen Schritt oben tippen.",
-      "openStep": "Schritt öffnen"
+      "openStep": "Schritt öffnen",
+      "routeIncomplete": "Bitte fülle Start, Ziel und alle hinzugefügten Etappenziele aus."
     },
     "ai": {
       "title": "KI-Einstellungen",
@@ -590,7 +598,6 @@
         "placeholder": "-- Bitte wählen --",
         "options": {
           "oneWay": "One-Way",
-          "return": "Hin- und Rückfahrt",
           "roundTrip": "Rundreise",
           "multiStage": "Etappenreise"
         }
@@ -670,17 +677,17 @@
         "description": "Plane Anreise, Aufenthalt und Rückreise rund um ein festes Urlaubsziel."
       },
       "destinationArrivalBy": "Späteste Ankunft am Ziel",
-      "destinationDeparture": "Abreise vom Ziel",
+      "destinationDeparture": "Abfahrt vom Urlaubsziel",
       "destinationArrivalTime": "Gewünschte Ankunftszeit am Urlaubsziel",
-      "destinationDepartureTime": "Gewünschte Abreisezeit vom Urlaubsziel",
+      "destinationDepartureTime": "Gewünschte Abfahrtszeit vom Urlaubsziel",
       "vacationDestination": {
         "label": "Urlaubsziel",
         "placeholder": "z.B. Alkmaar"
       },
       "vacationArrival": "Ankunft am Urlaubsziel",
       "vacationDeparture": "Abfahrt vom Urlaubsziel",
-      "vacationArrivalTime": "Gewünschte Ankunftszeit am Urlaubsziel",
-      "vacationDepartureTime": "Gewünschte Abfahrtszeit vom Urlaubsziel",
+      "vacationArrivalTime": "Ankunftszeit am Urlaubsziel",
+      "vacationDepartureTime": "Abfahrtszeit vom Urlaubsziel",
       "returnDestination": {
         "label": "Rückkehrziel",
         "placeholder": "z.B. Karlsruhe"
@@ -690,7 +697,8 @@
         "description": "Fuge so viele Etappenziele hinzu, wie du fur die Etappenreise brauchst.",
         "add": "Etappenziel hinzufugen",
         "remove": "Entfernen",
-        "empty": "Noch keine Etappenziele angelegt"
+        "empty": "Noch keine Etappenziele angelegt",
+        "required": "Ort ist Pflicht, sobald ein Etappenziel hinzugefügt wurde."
       }
     },
     "optimization": {
@@ -1114,8 +1122,8 @@
     "labels": {
       "start": "Startpunkt",
       "destination": "Ziel",
-      "stage": "Zwischenstopp {{num}}",
-      "stageArrival": "Ankunft Zwischenstopp {{num}}",
+      "stage": "Etappenziel {{num}}",
+      "stageArrival": "Ankunftszeit am Etappenziel {{num}}",
       "departure": "Abreise",
       "arrival": "Ankunft",
       "totalDistance": "Gesamtdistanz",
@@ -1162,13 +1170,17 @@
       "tollCountries": "Mautländer vermeiden",
       "travelPaceNote": "weiche Präferenz, km/Tag und Fahrzeit/Tag haben Vorrang",
       "destinationArrivalBy": "Ankunft am Urlaubsziel",
-      "destinationDeparture": "Abreise vom Ziel",
-      "destinationArrivalTime": "Gewünschte Ankunftszeit am Urlaubsziel",
-      "destinationDepartureTime": "Gewünschte Abreisezeit vom Urlaubsziel",
+      "destinationDeparture": "Abfahrt vom Urlaubsziel",
+      "destinationArrivalTime": "Ankunftszeit am Urlaubsziel",
+      "destinationDepartureTime": "Abfahrtszeit vom Urlaubsziel",
       "returnScheduleHint": "Berechne daraus, wann die Abfahrt am Startpunkt nötig ist und wann die Ankunft am Rückkehrziel realistisch ist",
       "returnDestination": "Rückkehrziel",
       "vacationDestination": "Urlaubsziel",
-      "stageArrivalDate": "Ankunftsdatum Zwischenziel {{num}}"
+      "stageArrivalDate": "Ankunft am Etappenziel {{num}}",
+      "startDeparture": "Abreise am Startpunkt",
+      "startDepartureTime": "Abfahrtszeit am Startpunkt",
+      "finalArrival": "Ankunft am Ziel",
+      "finalArrivalTime": "Ankunftszeit am Ziel"
     },
     "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze und Alternativen mit kurzer Beschreibung; nenne, wenn verfügbar, die offizielle Website, Adresse und Telefonnummer. Links sind sehr wichtig und sollten in der Regel vorhanden sein. Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Nenne grobe Preisbereiche, aber markiere Preise als Richtwerte. Suche zwingend mindestens eine Alternative pro Übernachtung mit denselben Angaben.)\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
     "gpx": {

@@ -26,7 +26,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const modeHeaderRef = useRef<HTMLDivElement>(null);
   const providerSectionRef = useRef<HTMLDivElement>(null);
   
-  const inputClass = "w-full h-14 px-5 rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
+  const inputClass = "w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
   const selectedModeTitle = aiSettings.useDirectAI ? t("planner.ai.mode.direct.title") : t("planner.ai.mode.prompt.title");
 
   const scrollModeHeaderBelowNavbar = () => {
@@ -67,7 +67,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   return (
     <div className="space-y-12">
       <div className="space-y-4">
-        <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white">
+        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
           <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
             <Wand2 className="w-6 h-6" />
           </div>
@@ -81,18 +81,18 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
       {/* Mode Selection Grid */}
       <div ref={modeHeaderRef} className="space-y-3 text-left">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-          <div className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-white">
+          <div className="text-xs md:text-sm font-semibold tracking-[0.08em] text-white/75">
             {t("planner.ai.mode.label")}
           </div>
         </div>
         <button
           type="button"
           onClick={openMobileModePicker}
-          className="md:hidden w-full rounded-2xl border-2 border-primary/25 bg-primary/10 px-5 py-4 text-left shadow-lg shadow-primary/10 transition-all active:scale-[0.99]"
+          className="md:hidden w-full rounded-xl sm:rounded-2xl border-2 border-primary/25 bg-primary/10 px-4 sm:px-5 py-3.5 sm:py-4 text-left shadow-lg shadow-primary/10 transition-all active:scale-[0.99]"
         >
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-sm font-black uppercase tracking-[0.18em] text-white">
+              <div className="text-sm font-semibold tracking-[0.04em] text-white">
                 {t("planner.ai.mode.button")}
               </div>
               <div className="mt-2 text-xs font-semibold text-white/70">
@@ -130,10 +130,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10 shadow-lg'
             }`}
           >
-            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-8 transition-all duration-500 ${mode.active ? "bg-primary text-white scale-110 rotate-3 shadow-lg shadow-primary/30" : "bg-white/5 text-white/40 group-hover:text-white"}`}>
+            <div className={`w-10 h-10 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-8 transition-all duration-500 ${mode.active ? "bg-primary text-white scale-110 rotate-3 shadow-lg shadow-primary/30" : "bg-white/5 text-white/40 group-hover:text-white"}`}>
               <mode.icon className="h-6 w-6 sm:h-8 sm:w-8" />
             </div>
-            <h4 className={`text-xl sm:text-2xl font-black mb-2 sm:mb-3 transition-colors uppercase tracking-tight ${mode.active ? "text-white" : "text-white/40 group-hover:text-white"}`}>
+            <h4 className={`text-xl sm:text-2xl font-black mb-2 sm:mb-3 transition-colors tracking-tight ${mode.active ? "text-white" : "text-white/40 group-hover:text-white"}`}>
               {mode.title}
             </h4>
             <p className={`text-xs sm:text-sm leading-relaxed transition-colors ${mode.active ? "text-white/80" : "text-white/30 group-hover:text-white/50"}`}>
@@ -148,7 +148,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 >
                   <Sparkles className="w-4 h-4 text-white" />
                 </motion.div>
-                <div className="mt-6 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                <div className="mt-6 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold tracking-[0.12em] text-primary">
                   {t("planner.ai.mode.selected")}
                 </div>
               </>
@@ -168,7 +168,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             className="space-y-8 p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-white/5 backdrop-blur-3xl border-2 border-white/10 shadow-2xl scroll-mt-28"
           >
             {aiError && (
-              <Alert variant="destructive" className="rounded-2xl border-destructive/20 bg-destructive/10 p-6">
+              <Alert variant="destructive" className="rounded-xl sm:rounded-2xl border-destructive/20 bg-destructive/10 p-4 sm:p-6">
                 <AlertCircle className="h-5 w-5" />
                 <AlertDescription className="font-bold text-lg text-white">{aiError}</AlertDescription>
               </Alert>
@@ -176,7 +176,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-4 text-left">
-                <Label htmlFor="aiProvider" className="text-base md:text-lg font-bold text-white mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                <Label htmlFor="aiProvider" className="text-sm sm:text-base md:text-lg font-bold text-white mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                   {t("planner.ai.provider.label")}
                   <button
                     type="button"
@@ -203,7 +203,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                   <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                  <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                     <SelectItem value="google">Google Gemini 3.1</SelectItem>
                     <SelectItem value="openai">OpenAI ChatGPT 5.2</SelectItem>
                     <SelectItem value="mistral">Mistral Large</SelectItem>
@@ -212,7 +212,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               </div>
 
               <div className="space-y-4 text-left">
-                <Label htmlFor="apiKey" className="flex items-center gap-2 text-base md:text-lg font-bold text-white mb-3">
+                <Label htmlFor="apiKey" className="flex items-center gap-2 text-sm sm:text-base md:text-lg font-bold text-white mb-3">
                   <Lock className="w-5 h-5 md:w-4 md:h-4 text-primary" />
                   {t("planner.ai.apiKey.hint")}
                 </Label>
@@ -236,13 +236,13 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 href={providerHelp[currentProvider]?.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-6 rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-base md:text-sm font-bold text-white group"
+                className="flex items-center justify-center gap-3 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-base md:text-sm font-bold text-white group"
               >
                 <ExternalLink className="w-5 h-5 group-hover:rotate-12 transition-transform text-primary" />
                 {t("planner.ai.apiKey.create", { name: providerHelp[currentProvider]?.name })}
               </a>
               
-              <div className="flex items-start gap-4 p-6 rounded-2xl bg-primary/10 border border-primary/20 shadow-lg">
+              <div className="flex items-start gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 shadow-lg">
                 <Shield className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                 <p className="text-sm text-white/90 leading-relaxed font-medium" dangerouslySetInnerHTML={{ __html: t("planner.ai.apiKey.security") }} />
               </div>

@@ -42,7 +42,7 @@ export function FeedbackModal({ open, mode, onClose, onSubmit }: FeedbackModalPr
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-xl overflow-y-auto border border-white/10 bg-[#0b1110] p-0 text-white shadow-2xl sm:w-full">
-        <div className="rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(245,158,11,0.18),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-4 sm:p-8">
+        <div className="rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(255,128,0,0.18),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-4 sm:p-8">
           <DialogHeader className="space-y-3 text-left">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/20 text-primary">

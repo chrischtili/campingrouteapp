@@ -31,11 +31,13 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const lang = (i18next.language || 'en').toLowerCase();
   const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : lang.startsWith('it') ? 'Italiano' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
-  const includeStages = data.routeType === 'multiStage' && data.stages.length > 0;
-  const hasDestinationStay = data.destinationStayPlanned && (data.routeType === 'return' || data.routeType === 'roundTrip');
+  const normalizedRouteType = data.routeType === 'return' ? 'roundTrip' : data.routeType;
+  const includeStages = normalizedRouteType === 'multiStage' && data.stages.length > 0;
+  const hasDestinationStay = data.destinationStayPlanned && normalizedRouteType === 'roundTrip';
   const isMotorcycleTent = data.vehicleType === 'motorcycleTent';
   const stageLines = includeStages
     ? data.stages.map((stage, index) => {
+        if (!stage.destination?.trim()) return '';
         const lines = [];
         if (stage.destination) {
           lines.push('• ' + t("prompt.labels.stage", { num: index + 1 }) + ': ' + stage.destination);
@@ -55,10 +57,10 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     ? `• ${t("prompt.labels.vacationDestination")}: ${data.vacationDestination}\n`
     : '';
   const startTime = data.startTime
-    ? '• ' + t(hasDestinationStay ? "prompt.labels.destinationArrivalTime" : "prompt.labels.startTime") + ': ' + data.startTime + '\n'
+    ? '• ' + t(hasDestinationStay ? "prompt.labels.destinationArrivalTime" : "prompt.labels.startDepartureTime") + ': ' + data.startTime + '\n'
     : '';
   const endTime = data.endTime
-    ? '• ' + t(hasDestinationStay ? "prompt.labels.destinationDepartureTime" : "prompt.labels.endTime") + ': ' + data.endTime + '\n'
+    ? '• ' + t(hasDestinationStay ? "prompt.labels.destinationDepartureTime" : "prompt.labels.finalArrivalTime") + ': ' + data.endTime + '\n'
     : '';
   const flexibleDuration = data.durationFlexible ? '• ' + t("prompt.labels.flexibleDuration") + ': ' + t("prompt.labels.yes") + '\n' : '';
   const travelPace = data.travelPace ? '• ' + t("prompt.labels.travelPace") + ': ' + t(`planner.route.travelPace.options.${data.travelPace}`) + ' (' + t("prompt.labels.travelPaceNote") + ')\n' : '';
@@ -74,8 +76,12 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     ? `• ${t("prompt.labels.destinationArrivalBy")}: ${formatDate(data.startDate)}
 ${startTime}• ${t("prompt.labels.destinationDeparture")}: ${formatDate(data.endDate)}
 ${endTime}${flexibleDuration}• ${t("prompt.labels.returnScheduleHint")}\n`
-    : `• ${t("prompt.labels.departure")}: ${formatDate(data.startDate)}
-${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${formatDate(data.endDate)}\n`;
+    : includeStages
+      ? `• ${t("prompt.labels.startDeparture")}: ${formatDate(data.startDate)}
+${startTime}${flexibleDuration}• ${t("prompt.labels.finalArrival")}: ${formatDate(data.endDate)}
+${endTime}`
+      : `• ${t("prompt.labels.startDeparture")}: ${formatDate(data.startDate)}
+${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.finalArrival")}: ${formatDate(data.endDate)}\n`;
 
   return `${t("prompt.systemRole", { language: languageName })}
 
@@ -84,7 +90,7 @@ ${startTime}${endTime}${flexibleDuration}• ${t("prompt.labels.arrival")}: ${fo
 • ${t("prompt.labels.start")}: ${data.startPoint}
 • ${destinationLineLabel}: ${effectiveDestination}
 ${vacationDestinationLine}${stageLines}${timingBlock}
-${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${maxDailyDistance > 0 ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${maxDailyDriveHours > 0 ? '• ' + t("prompt.labels.maxDailyDriveTime") + ': ' + data.maxDailyDriveHours + ' h\n' : ''}${hasDailyLimitPriority ? '• ' + t("prompt.labels.dailyLimitPriority") + ': ' + t(`planner.route.limitPriority.options.${data.dailyLimitPriority}`) + '\n' : ''}${travelPace}${data.routeType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${data.routeType}`) + '\n' : ''}
+${data.distance ? '• ' + t("prompt.labels.totalDistance") + ': ' + data.distance + ' km\n' : ''}${maxDailyDistance > 0 ? '• ' + t("prompt.labels.maxDailyDistance") + ': ' + data.maxDailyDistance + ' km\n' : ''}${maxDailyDriveHours > 0 ? '• ' + t("prompt.labels.maxDailyDriveTime") + ': ' + data.maxDailyDriveHours + ' h\n' : ''}${hasDailyLimitPriority ? '• ' + t("prompt.labels.dailyLimitPriority") + ': ' + t(`planner.route.limitPriority.options.${data.dailyLimitPriority}`) + '\n' : ''}${travelPace}${normalizedRouteType ? '• ' + t("prompt.labels.routeType") + ': ' + t(`planner.route.type.options.${normalizedRouteType}`) + '\n' : ''}
 
 🚐 ${t("prompt.sections.vehicle")}:
 ───────────────────────────

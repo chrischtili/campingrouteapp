@@ -39,7 +39,7 @@ export function FormSlider({
   return (
     <div className={`w-full space-y-6 ${disabled ? "opacity-40" : ""}`}>
       <div className="space-y-2">
-        <Label id={`${id}-label`} htmlFor={id} className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground block">
+        <Label id={`${id}-label`} htmlFor={id} className="text-[10px] sm:text-[11px] font-semibold tracking-[0.05em] text-muted-foreground block">
           {label}
         </Label>
         <div className="flex items-baseline gap-2">

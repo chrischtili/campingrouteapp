@@ -23,13 +23,10 @@ export function Footer() {
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-8 text-left">
             <div className="flex items-center gap-4">
-              <img 
-                src="/favicon-original-final.svg" 
-                alt="Logo" 
-                className="w-10 h-10" 
-                style={{ 
-                  filter: 'brightness(0) saturate(100%) invert(60%) sepia(80%) saturate(2000%) hue-rotate(10deg) brightness(100%) contrast(105%)' 
-                }}
+              <img
+                src="/android-chrome-192x192.png"
+                alt="Logo"
+                className="w-10 h-10"
               />
               <span className="font-black text-3xl tracking-tighter uppercase">
                 Camping<span className="text-primary">Route</span>

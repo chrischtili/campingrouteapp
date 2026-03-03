@@ -30,8 +30,8 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           </span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem] font-black text-white mb-6 md:mb-8 lg:mb-12 tracking-tighter leading-[0.9] drop-shadow-2xl text-center w-full reveal-once delay-1">
-          Camping<span className="text-primary">Route</span>
+        <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-[3.75rem] 2xl:text-[6.5rem] font-black text-white mb-6 md:mb-8 lg:mb-12 tracking-[0.06em] leading-[0.9] drop-shadow-2xl text-center w-full reveal-once delay-1">
+          CAMPING<span className="text-primary">ROUTE</span>
         </h1>
 
         <div className="max-w-xl sm:max-w-2xl mx-auto mb-8 md:mb-12 lg:mb-16 px-4 sm:px-6 md:px-0 reveal-once delay-2">
@@ -46,7 +46,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             onClick={() => onStartPlanning?.()}
             className="group relative w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl text-white font-black text-base sm:text-sm md:text-base lg:text-lg shadow-xl sm:shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 border-2 border-primary/50"
             style={{
-              background: "rgba(245, 155, 10, 0.3)",
+              background: "rgba(255, 128, 0, 0.3)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
             }}

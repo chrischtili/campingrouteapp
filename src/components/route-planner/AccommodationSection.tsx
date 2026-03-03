@@ -76,13 +76,13 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
     borderRadius: "2.5rem",
   };
 
-  const inputClass = "w-full min-h-[120px] p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
+  const inputClass = "w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
 
   return (
     <div className="space-y-12">
       <div className="space-y-4 text-left">
-        <h3 className="text-3xl md:text-4xl font-black flex items-center gap-3 tracking-tighter uppercase text-white">
-          <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
             <Bed className="w-6 h-6" />
           </div>
           {t("planner.accommodation.title")}
@@ -96,7 +96,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-secondary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Users className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
+            <span className="text-[10px] font-semibold tracking-[0.12em] text-white/45">
               {t("planner.accommodation.group.travelers")}
             </span>
           </div>
@@ -106,23 +106,23 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-primary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Wallet className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
+            <span className="text-[10px] font-semibold tracking-[0.12em] text-white/45">
               {t("planner.accommodation.group.budget")}
             </span>
           </div>
           <FormSlider id="avgCampsitePriceMax" label={t("planner.accommodation.budget.label")} value={formData.avgCampsitePriceMax ? parseInt(formData.avgCampsitePriceMax) : 0} min={0} max={300} step={5} unit="€" onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })} />
           <div className="w-full mt-6 space-y-3">
-            <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">
+            <Label className="text-xs font-semibold tracking-[0.04em] text-white">
               {t("planner.accommodation.budgetLevel.label")}
             </Label>
             <p className="text-sm text-white/60 leading-relaxed">
               {t("prompt.labels.budgetNote")}
             </p>
             <Select value={formData.budgetLevel} onValueChange={(value) => onChange({ budgetLevel: value })}>
-              <SelectTrigger className="w-full h-12 px-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm text-white">
+              <SelectTrigger className="w-full h-11 sm:h-12 px-4 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm text-white">
                 <SelectValue placeholder={t("planner.accommodation.budgetLevel.placeholder")} />
               </SelectTrigger>
-              <SelectContent className="rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+              <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                 <SelectItem value="low">{t("planner.accommodation.budgetLevel.options.low")}</SelectItem>
                 <SelectItem value="medium">{t("planner.accommodation.budgetLevel.options.medium")}</SelectItem>
                 <SelectItem value="high">{t("planner.accommodation.budgetLevel.options.high")}</SelectItem>
@@ -132,9 +132,9 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-6 rounded-2xl bg-white/5 border-2 border-white/10 p-5">
+      <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
         <div className="space-y-1">
-          <div className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-white">
+          <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
             {t("planner.accommodation.quietPlaces.label")}
           </div>
           <div className="text-white/60 text-sm">
@@ -145,7 +145,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           checked={formData.quietPlaces}
           onCheckedChange={(checked) => onChange({ quietPlaces: checked })}
           aria-label={t("planner.accommodation.quietPlaces.label")}
-          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(245,155,10,0.35)]"
+          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
         />
       </div>
 
@@ -162,7 +162,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
               <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
                 <cat.icon className="w-5 h-5" />
               </div>
-              <Label className="text-xs font-black uppercase tracking-[0.2em] text-white">
+              <Label className="text-xs font-semibold tracking-[0.04em] text-white">
                 {cat.label}
               </Label>
             </div>
@@ -180,7 +180,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       </div>
 
       <div className="space-y-4 text-left">
-        <Label htmlFor="accommodation" className="text-xs md:text-sm font-black uppercase tracking-widest text-white flex items-center gap-2 ml-4">
+        <Label htmlFor="accommodation" className="text-xs md:text-sm font-semibold tracking-[0.06em] text-white flex items-center gap-2 ml-4">
           <MessageSquare className="w-4 h-4 text-primary" /> {t("planner.accommodation.additional.label")}
         </Label>
         <textarea

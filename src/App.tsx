@@ -92,6 +92,54 @@ const App = () => {
     };
   }, [t]);
 
+  React.useEffect(() => {
+    let initialBuildId: string | null = null;
+    let isMounted = true;
+    let updateToastShown = false;
+
+    const checkForUpdate = async () => {
+      try {
+        const response = await fetch(`/version.json?ts=${Date.now()}`, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+
+        const versionInfo = await response.json();
+        const nextBuildId =
+          typeof versionInfo?.buildId === "string" ? versionInfo.buildId : null;
+
+        if (!nextBuildId || !isMounted) return;
+
+        if (!initialBuildId) {
+          initialBuildId = nextBuildId;
+          return;
+        }
+
+        if (nextBuildId !== initialBuildId && !updateToastShown) {
+          updateToastShown = true;
+          toast.info(t("app.updateAvailable"), {
+            duration: 120000,
+            action: {
+              label: t("app.reloadNow"),
+              onClick: () => window.location.reload(),
+            },
+          });
+        }
+      } catch {
+        // Ignore polling errors. The next interval will retry.
+      }
+    };
+
+    checkForUpdate();
+    const intervalId = window.setInterval(checkForUpdate, 60000);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(intervalId);
+    };
+  }, [t]);
+
   // Dynamically update SEO tags based on language
   React.useEffect(() => {
     document.title = t("seo.title");

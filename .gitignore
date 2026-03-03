@@ -29,3 +29,4 @@ counter.json
 # Ignore custom server files (production configuration)
 server/
 COUNTER_SERVER_DOKUMENTATION.md
+public/version.json

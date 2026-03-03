@@ -1208,6 +1208,8 @@
     "print": "Stampa"
   },
   "app": {
-    "reloadNotice": "La pagina è stata ricaricata automaticamente dopo un aggiornamento."
+    "reloadNotice": "La pagina è stata ricaricata automaticamente dopo un aggiornamento.",
+    "updateAvailable": "È disponibile un aggiornamento. Ricarica la pagina.",
+    "reloadNow": "Ricarica ora"
   }
 }

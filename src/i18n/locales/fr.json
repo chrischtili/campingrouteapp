@@ -1208,6 +1208,8 @@
     "print": "Imprimer"
   },
   "app": {
-    "reloadNotice": "La page a été rechargée automatiquement après une mise à jour."
+    "reloadNotice": "La page a été rechargée automatiquement après une mise à jour.",
+    "updateAvailable": "Une mise à jour est disponible. Veuillez recharger la page.",
+    "reloadNow": "Recharger maintenant"
   }
 }

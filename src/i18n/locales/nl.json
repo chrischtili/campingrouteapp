@@ -1208,6 +1208,8 @@
     "backToTop": "Naar boven"
   },
   "app": {
-    "reloadNotice": "De pagina is na een update automatisch opnieuw geladen."
+    "reloadNotice": "De pagina is na een update automatisch opnieuw geladen.",
+    "updateAvailable": "Er is een update beschikbaar. Laad de pagina opnieuw.",
+    "reloadNow": "Nu herladen"
   }
 }

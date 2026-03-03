@@ -1208,6 +1208,8 @@
     "print": "Print"
   },
   "app": {
-    "reloadNotice": "The page was automatically reloaded after an update."
+    "reloadNotice": "The page was automatically reloaded after an update.",
+    "updateAvailable": "An update is available. Please reload the page.",
+    "reloadNow": "Reload now"
   }
 }

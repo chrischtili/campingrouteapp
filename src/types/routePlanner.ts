@@ -66,6 +66,7 @@ export interface AISettings {
   openaiModel: string;
   mistralModel: string;
   googleModel: string;
+  useGoogleSearch: boolean;
 }
 
 export const initialFormData: FormData = {
@@ -126,5 +127,6 @@ export const initialAISettings: AISettings = {
   useDirectAI: false,
   openaiModel: 'gpt-5.2',
   mistralModel: 'mistral-large-latest',
-  googleModel: 'gemini-3.1-pro-preview'
+  googleModel: 'gemini-3.1-pro-preview',
+  useGoogleSearch: false
 };

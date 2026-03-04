@@ -63,6 +63,25 @@ export function RoutePlanner() {
   const hasDateWindow = !!formData.startDate || !!formData.endDate;
   const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
   const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
+  const validActivityValues = new Set([
+    "nature",
+    "hiking",
+    "cycling",
+    "bathing",
+    "cityCulture",
+    "gastronomy",
+    "relaxation",
+    "familyFriendly",
+    "dogFriendly",
+  ]);
+
+  const sanitizeFormData = (data: Partial<FormData>): FormData => ({
+    ...initialFormData,
+    ...data,
+    activities: ((data.activities as string[] | undefined) || []).filter((value) =>
+      validActivityValues.has(value)
+    ),
+  });
 
   const sanitizeAISettings = (settings: AISettings): AISettings => ({
     ...settings,
@@ -98,7 +117,7 @@ export function RoutePlanner() {
         return;
       }
       if (saved?.saveFormLocally) {
-        setFormData({ ...initialFormData, ...(saved.formData || {}) });
+        setFormData(sanitizeFormData(saved.formData || {}));
         setAISettings({ ...initialAISettings, ...(saved.aiSettings || {}), apiKey: '' });
         setSaveFormLocally(true);
       }

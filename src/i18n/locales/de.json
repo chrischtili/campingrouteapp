@@ -589,6 +589,10 @@
         "placeholder": "Dein API-Schlüssel",
         "create": "API-Schlüssel bei {{name}} erstellen →",
         "security": "Camping Route ist <b>eine reine Frontend-App ohne Backend oder Datenbank!</b> Wir speichern oder sehen deinen API-Key niemals. Er bleibt nur in dieser Sitzung im Browser und wird verschlüsselt direkt an den KI-Anbieter gesendet."
+      },
+      "googleSearch": {
+        "label": "Google-Suche für aktuelle Daten nutzen",
+        "description": "Nur bei Gemini: Das Modell darf bei Bedarf live über Google suchen und Quellen einbeziehen."
       }
     },
     "route": {

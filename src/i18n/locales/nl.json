@@ -589,6 +589,10 @@
         "placeholder": "Je API‑key",
         "create": "API‑key aanmaken bij {{name}} →",
         "security": "Camping Route is <b>een pure frontend‑app zonder backend of database!</b> We slaan je API‑key nooit op en zien hem niet. Hij blijft alleen in deze browsersessie en wordt versleuteld direct naar de AI‑provider gestuurd."
+      },
+      "googleSearch": {
+        "label": "Google Search gebruiken voor actuele gegevens",
+        "description": "Alleen voor Gemini: het model mag indien nodig live via Google zoeken en bronnen meenemen."
       }
     },
     "route": {

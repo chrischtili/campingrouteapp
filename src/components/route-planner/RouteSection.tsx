@@ -208,8 +208,8 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       </div>
 
       <div className="space-y-6">
-        <div className="flex items-center justify-between gap-4">
-          <div className="space-y-1">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1 max-w-full">
             <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
               {t("planner.route.stages.title")}
             </div>
@@ -221,7 +221,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             type="button"
             variant="outline"
             onClick={addStage}
-            className="rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-sm sm:text-base"
+            className="w-full sm:w-auto justify-center rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-sm sm:text-base"
           >
             <Plus className="w-4 h-4 mr-2" />
             {t("planner.route.stages.add")}
@@ -243,7 +243,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               exit={{ opacity: 0, y: -12 }}
               className="p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 space-y-6"
             >
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                 <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
                   {t("planner.route.stage.label", { num: index + 1 })}
                 </div>
@@ -251,7 +251,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   type="button"
                   variant="ghost"
                   onClick={() => removeStage(index)}
-                  className="rounded-xl text-white/70 hover:text-white hover:bg-white/10"
+                  className="self-start sm:self-auto rounded-xl text-white/70 hover:text-white hover:bg-white/10"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   {t("planner.route.stages.remove")}

@@ -573,7 +573,7 @@ export function RoutePlanner() {
                 {currentStep >= 6 && (
                   <div className="space-y-10">
                     <div className="space-y-4">
-                      <h3 className="text-3xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
+                      <h3 className="text-2xl sm:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
                         <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/20">
                           <FileText className="w-6 h-6" />
                         </div>
@@ -649,7 +649,7 @@ export function RoutePlanner() {
                         </div>
                         <div className="space-y-1">
                           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.method")}</span>
-                          <h4 className="text-xl font-black text-white uppercase leading-tight">
+                          <h4 className="text-xl font-black text-white leading-tight">
                             {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
                           </h4>
                         </div>

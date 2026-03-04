@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, MapPin, Bot, Settings2, Truck, Bed, Heart, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check } from "lucide-react";
+import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
@@ -17,7 +17,6 @@ import { RouteSection } from "./RouteSection";
 import { RouteOptimizationSection } from "./RouteOptimizationSection";
 import { VehicleSection } from "./VehicleSection";
 import { AccommodationSection } from "./AccommodationSection";
-import { ActivitiesSection } from "./ActivitiesSection";
 import { OutputSection } from "./OutputSection";
 import { FeedbackModal } from "./FeedbackModal";
 
@@ -51,8 +50,19 @@ export function RoutePlanner() {
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
-  const summaryDestinationLabel = formData.destinationStayPlanned ? t("planner.route.returnDestination.label") : t("planner.summary.destination");
-  const summaryPrimaryDestination = formData.destinationStayPlanned ? formData.vacationDestination : formData.destination;
+  const summaryPrimaryDestination = formData.destination;
+  const locale = i18n.language.startsWith('de')
+    ? 'de-DE'
+    : i18n.language.startsWith('nl')
+      ? 'nl-NL'
+      : i18n.language.startsWith('fr')
+        ? 'fr-FR'
+        : i18n.language.startsWith('it')
+          ? 'it-IT'
+          : 'en-US';
+  const hasDateWindow = !!formData.startDate || !!formData.endDate;
+  const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
+  const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
 
   const sanitizeAISettings = (settings: AISettings): AISettings => ({
     ...settings,
@@ -126,7 +136,6 @@ export function RoutePlanner() {
     { icon: Settings2, label: t("planner.steps.optimization.label"), description: t("planner.steps.optimization.desc") },
     { icon: Truck, label: t("planner.steps.vehicle.label"), description: t("planner.steps.vehicle.desc") },
     { icon: Bed, label: t("planner.steps.accommodation.label"), description: t("planner.steps.accommodation.desc") },
-    { icon: Heart, label: t("planner.steps.interests.label"), description: t("planner.steps.interests.desc") },
     { icon: FileText, label: t("planner.steps.summary.label"), description: t("planner.steps.summary.desc") },
   ];
 
@@ -200,11 +209,8 @@ export function RoutePlanner() {
   const isAIConfigValid = !aiSettings.useDirectAI
     ? true
     : !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
-  const hasInvalidStage = formData.routeType === "multiStage" && formData.stages.some((stage) => !stage.destination?.trim());
-  const isRouteStepValid = !!formData.startPoint &&
-    !!formData.destination &&
-    (!formData.destinationStayPlanned || !!formData.vacationDestination) &&
-    !hasInvalidStage;
+  const hasInvalidStage = formData.stages.some((stage) => !stage.destination?.trim());
+  const isRouteStepValid = !!formData.startPoint && !!formData.destination && !hasInvalidStage;
 
   const isStepValid = () => {
     switch (currentStep) {
@@ -250,7 +256,6 @@ export function RoutePlanner() {
             ? aiSettings.openaiModel
             : aiSettings.mistralModel
         : "prompt-generator",
-      routeType: formData.routeType === "return" ? "roundTrip" : (formData.routeType || ""),
       timestamp: new Date().toISOString(),
     };
 
@@ -456,9 +461,8 @@ export function RoutePlanner() {
                                formData.solarPower !== initialFormData.solarPower ||
                                formData.batteryCapacity !== initialFormData.batteryCapacity ||
                                formData.autonomyDays !== initialFormData.autonomyDays;
-                      case 5: return formData.travelCompanions.length > 0 || formData.accommodationType.length > 0;
-                      case 6: return formData.activities.length > 0;
-                      case 7: return !!output; 
+                      case 5: return formData.travelCompanions.length > 0 || formData.accommodationType.length > 0 || formData.activities.length > 0;
+                      case 6: return !!output; 
                       default: return false;
                     }
                   };
@@ -547,8 +551,7 @@ export function RoutePlanner() {
                 {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />}
                 {currentStep === 4 && <VehicleSection formData={formData} onChange={handleFormChange} />}
                 {currentStep === 5 && <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
-                {currentStep === 6 && <ActivitiesSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
-                {currentStep >= 7 && (
+                {currentStep >= 6 && (
                   <div className="space-y-10">
                     <div className="space-y-4">
                       <h3 className="text-3xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
@@ -575,63 +578,50 @@ export function RoutePlanner() {
                             <ChevronRight className="w-6 h-6" />
                           </div>
                           <div className="flex flex-col gap-1 text-center sm:text-right">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{formData.destinationStayPlanned ? t("planner.route.vacationDestination.label") : t("planner.summary.destination")}</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.destination")}</span>
                             <span className="text-xl font-black text-white">{summaryPrimaryDestination || t("planner.summary.notSpecified")}</span>
                           </div>
                         </div>
 
-                        {formData.destinationStayPlanned && (
-                          <div className="flex flex-col gap-1 border-b border-white/5 pb-6 text-center sm:text-left">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{summaryDestinationLabel}</span>
-                            <span className="text-base font-black text-white">{formData.destination || t("planner.summary.notSpecified")}</span>
-                          </div>
-                        )}
                         
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
-                              <Calendar className="w-5 h-5" />
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.period")}</span>
-                              <div className="flex flex-col text-xs font-bold text-white">
-                                <span>{formData.startDate ? new Date(formData.startDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'} —</span>
-                                <span>{formData.endDate ? new Date(formData.endDate).toLocaleDateString(i18n.language.startsWith('de') ? 'de-DE' : i18n.language.startsWith('nl') ? 'nl-NL' : i18n.language.startsWith('fr') ? 'fr-FR' : i18n.language.startsWith('it') ? 'it-IT' : 'en-US') : '?'}</span>
+                        {(hasDateWindow || hasDistanceLimit || hasDriveTimeLimit) && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                            {hasDateWindow && (
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
+                                  <Calendar className="w-5 h-5" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.period")}</span>
+                                  <div className="flex flex-col text-xs font-bold text-white">
+                                    {formData.startDate && <span>{new Date(formData.startDate).toLocaleDateString(locale)}</span>}
+                                    {formData.endDate && <span>{new Date(formData.endDate).toLocaleDateString(locale)}</span>}
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                          {(() => {
-                            const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
-                            const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
-                            const summaryLabel = hasDistanceLimit
-                              ? t("planner.summary.maxDist")
-                              : hasDriveTimeLimit
-                                ? t("planner.route.maxDriveTime")
-                                : null;
-                            const summaryValue = hasDistanceLimit
-                              ? `${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`
-                              : hasDriveTimeLimit
-                                ? `${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`
-                                : null;
-
-                            return summaryLabel && summaryValue ? (
+                            )}
+                            {(hasDistanceLimit || hasDriveTimeLimit) && (
                               <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
                                   {hasDistanceLimit ? <Route className="w-5 h-5" /> : <Clock3 className="w-5 h-5" />}
                                 </div>
                                 <div className="flex flex-col">
-                                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{summaryLabel}</span>
-                                  <span className="text-sm font-bold text-white">{summaryValue}</span>
-                                  {hasDistanceLimit && hasDriveTimeLimit && (
-                                    <span className="text-xs font-semibold text-white/70">
+                                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">
+                                    {hasDistanceLimit ? t("planner.summary.maxDist") : t("planner.route.maxDriveTime")}
+                                  </span>
+                                  {hasDistanceLimit && (
+                                    <span className="text-sm font-bold text-white">{`${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`}</span>
+                                  )}
+                                  {hasDriveTimeLimit && (
+                                    <span className={`${hasDistanceLimit ? "text-xs font-semibold text-white/70 mt-1" : "text-sm font-bold text-white"}`}>
                                       {`${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`}
                                     </span>
                                   )}
                                 </div>
                               </div>
-                            ) : null;
-                          })()}
-                        </div>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-primary/5 border-2 border-primary/20 shadow-xl flex flex-col justify-between gap-6 sm:gap-0">
@@ -663,7 +653,7 @@ export function RoutePlanner() {
                         },
                         { label: t("planner.summary.people"), value: formData.numberOfTravelers, icon: Users },
                         { label: t("planner.summary.style"), value: formData.travelStyle ? t(`planner.route.style.options.${formData.travelStyle}`) : t("planner.summary.notSelected"), icon: Sparkles },
-                        { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Heart },
+                        { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Sparkles },
                       ].map((stat, i) => (
                         <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">
                           <stat.icon className="w-5 h-5 text-primary/80 group-hover:text-primary transition-colors" />
@@ -758,7 +748,7 @@ export function RoutePlanner() {
                   ) : (
                     <Button 
                       onClick={handleSubmit} 
-                      disabled={isLoading || !formData.startPoint || !formData.destination || (formData.destinationStayPlanned && !formData.vacationDestination) || hasInvalidStage}
+                      disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage}
                       className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-10 py-6 font-black text-base sm:text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 flex-1 sm:flex-none ml-auto text-center leading-tight"
                     >
                       {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
@@ -785,14 +775,15 @@ export function RoutePlanner() {
             summary={{
               startPoint: formData.startPoint,
               destination: formData.destination,
-              vacationDestination: formData.vacationDestination,
-              destinationStayPlanned: formData.destinationStayPlanned,
+              stages: formData.stages,
+              destinationDetailsEnabled: formData.destinationDetailsEnabled,
+              destinationDepartureDate: formData.destinationDepartureDate,
+              destinationDepartureTime: formData.destinationDepartureTime,
               startDate: formData.startDate,
               endDate: formData.endDate,
               maxDailyDistance: formData.maxDailyDistance,
               maxDailyDriveHours: formData.maxDailyDriveHours,
               dailyLimitPriority: formData.dailyLimitPriority,
-              routeType: formData.routeType === "return" ? "roundTrip" : formData.routeType,
               travelPace: formData.travelPace,
               budgetLevel: formData.budgetLevel,
               quietPlaces: formData.quietPlaces,

@@ -5,7 +5,7 @@ import { FormSlider } from "./FormSlider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "react-i18next";
-import { Bed, Users, Home, Settings, Wallet, MessageSquare, Sparkles } from "lucide-react";
+import { Bed, Users, Home, Settings, Wallet, MessageSquare, Sparkles, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface AccommodationSectionProps {
@@ -77,6 +77,17 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   };
 
   const inputClass = "w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none";
+  const interestOptions = [
+    { value: 'nature', label: t("planner.interests.options.nature") },
+    { value: 'hiking', label: t("planner.interests.options.hiking") },
+    { value: 'cycling', label: t("planner.interests.options.cycling") },
+    { value: 'bathing', label: t("planner.interests.options.bathing") },
+    { value: 'cityCulture', label: t("planner.interests.options.cityCulture") },
+    { value: 'gastronomy', label: t("planner.interests.options.gastronomy") },
+    { value: 'relaxation', label: t("planner.interests.options.relaxation") },
+    { value: 'familyFriendly', label: t("planner.interests.options.familyFriendly") },
+    { value: 'dogFriendly', label: t("planner.interests.options.dogFriendly") },
+  ];
 
   return (
     <div className="space-y-12">
@@ -132,6 +143,37 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-left">
+        {categories.filter((cat) => cat.id === "companions" || cat.id === "type").map((cat) => (
+          <motion.div 
+            key={cat.id} 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left"
+            style={glassPanelStyle}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
+                <cat.icon className="w-5 h-5" />
+              </div>
+              <Label className="text-xs font-semibold tracking-[0.04em] text-white">
+                {cat.label}
+              </Label>
+            </div>
+
+            <div className="w-full text-left">
+              <ToggleGroup
+                name={cat.name}
+                options={cat.options}
+                selectedValues={formData[cat.name as keyof FormData] as string[]}
+                onChange={onCheckboxChange}
+              />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+
       <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
         <div className="space-y-1">
           <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
@@ -150,12 +192,12 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-left">
-        {categories.map((cat) => (
+        {categories.filter((cat) => cat.id === "facilities").map((cat) => (
           <motion.div 
             key={cat.id} 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left ${cat.id === 'facilities' ? 'md:col-span-2' : ''}`} 
+            className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left"
             style={glassPanelStyle}
           >
             <div className="flex items-center gap-3">
@@ -177,17 +219,37 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             </div>
           </motion.div>
         ))}
+
+        <div className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div className="flex items-center gap-3 w-full">
+            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
+              <Heart className="w-5 h-5" />
+            </div>
+            <Label className="text-xs font-semibold tracking-[0.04em] text-white">
+              {t("planner.interests.title")}
+            </Label>
+          </div>
+
+          <div className="w-full text-left">
+            <ToggleGroup
+              name="activities"
+              options={interestOptions}
+              selectedValues={formData.activities}
+              onChange={onCheckboxChange}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-4 text-left">
-        <Label htmlFor="accommodation" className="text-xs md:text-sm font-semibold tracking-[0.06em] text-white flex items-center gap-2 ml-4">
-          <MessageSquare className="w-4 h-4 text-primary" /> {t("planner.accommodation.additional.label")}
+      <div className="w-full space-y-4 text-left">
+        <Label htmlFor="additionalInfo" className="text-xs md:text-sm font-semibold tracking-[0.06em] text-white flex items-center gap-2 ml-4">
+          <MessageSquare className="w-4 h-4 text-primary" /> {t("planner.interests.additional.label")}
         </Label>
         <textarea
-          id="accommodation"
-          placeholder={t("planner.accommodation.additional.placeholder")}
-          value={formData.accommodation}
-          onChange={(e) => onChange({ accommodation: (e.target as HTMLTextAreaElement).value })}
+          id="additionalInfo"
+          placeholder={t("planner.interests.additional.placeholder")}
+          value={formData.additionalInfo}
+          onChange={(e) => onChange({ additionalInfo: (e.target as HTMLTextAreaElement).value })}
           className={inputClass}
         />
       </div>

@@ -17,14 +17,15 @@ interface OutputSectionProps {
   summary?: {
     startPoint: string;
     destination: string;
-    vacationDestination?: string;
-    destinationStayPlanned?: boolean;
+    stages?: Array<{ destination: string }>;
     startDate: string;
     endDate: string;
     maxDailyDistance: string;
     maxDailyDriveHours?: string;
     dailyLimitPriority?: string;
-    routeType: string;
+    destinationDetailsEnabled?: boolean;
+    destinationDepartureDate?: string;
+    destinationDepartureTime?: string;
     travelPace: string;
     budgetLevel: string;
     quietPlaces: boolean;
@@ -60,7 +61,6 @@ export function OutputSection({
         : i18n.language.startsWith('it')
           ? 'it-IT'
           : 'en-US';
-  const summaryDestinationLabel = summary?.destinationStayPlanned ? t("planner.route.returnDestination.label") : t("planner.summary.destination");
 
   const garminMatch = output.match(/BEGIN_GPX_GARMIN\s*([\s\S]*?)\s*END_GPX_GARMIN/);
   const garminWptMatch = output.match(/BEGIN_GPX_GARMIN_WPT\s*([\s\S]*?)\s*END_GPX_GARMIN_WPT/);
@@ -440,18 +440,21 @@ ${gpxOnly}`;
 
   const summaryItems = [
     { label: t("planner.summary.start"), value: summary?.startPoint || t("planner.summary.notSpecified") },
-    { label: summaryDestinationLabel, value: summary?.destination || t("planner.summary.notSpecified") },
-    ...(summary?.destinationStayPlanned && summary?.vacationDestination
-      ? [{ label: t("planner.route.vacationDestination.label"), value: summary.vacationDestination }]
+    { label: t("planner.summary.destination"), value: summary?.destination || t("planner.summary.notSpecified") },
+    ...(summary?.stages?.filter((stage) => stage.destination?.trim()).length
+      ? [{ label: t("planner.summary.stops"), value: String(summary.stages.filter((stage) => stage.destination?.trim()).length) }]
       : []),
-    {
-      label: t("planner.summary.period"),
-      value: `${summary?.startDate ? new Date(summary.startDate).toLocaleDateString(locale) : '?'} — ${summary?.endDate ? new Date(summary.endDate).toLocaleDateString(locale) : '?'}`
-    },
-    {
-      label: t("planner.summary.maxDist"),
-      value: Number(summary?.maxDailyDistance || 0) > 0 ? `${summary?.maxDailyDistance} km` : t("planner.summary.notSelected")
-    },
+    ...((summary?.startDate || summary?.endDate)
+      ? [{
+          label: t("planner.summary.period"),
+          value: [summary?.startDate ? new Date(summary.startDate).toLocaleDateString(locale) : "", summary?.endDate ? new Date(summary.endDate).toLocaleDateString(locale) : ""]
+            .filter(Boolean)
+            .join(" — ")
+        }]
+      : []),
+    ...(Number(summary?.maxDailyDistance || 0) > 0
+      ? [{ label: t("planner.summary.maxDist"), value: `${summary?.maxDailyDistance} km` }]
+      : []),
     ...(Number(summary?.maxDailyDriveHours || 0) > 0
       ? [{ label: t("planner.route.maxDriveTime"), value: `${summary?.maxDailyDriveHours} h` }]
       : []),
@@ -465,10 +468,6 @@ ${gpxOnly}`;
     {
       label: t("planner.accommodation.budgetLevel.label"),
       value: summary?.budgetLevel ? t(`planner.accommodation.budgetLevel.options.${summary.budgetLevel}`) : t("planner.summary.notSelected")
-    },
-    {
-      label: t("planner.route.type.label"),
-      value: summary?.routeType ? t(`planner.route.type.options.${summary.routeType === "return" ? "roundTrip" : summary.routeType}`) : t("planner.summary.notSelected")
     },
     {
       label: t("planner.accommodation.quietPlaces.label"),
@@ -637,12 +636,10 @@ ${gpxOnly}`;
                   </div>
                 </div>
                 {outputView === "formatted" ? (
-                  <div className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,9,8,0.99),rgba(6,9,8,0.97))] px-5 sm:px-6 py-5 shadow-inner">
-                    <div
-                      className="whitespace-pre-wrap font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-8 selection:bg-primary/30 selection:text-white outline-none"
-                      dangerouslySetInnerHTML={{ __html: formattedHtml }}
-                    />
-                  </div>
+                  <div
+                    className="whitespace-pre-wrap font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-8 selection:bg-primary/30 selection:text-white outline-none"
+                    dangerouslySetInnerHTML={{ __html: formattedHtml }}
+                  />
                 ) : (
                   <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
                     {outputBody}
@@ -658,12 +655,10 @@ ${gpxOnly}`;
                   </div>
                 </div>
                 {outputView === "formatted" ? (
-                  <div className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,9,8,0.99),rgba(6,9,8,0.97))] px-5 sm:px-6 py-5 shadow-inner">
-                    <div
-                      className="font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-8 selection:bg-primary/30 selection:text-white outline-none"
-                      dangerouslySetInnerHTML={{ __html: formattedHtml }}
-                    />
-                  </div>
+                  <div
+                    className="font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-8 selection:bg-primary/30 selection:text-white outline-none"
+                    dangerouslySetInnerHTML={{ __html: formattedHtml }}
+                  />
                 ) : (
                   <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
                     {outputBody}

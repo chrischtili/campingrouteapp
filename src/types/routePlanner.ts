@@ -1,7 +1,10 @@
 export interface RouteStage {
   destination: string;
+  detailsEnabled: boolean;
   arrivalDate: string;
   arrivalTime: string;
+  departureDate: string;
+  departureTime: string;
 }
 
 export interface FormData {
@@ -11,9 +14,12 @@ export interface FormData {
   vacationDestination: string;
   startDate: string;
   endDate: string;
-  destinationStayPlanned: boolean;
   startTime: string;
   endTime: string;
+  destinationDetailsEnabled: boolean;
+  destinationDepartureDate: string;
+  destinationDepartureTime: string;
+  destinationStayPlanned: boolean;
   durationFlexible: boolean;
   distance: string;
   maxDailyDistance: string;
@@ -67,11 +73,14 @@ export const initialFormData: FormData = {
   destination: '',
   returnDestination: '',
   vacationDestination: '',
-  startDate: new Date().toISOString().split('T')[0],
-  endDate: new Date().toISOString().split('T')[0],
-  destinationStayPlanned: false,
+  startDate: '',
+  endDate: '',
   startTime: '',
   endTime: '',
+  destinationDetailsEnabled: false,
+  destinationDepartureDate: '',
+  destinationDepartureTime: '',
+  destinationStayPlanned: false,
   durationFlexible: false,
   distance: '',
   maxDailyDistance: '0',

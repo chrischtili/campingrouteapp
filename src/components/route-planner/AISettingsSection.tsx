@@ -176,7 +176,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-4 text-left">
-                <Label htmlFor="aiProvider" className="text-sm sm:text-base md:text-lg font-bold text-white mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                <Label htmlFor="aiProvider" className="min-h-[3.5rem] sm:min-h-[3.75rem] text-sm sm:text-base md:text-lg font-bold text-white mb-3 flex flex-col sm:flex-row items-start sm:items-start justify-between gap-2 sm:gap-4">
                   {t("planner.ai.provider.label")}
                   <button
                     type="button"
@@ -212,7 +212,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               </div>
 
               <div className="space-y-4 text-left">
-                <Label htmlFor="apiKey" className="flex items-center gap-2 text-sm sm:text-base md:text-lg font-bold text-white mb-3">
+                <Label htmlFor="apiKey" className="min-h-[3.5rem] sm:min-h-[3.75rem] flex items-start gap-2 text-xs sm:text-sm md:text-base font-bold text-white/95 mb-3 leading-tight">
                   <Lock className="w-5 h-5 md:w-4 md:h-4 text-primary" />
                   {t("planner.ai.apiKey.hint")}
                 </Label>
@@ -223,10 +223,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     placeholder={t("planner.ai.apiKey.placeholder")}
                     value={aiSettings.apiKey}
                     onChange={(e) => onAISettingsChange({ apiKey: e.target.value })}
-                    className={`${inputClass} pl-14`}
+                    className={`${inputClass} pl-12 sm:pl-14`}
                     style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}
                   />
-                  <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20" />
+                  <Lock className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-white/20 pointer-events-none" />
                 </div>
               </div>
             </div>

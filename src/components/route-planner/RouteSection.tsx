@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { FormSlider } from "./FormSlider";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { Map, MapPin, Calendar, Compass, Info, ArrowRight, Sparkles, Clock, Plus, Trash2, Home } from "lucide-react";
+import { Map, MapPin, Calendar, Info, Sparkles, Clock, Plus, Trash2, Home, Route, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface RouteSectionProps {
@@ -16,15 +16,15 @@ interface RouteSectionProps {
 
 const createEmptyStage = (): RouteStage => ({
   destination: "",
+  detailsEnabled: false,
   arrivalDate: "",
   arrivalTime: "",
+  departureDate: "",
+  departureTime: "",
 });
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const { t } = useTranslation();
-  const normalizedRouteType = formData.routeType === "return" ? "roundTrip" : formData.routeType;
-  const isVacationRoute = formData.destinationStayPlanned && normalizedRouteType === "roundTrip";
-  const isStageTrip = normalizedRouteType === "multiStage";
 
   const glassPanelStyle = {
     background: "rgba(255, 255, 255, 0.03)",
@@ -44,20 +44,12 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     WebkitTextFillColor: "rgba(255,255,255,0.95)",
   };
 
-  const isStartMissing = !formData.startPoint?.trim();
-  const isDestinationMissing = !formData.destination?.trim();
-  const isVacationDestinationMissing = isVacationRoute && !formData.vacationDestination?.trim();
-
-  const routeTypeLabel = t(`planner.route.type.options.${normalizedRouteType || "oneWay"}`);
-  const destinationFieldLabel = isVacationRoute ? t("planner.route.returnDestination.label") : t("planner.route.destination.label");
-  const destinationFieldPlaceholder = isVacationRoute ? t("planner.route.returnDestination.placeholder") : t("planner.route.destination.placeholder");
-  const startDateLabel = isVacationRoute ? t("planner.route.vacationArrival") : (formData.startPoint?.trim() ? `${t("planner.route.departure")} (${formData.startPoint.trim()})` : t("planner.route.departure"));
-  const endDateLabel = isVacationRoute ? t("planner.route.vacationDeparture") : (formData.destination?.trim() ? `${t("planner.route.arrival")} (${formData.destination.trim()})` : t("planner.route.arrival"));
-  const startTimeLabel = isVacationRoute ? t("planner.route.vacationArrivalTime") : t("planner.route.departureTime");
-  const endTimeLabel = isVacationRoute ? t("planner.route.vacationDepartureTime") : t("planner.route.arrivalTime");
   const maxDailyDistance = Number(formData.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(formData.maxDailyDriveHours || 0);
   const showLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0;
+  const isStartMissing = !formData.startPoint?.trim();
+  const isDestinationMissing = !formData.destination?.trim();
+  const hasStages = formData.stages.length > 0;
 
   const formatDriveHours = (hours: number) => {
     const totalMinutes = Math.round(hours * 60);
@@ -70,21 +62,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     const newStartDate = e.target.value;
     onChange({
       startDate: newStartDate,
-      endDate: !formData.endDate || newStartDate > formData.endDate ? newStartDate : formData.endDate,
-    });
-  };
-
-  const handleRouteTypeChange = (value: string) => {
-    const isReturnType = value === "roundTrip";
-    const isMultiStage = value === "multiStage";
-    const nextStart = formData.startPoint;
-    onChange({
-      routeType: value,
-      destinationStayPlanned: isReturnType ? formData.destinationStayPlanned : false,
-      destination: isReturnType ? (formData.destination || nextStart) : formData.destination,
-      returnDestination: isReturnType ? (formData.returnDestination || formData.destination || nextStart) : formData.returnDestination,
-      vacationDestination: isReturnType ? formData.vacationDestination : "",
-      stages: isMultiStage ? (formData.stages.length > 0 ? formData.stages : [createEmptyStage()]) : [],
+      destinationDepartureDate:
+        formData.destinationDetailsEnabled && formData.destinationDepartureDate && newStartDate > formData.destinationDepartureDate
+          ? newStartDate
+          : formData.destinationDepartureDate,
     });
   };
 
@@ -99,9 +80,17 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   const updateStage = (index: number, patch: Partial<RouteStage>) => {
-    const nextStages = formData.stages.map((stage, currentIndex) =>
-      currentIndex === index ? { ...stage, ...patch } : stage
-    );
+    const nextStages = formData.stages.map((stage, currentIndex) => {
+      if (currentIndex !== index) return stage;
+      const nextStage = { ...stage, ...patch };
+      if (patch.detailsEnabled === false) {
+        nextStage.arrivalDate = "";
+        nextStage.arrivalTime = "";
+        nextStage.departureDate = "";
+        nextStage.departureTime = "";
+      }
+      return nextStage;
+    });
     onChange({ stages: nextStages });
   };
 
@@ -113,19 +102,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     onChange({ stages: formData.stages.filter((_, currentIndex) => currentIndex !== index) });
   };
 
-  const buildStageLabel = (baseKey: string, index: number, destination?: string) => {
+  const buildStopLabel = (baseKey: string, index: number, destination?: string) => {
     const baseLabel = t(baseKey, { num: index + 1 });
     const trimmed = destination?.trim();
     return trimmed ? `${baseLabel} (${trimmed})` : baseLabel;
-  };
-
-  const handleDestinationStayToggle = (checked: boolean) => {
-    onChange({
-      destinationStayPlanned: checked,
-      vacationDestination: checked ? formData.vacationDestination : "",
-      destination: checked ? (formData.destination || formData.returnDestination || formData.startPoint) : formData.destination,
-      returnDestination: checked ? (formData.returnDestination || formData.destination || formData.startPoint) : formData.returnDestination,
-    });
   };
 
   return (
@@ -145,7 +125,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <div className="space-y-6">
           <div className="space-y-4">
-            <Label htmlFor="startPoint" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+            <Label htmlFor="startPoint" className={fieldLabelClass}>
               <MapPin className="w-4 h-4 text-primary" />
               {t("planner.route.start.label")}
               <span className="text-primary font-black">*</span>
@@ -165,23 +145,17 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           </div>
 
           <div className="space-y-4">
-            <Label htmlFor="destination" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+            <Label htmlFor="destination" className={fieldLabelClass}>
               <Home className="w-4 h-4 text-primary" />
-              {destinationFieldLabel}
+              {t("planner.route.destination.label")}
               <span className="text-primary font-black">*</span>
             </Label>
             <div className="relative">
               <input
                 id="destination"
-                placeholder={destinationFieldPlaceholder}
+                placeholder={t("planner.route.destination.placeholder")}
                 value={formData.destination}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  onChange({
-                    destination: value,
-                    returnDestination: isVacationRoute ? value : formData.returnDestination,
-                  });
-                }}
+                onChange={(e) => onChange({ destination: e.target.value })}
                 className={`${inputClass} pl-12 sm:pl-14 border-primary/20 ${isDestinationMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
                 required
               />
@@ -189,28 +163,11 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             </div>
             {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
           </div>
-
         </div>
 
         <div className="space-y-6 p-6 sm:p-10 shadow-2xl" style={glassPanelStyle}>
           <div className="space-y-4">
-            <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
-              <Compass className="w-4 h-4 text-primary" /> {t("planner.route.type.label")}
-            </Label>
-            <Select value={normalizedRouteType} onValueChange={handleRouteTypeChange}>
-              <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
-                <SelectValue placeholder={t("planner.route.type.placeholder")} />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
-                <SelectItem value="oneWay">{t("planner.route.type.options.oneWay")}</SelectItem>
-                <SelectItem value="roundTrip">{t("planner.route.type.options.roundTrip")}</SelectItem>
-                <SelectItem value="multiStage">{t("planner.route.type.options.multiStage")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-4">
-            <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+            <Label className={fieldLabelClass}>
               <Sparkles className="w-4 h-4 text-primary" /> {t("planner.route.style.label")}
             </Label>
             <Select value={formData.travelStyle} onValueChange={(value) => onChange({ travelStyle: value })}>
@@ -230,7 +187,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           </div>
 
           <div className="space-y-4">
-            <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+            <Label className={fieldLabelClass}>
               <Info className="w-4 h-4 text-primary" /> {t("planner.route.gpx.label")}
             </Label>
             <p className="text-white/50 text-sm leading-relaxed">
@@ -250,92 +207,42 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
       </div>
 
-      {normalizedRouteType === "roundTrip" && (
-        <div className="space-y-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
-          <div className="flex items-center justify-between gap-6">
-            <div className="space-y-1">
-              <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
-                {t("planner.route.destinationStay.label")}
-              </div>
-              <div className="text-white/60 text-sm">
-                {t("planner.route.destinationStay.description")}
-              </div>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+              {t("planner.route.stages.title")}
             </div>
-            <Switch
-              checked={formData.destinationStayPlanned}
-              onCheckedChange={handleDestinationStayToggle}
-              aria-label={t("planner.route.destinationStay.label")}
-              className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
-            />
+            <div className="text-sm text-white/60">
+              {t("planner.route.stages.description")}
+            </div>
           </div>
-          {isVacationRoute && (
-            <div className="space-y-4">
-              <Label htmlFor="vacationDestination" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
-                </div>
-                {t("planner.route.vacationDestination.label")}
-                <span className="text-primary font-black">*</span>
-              </Label>
-              <div className="relative">
-                <input
-                  id="vacationDestination"
-                  placeholder={t("planner.route.vacationDestination.placeholder")}
-                  value={formData.vacationDestination}
-                  onChange={(e) => onChange({ vacationDestination: e.target.value })}
-                  className={`${inputClass} pl-12 sm:pl-14 ${isVacationDestinationMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
-                />
-                <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
-                </div>
-              </div>
-              {isVacationDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
-            </div>
-          )}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={addStage}
+            className="rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-sm sm:text-base"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            {t("planner.route.stages.add")}
+          </Button>
         </div>
-      )}
 
-      <AnimatePresence>
-        {isStageTrip && (
-        <motion.div
-          key="stage-fields"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="space-y-6"
-        >
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <div className={`text-xs md:text-sm font-black uppercase tracking-[0.2em] ${!isStageTrip ? "text-white/40" : "text-white"}`}>
-                    {t("planner.route.stages.title")}
-                  </div>
-                  <div className={`text-sm ${!isStageTrip ? "text-white/30" : "text-white/60"}`}>
-                    {t("planner.route.stages.description")}
-                  </div>
-                  <div className="text-xs text-white/45">
-                    {t("planner.route.stages.required")}
-                  </div>
-                </div>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={addStage}
-              disabled={!isStageTrip || formData.stages.length >= 4}
-              className="rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-sm sm:text-base"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t("planner.route.stages.add")}
-            </Button>
+        {!hasStages && (
+          <div className="text-xs font-semibold tracking-[0.08em] text-white/45">
+            {t("planner.route.stages.empty")}
           </div>
+        )}
 
-          {formData.stages.length === 0 && isStageTrip && (
-            <div className="text-xs font-semibold tracking-[0.08em] text-white/45">
-              {t("planner.route.stages.empty")}
-            </div>
-          )}
-
+        <AnimatePresence>
           {formData.stages.map((stage, index) => (
-            <div key={index} className="p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 space-y-6">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              className="p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 space-y-6"
+            >
               <div className="flex items-center justify-between gap-4">
                 <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
                   {t("planner.route.stage.label", { num: index + 1 })}
@@ -344,7 +251,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   type="button"
                   variant="ghost"
                   onClick={() => removeStage(index)}
-                  disabled={!isStageTrip}
                   className="rounded-xl text-white/70 hover:text-white hover:bg-white/10"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
@@ -353,9 +259,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               </div>
 
               <div className="space-y-4">
-                {!stage.destination?.trim() && (
-                  <div className={requiredError}>{t("planner.route.requiredHint")}</div>
-                )}
+                {!stage.destination?.trim() && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
                 <div className="relative">
                   <input
                     id={`stageDestination-${index}`}
@@ -363,58 +267,106 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                     value={stage.destination}
                     onChange={(e) => updateStage(index, { destination: e.target.value })}
                     className={`${inputClass} pl-12 sm:pl-14 ${!stage.destination?.trim() ? "border-red-400/40 focus:border-red-400" : ""}`}
-                    disabled={!isStageTrip}
                   />
-                  <Info className={`absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${!isStageTrip ? "text-white/20" : "text-primary/30"}`} />
+                  <Route className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-primary/30" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <Label htmlFor={`stageArrivalDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
-                    {buildStageLabel("planner.route.stage.arrivalDate", index, stage.destination)}
-                  </Label>
-                  <div className="relative">
-                    <input
-                      id={`stageArrivalDate-${index}`}
-                      type="date"
-                      value={stage.arrivalDate || ""}
-                      onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
-                      className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                      style={{ colorScheme: "dark" }}
-                      disabled={!isStageTrip}
-                    />
-                    <Calendar className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none ${!isStageTrip ? "text-white/20" : "text-white/30"}`} />
+              <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
+                <div className="space-y-1">
+                  <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                    {buildStopLabel("planner.route.stage.detailsLabel", index, stage.destination)}
+                  </div>
+                  <div className="text-white/60 text-sm">
+                    {t("planner.route.stage.detailsDescription")}
                   </div>
                 </div>
-
-                <div className="space-y-3">
-                  <Label htmlFor={`stageArrivalTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
-                    {buildStageLabel("planner.route.stage.arrivalTime", index, stage.destination)}
-                  </Label>
-                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
-                    <input
-                      id={`stageArrivalTime-${index}`}
-                      type="time"
-                      value={stage.arrivalTime || ""}
-                      onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
-                      className={`peer ${timeInputClass} ${!stage.arrivalTime ? "time-empty" : ""}`}
-                      style={timeInputStyle}
-                    />
-                    {!stage.arrivalTime && (
-                      <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">
-                        --:--
-                      </span>
-                    )}
-                    <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
-                  </div>
-                </div>
+                <Switch
+                  checked={!!stage.detailsEnabled}
+                  onCheckedChange={(checked) => updateStage(index, { detailsEnabled: checked })}
+                  aria-label={buildStopLabel("planner.route.stage.detailsLabel", index, stage.destination)}
+                  className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
+                />
               </div>
-            </div>
+
+              {stage.detailsEnabled && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label htmlFor={`stageArrivalDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                      {buildStopLabel("planner.route.stage.arrivalDate", index, stage.destination)}
+                    </Label>
+                    <div className="relative">
+                      <input
+                        id={`stageArrivalDate-${index}`}
+                        type="date"
+                        value={stage.arrivalDate || ""}
+                        onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
+                        className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                        style={{ colorScheme: "dark" }}
+                      />
+                      <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor={`stageArrivalTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                      {buildStopLabel("planner.route.stage.arrivalTime", index, stage.destination)}
+                    </Label>
+                    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                      <input
+                        id={`stageArrivalTime-${index}`}
+                        type="time"
+                        value={stage.arrivalTime || ""}
+                        onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
+                        className={`peer ${timeInputClass} ${!stage.arrivalTime ? "time-empty" : ""}`}
+                        style={timeInputStyle}
+                      />
+                      {!stage.arrivalTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                      <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor={`stageDepartureDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                      {buildStopLabel("planner.route.stage.departureDate", index, stage.destination)}
+                    </Label>
+                    <div className="relative">
+                      <input
+                        id={`stageDepartureDate-${index}`}
+                        type="date"
+                        value={stage.departureDate || ""}
+                        onChange={(e) => updateStage(index, { departureDate: e.target.value })}
+                        className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                        style={{ colorScheme: "dark" }}
+                        min={stage.arrivalDate || undefined}
+                      />
+                      <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor={`stageDepartureTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                      {buildStopLabel("planner.route.stage.departureTime", index, stage.destination)}
+                    </Label>
+                    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                      <input
+                        id={`stageDepartureTime-${index}`}
+                        type="time"
+                        value={stage.departureTime || ""}
+                        onChange={(e) => updateStage(index, { departureTime: e.target.value })}
+                        className={`peer ${timeInputClass} ${!stage.departureTime ? "time-empty" : ""}`}
+                        style={timeInputStyle}
+                      />
+                      {!stage.departureTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                      <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
           ))}
-        </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
 
       <div className="p-6 sm:p-8 md:p-12 shadow-2xl space-y-10" style={glassPanelStyle}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -423,7 +375,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               <span className={fieldLabelIconSlotClass}>
                 <Calendar className="w-4 h-4 text-secondary" />
               </span>
-              {startDateLabel}
+              {t("planner.route.departure")} {formData.startPoint?.trim() ? `(${formData.startPoint.trim()})` : ""}
             </Label>
             <div className="relative">
               <input
@@ -442,7 +394,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               <span className={fieldLabelIconSlotClass}>
                 <ArrowRight className="w-4 h-4 text-secondary" />
               </span>
-              {endDateLabel}
+              {t("planner.route.arrival")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
             </Label>
             <div className="relative">
               <input
@@ -462,7 +414,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           <div className="space-y-4">
             <Label className={fieldLabelClass}>
               <span className={fieldLabelIconSlotClass} aria-hidden="true" />
-              {startTimeLabel}
+              {t("planner.route.departureTime")} {formData.startPoint?.trim() ? `(${formData.startPoint.trim()})` : ""}
             </Label>
             <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
               <input
@@ -472,11 +424,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 className={`peer ${timeInputClass} ${!formData.startTime ? "time-empty" : ""}`}
                 style={timeInputStyle}
               />
-              {!formData.startTime && (
-                <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">
-                  --:--
-                </span>
-              )}
+              {!formData.startTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
               <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>
@@ -484,7 +432,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           <div className="space-y-4">
             <Label className={fieldLabelClass}>
               <span className={fieldLabelIconSlotClass} aria-hidden="true" />
-              {endTimeLabel}
+              {t("planner.route.arrivalTime")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
             </Label>
             <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
               <input
@@ -494,11 +442,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 className={`peer ${timeInputClass} ${!formData.endTime ? "time-empty" : ""}`}
                 style={timeInputStyle}
               />
-              {!formData.endTime && (
-                <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">
-                  --:--
-                </span>
-              )}
+              {!formData.endTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
               <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
             </div>
           </div>
@@ -507,21 +451,67 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
           <div className="space-y-1">
             <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
-              {t("planner.route.flexibleDuration.label")}
+              {t("planner.route.destinationDetails.label")}
             </div>
             <div className="text-white/60 text-sm">
-              {t("planner.route.flexibleDuration.description")}
+              {t("planner.route.destinationDetails.description")}
             </div>
           </div>
           <Switch
-            checked={formData.durationFlexible}
-            onCheckedChange={(checked) => onChange({ durationFlexible: checked })}
-            aria-label={t("planner.route.flexibleDuration.label")}
+            checked={formData.destinationDetailsEnabled}
+            onCheckedChange={(checked) => onChange({
+              destinationDetailsEnabled: checked,
+              destinationDepartureDate: checked ? formData.destinationDepartureDate : "",
+              destinationDepartureTime: checked ? formData.destinationDepartureTime : "",
+            })}
+            aria-label={t("planner.route.destinationDetails.label")}
             className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
           />
         </div>
 
-        <div className="pt-10 border-t border-white/5 space-y-8">
+        {formData.destinationDetailsEnabled && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <Label className={fieldLabelClass}>
+                <span className={fieldLabelIconSlotClass}>
+                  <Calendar className="w-4 h-4 text-secondary" />
+                </span>
+                {t("planner.route.destinationDeparture")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
+              </Label>
+              <div className="relative">
+                <input
+                  type="date"
+                  value={formData.destinationDepartureDate || ""}
+                  onChange={(e) => onChange({ destinationDepartureDate: e.target.value })}
+                  className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
+                  style={{ colorScheme: "dark" }}
+                  min={formData.endDate || formData.startDate || undefined}
+                />
+                <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <Label className={fieldLabelClass}>
+                <span className={fieldLabelIconSlotClass} aria-hidden="true" />
+                {t("planner.route.destinationDepartureTime")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
+              </Label>
+              <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                <input
+                  type="time"
+                  value={formData.destinationDepartureTime || ""}
+                  onChange={(e) => onChange({ destinationDepartureTime: e.target.value })}
+                  className={`peer ${timeInputClass} ${!formData.destinationDepartureTime ? "time-empty" : ""}`}
+                  style={timeInputStyle}
+                />
+                {!formData.destinationDepartureTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="pt-6 border-t border-white/5 space-y-8">
           <FormSlider
             id="maxDailyDistance"
             label={t("planner.route.maxDistance")}
@@ -549,7 +539,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           {showLimitPriority && (
             <div className="space-y-4 rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 p-4 sm:p-5">
               <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
-                <Compass className="w-4 h-4 text-primary" />
+                <Info className="w-4 h-4 text-primary" />
                 {t("planner.route.limitPriority.label")}
               </Label>
               <div className="text-white/60 text-sm">

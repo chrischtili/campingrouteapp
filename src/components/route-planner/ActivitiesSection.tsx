@@ -15,27 +15,14 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
 
   const categories = [
     {
-      id: 'active',
-      label: t("planner.interests.categories.active"),
-      icon: Mountain,
-      options: [
-        { value: 'hiking', label: t("planner.interests.options.hiking") },
-        { value: 'cycling', label: t("planner.interests.options.cycling") },
-        { value: 'mtb', label: t("planner.interests.options.mtb") },
-        { value: 'watersports', label: t("planner.interests.options.watersports") },
-        { value: 'wintersports', label: t("planner.interests.options.wintersports") },
-      ]
-    },
-    {
       id: 'nature',
       label: t("planner.interests.categories.nature"),
       icon: TreePine,
       options: [
-        { value: 'wildlife', label: t("planner.interests.options.wildlife") },
-        { value: 'photography', label: t("planner.interests.options.photography") },
-        { value: 'beach', label: t("planner.interests.options.beach") },
-        { value: 'astronomy', label: t("planner.interests.options.astronomy") },
-        { value: 'lakes', label: t("planner.interests.options.lakes") },
+        { value: 'nature', label: t("planner.interests.options.nature") },
+        { value: 'hiking', label: t("planner.interests.options.hiking") },
+        { value: 'cycling', label: t("planner.interests.options.cycling") },
+        { value: 'bathing', label: t("planner.interests.options.bathing") },
       ]
     },
     {
@@ -43,26 +30,22 @@ export function ActivitiesSection({ formData, onChange, onCheckboxChange }: Acti
       label: t("planner.interests.categories.culture"),
       icon: Landmark,
       options: [
-        { value: 'cityStroll', label: t("planner.interests.options.cityStroll") },
-        { value: 'history', label: t("planner.interests.options.history") },
-        { value: 'museums', label: t("planner.interests.options.museums") },
+        { value: 'cityCulture', label: t("planner.interests.options.cityCulture") },
         { value: 'gastronomy', label: t("planner.interests.options.gastronomy") },
-        { value: 'events', label: t("planner.interests.options.events") },
+        { value: 'relaxation', label: t("planner.interests.options.relaxation") },
       ]
     },
     {
-      id: 'lifestyle',
-      label: t("planner.interests.categories.lifestyle"),
-      icon: Coffee,
+      id: 'travel',
+      label: t("planner.interests.categories.travel"),
+      icon: Heart,
       options: [
-        { value: 'wellness', label: t("planner.interests.options.wellness") },
-        { value: 'slowTravel', label: t("planner.interests.options.slowTravel") },
-        { value: 'shopping', label: t("planner.interests.options.shopping") },
-        { value: 'badWeather', label: t("planner.interests.options.badWeather") },
-        { value: 'campfire', label: t("planner.interests.options.campfire") },
+        { value: 'familyFriendly', label: t("planner.interests.options.familyFriendly") },
+        { value: 'dogFriendly', label: t("planner.interests.options.dogFriendly") },
       ]
     }
   ];
+
   
   const glassPanelStyle = {
     background: "rgba(255, 255, 255, 0.03)",

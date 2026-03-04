@@ -486,7 +486,7 @@
   },
   "planner": {
     "badge": "Routenplaner",
-    "title": "In 7 Schritten zur perfekten Route",
+    "title": "In 6 Schritten zur perfekten Route",
     "cta": "Jetzt Route planen",
     "loading": {
       "ai": "🤖 Generiere Route...",
@@ -526,7 +526,8 @@
         "coffee": "Support CampingRoute",
         "coffeeHint": "CampingRoute.app ist offen & werbefrei – dein Support hilft bei Serverkosten + Entwicklungskosten. Danke!",
         "clear": "Daten löschen"
-      }
+      },
+      "stops": "Zwischenziele"
     },
     "steps": {
       "ai": {
@@ -546,7 +547,7 @@
         "desc": ""
       },
       "accommodation": {
-        "label": "Übernachtung",
+        "label": "Übernachtung/Interessen",
         "desc": ""
       },
       "interests": {
@@ -559,7 +560,7 @@
       },
       "hint": "Du kannst auch direkt auf einen Schritt oben tippen.",
       "openStep": "Schritt öffnen",
-      "routeIncomplete": "Bitte fülle Start, Ziel und alle hinzugefügten Etappenziele aus."
+      "routeIncomplete": "Bitte fülle Start, Ziel und alle hinzugefügten Zwischenziele aus."
     },
     "ai": {
       "title": "KI-Einstellungen",
@@ -633,11 +634,15 @@
         "placeholder": "z.B. Gardasee"
       },
       "stage": {
-        "label": "Etappenziel {{num}}",
-        "placeholder": "z. B. Innsbruck oder Bozen",
-        "arrivalTime": "Ankunftszeit Etappenziel {{num}}",
-        "destinationLabel": "Etappenziel {{num}}",
-        "arrivalDate": "Ankunftsdatum Etappenziel {{num}}"
+        "label": "Zwischenziel {{num}}",
+        "placeholder": "z. B. Speyer oder Köln",
+        "arrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
+        "destinationLabel": "Zwischenziel {{num}}",
+        "arrivalDate": "Ankunft am Zwischenziel {{num}}",
+        "departureDate": "Abfahrt vom Zwischenziel {{num}}",
+        "departureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+        "detailsLabel": "Zwischenziel {{num}} genauer planen",
+        "detailsDescription": "Ankunft und Abfahrt für diesen Zwischenstopp optional festlegen."
       },
       "departure": "Abreise",
       "arrival": "Ankunft",
@@ -677,9 +682,9 @@
         "description": "Plane Anreise, Aufenthalt und Rückreise rund um ein festes Urlaubsziel."
       },
       "destinationArrivalBy": "Späteste Ankunft am Ziel",
-      "destinationDeparture": "Abfahrt vom Urlaubsziel",
+      "destinationDeparture": "Abfahrt vom Ziel",
       "destinationArrivalTime": "Gewünschte Ankunftszeit am Urlaubsziel",
-      "destinationDepartureTime": "Gewünschte Abfahrtszeit vom Urlaubsziel",
+      "destinationDepartureTime": "Abfahrtszeit vom Ziel",
       "vacationDestination": {
         "label": "Urlaubsziel",
         "placeholder": "z.B. Alkmaar"
@@ -693,12 +698,16 @@
         "placeholder": "z.B. Karlsruhe"
       },
       "stages": {
-        "title": "Etappenziele",
-        "description": "Fuge so viele Etappenziele hinzu, wie du fur die Etappenreise brauchst.",
-        "add": "Etappenziel hinzufugen",
+        "title": "Zwischenziele",
+        "description": "Füge so viele Zwischenziele hinzu, wie du für deine Route brauchst.",
+        "add": "Zwischenziel hinzufügen",
         "remove": "Entfernen",
-        "empty": "Noch keine Etappenziele angelegt",
-        "required": "Ort ist Pflicht, sobald ein Etappenziel hinzugefügt wurde."
+        "empty": "Noch keine Zwischenziele angelegt",
+        "required": "Ort ist Pflicht, sobald ein Zwischenziel hinzugefügt wurde."
+      },
+      "destinationDetails": {
+        "label": "Zielaufenthalt genauer planen",
+        "description": "Ankunft und Abfahrt am Ziel optional festlegen."
       }
     },
     "optimization": {
@@ -854,7 +863,7 @@
       }
     },
     "accommodation": {
-      "title": "Übernachtung",
+      "title": "Übernachtung & Interessen",
       "group": {
         "travelers": "Reisende",
         "budget": "Budget"
@@ -911,7 +920,7 @@
         "label": "Zusatzwünsche",
         "placeholder": "z. B. Seeblick, Hundestrand, schattiger Platz ..."
       },
-      "subtitle": "Wo und wie möchtest du auf der Route übernachten?",
+      "subtitle": "Wo und wie möchtest du übernachten – und was ist dir unterwegs wichtig?",
       "budgetLevel": {
         "label": "Komfortniveau des Platzes",
         "placeholder": "Bitte wählen",
@@ -930,32 +939,20 @@
       "title": "Interessen",
       "subtitle": "(Mehrfachauswahl möglich)",
       "categories": {
-        "active": "Aktiv & Sport",
-        "nature": "Natur & Landschaft",
-        "culture": "Kultur & Kulinarik",
-        "lifestyle": "Entspannung & Lifestyle"
+        "nature": "Natur & Aktiv",
+        "culture": "Kultur & Genuss",
+        "travel": "Reiseprofil"
       },
       "options": {
-        "hiking": "Wandern & Trekking",
-        "cycling": "Fahrrad & E-Bike",
-        "mtb": "Mountainbike",
-        "watersports": "Wassersport & Kanu",
-        "wintersports": "Wintersport",
-        "wildlife": "Tierbeobachtung",
-        "photography": "Fotografie-Spots",
-        "beach": "Strand & Meer",
-        "astronomy": "Sternenbeobachtung",
-        "lakes": "Seen & Flüsse",
-        "cityStroll": "Städtetrips",
-        "history": "Geschichte & Architektur",
-        "museums": "Museen & Kunst",
-        "gastronomy": "Regionale Kulinarik",
-        "events": "Lokale Feste & Events",
-        "wellness": "Wellness & Spa",
-        "slowTravel": "Kleine Dörfer & Landcafés",
-        "shopping": "Shopping & Boutiquen",
-        "badWeather": "Schlechtwetter-Alternativen",
-        "campfire": "Geselligkeit & Lagerfeuer"
+        "nature": "Natur",
+        "hiking": "Wandern",
+        "cycling": "Radfahren",
+        "bathing": "Baden / Seen / Küste",
+        "cityCulture": "Städte & Kultur",
+        "gastronomy": "Kulinarik",
+        "relaxation": "Ruhe / Entspannung",
+        "familyFriendly": "Familienfreundlich",
+        "dogFriendly": "Hundefreundlich"
       },
       "additional": {
         "label": "Weitere Wünsche",
@@ -1122,7 +1119,7 @@
     "labels": {
       "start": "Startpunkt",
       "destination": "Ziel",
-      "stage": "Etappenziel {{num}}",
+      "stage": "Zwischenziel {{num}}",
       "stageArrival": "Ankunftszeit am Etappenziel {{num}}",
       "departure": "Abreise",
       "arrival": "Ankunft",
@@ -1172,15 +1169,19 @@
       "destinationArrivalBy": "Ankunft am Urlaubsziel",
       "destinationDeparture": "Abfahrt vom Urlaubsziel",
       "destinationArrivalTime": "Ankunftszeit am Urlaubsziel",
-      "destinationDepartureTime": "Abfahrtszeit vom Urlaubsziel",
+      "destinationDepartureTime": "Abfahrtszeit vom Ziel",
       "returnScheduleHint": "Berechne daraus, wann die Abfahrt am Startpunkt nötig ist und wann die Ankunft am Rückkehrziel realistisch ist",
       "returnDestination": "Rückkehrziel",
       "vacationDestination": "Urlaubsziel",
-      "stageArrivalDate": "Ankunft am Etappenziel {{num}}",
+      "stageArrivalDate": "Ankunft am Zwischenziel {{num}}",
       "startDeparture": "Abreise am Startpunkt",
       "startDepartureTime": "Abfahrtszeit am Startpunkt",
       "finalArrival": "Ankunft am Ziel",
-      "finalArrivalTime": "Ankunftszeit am Ziel"
+      "finalArrivalTime": "Ankunftszeit am Ziel",
+      "stageArrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
+      "stageDepartureDate": "Abfahrt vom Zwischenziel {{num}}",
+      "stageDepartureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+      "destinationDepartureDate": "Abfahrt vom Ziel"
     },
     "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1. Etappeplanung (Tageskilometer, Fahrzeit, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2. Übernachtungen (konkrete Camping-/Stellplätze und Alternativen mit kurzer Beschreibung; nenne, wenn verfügbar, die offizielle Website, Adresse und Telefonnummer. Links sind sehr wichtig und sollten in der Regel vorhanden sein. Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Schreibe Links immer vollständig mit https:// (z. B. https://beispiel.de). Nenne grobe Preisbereiche, aber markiere Preise als Richtwerte. Suche zwingend mindestens eine Alternative pro Übernachtung mit denselben Angaben.)\n\n3. Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4. Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5. Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6. Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7. Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8. Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9. Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
     "gpx": {

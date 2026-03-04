@@ -486,7 +486,7 @@
   },
   "planner": {
     "badge": "Route Planner",
-    "title": "Perfect route in 7 steps",
+    "title": "Your perfect route in 6 steps",
     "cta": "Plan Now",
     "loading": {
       "ai": "🤖 Generating route...",
@@ -526,7 +526,8 @@
         "coffee": "Support CampingRoute",
         "coffeeHint": "CampingRoute.app is open-source and ad-free — your support helps with server and development costs. Thank you!",
         "clear": "Clear data"
-      }
+      },
+      "stops": "Stops"
     },
     "steps": {
       "ai": {
@@ -546,7 +547,7 @@
         "desc": ""
       },
       "accommodation": {
-        "label": "Accommodation",
+        "label": "Accommodation/Interests",
         "desc": ""
       },
       "interests": {
@@ -559,7 +560,7 @@
       },
       "hint": "You can also tap a step above to open it directly.",
       "openStep": "Open step",
-      "routeIncomplete": "Please fill in start, destination, and every added stage destination."
+      "routeIncomplete": "Please fill in start, destination, and every added stop."
     },
     "ai": {
       "title": "AI Settings",
@@ -633,11 +634,15 @@
         "placeholder": "e.g. London"
       },
       "stage": {
-        "label": "Stage destination {{num}}",
-        "placeholder": "e.g. Innsbruck or Bolzano",
-        "arrivalTime": "Arrival time stage destination {{num}}",
-        "destinationLabel": "Stage destination {{num}}",
-        "arrivalDate": "Arrival date stage destination {{num}}"
+        "label": "Stop {{num}}",
+        "placeholder": "e.g. Speyer or Cologne",
+        "arrivalTime": "Arrival time at stop {{num}}",
+        "destinationLabel": "Stop {{num}}",
+        "arrivalDate": "Arrival at stop {{num}}",
+        "departureDate": "Departure from stop {{num}}",
+        "departureTime": "Departure time from stop {{num}}",
+        "detailsLabel": "Plan stop {{num}} in more detail",
+        "detailsDescription": "Optionally define arrival and departure for this stop."
       },
       "departure": "Departure",
       "arrival": "Arrival",
@@ -679,7 +684,7 @@
       "destinationArrivalBy": "Latest arrival at destination",
       "destinationDeparture": "Departure from destination",
       "destinationArrivalTime": "Desired arrival time at the vacation destination",
-      "destinationDepartureTime": "Desired departure time from the vacation destination",
+      "destinationDepartureTime": "Departure time from destination",
       "vacationDestination": {
         "label": "Holiday destination",
         "placeholder": "e.g. Alkmaar"
@@ -693,12 +698,16 @@
         "placeholder": "e.g. Karlsruhe"
       },
       "stages": {
-        "title": "Stage destinations",
-        "description": "Add as many stage destinations as you need for the staged journey.",
-        "add": "Add stage destination",
+        "title": "Stops",
+        "description": "Add as many stops as you need for your route.",
+        "add": "Add stop",
         "remove": "Remove",
-        "empty": "No stage destinations added yet",
-        "required": "A location is required as soon as a stage destination is added."
+        "empty": "No stops added yet",
+        "required": "A place is required as soon as a stop is added."
+      },
+      "destinationDetails": {
+        "label": "Plan destination stay in more detail",
+        "description": "Optionally define arrival and departure at the destination."
       }
     },
     "optimization": {
@@ -854,7 +863,7 @@
       }
     },
     "accommodation": {
-      "title": "Accommodation",
+      "title": "Accommodation & Interests",
       "group": {
         "travelers": "Travelers",
         "budget": "Budget"
@@ -911,7 +920,7 @@
         "label": "Special Wishes",
         "placeholder": "e.g. lake view, dog beach, shaded pitch ..."
       },
-      "subtitle": "Where and how would you like to stay overnight on the route?",
+      "subtitle": "Where and how would you like to stay overnight – and what matters to you along the way?",
       "budgetLevel": {
         "label": "Comfort level of the place",
         "placeholder": "Please choose",
@@ -930,32 +939,20 @@
       "title": "Interests",
       "subtitle": "(Multiple selection possible)",
       "categories": {
-        "active": "Active & Sports",
-        "nature": "Nature & Landscape",
-        "culture": "Culture & Culinary",
-        "lifestyle": "Relaxation & Lifestyle"
+        "nature": "Nature & Active",
+        "culture": "Culture & Enjoyment",
+        "travel": "Travel profile"
       },
       "options": {
-        "hiking": "Hiking & Trekking",
-        "cycling": "Cycling & E-Bike",
-        "mtb": "Mountain Biking",
-        "watersports": "Water Sports & Canoe",
-        "wintersports": "Winter Sports",
-        "wildlife": "Wildlife Watching",
-        "photography": "Photography Spots",
-        "beach": "Beach & Sea",
-        "astronomy": "Stargazing",
-        "lakes": "Lakes & Rivers",
-        "cityStroll": "City Trips",
-        "history": "History & Architecture",
-        "museums": "Museums & Art",
-        "gastronomy": "Regional Culinary",
-        "events": "Local Festivals & Events",
-        "wellness": "Wellness & Spa",
-        "slowTravel": "Small villages & country cafés",
-        "shopping": "Shopping & Boutiques",
-        "badWeather": "Bad Weather Alternatives",
-        "campfire": "Socializing & Campfire"
+        "nature": "Nature",
+        "hiking": "Hiking",
+        "cycling": "Cycling",
+        "bathing": "Swimming / lakes / coast",
+        "cityCulture": "Cities & culture",
+        "gastronomy": "Food & local cuisine",
+        "relaxation": "Peace & relaxation",
+        "familyFriendly": "Family-friendly",
+        "dogFriendly": "Dog-friendly"
       },
       "additional": {
         "label": "Further Info",
@@ -1122,7 +1119,7 @@
     "labels": {
       "start": "Start point",
       "destination": "Destination",
-      "stage": "Stage destination {{num}}",
+      "stage": "Stop {{num}}",
       "stageArrival": "Arrival time at stage destination {{num}}",
       "departure": "Departure date",
       "arrival": "Arrival date",
@@ -1172,15 +1169,19 @@
       "destinationArrivalBy": "Arrival at holiday destination",
       "destinationDeparture": "Departure from the vacation destination",
       "destinationArrivalTime": "Arrival time at the vacation destination",
-      "destinationDepartureTime": "Departure time from the vacation destination",
+      "destinationDepartureTime": "Departure time from destination",
       "returnScheduleHint": "Use this to calculate when departure from the starting point is needed and when arrival at the return destination is realistic",
       "returnDestination": "Return destination",
       "vacationDestination": "Holiday destination",
-      "stageArrivalDate": "Arrival at stage destination {{num}}",
+      "stageArrivalDate": "Arrival at stop {{num}}",
       "startDeparture": "Departure from start point",
       "startDepartureTime": "Departure time from start point",
       "finalArrival": "Arrival at destination",
-      "finalArrivalTime": "Arrival time at destination"
+      "finalArrivalTime": "Arrival time at destination",
+      "stageArrivalTime": "Arrival time at stop {{num}}",
+      "stageDepartureDate": "Departure from stop {{num}}",
+      "stageDepartureTime": "Departure time from stop {{num}}",
+      "destinationDepartureDate": "Departure from destination"
     },
     "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1. Stage Planning (Daily kilometers, driving time, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2. Overnight Stays (Specific campsites/pitches and alternatives with brief descriptions; include the official website, address, and phone number if available. Links are very important and should usually exist. Always write full links with https:// (e.g., https://example.com). Always write full links with https:// (e.g., https://example.com). Include approximate price ranges, but mark prices as estimates. Always find at least one alternative per overnight stay with the same details.)\n\n3. Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4. Practical Tips (Navigation, waste disposal, emergency information).\n\n5. Best Travel Time & Duration (Brief section).\n\n6. Services on the Road (Fuel, supermarkets, workshops).\n\n7. Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8. Technology & Equipment (Short checklist, app recommendations).\n\n9. Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",
     "gpx": {

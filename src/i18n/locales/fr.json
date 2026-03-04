@@ -486,7 +486,7 @@
   },
   "planner": {
     "badge": "Planificateur d’itinéraire",
-    "title": "Itinéraire parfait en 7 étapes",
+    "title": "L’itinéraire parfait en 6 étapes",
     "cta": "Planifier maintenant",
     "loading": {
       "ai": "🤖 Génération de l’itinéraire...",
@@ -526,7 +526,8 @@
         "coffee": "Soutenir CampingRoute",
         "coffeeHint": "CampingRoute.app est open source et sans publicité — votre soutien aide aux coûts de serveur et de développement. Merci !",
         "clear": "Effacer les données"
-      }
+      },
+      "stops": "Arrêts"
     },
     "steps": {
       "ai": {
@@ -546,7 +547,7 @@
         "desc": ""
       },
       "accommodation": {
-        "label": "Hebergement",
+        "label": "Hébergement/Intérêts",
         "desc": ""
       },
       "interests": {
@@ -559,7 +560,7 @@
       },
       "hint": "Tu peux aussi appuyer directement sur une étape ci-dessus pour l’ouvrir.",
       "openStep": "Ouvrir l’étape",
-      "routeIncomplete": "Veuillez renseigner le départ, la destination et chaque étape ajoutée."
+      "routeIncomplete": "Veuillez renseigner le départ, la destination et chaque arrêt ajouté."
     },
     "ai": {
       "title": "Paramètres IA",
@@ -633,11 +634,15 @@
         "placeholder": "ex. Londres"
       },
       "stage": {
-        "label": "Destination d'etape {{num}}",
-        "placeholder": "p. ex. Innsbruck ou Bolzano",
-        "arrivalTime": "Heure d'arrivee destination d'etape {{num}}",
-        "destinationLabel": "Destination d'etape {{num}}",
-        "arrivalDate": "Date d'arrivee destination d'etape {{num}}"
+        "label": "Arrêt {{num}}",
+        "placeholder": "p. ex. Spire ou Cologne",
+        "arrivalTime": "Heure d’arrivée à l’arrêt {{num}}",
+        "destinationLabel": "Arrêt {{num}}",
+        "arrivalDate": "Arrivée à l’arrêt {{num}}",
+        "departureDate": "Départ de l’arrêt {{num}}",
+        "departureTime": "Heure de départ de l’arrêt {{num}}",
+        "detailsLabel": "Planifier l’arrêt {{num}} plus précisément",
+        "detailsDescription": "Définis si besoin l’arrivée et le départ pour cet arrêt."
       },
       "departure": "Départ",
       "arrival": "Arrivée",
@@ -677,9 +682,9 @@
         "description": "Planifie le trajet aller, le sejour et le retour autour d'une destination de vacances fixe."
       },
       "destinationArrivalBy": "Arrivee au plus tard a destination",
-      "destinationDeparture": "Depart depuis la destination",
+      "destinationDeparture": "Départ de la destination",
       "destinationArrivalTime": "Heure d'arrivee souhaitee a la destination de vacances",
-      "destinationDepartureTime": "Heure de depart souhaitee depuis la destination de vacances",
+      "destinationDepartureTime": "Heure de départ de la destination",
       "vacationDestination": {
         "label": "Destination de vacances",
         "placeholder": "p. ex. Alkmaar"
@@ -693,12 +698,16 @@
         "placeholder": "p. ex. Karlsruhe"
       },
       "stages": {
-        "title": "Destinations d'etape",
-        "description": "Ajoute autant de destinations d'etape que necessaire pour le voyage par etapes.",
-        "add": "Ajouter une destination d'etape",
+        "title": "Arrêts",
+        "description": "Ajoute autant d’arrêts que nécessaire pour ton itinéraire.",
+        "add": "Ajouter un arrêt",
         "remove": "Supprimer",
-        "empty": "Aucune destination d'etape ajoutee pour le moment",
-        "required": "Un lieu est obligatoire dès qu’une étape est ajoutée."
+        "empty": "Aucun arrêt ajouté",
+        "required": "Un lieu est obligatoire dès qu’un arrêt est ajouté."
+      },
+      "destinationDetails": {
+        "label": "Planifier le séjour à destination plus précisément",
+        "description": "Définis si besoin l’arrivée et le départ à la destination."
       }
     },
     "optimization": {
@@ -854,7 +863,7 @@
       }
     },
     "accommodation": {
-      "title": "Hébergement",
+      "title": "Hébergement & intérêts",
       "group": {
         "travelers": "Voyageurs",
         "budget": "Budget"
@@ -911,7 +920,7 @@
         "label": "Souhaits particuliers",
         "placeholder": "p. ex. vue sur le lac, plage pour chiens, emplacement ombragé ..."
       },
-      "subtitle": "Où et comment souhaitez‑vous passer la nuit pendant l’itinéraire ?",
+      "subtitle": "Où et comment souhaitez-vous passer la nuit — et qu’est-ce qui est important pour vous en route ?",
       "budgetLevel": {
         "label": "Niveau de confort de l’emplacement",
         "placeholder": "Veuillez choisir",
@@ -930,32 +939,20 @@
       "title": "Intérêts",
       "subtitle": "(Sélection multiple possible)",
       "categories": {
-        "active": "Actif & sport",
-        "nature": "Nature & paysages",
-        "culture": "Culture & gastronomie",
-        "lifestyle": "Détente & lifestyle"
+        "nature": "Nature & activités",
+        "culture": "Culture & plaisirs",
+        "travel": "Profil de voyage"
       },
       "options": {
-        "hiking": "Randonnée & trek",
-        "cycling": "Vélo & e‑bike",
-        "mtb": "VTT",
-        "watersports": "Sports nautiques & canoë",
-        "wintersports": "Sports d’hiver",
-        "wildlife": "Observation de la faune",
-        "photography": "Spots photo",
-        "beach": "Plage & mer",
-        "astronomy": "Observation des étoiles",
-        "lakes": "Lacs & rivières",
-        "cityStroll": "Escapades urbaines",
-        "history": "Histoire & architecture",
-        "museums": "Musées & art",
-        "gastronomy": "Gastronomie régionale",
-        "events": "Festivals & événements",
-        "wellness": "Bien‑être & spa",
-        "slowTravel": "Petits villages & cafés de campagne",
-        "shopping": "Shopping & boutiques",
-        "badWeather": "Alternatives par mauvais temps",
-        "campfire": "Convivialité & feu de camp"
+        "nature": "Nature",
+        "hiking": "Randonnée",
+        "cycling": "Vélo",
+        "bathing": "Baignade / lacs / côte",
+        "cityCulture": "Villes & culture",
+        "gastronomy": "Gastronomie",
+        "relaxation": "Calme & détente",
+        "familyFriendly": "Adapté aux familles",
+        "dogFriendly": "Adapté aux chiens"
       },
       "additional": {
         "label": "Infos supplémentaires",
@@ -1122,7 +1119,7 @@
     "labels": {
       "start": "Point de départ",
       "destination": "Destination",
-      "stage": "Étape {{num}}",
+      "stage": "Arrêt {{num}}",
       "stageArrival": "Heure d’arrivée à l’étape {{num}}",
       "departure": "Date de départ",
       "arrival": "Date d’arrivée",
@@ -1172,15 +1169,19 @@
       "destinationArrivalBy": "Arrivee a la destination de vacances",
       "destinationDeparture": "Départ de la destination de vacances",
       "destinationArrivalTime": "Heure d’arrivée à la destination de vacances",
-      "destinationDepartureTime": "Heure de départ de la destination de vacances",
+      "destinationDepartureTime": "Heure de départ de la destination",
       "returnScheduleHint": "Calcule a partir de cela quand le depart du point de depart est necessaire et quand l'arrivee a la destination de retour est realiste",
       "returnDestination": "Destination du retour",
       "vacationDestination": "Destination de vacances",
-      "stageArrivalDate": "Arrivée à l’étape {{num}}",
+      "stageArrivalDate": "Arrivée à l’arrêt {{num}}",
       "startDeparture": "Départ du point de départ",
       "startDepartureTime": "Heure de départ du point de départ",
       "finalArrival": "Arrivée à destination",
-      "finalArrivalTime": "Heure d’arrivée à destination"
+      "finalArrivalTime": "Heure d’arrivée à destination",
+      "stageArrivalTime": "Heure d’arrivée à l’arrêt {{num}}",
+      "stageDepartureDate": "Départ de l’arrêt {{num}}",
+      "stageDepartureTime": "Heure de départ de l’arrêt {{num}}",
+      "destinationDepartureDate": "Départ de la destination"
     },
     "instructions": "Planifiez l’itinéraire avec les paramètres ci‑dessus et structurez la réponse en modules avec des titres clairs. N’utilisez pas d’astérisques (*) ou doubles astérisques (**) dans la réponse.\n\n1. Planification des étapes (kilométrage par jour, temps de conduite, pauses toutes les 2‑3 heures, itinéraires alternatifs si applicable, et justification brève).\n\n2. Nuits (campings/aires concrets et alternatives avec brève description ; indiquez, si disponible, le site officiel, l’adresse et le téléphone. Les liens sont très importants et devraient généralement exister. Écris toujours les liens en entier avec https:// (ex. https://exemple.fr). Donnez des fourchettes de prix, mais indiquez que ce sont des estimations. Trouvez toujours au moins une alternative par nuit avec les mêmes détails).\n\n3. Points forts & activités (Top 3 par étape, avec coûts/horaires si connus).\n\n4. Conseils pratiques (navigation, vidanges, informations d’urgence).\n\n5. Meilleure période & durée (section courte).\n\n6. Services sur la route (carburant, supermarchés, ateliers).\n\n7. Infos supplémentaires (budget, durabilité, santé, connectivité).\n\n8. Technologie & équipement (check‑list courte, apps recommandées).\n\n9. Flexibilité (itinéraires alternatifs, notes juridiques sur le camping sauvage, outils d’optimisation).\n\nImportant : utilisez vos connaissances cartographiques internes pour estimer distances et temps de conduite. Donnez les distances en km et les temps en heures/minutes, et marquez‑les comme estimations (p. ex. « env. 230 km / 3:00‑3:30 h »). Évitez une précision excessive si vous n’avez pas accès aux données actuelles et demandez‑moi explicitement de vérifier l’itinéraire dans le GPS (Google Maps, Here, Garmin, app OpenStreetMap).\n\nSi ta plateforme propose un téléchargement, enregistre toujours le fichier GPX avec l’extension .gpx (pas .txt). Si aucun téléchargement n’est possible, renvoie uniquement le fichier GPX, sans texte supplémentaire ni marqueurs. Ajoute également un court guide de téléchargement pour macOS, iOS, Windows et Android.",
     "gpx": {

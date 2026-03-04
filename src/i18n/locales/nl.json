@@ -486,7 +486,7 @@
   },
   "planner": {
     "badge": "Routeplanner",
-    "title": "In 7 stappen naar de perfecte route",
+    "title": "In 6 stappen naar de perfecte route",
     "cta": "Nu route plannen",
     "loading": {
       "ai": "🤖 Route genereren...",
@@ -526,7 +526,8 @@
         "coffee": "Steun CampingRoute",
         "coffeeHint": "CampingRoute.app is open‑source en reclamevrij — je steun helpt met server- en ontwikkelkosten. Dank je!",
         "clear": "Gegevens wissen"
-      }
+      },
+      "stops": "Tussenstops"
     },
     "steps": {
       "ai": {
@@ -546,7 +547,7 @@
         "desc": ""
       },
       "accommodation": {
-        "label": "Overnachting",
+        "label": "Overnachting/Interesses",
         "desc": ""
       },
       "interests": {
@@ -559,7 +560,7 @@
       },
       "hint": "Je kunt hierboven ook direct op een stap tikken om die te openen.",
       "openStep": "Stap openen",
-      "routeIncomplete": "Vul start, bestemming en elke toegevoegde etappebestemming in."
+      "routeIncomplete": "Vul start, bestemming en elke toegevoegde tussenstop in."
     },
     "ai": {
       "title": "AI‑instellingen",
@@ -633,11 +634,15 @@
         "placeholder": "bijv. Parijs"
       },
       "stage": {
-        "label": "Etappedoel {{num}}",
-        "placeholder": "bijv. Innsbruck of Bolzano",
-        "arrivalTime": "Aankomsttijd etappedoel {{num}}",
-        "destinationLabel": "Etappedoel {{num}}",
-        "arrivalDate": "Aankomstdatum etappedoel {{num}}"
+        "label": "Tussenstop {{num}}",
+        "placeholder": "bijv. Speyer of Keulen",
+        "arrivalTime": "Aankomsttijd bij tussenstop {{num}}",
+        "destinationLabel": "Tussenstop {{num}}",
+        "arrivalDate": "Aankomst bij tussenstop {{num}}",
+        "departureDate": "Vertrek van tussenstop {{num}}",
+        "departureTime": "Vertrektijd van tussenstop {{num}}",
+        "detailsLabel": "Tussenstop {{num}} nauwkeuriger plannen",
+        "detailsDescription": "Stel desgewenst aankomst en vertrek voor deze stop in."
       },
       "departure": "Vertrek",
       "arrival": "Aankomst",
@@ -677,9 +682,9 @@
         "description": "Plan heenreis, verblijf en terugreis rond een vaste vakantiebestemming."
       },
       "destinationArrivalBy": "Uiterlijke aankomst op bestemming",
-      "destinationDeparture": "Vertrek vanaf bestemming",
+      "destinationDeparture": "Vertrek van bestemming",
       "destinationArrivalTime": "Gewenste aankomsttijd op de vakantiebestemming",
-      "destinationDepartureTime": "Gewenste vertrektijd vanaf de vakantiebestemming",
+      "destinationDepartureTime": "Vertrektijd van bestemming",
       "vacationDestination": {
         "label": "Vakantiebestemming",
         "placeholder": "bijv. Alkmaar"
@@ -693,12 +698,16 @@
         "placeholder": "bijv. Karlsruhe"
       },
       "stages": {
-        "title": "Etappedoelen",
-        "description": "Voeg zoveel etappedoelen toe als je nodig hebt voor de etappereis.",
-        "add": "Etappedoel toevoegen",
+        "title": "Tussenstops",
+        "description": "Voeg zoveel tussenstops toe als je voor je route nodig hebt.",
+        "add": "Tussenstop toevoegen",
         "remove": "Verwijderen",
-        "empty": "Nog geen etappedoelen toegevoegd",
-        "required": "Een locatie is verplicht zodra een etappebestemming is toegevoegd."
+        "empty": "Nog geen tussenstops toegevoegd",
+        "required": "Een plaats is verplicht zodra een tussenstop is toegevoegd."
+      },
+      "destinationDetails": {
+        "label": "Verblijf op bestemming nauwkeuriger plannen",
+        "description": "Stel desgewenst aankomst en vertrek op de bestemming in."
       }
     },
     "optimization": {
@@ -854,7 +863,7 @@
       }
     },
     "accommodation": {
-      "title": "Overnachting",
+      "title": "Overnachting & interesses",
       "group": {
         "travelers": "Reizigers",
         "budget": "Budget"
@@ -911,7 +920,7 @@
         "label": "Extra wensen",
         "placeholder": "bijv. uitzicht op het meer, hondenstrand, schaduwrijke plek ..."
       },
-      "subtitle": "Waar en hoe wil je onderweg overnachten?",
+      "subtitle": "Waar en hoe wil je overnachten – en wat vind je onderweg belangrijk?",
       "budgetLevel": {
         "label": "Comfortniveau van de plek",
         "placeholder": "Kies een optie",
@@ -930,32 +939,20 @@
       "title": "Interesses",
       "subtitle": "(Meerdere keuzes mogelijk)",
       "categories": {
-        "active": "Actief & sport",
-        "nature": "Natuur & landschap",
-        "culture": "Cultuur & culinair",
-        "lifestyle": "Ontspanning & lifestyle"
+        "nature": "Natuur & actief",
+        "culture": "Cultuur & genieten",
+        "travel": "Reisprofiel"
       },
       "options": {
-        "hiking": "Wandelen & trekking",
-        "cycling": "Fietsen & e‑bike",
-        "mtb": "Mountainbiken",
-        "watersports": "Watersport & kano",
-        "wintersports": "Wintersport",
-        "wildlife": "Wildlife‑spotting",
-        "photography": "Fotospots",
-        "beach": "Strand & zee",
-        "astronomy": "Sterrenkijken",
-        "lakes": "Meren & rivieren",
-        "cityStroll": "Stedentrips",
-        "history": "Geschiedenis & architectuur",
-        "museums": "Musea & kunst",
-        "gastronomy": "Regionale keuken",
-        "events": "Lokale festivals & events",
-        "wellness": "Wellness & spa",
-        "slowTravel": "Kleine dorpen & landelijke cafés",
-        "shopping": "Winkelen & boetieks",
-        "badWeather": "Alternatieven bij slecht weer",
-        "campfire": "Samen zijn & kampvuur"
+        "nature": "Natuur",
+        "hiking": "Wandelen",
+        "cycling": "Fietsen",
+        "bathing": "Zwemmen / meren / kust",
+        "cityCulture": "Steden & cultuur",
+        "gastronomy": "Culinair",
+        "relaxation": "Rust & ontspanning",
+        "familyFriendly": "Gezinsvriendelijk",
+        "dogFriendly": "Hondvriendelijk"
       },
       "additional": {
         "label": "Extra wensen",
@@ -1126,7 +1123,7 @@
     "labels": {
       "start": "Startpunt",
       "destination": "Bestemming",
-      "stage": "Etappedoel {{num}}",
+      "stage": "Tussenstop {{num}}",
       "stageArrival": "Aankomsttijd bij etappedoel {{num}}",
       "departure": "Vertrekdatum",
       "arrival": "Aankomstdatum",
@@ -1176,15 +1173,19 @@
       "destinationArrivalBy": "Aankomst op vakantiebestemming",
       "destinationDeparture": "Vertrek vanaf de vakantiebestemming",
       "destinationArrivalTime": "Aankomsttijd op de vakantiebestemming",
-      "destinationDepartureTime": "Vertrektijd vanaf de vakantiebestemming",
+      "destinationDepartureTime": "Vertrektijd van bestemming",
       "returnScheduleHint": "Bereken hiermee wanneer vertrek vanaf het startpunt nodig is en wanneer aankomst op de terugkeerbestemming realistisch is",
       "returnDestination": "Terugkeerbestemming",
       "vacationDestination": "Vakantiebestemming",
-      "stageArrivalDate": "Aankomst bij etappedoel {{num}}",
+      "stageArrivalDate": "Aankomst bij tussenstop {{num}}",
       "startDeparture": "Vertrek vanaf startpunt",
       "startDepartureTime": "Vertrektijd vanaf startpunt",
       "finalArrival": "Aankomst op bestemming",
-      "finalArrivalTime": "Aankomsttijd op bestemming"
+      "finalArrivalTime": "Aankomsttijd op bestemming",
+      "stageArrivalTime": "Aankomsttijd bij tussenstop {{num}}",
+      "stageDepartureDate": "Vertrek van tussenstop {{num}}",
+      "stageDepartureTime": "Vertrektijd van tussenstop {{num}}",
+      "destinationDepartureDate": "Vertrek van bestemming"
     },
     "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1. Etappeplanning (Dagkilometers, rijtijd, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2. Overnachtingen (Concrete campings/stellplaatsen en alternatieven met korte beschrijving; vermeld indien beschikbaar de officiële website, adres en telefoonnummer. Links zijn erg belangrijk en zouden meestal aanwezig moeten zijn. Schrijf links altijd volledig met https:// (bijv. https://voorbeeld.nl). Geef globale prijsranges, maar markeer prijzen als richtwaarden. Zoek altijd minimaal één alternatief per overnachting met dezelfde details.)\n\n3. Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4. Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5. Beste reistijd & duur (Korte sectie).\n\n6. Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7. Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8. Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9. Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",
     "gpx": {

@@ -30,7 +30,7 @@ export default function Datenschutz() {
                   {t("privacy.badge")}
                 </span>
               </span>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase">{t("privacy.title")}</h1>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter">{t("privacy.title")}</h1>
             </div>
 
             <div className="grid grid-cols-1 gap-8">

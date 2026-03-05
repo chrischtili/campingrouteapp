@@ -198,8 +198,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${aiSettings.apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       requestData = {
-        contents: [{ parts: [{ text: prompt }] }],
-        ...(aiSettings.useGoogleSearch ? { tools: [{ google_search: {} }] } : {})
+        contents: [{ parts: [{ text: prompt }] }]
       };
       break;
     

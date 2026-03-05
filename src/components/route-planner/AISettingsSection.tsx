@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
-import { Bot, FileText, AlertCircle, Lock, ExternalLink, Info, Sparkles, Wand2, Shield, ChevronDown, Search } from "lucide-react";
+import { Bot, FileText, AlertCircle, Lock, ExternalLink, Info, Sparkles, Wand2, Shield, ChevronDown } from "lucide-react";
 import { AISettings } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -249,27 +248,6 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               </div>
             </div>
 
-            {aiSettings.aiProvider === "google" && (
-              <div className="rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-1.5">
-                    <div className="flex items-center gap-2 text-sm sm:text-base font-bold text-white">
-                      <Search className="h-4 w-4 text-primary" />
-                      {t("planner.ai.googleSearch.label")}
-                    </div>
-                    <p className="text-xs sm:text-sm leading-relaxed text-white/65">
-                      {t("planner.ai.googleSearch.description")}
-                    </p>
-                  </div>
-                  <Switch
-                    checked={aiSettings.useGoogleSearch}
-                    onCheckedChange={(checked) => onAISettingsChange({ useGoogleSearch: checked })}
-                    aria-label={t("planner.ai.googleSearch.label")}
-                    className="mt-1 border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
-                  />
-                </div>
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

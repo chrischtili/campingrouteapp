@@ -101,6 +101,17 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <p className="text-white/60 text-lg leading-relaxed italic">
           {t("planner.accommodation.subtitle")}
         </p>
+        <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-primary">
+          <span>{t("planner.accommodation.sourceLabel")}</span>
+          <a
+            href="https://opencampingmap.org"
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-primary/60 underline-offset-2 hover:text-white"
+          >
+            {t("planner.accommodation.sourceValue")}
+          </a>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">

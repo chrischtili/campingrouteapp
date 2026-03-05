@@ -322,6 +322,28 @@ export function RoutePlanner() {
     }
   };
 
+  const normalizeAIOutput = (text: string) => {
+    let normalized = text;
+
+    // Normalize OpenCampingMap fallback links generated as #position=lat,lon,zoom
+    // to the stable hash format #zoom/lat/lon.
+    normalized = normalized.replace(
+      /https?:\/\/opencampingmap\.org\/#position=([+-]?\d+(?:\.\d+)?),([+-]?\d+(?:\.\d+)?)(?:,(\d{1,2}))?/gi,
+      (_match, lat: string, lon: string, zoom?: string) =>
+        `https://opencampingmap.org/#${zoom || "16"}/${lat}/${lon}`,
+    );
+    normalized = normalized.replace(
+      /https?:\/\/opencampingmap\.org\/#position=(\d{1,2})\/([+-]?\d+(?:\.\d+)?)\/([+-]?\d+(?:\.\d+)?)/gi,
+      (_match, zoom: string, lat: string, lon: string) =>
+        `https://opencampingmap.org/#${zoom}/${lat}/${lon}`,
+    );
+
+    // Force exactly two blank lines between adjacent GPX blocks.
+    normalized = normalized.replace(/<\/gpx>\s*<gpx/gi, "</gpx>\n\n\n<gpx");
+
+    return normalized;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -341,7 +363,7 @@ export function RoutePlanner() {
           return;
         }
         const aiResponse = await callAIAPI(formData, aiSettings);
-        setOutput(aiResponse);
+        setOutput(normalizeAIOutput(aiResponse));
         setAiModel(aiSettings.aiProvider.toUpperCase());
         setFeedbackEligible(true);
         void trackGeneration("route");

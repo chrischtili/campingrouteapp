@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
 
-[![Version](https://img.shields.io/badge/version-v0.4.4-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.5-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,14 +10,14 @@
 
 ---
 
-## 🌟 Highlights (v0.4.4)
+## 🌟 Highlights (v0.4.5)
 
-- **Ausgabefenster deutlich verbessert**: strukturierteres Rendering, bessere Typografie, formatiere/rohe Ansicht und sauberere Druckausgabe.
-- **Neue Urlaubsziel-Logik für Hin- und Rückreise**: Startpunkt, Rückkehrziel und festes Urlaubsziel lassen sich getrennt planen, damit die KI Anreise, Aufenthalt und Rückfahrt realistischer berechnet.
-- **Etappenreise ausgebaut**: dynamische Etappenziele mit eigenem Datum und Uhrzeit statt starrer Zwischenstopps.
-- **Routenoptimierung klarer strukturiert** mit wohnmobilrelevanten Ausschlüssen wie Innenstädte, Altstädte, schmale Straßen, unbefestigte Straßen, Fähren und Serpentinen.
-- **Gemini-Fehler verständlicher**: bei Überlastung von Gemini wird jetzt eine klare Meldung statt eines generischen KI-Fehlers angezeigt.
-- **Formular- und Mobile-UX weiter verbessert**: sauberere Toggle-Umbrüche, besserer ExampleRoute-Hintergrund und konsistentere Zusammenfassungs-/Support-Bereiche.
+- **OpenCampingMap-only klar sichtbar**: Im Schritt „Übernachtung & Interessen“ ist die Datenquelle jetzt direkt gekennzeichnet.
+- **OpenCampingMap-Links robuster**: KI-Antworten werden normalisiert, damit problematische `#position`-Varianten als nutzbare OCM-Links ausgegeben werden.
+- **GPX-Doppelausgabe stabiler**: Trennung zwischen zwei GPX-Blöcken wird zuverlässig nachkorrigiert.
+- **Gemini-Websuche entfernt**: weniger Streuung, konsistentere Ergebnisse im KI-Direkt-Modus.
+- **Prompt-Regeln für Übernachtungen vereinfacht**: Fokus auf funktionierende OCM-Links plus offizielle Platz-Links (wenn vorhanden).
+- **Impressum/Datenschutz-Titel korrigiert**: keine erzwungene Großschreibung mehr.
 - **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
@@ -97,20 +97,20 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.4.4-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.5-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
 
 ---
 
-## 🌟 Highlights (v0.4.4)
+## 🌟 Highlights (v0.4.5)
 
-- **Major output-window upgrade**: cleaner rendering, better typography, formatted/raw view switching, and improved print output.
-- **New vacation-destination logic for outbound and return trips**: start point, return destination, and fixed vacation destination can now be planned separately so the AI can calculate departure, stay, and return more realistically.
-- **Stage travel expanded**: dynamic stage destinations with their own date and time instead of two rigid stop fields.
-- **Refined route optimization** with clearer categories and new motorhome-relevant avoidances like city centers, old towns, narrow roads, unpaved roads, ferries, and hairpin roads.
-- **Clearer Gemini errors**: Gemini overload situations now show a specific message instead of a generic AI error.
-- **Further form and mobile UX improvements**: cleaner toggle wrapping, better ExampleRoute background styling, and more consistent summary/support areas.
+- **OpenCampingMap-only now visible in UI**: the data source is explicitly labeled in the accommodation step.
+- **More robust OpenCampingMap links**: AI output is normalized so problematic `#position` variants become usable OCM links.
+- **More stable dual GPX output**: spacing between two GPX blocks is automatically corrected.
+- **Gemini web search removed**: less variability and more consistent direct-AI results.
+- **Simplified overnight prompt rules**: prioritize working OCM links and official campsite links (when available).
+- **Imprint/Privacy titles fixed**: no forced uppercase on page titles.
 - **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **AI-powered Route Planning** with GPX export for navigation devices.
 - **100% Free** – Prompt generation possible without any API costs.

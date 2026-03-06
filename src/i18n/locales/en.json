@@ -653,6 +653,7 @@
       },
       "departure": "Departure",
       "arrival": "Arrival",
+      "optionalPlaceholder": "Optional",
       "maxDistance": "Max km / day",
       "maxDriveTime": "Max drive time / day",
       "targetRegions": {

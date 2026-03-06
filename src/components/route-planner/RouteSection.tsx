@@ -40,10 +40,12 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const fieldLabelIconSlotClass = "inline-flex w-4 h-4 items-center justify-center shrink-0";
   const requiredError = "text-[10px] font-semibold tracking-[0.08em] text-red-400";
   const clearValueClass = "mt-2 inline-flex items-center gap-1 text-[10px] font-semibold tracking-[0.08em] text-white/60 hover:text-white transition-colors";
+  const emptyFieldPlaceholderClass = "pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden";
   const timeInputStyle = {
     colorScheme: "dark" as const,
     WebkitTextFillColor: "rgba(255,255,255,0.95)",
   };
+  const optionalPlaceholder = t("planner.route.optionalPlaceholder");
 
   const maxDailyDistance = Number(formData.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(formData.maxDailyDriveHours || 0);
@@ -294,7 +296,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                       style={timeInputStyle}
                       step={300}
                     />
-                    {!formData.startTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                    {!formData.startTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
                     <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
                   </div>
                   {formData.startTime && (
@@ -320,7 +322,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                       style={timeInputStyle}
                       step={300}
                     />
-                    {!formData.endTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                    {!formData.endTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
                     <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
                   </div>
                   {formData.endTime && (
@@ -472,7 +474,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                         style={timeInputStyle}
                         step={300}
                       />
-                      {!stage.arrivalTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                      {!stage.arrivalTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
                       <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
                     </div>
                     {stage.arrivalTime && (
@@ -526,7 +528,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                         style={timeInputStyle}
                         step={300}
                       />
-                      {!stage.departureTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                      {!stage.departureTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
                       <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
                     </div>
                     {stage.departureTime && (

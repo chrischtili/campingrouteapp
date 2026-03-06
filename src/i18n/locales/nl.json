@@ -653,6 +653,7 @@
       },
       "departure": "Vertrek",
       "arrival": "Aankomst",
+      "optionalPlaceholder": "Optioneel",
       "maxDistance": "Max km / dag",
       "maxDriveTime": "Max. rijtijd / dag",
       "targetRegions": {

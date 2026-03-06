@@ -539,7 +539,8 @@
         "saved": "Plan enregistré localement.",
         "updated": "Plan enregistré écrasé.",
         "loaded": "Plan enregistré chargé.",
-        "deleted": "Plan enregistré supprimé."
+        "deleted": "Plan enregistré supprimé.",
+        "clearedAll": "Formulaire et plans enregistrés supprimés."
       },
       "stops": "Arrêts"
     },

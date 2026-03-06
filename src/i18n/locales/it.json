@@ -539,7 +539,8 @@
         "saved": "Piano salvato localmente.",
         "updated": "Piano salvato sovrascritto.",
         "loaded": "Piano salvato caricato.",
-        "deleted": "Piano salvato eliminato."
+        "deleted": "Piano salvato eliminato.",
+        "clearedAll": "Modulo e piani salvati eliminati."
       },
       "stops": "Tappe intermedie"
     },

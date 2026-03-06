@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check, Wallet, Save, FolderOpen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
@@ -28,9 +27,7 @@ const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQ
 
 export function RoutePlanner() {
   const { t, i18n } = useTranslation();
-  const STORAGE_KEY = "cr_form_state_v1";
   const SAVED_PLANS_KEY = "cr_saved_plans_v1";
-  const STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
   const FEEDBACK_LATER_KEY = "cr_feedback_prompt_later_until";
   const FEEDBACK_DONE_KEY = "cr_feedback_submitted_at";
   const MAX_SAVED_PLANS = 5;
@@ -53,7 +50,6 @@ export function RoutePlanner() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [saveFormLocally, setSaveFormLocally] = useState<boolean>(false);
   const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
@@ -147,6 +143,19 @@ export function RoutePlanner() {
     toast.success(t("planner.summary.savedPlans.deleted"));
   };
 
+  const clearPlannerData = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(SAVED_PLANS_KEY);
+    }
+    setSavedPlans([]);
+    setFormData(initialFormData);
+    setOutput("");
+    setAiError("");
+    setCompletedSteps([]);
+    setCurrentStep(1);
+    toast.success(t("planner.summary.savedPlans.clearedAll"));
+  };
+
   // AUTO-OPEN LOGIC
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -162,26 +171,6 @@ export function RoutePlanner() {
       }, 500);
       // Clean up URL
       window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const saved = JSON.parse(raw);
-      if (!saved?.savedAt || Date.now() - saved.savedAt > STORAGE_TTL_MS) {
-        localStorage.removeItem(STORAGE_KEY);
-        return;
-      }
-      if (saved?.saveFormLocally) {
-        setFormData(sanitizeFormData(saved.formData || {}));
-        setAISettings({ ...initialAISettings, ...(saved.aiSettings || {}), apiKey: '' });
-        setSaveFormLocally(true);
-      }
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
     }
   }, []);
 
@@ -210,29 +199,6 @@ export function RoutePlanner() {
       localStorage.removeItem(SAVED_PLANS_KEY);
     }
   }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!saveFormLocally) {
-      localStorage.removeItem(STORAGE_KEY);
-      return;
-    }
-    const payload = {
-      savedAt: Date.now(),
-      saveFormLocally: true,
-      formData,
-      aiSettings: sanitizeAISettings(aiSettings),
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [
-    saveFormLocally,
-    formData,
-    aiSettings.aiProvider,
-    aiSettings.useDirectAI,
-    aiSettings.openaiModel,
-    aiSettings.mistralModel,
-    aiSettings.googleModel,
-  ]);
 
   const steps = [
     { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
@@ -654,6 +620,92 @@ export function RoutePlanner() {
               </div>
             </div>
 
+            <div className="mb-8 md:mb-12 p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl space-y-6 text-left">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                    {t("planner.summary.savedPlans.title")}
+                  </div>
+                  <div className="text-xs text-white/60 leading-relaxed">
+                    {t("planner.summary.savedPlans.desc")}
+                  </div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/80">
+                    {t("planner.summary.save.note")}
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    type="button"
+                    onClick={() => saveCurrentPlan()}
+                    disabled={!formData.startPoint || !formData.destination}
+                    className="rounded-xl px-4 border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                  >
+                    <Save className="w-4 h-4" />
+                    {t("planner.summary.savedPlans.saveCurrent")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={clearPlannerData}
+                    className="rounded-xl px-4 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95"
+                  >
+                    {t("planner.summary.save.clear")}
+                  </Button>
+                </div>
+              </div>
+
+              {savedPlans.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-5 text-sm text-white/50">
+                  {t("planner.summary.savedPlans.empty")}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {savedPlans.map((plan) => (
+                    <div
+                      key={plan.id}
+                      className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+                    >
+                      <div className="space-y-1 min-w-0">
+                        <div className="text-sm font-bold text-white truncate">{plan.label}</div>
+                        <div className="text-xs text-white/50">
+                          {new Date(plan.savedAt).toLocaleString(locale)}
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => loadSavedPlan(plan)}
+                          className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                        >
+                          <FolderOpen className="w-4 h-4" />
+                          {t("planner.summary.savedPlans.load")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => saveCurrentPlan(plan.id)}
+                          disabled={!formData.startPoint || !formData.destination}
+                          className="rounded-xl px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white font-bold transition-all active:scale-95"
+                        >
+                          {t("planner.summary.savedPlans.overwrite")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => deleteSavedPlan(plan.id)}
+                          className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          {t("planner.summary.savedPlans.delete")}
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Form Steps */}
             <motion.div 
               key={currentStep}
@@ -808,116 +860,6 @@ export function RoutePlanner() {
                       ))}
                     </div>
 
-                    <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-left">
-                      <div className="space-y-2">
-                        <div className="text-sm font-black uppercase tracking-[0.2em] text-white">
-                          {t("planner.summary.save.title")}
-                        </div>
-                        <div className="text-xs text-white/60 leading-relaxed">
-                          {t("planner.summary.save.desc")}
-                        </div>
-                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/80">
-                          {t("planner.summary.save.note")}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <Switch
-                          checked={saveFormLocally}
-                          onCheckedChange={(checked) => setSaveFormLocally(checked)}
-                          aria-label={t("planner.summary.save.title")}
-                          className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => {
-                            setSaveFormLocally(false);
-                            localStorage.removeItem(STORAGE_KEY);
-                            setFormData(initialFormData);
-                            setOutput('');
-                            setAiError('');
-                            setCompletedSteps([]);
-                            setCurrentStep(1);
-                          }}
-                          className="rounded-xl px-4 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95"
-                        >
-                          {t("planner.summary.save.clear")}
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl space-y-6 text-left">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="space-y-2">
-                          <div className="text-sm font-black uppercase tracking-[0.2em] text-white">
-                            {t("planner.summary.savedPlans.title")}
-                          </div>
-                          <div className="text-xs text-white/60 leading-relaxed">
-                            {t("planner.summary.savedPlans.desc")}
-                          </div>
-                        </div>
-                        <Button
-                          type="button"
-                          onClick={() => saveCurrentPlan()}
-                          disabled={!formData.startPoint || !formData.destination}
-                          className="rounded-xl px-4 border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
-                        >
-                          <Save className="w-4 h-4" />
-                          {t("planner.summary.savedPlans.saveCurrent")}
-                        </Button>
-                      </div>
-
-                      {savedPlans.length === 0 ? (
-                        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-5 text-sm text-white/50">
-                          {t("planner.summary.savedPlans.empty")}
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {savedPlans.map((plan) => (
-                            <div
-                              key={plan.id}
-                              className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
-                            >
-                              <div className="space-y-1 min-w-0">
-                                <div className="text-sm font-bold text-white truncate">{plan.label}</div>
-                                <div className="text-xs text-white/50">
-                                  {new Date(plan.savedAt).toLocaleString(locale)}
-                                </div>
-                              </div>
-                              <div className="flex flex-wrap gap-2">
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  onClick={() => loadSavedPlan(plan)}
-                                  className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
-                                >
-                                  <FolderOpen className="w-4 h-4" />
-                                  {t("planner.summary.savedPlans.load")}
-                                </Button>
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  onClick={() => saveCurrentPlan(plan.id)}
-                                  disabled={!formData.startPoint || !formData.destination}
-                                  className="rounded-xl px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white font-bold transition-all active:scale-95"
-                                >
-                                  {t("planner.summary.savedPlans.overwrite")}
-                                </Button>
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  onClick={() => deleteSavedPlan(plan.id)}
-                                  className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                  {t("planner.summary.savedPlans.delete")}
-                                </Button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
                     <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(255,128,0,0.12)]">
                       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/80">
                         Open Source Support

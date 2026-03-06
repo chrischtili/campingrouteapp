@@ -539,7 +539,8 @@
         "saved": "Plan lokaal opgeslagen.",
         "updated": "Opgeslagen plan overschreven.",
         "loaded": "Opgeslagen plan geladen.",
-        "deleted": "Opgeslagen plan verwijderd."
+        "deleted": "Opgeslagen plan verwijderd.",
+        "clearedAll": "Formulier en opgeslagen plannen gewist."
       },
       "stops": "Tussenstops"
     },

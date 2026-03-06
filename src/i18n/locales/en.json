@@ -539,7 +539,8 @@
         "saved": "Plan saved locally.",
         "updated": "Saved plan overwritten.",
         "loaded": "Saved plan loaded.",
-        "deleted": "Saved plan deleted."
+        "deleted": "Saved plan deleted.",
+        "clearedAll": "Form and saved plans cleared."
       },
       "stops": "Stops"
     },

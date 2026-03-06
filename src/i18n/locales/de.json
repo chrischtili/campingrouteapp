@@ -539,7 +539,8 @@
         "saved": "Planung lokal gespeichert.",
         "updated": "Gespeicherte Planung überschrieben.",
         "loaded": "Gespeicherte Planung geladen.",
-        "deleted": "Gespeicherte Planung gelöscht."
+        "deleted": "Gespeicherte Planung gelöscht.",
+        "clearedAll": "Formular und gespeicherte Planungen gelöscht."
       },
       "stops": "Zwischenziele"
     },

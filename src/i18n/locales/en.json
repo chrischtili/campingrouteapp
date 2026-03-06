@@ -655,9 +655,18 @@
       "arrival": "Arrival",
       "maxDistance": "Max km / day",
       "maxDriveTime": "Max drive time / day",
+      "targetRegions": {
+        "label": "Regions & target areas",
+        "hint": "For round trips from home, you can set start and destination to the same place and define only regions or landscapes here.",
+        "placeholder": "e.g. Moselle, South Tyrol, Brittany, North Sea coast or Black Forest"
+      },
       "additional": {
         "label": "Additional Info",
         "placeholder": "e.g. Plan the return trip on a different route than the outbound trip"
+      },
+      "preferScenicLongerStops": {
+        "label": "Longer stops at especially beautiful places",
+        "description": "The AI should extend stays where 2-3 nights are especially worthwhile."
       },
       "departureTime": "Departure time",
       "arrivalTime": "Arrival time",
@@ -1173,6 +1182,7 @@
       "travelStyle": "Preferred travel style",
       "preferences": "Route preferences",
       "highwayMaut": "Highways/Toll",
+      "targetRegions": "Regions & target areas",
       "additional": {
         "label": "Additional accommodation wishes"
       },
@@ -1191,6 +1201,7 @@
       "destinationArrivalTime": "Arrival time at the vacation destination",
       "destinationDepartureTime": "Departure time from destination",
       "destinationBookedNoSearch": "Destination place already booked (no search for overnight place at destination)",
+      "preferScenicLongerStops": "Plan longer stops at especially beautiful places",
       "returnScheduleHint": "Use this to calculate when departure from the starting point is needed and when arrival at the return destination is realistic",
       "returnDestination": "Return destination",
       "vacationDestination": "Holiday destination",
@@ -1206,6 +1217,7 @@
       "destinationDepartureDate": "Departure from destination"
     },
     "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1) Stage Planning (Daily kilometers, driving time, planned departure and arrival times for each leg, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2) Overnight Stays (use data exclusively from https://opencampingmap.org. Only list places that can be found there. For each suggested main place and each alternative, provide two links: 1) the OpenCampingMap page link and 2) the official campsite link stored there (if present). Provide one working OpenCampingMap link per place (direct place link or map link). If either link is missing, state that clearly. Do not invent places, links, addresses, or phone numbers. Mention price ranges only as estimates and still provide at least one alternative per overnight stay.)\n\n3) Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4) Practical Tips (Navigation, waste disposal, emergency information).\n\n5) Best Travel Time & Duration (Brief section).\n\n6) Services on the Road (Fuel, supermarkets, workshops).\n\n7) Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8) Technology & Equipment (Short checklist, app recommendations).\n\n9) Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: For each leg, clearly state from which place, on which date, and at what time departure is planned, and at which place, on which date, and at what time arrival is planned. If I provide only arrival dates/times or only departure dates/times, calculate the missing times logically from the remaining inputs, daily limits, and stages. Present these times as a realistic plan or estimate.\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",
+    "instructionsCamperPlanning": "\n\nImportant: Rate each leg briefly from a motorhome perspective, for example as \"uncritical\", \"use caution\" or \"rather unsuitable for this vehicle\", and explain that briefly.\n\nImportant: Include supply logic. Point out when fresh water, waste disposal, fuel, groceries or other camper-relevant service stops should sensibly be planned.\n\nImportant: Classify suggested overnight places briefly, for example as a transit stop, a good 2-3 night stay, or a proper holiday base. If I specify regions/target areas or ask for longer stops at especially beautiful places, deliberately spend more time there instead of creating as many location changes as possible.",
     "gpx": {
       "garmin": "GPX file: Append exactly one GPX file for Garmin waypoints at the end of the response.\n\nImportant: Output the GPX as a Markdown code block with xml (```xml ... ```), without additional markers like BEGIN/END.\n\n```xml\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nRequirements:\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nDo not output a route (<rte>) or a track (<trk>).\n\nFirst return the complete normal answer with all required sections. Only after that append the GPX block at the very end. No text may follow after the GPX block.",
       "routeTrack": "GPX file: Append exactly one GPX file (route+track) at the end of the response.\n\nImportant: Output the GPX as a Markdown code block with xml (```xml ... ```), without additional markers like BEGIN/END.\n\n```xml\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n```\n\nRequirements:\nCreate <wpt> waypoints for start, all stages, overnight stays, and destination. For overnight stays, include address, website, and phone (if available) in <desc>. Alternatives (mandatory) must be listed only in <desc> with name, address, website, and phone (if available).\nCreate a route (<rte>) with all points in order (<rtept>) so Garmin recognizes it as a route.\nAlso create the full route as a track (<trk> with <trkseg> and <trkpt>).\n\nFirst return the complete normal answer with all required sections. Only after that append the GPX block at the very end. No text may follow after the GPX block.",

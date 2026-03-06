@@ -71,6 +71,8 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const routeLines = [
     `• ${t('prompt.labels.start')}: ${data.startPoint}`,
     `• ${t('prompt.labels.destination')}: ${data.destination}`,
+    data.targetRegions ? `• ${t('prompt.labels.targetRegions')}: ${data.targetRegions}` : '',
+    data.preferScenicLongerStops ? `• ${t('prompt.labels.preferScenicLongerStops')}` : '',
     data.destinationBooked ? `• ${t('prompt.labels.destinationBookedNoSearch')}` : '',
     stageLines,
     data.startDate ? `• ${t('prompt.labels.startDeparture')}: ${formatDate(data.startDate)}` : '',
@@ -142,6 +144,7 @@ ${data.additionalInfo}
 ` : ''}
 
 ${t('prompt.instructions')}
+${t('prompt.instructionsCamperPlanning')}
 ${gpxInstructions ? `\n\n${gpxInstructions}` : ''}
 `;
 }

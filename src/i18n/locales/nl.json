@@ -655,6 +655,15 @@
       "arrival": "Aankomst",
       "maxDistance": "Max km / dag",
       "maxDriveTime": "Max. rijtijd / dag",
+      "targetRegions": {
+        "label": "Regio's & doelgebieden",
+        "hint": "Voor rondritten vanuit huis kun je start en bestemming gelijk zetten en hier alleen regio's of landschappen opgeven.",
+        "placeholder": "bijv. Moezel, Zuid-Tirol, Bretagne, Noordzeekust of Zwarte Woud"
+      },
+      "preferScenicLongerStops": {
+        "label": "Langere stops op bijzonder mooie plekken",
+        "description": "De AI moet verblijven verlengen op plekken waar 2-3 nachten echt de moeite waard zijn."
+      },
       "additional": {
         "label": "Extra info",
         "placeholder": "bijv. Plan de terugweg via een andere route dan de heenweg"
@@ -1195,6 +1204,8 @@
       "destinationArrivalTime": "Aankomsttijd op de vakantiebestemming",
       "destinationDepartureTime": "Vertrektijd van bestemming",
       "destinationBookedNoSearch": "Plek op bestemming al geboekt (geen zoekopdracht naar overnachtingsplek op bestemming)",
+      "targetRegions": "Regio's & doelgebieden",
+      "preferScenicLongerStops": "Plan langere stops op bijzonder mooie plekken",
       "returnScheduleHint": "Bereken hiermee wanneer vertrek vanaf het startpunt nodig is en wanneer aankomst op de terugkeerbestemming realistisch is",
       "returnDestination": "Terugkeerbestemming",
       "vacationDestination": "Vakantiebestemming",
@@ -1219,7 +1230,8 @@
       "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand voor Garmin‑waypoints toe.\n\nBelangrijk: Geef de GPX als een puur XML‑blok uit, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nVereisten:\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nGeen route (<rte>) en geen track (<trk>) uitgeven.\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna het GPX-blok helemaal aan het einde toe. Na het GPX-blok mag geen extra tekst meer volgen.",
       "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand (route+track) toe.\n\nBelangrijk: Geef de GPX als een puur XML‑blok uit, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nVereisten:\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde (<rtept>), zodat Garmin dit als route herkent.\nLeg de volledige route ook vast als track (<trk> met <trkseg> en <trkpt>).\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna het GPX-blok helemaal aan het einde toe. Na het GPX-blok mag geen extra tekst meer volgen.",
       "both": "GPX-bestand: Voeg aan het einde van het antwoord exact twee GPX-bestanden toe.\n\nBelangrijk: geef uitsluitend twee pure XML-blokken terug, zonder inleidende tekst, zonder labels, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\nBlok 1 (Garmin-waypoints):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nScheid blok 1 en blok 2 met minimaal één lege regel.\n\nBlok 2 (GPX route+track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nEisen blok 1 (Garmin-waypoints):\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nBlok 1 mag alleen <wpt> bevatten en mag geen route (<rte>) of track (<trk>) bevatten.\n\nEisen blok 2 (GPX route+track):\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nBlok 2 moet <wpt>, <rte> en <trk> bevatten. Maak een route (<rte>) met alle punten in volgorde (<rtept>), zodat Garmin deze als route herkent. Maak daarnaast de volledige route ook als track (<trk> met <trkseg> en <trkpt>).\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna deze twee GPX-blokken helemaal aan het einde toe. Na de GPX-blokken mag geen extra tekst meer volgen."
-    }
+    },
+    "instructionsCamperPlanning": "\n\nBelangrijk: beoordeel elke etappe ook kort vanuit camperperspectief, bijvoorbeeld als \"onkritisch\", \"met voorzichtigheid\" of \"eerder ongeschikt voor dit voertuig\", en licht dat kort toe.\n\nBelangrijk: neem ook de verzorgingslogica mee. Geef zinnig aan wanneer vers water, lozen, tanken, boodschappen of andere camperrelevante stops ingepland moeten worden.\n\nBelangrijk: duid voorgestelde overnachtingsplekken kort, bijvoorbeeld als doorreisstop, goede plek voor 2-3 nachten of echte vakantiebasis. Als ik regio's/doelgebieden opgeef of langere stops op mooie plekken wens, plan daar dan bewust meer tijd in plaats van zo veel mogelijk locatiewissels te maken."
   },
   "anchorNav": {
     "home": "Home",

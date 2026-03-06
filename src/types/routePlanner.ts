@@ -44,6 +44,8 @@ export interface FormData {
   heatingSystem: string;
   levelingJacks: string;
   routeAdditionalInfo: string;
+  targetRegions: string;
+  preferScenicLongerStops: boolean;
   routePreferences: string[];
   accommodationType: string[];
   avgCampsitePriceMax: string;
@@ -105,6 +107,8 @@ export const initialFormData: FormData = {
   heatingSystem: '',
   levelingJacks: '',
   routeAdditionalInfo: '',
+  targetRegions: '',
+  preferScenicLongerStops: false,
   routePreferences: [],
   accommodationType: [],
   avgCampsitePriceMax: '50',

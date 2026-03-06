@@ -161,6 +161,40 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
           </div>
         </div>
+
+        <div className="space-y-3 pt-2">
+          <Label htmlFor="targetRegions" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+            <Map className="w-4 h-4 text-primary" /> {t("planner.route.targetRegions.label")}
+          </Label>
+          <p className="text-white/50 text-sm leading-relaxed">
+            {t("planner.route.targetRegions.hint")}
+          </p>
+          <textarea
+            id="targetRegions"
+            placeholder={t("planner.route.targetRegions.placeholder")}
+            value={formData.targetRegions}
+            onChange={(e) => onChange({ targetRegions: e.target.value })}
+            rows={3}
+            className={`${inputClass} min-h-[110px] sm:min-h-[130px] p-4 sm:p-8 resize-none`}
+          />
+        </div>
+
+        <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
+          <div className="space-y-1">
+            <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+              {t("planner.route.preferScenicLongerStops.label")}
+            </div>
+            <div className="text-white/60 text-sm">
+              {t("planner.route.preferScenicLongerStops.description")}
+            </div>
+          </div>
+          <Switch
+            checked={formData.preferScenicLongerStops}
+            onCheckedChange={(checked) => onChange({ preferScenicLongerStops: checked })}
+            aria-label={t("planner.route.preferScenicLongerStops.label")}
+            className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
+          />
+        </div>
       </div>
 
       <div className="p-6 sm:p-8 md:p-12 shadow-2xl space-y-10" style={glassPanelStyle}>

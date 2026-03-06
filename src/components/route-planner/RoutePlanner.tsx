@@ -206,14 +206,15 @@ export function RoutePlanner() {
     }
   };
 
-  const goToStep = (step: number) => {
-    const hasRouteBasics = isRouteStepValid;
-    const isNavigable =
-      step === 1 ||
-      (step === 2 && (currentStep === 1 || hasRouteBasics || completedSteps.includes(step) || step === currentStep)) ||
-      (step > 2 && (hasRouteBasics || completedSteps.includes(step) || step <= currentStep));
+  const canNavigateToStep = (step: number) => {
+    if (step === 1) return true;
+    if (step === 2) return true;
+    if (step === currentStep) return true;
+    return isRouteStepValid || completedSteps.includes(step);
+  };
 
-    if (isNavigable) {
+  const goToStep = (step: number) => {
+    if (canNavigateToStep(step)) {
       setCurrentStep(step);
       scrollToPlannerProgress();
     }
@@ -479,7 +480,6 @@ export function RoutePlanner() {
                   const stepNumber = i + 1;
                   const isActive = stepNumber === currentStep;
                   const isLast = i === steps.length - 1;
-                  const hasRouteBasics = isRouteStepValid;
                   
                   // CHECK IF STEP IS ACTUALLY FILLED WITH DATA
                   const isStepCompleted = () => {
@@ -509,10 +509,7 @@ export function RoutePlanner() {
                   };
 
                   const isDone = isStepCompleted();
-                  const isNavigable =
-                    stepNumber === 1 ||
-                    (stepNumber === 2 && (currentStep === 1 || hasRouteBasics || stepNumber <= currentStep || completedSteps.includes(stepNumber))) ||
-                    (stepNumber > 2 && (hasRouteBasics || stepNumber <= currentStep || completedSteps.includes(stepNumber)));
+                  const isNavigable = canNavigateToStep(stepNumber);
 
                   return (
                     <div key={i} className="flex flex-1 items-center">
@@ -750,6 +747,12 @@ export function RoutePlanner() {
                           variant="outline"
                           onClick={() => {
                             setSaveFormLocally(false);
+                            localStorage.removeItem(STORAGE_KEY);
+                            setFormData(initialFormData);
+                            setOutput('');
+                            setAiError('');
+                            setCompletedSteps([]);
+                            setCurrentStep(1);
                           }}
                           className="rounded-xl px-4 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95"
                         >

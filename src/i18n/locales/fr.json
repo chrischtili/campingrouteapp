@@ -922,7 +922,7 @@
       },
       "subtitle": "Où et comment souhaitez-vous passer la nuit — et qu’est-ce qui est important pour vous en route ?",
       "sourceLabel": "Source des données :",
-      "sourceValue": "OpenCampingMap uniquement",
+      "sourceValue": "OpenCampingMap (prioritaire) + repères OpenStreetMap",
       "budgetLevel": {
         "label": "Niveau de confort de l’emplacement",
         "placeholder": "Veuillez choisir",
@@ -1110,6 +1110,7 @@
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires en camping‑car avec une connaissance spécialisée de l’Allemagne et des destinations internationales. Créez un itinéraire pratique et bien structuré selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",
+    "dataSourcePolicy": "Les requêtes de nuitées doivent être basées en priorité sur OpenCampingMap. OpenStreetMap ne sert qu’en complément pour les tags de catégorisation (ex. `caravan_site:type=farm|winery`) et n’a pas la priorité sur OpenCampingMap.",
     "sections": {
       "route": "ITINÉRAIRE",
       "vehicle": "FILTRES SPÉCIFIQUES VÉHICULE",

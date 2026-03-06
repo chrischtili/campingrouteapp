@@ -38,6 +38,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const budgetNote = data.avgCampsitePriceMax && data.budgetLevel
     ? '• ' + t('prompt.labels.budgetNote') + '\n'
     : '';
+  const dataSourcePolicy = t('prompt.dataSourcePolicy');
 
   const stageLines = (data.stages || [])
     .map((stage, index) => {
@@ -76,6 +77,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   ].filter(Boolean).join('\n');
 
   return `${t('prompt.systemRole', { language: languageName })}
+${dataSourcePolicy}
 
 🗺️ ${t('prompt.sections.route')}:
 ──────────────

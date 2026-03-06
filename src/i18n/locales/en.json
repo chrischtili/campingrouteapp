@@ -922,7 +922,7 @@
       },
       "subtitle": "Where and how would you like to stay overnight – and what matters to you along the way?",
       "sourceLabel": "Data source:",
-      "sourceValue": "OpenCampingMap-only",
+      "sourceValue": "OpenCampingMap (primary) + OpenStreetMap tagging",
       "budgetLevel": {
         "label": "Comfort level of the place",
         "placeholder": "Please choose",
@@ -1110,6 +1110,7 @@
   },
   "prompt": {
     "systemRole": "You are a professional motorhome route planner with specialized knowledge of Germany and international travel destinations. Create a practical, well-structured motorhome route based on my specifications. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
+    "dataSourcePolicy": "Overnight place lookup must be primarily sourced from OpenCampingMap. OpenStreetMap is used only as an enrichment source for category hints (for example `caravan_site:type=farm|winery`) and is not preferred over OpenCampingMap.",
     "sections": {
       "route": "ITINERARY",
       "vehicle": "VEHICLE SPECIFIC FILTERS",

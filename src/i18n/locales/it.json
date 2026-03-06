@@ -922,7 +922,7 @@
       },
       "subtitle": "Dove e come vuoi pernottare e cosa è importante per te durante il viaggio?",
       "sourceLabel": "Fonte dati:",
-      "sourceValue": "Solo OpenCampingMap",
+      "sourceValue": "OpenCampingMap (primario) + tag OpenStreetMap",
       "budgetLevel": {
         "label": "Livello di comfort della struttura",
         "placeholder": "Seleziona",
@@ -1110,6 +1110,7 @@
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari in camper con conoscenze specialistiche per la Germania e destinazioni internazionali. Crea, in base ai miei dati, un itinerario in camper pratico e ben strutturato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",
+    "dataSourcePolicy": "La ricerca dei posti per il pernottamento deve basarsi principalmente su OpenCampingMap. OpenStreetMap viene usata solo come fonte di arricchimento per i tag di categoria (ad es. `caravan_site:type=farm|winery`) e non sostituisce OpenCampingMap.",
     "sections": {
       "route": "ITINERARIO",
       "vehicle": "VEICOLO",

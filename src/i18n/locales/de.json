@@ -922,7 +922,7 @@
       },
       "subtitle": "Wo und wie möchtest du übernachten – und was ist dir unterwegs wichtig?",
       "sourceLabel": "Datenquelle:",
-      "sourceValue": "OpenCampingMap-only",
+      "sourceValue": "OpenCampingMap (primär) + OpenStreetMap-Kennzeichnung",
       "budgetLevel": {
         "label": "Komfortniveau des Platzes",
         "placeholder": "Bitte wählen",
@@ -1110,6 +1110,7 @@
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",
+    "dataSourcePolicy": "Abfragen zu Übernachtungsplätzen erfolgen primär über OpenCampingMap. OpenStreetMap wird ausschließlich zur Ergänzung in der Kategorieschärfung (z. B. `caravan_site:type=farm|winery`) genutzt und nicht als Ersatzquelle vorgezogen.",
     "sections": {
       "route": "REISEROUTE",
       "vehicle": "FAHRZEUG",

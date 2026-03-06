@@ -922,7 +922,7 @@
       },
       "subtitle": "Waar en hoe wil je overnachten – en wat vind je onderweg belangrijk?",
       "sourceLabel": "Databron:",
-      "sourceValue": "Alleen OpenCampingMap",
+      "sourceValue": "OpenCampingMap (primair) + OpenStreetMap-tagging",
       "budgetLevel": {
         "label": "Comfortniveau van de plek",
         "placeholder": "Kies een optie",
@@ -1114,6 +1114,7 @@
   },
   "prompt": {
     "systemRole": "Je bent een professionele camperrouteplanner met gespecialiseerde kennis van Duitsland en internationale reisbestemmingen. Maak op basis van mijn specificaties een praktische, goed gestructureerde camperroute. Houd rekening met voertuigspecificaties, reisdoelen, budget en persoonlijke voorkeuren. Als realtime data (bijv. verkeer, beschikbaarheid, exacte prijzen) niet beschikbaar is, werk dan met plausibele schattingen, markeer die als zodanig en geef aan wat ik zelf moet controleren in het navigatiesysteem of een campingapp.",
+    "dataSourcePolicy": "Overnachtingsplaatsen worden primair uit OpenCampingMap gezocht. OpenStreetMap wordt alleen gebruikt als aanvullende bron voor categorisering (bijv. `caravan_site:type=farm|winery`) en is niet als vervangende of eerstvolgende bron bedoeld.",
     "sections": {
       "route": "ROUTEBESCHRIJVING",
       "vehicle": "VOERTUIGFILTERS",

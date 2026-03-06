@@ -80,7 +80,17 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
   ];
 
   const toggleSection = (key: string) => {
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenSections((prev) => {
+      const nextValue = !prev[key];
+      return {
+        roadType: false,
+        restrictions: false,
+        landscape: false,
+        experiences: false,
+        avoidRegions: false,
+        [key]: nextValue,
+      };
+    });
   };
   
   return (
@@ -147,11 +157,12 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
           </button>
           {openSections.avoidRegions && (
             <div className="mt-4">
-              <button
+              <textarea
                 id="avoidRegions"
                 placeholder={t("planner.optimization.avoidRegions.placeholder")}
                 value={formData.avoidRegions}
                 onChange={(e) => onChange({ avoidRegions: e.target.value })}
+                rows={4}
                 className="w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
               />
             </div>

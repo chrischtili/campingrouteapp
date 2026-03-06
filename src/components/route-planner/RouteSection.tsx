@@ -4,9 +4,8 @@ import { ToggleGroup } from "./ToggleGroup";
 import { Switch } from "@/components/ui/switch";
 import { FormSlider } from "./FormSlider";
 import { Button } from "@/components/ui/button";
-import { TimeWheelPicker } from "./TimeWheelPicker";
 import { useTranslation } from "react-i18next";
-import { Map, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, X } from "lucide-react";
+import { Map, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface RouteSectionProps {
@@ -36,10 +35,15 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   const inputClass = "w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left";
+  const timeInputClass = `${inputClass} pr-12 min-h-[56px]`;
   const fieldLabelClass = "text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2";
   const fieldLabelIconSlotClass = "inline-flex w-4 h-4 items-center justify-center shrink-0";
   const requiredError = "text-[10px] font-semibold tracking-[0.08em] text-red-400";
   const clearValueClass = "mt-2 inline-flex items-center gap-1 text-[10px] font-semibold tracking-[0.08em] text-white/60 hover:text-white transition-colors";
+  const timeInputStyle = {
+    colorScheme: "dark" as const,
+    WebkitTextFillColor: "rgba(255,255,255,0.95)",
+  };
 
   const maxDailyDistance = Number(formData.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(formData.maxDailyDriveHours || 0);
@@ -246,36 +250,52 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                     <span className={fieldLabelIconSlotClass} aria-hidden="true" />
                     {t("planner.route.departureTime")} {formData.startPoint?.trim() ? `(${formData.startPoint.trim()})` : ""}
                   </Label>
-                  <TimeWheelPicker
-                    id="startTime"
-                    value={formData.startTime || ""}
-                    onChange={(value) => onChange({ startTime: value })}
-                  />
-                {formData.startTime && (
-                  <button type="button" className={clearValueClass} onClick={() => onChange({ startTime: "" })}>
-                    <X className="w-3 h-3" />
-                    {t("planner.summary.save.clear")}
-                  </button>
-                )}
-              </div>
+                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                    <input
+                      id="startTime"
+                      type="time"
+                      value={formData.startTime || ""}
+                      onChange={(e) => onChange({ startTime: e.target.value })}
+                      className={`peer ${timeInputClass} ${!formData.startTime ? "time-empty" : ""}`}
+                      style={timeInputStyle}
+                      step={300}
+                    />
+                    {!formData.startTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                    <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
+                  </div>
+                  {formData.startTime && (
+                    <button type="button" className={clearValueClass} onClick={() => onChange({ startTime: "" })}>
+                      <X className="w-3 h-3" />
+                      {t("planner.summary.save.clear")}
+                    </button>
+                  )}
+                </div>
 
                 <div className="space-y-4">
                   <Label className={fieldLabelClass}>
                     <span className={fieldLabelIconSlotClass} aria-hidden="true" />
                     {t("planner.route.arrivalTime")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
                   </Label>
-                  <TimeWheelPicker
-                    id="endTime"
-                    value={formData.endTime || ""}
-                    onChange={(value) => onChange({ endTime: value })}
-                  />
-                {formData.endTime && (
-                  <button type="button" className={clearValueClass} onClick={() => onChange({ endTime: "" })}>
-                    <X className="w-3 h-3" />
-                    {t("planner.summary.save.clear")}
-                  </button>
-                )}
-              </div>
+                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                    <input
+                      id="endTime"
+                      type="time"
+                      value={formData.endTime || ""}
+                      onChange={(e) => onChange({ endTime: e.target.value })}
+                      className={`peer ${timeInputClass} ${!formData.endTime ? "time-empty" : ""}`}
+                      style={timeInputStyle}
+                      step={300}
+                    />
+                    {!formData.endTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                    <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-white/40 pointer-events-none" />
+                  </div>
+                  {formData.endTime && (
+                    <button type="button" className={clearValueClass} onClick={() => onChange({ endTime: "" })}>
+                      <X className="w-3 h-3" />
+                      {t("planner.summary.save.clear")}
+                    </button>
+                  )}
+                </div>
 
               </div>
             )}
@@ -408,11 +428,19 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                     <Label htmlFor={`stageArrivalTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
                       {buildStopLabel("planner.route.stage.arrivalTime", index, stage.destination)}
                     </Label>
-                    <TimeWheelPicker
-                      id={`stageArrivalTime-${index}`}
-                      value={stage.arrivalTime || ""}
-                      onChange={(value) => updateStage(index, { arrivalTime: value })}
-                    />
+                    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                      <input
+                        id={`stageArrivalTime-${index}`}
+                        type="time"
+                        value={stage.arrivalTime || ""}
+                        onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
+                        className={`peer ${timeInputClass} ${!stage.arrivalTime ? "time-empty" : ""}`}
+                        style={timeInputStyle}
+                        step={300}
+                      />
+                      {!stage.arrivalTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                      <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
+                    </div>
                     {stage.arrivalTime && (
                       <button type="button" className={clearValueClass} onClick={() => updateStage(index, { arrivalTime: "" })}>
                         <X className="w-3 h-3" />
@@ -454,11 +482,19 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                     <Label htmlFor={`stageDepartureTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
                       {buildStopLabel("planner.route.stage.departureTime", index, stage.destination)}
                     </Label>
-                    <TimeWheelPicker
-                      id={`stageDepartureTime-${index}`}
-                      value={stage.departureTime || ""}
-                      onChange={(value) => updateStage(index, { departureTime: value })}
-                    />
+                    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                      <input
+                        id={`stageDepartureTime-${index}`}
+                        type="time"
+                        value={stage.departureTime || ""}
+                        onChange={(e) => updateStage(index, { departureTime: e.target.value })}
+                        className={`peer ${timeInputClass} ${!stage.departureTime ? "time-empty" : ""}`}
+                        style={timeInputStyle}
+                        step={300}
+                      />
+                      {!stage.departureTime && <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden">--:--</span>}
+                      <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-white/30" />
+                    </div>
                     {stage.departureTime && (
                       <button type="button" className={clearValueClass} onClick={() => updateStage(index, { departureTime: "" })}>
                         <X className="w-3 h-3" />

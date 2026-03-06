@@ -89,7 +89,16 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   ];
 
   const toggleDropdown = (key: string) => {
-    setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenDropdowns((prev) => {
+      const nextValue = !prev[key];
+      return {
+        companions: false,
+        type: false,
+        facilities: false,
+        interests: false,
+        [key]: nextValue,
+      };
+    });
   };
 
   return (

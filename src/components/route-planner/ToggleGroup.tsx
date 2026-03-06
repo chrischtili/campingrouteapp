@@ -50,7 +50,7 @@ export function ToggleGroup({ name, options, selectedValues, onChange, className
             className={`w-full px-3.5 sm:px-5 py-2.5 sm:py-4 rounded-xl sm:rounded-2xl text-[10px] sm:text-[10px] md:text-sm font-bold tracking-normal transition-all duration-300 border-2 flex items-start sm:items-center justify-between gap-3 min-h-[46px] sm:min-h-[50px] ${
               isChecked
                 ? 'bg-primary border-primary text-white shadow-xl shadow-primary/30'
-                : 'bg-white/5 border-white/10 text-white/60 hover:border-white/30 hover:text-white shadow-sm'
+                : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/30 hover:text-white shadow-sm'
             }`}
           >
             <span className="min-w-0 flex-1 text-left leading-snug py-0.5 tracking-[0.08em] sm:tracking-[0.18em] break-words">

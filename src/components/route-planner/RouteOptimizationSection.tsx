@@ -1,9 +1,9 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Target, Navigation, Sparkles, ShieldAlert, Landmark, TriangleAlert } from "lucide-react";
-import { motion } from "framer-motion";
+import { Target, Navigation, Sparkles, ShieldAlert, Landmark, ChevronDown } from "lucide-react";
 
 interface RouteOptimizationSectionProps {
   formData: FormData;
@@ -13,6 +13,13 @@ interface RouteOptimizationSectionProps {
 
 export function RouteOptimizationSection({ formData, onCheckboxChange, onChange }: RouteOptimizationSectionProps) {
   const { t } = useTranslation();
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    roadType: false,
+    restrictions: false,
+    landscape: false,
+    experiences: false,
+    avoidRegions: false,
+  });
 
   const categories = [
     {
@@ -27,24 +34,16 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
       ]
     },
     {
-      id: 'avoidances',
-      label: t("planner.optimization.categories.avoidances.label"),
+      id: 'restrictions',
+      label: t("planner.optimization.categories.restrictions.label"),
       icon: ShieldAlert,
       accent: "text-secondary",
       options: [
-        { value: 'toll', label: t("planner.optimization.categories.avoidances.options.toll") },
         { value: 'traffic', label: t("planner.optimization.categories.avoidances.options.traffic") },
         { value: 'construction', label: t("planner.optimization.categories.avoidances.options.construction") },
+        { value: 'toll', label: t("planner.optimization.categories.avoidances.options.toll") },
         { value: 'tunnels', label: t("planner.optimization.categories.avoidances.options.tunnels") },
         { value: 'night', label: t("planner.optimization.categories.avoidances.options.night") },
-      ]
-    },
-    {
-      id: 'restrictions',
-      label: t("planner.optimization.categories.restrictions.label"),
-      icon: TriangleAlert,
-      accent: "text-secondary",
-      options: [
         { value: 'innerCities', label: t("planner.optimization.categories.restrictions.options.innerCities") },
         { value: 'oldTowns', label: t("planner.optimization.categories.restrictions.options.oldTowns") },
         { value: 'hairpins', label: t("planner.optimization.categories.restrictions.options.hairpins") },
@@ -80,12 +79,8 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
     }
   ];
 
-  const glassPanelStyle = {
-    background: "rgba(255, 255, 255, 0.05)",
-    backdropFilter: "blur(12px)",
-    WebkitBackdropFilter: "blur(12px)",
-    border: "2px solid rgba(255, 255, 255, 0.15)",
-    borderRadius: "2.5rem",
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
   
   return (
@@ -102,68 +97,66 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {categories.map((cat, i) => (
-          <motion.div 
-            key={cat.id} 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="p-6 sm:p-10 shadow-2xl flex flex-col items-start text-left"
-            style={glassPanelStyle}
+      <div className="space-y-4">
+        {categories.map((cat) => (
+          <div
+            key={cat.id}
+            className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${
+              openSections[cat.id] ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"
+            }`}
           >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-primary border-2 border-white/20 shadow-md">
-                <cat.icon className="w-6 h-6" />
+            <button
+              type="button"
+              onClick={() => toggleSection(cat.id)}
+              className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1"
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openSections[cat.id] ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
+                  <cat.icon className="w-4 h-4" />
+                </div>
+                <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">{cat.label}</span>
               </div>
-              <Label className="text-sm font-semibold tracking-[0.04em] text-white">
-                {cat.label}
-              </Label>
+              <ChevronDown className={`w-4 h-4 transition-transform ${openSections[cat.id] ? "rotate-180 text-primary" : "text-white/70"}`} />
+            </button>
+            {openSections[cat.id] && (
+              <div className="mt-4">
+                <ToggleGroup
+                  name="routePreferences"
+                  options={cat.options}
+                  selectedValues={formData.routePreferences}
+                  onChange={onCheckboxChange}
+                />
+              </div>
+            )}
+          </div>
+        ))}
+
+        <div className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openSections.avoidRegions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}>
+          <button
+            type="button"
+            onClick={() => toggleSection("avoidRegions")}
+            className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1"
+          >
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openSections.avoidRegions ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
+                <ShieldAlert className="w-4 h-4" />
+              </div>
+              <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">{t("planner.optimization.avoidRegions.label")}</span>
             </div>
-            
-            <div className="w-full text-left">
-              <ToggleGroup
-                name="routePreferences"
-                options={cat.options}
-                selectedValues={formData.routePreferences}
-                onChange={onCheckboxChange}
+            <ChevronDown className={`w-4 h-4 transition-transform ${openSections.avoidRegions ? "rotate-180 text-primary" : "text-white/70"}`} />
+          </button>
+          {openSections.avoidRegions && (
+            <div className="mt-4">
+              <button
+                id="avoidRegions"
+                placeholder={t("planner.optimization.avoidRegions.placeholder")}
+                value={formData.avoidRegions}
+                onChange={(e) => onChange({ avoidRegions: e.target.value })}
+                className="w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
               />
             </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="space-y-4 text-left">
-        <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 text-primary" /> {t("planner.optimization.tollCountries.label")}
-        </Label>
-        <ToggleGroup
-          name="avoidTollCountries"
-          options={[
-            { value: 'at', label: t("planner.optimization.tollCountries.options.at") },
-            { value: 'ch', label: t("planner.optimization.tollCountries.options.ch") },
-            { value: 'fr', label: t("planner.optimization.tollCountries.options.fr") },
-            { value: 'it', label: t("planner.optimization.tollCountries.options.it") },
-            { value: 'es', label: t("planner.optimization.tollCountries.options.es") },
-            { value: 'si', label: t("planner.optimization.tollCountries.options.si") },
-          ]}
-          selectedValues={formData.avoidTollCountries}
-          onChange={onCheckboxChange}
-          className="grid-cols-1 md:grid-cols-2"
-        />
-      </div>
-
-      <div className="space-y-4 text-left">
-        <Label htmlFor="avoidRegions" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 text-primary" /> {t("planner.optimization.avoidRegions.label")}
-        </Label>
-        <textarea
-          id="avoidRegions"
-          placeholder={t("planner.optimization.avoidRegions.placeholder")}
-          value={formData.avoidRegions}
-          onChange={(e) => onChange({ avoidRegions: e.target.value })}
-          className="w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
-        />
+          )}
+        </div>
       </div>
     </div>
   );

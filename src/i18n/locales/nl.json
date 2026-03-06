@@ -515,6 +515,7 @@
       "notSpecified": "Niet ingevuld",
       "vehicle": "Voertuig",
       "people": "Personen",
+      "budget": "Budget",
       "style": "Stijl",
       "interests": "Interesses",
       "selected": "geselecteerd",
@@ -656,7 +657,7 @@
       "maxDriveTime": "Max. rijtijd / dag",
       "additional": {
         "label": "Extra info",
-        "placeholder": "bijv. geboekte campings, vaste afspraken, must‑see plekken, speciale wensen"
+        "placeholder": "bijv. Plan de terugweg via een andere route dan de heenweg"
       },
       "departureTime": "Vertrektijd",
       "arrivalTime": "Aankomsttijd",
@@ -707,18 +708,26 @@
         "title": "Tussenstops",
         "description": "Voeg zoveel tussenstops toe als je voor je route nodig hebt.",
         "add": "Tussenstop toevoegen",
+        "addSimple": "Tussenstop(s) toevoegen",
         "remove": "Verwijderen",
         "empty": "Nog geen tussenstops toegevoegd",
         "required": "Een plaats is verplicht zodra een tussenstop is toegevoegd."
       },
       "destinationDetails": {
-        "label": "Verblijf op bestemming nauwkeuriger plannen",
-        "description": "Stel desgewenst aankomst en vertrek op de bestemming in."
+        "label": "Tijden nauwkeuriger plannen",
+        "description": "Stel optioneel vertrek- en aankomsttijd in."
       }
     },
     "optimization": {
       "title": "Route‑optimalisatie",
       "subtitle": "(Meerdere keuzes mogelijk)",
+      "quick": {
+        "label": "Snelselectie"
+      },
+      "advanced": {
+        "show": "Geavanceerd tonen",
+        "hide": "Geavanceerd verbergen"
+      },
       "categories": {
         "roadType": {
           "label": "Rijprofiel",

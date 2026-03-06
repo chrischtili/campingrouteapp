@@ -515,6 +515,7 @@
       "notSpecified": "Not specified",
       "vehicle": "Vehicle",
       "people": "Travelers",
+      "budget": "Budget",
       "style": "Style",
       "interests": "Interests",
       "selected": "selected",
@@ -656,7 +657,7 @@
       "maxDriveTime": "Max drive time / day",
       "additional": {
         "label": "Additional Info",
-        "placeholder": "e.g. booked campsites, fixed appointments, must‑see places, special requests"
+        "placeholder": "e.g. Plan the return trip on a different route than the outbound trip"
       },
       "departureTime": "Departure time",
       "arrivalTime": "Arrival time",
@@ -707,18 +708,26 @@
         "title": "Stops",
         "description": "Add as many stops as you need for your route.",
         "add": "Add stop",
+        "addSimple": "Add stop(s)",
         "remove": "Remove",
         "empty": "No stops added yet",
         "required": "A place is required as soon as a stop is added."
       },
       "destinationDetails": {
-        "label": "Plan destination stay in more detail",
-        "description": "Optionally define arrival and departure at the destination."
+        "label": "Plan times in more detail",
+        "description": "Optionally set departure and arrival times."
       }
     },
     "optimization": {
       "title": "Route Optimization",
       "subtitle": "(Multiple selection possible)",
+      "quick": {
+        "label": "Quick Selection"
+      },
+      "advanced": {
+        "show": "Show advanced",
+        "hide": "Hide advanced"
+      },
       "categories": {
         "roadType": {
           "label": "Driving profile",

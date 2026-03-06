@@ -515,6 +515,7 @@
       "notSpecified": "Nicht angegeben",
       "vehicle": "Fahrzeug",
       "people": "Personen",
+      "budget": "Budget",
       "style": "Stil",
       "interests": "Interessen",
       "selected": "gewählt",
@@ -656,7 +657,7 @@
       "maxDriveTime": "Max. Fahrzeit / Tag",
       "additional": {
         "label": "Zusatzinfos",
-        "placeholder": "z. B. bereits gebuchte Plätze, feste Termine, must‑see Orte, spezielle Wünsche"
+        "placeholder": "z. B. Plane die Rückfahrt auf einem anderen Weg als die Hinfahrt"
       },
       "departureTime": "Abfahrtszeit",
       "arrivalTime": "Ankunftszeit",
@@ -707,18 +708,26 @@
         "title": "Zwischenziele",
         "description": "Füge so viele Zwischenziele hinzu, wie du für deine Route brauchst.",
         "add": "Zwischenziel hinzufügen",
+        "addSimple": "Zwischenziel(e) hinzufügen",
         "remove": "Entfernen",
         "empty": "Noch keine Zwischenziele angelegt",
         "required": "Ort ist Pflicht, sobald ein Zwischenziel hinzugefügt wurde."
       },
       "destinationDetails": {
-        "label": "Zielaufenthalt genauer planen",
-        "description": "Ankunft und Abfahrt am Ziel optional festlegen."
+        "label": "Zeiten genauer planen",
+        "description": "Abfahrts- und Ankunftszeit optional festlegen."
       }
     },
     "optimization": {
       "title": "Routenoptimierung",
       "subtitle": "(Mehrfachauswahl möglich)",
+      "quick": {
+        "label": "Schnellwahl"
+      },
+      "advanced": {
+        "show": "Erweitert anzeigen",
+        "hide": "Erweitert ausblenden"
+      },
       "categories": {
         "roadType": {
           "label": "Fahrprofil",

@@ -515,6 +515,7 @@
       "notSpecified": "Non specificato",
       "vehicle": "Veicolo",
       "people": "Persone",
+      "budget": "Budget",
       "style": "Stile",
       "interests": "Interessi",
       "selected": "selezionato",
@@ -656,7 +657,7 @@
       "maxDriveTime": "Tempo di guida max / giorno",
       "additional": {
         "label": "Info aggiuntive",
-        "placeholder": "ad es. posti già prenotati, appuntamenti fissi, luoghi must‑see, richieste speciali"
+        "placeholder": "ad es. Pianifica il ritorno su un percorso diverso rispetto all’andata"
       },
       "departureTime": "Ora di partenza",
       "arrivalTime": "Ora di arrivo",
@@ -707,18 +708,26 @@
         "title": "Tappe intermedie",
         "description": "Aggiungi tutte le tappe intermedie che ti servono per il percorso.",
         "add": "Aggiungi tappa intermedia",
+        "addSimple": "Aggiungi tappa/e intermedia/e",
         "remove": "Rimuovi",
         "empty": "Nessuna tappa intermedia aggiunta",
         "required": "Il luogo è obbligatorio non appena aggiungi una tappa intermedia."
       },
       "destinationDetails": {
-        "label": "Pianifica meglio la sosta alla destinazione",
-        "description": "Definisci facoltativamente arrivo e partenza alla destinazione."
+        "label": "Pianifica meglio gli orari",
+        "description": "Imposta facoltativamente orario di partenza e di arrivo."
       }
     },
     "optimization": {
       "title": "Ottimizzazione percorso",
       "subtitle": "(Selezione multipla possibile)",
+      "quick": {
+        "label": "Selezione rapida"
+      },
+      "advanced": {
+        "show": "Mostra avanzato",
+        "hide": "Nascondi avanzato"
+      },
       "categories": {
         "roadType": {
           "label": "Profilo di guida",

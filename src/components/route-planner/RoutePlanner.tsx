@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check } from "lucide-react";
+import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
@@ -643,22 +643,36 @@ export function RoutePlanner() {
                             )}
                             {(hasDistanceLimit || hasDriveTimeLimit) && (
                               <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
-                                  {hasDistanceLimit ? <Route className="w-5 h-5" /> : <Clock3 className="w-5 h-5" />}
-                                </div>
-                                <div className="flex flex-col">
-                                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">
-                                    {hasDistanceLimit ? t("planner.summary.maxDist") : t("planner.route.maxDriveTime")}
-                                  </span>
-                                  {hasDistanceLimit && (
-                                    <span className="text-sm font-bold text-white">{`${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`}</span>
-                                  )}
-                                  {hasDriveTimeLimit && (
-                                    <span className={`${hasDistanceLimit ? "text-xs font-semibold text-white/70 mt-1" : "text-sm font-bold text-white"}`}>
-                                      {`${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`}
-                                    </span>
-                                  )}
-                                </div>
+                                {(() => {
+                                  const preferDriveTime = formData.dailyLimitPriority === "time" && hasDriveTimeLimit;
+                                  const mainIsDistance = hasDistanceLimit && !preferDriveTime;
+                                  const mainLabel = mainIsDistance ? t("planner.summary.maxDist") : t("planner.route.maxDriveTime");
+                                  const mainValue = mainIsDistance
+                                    ? `${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}`
+                                    : `${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}`;
+                                  const secondaryValue = mainIsDistance
+                                    ? (hasDriveTimeLimit ? `${formData.maxDailyDriveHours} h / ${t("planner.summary.perDay")}` : "")
+                                    : (hasDistanceLimit ? `${formData.maxDailyDistance} km / ${t("planner.summary.perDay")}` : "");
+
+                                  return (
+                                    <>
+                                      <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
+                                        {mainIsDistance ? <Route className="w-5 h-5" /> : <Clock3 className="w-5 h-5" />}
+                                      </div>
+                                      <div className="flex flex-col">
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-white/30">
+                                          {mainLabel}
+                                        </span>
+                                        <span className="text-sm font-bold text-white">{mainValue}</span>
+                                        {secondaryValue && (
+                                          <span className="text-xs font-semibold text-white/70 mt-1">
+                                            {secondaryValue}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </>
+                                  );
+                                })()}
                               </div>
                             )}
                           </div>
@@ -693,7 +707,13 @@ export function RoutePlanner() {
                           icon: Truck 
                         },
                         { label: t("planner.summary.people"), value: formData.numberOfTravelers, icon: Users },
-                        { label: t("planner.summary.style"), value: formData.travelStyle ? t(`planner.route.style.options.${formData.travelStyle}`) : t("planner.summary.notSelected"), icon: Sparkles },
+                        {
+                          label: t("planner.summary.budget"),
+                          value: Number(formData.avgCampsitePriceMax || 0) > 0
+                            ? `${formData.avgCampsitePriceMax} €`
+                            : t("planner.summary.notSelected"),
+                          icon: Wallet
+                        },
                         { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Sparkles },
                       ].map((stat, i) => (
                         <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">

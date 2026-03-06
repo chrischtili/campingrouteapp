@@ -50,7 +50,6 @@ export interface FormData {
   budgetLevel: string;
   quietPlaces: boolean;
   accommodation: string;
-  travelStyle: string;
   activities: string[];
   travelCompanions: string[];
   avoidHighways: string[];
@@ -112,7 +111,6 @@ export const initialFormData: FormData = {
   budgetLevel: '',
   quietPlaces: false,
   accommodation: '',
-  travelStyle: '',
   activities: [],
   travelCompanions: [],
   avoidHighways: [],

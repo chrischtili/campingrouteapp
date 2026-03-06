@@ -77,12 +77,6 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     data.startTime ? `• ${t('prompt.labels.startDepartureTime')}: ${data.startTime}` : '',
     data.endDate ? `• ${t('prompt.labels.finalArrival')}: ${formatDate(data.endDate)}` : '',
     data.endTime ? `• ${t('prompt.labels.finalArrivalTime')}: ${data.endTime}` : '',
-    data.destinationDetailsEnabled && data.destinationDepartureDate
-      ? `• ${t('prompt.labels.destinationDepartureDate')}: ${formatDate(data.destinationDepartureDate)}`
-      : '',
-    data.destinationDetailsEnabled && data.destinationDepartureTime
-      ? `• ${t('prompt.labels.destinationDepartureTime')}: ${data.destinationDepartureTime}`
-      : '',
     data.distance ? `• ${t('prompt.labels.totalDistance')}: ${data.distance} km` : '',
     maxDailyDistance > 0 ? `• ${t('prompt.labels.maxDailyDistance')}: ${data.maxDailyDistance} km` : '',
     maxDailyDriveHours > 0 ? `• ${t('prompt.labels.maxDailyDriveTime')}: ${data.maxDailyDriveHours} h` : '',
@@ -118,14 +112,13 @@ ${data.quietPlaces ? '• ' + t('prompt.labels.quietPlaces') + ': ' + t('prompt.
 ${data.accommodation ? '• ' + t('prompt.labels.specialWishes') + ': ' + data.accommodation + '\n' : ''}
 ` : ''}
 
-${data.travelStyle || data.activities.length > 0 ? `
+${data.activities.length > 0 ? `
 🌟 ${t('prompt.sections.interests')}:
 ──────────────────────────────────
-${data.travelStyle ? '• ' + t('prompt.labels.travelStyle') + ': ' + t(`planner.route.style.options.${data.travelStyle}`) + '\n' : ''}
 ${data.activities.length ? data.activities.map(a => '• ' + t(`planner.interests.options.${a}`)).join('\n') + '\n' : ''}
 ` : ''}
 
-${data.routePreferences?.length > 0 || data.avoidHighways?.length > 0 || data.avoidTollCountries?.length > 0 || data.avoidRegions ? `
+${data.routePreferences?.length > 0 || data.avoidHighways?.length > 0 || data.avoidRegions ? `
 🛣️ ${t('prompt.sections.optimization')}:
 ───────────────────────
 ${data.routePreferences?.length ? '• ' + t('prompt.labels.preferences') + ': ' + data.routePreferences.map(p => {
@@ -138,7 +131,6 @@ ${data.routePreferences?.length ? '• ' + t('prompt.labels.preferences') + ': '
   return p;
 }).join(', ') + '\n' : ''}
 ${data.avoidHighways?.length ? '• ' + t('prompt.labels.highwayMaut') + ': ' + data.avoidHighways.join(', ') + '\n' : ''}
-${data.avoidTollCountries?.length ? '• ' + t('prompt.labels.tollCountries') + ': ' + data.avoidTollCountries.map(c => t(`planner.optimization.tollCountries.options.${c}`)).join(', ') + '\n' : ''}
 ${data.avoidRegions ? '• ' + t('prompt.labels.avoidRegions') + ': ' + data.avoidRegions + '\n' : ''}
 ` : ''}
 

@@ -13,6 +13,7 @@ interface FormSliderProps {
   disabled?: boolean;
   formatValue?: (value: number) => string;
   formatBound?: (value: number) => string;
+  compact?: boolean;
 }
 
 export function FormSlider({
@@ -27,6 +28,7 @@ export function FormSlider({
   disabled = false,
   formatValue,
   formatBound: customFormatBound,
+  compact = false,
 }: FormSliderProps) {
   const defaultFormatBound = (bound: number) => {
     const hasFraction = Math.abs(bound % 1) > Number.EPSILON;
@@ -37,16 +39,16 @@ export function FormSlider({
   const displayMax = customFormatBound ? customFormatBound(max) : defaultFormatBound(max);
 
   return (
-    <div className={`w-full space-y-6 ${disabled ? "opacity-40" : ""}`}>
+    <div className={`w-full ${compact ? "space-y-4" : "space-y-6"} ${disabled ? "opacity-40" : ""}`}>
       <div className="space-y-2">
-        <Label id={`${id}-label`} htmlFor={id} className="text-[10px] sm:text-[11px] font-semibold tracking-[0.05em] text-muted-foreground block">
+        <Label id={`${id}-label`} htmlFor={id} className={`font-semibold tracking-[0.05em] text-muted-foreground block ${compact ? "text-[10px]" : "text-[10px] sm:text-[11px]"}`}>
           {label}
         </Label>
         <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-black text-foreground tabular-nums leading-none">
+          <span className={`${compact ? "text-3xl" : "text-4xl"} font-black text-foreground tabular-nums leading-none`}>
             {displayValue}
           </span>
-          <span className="text-sm font-bold text-primary tracking-widest">
+          <span className={`${compact ? "text-xs" : "text-sm"} font-bold text-primary tracking-widest`}>
             {unit}
           </span>
         </div>
@@ -66,7 +68,7 @@ export function FormSlider({
           disabled={disabled}
         />
         
-        <div className="mt-4 flex items-center justify-between text-xs sm:text-sm font-bold text-white/55 tabular-nums">
+        <div className={`mt-4 flex items-center justify-between font-bold text-white/55 tabular-nums ${compact ? "text-xs" : "text-xs sm:text-sm"}`}>
           <span className="whitespace-nowrap">{displayMin} {unit}</span>
           <span className="whitespace-nowrap">{displayMax} {unit}</span>
         </div>

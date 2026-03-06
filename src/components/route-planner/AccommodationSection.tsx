@@ -4,8 +4,9 @@ import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Bed, Users, Home, Settings, Wallet, MessageSquare, Sparkles, Heart } from "lucide-react";
+import { Bed, Users, Home, Settings, Wallet, MessageSquare, Heart, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface AccommodationSectionProps {
@@ -16,22 +17,22 @@ interface AccommodationSectionProps {
 
 export function AccommodationSection({ formData, onChange, onCheckboxChange }: AccommodationSectionProps) {
   const { t } = useTranslation();
+  const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({
+    companions: false,
+    type: false,
+    facilities: false,
+    interests: false,
+  });
+
+  const companionOptions = [
+    { value: 'solo', label: t("planner.accommodation.categories.companions.options.solo") },
+    { value: 'partner', label: t("planner.accommodation.categories.companions.options.partner") },
+    { value: 'family', label: t("planner.accommodation.categories.companions.options.family") },
+    { value: 'friends', label: t("planner.accommodation.categories.companions.options.friends") },
+    { value: 'pets', label: t("planner.accommodation.categories.companions.options.pets") },
+  ];
 
   const categories = [
-    {
-      id: 'companions',
-      label: t("planner.accommodation.categories.companions.label"),
-      icon: Users,
-      name: 'travelCompanions',
-      options: [
-        { value: 'solo', label: t("planner.accommodation.categories.companions.options.solo") },
-        { value: 'partner', label: t("planner.accommodation.categories.companions.options.partner") },
-        { value: 'family', label: t("planner.accommodation.categories.companions.options.family") },
-        { value: 'friends', label: t("planner.accommodation.categories.companions.options.friends") },
-        { value: 'pets', label: t("planner.accommodation.categories.companions.options.pets") },
-        { value: 'seniors', label: t("planner.accommodation.categories.companions.options.seniors") },
-      ]
-    },
     {
       id: 'type',
       label: t("planner.accommodation.categories.type.label"),
@@ -69,7 +70,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   ];
   
   const glassPanelStyle = {
-    background: "rgba(255, 255, 255, 0.03)",
+    background: "rgba(255, 255, 255, 0.04)",
     backdropFilter: "blur(12px)",
     WebkitBackdropFilter: "blur(12px)",
     border: "2px solid rgba(255, 255, 255, 0.1)",
@@ -88,6 +89,10 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
     { value: 'familyFriendly', label: t("planner.interests.options.familyFriendly") },
     { value: 'dogFriendly', label: t("planner.interests.options.dogFriendly") },
   ];
+
+  const toggleDropdown = (key: string) => {
+    setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   return (
     <div className="space-y-12">
@@ -114,8 +119,8 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-        <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-secondary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start text-left">
+        <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-white/5 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Users className="w-5 h-5 text-primary" />
             <span className="text-[10px] font-semibold tracking-[0.12em] text-white/45">
@@ -123,9 +128,38 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             </span>
           </div>
           <FormSlider id="numberOfTravelers" label={t("planner.accommodation.travelers.label")} value={formData.numberOfTravelers ? parseInt(formData.numberOfTravelers) : 1} min={1} max={8} step={1} unit={t("planner.accommodation.travelers.unit")} onChange={(v) => onChange({ numberOfTravelers: v.toString() })} />
+          <div className={`w-full mt-6 pt-6 border-t border-white/10`}>
+            <div className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.companions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}>
+              <button
+                type="button"
+                onClick={() => toggleDropdown("companions")}
+                className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openDropdowns.companions ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
+                    <Users className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                    {t("planner.accommodation.categories.companions.label")}
+                  </span>
+                </div>
+                <ChevronDown className={`w-4 h-4 transition-transform ${openDropdowns.companions ? "rotate-180 text-primary" : "text-white/70"}`} />
+              </button>
+            </div>
+            {openDropdowns.companions && (
+              <div className="w-full mt-4">
+                <ToggleGroup
+                  name="travelCompanions"
+                  options={companionOptions}
+                  selectedValues={formData.travelCompanions}
+                  onChange={onCheckboxChange}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-primary/10 border border-white/10 shadow-lg flex flex-col items-start text-left">
+        <div className="p-5 sm:p-6 rounded-3xl sm:rounded-[3rem] bg-white/5 border border-white/10 shadow-lg flex flex-col items-start text-left">
           <div className="flex items-center gap-3 mb-8">
             <Wallet className="w-5 h-5 text-primary" />
             <span className="text-[10px] font-semibold tracking-[0.12em] text-white/45">
@@ -154,37 +188,6 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-left">
-        {categories.filter((cat) => cat.id === "companions" || cat.id === "type").map((cat) => (
-          <motion.div 
-            key={cat.id} 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left"
-            style={glassPanelStyle}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
-                <cat.icon className="w-5 h-5" />
-              </div>
-              <Label className="text-xs font-semibold tracking-[0.04em] text-white">
-                {cat.label}
-              </Label>
-            </div>
-
-            <div className="w-full text-left">
-              <ToggleGroup
-                name={cat.name}
-                options={cat.options}
-                selectedValues={formData[cat.name as keyof FormData] as string[]}
-                onChange={onCheckboxChange}
-              />
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-
       <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
         <div className="space-y-1">
           <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
@@ -202,53 +205,96 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-left">
+      <div className="grid grid-cols-1 gap-8 items-start text-left">
+        {categories.filter((cat) => cat.id === "type").map((cat) => (
+          <motion.div 
+            key={cat.id} 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns[cat.id] ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
+          >
+            <button type="button" onClick={() => toggleDropdown(cat.id)} className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1">
+              <div className="flex items-center gap-3">
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openDropdowns[cat.id] ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
+                  <cat.icon className="w-5 h-5" />
+                </div>
+                <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                  {cat.label}
+                </span>
+              </div>
+              <ChevronDown className={`w-4 h-4 transition-transform ${openDropdowns[cat.id] ? "rotate-180 text-primary" : "text-white/70"}`} />
+            </button>
+
+            {openDropdowns[cat.id] && (
+              <div className="mt-4 w-full text-left">
+                <ToggleGroup
+                  name={cat.name}
+                  options={cat.options}
+                  selectedValues={formData[cat.name as keyof FormData] as string[]}
+                  onChange={onCheckboxChange}
+                />
+              </div>
+            )}
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 gap-8 items-start text-left">
         {categories.filter((cat) => cat.id === "facilities").map((cat) => (
           <motion.div 
             key={cat.id} 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left"
-            style={glassPanelStyle}
+            className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.facilities ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
           >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
-                <cat.icon className="w-5 h-5" />
+            <button type="button" onClick={() => toggleDropdown("facilities")} className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1">
+              <div className="flex items-center gap-3">
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openDropdowns.facilities ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
+                  <cat.icon className="w-5 h-5" />
+                </div>
+                <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                  {cat.label}
+                </span>
               </div>
-              <Label className="text-xs font-semibold tracking-[0.04em] text-white">
-                {cat.label}
-              </Label>
-            </div>
-            
-            <div className="w-full text-left">
-              <ToggleGroup
-                name={cat.name}
-                options={cat.options}
-                selectedValues={formData[cat.name as keyof FormData] as string[]}
-                onChange={onCheckboxChange}
-              />
-            </div>
+              <ChevronDown className={`w-4 h-4 transition-transform ${openDropdowns.facilities ? "rotate-180 text-primary" : "text-white/70"}`} />
+            </button>
+
+            {openDropdowns.facilities && (
+              <div className="mt-4 w-full text-left">
+                <ToggleGroup
+                  name={cat.name}
+                  options={cat.options}
+                  selectedValues={formData[cat.name as keyof FormData] as string[]}
+                  onChange={onCheckboxChange}
+                />
+              </div>
+            )}
           </motion.div>
         ))}
 
-        <div className="p-6 sm:p-10 shadow-xl space-y-8 flex flex-col items-start text-left" style={glassPanelStyle}>
-          <div className="flex items-center gap-3 w-full">
-            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary border border-primary/20">
-              <Heart className="w-5 h-5" />
+        <div className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.interests ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}>
+          <button type="button" onClick={() => toggleDropdown("interests")} className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1">
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openDropdowns.interests ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
+                <Heart className="w-4 h-4" />
+              </div>
+              <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                {t("planner.interests.title")}
+              </span>
             </div>
-            <Label className="text-xs font-semibold tracking-[0.04em] text-white">
-              {t("planner.interests.title")}
-            </Label>
-          </div>
+            <ChevronDown className={`w-4 h-4 transition-transform ${openDropdowns.interests ? "rotate-180 text-primary" : "text-white/70"}`} />
+          </button>
 
-          <div className="w-full text-left">
-            <ToggleGroup
-              name="activities"
-              options={interestOptions}
-              selectedValues={formData.activities}
-              onChange={onCheckboxChange}
-            />
-          </div>
+          {openDropdowns.interests && (
+            <div className="mt-4 w-full text-left">
+              <ToggleGroup
+                name="activities"
+                options={interestOptions}
+                selectedValues={formData.activities}
+                onChange={onCheckboxChange}
+              />
+            </div>
+          )}
         </div>
       </div>
 

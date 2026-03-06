@@ -515,6 +515,7 @@
       "notSpecified": "Non spécifié",
       "vehicle": "Véhicule",
       "people": "Voyageurs",
+      "budget": "Budget",
       "style": "Style",
       "interests": "Intérêts",
       "selected": "sélectionné",
@@ -656,7 +657,7 @@
       "maxDriveTime": "Temps de conduite max / jour",
       "additional": {
         "label": "Infos supplémentaires",
-        "placeholder": "p. ex. campings déjà réservés, rendez‑vous fixes, lieux incontournables, demandes spéciales"
+        "placeholder": "p. ex. Planifier le trajet retour par un itinéraire différent de l’aller"
       },
       "departureTime": "Heure de départ",
       "arrivalTime": "Heure d’arrivée",
@@ -707,18 +708,26 @@
         "title": "Arrêts",
         "description": "Ajoute autant d’arrêts que nécessaire pour ton itinéraire.",
         "add": "Ajouter un arrêt",
+        "addSimple": "Ajouter un/des arrêt(s)",
         "remove": "Supprimer",
         "empty": "Aucun arrêt ajouté",
         "required": "Un lieu est obligatoire dès qu’un arrêt est ajouté."
       },
       "destinationDetails": {
-        "label": "Planifier le séjour à destination plus précisément",
-        "description": "Définis si besoin l’arrivée et le départ à la destination."
+        "label": "Planifier les heures plus précisément",
+        "description": "Définis si besoin les heures de départ et d’arrivée."
       }
     },
     "optimization": {
       "title": "Optimisation d’itinéraire",
       "subtitle": "(Sélection multiple possible)",
+      "quick": {
+        "label": "Sélection rapide"
+      },
+      "advanced": {
+        "show": "Afficher avancé",
+        "hide": "Masquer avancé"
+      },
       "categories": {
         "roadType": {
           "label": "Profil de trajet",

@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
 
-[![Version](https://img.shields.io/badge/version-v0.4.5-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.7-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 🌟 Highlights (v0.4.5)
+## 🌟 Highlights (v0.4.7)
 
 - **OpenCampingMap-only klar sichtbar**: Im Schritt „Übernachtung & Interessen“ ist die Datenquelle jetzt direkt gekennzeichnet.
 - **OpenCampingMap-Links robuster**: KI-Antworten werden normalisiert, damit problematische `#position`-Varianten als nutzbare OCM-Links ausgegeben werden.
@@ -97,13 +97,13 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.4.5-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.7-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
 
 ---
 
-## 🌟 Highlights (v0.4.5)
+## 🌟 Highlights (v0.4.7)
 
 - **OpenCampingMap-only now visible in UI**: the data source is explicitly labeled in the accommodation step.
 - **More robust OpenCampingMap links**: AI output is normalized so problematic `#position` variants become usable OCM links.

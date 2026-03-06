@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
 
-[![Version](https://img.shields.io/badge/version-v0.4.7-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,14 +10,13 @@
 
 ---
 
-## 🌟 Highlights (v0.4.7)
+## 🌟 Highlights (v0.4.8)
 
-- **OpenCampingMap-only klar sichtbar**: Im Schritt „Übernachtung & Interessen“ ist die Datenquelle jetzt direkt gekennzeichnet.
-- **OpenCampingMap-Links robuster**: KI-Antworten werden normalisiert, damit problematische `#position`-Varianten als nutzbare OCM-Links ausgegeben werden.
-- **GPX-Doppelausgabe stabiler**: Trennung zwischen zwei GPX-Blöcken wird zuverlässig nachkorrigiert.
-- **Gemini-Websuche entfernt**: weniger Streuung, konsistentere Ergebnisse im KI-Direkt-Modus.
-- **Prompt-Regeln für Übernachtungen vereinfacht**: Fokus auf funktionierende OCM-Links plus offizielle Platz-Links (wenn vorhanden).
-- **Impressum/Datenschutz-Titel korrigiert**: keine erzwungene Großschreibung mehr.
+- **5 letzte Planungen lokal speicherbar**: Formulareingaben lassen sich direkt im Browser sichern, laden, überschreiben und löschen.
+- **Route-Überblick im Ergebnis**: Ausgabe zeigt kompakt Route, Tageslimits, Budget, Fahrfokus und längere Stopps.
+- **Etappen-Ampel ergänzt**: KI-Ergebnisse heben Etappen als `unkritisch`, `mit Vorsicht` oder `eher ungeeignet` hervor.
+- **Regionen-Rundtouren verbessert**: Zielgebiete und „längere Stopps an besonders schönen Orten“ sind direkt in der Reiseroute integriert.
+- **Akkordeons verhalten sich konsistenter**: geöffnete Bereiche scrollen einheitlich statt unruhig zu springen.
 - **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
@@ -97,20 +96,19 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.4.7-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.4.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
 
 ---
 
-## 🌟 Highlights (v0.4.7)
+## 🌟 Highlights (v0.4.8)
 
-- **OpenCampingMap-only now visible in UI**: the data source is explicitly labeled in the accommodation step.
-- **More robust OpenCampingMap links**: AI output is normalized so problematic `#position` variants become usable OCM links.
-- **More stable dual GPX output**: spacing between two GPX blocks is automatically corrected.
-- **Gemini web search removed**: less variability and more consistent direct-AI results.
-- **Simplified overnight prompt rules**: prioritize working OCM links and official campsite links (when available).
-- **Imprint/Privacy titles fixed**: no forced uppercase on page titles.
+- **Store up to 5 recent plans locally**: save, load, overwrite and delete route setups directly in the browser.
+- **New route overview in the output**: compact summary for route, daily limits, budget, travel focus and longer scenic stops.
+- **Stage traffic-light added**: direct-AI results highlight stages as `uncritical`, `with caution` or `rather unsuitable`.
+- **Region-based roundtrips improved**: target regions and “longer stops at especially beautiful places” are now built into the route flow.
+- **Accordion behavior is more consistent**: opened sections scroll into view cleanly instead of jumping around.
 - **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **AI-powered Route Planning** with GPX export for navigation devices.
 - **100% Free** – Prompt generation possible without any API costs.

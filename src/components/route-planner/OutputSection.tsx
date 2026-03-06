@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, AlertCircle, Download } from "lucide-react";
+import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, AlertCircle, Download, Map, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -26,6 +26,8 @@ interface OutputSectionProps {
     destinationDetailsEnabled?: boolean;
     destinationDepartureDate?: string;
     destinationDepartureTime?: string;
+    targetRegions?: string;
+    preferScenicLongerStops?: boolean;
     travelPace: string;
     budgetLevel: string;
     quietPlaces: boolean;
@@ -36,6 +38,12 @@ interface OutputSectionProps {
 interface OutputSectionLink {
   id: string;
   label: string;
+}
+
+interface StageRiskItem {
+  title: string;
+  level: "safe" | "caution" | "critical";
+  detail: string;
 }
 
 export function OutputSection({ 
@@ -388,6 +396,38 @@ ${gpxOnly}`;
   const outputBody = useDirectAI ? directAiBody : output;
   const sectionLinks = useMemo(() => extractSectionLinks(outputBody), [outputBody]);
   const formattedHtml = useMemo(() => buildFormattedHtml(outputBody, sectionLinks), [outputBody, sectionLinks]);
+  const stageRiskItems = useMemo<StageRiskItem[]>(() => {
+    const lines = outputBody.replace(/\r\n/g, "\n").split("\n");
+    const patterns = [
+      { level: "critical" as const, regex: /\b(eher ungeeignet|für dieses fahrzeug eher ungeeignet|rather unsuitable|unsuitable for this vehicle|plutôt inadaptée|piuttosto inadatta|eerder ongeschikt)\b/i },
+      { level: "caution" as const, regex: /\b(mit vorsicht|use caution|avec prudence|con prudenza|met voorzichtigheid)\b/i },
+      { level: "safe" as const, regex: /\b(unkritisch|uncritical|sans problème|senza criticità|onkritisch)\b/i },
+    ];
+
+    const cleanedLines = lines
+      .map((line) => line.replace(/^[-*•\d.\s]+/, "").trim())
+      .filter(Boolean);
+
+    const items: StageRiskItem[] = [];
+    const seen = new Set<string>();
+
+    for (const line of cleanedLines) {
+      const match = patterns.find((entry) => entry.regex.test(line));
+      if (!match) continue;
+
+      const parts = line.split(/[:–-]\s+/);
+      const rawTitle = (parts[0] || line).trim();
+      const detail = (parts.length > 1 ? parts.slice(1).join(" - ") : line).trim();
+      const title = rawTitle.length > 60 ? rawTitle.slice(0, 57).trimEnd() + "..." : rawTitle;
+      const key = `${match.level}:${title}:${detail}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      items.push({ title, level: match.level, detail });
+      if (items.length >= 5) break;
+    }
+
+    return items;
+  }, [outputBody]);
 
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
     const cleaned = sanitizeGpxContent(gpxContent);
@@ -407,36 +447,6 @@ ${gpxOnly}`;
       toast.error(t("planner.output.print.gpxError") || "Keine GPX-Daten gefunden");
     }
   };
-
-  if (isLoading) {
-    return (
-      <div className="py-20 flex flex-col items-center justify-center space-y-8">
-        <div className="relative">
-          <div className="w-24 h-24 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-          <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
-        </div>
-        <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black text-white uppercase tracking-tighter drop-shadow-sm">
-            {loadingMessage || (useDirectAI ? t("planner.loading.ai") : t("planner.loading.prompt"))}
-          </h3>
-          <p className="text-white text-base sm:text-lg font-semibold drop-shadow-sm">
-            {t("planner.output.loading.wait")}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (aiError) {
-    return (
-      <Alert variant="destructive" className="rounded-[2rem] border-destructive/20 bg-destructive/10 p-8">
-        <AlertCircle className="h-6 w-6 text-destructive" />
-        <AlertDescription className="font-bold text-lg text-white ml-2">{aiError}</AlertDescription>
-      </Alert>
-    );
-  }
-
-  if (!output) return null;
 
   const summaryItems = [
     { label: t("planner.summary.start"), value: summary?.startPoint || t("planner.summary.notSpecified") },
@@ -474,6 +484,98 @@ ${gpxOnly}`;
       value: summary?.quietPlaces ? t("prompt.labels.yes") : t("planner.summary.notSelected")
     },
   ];
+
+  const overviewRoute = useMemo(() => {
+    const routeStops = [
+      summary?.startPoint,
+      ...(summary?.stages?.map((stage) => stage.destination?.trim()).filter(Boolean) || []),
+      summary?.destination,
+    ].filter(Boolean) as string[];
+
+    if (summary?.targetRegions?.trim()) {
+      routeStops.push(summary.targetRegions.trim());
+    }
+
+    if (!routeStops.length) return t("planner.summary.notSpecified");
+    if (routeStops.length <= 4) return routeStops.join(" → ");
+    return `${routeStops.slice(0, 3).join(" → ")} → … → ${routeStops[routeStops.length - 1]}`;
+  }, [summary, t]);
+
+  const overviewDays = useMemo(() => {
+    if (!summary?.startDate || !summary?.endDate) return t("planner.summary.notSelected");
+    const start = new Date(summary.startDate);
+    const end = new Date(summary.endDate);
+    const diff = end.getTime() - start.getTime();
+    if (Number.isNaN(diff) || diff < 0) return t("planner.summary.notSelected");
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+    return t("planner.output.overview.daysValue", { count: days });
+  }, [summary, t]);
+
+  const overviewDrivingFocus = useMemo(() => {
+    if (summary?.dailyLimitPriority) {
+      return t(`planner.route.limitPriority.options.${summary.dailyLimitPriority}`);
+    }
+    if (Number(summary?.maxDailyDriveHours || 0) > 0) {
+      return t("planner.route.limitPriority.options.time");
+    }
+    if (Number(summary?.maxDailyDistance || 0) > 0) {
+      return t("planner.route.limitPriority.options.distance");
+    }
+    return summary?.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected");
+  }, [summary, t]);
+
+  const overviewBudget = useMemo(() => {
+    if (summary?.budgetLevel) return t(`planner.accommodation.budgetLevel.options.${summary.budgetLevel}`);
+    return t("planner.summary.notSelected");
+  }, [summary, t]);
+
+  const overviewScenicStops = useMemo(() => {
+    if (summary?.preferScenicLongerStops) return t("prompt.labels.yes");
+    if (summary?.targetRegions?.trim()) return t("planner.output.overview.onRequest");
+    return t("planner.summary.notSelected");
+  }, [summary, t]);
+
+  const overviewCards = [
+    { id: "route", icon: Map, label: t("planner.output.overview.route"), value: overviewRoute },
+    { id: "duration", icon: CalendarRange, label: t("planner.output.overview.duration"), value: overviewDays },
+    { id: "drivingFocus", icon: RouteIcon, label: t("planner.output.overview.drivingFocus"), value: overviewDrivingFocus },
+    { id: "dailyWindow", icon: Clock3, label: t("planner.output.overview.dailyWindow"), value: [
+      Number(summary?.maxDailyDistance || 0) > 0 ? `${summary?.maxDailyDistance} km` : "",
+      Number(summary?.maxDailyDriveHours || 0) > 0 ? `${summary?.maxDailyDriveHours} h` : "",
+    ].filter(Boolean).join(" / ") || t("planner.summary.notSelected") },
+    { id: "budget", icon: Wallet, label: t("planner.output.overview.budget"), value: overviewBudget },
+    { id: "scenic", icon: Trees, label: t("planner.output.overview.longerStops"), value: overviewScenicStops },
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="py-20 flex flex-col items-center justify-center space-y-8">
+        <div className="relative">
+          <div className="w-24 h-24 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+          <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
+        </div>
+        <div className="text-center space-y-2">
+          <h3 className="text-2xl font-black text-white uppercase tracking-tighter drop-shadow-sm">
+            {loadingMessage || (useDirectAI ? t("planner.loading.ai") : t("planner.loading.prompt"))}
+          </h3>
+          <p className="text-white text-base sm:text-lg font-semibold drop-shadow-sm">
+            {t("planner.output.loading.wait")}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (aiError) {
+    return (
+      <Alert variant="destructive" className="rounded-[2rem] border-destructive/20 bg-destructive/10 p-8">
+        <AlertCircle className="h-6 w-6 text-destructive" />
+        <AlertDescription className="font-bold text-lg text-white ml-2">{aiError}</AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (!output) return null;
 
   return (
     <motion.div
@@ -566,21 +668,96 @@ ${gpxOnly}`;
 
           <div className="p-6 sm:p-10 md:p-14 space-y-10 bg-[linear-gradient(180deg,rgba(8,12,10,0.82),rgba(8,12,10,0.88))]">
             {summary && (
+              <div className="space-y-5">
+                <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+                  <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
+                    {t("planner.output.overview.title")}
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                    {overviewCards.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <div key={item.id} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <div className="text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
+                              {item.label}
+                            </div>
+                          </div>
+                          <div className="text-sm sm:text-base font-bold text-white/92 leading-snug">
+                            {item.value}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+                  <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
+                  {t("planner.output.summary.title")}
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                    {summaryItems.map((item) => (
+                      <div key={item.label} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
+                        <div className="text-[10px] font-black uppercase tracking-[0.22em] text-white/35 mb-2">
+                          {item.label}
+                        </div>
+                        <div className="text-sm sm:text-base font-bold text-white/90 leading-snug">
+                          {item.value}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            {useDirectAI && stageRiskItems.length > 0 && (
               <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
                 <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
-                  {t("planner.output.summary.title")}
+                  {t("planner.output.risk.title")}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-                  {summaryItems.map((item) => (
-                    <div key={item.label} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-                      <div className="text-[10px] font-black uppercase tracking-[0.22em] text-white/35 mb-2">
-                        {item.label}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+                  {stageRiskItems.map((item, index) => {
+                    const config = item.level === "safe"
+                      ? {
+                          dot: "bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.55)]",
+                          badge: "border-emerald-400/25 bg-emerald-400/10 text-emerald-300",
+                          label: t("planner.output.risk.safe"),
+                        }
+                      : item.level === "caution"
+                        ? {
+                            dot: "bg-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.5)]",
+                            badge: "border-amber-400/25 bg-amber-400/10 text-amber-300",
+                            label: t("planner.output.risk.caution"),
+                          }
+                        : {
+                            dot: "bg-red-400 shadow-[0_0_16px_rgba(248,113,113,0.5)]",
+                            badge: "border-red-400/25 bg-red-400/10 text-red-300",
+                            label: t("planner.output.risk.critical"),
+                          };
+
+                    return (
+                      <div key={`${item.title}-${index}`} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className={`mt-1 h-3 w-3 rounded-full shrink-0 ${config.dot}`} />
+                            <div className="text-sm sm:text-base font-bold text-white/92 leading-snug">
+                              {item.title}
+                            </div>
+                          </div>
+                          <span className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${config.badge}`}>
+                            {config.label}
+                          </span>
+                        </div>
+                        <div className="text-sm text-white/68 leading-7">
+                          {item.detail}
+                        </div>
                       </div>
-                      <div className="text-sm sm:text-base font-bold text-white/90 leading-snug">
-                        {item.value}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}

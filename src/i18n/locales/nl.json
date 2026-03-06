@@ -528,6 +528,19 @@
         "coffeeHint": "CampingRoute.app is open‑source en reclamevrij — je steun helpt met server- en ontwikkelkosten. Dank je!",
         "clear": "Gegevens wissen"
       },
+      "savedPlans": {
+        "title": "5 recente plannen",
+        "desc": "Slaat maximaal 5 plannen lokaal in de browser op. Je kunt ze later laden, overschrijven of verwijderen.",
+        "saveCurrent": "Huidig plan opslaan",
+        "empty": "Nog geen plan opgeslagen.",
+        "load": "Laden",
+        "overwrite": "Overschrijven",
+        "delete": "Verwijderen",
+        "saved": "Plan lokaal opgeslagen.",
+        "updated": "Opgeslagen plan overschreven.",
+        "loaded": "Opgeslagen plan geladen.",
+        "deleted": "Opgeslagen plan verwijderd."
+      },
       "stops": "Tussenstops"
     },
     "steps": {
@@ -1032,6 +1045,24 @@
           "documents": "Documenten & verzekering",
           "apps": "Apps & offline kaarten"
         }
+      },
+      "overview": {
+        "title": "Route-overzicht",
+        "route": "Route",
+        "duration": "Reisduur",
+        "drivingFocus": "Rijfocus",
+        "dailyWindow": "Daglimieten",
+        "budget": "Budget",
+        "longerStops": "Langere stops",
+        "daysValue_one": "{{count}} dag",
+        "daysValue_other": "{{count}} dagen",
+        "onRequest": "Op verzoek"
+      },
+      "risk": {
+        "title": "Etappe-stoplicht",
+        "safe": "Onkritisch",
+        "caution": "Met voorzichtigheid",
+        "critical": "Eerder ongeschikt"
       }
     },
     "feedback": {
@@ -1232,7 +1263,7 @@
       "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand (route+track) toe.\n\nBelangrijk: Geef de GPX als een puur XML‑blok uit, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nVereisten:\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde (<rtept>), zodat Garmin dit als route herkent.\nLeg de volledige route ook vast als track (<trk> met <trkseg> en <trkpt>).\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna het GPX-blok helemaal aan het einde toe. Na het GPX-blok mag geen extra tekst meer volgen.",
       "both": "GPX-bestand: Voeg aan het einde van het antwoord exact twee GPX-bestanden toe.\n\nBelangrijk: geef uitsluitend twee pure XML-blokken terug, zonder inleidende tekst, zonder labels, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\nBlok 1 (Garmin-waypoints):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nScheid blok 1 en blok 2 met minimaal één lege regel.\n\nBlok 2 (GPX route+track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nEisen blok 1 (Garmin-waypoints):\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nBlok 1 mag alleen <wpt> bevatten en mag geen route (<rte>) of track (<trk>) bevatten.\n\nEisen blok 2 (GPX route+track):\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nBlok 2 moet <wpt>, <rte> en <trk> bevatten. Maak een route (<rte>) met alle punten in volgorde (<rtept>), zodat Garmin deze als route herkent. Maak daarnaast de volledige route ook als track (<trk> met <trkseg> en <trkpt>).\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna deze twee GPX-blokken helemaal aan het einde toe. Na de GPX-blokken mag geen extra tekst meer volgen."
     },
-    "instructionsCamperPlanning": "\n\nBelangrijk: beoordeel elke etappe ook kort vanuit camperperspectief, bijvoorbeeld als \"onkritisch\", \"met voorzichtigheid\" of \"eerder ongeschikt voor dit voertuig\", en licht dat kort toe.\n\nBelangrijk: neem ook de verzorgingslogica mee. Geef zinnig aan wanneer vers water, lozen, tanken, boodschappen of andere camperrelevante stops ingepland moeten worden.\n\nBelangrijk: duid voorgestelde overnachtingsplekken kort, bijvoorbeeld als doorreisstop, goede plek voor 2-3 nachten of echte vakantiebasis. Als ik regio's/doelgebieden opgeef of langere stops op mooie plekken wens, plan daar dan bewust meer tijd in plaats van zo veel mogelijk locatiewissels te maken."
+    "instructionsCamperPlanning": "\n\nBelangrijk: beoordeel elke etappe ook kort vanuit camperperspectief, bijvoorbeeld als \"onkritisch\", \"met voorzichtigheid\" of \"eerder ongeschikt voor dit voertuig\", en licht dat kort toe.\n\nBelangrijk: neem ook de verzorgingslogica mee. Geef zinnig aan wanneer vers water, lozen, tanken, boodschappen of andere camperrelevante stops ingepland moeten worden.\n\nBelangrijk: duid voorgestelde overnachtingsplekken kort, bijvoorbeeld als doorreisstop, goede plek voor 2-3 nachten of echte vakantiebasis. Als ik regio's/doelgebieden opgeef of langere stops op mooie plekken wens, plan daar dan bewust meer tijd in plaats van zo veel mogelijk locatiewissels te maken. Gebruik deze drie formuleringen indien mogelijk letterlijk.\n\nBelangrijk: geef per etappe indien mogelijk een aparte regel zoals \"Beoordeling: onkritisch\" of \"Beoordeling: met voorzichtigheid\" of \"Beoordeling: eerder ongeschikt\", plus een korte reden, zodat de inschatting duidelijk herkenbaar blijft."
   },
   "anchorNav": {
     "home": "Home",

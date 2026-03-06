@@ -1,7 +1,7 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Target, Navigation, Sparkles, ShieldAlert, Landmark, ChevronDown } from "lucide-react";
 
@@ -13,6 +13,7 @@ interface RouteOptimizationSectionProps {
 
 export function RouteOptimizationSection({ formData, onCheckboxChange, onChange }: RouteOptimizationSectionProps) {
   const { t } = useTranslation();
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     roadType: false,
     restrictions: false,
@@ -82,6 +83,14 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
   const toggleSection = (key: string) => {
     setOpenSections((prev) => {
       const nextValue = !prev[key];
+      if (nextValue) {
+        requestAnimationFrame(() => {
+          const element = sectionRefs.current[key];
+          if (!element) return;
+          const top = element.getBoundingClientRect().top + window.scrollY - 110;
+          window.scrollTo({ top, behavior: "smooth" });
+        });
+      }
       return {
         roadType: false,
         restrictions: false,
@@ -111,6 +120,10 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
         {categories.map((cat) => (
           <div
             key={cat.id}
+            ref={(node) => {
+              sectionRefs.current[cat.id] = node;
+            }}
+            style={{ overflowAnchor: "none" }}
             className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${
               openSections[cat.id] ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"
             }`}
@@ -141,7 +154,13 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
           </div>
         ))}
 
-        <div className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openSections.avoidRegions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}>
+        <div
+          ref={(node) => {
+            sectionRefs.current.avoidRegions = node;
+          }}
+          style={{ overflowAnchor: "none" }}
+          className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openSections.avoidRegions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
+        >
           <button
             type="button"
             onClick={() => toggleSection("avoidRegions")}

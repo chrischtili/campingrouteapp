@@ -528,6 +528,19 @@
         "coffeeHint": "CampingRoute.app è open‑source & senza pubblicità – il tuo supporto aiuta a coprire i costi server + sviluppo. Grazie!",
         "clear": "Elimina dati"
       },
+      "savedPlans": {
+        "title": "5 ultimi piani",
+        "desc": "Salva fino a 5 piani localmente nel browser. In seguito puoi caricarli, sovrascriverli o eliminarli.",
+        "saveCurrent": "Salva il piano attuale",
+        "empty": "Nessun piano salvato finora.",
+        "load": "Carica",
+        "overwrite": "Sovrascrivi",
+        "delete": "Elimina",
+        "saved": "Piano salvato localmente.",
+        "updated": "Piano salvato sovrascritto.",
+        "loaded": "Piano salvato caricato.",
+        "deleted": "Piano salvato eliminato."
+      },
       "stops": "Tappe intermedie"
     },
     "steps": {
@@ -1032,6 +1045,24 @@
           "documents": "Documenti & assicurazione",
           "apps": "App & mappe offline"
         }
+      },
+      "overview": {
+        "title": "Panoramica del percorso",
+        "route": "Percorso",
+        "duration": "Durata",
+        "drivingFocus": "Priorità di guida",
+        "dailyWindow": "Limiti giornalieri",
+        "budget": "Budget",
+        "longerStops": "Soste più lunghe",
+        "daysValue_one": "{{count}} giorno",
+        "daysValue_other": "{{count}} giorni",
+        "onRequest": "Su richiesta"
+      },
+      "risk": {
+        "title": "Semaforo delle tappe",
+        "safe": "Senza criticità",
+        "caution": "Con prudenza",
+        "critical": "Piuttosto inadatta"
       }
     },
     "feedback": {
@@ -1228,7 +1259,7 @@
       "routeTrack": "File GPX: allega alla fine della risposta esattamente un file GPX (rotta+traccia).\n\nImportante: restituisci il file GPX come puro blocco XML, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti:\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nCrea una rotta (<rte>) con tutti i punti in ordine (<rtept>), in modo che Garmin la riconosca come rotta.\nCrea inoltre la rotta complessiva come traccia (<trk> con <trkseg> e <trkpt>).\n\nRestituisci prima la risposta normale completa con tutte le sezioni richieste. Solo dopo aggiungi il blocco GPX alla fine. Dopo il blocco GPX non deve seguire altro testo.",
       "both": "File GPX: allega alla fine della risposta esattamente due file GPX.\n\nImportante: restituisci esclusivamente due blocchi XML puri, senza testo introduttivo, senza etichette, senza Markdown, senza backtick e senza marker aggiuntivi come BEGIN/END.\n\nBlocco 1 (waypoint Garmin):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nSepara il blocco 1 e il blocco 2 con almeno una riga vuota.\n\nBlocco 2 (GPX route+track):\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nRequisiti blocco 1 (waypoint Garmin):\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nIl blocco 1 può contenere solo <wpt> e non deve contenere né una rotta (<rte>) né una traccia (<trk>).\n\nRequisiti blocco 2 (GPX route+track):\nCrea waypoint (<wpt>) per la partenza, tutte le tappe, i pernottamenti e la destinazione. Per i pernottamenti inserisci in <desc> indirizzo, sito web e numero di telefono (se disponibili). Le alternative (obbligatorie) vanno incluse esclusivamente in <desc> con nome, indirizzo, sito web e numero di telefono (se disponibili).\nIl blocco 2 deve contenere <wpt>, <rte> e <trk>. Genera una rotta (<rte>) con tutti i punti in ordine (<rtept>) in modo che Garmin la riconosca come rotta. Aggiungi inoltre l’intero percorso come traccia (<trk> con <trkseg> e <trkpt>).\n\nRestituisci prima la risposta normale completa con tutte le sezioni richieste. Solo dopo aggiungi questi due blocchi GPX alla fine. Dopo i blocchi GPX non deve seguire altro testo."
     },
-    "instructionsCamperPlanning": "\n\nImportante: valuta brevemente ogni tappa dal punto di vista del camper, ad esempio come \"senza criticità\", \"con prudenza\" oppure \"piuttosto inadatta a questo veicolo\", e motivala brevemente.\n\nImportante: integra la logica dei rifornimenti. Indica in modo sensato quando conviene pianificare acqua pulita, scarico, carburante, spesa o altre soste utili per chi viaggia in camper.\n\nImportante: classifica brevemente i pernottamenti proposti, ad esempio come sosta di passaggio, buon posto per 2-3 notti o vera base vacanza. Se indico regioni/aree obiettivo oppure desidero soste più lunghe nei luoghi più belli, prevedi lì più tempo invece di generare solo il maggior numero possibile di cambi tappa."
+    "instructionsCamperPlanning": "\n\nImportante: valuta brevemente ogni tappa dal punto di vista del camper, ad esempio come \"senza criticità\", \"con prudenza\" oppure \"piuttosto inadatta a questo veicolo\", e motivala brevemente.\n\nImportante: integra la logica dei rifornimenti. Indica in modo sensato quando conviene pianificare acqua pulita, scarico, carburante, spesa o altre soste utili per chi viaggia in camper.\n\nImportante: classifica brevemente i pernottamenti proposti, ad esempio come sosta di passaggio, buon posto per 2-3 notti o vera base vacanza. Se indico regioni/aree obiettivo oppure desidero soste più lunghe nei luoghi più belli, prevedi lì più tempo invece di generare solo il maggior numero possibile di cambi tappa. Usa se possibile esattamente queste tre formulazioni.\n\nImportante: per ogni tappa aggiungi se possibile una riga separata del tipo \"Valutazione: senza criticità\" oppure \"Valutazione: con prudenza\" oppure \"Valutazione: piuttosto inadatta\", seguita da un motivo breve, così la valutazione resta chiaramente riconoscibile."
   },
   "anchorNav": {
     "home": "Inizio",

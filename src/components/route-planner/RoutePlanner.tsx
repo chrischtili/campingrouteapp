@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check, Wallet } from "lucide-react";
+import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check, Wallet, Save, FolderOpen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
@@ -29,9 +29,19 @@ const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQ
 export function RoutePlanner() {
   const { t, i18n } = useTranslation();
   const STORAGE_KEY = "cr_form_state_v1";
+  const SAVED_PLANS_KEY = "cr_saved_plans_v1";
   const STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
   const FEEDBACK_LATER_KEY = "cr_feedback_prompt_later_until";
   const FEEDBACK_DONE_KEY = "cr_feedback_submitted_at";
+  const MAX_SAVED_PLANS = 5;
+
+  type SavedPlan = {
+    id: string;
+    label: string;
+    savedAt: number;
+    formData: FormData;
+    aiSettings: Omit<AISettings, "apiKey"> & { apiKey?: string };
+  };
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [aiSettings, setAISettings] = useState<AISettings>(initialAISettings);
@@ -44,6 +54,7 @@ export function RoutePlanner() {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [saveFormLocally, setSaveFormLocally] = useState<boolean>(false);
+  const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
@@ -86,6 +97,56 @@ export function RoutePlanner() {
     apiKey: ''
   });
 
+  const persistSavedPlans = (plans: SavedPlan[]) => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(SAVED_PLANS_KEY, JSON.stringify(plans));
+  };
+
+  const buildSavedPlanLabel = (data: FormData) => {
+    const start = data.startPoint?.trim() || t("planner.summary.notSpecified");
+    const destination = data.destination?.trim() || t("planner.summary.notSpecified");
+    const firstStage = data.stages.find((stage) => stage.destination?.trim())?.destination?.trim();
+    const region = data.targetRegions?.trim();
+    const suffix = firstStage || region || "";
+    return suffix ? `${start} → ${destination} · ${suffix}` : `${start} → ${destination}`;
+  };
+
+  const saveCurrentPlan = (overrideId?: string) => {
+    const nextEntry: SavedPlan = {
+      id: overrideId || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`),
+      label: buildSavedPlanLabel(formData),
+      savedAt: Date.now(),
+      formData: sanitizeFormData(formData),
+      aiSettings: sanitizeAISettings(aiSettings),
+    };
+
+    const nextPlans = overrideId
+      ? savedPlans.map((plan) => (plan.id === overrideId ? nextEntry : plan))
+      : [nextEntry, ...savedPlans].slice(0, MAX_SAVED_PLANS);
+
+    setSavedPlans(nextPlans);
+    persistSavedPlans(nextPlans);
+    toast.success(overrideId ? t("planner.summary.savedPlans.updated") : t("planner.summary.savedPlans.saved"));
+  };
+
+  const loadSavedPlan = (plan: SavedPlan) => {
+    setFormData(sanitizeFormData(plan.formData));
+    setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
+    setOutput("");
+    setAiError("");
+    setCurrentStep(1);
+    setCompletedSteps([]);
+    toast.success(t("planner.summary.savedPlans.loaded"));
+    requestAnimationFrame(() => scrollToPlannerProgress());
+  };
+
+  const deleteSavedPlan = (planId: string) => {
+    const nextPlans = savedPlans.filter((plan) => plan.id !== planId);
+    setSavedPlans(nextPlans);
+    persistSavedPlans(nextPlans);
+    toast.success(t("planner.summary.savedPlans.deleted"));
+  };
+
   // AUTO-OPEN LOGIC
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -121,6 +182,32 @@ export function RoutePlanner() {
       }
     } catch {
       localStorage.removeItem(STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(SAVED_PLANS_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) {
+        localStorage.removeItem(SAVED_PLANS_KEY);
+        return;
+      }
+      const normalized = parsed
+        .filter((entry) => entry?.id && entry?.formData)
+        .slice(0, MAX_SAVED_PLANS)
+        .map((entry) => ({
+          id: String(entry.id),
+          label: String(entry.label || buildSavedPlanLabel(sanitizeFormData(entry.formData))),
+          savedAt: Number(entry.savedAt || Date.now()),
+          formData: sanitizeFormData(entry.formData),
+          aiSettings: { ...initialAISettings, ...(entry.aiSettings || {}), apiKey: "" },
+        }));
+      setSavedPlans(normalized);
+    } catch {
+      localStorage.removeItem(SAVED_PLANS_KEY);
     }
   }, []);
 
@@ -758,6 +845,79 @@ export function RoutePlanner() {
                         </Button>
                       </div>
                     </div>
+
+                    <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl space-y-6 text-left">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div className="space-y-2">
+                          <div className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                            {t("planner.summary.savedPlans.title")}
+                          </div>
+                          <div className="text-xs text-white/60 leading-relaxed">
+                            {t("planner.summary.savedPlans.desc")}
+                          </div>
+                        </div>
+                        <Button
+                          type="button"
+                          onClick={() => saveCurrentPlan()}
+                          disabled={!formData.startPoint || !formData.destination}
+                          className="rounded-xl px-4 border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                        >
+                          <Save className="w-4 h-4" />
+                          {t("planner.summary.savedPlans.saveCurrent")}
+                        </Button>
+                      </div>
+
+                      {savedPlans.length === 0 ? (
+                        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-5 text-sm text-white/50">
+                          {t("planner.summary.savedPlans.empty")}
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {savedPlans.map((plan) => (
+                            <div
+                              key={plan.id}
+                              className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+                            >
+                              <div className="space-y-1 min-w-0">
+                                <div className="text-sm font-bold text-white truncate">{plan.label}</div>
+                                <div className="text-xs text-white/50">
+                                  {new Date(plan.savedAt).toLocaleString(locale)}
+                                </div>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  onClick={() => loadSavedPlan(plan)}
+                                  className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                                >
+                                  <FolderOpen className="w-4 h-4" />
+                                  {t("planner.summary.savedPlans.load")}
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  onClick={() => saveCurrentPlan(plan.id)}
+                                  disabled={!formData.startPoint || !formData.destination}
+                                  className="rounded-xl px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white font-bold transition-all active:scale-95"
+                                >
+                                  {t("planner.summary.savedPlans.overwrite")}
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  onClick={() => deleteSavedPlan(plan.id)}
+                                  className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                  {t("planner.summary.savedPlans.delete")}
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(255,128,0,0.12)]">
                       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/80">
                         Open Source Support
@@ -846,6 +1006,8 @@ export function RoutePlanner() {
               maxDailyDistance: formData.maxDailyDistance,
               maxDailyDriveHours: formData.maxDailyDriveHours,
               dailyLimitPriority: formData.dailyLimitPriority,
+              targetRegions: formData.targetRegions,
+              preferScenicLongerStops: formData.preferScenicLongerStops,
               travelPace: formData.travelPace,
               budgetLevel: formData.budgetLevel,
               quietPlaces: formData.quietPlaces,

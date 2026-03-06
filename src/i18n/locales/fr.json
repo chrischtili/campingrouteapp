@@ -528,6 +528,19 @@
         "coffeeHint": "CampingRoute.app est open source et sans publicité — votre soutien aide aux coûts de serveur et de développement. Merci !",
         "clear": "Effacer les données"
       },
+      "savedPlans": {
+        "title": "5 derniers plans",
+        "desc": "Enregistre jusqu’à 5 plans localement dans le navigateur. Vous pouvez ensuite les charger, les écraser ou les supprimer.",
+        "saveCurrent": "Enregistrer le plan actuel",
+        "empty": "Aucun plan enregistré pour le moment.",
+        "load": "Charger",
+        "overwrite": "Écraser",
+        "delete": "Supprimer",
+        "saved": "Plan enregistré localement.",
+        "updated": "Plan enregistré écrasé.",
+        "loaded": "Plan enregistré chargé.",
+        "deleted": "Plan enregistré supprimé."
+      },
       "stops": "Arrêts"
     },
     "steps": {
@@ -1032,6 +1045,24 @@
           "documents": "Documents & assurance",
           "apps": "Apps & cartes hors‑ligne"
         }
+      },
+      "overview": {
+        "title": "Vue d’ensemble de l’itinéraire",
+        "route": "Itinéraire",
+        "duration": "Durée",
+        "drivingFocus": "Priorité de conduite",
+        "dailyWindow": "Limites quotidiennes",
+        "budget": "Budget",
+        "longerStops": "Arrêts plus longs",
+        "daysValue_one": "{{count}} jour",
+        "daysValue_other": "{{count}} jours",
+        "onRequest": "Sur demande"
+      },
+      "risk": {
+        "title": "Feu tricolore des étapes",
+        "safe": "Sans problème",
+        "caution": "Avec prudence",
+        "critical": "Plutôt inadaptée"
       }
     },
     "feedback": {
@@ -1228,7 +1259,7 @@
       "routeTrack": "Fichier GPX : ajoute exactement un fichier GPX (route+trace) à la fin de la réponse.\n\nImportant : fournis le GPX sous forme de bloc XML pur, sans Markdown, sans backticks et sans marqueurs supplémentaires comme BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nExigences :\nCrée des waypoints <wpt> pour le départ, toutes les étapes, les nuits et la destination. Pour les nuits, indique dans <desc> l’adresse, le site web et le téléphone (si disponible). Les alternatives (obligatoires) doivent être indiquées uniquement dans <desc> avec nom, adresse, site web et téléphone (si disponible).\nCrée une route (<rte>) avec tous les points dans l’ordre (<rtept>) pour que Garmin la reconnaisse comme route.\nCrée aussi la route complète comme trace (<trk> avec <trkseg> et <trkpt>).\n\nRends d’abord la réponse normale complète avec toutes les sections demandées. Ajoute seulement ensuite le bloc GPX tout à la fin. Aucun texte ne doit suivre après le bloc GPX.",
       "both": "Fichier GPX : ajoute exactement deux fichiers GPX à la fin de la réponse.\n\nImportant : renvoie uniquement deux blocs XML purs, sans texte d’introduction, sans labels, sans Markdown, sans backticks et sans marqueurs supplémentaires comme BEGIN/END.\n\nBloc 1 (waypoints Garmin) :\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nSépare le bloc 1 et le bloc 2 avec au moins une ligne vide.\n\nBloc 2 (GPX route+trace) :\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nExigences bloc 1 (waypoints Garmin) :\nCrée des waypoints <wpt> pour le départ, toutes les étapes, les nuits et la destination. Pour les nuits, indique dans <desc> l’adresse, le site web et le téléphone (si disponible). Les alternatives (obligatoires) doivent être indiquées uniquement dans <desc> avec nom, adresse, site web et téléphone (si disponible).\nLe bloc 1 ne peut contenir que des <wpt> et ne doit pas contenir de route (<rte>) ni de trace (<trk>).\n\nExigences bloc 2 (GPX route+trace) :\nCrée des waypoints <wpt> pour le départ, toutes les étapes, les nuits et la destination. Pour les nuits, indique dans <desc> l’adresse, le site web et le téléphone (si disponible). Les alternatives (obligatoires) doivent être indiquées uniquement dans <desc> avec nom, adresse, site web et téléphone (si disponible).\nLe bloc 2 doit contenir <wpt>, <rte> et <trk>. Génère une route (<rte>) avec tous les points dans l’ordre (<rtept>) afin que Garmin la reconnaisse comme une route. Crée également l’itinéraire complet comme trace (<trk> avec <trkseg> et <trkpt>).\n\nRends d’abord la réponse normale complète avec toutes les sections demandées. Ajoute seulement ensuite ces deux blocs GPX tout à la fin. Aucun texte ne doit suivre après les blocs GPX."
     },
-    "instructionsCamperPlanning": "\n\nImportant : évalue brièvement chaque étape du point de vue du camping-car, par exemple comme « sans problème », « avec prudence » ou « plutôt inadaptée à ce véhicule », et explique-le brièvement.\n\nImportant : intègre la logique de ravitaillement. Indique de façon pertinente quand prévoir eau propre, vidanges, carburant, courses ou autres arrêts utiles en camping-car.\n\nImportant : classe brièvement les lieux de nuitée proposés, par exemple comme étape de transit, bon séjour de 2 à 3 nuits ou vraie base de vacances. Si je précise des régions/zones cibles ou souhaite des arrêts plus longs dans de très beaux endroits, prévois volontairement plus de temps sur place au lieu de multiplier les changements d’étape."
+    "instructionsCamperPlanning": "\n\nImportant : évalue brièvement chaque étape du point de vue du camping-car, par exemple comme « sans problème », « avec prudence » ou « plutôt inadaptée à ce véhicule », et explique-le brièvement.\n\nImportant : intègre la logique de ravitaillement. Indique de façon pertinente quand prévoir eau propre, vidanges, carburant, courses ou autres arrêts utiles en camping-car.\n\nImportant : classe brièvement les lieux de nuitée proposés, par exemple comme étape de transit, bon séjour de 2 à 3 nuits ou vraie base de vacances. Si je précise des régions/zones cibles ou souhaite des arrêts plus longs dans de très beaux endroits, prévois volontairement plus de temps sur place au lieu de multiplier les changements d’étape. Utilise si possible exactement ces trois formulations.\n\nImportant : pour chaque étape, ajoute si possible une ligne distincte du type « Évaluation : sans problème » ou « Évaluation : avec prudence » ou « Évaluation : plutôt inadaptée », suivie d’une raison courte, afin que l’évaluation reste clairement identifiable."
   },
   "anchorNav": {
     "home": "Accueil",

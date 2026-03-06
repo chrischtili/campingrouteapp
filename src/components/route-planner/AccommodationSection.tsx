@@ -4,7 +4,7 @@ import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Bed, Users, Home, Settings, Wallet, MessageSquare, Heart, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
@@ -17,6 +17,7 @@ interface AccommodationSectionProps {
 
 export function AccommodationSection({ formData, onChange, onCheckboxChange }: AccommodationSectionProps) {
   const { t } = useTranslation();
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({
     companions: false,
     type: false,
@@ -91,6 +92,14 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   const toggleDropdown = (key: string) => {
     setOpenDropdowns((prev) => {
       const nextValue = !prev[key];
+      if (nextValue) {
+        requestAnimationFrame(() => {
+          const element = sectionRefs.current[key];
+          if (!element) return;
+          const top = element.getBoundingClientRect().top + window.scrollY - 110;
+          window.scrollTo({ top, behavior: "smooth" });
+        });
+      }
       return {
         companions: false,
         type: false,
@@ -136,7 +145,13 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           </div>
           <FormSlider id="numberOfTravelers" label={t("planner.accommodation.travelers.label")} value={formData.numberOfTravelers ? parseInt(formData.numberOfTravelers) : 1} min={1} max={8} step={1} unit={t("planner.accommodation.travelers.unit")} onChange={(v) => onChange({ numberOfTravelers: v.toString() })} />
           <div className={`w-full mt-6 pt-6 border-t border-white/10`}>
-            <div className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.companions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}>
+            <div
+              ref={(node) => {
+                sectionRefs.current.companions = node;
+              }}
+              style={{ overflowAnchor: "none" }}
+              className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.companions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
+            >
               <button
                 type="button"
                 onClick={() => toggleDropdown("companions")}
@@ -218,6 +233,10 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             key={cat.id} 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            ref={(node) => {
+              sectionRefs.current[cat.id] = node;
+            }}
+            style={{ overflowAnchor: "none" }}
             className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns[cat.id] ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
           >
             <button type="button" onClick={() => toggleDropdown(cat.id)} className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1">
@@ -252,6 +271,10 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             key={cat.id} 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            ref={(node) => {
+              sectionRefs.current.facilities = node;
+            }}
+            style={{ overflowAnchor: "none" }}
             className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.facilities ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
           >
             <button type="button" onClick={() => toggleDropdown("facilities")} className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1">
@@ -279,7 +302,13 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           </motion.div>
         ))}
 
-        <div className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.interests ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}>
+        <div
+          ref={(node) => {
+            sectionRefs.current.interests = node;
+          }}
+          style={{ overflowAnchor: "none" }}
+          className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openDropdowns.interests ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
+        >
           <button type="button" onClick={() => toggleDropdown("interests")} className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1">
             <div className="flex items-center gap-3">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openDropdowns.interests ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>

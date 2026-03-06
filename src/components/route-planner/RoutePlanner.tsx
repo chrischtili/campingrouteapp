@@ -129,7 +129,7 @@ export function RoutePlanner() {
     setFormData(sanitizeFormData(plan.formData));
     setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
     setOutput("");
-    setAiError("");
+    setAIError("");
     setCurrentStep(1);
     setCompletedSteps([]);
     toast.success(t("planner.summary.savedPlans.loaded"));
@@ -150,7 +150,7 @@ export function RoutePlanner() {
     setSavedPlans([]);
     setFormData(initialFormData);
     setOutput("");
-    setAiError("");
+    setAIError("");
     setCompletedSteps([]);
     setCurrentStep(1);
     toast.success(t("planner.summary.savedPlans.clearedAll"));

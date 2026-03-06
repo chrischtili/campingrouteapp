@@ -1278,6 +1278,18 @@
   "app": {
     "reloadNotice": "The page was automatically reloaded after an update.",
     "updateAvailable": "An update is available. Please reload the page.",
-    "reloadNow": "Reload now"
+    "reloadNow": "Reload now",
+    "whatsNew": {
+      "title": "What's new in v{{version}}?",
+      "description": "The main changes in the current release appear only once per version.",
+      "items": {
+        "savedPlans": "Save, load, overwrite and delete up to 5 plans locally.",
+        "outputSummary": "New route overview in the output with budget, daily limits and travel focus.",
+        "stageTrafficLight": "Stage traffic-light highlights legs as uncritical, with caution or rather unsuitable.",
+        "roundTrips": "Region-based roundtrips and longer scenic stops have been improved."
+      },
+      "dismiss": "Got it",
+      "release": "View release"
+    }
   }
 }

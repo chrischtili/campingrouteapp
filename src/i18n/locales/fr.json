@@ -1278,6 +1278,18 @@
   "app": {
     "reloadNotice": "La page a été rechargée automatiquement après une mise à jour.",
     "updateAvailable": "Une mise à jour est disponible. Veuillez recharger la page.",
-    "reloadNow": "Recharger maintenant"
+    "reloadNow": "Recharger maintenant",
+    "whatsNew": {
+      "title": "Quoi de neuf dans la v{{version}} ?",
+      "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
+      "items": {
+        "savedPlans": "Enregistrer, charger, écraser et supprimer jusqu’à 5 plans en local.",
+        "outputSummary": "Nouveau résumé d’itinéraire dans le résultat avec budget, limites journalières et focus de conduite.",
+        "stageTrafficLight": "Le feu tricolore des étapes signale les tronçons comme sans risque, avec prudence ou plutôt inadaptés.",
+        "roundTrips": "Les circuits basés sur des régions et les arrêts prolongés dans de beaux endroits ont été améliorés."
+      },
+      "dismiss": "Compris",
+      "release": "Voir la version"
+    }
   }
 }

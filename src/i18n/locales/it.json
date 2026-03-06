@@ -1278,6 +1278,18 @@
   "app": {
     "reloadNotice": "La pagina è stata ricaricata automaticamente dopo un aggiornamento.",
     "updateAvailable": "È disponibile un aggiornamento. Ricarica la pagina.",
-    "reloadNow": "Ricarica ora"
+    "reloadNow": "Ricarica ora",
+    "whatsNew": {
+      "title": "Novità nella v{{version}}",
+      "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
+      "items": {
+        "savedPlans": "Salva, carica, sovrascrivi ed elimina fino a 5 piani localmente.",
+        "outputSummary": "Nuovo riepilogo del percorso nel risultato con budget, limiti giornalieri e focus di guida.",
+        "stageTrafficLight": "Il semaforo delle tappe evidenzia i tratti come non critici, con prudenza o piuttosto inadatti.",
+        "roundTrips": "I tour ad anello basati su regioni e le soste più lunghe nei luoghi più belli sono stati migliorati."
+      },
+      "dismiss": "Capito",
+      "release": "Vedi release"
+    }
   }
 }

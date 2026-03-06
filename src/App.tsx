@@ -1,6 +1,8 @@
 import React from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
@@ -45,6 +47,8 @@ if (typeof window !== 'undefined' && !('requestIdleCallback' in window)) {
 
 const App = () => {
   const { t, i18n } = useTranslation();
+  const [showWhatsNew, setShowWhatsNew] = React.useState(false);
+  const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const key = "cr_chunk_reload";
@@ -96,6 +100,7 @@ const App = () => {
     let initialBuildId: string | null = null;
     let isMounted = true;
     let updateToastShown = false;
+    const seenReleaseKey = "cr_seen_whats_new_version";
 
     const checkForUpdate = async () => {
       try {
@@ -108,8 +113,18 @@ const App = () => {
         const versionInfo = await response.json();
         const nextBuildId =
           typeof versionInfo?.buildId === "string" ? versionInfo.buildId : null;
+        const nextVersion =
+          typeof versionInfo?.version === "string" ? versionInfo.version : null;
 
         if (!nextBuildId || !isMounted) return;
+
+        if (nextVersion) {
+          setReleaseVersion(nextVersion);
+          const seenVersion = localStorage.getItem(seenReleaseKey);
+          if (seenVersion !== nextVersion) {
+            setShowWhatsNew(true);
+          }
+        }
 
         if (!initialBuildId) {
           initialBuildId = nextBuildId;
@@ -139,6 +154,13 @@ const App = () => {
       window.clearInterval(intervalId);
     };
   }, [t]);
+
+  const handleDismissWhatsNew = () => {
+    if (releaseVersion) {
+      localStorage.setItem("cr_seen_whats_new_version", releaseVersion);
+    }
+    setShowWhatsNew(false);
+  };
 
   // Dynamically update SEO tags based on language
   React.useEffect(() => {
@@ -226,6 +248,56 @@ const App = () => {
             <Toaster />
             <Sonner />
           </Suspense>
+          <Dialog open={showWhatsNew} onOpenChange={(open) => !open && handleDismissWhatsNew()}>
+            <DialogContent className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-xl overflow-y-auto border border-white/10 bg-[#0b1110] p-0 text-white shadow-2xl sm:w-full">
+              <div className="p-6 sm:p-8">
+                <DialogHeader className="space-y-3 text-left">
+                  <DialogTitle className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                    {t("app.whatsNew.title", { version: releaseVersion || "v0.4.8" })}
+                  </DialogTitle>
+                  <DialogDescription className="text-sm leading-relaxed text-white/70">
+                    {t("app.whatsNew.description")}
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="mt-6 space-y-3">
+                  {[
+                    t("app.whatsNew.items.savedPlans"),
+                    t("app.whatsNew.items.outputSummary"),
+                    t("app.whatsNew.items.stageTrafficLight"),
+                    t("app.whatsNew.items.roundTrips"),
+                  ].map((item) => (
+                    <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+
+                <DialogFooter className="mt-6 flex-col gap-3 sm:flex-row sm:justify-end">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleDismissWhatsNew}
+                    className="border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  >
+                    {t("app.whatsNew.dismiss")}
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      handleDismissWhatsNew();
+                      if (releaseVersion) {
+                        window.open(`https://github.com/chrischtili/campingrouteapp/releases/tag/v${releaseVersion}`, "_blank", "noopener,noreferrer");
+                      }
+                    }}
+                    className="bg-primary text-white hover:bg-primary/90"
+                  >
+                    {t("app.whatsNew.release")}
+                  </Button>
+                </DialogFooter>
+              </div>
+            </DialogContent>
+          </Dialog>
           {/* Skip link for accessibility */}
           <a href="#main-content" className="sr-only focus:not-sr-only">
             Zum Hauptinhalt springen

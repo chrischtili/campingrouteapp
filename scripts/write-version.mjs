@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
 const outputArg = process.argv[2] || "dist/version.json";
@@ -18,8 +18,10 @@ const readGitValue = (command) => {
 const commit = readGitValue("git rev-parse --short HEAD") || "unknown";
 const branch = readGitValue("git rev-parse --abbrev-ref HEAD") || "unknown";
 const builtAt = new Date().toISOString();
+const packageJson = JSON.parse(readFileSync(resolve(process.cwd(), "package.json"), "utf8"));
 
 const versionInfo = {
+  version: packageJson.version || "unknown",
   buildId: `${commit}-${builtAt}`,
   commit,
   branch,

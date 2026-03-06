@@ -633,6 +633,10 @@
         "label": "Bestemming",
         "placeholder": "bijv. Parijs"
       },
+      "destinationBooked": {
+        "label": "Plek op bestemming al geboekt",
+        "description": "Als dit actief is, mag de AI geen overnachtingsplek op de bestemming zoeken."
+      },
       "stage": {
         "label": "Tussenstop {{num}}",
         "placeholder": "bijv. Speyer of Keulen",
@@ -641,6 +645,8 @@
         "arrivalDate": "Aankomst bij tussenstop {{num}}",
         "departureDate": "Vertrek van tussenstop {{num}}",
         "departureTime": "Vertrektijd van tussenstop {{num}}",
+        "bookedLabel": "Plek bij tussenstop {{num}} al geboekt",
+        "bookedDescription": "Als dit actief is, mag de AI geen overnachtingsplek bij deze tussenstop zoeken.",
         "detailsLabel": "Tussenstop {{num}} nauwkeuriger plannen",
         "detailsDescription": "Stel desgewenst aankomst en vertrek voor deze stop in."
       },
@@ -1179,6 +1185,7 @@
       "destinationDeparture": "Vertrek vanaf de vakantiebestemming",
       "destinationArrivalTime": "Aankomsttijd op de vakantiebestemming",
       "destinationDepartureTime": "Vertrektijd van bestemming",
+      "destinationBookedNoSearch": "Plek op bestemming al geboekt (geen zoekopdracht naar overnachtingsplek op bestemming)",
       "returnScheduleHint": "Bereken hiermee wanneer vertrek vanaf het startpunt nodig is en wanneer aankomst op de terugkeerbestemming realistisch is",
       "returnDestination": "Terugkeerbestemming",
       "vacationDestination": "Vakantiebestemming",
@@ -1190,6 +1197,7 @@
       "stageArrivalTime": "Aankomsttijd bij tussenstop {{num}}",
       "stageDepartureDate": "Vertrek van tussenstop {{num}}",
       "stageDepartureTime": "Vertrektijd van tussenstop {{num}}",
+      "stageBookedNoSearch": "Tussenstop {{num}}: plek al geboekt (geen zoekopdracht naar overnachtingsplek bij deze tussenstop)",
       "destinationDepartureDate": "Vertrek van bestemming"
     },
     "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1) Etappenplanning (Dagkilometers, rijtijd, geplande vertrek- en aankomsttijden per traject, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2) Overnachtingen (gebruik uitsluitend gegevens van https://opencampingmap.org. Noem alleen plaatsen die daar vindbaar zijn. Geef voor elke voorgestelde hoofdplek en elke alternatieve plek twee links: 1) de OpenCampingMap-paginalink en 2) de daar vermelde officiële campinglink (indien aanwezig). Geef per plaats één werkende OpenCampingMap-link (directe plaatslink of kaartlink). Als een van beide links ontbreekt, vermeld dat duidelijk. Verzin geen plaatsen, links, adressen of telefoonnummers. Noem prijsranges alleen als schatting en geef nog steeds minimaal één alternatief per overnachting.)\n\n3) Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4) Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5) Beste reistijd & duur (Korte sectie).\n\n6) Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7) Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8) Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9) Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: vermeld voor elk traject duidelijk vanaf welke plaats, op welke datum en op welk tijdstip het vertrek is gepland, en op welke plaats, datum en tijd de aankomst is gepland. Als ik alleen aankomstdata/-tijden of alleen vertrekdata/-tijden opgeef, bereken dan de ontbrekende tijden logisch op basis van de overige invoer, daglimieten en etappes. Presenteer deze tijden als een realistische planning of schatting.\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",

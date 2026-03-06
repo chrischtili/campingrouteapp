@@ -54,6 +54,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     .map((stage, index) => {
       if (!stage.destination?.trim()) return '';
       const lines = [`• ${t('prompt.labels.stage', { num: index + 1 })}: ${stage.destination.trim()}`];
+      if (stage.booked) {
+        lines.push(`• ${t('prompt.labels.stageBookedNoSearch', { num: index + 1 })}`);
+      }
       if (stage.detailsEnabled) {
         if (stage.arrivalDate) lines.push(`• ${t('prompt.labels.stageArrivalDate', { num: index + 1 })}: ${formatDate(stage.arrivalDate)}`);
         if (stage.arrivalTime) lines.push(`• ${t('prompt.labels.stageArrivalTime', { num: index + 1 })}: ${stage.arrivalTime}`);
@@ -68,6 +71,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const routeLines = [
     `• ${t('prompt.labels.start')}: ${data.startPoint}`,
     `• ${t('prompt.labels.destination')}: ${data.destination}`,
+    data.destinationBooked ? `• ${t('prompt.labels.destinationBookedNoSearch')}` : '',
     stageLines,
     data.startDate ? `• ${t('prompt.labels.startDeparture')}: ${formatDate(data.startDate)}` : '',
     data.startTime ? `• ${t('prompt.labels.startDepartureTime')}: ${data.startTime}` : '',

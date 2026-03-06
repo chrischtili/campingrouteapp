@@ -633,6 +633,10 @@
         "label": "Destination",
         "placeholder": "e.g. London"
       },
+      "destinationBooked": {
+        "label": "Place at destination already booked",
+        "description": "If enabled, AI should not search for an overnight place at the destination."
+      },
       "stage": {
         "label": "Stop {{num}}",
         "placeholder": "e.g. Speyer or Cologne",
@@ -641,6 +645,8 @@
         "arrivalDate": "Arrival at stop {{num}}",
         "departureDate": "Departure from stop {{num}}",
         "departureTime": "Departure time from stop {{num}}",
+        "bookedLabel": "Place at stop {{num}} already booked",
+        "bookedDescription": "If enabled, AI should not search for an overnight place at this stop.",
         "detailsLabel": "Plan stop {{num}} in more detail",
         "detailsDescription": "Optionally define arrival and departure for this stop."
       },
@@ -1175,6 +1181,7 @@
       "destinationDeparture": "Departure from the vacation destination",
       "destinationArrivalTime": "Arrival time at the vacation destination",
       "destinationDepartureTime": "Departure time from destination",
+      "destinationBookedNoSearch": "Destination place already booked (no search for overnight place at destination)",
       "returnScheduleHint": "Use this to calculate when departure from the starting point is needed and when arrival at the return destination is realistic",
       "returnDestination": "Return destination",
       "vacationDestination": "Holiday destination",
@@ -1186,6 +1193,7 @@
       "stageArrivalTime": "Arrival time at stop {{num}}",
       "stageDepartureDate": "Departure from stop {{num}}",
       "stageDepartureTime": "Departure time from stop {{num}}",
+      "stageBookedNoSearch": "Stop {{num}}: place already booked (no search for overnight place at this stop)",
       "destinationDepartureDate": "Departure from destination"
     },
     "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1) Stage Planning (Daily kilometers, driving time, planned departure and arrival times for each leg, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2) Overnight Stays (use data exclusively from https://opencampingmap.org. Only list places that can be found there. For each suggested main place and each alternative, provide two links: 1) the OpenCampingMap page link and 2) the official campsite link stored there (if present). Provide one working OpenCampingMap link per place (direct place link or map link). If either link is missing, state that clearly. Do not invent places, links, addresses, or phone numbers. Mention price ranges only as estimates and still provide at least one alternative per overnight stay.)\n\n3) Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4) Practical Tips (Navigation, waste disposal, emergency information).\n\n5) Best Travel Time & Duration (Brief section).\n\n6) Services on the Road (Fuel, supermarkets, workshops).\n\n7) Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8) Technology & Equipment (Short checklist, app recommendations).\n\n9) Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: For each leg, clearly state from which place, on which date, and at what time departure is planned, and at which place, on which date, and at what time arrival is planned. If I provide only arrival dates/times or only departure dates/times, calculate the missing times logically from the remaining inputs, daily limits, and stages. Present these times as a realistic plan or estimate.\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",

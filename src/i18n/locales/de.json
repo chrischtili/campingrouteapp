@@ -633,6 +633,10 @@
         "label": "Ziel",
         "placeholder": "z.B. Gardasee"
       },
+      "destinationBooked": {
+        "label": "Platz am Ziel schon gebucht",
+        "description": "Wenn aktiviert, soll die KI am Ziel keinen Übernachtungsplatz suchen."
+      },
       "stage": {
         "label": "Zwischenziel {{num}}",
         "placeholder": "z. B. Speyer oder Köln",
@@ -641,6 +645,8 @@
         "arrivalDate": "Ankunft am Zwischenziel {{num}}",
         "departureDate": "Abfahrt vom Zwischenziel {{num}}",
         "departureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+        "bookedLabel": "Platz am Zwischenziel {{num}} schon gebucht",
+        "bookedDescription": "Wenn aktiviert, soll die KI an diesem Zwischenziel keinen Übernachtungsplatz suchen.",
         "detailsLabel": "Zwischenziel {{num}} genauer planen",
         "detailsDescription": "Ankunft und Abfahrt für diesen Zwischenstopp optional festlegen."
       },
@@ -1175,6 +1181,7 @@
       "destinationDeparture": "Abfahrt vom Urlaubsziel",
       "destinationArrivalTime": "Ankunftszeit am Urlaubsziel",
       "destinationDepartureTime": "Abfahrtszeit vom Ziel",
+      "destinationBookedNoSearch": "Zielplatz bereits gebucht (keine Suche nach Übernachtungsplatz am Ziel)",
       "returnScheduleHint": "Berechne daraus, wann die Abfahrt am Startpunkt nötig ist und wann die Ankunft am Rückkehrziel realistisch ist",
       "returnDestination": "Rückkehrziel",
       "vacationDestination": "Urlaubsziel",
@@ -1186,6 +1193,7 @@
       "stageArrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
       "stageDepartureDate": "Abfahrt vom Zwischenziel {{num}}",
       "stageDepartureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+      "stageBookedNoSearch": "Zwischenziel {{num}}: Platz bereits gebucht (keine Suche nach Übernachtungsplatz an diesem Zwischenziel)",
       "destinationDepartureDate": "Abfahrt vom Ziel"
     },
     "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1) Etappenplanung (Tageskilometer, Fahrzeit, geplante Abfahrts- und Ankunftszeiten je Fahrtabschnitt, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2) Übernachtungen (nutze ausschließlich Daten von https://opencampingmap.org. Nenne nur Plätze, die dort auffindbar sind. Für jeden vorgeschlagenen Hauptplatz und jede Alternative gib zwei Links an: 1) den Link zur Seite auf OpenCampingMap und 2) den dort hinterlegten offiziellen Platz-Link (falls eingetragen). Gib für jeden Platz einen funktionierenden OpenCampingMap-Link an (direkter Platzlink oder Kartenlink). Wenn einer der beiden Links fehlt, schreibe das klar dazu. Erfinde keine Plätze, Links, Adressen oder Telefonnummern. Nenne grobe Preisbereiche nur als Richtwerte und suche weiterhin mindestens eine Alternative pro Übernachtung.)\n\n3) Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4) Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5) Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6) Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7) Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8) Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9) Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Gib für jeden Fahrtabschnitt klar an, von welchem Ort an welchem Datum und zu welcher Uhrzeit abgefahren wird und an welchem Ort an welchem Datum und zu welcher Uhrzeit die Ankunft geplant ist. Wenn ich nur Ankunftsdaten/-zeiten oder nur Abfahrtsdaten/-zeiten vorgebe, berechne die fehlenden Zeiten logisch aus den übrigen Angaben, Tageslimits und Etappen. Nenne diese Zeiten als realistische Planung bzw. Schätzung.\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",

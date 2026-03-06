@@ -1,5 +1,6 @@
 export interface RouteStage {
   destination: string;
+  booked: boolean;
   detailsEnabled: boolean;
   arrivalDate: string;
   arrivalTime: string;
@@ -19,6 +20,7 @@ export interface FormData {
   destinationDetailsEnabled: boolean;
   destinationDepartureDate: string;
   destinationDepartureTime: string;
+  destinationBooked: boolean;
   destinationStayPlanned: boolean;
   durationFlexible: boolean;
   distance: string;
@@ -80,6 +82,7 @@ export const initialFormData: FormData = {
   destinationDetailsEnabled: false,
   destinationDepartureDate: '',
   destinationDepartureTime: '',
+  destinationBooked: false,
   destinationStayPlanned: false,
   durationFlexible: false,
   distance: '',

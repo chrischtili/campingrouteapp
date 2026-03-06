@@ -633,6 +633,10 @@
         "label": "Destinazione",
         "placeholder": "ad es. Lago di Garda"
       },
+      "destinationBooked": {
+        "label": "Posto alla destinazione già prenotato",
+        "description": "Se attivo, l'IA non deve cercare un pernottamento alla destinazione."
+      },
       "stage": {
         "label": "Tappa intermedia {{num}}",
         "placeholder": "ad es. Spira o Colonia",
@@ -641,6 +645,8 @@
         "arrivalDate": "Arrivo alla tappa intermedia {{num}}",
         "departureDate": "Partenza dalla tappa intermedia {{num}}",
         "departureTime": "Orario di partenza dalla tappa intermedia {{num}}",
+        "bookedLabel": "Posto alla tappa intermedia {{num}} già prenotato",
+        "bookedDescription": "Se attivo, l'IA non deve cercare un pernottamento in questa tappa.",
         "detailsLabel": "Pianifica meglio la tappa intermedia {{num}}",
         "detailsDescription": "Definisci facoltativamente arrivo e partenza per questa tappa."
       },
@@ -1175,6 +1181,7 @@
       "destinationDeparture": "Partenza dalla destinazione della vacanza",
       "destinationArrivalTime": "Orario di arrivo alla destinazione della vacanza",
       "destinationDepartureTime": "Orario di partenza dalla destinazione",
+      "destinationBookedNoSearch": "Posto a destinazione già prenotato (nessuna ricerca pernottamento alla destinazione)",
       "returnScheduleHint": "Calcola da questo quando la partenza dal punto di partenza e necessaria e quando l'arrivo alla destinazione di ritorno e realistico",
       "returnDestination": "Destinazione di rientro",
       "vacationDestination": "Destinazione della vacanza",
@@ -1186,6 +1193,7 @@
       "stageArrivalTime": "Orario di arrivo alla tappa intermedia {{num}}",
       "stageDepartureDate": "Partenza dalla tappa intermedia {{num}}",
       "stageDepartureTime": "Orario di partenza dalla tappa intermedia {{num}}",
+      "stageBookedNoSearch": "Tappa intermedia {{num}}: posto già prenotato (nessuna ricerca pernottamento in questa tappa)",
       "destinationDepartureDate": "Partenza dalla destinazione"
     },
     "instructions": "Pianifica l'itinerario con i parametri sopra indicati e struttura la tua risposta secondo i seguenti blocchi con titoli chiari. Non usare asterischi (*) o doppi asterischi (**) nella risposta.\n\n1) Pianificazione delle tappe (chilometri giornalieri, tempi di guida, orari previsti di partenza e arrivo per ogni tratta, pause ogni 2-3 h, eventualmente itinerario alternativo e breve motivazione).\n\n2) Pernottamenti (usa esclusivamente dati da https://opencampingmap.org. Indica solo luoghi che risultano presenti lì. Per ogni struttura principale proposta e per ogni alternativa, fornisci due link: 1) il link della pagina OpenCampingMap e 2) il link ufficiale della struttura riportato lì (se presente). Fornisci per ogni luogo un link OpenCampingMap funzionante (link diretto del luogo o link mappa). Se uno dei due link manca, dichiaralo chiaramente. Non inventare luoghi, link, indirizzi o numeri di telefono. Indica le fasce di prezzo solo come stime e fornisci comunque almeno un’alternativa per ogni pernottamento.)\n\n3) Highlights & attività (top 3 per tappa, brevi con costi/orari di apertura, se noti).\n\n4) Consigli pratici (navigazione, smaltimento, note per emergenze).\n\n5) Miglior periodo & durata (sezione breve).\n\n6) Servizi in viaggio (carburante, supermercati, officine).\n\n7) Informazioni aggiuntive (orientamento budget, sostenibilità, salute, connettività).\n\n8) Tecnica & attrezzatura (breve checklist, consigli app).\n\n9) Flessibilità (itinerari alternativi, note legali sul wild camping, strumenti per ulteriore ottimizzazione).\n\nImportante: per ogni tratta indica chiaramente da quale luogo, in quale data e a quale ora è prevista la partenza, e in quale luogo, in quale data e a quale ora è previsto l’arrivo. Se fornisco solo date/orari di arrivo oppure solo date/orari di partenza, calcola logicamente gli orari mancanti in base agli altri dati, ai limiti giornalieri e alle tappe. Presenta questi orari come pianificazione realistica o stima.\n\nImportante: usa, se disponibile, la tua conoscenza interna delle mappe per stimare grossolanamente distanze e tempi di guida tipici tra le tappe. Indica distanze in km e tempi di guida in ore/minuti e contrassegnali come stima (ad es. \"ca. 230 km / 3:00-3:30 h\"). Evita precisione eccessiva se non hai accesso a dati di routing aggiornati e chiedimi esplicitamente di verificare l'itinerario finale nel navigatore (ad es. Google Maps, Here, Garmin, app OpenStreetMap).\n\nSe la tua piattaforma offre un download di file, salva sempre il file GPX con estensione .gpx (non .txt). Se il download non è possibile, restituisci esclusivamente il file GPX senza testo o marker aggiuntivi. Crea inoltre una breve guida al download per macOS, iOS, Windows e Android.",

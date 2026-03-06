@@ -633,6 +633,10 @@
         "label": "Destination",
         "placeholder": "ex. Londres"
       },
+      "destinationBooked": {
+        "label": "Place à destination déjà réservée",
+        "description": "Si activé, l'IA ne doit pas rechercher de nuitée à la destination."
+      },
       "stage": {
         "label": "Arrêt {{num}}",
         "placeholder": "p. ex. Spire ou Cologne",
@@ -641,6 +645,8 @@
         "arrivalDate": "Arrivée à l’arrêt {{num}}",
         "departureDate": "Départ de l’arrêt {{num}}",
         "departureTime": "Heure de départ de l’arrêt {{num}}",
+        "bookedLabel": "Place à l’arrêt {{num}} déjà réservée",
+        "bookedDescription": "Si activé, l'IA ne doit pas rechercher de nuitée à cet arrêt.",
         "detailsLabel": "Planifier l’arrêt {{num}} plus précisément",
         "detailsDescription": "Définis si besoin l’arrivée et le départ pour cet arrêt."
       },
@@ -1175,6 +1181,7 @@
       "destinationDeparture": "Départ de la destination de vacances",
       "destinationArrivalTime": "Heure d’arrivée à la destination de vacances",
       "destinationDepartureTime": "Heure de départ de la destination",
+      "destinationBookedNoSearch": "Place de destination déjà réservée (pas de recherche de nuitée à la destination)",
       "returnScheduleHint": "Calcule a partir de cela quand le depart du point de depart est necessaire et quand l'arrivee a la destination de retour est realiste",
       "returnDestination": "Destination du retour",
       "vacationDestination": "Destination de vacances",
@@ -1186,6 +1193,7 @@
       "stageArrivalTime": "Heure d’arrivée à l’arrêt {{num}}",
       "stageDepartureDate": "Départ de l’arrêt {{num}}",
       "stageDepartureTime": "Heure de départ de l’arrêt {{num}}",
+      "stageBookedNoSearch": "Arrêt {{num}} : place déjà réservée (pas de recherche de nuitée à cet arrêt)",
       "destinationDepartureDate": "Départ de la destination"
     },
     "instructions": "Planifiez l’itinéraire avec les paramètres ci‑dessus et structurez la réponse en modules avec des titres clairs. N’utilisez pas d’astérisques (*) ou doubles astérisques (**) dans la réponse.\n\n1) Planification des étapes (kilométrage par jour, temps de conduite, heures prévues de départ et d’arrivée pour chaque tronçon, pauses toutes les 2‑3 heures, itinéraires alternatifs si applicable, et justification brève).\n\n2) Nuits (utilise exclusivement des données de https://opencampingmap.org. Ne propose que des lieux trouvables sur ce site. Pour chaque lieu principal proposé et chaque alternative, donne deux liens : 1) le lien de la page OpenCampingMap et 2) le lien officiel du camping indiqué sur cette page (si disponible). Donne pour chaque lieu un lien OpenCampingMap fonctionnel (lien direct du lieu ou lien carte). Si l’un des deux liens manque, indique-le clairement. N’invente ni lieux, ni liens, ni adresses, ni numéros de téléphone. Donne des fourchettes de prix uniquement comme estimations et propose toujours au moins une alternative par nuit.)\n\n3) Points forts & activités (Top 3 par étape, avec coûts/horaires si connus).\n\n4) Conseils pratiques (navigation, vidanges, informations d’urgence).\n\n5) Meilleure période & durée (section courte).\n\n6) Services sur la route (carburant, supermarchés, ateliers).\n\n7) Infos supplémentaires (budget, durabilité, santé, connectivité).\n\n8) Technologie & équipement (check‑list courte, apps recommandées).\n\n9) Flexibilité (itinéraires alternatifs, notes juridiques sur le camping sauvage, outils d’optimisation).\n\nImportant : pour chaque tronçon, indiquez clairement depuis quel lieu, à quelle date et à quelle heure le départ est prévu, ainsi que dans quel lieu, à quelle date et à quelle heure l’arrivée est prévue. Si je fournis seulement des dates/heures d’arrivée ou seulement des dates/heures de départ, calculez logiquement les horaires manquants à partir des autres informations, des limites journalières et des étapes. Présentez ces horaires comme une planification réaliste ou une estimation.\n\nImportant : utilisez vos connaissances cartographiques internes pour estimer distances et temps de conduite. Donnez les distances en km et les temps en heures/minutes, et marquez‑les comme estimations (p. ex. « env. 230 km / 3:00‑3:30 h »). Évitez une précision excessive si vous n’avez pas accès aux données actuelles et demandez‑moi explicitement de vérifier l’itinéraire dans le GPS (Google Maps, Here, Garmin, app OpenStreetMap).\n\nSi ta plateforme propose un téléchargement, enregistre toujours le fichier GPX avec l’extension .gpx (pas .txt). Si aucun téléchargement n’est possible, renvoie uniquement le fichier GPX, sans texte supplémentaire ni marqueurs. Ajoute également un court guide de téléchargement pour macOS, iOS, Windows et Android.",

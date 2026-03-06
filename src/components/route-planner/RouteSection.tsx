@@ -16,6 +16,7 @@ interface RouteSectionProps {
 
 const createEmptyStage = (): RouteStage => ({
   destination: "",
+  booked: false,
   detailsEnabled: false,
   arrivalDate: "",
   arrivalTime: "",
@@ -163,6 +164,23 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             </div>
             {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
           </div>
+
+          <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
+            <div className="space-y-1">
+              <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                {t("planner.route.destinationBooked.label")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
+              </div>
+              <div className="text-white/60 text-sm">
+                {t("planner.route.destinationBooked.description")}
+              </div>
+            </div>
+            <Switch
+              checked={!!formData.destinationBooked}
+              onCheckedChange={(checked) => onChange({ destinationBooked: checked })}
+              aria-label={t("planner.route.destinationBooked.label")}
+              className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
+            />
+          </div>
         </div>
 
         <div className="space-y-6 p-6 sm:p-10 shadow-2xl" style={glassPanelStyle}>
@@ -270,6 +288,23 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   />
                   <Route className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-primary/30" />
                 </div>
+              </div>
+
+              <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
+                <div className="space-y-1">
+                  <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                    {buildStopLabel("planner.route.stage.bookedLabel", index, stage.destination)}
+                  </div>
+                  <div className="text-white/60 text-sm">
+                    {t("planner.route.stage.bookedDescription")}
+                  </div>
+                </div>
+                <Switch
+                  checked={!!stage.booked}
+                  onCheckedChange={(checked) => updateStage(index, { booked: checked })}
+                  aria-label={buildStopLabel("planner.route.stage.bookedLabel", index, stage.destination)}
+                  className="border-primary/80 data-[state=unchecked]:bg-white/10 data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.35)]"
+                />
               </div>
 
               <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">

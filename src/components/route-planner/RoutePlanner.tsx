@@ -71,8 +71,6 @@ export function RoutePlanner() {
     "cityCulture",
     "gastronomy",
     "relaxation",
-    "familyFriendly",
-    "dogFriendly",
   ]);
 
   const sanitizeFormData = (data: Partial<FormData>): FormData => ({

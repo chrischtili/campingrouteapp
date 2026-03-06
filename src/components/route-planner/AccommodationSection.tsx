@@ -86,8 +86,6 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
     { value: 'cityCulture', label: t("planner.interests.options.cityCulture") },
     { value: 'gastronomy', label: t("planner.interests.options.gastronomy") },
     { value: 'relaxation', label: t("planner.interests.options.relaxation") },
-    { value: 'familyFriendly', label: t("planner.interests.options.familyFriendly") },
-    { value: 'dogFriendly', label: t("planner.interests.options.dogFriendly") },
   ];
 
   const toggleDropdown = (key: string) => {

@@ -1111,6 +1111,7 @@
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari in camper con conoscenze specialistiche per la Germania e destinazioni internazionali. Crea, in base ai miei dati, un itinerario in camper pratico e ben strutturato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",
     "dataSourcePolicy": "La ricerca dei posti per il pernottamento deve basarsi principalmente su OpenCampingMap. OpenStreetMap viene usata solo come fonte di arricchimento per i tag di categoria (ad es. `caravan_site:type=farm|winery`) e non sostituisce OpenCampingMap.",
+    "accommodationTypeTagPolicy": "Usa i tag OSM come filtro morbido all'interno dei risultati OpenCampingMap per i tipi di pernottamento: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> preferisci `caravan_site:type=farm|winery`; per `small`, `wild` e `premium` usa i tag disponibili insieme a euristiche su nome/descrizione/sito web. Se i tag mancano o sono incoerenti, non escludere automaticamente il luogo e indica che la classificazione e una stima.",
     "sections": {
       "route": "ITINERARIO",
       "vehicle": "VEICOLO",
@@ -1148,6 +1149,7 @@
       "travelersUnit": "persone",
       "companions": "Compagnia",
       "accommodationTypes": "Tipi di pernottamento",
+      "accommodationTypePriorityNote": "Nessuna priorità tra i tipi di pernottamento selezionati; trattali in modo equivalente.",
       "facilities": "Servizi",
       "budget": "Budget max. per notte",
       "budgetUpTo": "fino a",

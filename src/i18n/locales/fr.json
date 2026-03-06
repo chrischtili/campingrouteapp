@@ -1111,6 +1111,7 @@
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires en camping‑car avec une connaissance spécialisée de l’Allemagne et des destinations internationales. Créez un itinéraire pratique et bien structuré selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",
     "dataSourcePolicy": "Les requêtes de nuitées doivent être basées en priorité sur OpenCampingMap. OpenStreetMap ne sert qu’en complément pour les tags de catégorisation (ex. `caravan_site:type=farm|winery`) et n’a pas la priorité sur OpenCampingMap.",
+    "accommodationTypeTagPolicy": "Utilise les tags OSM comme filtre souple au sein des résultats OpenCampingMap pour les types d’hébergement: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> privilégier `caravan_site:type=farm|winery`; pour `small`, `wild` et `premium`, utilise les tags disponibles plus des heuristiques sur le nom/la description/le site web. Si les tags sont absents ou incohérents, n’exclus pas automatiquement le lieu et indique que la classification est estimée.",
     "sections": {
       "route": "ITINÉRAIRE",
       "vehicle": "FILTRES SPÉCIFIQUES VÉHICULE",
@@ -1148,6 +1149,7 @@
       "travelersUnit": "Personnes",
       "companions": "Compagnons de voyage",
       "accommodationTypes": "Types d’hébergement",
+      "accommodationTypePriorityNote": "Aucune priorisation entre les types d’hébergement sélectionnés; traite-les de manière équivalente.",
       "facilities": "Équipements requis",
       "budget": "Budget par nuit",
       "budgetUpTo": "jusqu’à",

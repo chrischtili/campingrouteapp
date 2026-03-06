@@ -1111,6 +1111,7 @@
   "prompt": {
     "systemRole": "You are a professional motorhome route planner with specialized knowledge of Germany and international travel destinations. Create a practical, well-structured motorhome route based on my specifications. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
     "dataSourcePolicy": "Overnight place lookup must be primarily sourced from OpenCampingMap. OpenStreetMap is used only as an enrichment source for category hints (for example `caravan_site:type=farm|winery`) and is not preferred over OpenCampingMap.",
+    "accommodationTypeTagPolicy": "Use OSM tags as a soft filter within OpenCampingMap hits for accommodation types: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> prefer `caravan_site:type=farm|winery`; for `small`, `wild`, and `premium`, use available tags plus name/description/website heuristics. If tags are missing or inconsistent, do not automatically exclude the place; mark the classification as an estimate.",
     "sections": {
       "route": "ITINERARY",
       "vehicle": "VEHICLE SPECIFIC FILTERS",
@@ -1148,6 +1149,7 @@
       "travelersUnit": "People",
       "companions": "Travel companions",
       "accommodationTypes": "Accommodation types",
+      "accommodationTypePriorityNote": "No prioritization between selected accommodation types; treat them equally.",
       "facilities": "Required facilities",
       "budget": "Budget per night",
       "budgetUpTo": "up to",

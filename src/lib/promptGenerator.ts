@@ -39,6 +39,16 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     ? '• ' + t('prompt.labels.budgetNote') + '\n'
     : '';
   const dataSourcePolicy = t('prompt.dataSourcePolicy');
+  const accommodationTypeTagPolicy = t('prompt.accommodationTypeTagPolicy');
+  const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
+  const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
+  const noAccommodationPreference = hasBaseAccommodationType && hasSpecificAccommodationType;
+  const accommodationTypesLine = data.accommodationType.length
+    ? '• ' + t('prompt.labels.accommodationTypes') + ': ' + data.accommodationType.map(at => t(`planner.accommodation.categories.type.options.${at}`)).join(', ') + '\n'
+    : '';
+  const accommodationTypePriorityLine = noAccommodationPreference
+    ? '• ' + t('prompt.labels.accommodationTypePriorityNote') + '\n'
+    : '';
 
   const stageLines = (data.stages || [])
     .map((stage, index) => {
@@ -78,6 +88,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
 
   return `${t('prompt.systemRole', { language: languageName })}
 ${dataSourcePolicy}
+${accommodationTypeTagPolicy}
 
 🗺️ ${t('prompt.sections.route')}:
 ──────────────
@@ -95,7 +106,7 @@ ${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.travelCompa
 ──────────────────────────
 • ${t('prompt.labels.travelers')}: ${data.numberOfTravelers || '2'} ${t('prompt.labels.travelersUnit')}
 ${data.travelCompanions.length ? '• ' + t('prompt.labels.companions') + ': ' + data.travelCompanions.map(c => t(`planner.accommodation.categories.companions.options.${c}`)).join(', ') + '\n' : ''}
-${data.accommodationType.length ? '• ' + t('prompt.labels.accommodationTypes') + ': ' + data.accommodationType.map(at => t(`planner.accommodation.categories.type.options.${at}`)).join(', ') + '\n' : ''}
+${accommodationTypesLine}${accommodationTypePriorityLine}
 ${data.facilities?.length ? '• ' + t('prompt.labels.facilities') + ': ' + data.facilities.map(f => t(`planner.accommodation.categories.facilities.options.${f}`)).join(', ') + '\n' : ''}
 ${data.avgCampsitePriceMax ? '• ' + t('prompt.labels.budget') + ': ' + t('prompt.labels.budgetUpTo') + ' ' + data.avgCampsitePriceMax + '€\n' : ''}
 ${data.budgetLevel ? '• ' + t('prompt.labels.budgetLevel') + ': ' + t(`planner.accommodation.budgetLevel.options.${data.budgetLevel}`) + '\n' : ''}${budgetNote}

@@ -1111,6 +1111,7 @@
   "prompt": {
     "systemRole": "Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",
     "dataSourcePolicy": "Abfragen zu Übernachtungsplätzen erfolgen primär über OpenCampingMap. OpenStreetMap wird ausschließlich zur Ergänzung in der Kategorieschärfung (z. B. `caravan_site:type=farm|winery`) genutzt und nicht als Ersatzquelle vorgezogen.",
+    "accommodationTypeTagPolicy": "Nutze für Unterkunftstypen OSM-Tags als weichen Filter innerhalb der OpenCampingMap-Treffer: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> bevorzugt `caravan_site:type=farm|winery`; für `small`, `wild` und `premium` nutze verfügbare Tags plus Name/Beschreibung/Website-Heuristiken. Wenn Tags fehlen oder uneinheitlich sind, verwerfe den Platz nicht automatisch, sondern kennzeichne die Einordnung als Schätzung.",
     "sections": {
       "route": "REISEROUTE",
       "vehicle": "FAHRZEUG",
@@ -1148,6 +1149,7 @@
       "travelersUnit": "Personen",
       "companions": "Reisebegleitung",
       "accommodationTypes": "Unterkunftstypen",
+      "accommodationTypePriorityNote": "Keine Priorisierung zwischen den gewählten Unterkunftstypen; berücksichtige sie gleichwertig.",
       "facilities": "Ausstattung",
       "budget": "Max. Budget pro Nacht",
       "budgetUpTo": "bis zu",

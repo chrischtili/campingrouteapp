@@ -174,9 +174,9 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${aiSettings.apiKey}`
       };
-      const actualModel = aiSettings.openaiModel || 'gpt-5.2';
+      const actualModel = aiSettings.openaiModel || 'gpt-5.4';
       const usesCompletionTokens = [
-        'gpt-5.2', 'gpt-5', 'gpt-5-mini', 'gpt-5-nano',
+        'gpt-5.4', 'gpt-5.2', 'gpt-5', 'gpt-5-mini', 'gpt-5-nano',
         'gpt-4o-2024-05-13', 'gpt-4o-mini-2024-07-18', 'gpt-4-turbo-2024-04-09'
       ].includes(actualModel);
       

@@ -476,8 +476,8 @@
         "title": "Elk model heeft eigen sterke punten in routeplanning.",
         "gemini": "Google Gemini 3.1 (aanbevolen)",
         "gemini1": "Zeer sterk in actuele plaatsen en POI’s dankzij Google‑data. Genereert vaak de meest realistische routes in Europa.",
-        "gpt": "OpenAI ChatGPT 5.2",
-        "gpt1": "Logisch onverslaanbaar. Houdt strikt rekening met max. dagkilometers en budgetten. Output is zeer gestructureerd.",
+        "gpt": "OpenAI ChatGPT 5.4",
+        "gpt1": "Logisch erg sterk en zeer precies bij limieten zoals kilometers per dag, rijtijd en budget. De output is zeer gestructureerd en gedetailleerd.",
         "mistral": "Mistral Large",
         "mistral1": "Sterk Europees model. Erg snel en goede prijs‑kwaliteit (API vaak goedkoper dan OpenAI).",
         "recDesc": "Tip: voor de beste camping‑tips en landschappen raden we Google Gemini aan."

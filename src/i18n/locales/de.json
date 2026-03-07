@@ -476,8 +476,8 @@
         "title": "Jedes Modell hat seine eigenen Stärken bei der Routenplanung.",
         "gemini": "Google Gemini 3.1 (Empfehlung)",
         "gemini1": "Extrem gut bei aktuellen Orten, Stellplätzen und POIs, da es Googles riesigen Datenbestand nutzt. Generiert oft die realistischsten und schönsten Routen für Europa.",
-        "gpt": "OpenAI ChatGPT 5.2",
-        "gpt1": "Logisch unschlagbar. Hält sich penibel an Vorgaben wie maximale Tageskilometer und Budgets. Die Textausgabe der Version 5.2 ist sehr strukturiert und extrem detailliert.",
+        "gpt": "OpenAI ChatGPT 5.4",
+        "gpt1": "Logisch extrem stark und sehr präzise bei Vorgaben wie Tageskilometern, Fahrzeiten und Budgets. Die Textausgabe von Version 5.4 ist sehr strukturiert und detailliert.",
         "mistral": "Mistral Large",
         "mistral1": "Ein starkes, europäisches Modell. Arbeitet sehr schnell und bietet eine hervorragende Preis-Leistung (die API ist oft günstiger als OpenAI).",
         "recDesc": "Tipp: Für die besten Stellplatz-Empfehlungen und landschaftlichen Highlights empfehlen wir aktuell Google Gemini."

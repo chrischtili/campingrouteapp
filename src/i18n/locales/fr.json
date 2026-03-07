@@ -476,8 +476,8 @@
         "title": "Chaque modèle a ses forces pour la planification d’itinéraires.",
         "gemini": "Google Gemini 3.1 (Recommandé)",
         "gemini1": "Excellent pour les lieux, campings et POI actuels grâce à l’énorme base de données Google. Produit souvent les itinéraires les plus réalistes en Europe.",
-        "gpt": "OpenAI ChatGPT 5.2",
-        "gpt1": "Imbattable en logique. Respecte strictement les contraintes (km/jour, budgets). La sortie est très structurée et détaillée.",
+        "gpt": "OpenAI ChatGPT 5.4",
+        "gpt1": "Très fort sur le plan logique et très précis pour les contraintes comme les kilomètres quotidiens, le temps de conduite et le budget. La sortie est très structurée et détaillée.",
         "mistral": "Mistral Large",
         "mistral1": "Modèle européen puissant. Très rapide et bon rapport qualité/prix (API souvent moins chère qu’OpenAI).",
         "recDesc": "Conseil : pour de bonnes recommandations de campings et de beaux paysages, nous recommandons actuellement Google Gemini."

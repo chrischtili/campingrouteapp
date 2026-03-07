@@ -191,10 +191,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 </Label>
                 <Select 
                   value={aiSettings.aiProvider} 
-                  onValueChange={(value) => {
+                    onValueChange={(value) => {
                     onAISettingsChange({ 
                       aiProvider: value, 
-                      openaiModel: value === 'openai' ? 'gpt-5.2' : aiSettings.openaiModel,
+                      openaiModel: value === 'openai' ? 'gpt-5.4' : aiSettings.openaiModel,
                       googleModel: value === 'google' ? 'gemini-3.1-pro-preview' : aiSettings.googleModel,
                       mistralModel: value === 'mistral' ? 'mistral-large-latest' : aiSettings.mistralModel
                     });
@@ -205,7 +205,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                   </SelectTrigger>
                   <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                     <SelectItem value="google">Google Gemini 3.1</SelectItem>
-                    <SelectItem value="openai">OpenAI ChatGPT 5.2</SelectItem>
+                    <SelectItem value="openai">OpenAI ChatGPT 5.4</SelectItem>
                     <SelectItem value="mistral">Mistral Large</SelectItem>
                   </SelectContent>
                 </Select>

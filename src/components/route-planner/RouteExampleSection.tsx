@@ -89,6 +89,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
           className="text-center space-y-4"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+            <span className="flex h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary font-black text-[10px] tracking-[0.3em]">
               {t("exampleRoute.badge")}
             </span>

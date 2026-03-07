@@ -1,10 +1,10 @@
-# 🚐 Camping Route - KI-Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt & Motorrad
+# 🚐 Camping Route - KI-Routenplaner für Camping- und Roadtrip-Routen
 
 [![Version](https://img.shields.io/badge/version-v0.4.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Der intelligente KI-Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt & Motorrad – jetzt international!**
+**Der KI-Routenplaner für Wohnmobil, Wohnwagen, Zelt und Motorrad – mit passenden Stopps, Etappen und GPX-Export.**
 
 👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
 

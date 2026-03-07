@@ -36,10 +36,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
   const inputClass = "w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left";
   const timeInputClass = `${inputClass} pr-12 min-h-[56px]`;
-  const fieldLabelClass = "text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2";
+  const fieldLabelClass = "text-xs md:text-sm font-semibold tracking-[0.02em] text-white flex items-center gap-2";
   const fieldLabelIconSlotClass = "inline-flex w-4 h-4 items-center justify-center shrink-0";
-  const requiredError = "text-[10px] font-semibold tracking-[0.08em] text-red-400";
-  const clearValueClass = "mt-2 inline-flex items-center gap-1 text-[10px] font-semibold tracking-[0.08em] text-white/60 hover:text-white transition-colors";
+  const requiredError = "text-[10px] font-semibold tracking-[0.04em] text-red-400";
+  const clearValueClass = "mt-2 inline-flex items-center gap-1 text-[10px] font-semibold tracking-[0.04em] text-white/60 hover:text-white transition-colors";
   const emptyFieldPlaceholderClass = "pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-white/55 peer-focus:hidden";
   const timeInputStyle = {
     colorScheme: "dark" as const,
@@ -165,7 +165,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
 
         <div className="rounded-2xl border border-primary/20 bg-primary/10 px-4 py-4 sm:px-5 sm:py-5">
-          <div className="text-[10px] font-black tracking-[0.22em] text-primary mb-2">
+          <div className="text-[10px] font-semibold tracking-[0.08em] text-primary mb-2">
             {t("planner.route.roundTripHint.badge")}
           </div>
           <div className="text-sm text-white/85 leading-relaxed">
@@ -174,7 +174,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
 
         <div className="space-y-3 pt-2">
-          <Label htmlFor="targetRegions" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+          <Label htmlFor="targetRegions" className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white flex items-center gap-2">
             <Map className="w-4 h-4 text-primary" /> {t("planner.route.targetRegions.label")}
           </Label>
           <p className="text-white/50 text-sm leading-relaxed">
@@ -192,7 +192,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
           <div className="space-y-1">
-            <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+            <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white">
               {t("planner.route.preferScenicLongerStops.label")}
             </div>
             <div className="text-white/60 text-sm">
@@ -269,7 +269,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           <div className="space-y-6 pt-6 border-t border-white/10">
             <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
               <div className="space-y-1">
-                <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white">
                   {t("planner.route.destinationDetails.label")}
                 </div>
                 <div className="text-white/60 text-sm">
@@ -347,7 +347,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
             <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
               <div className="space-y-1">
-                <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white">
                   {t("planner.route.destinationBooked.label")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
                 </div>
                 <div className="text-white/60 text-sm">
@@ -377,7 +377,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               className="p-6 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 space-y-6"
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white">
                   {t("planner.route.stage.label", { num: index + 1 })}
                 </div>
                 <Button
@@ -407,7 +407,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
               <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
                 <div className="space-y-1">
-                  <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                  <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white">
                     {buildStopLabel("planner.route.stage.detailsLabel", index, stage.destination)}
                   </div>
                   <div className="text-white/60 text-sm">
@@ -424,7 +424,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
               <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 p-4 sm:p-5">
                 <div className="space-y-1">
-                  <div className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">
+                  <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white">
                     {buildStopLabel("planner.route.stage.bookedLabel", index, stage.destination)}
                   </div>
                   <div className="text-white/60 text-sm">
@@ -442,7 +442,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               {stage.detailsEnabled && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <Label htmlFor={`stageArrivalDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                    <Label htmlFor={`stageArrivalDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-white/70">
                       {buildStopLabel("planner.route.stage.arrivalDate", index, stage.destination)}
                     </Label>
                     <div className="relative">
@@ -470,7 +470,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   </div>
 
                   <div className="space-y-3">
-                    <Label htmlFor={`stageArrivalTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                    <Label htmlFor={`stageArrivalTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-white/70">
                       {buildStopLabel("planner.route.stage.arrivalTime", index, stage.destination)}
                     </Label>
                     <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
@@ -495,7 +495,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   </div>
 
                   <div className="space-y-3">
-                    <Label htmlFor={`stageDepartureDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                    <Label htmlFor={`stageDepartureDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-white/70">
                       {buildStopLabel("planner.route.stage.departureDate", index, stage.destination)}
                     </Label>
                     <div className="relative">
@@ -524,7 +524,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                   </div>
 
                   <div className="space-y-3">
-                    <Label htmlFor={`stageDepartureTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.08em] text-white/70">
+                    <Label htmlFor={`stageDepartureTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-white/70">
                       {buildStopLabel("planner.route.stage.departureTime", index, stage.destination)}
                     </Label>
                     <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
@@ -595,7 +595,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         {showLimitPriority && (
           <div className="space-y-3">
-            <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+            <Label className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white flex items-center gap-2">
               <Info className="w-4 h-4 text-primary" />
               {t("planner.route.limitPriority.label")}
             </Label>
@@ -616,7 +616,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         )}
 
         <div className="space-y-3">
-          <Label className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
+          <Label className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" /> {t("planner.route.travelPace.label")}
           </Label>
           <div className="text-white/60 text-xs font-semibold">
@@ -656,7 +656,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       </div>
 
       <div className="space-y-4 text-left">
-        <Label htmlFor="routeAdditionalInfo" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2 ml-4">
+        <Label htmlFor="routeAdditionalInfo" className="text-xs md:text-sm font-semibold tracking-[0.02em] text-white flex items-center gap-2 ml-4">
           <Info className="w-4 h-4 text-primary" /> {t("planner.route.additional.label")}
         </Label>
         <textarea

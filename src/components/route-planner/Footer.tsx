@@ -37,6 +37,10 @@ export function Footer() {
     window.dispatchEvent(new Event("open-whats-new"));
   };
 
+  const openFeedback = () => {
+    window.dispatchEvent(new Event("open-feedback"));
+  };
+
   return (
     <footer className="relative bg-[#0a140f] text-white pt-32 pb-12 overflow-hidden border-t border-white/5">
       {/* Decorative background elements */}
@@ -67,16 +71,16 @@ export function Footer() {
           {/* Links Columns */}
           <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 text-left">
             <div className="space-y-6">
-              <h4 className="font-black text-xs tracking-[0.3em] text-primary">{t("footer.imprint")}</h4>
+              <h4 className="font-semibold text-xs tracking-[0.04em] text-primary">{t("footer.imprint")}</h4>
               <ul className="space-y-4">
                 <li>
-                  <Link to="/impressum" className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
+                  <Link to="/impressum" className="text-sm font-semibold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
                     <FileText className="w-4 h-4 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
                     {t("footer.imprint")}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/datenschutz" className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
+                  <Link to="/datenschutz" className="text-sm font-semibold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
                     <Shield className="w-4 h-4 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
                     {t("footer.privacy")}
                   </Link>
@@ -85,18 +89,18 @@ export function Footer() {
             </div>
             
             <div className="space-y-6">
-              <h4 className="font-black text-xs tracking-[0.3em] text-primary">{t("footer.openSource")}</h4>
+              <h4 className="font-semibold text-xs tracking-[0.04em] text-primary">{t("footer.openSource")}</h4>
               <ul className="space-y-4">
                 <li>
                   <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" rel="noopener noreferrer" 
-                     className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
+                     className="text-sm font-semibold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
                     <Github className="w-4 h-4 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
                     {t("footer.sourceCode")}
                   </a>
                 </li>
                 <li>
                   <a href="https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"
-                     className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
+                     className="text-sm font-semibold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
                     <div className="w-4 h-4 flex items-center justify-center text-[8px] font-black border-2 border-primary/40 rounded-sm text-primary opacity-60 group-hover:opacity-100 transition-opacity">MIT</div>
                     {t("footer.license")}
                   </a>
@@ -105,10 +109,20 @@ export function Footer() {
                   <button
                     type="button"
                     onClick={openWhatsNew}
-                    className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group"
+                    className="text-sm font-semibold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group"
                   >
                     <Compass className="w-4 h-4 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
                     {t("footer.whatsNew", { version: displayReleaseVersion })}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={openFeedback}
+                    className="text-sm font-semibold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group"
+                  >
+                    <Heart className="w-4 h-4 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
+                    {t("footer.feedback")}
                   </button>
                 </li>
               </ul>
@@ -129,13 +143,13 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-[10px] font-black tracking-[0.2em] text-white/40">
+          <p className="text-[11px] font-medium tracking-[0.03em] text-white/40">
             {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 shadow-inner">
-            <span className="text-[10px] font-black tracking-widest text-white/60">{t("footer.madeWith")}</span>
-            <Heart className="w-3 h-3 text-primary fill-primary animate-pulse" />
-            <span className="text-[10px] font-black tracking-widest text-white/60">{t("footer.forCommunity")}</span>
+            <span className="text-[11px] font-medium tracking-[0.03em] text-white/60">{t("footer.madeWith")}</span>
+            <Heart className="w-3 h-3 text-primary fill-primary" />
+            <span className="text-[11px] font-medium tracking-[0.03em] text-white/60">{t("footer.forCommunity")}</span>
           </div>
         </div>
       </div>

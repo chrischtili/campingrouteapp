@@ -135,7 +135,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <span className="font-black text-2xl tracking-tighter text-white leading-none">
               Camping<span className="text-primary">Route</span>
             </span>
-            <span className="text-[8px] font-black tracking-[0.4em] text-white/40 leading-none mt-1">
+            <span className="text-[8px] font-semibold tracking-[0.12em] text-white/40 leading-none mt-1">
               {t("navbar.subtitle")}
             </span>
           </div>
@@ -148,7 +148,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="text-xs sm:text-sm font-black tracking-widest text-white/60 hover:text-primary transition-colors relative group"
+                className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-white/60 hover:text-primary transition-colors relative group"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
@@ -159,7 +159,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           <button
             type="button"
             onClick={openWhatsNew}
-            className="hidden xl:inline-flex text-xs font-bold tracking-[0.04em] text-white/55 hover:text-primary transition-colors"
+            className="hidden xl:inline-flex text-xs font-semibold tracking-[0.02em] text-white/55 hover:text-primary transition-colors"
           >
             {t("navbar.whatsNew", { version: displayReleaseVersion })}
           </button>
@@ -172,7 +172,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-white hover:bg-white/5 gap-1 rounded-lg font-black text-[8px] sm:text-[10px] tracking-widest border border-white/5 px-2 py-1"
+                className="text-white hover:bg-white/5 gap-1 rounded-lg font-semibold text-[8px] sm:text-[10px] tracking-[0.08em] border border-white/5 px-2 py-1"
               >
                 <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                 {i18n.language.toUpperCase()}
@@ -189,7 +189,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
           <Button
             onClick={handlePlanNow}
-            className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-black text-[8px] sm:text-[10px] tracking-widest transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
+            className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-semibold text-[8px] sm:text-[10px] tracking-[0.08em] transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
             style={{
               background: "rgba(255, 128, 0, 0.25)",
               backdropFilter: "blur(8px)",
@@ -243,7 +243,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                   <button onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-white/40'}`}>FR</button>
                   <button onClick={() => { changeLanguage('it'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-white/40'}`}>IT</button>
                 </div>
-              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black text-[8px] sm:text-[10px] tracking-widest">
+              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-semibold text-[8px] sm:text-[10px] tracking-[0.08em]">
                 {t("navbar.planNow")}
               </Button>
             </div>

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, AlertCircle, Download, Map, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert } from "lucide-react";
+import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, ChevronDown, AlertCircle, Download, Map, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -60,6 +60,7 @@ export function OutputSection({
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [outputView, setOutputView] = useState<"formatted" | "raw">("formatted");
+  const [checklistOpen, setChecklistOpen] = useState(false);
   const locale = i18n.language.startsWith('de')
     ? 'de-DE'
     : i18n.language.startsWith('nl')
@@ -644,7 +645,7 @@ ${gpxOnly}`;
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-8"
+      className="space-y-6"
     >
       <div className="relative group">
         <div 
@@ -655,34 +656,34 @@ ${gpxOnly}`;
             WebkitBackdropFilter: "blur(28px)",
           }}
         >
-          <div className="relative flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 border-b border-white/10 gap-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]">
+          <div className="relative flex flex-col lg:flex-row items-stretch lg:items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-white/10 gap-3 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-            <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-              <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-[0_12px_32px_rgba(255,128,0,0.16)]">
-                <FileText className="w-6 h-6" />
+            <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+              <div className="w-11 h-11 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-[0_12px_32px_rgba(255,128,0,0.16)]">
+                <FileText className="w-5 h-5" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black tracking-[0.38em] text-primary leading-none mb-2">
+                <span className="text-[9px] font-semibold tracking-[0.08em] text-primary leading-none mb-1.5">
                   {useDirectAI ? `AI Route (${aiModel})` : t("planner.output.customPrompt")}
                 </span>
-                <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight leading-none">
+                <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h2>
-                <p className="mt-2 text-sm text-white/55 font-medium">
+                <p className="mt-1.5 text-xs sm:text-sm text-white/55 font-medium">
                   {useDirectAI ? t("planner.output.results.title") : t("planner.output.nextSteps.description")}
                 </p>
                 {gpxBlocksSwapped && (
-                  <span className="mt-2 text-[10px] font-bold tracking-[0.2em] text-primary/80">
+                  <span className="mt-1.5 text-[9px] font-semibold tracking-[0.06em] text-primary/80">
                     {t("planner.output.actions.gpxSwapNote")}
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2 w-full lg:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0 shadow-sm"
+                className="h-10 px-3 sm:px-4 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-[10px] tracking-[0.04em] transition-all group/btn shadow-sm"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
@@ -697,7 +698,7 @@ ${gpxOnly}`;
                         `camping-route-route-track-${new Date().toISOString().split('T')[0]}.gpx`,
                         "planner.output.actions.gpxDownloadedWpt"
                       )}
-                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black text-[9px] tracking-widest transition-all shrink-0"
+                      className="h-10 px-3 sm:px-4 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-semibold text-[10px] tracking-[0.04em] transition-all"
                     >
                       <Download className="w-3 h-3 mr-1 sm:mr-2" />
                       {t("planner.output.actions.downloadWpt")}
@@ -710,7 +711,7 @@ ${gpxOnly}`;
                         `camping-route-garmin-waypoints-${new Date().toISOString().split('T')[0]}.gpx`,
                         "planner.output.actions.gpxDownloadedGarmin"
                       )}
-                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black text-[9px] tracking-widest transition-all shrink-0"
+                      className="h-10 px-3 sm:px-4 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-semibold text-[10px] tracking-[0.04em] transition-all"
                     >
                       <Download className="w-3 h-3 mr-1 sm:mr-2" />
                       {t("planner.output.actions.downloadGarmin")}
@@ -721,7 +722,7 @@ ${gpxOnly}`;
 
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="h-10 px-3 sm:px-4 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-[10px] tracking-[0.04em] transition-all group/btn"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}
@@ -729,27 +730,27 @@ ${gpxOnly}`;
             </div>
           </div>
 
-          <div className="p-6 sm:p-10 md:p-14 space-y-10 bg-[linear-gradient(180deg,rgba(8,12,10,0.82),rgba(8,12,10,0.88))]">
+          <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 bg-[linear-gradient(180deg,rgba(8,12,10,0.82),rgba(8,12,10,0.88))]">
             {summary && (
-              <div className="space-y-5">
-                <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                  <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                  <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                     {t("planner.output.spotlight.title")}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {spotlightCards.map((item) => {
                       const Icon = item.icon;
                       return (
-                        <div key={item.id} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
-                              <Icon className="w-4 h-4" />
+                        <div key={item.id} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
+                          <div className="flex items-center gap-2.5 mb-1.5">
+                            <div className="w-8 h-8 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
+                              <Icon className="w-3.5 h-3.5" />
                             </div>
-                            <div className="text-[10px] font-black tracking-[0.22em] text-white/35">
+                            <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45">
                               {item.label}
                             </div>
                           </div>
-                          <div className="text-sm sm:text-base font-bold text-white/92 leading-snug">
+                          <div className="text-sm sm:text-[15px] font-bold text-white/92 leading-snug">
                             {item.value}
                           </div>
                         </div>
@@ -758,24 +759,24 @@ ${gpxOnly}`;
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                  <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
+                <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                  <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                     {t("planner.output.overview.title")}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
                     {overviewCards.map((item) => {
                       const Icon = item.icon;
                       return (
-                        <div key={item.id} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
-                              <Icon className="w-4 h-4" />
+                        <div key={item.id} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
+                          <div className="flex items-center gap-2.5 mb-1.5">
+                            <div className="w-8 h-8 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
+                              <Icon className="w-3.5 h-3.5" />
                             </div>
-                            <div className="text-[10px] font-black tracking-[0.22em] text-white/35">
+                            <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45">
                               {item.label}
                             </div>
                           </div>
-                          <div className="text-sm sm:text-base font-bold text-white/92 leading-snug">
+                          <div className="text-sm sm:text-[15px] font-bold text-white/92 leading-snug">
                             {item.value}
                           </div>
                         </div>
@@ -784,14 +785,14 @@ ${gpxOnly}`;
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                  <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
+                <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                  <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                   {t("planner.output.summary.title")}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
                     {summaryItems.map((item) => (
-                      <div key={item.label} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-                        <div className="text-[10px] font-black tracking-[0.22em] text-white/35 mb-2">
+                      <div key={item.label} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
+                        <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45 mb-2">
                           {item.label}
                         </div>
                         <div className="text-sm sm:text-base font-bold text-white/90 leading-snug">
@@ -804,11 +805,11 @@ ${gpxOnly}`;
               </div>
             )}
             {useDirectAI && stageRiskItems.length > 0 && (
-              <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
+              <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                   {t("planner.output.risk.title")}
                 </div>
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {stageRiskItems.map((item, index) => {
                     const config = item.level === "safe"
                       ? {
@@ -829,7 +830,7 @@ ${gpxOnly}`;
                           };
 
                     return (
-                      <div key={`${item.title}-${index}`} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
+                      <div key={`${item.title}-${index}`} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
                         <div className="flex items-start justify-between gap-3 mb-3">
                           <div className="flex items-center gap-3 min-w-0">
                             <span className={`mt-1 h-3 w-3 rounded-full shrink-0 ${config.dot}`} />
@@ -837,11 +838,11 @@ ${gpxOnly}`;
                               {item.title}
                             </div>
                           </div>
-                          <span className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-black tracking-[0.18em] ${config.badge}`}>
+                          <span className={`shrink-0 rounded-full border px-3 py-1 text-[9px] font-semibold tracking-[0.05em] ${config.badge}`}>
                             {config.label}
                           </span>
                         </div>
-                        <div className="text-sm text-white/68 leading-7">
+                        <div className="text-xs sm:text-sm text-white/68 leading-5 sm:leading-6">
                           {item.detail}
                         </div>
                       </div>
@@ -857,22 +858,22 @@ ${gpxOnly}`;
                     key={section.id}
                     type="button"
                     onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-black tracking-[0.18em] text-white/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-white"
+                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[9px] font-semibold tracking-[0.05em] text-white/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-white"
                   >
                     {section.label}
                   </button>
                 ))}
               </div>
             )}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-white/10 bg-[rgba(8,12,10,0.92)] p-2">
-              <div className="text-[10px] font-black tracking-[0.24em] text-white/35 px-3 py-1 sm:py-0">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-2xl border border-white/10 bg-[rgba(8,12,10,0.92)] p-2">
+              <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45 px-3 py-1 sm:py-0">
                 {t("planner.output.view.label")}
               </div>
               <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto sm:items-center">
                 <button
                   type="button"
                   onClick={() => setOutputView("formatted")}
-                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
+                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-semibold tracking-[0.04em] transition-colors ${
                     outputView === "formatted"
                       ? "bg-primary text-white"
                       : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
@@ -883,7 +884,7 @@ ${gpxOnly}`;
                 <button
                   type="button"
                   onClick={() => setOutputView("raw")}
-                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
+                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-semibold tracking-[0.04em] transition-colors ${
                     outputView === "raw"
                       ? "bg-primary text-white"
                       : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
@@ -894,57 +895,73 @@ ${gpxOnly}`;
               </div>
             </div>
             {useDirectAI ? (
-              <div className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-6 sm:px-8 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
+            <div className="space-y-5 rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-4 sm:px-6 py-5 shadow-[0_20px_60px_rgba(0,0,0,0.16)]">
                 <div className="flex items-center gap-3 pb-4 border-b border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
-                  <div className="text-[10px] font-black tracking-[0.32em] text-white/45">
+                  <div className="text-[9px] font-semibold tracking-[0.06em] text-white/45">
                     {t("planner.output.title.direct")}
                   </div>
                 </div>
                 {outputView === "formatted" ? (
                   <div
-                    className="whitespace-pre-wrap font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-8 selection:bg-primary/30 selection:text-white outline-none"
+                    className="whitespace-pre-wrap font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-6 sm:leading-7 selection:bg-primary/30 selection:text-white outline-none"
                     dangerouslySetInnerHTML={{ __html: formattedHtml }}
                   />
                 ) : (
-                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-6 sm:leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
                     {outputBody}
                   </pre>
                 )}
               </div>
             ) : (
-              <div className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-6 sm:px-8 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
+            <div className="space-y-5 rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-4 sm:px-6 py-5 shadow-[0_20px_60px_rgba(0,0,0,0.16)]">
                 <div className="flex items-center gap-3 pb-4 border-b border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
-                  <div className="text-[10px] font-black tracking-[0.32em] text-white/45">
+                  <div className="text-[9px] font-semibold tracking-[0.06em] text-white/45">
                     {t("planner.output.title.prompt")}
                   </div>
                 </div>
                 {outputView === "formatted" ? (
                   <div
-                    className="font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-8 selection:bg-primary/30 selection:text-white outline-none"
+                    className="font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-6 sm:leading-7 selection:bg-primary/30 selection:text-white outline-none"
                     dangerouslySetInnerHTML={{ __html: formattedHtml }}
                   />
                 ) : (
-                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-6 sm:leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
                     {outputBody}
                   </pre>
                 )}
               </div>
             )}
 
-            <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.2)]">
-              <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-4">
-                {t("planner.output.checklist.title")}
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80 font-semibold">
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">• {t("planner.output.checklist.items.water")}</div>
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">• {t("planner.output.checklist.items.power")}</div>
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">• {t("planner.output.checklist.items.gas")}</div>
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">• {t("planner.output.checklist.items.waste")}</div>
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">• {t("planner.output.checklist.items.documents")}</div>
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">• {t("planner.output.checklist.items.apps")}</div>
-              </div>
+            <div className="rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.16)] overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setChecklistOpen((open) => !open)}
+                className="w-full flex items-center justify-between gap-4 px-4 sm:px-5 py-3.5 text-left"
+              >
+                <div>
+                  <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-1">
+                    {t("planner.output.checklist.title")}
+                  </div>
+                  <div className="text-xs sm:text-sm text-white/55">
+                    {t("planner.output.checklist.items.water")} · {t("planner.output.checklist.items.power")} · {t("planner.output.checklist.items.gas")}
+                  </div>
+                </div>
+                <ChevronDown className={`w-3.5 h-3.5 text-white/55 transition-transform ${checklistOpen ? "rotate-180" : ""}`} />
+              </button>
+              {checklistOpen && (
+                <div className="px-4 sm:px-5 pb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-white/78 font-medium">
+                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.water")}</div>
+                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.power")}</div>
+                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.gas")}</div>
+                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.waste")}</div>
+                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.documents")}</div>
+                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.apps")}</div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -958,7 +975,7 @@ ${gpxOnly}`;
                 <ChevronRight className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black tracking-[0.4em] text-primary leading-none mb-1">
+                <span className="text-[10px] font-semibold tracking-[0.12em] text-primary leading-none mb-1">
                   {t("planner.output.nextSteps.title")}
                 </span>
                 <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
@@ -998,7 +1015,7 @@ ${gpxOnly}`;
                 <FileText className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black tracking-[0.4em] text-primary leading-none mb-1">
+                <span className="text-[10px] font-semibold tracking-[0.12em] text-primary leading-none mb-1">
                   {useDirectAI ? t("planner.output.results.title") : t("planner.output.customPrompt")}
                 </span>
                 <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">

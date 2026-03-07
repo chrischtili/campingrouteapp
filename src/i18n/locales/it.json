@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "Camping Route - Pianificatore IA per campeggio, camper, caravan, tenda e moto",
-    "description": "Pianifica itinerari per camper, caravan, tenda o moto con IA, tappe, aree sosta, campeggi ed export GPX. Camping Route ti aiuta a organizzare viaggi on the road in Europa.",
+    "description": "Pianifica itinerari per campeggio e road trip in camper, caravan, tenda o moto con IA, soste utili ed export GPX. Camping Route ti aiuta con tappe, soste e viaggi in Europa.",
     "keywords": "pianificatore itinerari campeggio, pianificatore camper, pianificatore caravan, viaggio in tenda, pianificatore moto, export GPX campeggio, Camping Route, CampingRoute, itinerari campeggio"
   },
   "navbar": {
@@ -15,7 +15,7 @@
   "hero": {
     "badge": "Generatore di prompt IA",
     "title": "Camping Route",
-    "description": "Crea con il nostro generatore di prompt intelligente itinerari su misura per camper, caravan, tenda o moto, con suggerimenti adatti per campeggi, soste ed esperienze.",
+    "description": "Pianifica con l’IA itinerari su misura per camper, caravan, tenda o moto, con campeggi, soste, tappe ed export GPX.",
     "planNow": "Pianifica itinerario ora",
     "viewExample": "Guarda l'itinerario d'esempio",
     "stats": {
@@ -422,66 +422,76 @@
     "items": {
       "whatIs": {
         "q": "Che cos'è Camping Route?",
-        "title": "Un assistente intelligente per i tuoi itinerari in camper.",
+        "title": "Un pianificatore IA per campeggio e road trip.",
         "prec": "Perché un generatore di prompt?",
-        "prec1": "L'intelligenza artificiale (come ChatGPT) è fantastica, ma ha bisogno di istruzioni precise (prompt) per fornire risultati davvero utili.",
-        "prec2": "Camping Route è uno strumento solo frontend che gira completamente in locale nel tuo browser. Selezioni le tue preferenze tramite un semplice modulo.",
-        "prec3": "Convertiamo i tuoi input in un testo perfettamente strutturato che l'IA comprende al meglio.",
+        "prec1": "L'IA dà risultati migliori quando le istruzioni sono chiare e strutturate.",
+        "prec2": "Camping Route funziona direttamente nel browser. Tu compili il modulo, noi strutturiamo la richiesta.",
+        "prec3": "Così l'IA riceve dati chiari su veicolo, budget, tappe e preferenze.",
         "ai": "I tuoi vantaggi",
-        "ai1": "Niente più itinerari standard, ma 100% personalizzati.",
-        "ai2": "Tiene conto di misure del veicolo, budget e preferenze.",
-        "ai3": "Ti evita di digitare e chiedere chiarimenti all'IA."
+        "ai1": "Itinerari personalizzati invece di proposte generiche.",
+        "ai2": "Veicolo, budget e preferenze sono considerati subito.",
+        "ai3": "Meno testo da scrivere, meno chiarimenti, risultato più rapido."
       },
       "diff": {
         "q": "Prompt vs. IA diretta – qual è la differenza?",
-        "title": "Hai scelta: copiare gratis o generare direttamente nell'app.",
+        "title": "Puoi copiare gratis o generare direttamente nell'app.",
         "gen": "Modalità: Genera prompt (gratuito)",
-        "gen1": "Alla fine ottieni un prompt di testo pronto.",
-        "gen2": "Lo copi e lo incolli semplicemente in ChatGPT, Claude o Gemini.",
-        "gen3": "Gratuito e usi il tuo account IA esistente.",
-        "gen4": "Pieno controllo sulla chat successiva.",
+        "gen1": "Ottieni un prompt pronto.",
+        "gen2": "Lo incolli in ChatGPT, Claude o Gemini.",
+        "gen3": "È gratuito e usi il tuo account IA esistente.",
+        "gen4": "Mantieni il pieno controllo della chat successiva.",
         "ai": "Modalità: usa l'IA direttamente (chiave API necessaria)",
-        "ai1": "L'itinerario viene generato e mostrato direttamente nella nostra app.",
-        "ai2": "Niente copia‑incolla tra schede diverse.",
+        "ai1": "L'itinerario viene generato e mostrato direttamente nell'app.",
+        "ai2": "Niente copia-incolla tra schede.",
         "ai4": "Hai bisogno di una tua chiave API del tuo fornitore IA."
       },
       "howItWorks": {
         "q": "Come funziona esattamente la pianificazione?",
-        "title": "In pochi passaggi verso l'itinerario perfetto.",
+        "title": "L'itinerario in pochi passaggi.",
         "step1": "Dati di base",
-        "step1a": "Definisci partenza, destinazione, durata e chilometri massimi al giorno.",
+        "step1a": "Definisci partenza, destinazione, tempi e limiti giornalieri.",
         "step2": "Il tuo veicolo",
-        "step2a": "Inserisci misure del veicolo, classe di peso, tipo di veicolo, oltre a solare, batteria servizi e giorni di autonomia.",
+        "step2a": "Inserisci dati del veicolo e autonomia.",
         "step3": "Preferenze & generazione",
-        "step3a": "Copia il prompt (e incollalo manualmente in ChatGPT & co.) OPPURE inserisci la tua chiave API per visualizzare direttamente nell'app."
+        "step3a": "Copia il prompt oppure usa la tua chiave API per generare direttamente nell'app."
       },
       "cost": {
         "q": "L'uso è davvero gratuito?",
-        "title": "Sì, Camping Route è un progetto open-source gratuito.",
+        "title": "Sì, Camping Route è gratuito e open source.",
         "free": "L'app",
-        "free1": "L'uso del modulo e la creazione del prompt sono 100% gratuiti.",
+        "free1": "Modulo e creazione del prompt sono 100% gratuiti.",
         "free2": "Nessuna registrazione, nessun database, nessun backend.",
         "opt": "Costi API dell'IA",
-        "transDesc": "Solo se vuoi 'usare l'IA direttamente' inserisci la tua chiave API PERSONALE. Paghi le minime commissioni di utilizzo API (di solito nell'ordine di centesimi per itinerario) direttamente al tuo fornitore IA (OpenAI, Google, Mistral). Noi, come app, non c'entriamo: non guadagniamo nulla e non copriamo costi API!"
+        "transDesc": "La tua chiave API personale serve solo per 'usare l'IA direttamente'. I costi API vanno direttamente a OpenAI, Google o Mistral. Camping Route non applica costi aggiuntivi."
       },
       "privacy": {
         "q": "Cosa succede ai dati che inserisco?",
         "title": "I tuoi dati restano sul tuo dispositivo.",
         "device": "Locale & sicuro",
-        "device1": "Non gestiamo alcun backend né database! Se attivi il salvataggio, i tuoi input (senza chiavi API) vengono salvati localmente sul tuo dispositivo per 30 giorni.",
+        "device1": "Non gestiamo backend né database. I dati salvati restano sul tuo dispositivo. Le chiavi API non vengono memorizzate.",
         "sec": "Nessun invio al server",
         "sec1": "I tuoi dati lasciano il dispositivo solo quando li invii direttamente all'API del fornitore IA scelto."
       },
       "aiModel": {
         "q": "Quale modello IA dovrei scegliere?",
-        "title": "Ogni modello ha i suoi punti di forza nella pianificazione itinerari.",
+        "title": "Ogni modello ha punti di forza diversi per la pianificazione.",
         "gemini": "Google Gemini 3.1 (consigliato)",
-        "gemini1": "Eccezionale per luoghi attuali, aree di sosta e POI perché usa l'enorme database di Google. Spesso genera gli itinerari più realistici e piacevoli per l'Europa.",
+        "gemini1": "Molto forte su luoghi attuali, campeggi e POI. Spesso è la scelta migliore per itinerari realistici in Europa.",
         "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Molto forte sul piano logico e preciso con vincoli come chilometri giornalieri, tempo di guida e budget. In modalità IA diretta la ricerca web è attiva. 5.2 è attualmente la scelta stabile predefinita, mentre 5.4 può essere testato in aggiunta nel modulo.",
+        "gpt1": "Molto forte su logica, limiti giornalieri e budget. In modalità IA diretta la ricerca web è attiva. 5.2 è la scelta stabile predefinita, 5.4 è disponibile anche per test.",
         "mistral": "Mistral Large",
-        "mistral1": "Un modello europeo molto solido. Lavora molto velocemente e offre un ottimo rapporto qualità‑prezzo (l'API spesso è più economica di OpenAI).",
-        "recDesc": "Consiglio: per le migliori raccomandazioni di aree di sosta e highlight paesaggistici consigliamo attualmente Google Gemini."
+        "mistral1": "Veloce, solido e spesso più economico di OpenAI.",
+        "recDesc": "Consiglio: per campeggi e highlight paesaggistici, Gemini è attualmente la scelta migliore."
+      },
+      "helpImprove": {
+        "q": "Posso aiutare a migliorare Camping Route?",
+        "title": "Sì. Feedback, idee e contributi aiutano subito.",
+        "content": "Come puoi aiutare",
+        "content1": "Invia feedback direttamente sul sito o condividi idee di miglioramento.",
+        "content2": "Segnala bug o punti poco chiari, così possiamo correggerli più rapidamente.",
+        "content3": "Se vuoi contribuire tecnicamente, trovi il codice sorgente su GitHub.",
+        "action": "Apri il feedback",
+        "github": "Apri GitHub"
       }
     }
   },
@@ -753,7 +763,7 @@
       },
       "roundTripHint": {
         "badge": "Suggerimento tour ad anello",
-        "text": "Se partenza e arrivo coincidono, puoi indicare sotto solo regioni e aree obiettivo. L’IA pianificherà così un tour ad anello dal tuo punto di partenza."
+        "text": "Per un tour ad anello: imposta partenza e arrivo uguali, poi aggiungi sotto le regioni."
       }
     },
     "optimization": {
@@ -1186,7 +1196,8 @@
     "openSource": "Open source",
     "license": "Licenza MIT",
     "sourceCode": "Codice sorgente su GitHub",
-    "whatsNew": "Novità della {{version}}"
+    "whatsNew": "Novità della {{version}}",
+    "feedback": "Invia feedback"
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari in camper con conoscenze specialistiche per la Germania e destinazioni internazionali. Crea, in base ai miei dati, un itinerario in camper pratico e ben strutturato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",

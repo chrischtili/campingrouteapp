@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "Camping Route - AI Route Planner for RV, Caravan, Tent & Motorcycle",
-    "description": "Plan routes for RV, caravan, tent, or motorcycle with AI, campsite guidance, stopover logic, and GPX export. Camping Route helps with stages, stopovers, and road trips across Europe.",
+    "description": "Plan camping and road-trip routes for RV, caravan, tent, or motorcycle with AI, practical stops, and GPX export. Camping Route helps with stages, stopovers, and trips across Europe.",
     "keywords": "AI camping route planner, RV route planner, caravan route planner, tent road trip planner, motorcycle route planner, GPX route planner, campsite route planner, Camping Route, CampingRoute, camping routes"
   },
   "navbar": {
@@ -15,7 +15,7 @@
   "hero": {
     "badge": "AI Prompt Generator",
     "title": "Camping Route",
-    "description": "Create tailored routes for RV, caravan, tent, or motorcycle with our intelligent prompt generator, including campsite, stopover, and itinerary recommendations.",
+    "description": "Plan tailored routes for RV, caravan, tent, or motorcycle with AI, including campsites, stopovers, stage planning, and GPX export.",
     "planNow": "Plan Route Now",
     "viewExample": "View Example",
     "stats": {
@@ -422,66 +422,76 @@
     "items": {
       "whatIs": {
         "q": "What is Camping Route?",
-        "title": "An intelligent assistant for your motorhome routes.",
+        "title": "An AI route planner for camping and road trips.",
         "prec": "Why a prompt generator?",
-        "prec1": "Artificial Intelligence (like ChatGPT) is great, but it needs precise instructions (prompts) to deliver truly usable results.",
-        "prec2": "Camping Route is a pure frontend tool that runs completely locally in your browser. You select your preferences via a simple form.",
-        "prec3": "We convert your input into a perfectly structured text that the AI understands optimally.",
+        "prec1": "AI gives better routes when your instructions are clear and structured.",
+        "prec2": "Camping Route runs directly in your browser. You fill in the form, we structure the route request.",
+        "prec3": "That gives the AI clear details about vehicle, budget, stops, and preferences.",
         "ai": "Your Benefits",
-        "ai1": "No more standard routes, but 100% individualized.",
-        "ai2": "Takes vehicle dimensions, budget, and preferences into account.",
-        "ai3": "Saves you from tedious typing and clarifying with the AI."
+        "ai1": "Individual routes instead of generic ones.",
+        "ai2": "Vehicle data, budget, and preferences are included from the start.",
+        "ai3": "Less typing, fewer follow-up questions, faster results."
       },
       "diff": {
         "q": "Prompt vs. Direct AI – what's the difference?",
-        "title": "The choice is yours: copy for free or generate directly in the app.",
+        "title": "Either copy for free or generate directly in the app.",
         "gen": "Mode: Generate Prompt (Free)",
-        "gen1": "At the end you receive a finished text prompt.",
-        "gen2": "Simply copy it and paste it into ChatGPT, Claude or Gemini.",
-        "gen3": "Free of charge and you use your existing AI account.",
-        "gen4": "Full control over the subsequent chat.",
+        "gen1": "You get a finished prompt.",
+        "gen2": "Paste it into ChatGPT, Claude, or Gemini.",
+        "gen3": "Free, using your existing AI account.",
+        "gen4": "You keep full control of the follow-up chat.",
         "ai": "Mode: Use AI Directly (API Key needed)",
-        "ai1": "The route is generated and displayed directly in our app.",
-        "ai2": "No copying back and forth between different tabs.",
+        "ai1": "The route is generated and shown directly in the app.",
+        "ai2": "No copying between tabs.",
         "ai4": "You need your own API key from your AI provider."
       },
       "howItWorks": {
         "q": "How exactly does the planning work?",
-        "title": "To your perfect itinerary in just a few steps.",
+        "title": "Your route in just a few steps.",
         "step1": "Basic Data",
-        "step1a": "Set start, destination, duration and max daily kilometers.",
+        "step1a": "Set start, destination, timing, and daily limits.",
         "step2": "Your Vehicle",
-        "step2a": "Enter vehicle dimensions, weight class, vehicle type, and your self‑sufficiency setup (solar, house battery, autonomy days).",
+        "step2a": "Enter vehicle details and off-grid setup.",
         "step3": "Preferences & Generation",
-        "step3a": "Copy prompt (and paste manually into ChatGPT etc) OR enter your own API key to show the route directly in the app."
+        "step3a": "Copy the prompt or use your own API key to generate directly in the app."
       },
       "cost": {
         "q": "Is it really free to use?",
-        "title": "Yes, Camping Route is a free open-source project.",
+        "title": "Yes, Camping Route is free and open source.",
         "free": "The App",
-        "free1": "Using the form and prompt generation is 100% free.",
+        "free1": "The form and prompt generation are 100% free.",
         "free2": "No registration, no database, no backend.",
         "opt": "AI API Costs",
-        "transDesc": "Only if you want to 'Use AI directly', you enter your OWN API key. You pay the minimal API usage fees (usually a few cents per route) directly to your AI provider (OpenAI, Google, Mistral). We as an app have nothing to do with this, earn nothing from it, and do not cover API costs!"
+        "transDesc": "You only need your own API key for 'Use AI directly'. Those API costs go straight to OpenAI, Google, or Mistral. Camping Route does not charge anything on top."
       },
       "privacy": {
         "q": "What happens to my entered data?",
         "title": "Your data stays on your device.",
         "device": "Local & Secure",
-        "device1": "We have no backend and no database! If you enable saving, your inputs (excluding API keys) are stored locally on your device for 30 days.",
+        "device1": "We run no backend and no database. Saved inputs stay on your device. API keys are not stored.",
         "sec": "No Server Transmission",
         "sec1": "Your data only leaves your device if you send it directly to the API of the chosen AI provider."
       },
       "aiModel": {
         "q": "Which AI model should I choose?",
-        "title": "Each model has its own strengths in route planning.",
+        "title": "Each model has different strengths for route planning.",
         "gemini": "Google Gemini 3.1 (Recommended)",
-        "gemini1": "Extremely good with current places, pitches, and POIs as it uses Google's massive database. Often generates the most realistic and beautiful routes for Europe.",
+        "gemini1": "Strong for current places, campsites, and POIs. Often the best choice for realistic routes in Europe.",
         "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Very strong logically and precise with constraints like daily distance, driving time, and budgets. In direct AI mode, web search is enabled. 5.2 is currently the stable default, while 5.4 can be tested additionally in the form.",
+        "gpt1": "Very strong for logic, daily limits, and budget rules. Web search is enabled in direct AI mode. 5.2 is the stable default, while 5.4 is available for testing.",
         "mistral": "Mistral Large",
-        "mistral1": "A strong European model. Works very fast and offers excellent value for money (the API is often cheaper than OpenAI).",
-        "recDesc": "Tip: For the best campsite recommendations and scenic highlights, we currently recommend Google Gemini."
+        "mistral1": "Fast, solid, and often cheaper than OpenAI.",
+        "recDesc": "Tip: Gemini is currently the strongest choice for campsites and scenic highlights."
+      },
+      "helpImprove": {
+        "q": "Can I help make Camping Route better?",
+        "title": "Yes. Feedback, ideas, and contributions help directly.",
+        "content": "How you can help",
+        "content1": "Send feedback directly on the site or share ideas for improvements.",
+        "content2": "Report bugs or unclear parts so we can fix them faster.",
+        "content3": "If you want to contribute technically, you can find the source code on GitHub.",
+        "action": "Open feedback",
+        "github": "Open GitHub"
       }
     }
   },
@@ -753,7 +763,7 @@
       },
       "roundTripHint": {
         "badge": "Round-trip tip",
-        "text": "If start and destination are the same, you can simply define regions & target areas below. The AI then plans a round trip from your home base."
+        "text": "For round trips: set start and destination to the same place, then add regions below."
       }
     },
     "optimization": {
@@ -1186,7 +1196,8 @@
     "openSource": "Open Source",
     "license": "MIT License",
     "sourceCode": "GitHub Project",
-    "whatsNew": "What's new in {{version}}"
+    "whatsNew": "What's new in {{version}}",
+    "feedback": "Give feedback"
   },
   "prompt": {
     "systemRole": "You are a professional motorhome route planner with specialized knowledge of Germany and international travel destinations. Create a practical, well-structured motorhome route based on my specifications. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",

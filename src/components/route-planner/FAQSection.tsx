@@ -7,11 +7,15 @@ import {
 } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { HelpCircle, Sparkles, Zap, Shield, Info, CreditCard, Bot, ChevronRight } from "lucide-react";
+import { HelpCircle, Sparkles, Zap, Shield, Info, CreditCard, Bot, ChevronRight, Github } from "lucide-react";
 
 export function FAQSection() {
   const { t } = useTranslation();
   const [openItem, setOpenItem] = useState<string | undefined>(undefined);
+
+  const openFeedback = () => {
+    window.dispatchEvent(new Event("open-feedback"));
+  };
 
   useEffect(() => {
     const handleOpenFAQ = (e: Event) => {
@@ -99,6 +103,23 @@ export function FAQSection() {
         { label: t("faq.items.aiModel.mistral"), items: [t("faq.items.aiModel.mistral1")] }
       ],
       footer: t("faq.items.aiModel.recDesc")
+    },
+    {
+      id: "helpImprove",
+      icon: Info,
+      q: t("faq.items.helpImprove.q"),
+      title: t("faq.items.helpImprove.title"),
+      content: [
+        {
+          label: t("faq.items.helpImprove.content"),
+          items: [
+            t("faq.items.helpImprove.content1"),
+            t("faq.items.helpImprove.content2"),
+            t("faq.items.helpImprove.content3")
+          ]
+        }
+      ],
+      footerAction: true
     }
   ];
 
@@ -115,7 +136,7 @@ export function FAQSection() {
           className="text-center mb-20"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
-            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="flex h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary font-black text-[10px] tracking-[0.3em]">
               {t("faq.badge")}
             </span>
@@ -166,11 +187,11 @@ export function FAQSection() {
                     {faq.content && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {faq.content.map((col, j) => (
-                          <div key={j} className="space-y-3 p-6 rounded-2xl bg-white/5 border border-white/5">
-                            <h4 className="text-[10px] font-black tracking-[0.2em] text-primary">{col.label}</h4>
+                          <div key={j} className="space-y-3">
+                            <h4 className="text-[10px] font-semibold tracking-[0.08em] text-primary">{col.label}</h4>
                             <ul className="space-y-2">
                               {col.items.map((item, k) => (
-                                <li key={k} className="text-sm text-white/60 flex items-start gap-2 leading-relaxed">
+                                <li key={k} className="text-sm text-white/68 flex items-start gap-2 leading-relaxed">
                                   <div className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-1.5 shrink-0" />
                                   {item}
                                 </li>
@@ -184,11 +205,11 @@ export function FAQSection() {
                     {faq.steps && (
                       <div className="grid grid-cols-1 gap-4">
                         {faq.steps.map((step, j) => (
-                          <div key={j} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 group/step hover:bg-white/10 transition-colors">
-                            <span className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-xs font-black text-primary border border-primary/20">{j+1}</span>
+                          <div key={j} className="flex items-start gap-4">
+                            <span className="mt-0.5 w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-xs font-semibold text-primary border border-primary/20">{j+1}</span>
                             <div>
-                              <p className="text-sm font-bold text-white tracking-tight">{step.title}</p>
-                              <p className="text-xs text-white/40">{step.desc}</p>
+                              <p className="text-sm font-semibold text-white tracking-tight">{step.title}</p>
+                              <p className="text-sm text-white/60 leading-relaxed">{step.desc}</p>
                             </div>
                           </div>
                         ))}
@@ -196,8 +217,30 @@ export function FAQSection() {
                     )}
 
                     {faq.footer && (
-                      <div className="p-6 rounded-2xl bg-primary/10 border border-primary/20">
-                        <p className="text-sm text-primary font-bold italic">{faq.footer}</p>
+                      <div className="pt-2">
+                        <p className="text-sm text-primary font-semibold italic">{faq.footer}</p>
+                      </div>
+                    )}
+
+                    {faq.footerAction && (
+                      <div className="flex flex-wrap gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={openFeedback}
+                          className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/15"
+                        >
+                          <Sparkles className="w-4 h-4" />
+                          {t("faq.items.helpImprove.action")}
+                        </button>
+                        <a
+                          href="https://github.com/chrischtili/campingrouteapp"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/5 px-4 py-2 text-sm font-semibold text-white/88 transition-colors hover:bg-white/8"
+                        >
+                          <Github className="w-4 h-4 text-primary" />
+                          {t("faq.items.helpImprove.github")}
+                        </a>
                       </div>
                     )}
                   </div>

@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "Camping Route - KI-Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt & Motorrad",
-    "description": "Plane Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad mit KI, Campingplatz- und Stellplatz-Fokus sowie GPX-Export. Camping Route hilft bei Etappen, Zwischenstopps und Reiserouten in Europa.",
+    "description": "Plane Camping- und Roadtrip-Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad mit KI, passenden Stopps und GPX-Export. Camping Route hilft bei Etappen, Zwischenstopps und Reisen in Europa.",
     "keywords": "Camping Routenplaner, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Campingplatz Route planen, Camping Route, CampingRoute, Campingrouten"
   },
   "navbar": {
@@ -15,7 +15,7 @@
   "hero": {
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
-    "description": "Erstelle mit unserem intelligenten Prompt-Generator individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad – inklusive passender Empfehlungen für Campingplätze, Stellplätze und Etappen.",
+    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad – mit passenden Campingplätzen, Stellplätzen, Etappen und GPX-Export.",
     "planNow": "Route jetzt planen",
     "viewExample": "Beispielroute ansehen",
     "stats": {
@@ -422,66 +422,76 @@
     "items": {
       "whatIs": {
         "q": "Was ist Camping Route?",
-        "title": "Ein intelligenter Assistent für deine Wohnmobil-Routen.",
+        "title": "Ein KI-Routenplaner für Camping- und Roadtrips.",
         "prec": "Warum ein Prompt-Generator?",
-        "prec1": "Künstliche Intelligenz (wie ChatGPT) ist großartig, aber sie braucht präzise Anweisungen (Prompts), um wirklich brauchbare Ergebnisse zu liefern.",
-        "prec2": "Camping Route ist ein reines Frontend-Tool, das komplett lokal in deinem Browser läuft. Du wählst deine Wünsche über ein einfaches Formular aus.",
-        "prec3": "Wir wandeln deine Angaben in einen perfekt strukturierten Text um, den die KI optimal versteht.",
+        "prec1": "KI liefert bessere Routen, wenn Vorgaben klar und strukturiert sind.",
+        "prec2": "Camping Route läuft direkt im Browser. Du füllst das Formular aus, wir strukturieren daraus die Route.",
+        "prec3": "So bekommt die KI klare Angaben zu Fahrzeug, Budget, Stopps und Vorlieben.",
         "ai": "Deine Vorteile",
-        "ai1": "Keine Standard-Routen mehr, sondern 100% individualisiert.",
-        "ai2": "Berücksichtigt Fahrzeugmaße, Budget und Vorlieben.",
-        "ai3": "Erspart dir mühsames Tippen und Nachfragen bei der KI."
+        "ai1": "Individuelle statt generische Routen.",
+        "ai2": "Fahrzeugdaten, Budget und Vorlieben werden direkt berücksichtigt.",
+        "ai3": "Weniger Tippen, weniger Nachfragen, schneller zum Ergebnis."
       },
       "diff": {
         "q": "Prompt vs. KI Direkt – was ist der Unterschied?",
-        "title": "Du hast die Wahl: Kostenlos kopieren oder direkt in der App generieren.",
+        "title": "Entweder kostenlos kopieren oder direkt in der App generieren.",
         "gen": "Modus: Prompt Generieren (Kostenlos)",
-        "gen1": "Am Ende erhältst du einen fertigen Text-Prompt.",
-        "gen2": "Diesen kopierst du einfach und fügst ihn bei ChatGPT, Claude oder Gemini ein.",
-        "gen3": "Kostenlos und du nutzt deinen bestehenden KI-Account.",
-        "gen4": "Volle Kontrolle über den anschließenden Chat.",
+        "gen1": "Du bekommst einen fertigen Prompt.",
+        "gen2": "Diesen fügst du in ChatGPT, Claude oder Gemini ein.",
+        "gen3": "Kostenlos mit deinem bestehenden KI-Account.",
+        "gen4": "Du steuerst den weiteren Chat selbst.",
         "ai": "Modus: KI direkt nutzen (API-Key nötig)",
-        "ai1": "Die Route wird direkt in unserer App generiert und angezeigt.",
-        "ai2": "Kein Hin- und Herkopieren zwischen verschiedenen Tabs.",
+        "ai1": "Die Route wird direkt in der App erzeugt und angezeigt.",
+        "ai2": "Kein Kopieren zwischen Tabs.",
         "ai4": "Du benötigst einen eigenen API-Key deines KI-Anbieters."
       },
       "howItWorks": {
         "q": "Wie funktioniert die Planung genau?",
-        "title": "In wenigen Schritten zur perfekten Reiseroute.",
+        "title": "In wenigen Schritten zur fertigen Route.",
         "step1": "Basisdaten",
-        "step1a": "Start, Ziel, Reisedauer und maximale Tageskilometer festlegen.",
+        "step1a": "Start, Ziel, Zeiten und Tageslimits festlegen.",
         "step2": "Dein Fahrzeug",
-        "step2a": "Fahrzeugmaße, Gewichtsklasse, Fahrzeugtyp sowie Solar, Aufbaubatterie und Autarkie-Tage eintragen.",
+        "step2a": "Fahrzeugdaten und Autarkie eintragen.",
         "step3": "Wünsche & Generierung",
-        "step3a": "Prompt kopieren (und manuell in ChatGPT & Co einfügen) ODER eigenen API-Key eintragen für die direkte Anzeige in der App."
+        "step3a": "Prompt kopieren oder per eigenem API-Key direkt in der App generieren."
       },
       "cost": {
         "q": "Ist die Nutzung wirklich kostenlos?",
-        "title": "Ja, Camping Route ist ein kostenloses Open-Source Projekt.",
+        "title": "Ja, Camping Route ist kostenlos und Open Source.",
         "free": "Die App",
-        "free1": "Die Nutzung des Formulars und die Prompt-Erstellung sind 100% kostenlos.",
+        "free1": "Formular und Prompt-Erstellung sind 100% kostenlos.",
         "free2": "Keine Anmeldung, keine Datenbank, kein Backend.",
         "opt": "KI-API-Kosten",
-        "transDesc": "Nur wenn du die 'KI direkt nutzen' willst, gibst du deinen EIGENEN API-Key ein. Du bezahlst die minimalen API-Nutzungsgebühren (meist im Cent-Bereich pro Route) direkt an deinen KI-Anbieter (OpenAI, Google, Mistral). Wir als App haben damit nichts zu tun, verdienen daran nichts und übernehmen keine API-Kosten!"
+        "transDesc": "Nur für 'KI direkt nutzen' brauchst du einen eigenen API-Key. Die API-Kosten zahlst du direkt an OpenAI, Google oder Mistral. Camping Route verdient daran nichts."
       },
       "privacy": {
         "q": "Was passiert mit meinen eingegebenen Daten?",
         "title": "Deine Daten bleiben auf deinem Gerät.",
         "device": "Lokal & Sicher",
-        "device1": "Wir betreiben kein Backend und keine Datenbank! Wenn du die Speicherung aktivierst, werden deine Eingaben (ohne API-Keys) lokal auf deinem Gerät für 30 Tage gespeichert.",
+        "device1": "Wir betreiben kein Backend und keine Datenbank. Gespeicherte Eingaben bleiben lokal auf deinem Gerät. API-Keys werden nicht gespeichert.",
         "sec": "Keine Server-Übertragung",
         "sec1": "Deine Daten verlassen dein Gerät nur, wenn du sie direkt an die API des gewählten KI-Anbieters sendest."
       },
       "aiModel": {
         "q": "Welches KI-Modell soll ich wählen?",
-        "title": "Jedes Modell hat seine eigenen Stärken bei der Routenplanung.",
+        "title": "Jedes Modell hat eigene Stärken bei der Routenplanung.",
         "gemini": "Google Gemini 3.1 (Empfehlung)",
-        "gemini1": "Extrem gut bei aktuellen Orten, Stellplätzen und POIs, da es Googles riesigen Datenbestand nutzt. Generiert oft die realistischsten und schönsten Routen für Europa.",
+        "gemini1": "Stark bei aktuellen Orten, Stellplätzen und POIs. Oft die beste Wahl für realistische Routen in Europa.",
         "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Logisch sehr stark und praezise bei Vorgaben wie Tageskilometern, Fahrzeiten und Budgets. Im KI-Direkt-Modus ist die Websuche aktiviert. 5.2 ist derzeit die stabile Standardwahl, 5.4 kannst du direkt im Formular zusaetzlich testen.",
+        "gpt1": "Sehr stark bei Logik, Tageslimits und Budgetvorgaben. Im KI-Direkt-Modus ist Websuche aktiv. 5.2 ist die stabile Standardwahl, 5.4 kannst du zusätzlich testen.",
         "mistral": "Mistral Large",
-        "mistral1": "Ein starkes, europäisches Modell. Arbeitet sehr schnell und bietet eine hervorragende Preis-Leistung (die API ist oft günstiger als OpenAI).",
-        "recDesc": "Tipp: Für die besten Stellplatz-Empfehlungen und landschaftlichen Highlights empfehlen wir aktuell Google Gemini."
+        "mistral1": "Schnell, solide und oft günstiger als OpenAI.",
+        "recDesc": "Tipp: Für Stellplätze und landschaftliche Highlights ist Gemini aktuell meist die beste Wahl."
+      },
+      "helpImprove": {
+        "q": "Kann ich helfen, Camping Route besser zu machen?",
+        "title": "Ja. Feedback, Ideen und Beiträge helfen direkt weiter.",
+        "content": "So kannst du helfen",
+        "content1": "Gib direkt auf der Seite Feedback oder teile Verbesserungsvorschläge.",
+        "content2": "Melde Fehler oder unklare Stellen, damit wir sie schneller beheben können.",
+        "content3": "Wenn du technisch mithelfen möchtest, findest du den Quellcode auf GitHub.",
+        "action": "Feedback öffnen",
+        "github": "Zum GitHub"
       }
     }
   },
@@ -753,7 +763,7 @@
       },
       "roundTripHint": {
         "badge": "Rundtour-Tipp",
-        "text": "Wenn Start und Ziel gleich sind, kannst du unten nur Regionen & Zielgebiete angeben. Die KI plant daraus eine Rundtour ab deinem Heimatort."
+        "text": "Für Rundtouren: Start und Ziel identisch setzen, Regionen darunter angeben."
       }
     },
     "optimization": {
@@ -1186,7 +1196,8 @@
     "openSource": "Open Source",
     "license": "MIT Lizenz",
     "sourceCode": "Quellcode auf GitHub",
-    "whatsNew": "Neu in {{version}}"
+    "whatsNew": "Neu in {{version}}",
+    "feedback": "Feedback geben"
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",

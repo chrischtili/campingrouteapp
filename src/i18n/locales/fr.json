@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "Camping Route - Planificateur d’itinéraires camping-car & van avec IA et GPX",
-    "description": "Planifiez votre itinéraire en camping-car ou van avec IA, étapes, aires de stationnement et export GPX. Camping Route vous aide pour vos trajets en Europe.",
-    "keywords": "planificateur itinéraire camping-car, itinéraire camping-car, planificateur van, export GPX camping-car, aires de stationnement camping-car, road trip Europe camping-car, Camping Route, CampingRoute, itinéraires camping-car"
+    "title": "Camping Route - Planificateur IA pour camping, camping-car, caravane, tente & moto",
+    "description": "Planifiez des itinéraires en camping-car, caravane, tente ou moto avec IA, étapes, haltes, emplacements et export GPX. Camping Route vous aide à organiser vos road trips en Europe.",
+    "keywords": "planificateur itinéraire camping, planificateur camping-car, planificateur caravane, road trip tente, planificateur moto, export GPX camping, Camping Route, CampingRoute, itinéraires camping"
   },
   "navbar": {
     "features": "Fonctionnalités",
@@ -14,7 +14,7 @@
   "hero": {
     "badge": "Générateur de prompts IA",
     "title": "Camping Route",
-    "description": "Créez votre itinéraire de camping‑car personnalisé avec notre générateur de prompts intelligent.",
+    "description": "Créez avec notre générateur de prompts intelligent des itinéraires sur mesure pour camping-car, caravane, tente ou moto, avec des recommandations adaptées pour étapes et emplacements.",
     "planNow": "Planifier l’itinéraire",
     "viewExample": "Voir l’exemple",
     "stats": {

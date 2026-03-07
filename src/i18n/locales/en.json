@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "Camping Route - AI RV & Camper Route Planner with GPX",
-    "description": "Plan your RV or camper route with AI, campsite guidance, and GPX export. Camping Route helps with stages, stopovers, and road trips across Europe.",
-    "keywords": "RV route planner, camper route planner, motorhome trip planner, AI route planner, GPX route planner, campsite route planner, road trip planner Europe, Camping Route, CampingRoute, camping routes"
+    "title": "Camping Route - AI Route Planner for RV, Caravan, Tent & Motorcycle",
+    "description": "Plan routes for RV, caravan, tent, or motorcycle with AI, campsite guidance, stopover logic, and GPX export. Camping Route helps with stages, stopovers, and road trips across Europe.",
+    "keywords": "AI camping route planner, RV route planner, caravan route planner, tent road trip planner, motorcycle route planner, GPX route planner, campsite route planner, Camping Route, CampingRoute, camping routes"
   },
   "navbar": {
     "features": "Features",
@@ -14,7 +14,7 @@
   "hero": {
     "badge": "AI Prompt Generator",
     "title": "Camping Route",
-    "description": "Create your individual motorhome route with our intelligent prompt generator.",
+    "description": "Create tailored routes for RV, caravan, tent, or motorcycle with our intelligent prompt generator, including campsite, stopover, and itinerary recommendations.",
     "planNow": "Plan Route Now",
     "viewExample": "View Example",
     "stats": {

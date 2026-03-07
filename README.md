@@ -1,10 +1,10 @@
-# 🚐 Camping Route - KI-Prompt-Generator für Wohnmobile
+# 🚐 Camping Route - KI-Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt & Motorrad
 
 [![Version](https://img.shields.io/badge/version-v0.4.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Der intelligente KI-Prompt-Generator speziell für Wohnmobile & Camper – jetzt international!**
+**Der intelligente KI-Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt & Motorrad – jetzt international!**
 
 👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
 
@@ -98,7 +98,7 @@ MIT License - [Details](LICENSE)
 
 [![Version](https://img.shields.io/badge/version-v0.4.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
-**The intelligent AI prompt generator specifically for motorhomes & campers – now international!**
+**The intelligent AI route planner for RVs, caravans, tents, and motorcycles – now international!**
 
 ---
 

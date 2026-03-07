@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "Camping Route - AI camper- en motorhome routeplanner met GPX",
-    "description": "Plan je camper- of motorhome-route met AI, etappes, camperplaatsen en GPX-export. Camping Route helpt je bij tussenstops en roadtrips door Europa.",
-    "keywords": "camper routeplanner, motorhome routeplanner, camperreis plannen, GPX routeplanner, camperplaatsen route, roadtrip Europa camper, Camping Route, CampingRoute, campingroutes, camperroutes"
+    "title": "Camping Route - AI-routeplanner voor camper, caravan, tent en motor",
+    "description": "Plan routes voor camper, caravan, tent of motor met AI, etappes, campings, stopplaatsen en GPX-export. Camping Route helpt je bij tussenstops en roadtrips door Europa.",
+    "keywords": "camping routeplanner, camper routeplanner, caravan routeplanner, tent roadtrip plannen, motor routeplanner, GPX routeplanner, campingroute, Camping Route, CampingRoute, campingroutes"
   },
   "navbar": {
     "features": "Features",
@@ -14,7 +14,7 @@
   "hero": {
     "badge": "Routeplanner",
     "title": "Plan je perfecte camperroute",
-    "description": "Beschrijf je vertrekpunt, reisduur en voorkeuren. De AI doet de rest.",
+    "description": "Maak met onze slimme promptgenerator routes op maat voor camper, caravan, tent of motor, inclusief passende aanbevelingen voor campings, stopplaatsen en etappes.",
     "planNow": "Nu route plannen",
     "viewExample": "Bekijk voorbeeld",
     "stats": {

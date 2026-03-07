@@ -53,7 +53,7 @@
 | Anbieter | Modell | Empfehlung |
 |----------|--------|------------|
 | Google | Gemini 3.1 Pro Preview | Beste Wahl für Europa |
-| OpenAI | GPT-5.4 | Höchste Sprachqualität |
+| OpenAI | GPT-5.2 / GPT-5.4 | Logisch stark, jetzt beide mit Websuche |
 | Mistral | Mistral Large | Europäisch optimiert |
 
 ### Tech-Stack

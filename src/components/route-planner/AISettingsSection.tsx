@@ -191,10 +191,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                 </Label>
                 <Select 
                   value={aiSettings.aiProvider} 
-                    onValueChange={(value) => {
+                  onValueChange={(value) => {
                     onAISettingsChange({ 
                       aiProvider: value, 
-                      openaiModel: value === 'openai' ? 'gpt-5.4' : aiSettings.openaiModel,
+                      openaiModel: value === 'openai' ? 'gpt-5.2' : aiSettings.openaiModel,
                       googleModel: value === 'google' ? 'gemini-3.1-pro-preview' : aiSettings.googleModel,
                       mistralModel: value === 'mistral' ? 'mistral-large-latest' : aiSettings.mistralModel
                     });
@@ -205,10 +205,30 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                   </SelectTrigger>
                   <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
                     <SelectItem value="google">Google Gemini 3.1</SelectItem>
-                    <SelectItem value="openai">OpenAI ChatGPT 5.4</SelectItem>
+                    <SelectItem value="openai">OpenAI ChatGPT</SelectItem>
                     <SelectItem value="mistral">Mistral Large</SelectItem>
                   </SelectContent>
                 </Select>
+
+                {aiSettings.aiProvider === "openai" && (
+                  <div className="space-y-3 pt-2">
+                    <Label htmlFor="openaiModel" className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-white/75">
+                      {t("planner.ai.provider.openaiModelLabel")}
+                    </Label>
+                    <Select
+                      value={aiSettings.openaiModel || "gpt-5.2"}
+                      onValueChange={(value) => onAISettingsChange({ openaiModel: value })}
+                    >
+                      <SelectTrigger id="openaiModel" className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                        <SelectItem value="gpt-5.2">ChatGPT 5.2</SelectItem>
+                        <SelectItem value="gpt-5.4">ChatGPT 5.4</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-4 text-left">

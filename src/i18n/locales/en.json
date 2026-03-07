@@ -476,8 +476,8 @@
         "title": "Each model has its own strengths in route planning.",
         "gemini": "Google Gemini 3.1 (Recommended)",
         "gemini1": "Extremely good with current places, pitches, and POIs as it uses Google's massive database. Often generates the most realistic and beautiful routes for Europe.",
-        "gpt": "OpenAI ChatGPT 5.4",
-        "gpt1": "Extremely strong logically and very precise with constraints like daily distance, driving time and budgets. The text output of version 5.4 is highly structured and detailed.",
+        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
+        "gpt1": "Very strong logically and precise with constraints like daily distance, driving time, and budgets. In direct AI mode, web search is enabled. 5.2 is currently the stable default, while 5.4 can be tested additionally in the form.",
         "mistral": "Mistral Large",
         "mistral1": "A strong European model. Works very fast and offers excellent value for money (the API is often cheaper than OpenAI).",
         "recDesc": "Tip: For the best campsite recommendations and scenic highlights, we currently recommend Google Gemini."
@@ -542,7 +542,8 @@
         "deleted": "Saved plan deleted.",
         "clearedAll": "Form and saved plans cleared."
       },
-      "stops": "Stops"
+      "stops": "Stops",
+      "model": "AI model"
     },
     "steps": {
       "ai": {
@@ -597,7 +598,8 @@
       },
       "provider": {
         "label": "Provider & Model",
-        "help": "Which model to choose?"
+        "help": "Which model to choose?",
+        "openaiModelLabel": "OpenAI model"
       },
       "apiKey": {
         "hint": "Your key is not stored and is used only for this session.",

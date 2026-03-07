@@ -476,8 +476,8 @@
         "title": "Ogni modello ha i suoi punti di forza nella pianificazione itinerari.",
         "gemini": "Google Gemini 3.1 (consigliato)",
         "gemini1": "Eccezionale per luoghi attuali, aree di sosta e POI perché usa l'enorme database di Google. Spesso genera gli itinerari più realistici e piacevoli per l'Europa.",
-        "gpt": "OpenAI ChatGPT 5.4",
-        "gpt1": "Molto forte sul piano logico e molto preciso con vincoli come chilometri giornalieri, tempo di guida e budget. L'output testuale della versione 5.4 è molto strutturato e dettagliato.",
+        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
+        "gpt1": "Molto forte sul piano logico e preciso con vincoli come chilometri giornalieri, tempo di guida e budget. In modalità IA diretta la ricerca web è attiva. 5.2 è attualmente la scelta stabile predefinita, mentre 5.4 può essere testato in aggiunta nel modulo.",
         "mistral": "Mistral Large",
         "mistral1": "Un modello europeo molto solido. Lavora molto velocemente e offre un ottimo rapporto qualità‑prezzo (l'API spesso è più economica di OpenAI).",
         "recDesc": "Consiglio: per le migliori raccomandazioni di aree di sosta e highlight paesaggistici consigliamo attualmente Google Gemini."
@@ -542,7 +542,8 @@
         "deleted": "Piano salvato eliminato.",
         "clearedAll": "Modulo e piani salvati eliminati."
       },
-      "stops": "Tappe intermedie"
+      "stops": "Tappe intermedie",
+      "model": "Modello IA"
     },
     "steps": {
       "ai": {
@@ -597,7 +598,8 @@
       },
       "provider": {
         "label": "Fornitore & modello",
-        "help": "Quale modello scegliere?"
+        "help": "Quale modello scegliere?",
+        "openaiModelLabel": "Modello OpenAI"
       },
       "apiKey": {
         "hint": "La tua chiave non viene salvata e viene usata solo per questa sessione.",

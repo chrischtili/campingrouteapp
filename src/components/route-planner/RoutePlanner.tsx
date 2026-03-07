@@ -109,6 +109,25 @@ export function RoutePlanner() {
     return suffix ? `${start} → ${destination} · ${suffix}` : `${start} → ${destination}`;
   };
 
+  const getOpenAIModelLabel = (model: string) => {
+    if (model === "gpt-5.4") return "ChatGPT 5.4";
+    return "ChatGPT 5.2";
+  };
+
+  const getSummaryModelLabel = () => {
+    if (!aiSettings.useDirectAI) return "—";
+    switch (aiSettings.aiProvider) {
+      case "openai":
+        return `OpenAI ${getOpenAIModelLabel(aiSettings.openaiModel)}`;
+      case "google":
+        return "Google Gemini 3.1";
+      case "mistral":
+        return "Mistral Large";
+      default:
+        return t("planner.summary.notSelected");
+    }
+  };
+
   const saveCurrentPlan = (overrideId?: string) => {
     const nextEntry: SavedPlan = {
       id: overrideId || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`),
@@ -851,11 +870,17 @@ export function RoutePlanner() {
                         <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 mb-6">
                           <Bot className="w-6 h-6" />
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-3">
                           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.method")}</span>
                           <h4 className="text-xl font-black text-white leading-tight">
                             {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
                           </h4>
+                          <div className="space-y-1">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30">{t("planner.summary.model")}</span>
+                            <p className="text-sm sm:text-base font-bold text-white/85 leading-snug">
+                              {getSummaryModelLabel()}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>

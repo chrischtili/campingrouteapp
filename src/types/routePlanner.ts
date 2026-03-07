@@ -129,7 +129,7 @@ export const initialAISettings: AISettings = {
   aiProvider: 'google',
   apiKey: '',
   useDirectAI: false,
-  openaiModel: 'gpt-5.4',
+  openaiModel: 'gpt-5.2',
   mistralModel: 'mistral-large-latest',
   googleModel: 'gemini-3.1-pro-preview'
 };

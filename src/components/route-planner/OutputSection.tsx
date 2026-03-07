@@ -257,9 +257,24 @@ ${gpxOnly}`;
       .replace(/'/g, "&#39;");
 
   const inlineFormat = (text: string) => {
-    return escapeHtml(text)
+    const placeholders: string[] = [];
+    let working = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, label: string, url: string) => {
+      const index = placeholders.length;
+      placeholders.push(
+        `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-4 decoration-primary/60 hover:decoration-primary">${escapeHtml(label)}</a>`
+      );
+      return `__LINK_PLACEHOLDER_${index}__`;
+    });
+
+    working = escapeHtml(working)
       .replace(/\*\*(.+?)\*\*/g, '<strong class="font-black text-white">$1</strong>')
-      .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-4 decoration-primary/60 hover:decoration-primary">$1</a>');
+      .replace(/(https?:\/\/[^\s<]+)/g, (match) => {
+        const cleanUrl = match.replace(/[),.;!?]+$/g, "");
+        const trailing = match.slice(cleanUrl.length);
+        return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-4 decoration-primary/60 hover:decoration-primary">${cleanUrl}</a>${trailing}`;
+      });
+
+    return working.replace(/__LINK_PLACEHOLDER_(\d+)__/g, (_, index) => placeholders[Number(index)] || "");
   };
 
   const slugifySection = (text: string) =>

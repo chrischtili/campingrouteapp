@@ -30,6 +30,7 @@ export function RoutePlanner() {
   const SAVED_PLANS_KEY = "cr_saved_plans_v1";
   const FEEDBACK_LATER_KEY = "cr_feedback_prompt_later_until";
   const FEEDBACK_DONE_KEY = "cr_feedback_submitted_at";
+  const FEEDBACK_RELEASE_KEY = "cr_feedback_release_seen_version";
   const MAX_SAVED_PLANS = 5;
 
   type SavedPlan = {
@@ -54,6 +55,7 @@ export function RoutePlanner() {
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
+  const [releaseVersion, setReleaseVersion] = useState<string>("");
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -200,6 +202,29 @@ export function RoutePlanner() {
     }
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadVersion = async () => {
+      try {
+        const response = await fetch(`/version.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const versionInfo = await response.json();
+        if (!isMounted) return;
+        if (typeof versionInfo?.version === "string") {
+          setReleaseVersion(versionInfo.version);
+        }
+      } catch {
+        // Ignore version fetch issues. Feedback will fall back to normal cadence.
+      }
+    };
+
+    loadVersion();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const steps = [
     { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
     { icon: Route, label: t("planner.steps.route.label"), description: t("planner.steps.route.desc") },
@@ -299,9 +324,12 @@ export function RoutePlanner() {
     if (typeof window === "undefined") return false;
     const submittedAt = Number(localStorage.getItem(FEEDBACK_DONE_KEY) || "0");
     const remindAt = Number(localStorage.getItem(FEEDBACK_LATER_KEY) || "0");
+    const seenReleaseVersion = localStorage.getItem(FEEDBACK_RELEASE_KEY) || "";
     const now = Date.now();
+    const hasUnseenRelease = !!releaseVersion && seenReleaseVersion !== releaseVersion;
 
     if (submittedAt && now - submittedAt < 90 * 24 * 60 * 60 * 1000) return false;
+    if (hasUnseenRelease) return true;
     if (remindAt && remindAt > now) return false;
     return true;
   };
@@ -309,6 +337,9 @@ export function RoutePlanner() {
   const handleFeedbackClose = () => {
     if (typeof window !== "undefined") {
       localStorage.setItem(FEEDBACK_LATER_KEY, String(Date.now() + 7 * 24 * 60 * 60 * 1000));
+      if (releaseVersion) {
+        localStorage.setItem(FEEDBACK_RELEASE_KEY, releaseVersion);
+      }
     }
     setShowFeedbackModal(false);
   };
@@ -343,6 +374,9 @@ export function RoutePlanner() {
     if (typeof window !== "undefined") {
       localStorage.setItem(FEEDBACK_DONE_KEY, String(Date.now()));
       localStorage.removeItem(FEEDBACK_LATER_KEY);
+      if (releaseVersion) {
+        localStorage.setItem(FEEDBACK_RELEASE_KEY, releaseVersion);
+      }
     }
 
     setShowFeedbackModal(false);

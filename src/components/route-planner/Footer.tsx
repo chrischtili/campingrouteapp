@@ -1,13 +1,40 @@
 import { Compass, Github, Shield, FileText, Heart, ArrowUp } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const { t } = useTranslation();
+  const [releaseVersion, setReleaseVersion] = useState("0.4.8");
+  const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   
+  useEffect(() => {
+    let isMounted = true;
+    const loadVersion = async () => {
+      try {
+        const response = await fetch(`/version.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const data = await response.json();
+        if (isMounted && typeof data?.version === "string") {
+          setReleaseVersion(data.version);
+        }
+      } catch {
+        // Keep fallback version in the label.
+      }
+    };
+    loadVersion();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openWhatsNew = () => {
+    window.dispatchEvent(new Event("open-whats-new"));
   };
 
   return (
@@ -73,6 +100,16 @@ export function Footer() {
                     <div className="w-4 h-4 flex items-center justify-center text-[8px] font-black border-2 border-primary/40 rounded-sm text-primary opacity-60 group-hover:opacity-100 transition-opacity">MIT</div>
                     {t("footer.license")}
                   </a>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={openWhatsNew}
+                    className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group"
+                  >
+                    <Compass className="w-4 h-4 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
+                    {t("footer.whatsNew", { version: displayReleaseVersion })}
+                  </button>
                 </li>
               </ul>
             </div>

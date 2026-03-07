@@ -49,6 +49,17 @@ const App = () => {
   const { t, i18n } = useTranslation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
+  const displayReleaseVersion = `v${(releaseVersion || "0.4.8").replace(/^v/i, "")}`;
+
+  const openWhatsNew = React.useCallback(() => {
+    setShowWhatsNew(true);
+  }, []);
+
+  React.useEffect(() => {
+    const handleOpenWhatsNew = () => openWhatsNew();
+    window.addEventListener("open-whats-new", handleOpenWhatsNew);
+    return () => window.removeEventListener("open-whats-new", handleOpenWhatsNew);
+  }, [openWhatsNew]);
 
   React.useEffect(() => {
     const key = "cr_chunk_reload";
@@ -253,7 +264,7 @@ const App = () => {
               <div className="p-6 sm:p-8">
                 <DialogHeader className="space-y-3 text-left">
                   <DialogTitle className="text-xl sm:text-2xl font-black tracking-tight text-white">
-                    {t("app.whatsNew.title", { version: releaseVersion || "v0.4.8" })}
+                    {t("app.whatsNew.title", { version: displayReleaseVersion })}
                   </DialogTitle>
                   <DialogDescription className="text-sm leading-relaxed text-white/70">
                     {t("app.whatsNew.description")}

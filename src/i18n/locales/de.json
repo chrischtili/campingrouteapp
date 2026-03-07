@@ -9,7 +9,8 @@
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
     "planNow": "Jetzt planen",
-    "subtitle": "Smarte KI-Prompts"
+    "subtitle": "Smarte KI-Prompts",
+    "whatsNew": "Neu in {{version}}"
   },
   "hero": {
     "badge": "KI-Prompt-Generator",
@@ -1184,7 +1185,8 @@
     "privacy": "Datenschutz",
     "openSource": "Open Source",
     "license": "MIT Lizenz",
-    "sourceCode": "Quellcode auf GitHub"
+    "sourceCode": "Quellcode auf GitHub",
+    "whatsNew": "Neu in {{version}}"
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Wohnmobil‑Routenplaner mit Spezialwissen für Deutschland und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Wohnmobilroute. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",
@@ -1301,7 +1303,7 @@
     "updateAvailable": "Ein Update ist verfügbar. Bitte lade die Seite neu.",
     "reloadNow": "Jetzt neu laden",
     "whatsNew": {
-      "title": "Was ist neu in v{{version}}?",
+      "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
         "savedPlans": "Bis zu 5 Planungen lokal speichern, laden, überschreiben und löschen.",

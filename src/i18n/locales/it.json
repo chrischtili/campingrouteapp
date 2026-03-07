@@ -9,7 +9,8 @@
     "exampleRoute": "Itinerario d'esempio",
     "faq": "FAQ",
     "planNow": "Pianifica ora",
-    "subtitle": "Prompt IA smart"
+    "subtitle": "Prompt IA smart",
+    "whatsNew": "Novità della {{version}}"
   },
   "hero": {
     "badge": "Generatore di prompt IA",
@@ -1184,7 +1185,8 @@
     "privacy": "Privacy",
     "openSource": "Open source",
     "license": "Licenza MIT",
-    "sourceCode": "Codice sorgente su GitHub"
+    "sourceCode": "Codice sorgente su GitHub",
+    "whatsNew": "Novità della {{version}}"
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari in camper con conoscenze specialistiche per la Germania e destinazioni internazionali. Crea, in base ai miei dati, un itinerario in camper pratico e ben strutturato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",
@@ -1301,7 +1303,7 @@
     "updateAvailable": "È disponibile un aggiornamento. Ricarica la pagina.",
     "reloadNow": "Ricarica ora",
     "whatsNew": {
-      "title": "Novità nella v{{version}}",
+      "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
         "savedPlans": "Salva, carica, sovrascrivi ed elimina fino a 5 piani localmente.",

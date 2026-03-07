@@ -9,7 +9,8 @@
     "exampleRoute": "Example Route",
     "faq": "FAQ",
     "planNow": "Plan Now",
-    "subtitle": "Smart AI Prompts"
+    "subtitle": "Smart AI Prompts",
+    "whatsNew": "What's new in {{version}}"
   },
   "hero": {
     "badge": "AI Prompt Generator",
@@ -1184,7 +1185,8 @@
     "privacy": "Privacy Policy",
     "openSource": "Open Source",
     "license": "MIT License",
-    "sourceCode": "GitHub Project"
+    "sourceCode": "GitHub Project",
+    "whatsNew": "What's new in {{version}}"
   },
   "prompt": {
     "systemRole": "You are a professional motorhome route planner with specialized knowledge of Germany and international travel destinations. Create a practical, well-structured motorhome route based on my specifications. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
@@ -1301,7 +1303,7 @@
     "updateAvailable": "An update is available. Please reload the page.",
     "reloadNow": "Reload now",
     "whatsNew": {
-      "title": "What's new in v{{version}}?",
+      "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
         "savedPlans": "Save, load, overwrite and delete up to 5 plans locally.",

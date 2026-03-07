@@ -18,7 +18,9 @@ interface NavbarProps {
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [releaseVersion, setReleaseVersion] = useState("0.4.8");
   const { t, i18n } = useTranslation();
+  const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -50,6 +52,26 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+    const loadVersion = async () => {
+      try {
+        const response = await fetch(`/version.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const data = await response.json();
+        if (isMounted && typeof data?.version === "string") {
+          setReleaseVersion(data.version);
+        }
+      } catch {
+        // Keep fallback version in the label.
+      }
+    };
+    loadVersion();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleNavClick = (anchor: string) => {
     if (!isHomePage) {
       navigate(`/${anchor}`);
@@ -75,6 +97,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+  };
+
+  const openWhatsNew = () => {
+    window.dispatchEvent(new Event("open-whats-new"));
+    setMobileMenuOpen(false);
   };
 
   const navLinks = [
@@ -128,6 +155,14 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </button>
             ))}
           </div>
+
+          <button
+            type="button"
+            onClick={openWhatsNew}
+            className="hidden xl:inline-flex text-xs font-bold tracking-[0.04em] text-white/55 hover:text-primary transition-colors"
+          >
+            {t("navbar.whatsNew", { version: displayReleaseVersion })}
+          </button>
 
           <div className="h-4 w-px bg-white/10 mx-2 hidden sm:block" />
 
@@ -193,6 +228,13 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </button>
             ))}
             <div className="h-px bg-white/5 my-2" />
+            <button
+              type="button"
+              onClick={openWhatsNew}
+              className="text-sm font-bold text-white/60 hover:text-primary transition-colors text-left py-1"
+            >
+              {t("navbar.whatsNew", { version: displayReleaseVersion })}
+            </button>
             <div className="flex items-center justify-between">
                 <div className="flex gap-3 sm:gap-4">
                   <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-white/40'}`}>DE</button>

@@ -9,7 +9,8 @@
     "exampleRoute": "Itinéraire exemple",
     "faq": "FAQ",
     "planNow": "Planifier maintenant",
-    "subtitle": "Prompts IA intelligents"
+    "subtitle": "Prompts IA intelligents",
+    "whatsNew": "Nouveautés de {{version}}"
   },
   "hero": {
     "badge": "Générateur de prompts IA",
@@ -1184,7 +1185,8 @@
     "privacy": "Confidentialité",
     "openSource": "Open source",
     "license": "Licence MIT",
-    "sourceCode": "Projet GitHub"
+    "sourceCode": "Projet GitHub",
+    "whatsNew": "Nouveautés de {{version}}"
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires en camping‑car avec une connaissance spécialisée de l’Allemagne et des destinations internationales. Créez un itinéraire pratique et bien structuré selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",
@@ -1301,7 +1303,7 @@
     "updateAvailable": "Une mise à jour est disponible. Veuillez recharger la page.",
     "reloadNow": "Recharger maintenant",
     "whatsNew": {
-      "title": "Quoi de neuf dans la v{{version}} ?",
+      "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
         "savedPlans": "Enregistrer, charger, écraser et supprimer jusqu’à 5 plans en local.",

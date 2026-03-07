@@ -9,7 +9,8 @@
     "exampleRoute": "Voorbeeldroute",
     "faq": "FAQ",
     "subtitle": "Slimme AI‑prompts",
-    "planNow": "Nu plannen"
+    "planNow": "Nu plannen",
+    "whatsNew": "Nieuw in {{version}}"
   },
   "hero": {
     "badge": "Routeplanner",
@@ -1120,7 +1121,8 @@
     "privacy": "Privacybeleid",
     "openSource": "Open source",
     "license": "MIT‑licentie",
-    "sourceCode": "GitHub‑project"
+    "sourceCode": "GitHub‑project",
+    "whatsNew": "Nieuw in {{version}}"
   },
   "buttons": {
     "copy": "Kopieren",
@@ -1301,7 +1303,7 @@
     "updateAvailable": "Er is een update beschikbaar. Laad de pagina opnieuw.",
     "reloadNow": "Nu herladen",
     "whatsNew": {
-      "title": "Wat is nieuw in v{{version}}?",
+      "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
         "savedPlans": "Maximaal 5 plannen lokaal opslaan, laden, overschrijven en verwijderen.",

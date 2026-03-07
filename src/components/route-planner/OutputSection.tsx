@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, AlertCircle, Download, Map, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees } from "lucide-react";
+import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, AlertCircle, Download, Map, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -362,10 +362,10 @@ ${gpxOnly}`;
         const tag = level === 1 ? "h1" : level === 2 ? "h2" : "h3";
         const className =
           level === 1
-            ? "mt-12 mb-6 text-2xl sm:text-3xl font-black uppercase tracking-[0.1em] text-white"
+            ? "mt-12 mb-6 text-2xl sm:text-3xl font-black tracking-[0.1em] text-white"
             : level === 2
-              ? "mt-12 mb-5 text-xl sm:text-2xl font-black uppercase tracking-[0.12em] text-white"
-              : "mt-10 mb-4 text-lg sm:text-xl font-black uppercase tracking-[0.16em] text-white";
+              ? "mt-12 mb-5 text-xl sm:text-2xl font-black tracking-[0.12em] text-white"
+              : "mt-10 mb-4 text-lg sm:text-xl font-black tracking-[0.16em] text-white";
         html.push(`<${tag} id="${headingId}" class="${className}">${inlineFormat(headingText)}</${tag}>`);
         continue;
       }
@@ -418,10 +418,14 @@ ${gpxOnly}`;
       { level: "caution" as const, regex: /\b(mit vorsicht|use caution|avec prudence|con prudenza|met voorzichtigheid)\b/i },
       { level: "safe" as const, regex: /\b(unkritisch|uncritical|sans problème|senza criticità|onkritisch)\b/i },
     ];
+    const ratingLeadRegex = /^(bewertung|rating|évaluation|valutazione|beoordeling)\s*[:–-]/i;
+    const stageContextRegex = /\b(etappe|stage|leg|fahrtabschnitt|trajet)\b/i;
+    const skipRegex = /^(wichtig|important|importante|belangrijk|plane die route|gib zuerst|falls deine plattform|gpx-datei|anforderungen)/i;
 
     const cleanedLines = lines
       .map((line) => line.replace(/^[-*•\d.\s]+/, "").trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter((line) => !skipRegex.test(line));
 
     const items: StageRiskItem[] = [];
     const seen = new Set<string>();
@@ -429,12 +433,11 @@ ${gpxOnly}`;
     for (const line of cleanedLines) {
       const match = patterns.find((entry) => entry.regex.test(line));
       if (!match) continue;
+      if (!ratingLeadRegex.test(line) && !stageContextRegex.test(line)) continue;
 
-      const parts = line.split(/[:–-]\s+/);
-      const rawTitle = (parts[0] || line).trim();
-      const detail = (parts.length > 1 ? parts.slice(1).join(" - ") : line).trim();
-      const title = rawTitle.length > 60 ? rawTitle.slice(0, 57).trimEnd() + "..." : rawTitle;
-      const key = `${match.level}:${title}:${detail}`;
+      const detail = line.replace(ratingLeadRegex, "").trim() || line;
+      const title = t(`planner.output.risk.${match.level}`);
+      const key = `${match.level}:${detail}`;
       if (seen.has(key)) continue;
       seen.add(key);
       items.push({ title, level: match.level, detail });
@@ -442,7 +445,7 @@ ${gpxOnly}`;
     }
 
     return items;
-  }, [outputBody]);
+  }, [outputBody, t]);
 
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
     const cleaned = sanitizeGpxContent(gpxContent);
@@ -527,6 +530,9 @@ ${gpxOnly}`;
   }, [summary, t]);
 
   const overviewDrivingFocus = useMemo(() => {
+    if (summary?.travelPace) {
+      return t(`planner.route.travelPace.options.${summary.travelPace}`);
+    }
     if (summary?.dailyLimitPriority) {
       return t(`planner.route.limitPriority.options.${summary.dailyLimitPriority}`);
     }
@@ -536,7 +542,7 @@ ${gpxOnly}`;
     if (Number(summary?.maxDailyDistance || 0) > 0) {
       return t("planner.route.limitPriority.options.distance");
     }
-    return summary?.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected");
+    return t("planner.summary.notSelected");
   }, [summary, t]);
 
   const overviewBudget = useMemo(() => {
@@ -562,6 +568,48 @@ ${gpxOnly}`;
     { id: "scenic", icon: Trees, label: t("planner.output.overview.longerStops"), value: overviewScenicStops },
   ];
 
+  const spotlightCards = useMemo(() => {
+    const normalizedLines = outputBody
+      .replace(/\r\n/g, "\n")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const safeLeg = stageRiskItems.find((item) => item.level === "safe");
+    const criticalLeg = stageRiskItems.find((item) => item.level === "critical") || stageRiskItems.find((item) => item.level === "caution");
+    const overnightLine = normalizedLines.find((line) => /^(durchreise-stopp|2-3-nächte-platz|urlaubsziel|transit stop|2-3 night stay|holiday base|halte de transit|séjour 2-3 nuits|base de vacances|sosta di passaggio|soggiorno di 2-3 notti|base vacanza|doorreisstop|plek voor 2-3 nachten|vakantiebasis)\b/i.test(line));
+    const overnightMatch = overnightLine?.match(/^(?:durchreise-stopp|2-3-nächte-platz|urlaubsziel|transit stop|2-3 night stay|holiday base|halte de transit|séjour 2-3 nuits|base de vacances|sosta di passaggio|soggiorno di 2-3 notti|base vacanza|doorreisstop|plek voor 2-3 nachten|vakantiebasis)\s*:?\s*(.+)$/i);
+    const topRecommendation = summary?.targetRegions?.trim()
+      ? (summary.preferScenicLongerStops ? `${summary.targetRegions.trim()} — ${t("planner.output.overview.onRequest")}` : summary.targetRegions.trim())
+      : overviewRoute;
+
+    return [
+      {
+        id: "top",
+        icon: Award,
+        label: t("planner.output.spotlight.topRecommendation"),
+        value: topRecommendation || t("planner.summary.notSelected"),
+      },
+      {
+        id: "bestLeg",
+        icon: RouteIcon,
+        label: t("planner.output.spotlight.bestLeg"),
+        value: safeLeg ? safeLeg.detail : t("planner.output.spotlight.notFound"),
+      },
+      {
+        id: "overnight",
+        icon: BedDouble,
+        label: t("planner.output.spotlight.bestOvernight"),
+        value: overnightMatch?.[1]?.trim().replace(/^[,.;:\s]+/, "") || t("planner.output.spotlight.notFound"),
+      },
+      {
+        id: "critical",
+        icon: TriangleAlert,
+        label: t("planner.output.spotlight.criticalLeg"),
+        value: criticalLeg ? criticalLeg.detail : t("planner.output.spotlight.notFound"),
+      },
+    ];
+  }, [outputBody, overviewRoute, stageRiskItems, summary, t]);
+
   if (isLoading) {
     return (
       <div className="py-20 flex flex-col items-center justify-center space-y-8">
@@ -570,7 +618,7 @@ ${gpxOnly}`;
           <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
         </div>
         <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black text-white uppercase tracking-tighter drop-shadow-sm">
+          <h3 className="text-2xl font-black text-white tracking-tighter drop-shadow-sm">
             {loadingMessage || (useDirectAI ? t("planner.loading.ai") : t("planner.loading.prompt"))}
           </h3>
           <p className="text-white text-base sm:text-lg font-semibold drop-shadow-sm">
@@ -614,17 +662,17 @@ ${gpxOnly}`;
                 <FileText className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-[0.38em] text-primary leading-none mb-2">
+                <span className="text-[10px] font-black tracking-[0.38em] text-primary leading-none mb-2">
                   {useDirectAI ? `AI Route (${aiModel})` : t("planner.output.customPrompt")}
                 </span>
-                <h2 className="text-xl sm:text-3xl font-black text-white uppercase tracking-tight leading-none">
+                <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h2>
                 <p className="mt-2 text-sm text-white/55 font-medium">
                   {useDirectAI ? t("planner.output.results.title") : t("planner.output.nextSteps.description")}
                 </p>
                 {gpxBlocksSwapped && (
-                  <span className="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary/80">
+                  <span className="mt-2 text-[10px] font-bold tracking-[0.2em] text-primary/80">
                     {t("planner.output.actions.gpxSwapNote")}
                   </span>
                 )}
@@ -634,7 +682,7 @@ ${gpxOnly}`;
             <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0 shadow-sm"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0 shadow-sm"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
@@ -649,7 +697,7 @@ ${gpxOnly}`;
                         `camping-route-route-track-${new Date().toISOString().split('T')[0]}.gpx`,
                         "planner.output.actions.gpxDownloadedWpt"
                       )}
-                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black text-[9px] tracking-widest transition-all shrink-0"
                     >
                       <Download className="w-3 h-3 mr-1 sm:mr-2" />
                       {t("planner.output.actions.downloadWpt")}
@@ -662,7 +710,7 @@ ${gpxOnly}`;
                         `camping-route-garmin-waypoints-${new Date().toISOString().split('T')[0]}.gpx`,
                         "planner.output.actions.gpxDownloadedGarmin"
                       )}
-                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black text-[9px] tracking-widest transition-all shrink-0"
                     >
                       <Download className="w-3 h-3 mr-1 sm:mr-2" />
                       {t("planner.output.actions.downloadGarmin")}
@@ -673,7 +721,7 @@ ${gpxOnly}`;
 
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}
@@ -685,11 +733,11 @@ ${gpxOnly}`;
             {summary && (
               <div className="space-y-5">
                 <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                  <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
-                    {t("planner.output.overview.title")}
+                  <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
+                    {t("planner.output.spotlight.title")}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-                    {overviewCards.map((item) => {
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {spotlightCards.map((item) => {
                       const Icon = item.icon;
                       return (
                         <div key={item.id} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
@@ -697,7 +745,7 @@ ${gpxOnly}`;
                             <div className="w-10 h-10 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
                               <Icon className="w-4 h-4" />
                             </div>
-                            <div className="text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
+                            <div className="text-[10px] font-black tracking-[0.22em] text-white/35">
                               {item.label}
                             </div>
                           </div>
@@ -711,13 +759,39 @@ ${gpxOnly}`;
                 </div>
 
                 <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                  <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
+                  <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
+                    {t("planner.output.overview.title")}
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                    {overviewCards.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <div key={item.id} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <div className="text-[10px] font-black tracking-[0.22em] text-white/35">
+                              {item.label}
+                            </div>
+                          </div>
+                          <div className="text-sm sm:text-base font-bold text-white/92 leading-snug">
+                            {item.value}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+                  <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
                   {t("planner.output.summary.title")}
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
                     {summaryItems.map((item) => (
                       <div key={item.label} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-                        <div className="text-[10px] font-black uppercase tracking-[0.22em] text-white/35 mb-2">
+                        <div className="text-[10px] font-black tracking-[0.22em] text-white/35 mb-2">
                           {item.label}
                         </div>
                         <div className="text-sm sm:text-base font-bold text-white/90 leading-snug">
@@ -731,7 +805,7 @@ ${gpxOnly}`;
             )}
             {useDirectAI && stageRiskItems.length > 0 && (
               <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-                <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-5">
+                <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-5">
                   {t("planner.output.risk.title")}
                 </div>
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
@@ -763,7 +837,7 @@ ${gpxOnly}`;
                               {item.title}
                             </div>
                           </div>
-                          <span className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${config.badge}`}>
+                          <span className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-black tracking-[0.18em] ${config.badge}`}>
                             {config.label}
                           </span>
                         </div>
@@ -783,7 +857,7 @@ ${gpxOnly}`;
                     key={section.id}
                     type="button"
                     onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-white"
+                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-black tracking-[0.18em] text-white/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-white"
                   >
                     {section.label}
                   </button>
@@ -791,14 +865,14 @@ ${gpxOnly}`;
               </div>
             )}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-white/10 bg-[rgba(8,12,10,0.92)] p-2">
-              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-white/35 px-3 py-1 sm:py-0">
+              <div className="text-[10px] font-black tracking-[0.24em] text-white/35 px-3 py-1 sm:py-0">
                 {t("planner.output.view.label")}
               </div>
               <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto sm:items-center">
                 <button
                   type="button"
                   onClick={() => setOutputView("formatted")}
-                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
+                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
                     outputView === "formatted"
                       ? "bg-primary text-white"
                       : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
@@ -809,7 +883,7 @@ ${gpxOnly}`;
                 <button
                   type="button"
                   onClick={() => setOutputView("raw")}
-                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
+                  className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-black tracking-[0.12em] sm:tracking-[0.18em] transition-colors ${
                     outputView === "raw"
                       ? "bg-primary text-white"
                       : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
@@ -823,7 +897,7 @@ ${gpxOnly}`;
               <div className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-6 sm:px-8 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
                 <div className="flex items-center gap-3 pb-4 border-b border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
-                  <div className="text-[10px] font-black uppercase tracking-[0.32em] text-white/45">
+                  <div className="text-[10px] font-black tracking-[0.32em] text-white/45">
                     {t("planner.output.title.direct")}
                   </div>
                 </div>
@@ -842,7 +916,7 @@ ${gpxOnly}`;
               <div className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-6 sm:px-8 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
                 <div className="flex items-center gap-3 pb-4 border-b border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
-                  <div className="text-[10px] font-black uppercase tracking-[0.32em] text-white/45">
+                  <div className="text-[10px] font-black tracking-[0.32em] text-white/45">
                     {t("planner.output.title.prompt")}
                   </div>
                 </div>
@@ -860,7 +934,7 @@ ${gpxOnly}`;
             )}
 
             <div className="p-6 sm:p-8 rounded-[2rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_24px_80px_rgba(0,0,0,0.2)]">
-              <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4">
+              <div className="text-[10px] font-black tracking-[0.4em] text-primary mb-4">
                 {t("planner.output.checklist.title")}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80 font-semibold">
@@ -884,10 +958,10 @@ ${gpxOnly}`;
                 <ChevronRight className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary leading-none mb-1">
+                <span className="text-[10px] font-black tracking-[0.4em] text-primary leading-none mb-1">
                   {t("planner.output.nextSteps.title")}
                 </span>
-                <h4 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight leading-none">
+                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
                   {t("planner.output.customPrompt")}
                 </h4>
                 <p className="text-white/70 text-sm sm:text-base font-semibold">
@@ -899,14 +973,14 @@ ${gpxOnly}`;
             <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
               </Button>
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}
@@ -924,10 +998,10 @@ ${gpxOnly}`;
                 <FileText className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary leading-none mb-1">
+                <span className="text-[10px] font-black tracking-[0.4em] text-primary leading-none mb-1">
                   {useDirectAI ? t("planner.output.results.title") : t("planner.output.customPrompt")}
                 </span>
-                <h4 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight leading-none">
+                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h4>
               </div>
@@ -936,7 +1010,7 @@ ${gpxOnly}`;
             <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
@@ -951,7 +1025,7 @@ ${gpxOnly}`;
                         `camping-route-route-track-${new Date().toISOString().split('T')[0]}.gpx`,
                         "planner.output.actions.gpxDownloadedWpt"
                       )}
-                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black text-[9px] tracking-widest transition-all shrink-0"
                     >
                       <Download className="w-3 h-3 mr-1 sm:mr-2" />
                       {t("planner.output.actions.downloadWpt")}
@@ -964,7 +1038,7 @@ ${gpxOnly}`;
                         `camping-route-garmin-waypoints-${new Date().toISOString().split('T')[0]}.gpx`,
                         "planner.output.actions.gpxDownloadedGarmin"
                       )}
-                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black uppercase text-[9px] tracking-widest transition-all shrink-0"
+                      className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-primary/20 bg-primary/10 hover:bg-primary/20 hover:border-primary/40 text-primary font-black text-[9px] tracking-widest transition-all shrink-0"
                     >
                       <Download className="w-3 h-3 mr-1 sm:mr-2" />
                       {t("planner.output.actions.downloadGarmin")}
@@ -975,7 +1049,7 @@ ${gpxOnly}`;
 
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}

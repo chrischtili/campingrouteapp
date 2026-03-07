@@ -164,6 +164,15 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           </div>
         </div>
 
+        <div className="rounded-2xl border border-primary/20 bg-primary/10 px-4 py-4 sm:px-5 sm:py-5">
+          <div className="text-[10px] font-black tracking-[0.22em] text-primary mb-2">
+            {t("planner.route.roundTripHint.badge")}
+          </div>
+          <div className="text-sm text-white/85 leading-relaxed">
+            {t("planner.route.roundTripHint.text")}
+          </div>
+        </div>
+
         <div className="space-y-3 pt-2">
           <Label htmlFor="targetRegions" className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white flex items-center gap-2">
             <Map className="w-4 h-4 text-primary" /> {t("planner.route.targetRegions.label")}

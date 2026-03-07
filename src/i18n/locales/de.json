@@ -541,7 +541,14 @@
         "updated": "Gespeicherte Planung überschrieben.",
         "loaded": "Gespeicherte Planung geladen.",
         "deleted": "Gespeicherte Planung gelöscht.",
-        "clearedAll": "Formular und gespeicherte Planungen gelöscht."
+        "clearedAll": "Formular und gespeicherte Planungen gelöscht.",
+        "duplicate": "Duplizieren",
+        "duplicated": "Planung als Variante gespeichert und geladen.",
+        "latest": "Zuletzt gespeichert",
+        "variantSuffix": "Variante",
+        "apiKeyMissing": "Für „Route generieren“ muss ein gültiger API-Key eingetragen sein.",
+        "apiKeyJump": "Zum API-Key",
+        "active": "Aktiv"
       },
       "stops": "Zwischenziele"
     },
@@ -742,6 +749,10 @@
       "destinationDetails": {
         "label": "Zeiten genauer planen",
         "description": "Abfahrts- und Ankunftszeit optional festlegen."
+      },
+      "roundTripHint": {
+        "badge": "Rundtour-Tipp",
+        "text": "Wenn Start und Ziel gleich sind, kannst du unten nur Regionen & Zielgebiete angeben. Die KI plant daraus eine Rundtour ab deinem Heimatort."
       }
     },
     "optimization": {
@@ -1066,6 +1077,14 @@
         "safe": "Unkritisch",
         "caution": "Mit Vorsicht",
         "critical": "Eher ungeeignet"
+      },
+      "spotlight": {
+        "title": "Schnellbewertung",
+        "topRecommendation": "Top-Empfehlung",
+        "bestLeg": "Beste Etappe",
+        "bestOvernight": "Bester Übernachtungsort",
+        "criticalLeg": "Kritischste Etappe",
+        "notFound": "Noch nicht klar erkennbar"
       }
     },
     "feedback": {

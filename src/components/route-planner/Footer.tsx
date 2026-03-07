@@ -28,7 +28,7 @@ export function Footer() {
                 alt="Logo"
                 className="w-10 h-10"
               />
-              <span className="font-black text-3xl tracking-tighter uppercase">
+              <span className="font-black text-3xl tracking-tighter">
                 Camping<span className="text-primary">Route</span>
               </span>
             </div>
@@ -40,7 +40,7 @@ export function Footer() {
           {/* Links Columns */}
           <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 text-left">
             <div className="space-y-6">
-              <h4 className="font-black text-xs uppercase tracking-[0.3em] text-primary">{t("footer.imprint")}</h4>
+              <h4 className="font-black text-xs tracking-[0.3em] text-primary">{t("footer.imprint")}</h4>
               <ul className="space-y-4">
                 <li>
                   <Link to="/impressum" className="text-sm font-bold text-white/70 hover:text-primary transition-colors flex items-center gap-3 group">
@@ -58,7 +58,7 @@ export function Footer() {
             </div>
             
             <div className="space-y-6">
-              <h4 className="font-black text-xs uppercase tracking-[0.3em] text-primary">{t("footer.openSource")}</h4>
+              <h4 className="font-black text-xs tracking-[0.3em] text-primary">{t("footer.openSource")}</h4>
               <ul className="space-y-4">
                 <li>
                   <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" rel="noopener noreferrer" 
@@ -92,13 +92,13 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+          <p className="text-[10px] font-black tracking-[0.2em] text-white/40">
             {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 shadow-inner">
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/60">{t("footer.madeWith")}</span>
+            <span className="text-[10px] font-black tracking-widest text-white/60">{t("footer.madeWith")}</span>
             <Heart className="w-3 h-3 text-primary fill-primary animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/60">{t("footer.forCommunity")}</span>
+            <span className="text-[10px] font-black tracking-widest text-white/60">{t("footer.forCommunity")}</span>
           </div>
         </div>
       </div>

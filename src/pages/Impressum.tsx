@@ -26,7 +26,7 @@ export default function Impressum() {
             <div className="text-center space-y-4 mb-16">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+                <span className="text-primary font-black text-[10px] tracking-[0.3em]">
                   {t("imprint.badge")}
                 </span>
               </span>
@@ -40,7 +40,7 @@ export default function Impressum() {
                   <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20">
                     <Info className="w-6 h-6" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("imprint.project.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("imprint.project.title")}</h2>
                 </div>
                 <p className="text-white/60 leading-relaxed text-lg italic font-serif">
                   {i18n.language === 'de' ? (
@@ -73,7 +73,7 @@ export default function Impressum() {
                   <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary border border-secondary/20">
                     <Mail className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("imprint.contact.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("imprint.contact.title")}</h2>
                 </div>
                 <div className="space-y-4 text-white/80 font-bold">
                   <p className="text-xl">{t("imprint.contact.name")}</p>
@@ -95,7 +95,7 @@ export default function Impressum() {
                   <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500 border border-red-500/20">
                     <AlertTriangle className="w-6 h-6" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("imprint.disclaimer.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("imprint.disclaimer.title")}</h2>
                 </div>
                 <div className="space-y-4 text-white/60 leading-relaxed">
                   <p>{t("imprint.disclaimer.description1")}</p>
@@ -105,12 +105,12 @@ export default function Impressum() {
 
               {/* Open Source */}
               <section className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5 shadow-2xl">
-                <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-6">{t("imprint.openSource.title")}</h2>
+                <h2 className="text-xl md:text-2xl font-black tracking-tight mb-6">{t("imprint.openSource.title")}</h2>
                 <p className="text-white/70 mb-8 leading-relaxed">
                   {t("imprint.openSource.description1")}
                 </p>
                 <a href="https://github.com/chrischtili/campingrouteapp" target="_blank" rel="noopener noreferrer" 
-                   className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-primary text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20">
+                   className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-primary text-white font-black text-xs tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20">
                   <Github className="w-5 h-5" />
                   {t("imprint.openSource.link")}
                 </a>
@@ -118,7 +118,7 @@ export default function Impressum() {
             </div>
 
             <div className="text-center pt-12">
-              <Link to="/" className="inline-flex items-center gap-2 text-white/40 hover:text-primary transition-colors font-black uppercase text-[10px] tracking-widest group">
+              <Link to="/" className="inline-flex items-center gap-2 text-white/40 hover:text-primary transition-colors font-black text-[10px] tracking-widest group">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 {t("imprint.backToHome")}
               </Link>

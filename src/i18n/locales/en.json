@@ -540,7 +540,14 @@
         "updated": "Saved plan overwritten.",
         "loaded": "Saved plan loaded.",
         "deleted": "Saved plan deleted.",
-        "clearedAll": "Form and saved plans cleared."
+        "clearedAll": "Form and saved plans cleared.",
+        "duplicate": "Duplicate",
+        "duplicated": "Plan saved and loaded as a variant.",
+        "latest": "Latest saved",
+        "variantSuffix": "Variant",
+        "apiKeyMissing": "A valid API key is required to generate a route.",
+        "apiKeyJump": "Go to API key",
+        "active": "Active"
       },
       "stops": "Stops",
       "model": "AI model"
@@ -742,6 +749,10 @@
       "destinationDetails": {
         "label": "Plan times in more detail",
         "description": "Optionally set departure and arrival times."
+      },
+      "roundTripHint": {
+        "badge": "Round-trip tip",
+        "text": "If start and destination are the same, you can simply define regions & target areas below. The AI then plans a round trip from your home base."
       }
     },
     "optimization": {
@@ -1066,6 +1077,14 @@
         "safe": "Uncritical",
         "caution": "Use Caution",
         "critical": "Rather Unsuitable"
+      },
+      "spotlight": {
+        "title": "Quick assessment",
+        "topRecommendation": "Top recommendation",
+        "bestLeg": "Best leg",
+        "bestOvernight": "Best overnight stop",
+        "criticalLeg": "Most critical leg",
+        "notFound": "Not clearly detected yet"
       }
     },
     "feedback": {

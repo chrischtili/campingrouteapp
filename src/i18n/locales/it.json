@@ -540,7 +540,14 @@
         "updated": "Piano salvato sovrascritto.",
         "loaded": "Piano salvato caricato.",
         "deleted": "Piano salvato eliminato.",
-        "clearedAll": "Modulo e piani salvati eliminati."
+        "clearedAll": "Modulo e piani salvati eliminati.",
+        "duplicate": "Duplica",
+        "duplicated": "Piano salvato e caricato come variante.",
+        "latest": "Salvato di recente",
+        "variantSuffix": "Variante",
+        "apiKeyMissing": "Per generare un itinerario è necessaria una chiave API valida.",
+        "apiKeyJump": "Vai alla chiave API",
+        "active": "Attiva"
       },
       "stops": "Tappe intermedie",
       "model": "Modello IA"
@@ -742,6 +749,10 @@
       "destinationDetails": {
         "label": "Pianifica meglio gli orari",
         "description": "Imposta facoltativamente orario di partenza e di arrivo."
+      },
+      "roundTripHint": {
+        "badge": "Suggerimento tour ad anello",
+        "text": "Se partenza e arrivo coincidono, puoi indicare sotto solo regioni e aree obiettivo. L’IA pianificherà così un tour ad anello dal tuo punto di partenza."
       }
     },
     "optimization": {
@@ -1066,6 +1077,14 @@
         "safe": "Senza criticità",
         "caution": "Con prudenza",
         "critical": "Piuttosto inadatta"
+      },
+      "spotlight": {
+        "title": "Valutazione rapida",
+        "topRecommendation": "Suggerimento top",
+        "bestLeg": "Tappa migliore",
+        "bestOvernight": "Miglior sosta notturna",
+        "criticalLeg": "Tappa più critica",
+        "notFound": "Non ancora chiaramente riconoscibile"
       }
     },
     "feedback": {

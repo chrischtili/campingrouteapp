@@ -89,7 +89,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
           className="text-center space-y-4"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
-            <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
               {t("exampleRoute.badge")}
             </span>
           </span>
@@ -118,7 +118,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
                     <Icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                    <div className="text-[11px] tracking-[0.18em] text-muted-foreground">
                       {fact.label}
                     </div>
                     <div className="mt-1 text-lg font-semibold text-foreground">{fact.value}</div>
@@ -175,7 +175,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="rounded-2xl border border-border bg-card p-6 space-y-6">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  <div className="text-xs tracking-[0.2em] text-muted-foreground">
                     {t("exampleRoute.stages.outward.title")}
                   </div>
                   <div className="text-base font-semibold text-foreground">
@@ -187,7 +187,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
                     <div key={stage.title} className="rounded-xl border border-border/60 bg-background p-4">
                       <div className="flex items-center justify-between gap-4 flex-wrap">
                         <div className="font-semibold text-foreground">{stage.title}</div>
-                        <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        <div className="text-xs tracking-[0.2em] text-muted-foreground">
                           {stage.date}
                         </div>
                       </div>
@@ -216,7 +216,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
 
               <div className="rounded-2xl border border-border bg-card p-6 space-y-6">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  <div className="text-xs tracking-[0.2em] text-muted-foreground">
                     {t("exampleRoute.stages.return.title")}
                   </div>
                   <div className="text-base font-semibold text-foreground">
@@ -228,7 +228,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
                     <div key={stage.title} className="rounded-xl border border-border/60 bg-background p-4">
                       <div className="flex items-center justify-between gap-4 flex-wrap">
                         <div className="font-semibold text-foreground">{stage.title}</div>
-                        <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        <div className="text-xs tracking-[0.2em] text-muted-foreground">
                           {stage.date}
                         </div>
                       </div>
@@ -252,7 +252,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
 
             <div className="rounded-2xl border border-border bg-card p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="text-xs tracking-[0.2em] text-muted-foreground">
                   {t("exampleRoute.stages.stay.title")}
                 </div>
                 <div className="text-lg font-semibold text-foreground">
@@ -276,7 +276,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {overnights.map((stay) => (
                 <div key={stay.name} className="rounded-2xl border border-border bg-card p-5 space-y-3">
-                  <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  <div className="text-xs tracking-[0.2em] text-muted-foreground">
                     {stay.title}
                   </div>
                   <div className="text-lg font-semibold text-foreground">{stay.name}</div>
@@ -304,7 +304,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {Object.values(highlightGroups).map((group) => (
                 <div key={group.title} className="rounded-2xl border border-border bg-card p-5 space-y-3">
-                  <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  <div className="text-xs tracking-[0.2em] text-muted-foreground">
                     {group.title}
                   </div>
                   <ul className="space-y-2 text-sm text-foreground/80">
@@ -329,7 +329,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               <div className="space-y-3 text-sm text-foreground/80">
                 {tips.map((item) => (
                   <div key={item.label}>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-xs tracking-[0.2em] text-muted-foreground">
                       {item.label}
                     </div>
                     <div>{item.value}</div>
@@ -346,7 +346,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               <div className="space-y-3 text-sm text-foreground/80">
                 {service.map((item) => (
                   <div key={item.label}>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-xs tracking-[0.2em] text-muted-foreground">
                       {item.label}
                     </div>
                     <div>{item.value}</div>
@@ -363,7 +363,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               <div className="space-y-3 text-sm text-foreground/80">
                 {extras.map((item) => (
                   <div key={item.label}>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-xs tracking-[0.2em] text-muted-foreground">
                       {item.label}
                     </div>
                     <div>{item.value}</div>
@@ -380,7 +380,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               <div className="space-y-3 text-sm text-foreground/80">
                 {tech.map((item) => (
                   <div key={item.label}>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-xs tracking-[0.2em] text-muted-foreground">
                       {item.label}
                     </div>
                     <div>{item.value}</div>
@@ -397,7 +397,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               <div className="space-y-3 text-sm text-foreground/80">
                 {flexibility.map((item) => (
                   <div key={item.label}>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-xs tracking-[0.2em] text-muted-foreground">
                       {item.label}
                     </div>
                     <div>{item.value}</div>
@@ -414,7 +414,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               <div className="space-y-3 text-sm text-foreground/80">
                 {alternatives.map((item) => (
                   <div key={item.label}>
-                    <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="text-xs tracking-[0.2em] text-muted-foreground">
                       {item.label}
                     </div>
                     <div>{item.value}</div>

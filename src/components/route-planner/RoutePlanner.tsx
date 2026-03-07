@@ -52,6 +52,7 @@ export function RoutePlanner() {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
+  const [activeSavedPlanId, setActiveSavedPlanId] = useState<string | null>(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
@@ -72,6 +73,7 @@ export function RoutePlanner() {
   const hasDateWindow = !!formData.startDate || !!formData.endDate;
   const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
   const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
+  const hasValidDirectApiKey = !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
   const validActivityValues = new Set([
     "nature",
     "hiking",
@@ -142,11 +144,38 @@ export function RoutePlanner() {
       : [nextEntry, ...savedPlans].slice(0, MAX_SAVED_PLANS);
 
     setSavedPlans(nextPlans);
+    setActiveSavedPlanId(nextEntry.id);
     persistSavedPlans(nextPlans);
     toast.success(overrideId ? t("planner.summary.savedPlans.updated") : t("planner.summary.savedPlans.saved"));
   };
 
+  const duplicateSavedPlan = (plan: SavedPlan) => {
+    const duplicateEntry: SavedPlan = {
+      ...plan,
+      id: typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`,
+      label: `${plan.label} · ${t("planner.summary.savedPlans.variantSuffix")}`,
+      savedAt: Date.now(),
+    };
+
+    const nextPlans = [duplicateEntry, ...savedPlans].slice(0, MAX_SAVED_PLANS);
+    setSavedPlans(nextPlans);
+    setActiveSavedPlanId(duplicateEntry.id);
+    persistSavedPlans(nextPlans);
+
+    setActiveSavedPlanId(plan.id);
+    setFormData(sanitizeFormData(plan.formData));
+    setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
+    setOutput("");
+    setAIError("");
+    setCurrentStep(1);
+    setCompletedSteps([]);
+
+    toast.success(t("planner.summary.savedPlans.duplicated"));
+    requestAnimationFrame(() => scrollToPlannerProgress());
+  };
+
   const loadSavedPlan = (plan: SavedPlan) => {
+    setActiveSavedPlanId(plan.id);
     setFormData(sanitizeFormData(plan.formData));
     setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
     setOutput("");
@@ -160,6 +189,9 @@ export function RoutePlanner() {
   const deleteSavedPlan = (planId: string) => {
     const nextPlans = savedPlans.filter((plan) => plan.id !== planId);
     setSavedPlans(nextPlans);
+    if (activeSavedPlanId === planId) {
+      setActiveSavedPlanId(null);
+    }
     persistSavedPlans(nextPlans);
     toast.success(t("planner.summary.savedPlans.deleted"));
   };
@@ -169,6 +201,7 @@ export function RoutePlanner() {
       localStorage.removeItem(SAVED_PLANS_KEY);
     }
     setSavedPlans([]);
+    setActiveSavedPlanId(null);
     setFormData(initialFormData);
     setOutput("");
     setAIError("");
@@ -207,15 +240,17 @@ export function RoutePlanner() {
       }
       const normalized = parsed
         .filter((entry) => entry?.id && entry?.formData)
-        .slice(0, MAX_SAVED_PLANS)
         .map((entry) => ({
           id: String(entry.id),
           label: String(entry.label || buildSavedPlanLabel(sanitizeFormData(entry.formData))),
           savedAt: Number(entry.savedAt || Date.now()),
           formData: sanitizeFormData(entry.formData),
           aiSettings: { ...initialAISettings, ...(entry.aiSettings || {}), apiKey: "" },
-        }));
+        }))
+        .sort((a, b) => b.savedAt - a.savedAt)
+        .slice(0, MAX_SAVED_PLANS);
       setSavedPlans(normalized);
+      setActiveSavedPlanId(null);
     } catch {
       localStorage.removeItem(SAVED_PLANS_KEY);
     }
@@ -281,6 +316,21 @@ export function RoutePlanner() {
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }, 50);
+  };
+
+  const scrollToApiKeyInput = () => {
+    setCurrentStep(1);
+    setTimeout(() => {
+      const element = document.getElementById('apiKey');
+      if (element) {
+        const yOffset = -120;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        if (element instanceof HTMLInputElement) {
+          element.focus();
+        }
+      }
+    }, 120);
   };
 
   const nextStep = () => {
@@ -449,8 +499,7 @@ export function RoutePlanner() {
     return normalized;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const runGeneration = async () => {
     setIsLoading(true);
     setAIError('');
     setOutput('');
@@ -495,6 +544,11 @@ export function RoutePlanner() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await runGeneration();
   };
 
   return (
@@ -562,7 +616,7 @@ export function RoutePlanner() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
               >
                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+                <span className="text-primary font-black text-[10px] tracking-[0.3em]">
                   {t("planner.badge")}
                 </span>
               </motion.span>
@@ -676,13 +730,13 @@ export function RoutePlanner() {
             <div className="mb-8 md:mb-12 p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl space-y-6 text-left">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="space-y-2">
-                  <div className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                  <div className="text-lg font-black tracking-tight text-white">
                     {t("planner.summary.savedPlans.title")}
                   </div>
                   <div className="text-xs text-white/60 leading-relaxed">
                     {t("planner.summary.savedPlans.desc")}
                   </div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/80">
+                  <div className="text-[10px] font-bold tracking-[0.2em] text-primary/80">
                     {t("planner.summary.save.note")}
                   </div>
                 </div>
@@ -698,6 +752,15 @@ export function RoutePlanner() {
                   </Button>
                   <Button
                     type="button"
+                    onClick={runGeneration}
+                    disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
+                    className="rounded-xl px-4 border-2 border-primary/30 bg-primary hover:bg-primary/90 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                  >
+                    <Bot className="w-4 h-4" />
+                    {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                  </Button>
+                  <Button
+                    type="button"
                     variant="outline"
                     onClick={clearPlannerData}
                     className="rounded-xl px-4 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95"
@@ -707,29 +770,66 @@ export function RoutePlanner() {
                 </div>
               </div>
 
+              {aiSettings.useDirectAI && !hasValidDirectApiKey && (
+                <div className="rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <span className="font-semibold">{t("planner.summary.savedPlans.apiKeyMissing")}</span>
+                    <button
+                      type="button"
+                      onClick={scrollToApiKeyInput}
+                      className="inline-flex items-center justify-center rounded-xl border border-amber-300/30 bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-100 transition hover:bg-amber-300/15"
+                    >
+                      {t("planner.summary.savedPlans.apiKeyJump")}
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {savedPlans.length === 0 ? (
                 <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-5 text-sm text-white/50">
                   {t("planner.summary.savedPlans.empty")}
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {savedPlans.map((plan) => (
+                  {savedPlans.map((plan) => {
+                    const isActivePlan = activeSavedPlanId === plan.id;
+                    const isLatestPlan = savedPlans[0]?.id === plan.id;
+
+                    return (
                     <div
                       key={plan.id}
-                      className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+                      className={`rounded-2xl px-4 py-4 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_28rem] gap-4 transition-all ${isActivePlan ? "border-2 border-primary/35 bg-primary/10 shadow-lg shadow-primary/10" : "border border-white/10 bg-black/10"}`}
                     >
                       <div className="space-y-1 min-w-0">
-                        <div className="text-sm font-bold text-white truncate">{plan.label}</div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <div className="text-sm font-bold text-white truncate">{plan.label}</div>
+                          {isActivePlan && (
+                            <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/15 px-2.5 py-1 text-[10px] font-bold text-primary">
+                              {t("planner.summary.savedPlans.active")}
+                            </span>
+                          )}
+                          {isLatestPlan && (
+                            <span className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[10px] font-bold text-primary/90">
+                              {t("planner.summary.savedPlans.latest")}
+                            </span>
+                          )}
+                        </div>
                         <div className="text-xs text-white/50">
                           {new Date(plan.savedAt).toLocaleString(locale)}
                         </div>
+                        <div className="text-xs text-white/60 leading-relaxed">
+                          {t("planner.summary.start")}: {plan.formData.startPoint || t("planner.summary.notSpecified")} · {t("planner.summary.destination")}: {plan.formData.destination || t("planner.summary.notSpecified")}
+                          {plan.formData.targetRegions?.trim()
+                            ? ` · ${t("prompt.labels.targetRegions")}: ${plan.formData.targetRegions.trim()}`
+                            : ""}
+                        </div>
                       </div>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 w-full min-w-0 self-start">
                         <Button
                           type="button"
                           variant="outline"
                           onClick={() => loadSavedPlan(plan)}
-                          className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                          className={`rounded-xl min-h-[44px] px-3 border-2 font-bold transition-all active:scale-95 inline-flex items-center justify-center gap-2 w-full ${isActivePlan ? "border-primary/25 bg-primary/15 text-white" : "border-white/10 bg-white/5 hover:bg-white/10 text-white"}`}
                         >
                           <FolderOpen className="w-4 h-4" />
                           {t("planner.summary.savedPlans.load")}
@@ -737,9 +837,18 @@ export function RoutePlanner() {
                         <Button
                           type="button"
                           variant="outline"
+                          onClick={() => duplicateSavedPlan(plan)}
+                          className="rounded-xl min-h-[44px] px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white font-bold transition-all active:scale-95 inline-flex items-center justify-center gap-2 w-full"
+                        >
+                          <Sparkles className="w-4 h-4" />
+                          {t("planner.summary.savedPlans.duplicate")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
                           onClick={() => saveCurrentPlan(plan.id)}
                           disabled={!formData.startPoint || !formData.destination}
-                          className="rounded-xl px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white font-bold transition-all active:scale-95"
+                          className="rounded-xl min-h-[44px] px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white font-bold transition-all active:scale-95 w-full justify-center"
                         >
                           {t("planner.summary.savedPlans.overwrite")}
                         </Button>
@@ -747,14 +856,15 @@ export function RoutePlanner() {
                           type="button"
                           variant="outline"
                           onClick={() => deleteSavedPlan(plan.id)}
-                          className="rounded-xl px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center gap-2"
+                          className="rounded-xl min-h-[44px] px-3 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 inline-flex items-center justify-center gap-2 w-full"
                         >
                           <Trash2 className="w-4 h-4" />
                           {t("planner.summary.savedPlans.delete")}
                         </Button>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -799,14 +909,14 @@ export function RoutePlanner() {
                       <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col gap-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
                           <div className="flex flex-col gap-1 text-center sm:text-left">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.start")}</span>
+                            <span className="text-[10px] font-black tracking-[0.3em] text-primary">{t("planner.summary.start")}</span>
                             <span className="text-xl font-black text-white">{formData.startPoint || t("planner.summary.notSpecified")}</span>
                           </div>
                           <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20 rotate-90 sm:rotate-0">
                             <ChevronRight className="w-6 h-6" />
                           </div>
                           <div className="flex flex-col gap-1 text-center sm:text-right">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.destination")}</span>
+                            <span className="text-[10px] font-black tracking-[0.3em] text-primary">{t("planner.summary.destination")}</span>
                             <span className="text-xl font-black text-white">{summaryPrimaryDestination || t("planner.summary.notSpecified")}</span>
                           </div>
                         </div>
@@ -820,7 +930,7 @@ export function RoutePlanner() {
                                   <Calendar className="w-5 h-5" />
                                 </div>
                                 <div className="flex flex-col">
-                                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{t("planner.summary.period")}</span>
+                                  <span className="text-[10px] font-black tracking-widest text-white/30">{t("planner.summary.period")}</span>
                                   <div className="flex flex-col text-xs font-bold text-white">
                                     {formData.startDate && <span>{new Date(formData.startDate).toLocaleDateString(locale)}</span>}
                                     {formData.endDate && <span>{new Date(formData.endDate).toLocaleDateString(locale)}</span>}
@@ -847,7 +957,7 @@ export function RoutePlanner() {
                                         {mainIsDistance ? <Route className="w-5 h-5" /> : <Clock3 className="w-5 h-5" />}
                                       </div>
                                       <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-white/30">
+                                        <span className="text-[10px] font-black tracking-widest text-white/30">
                                           {mainLabel}
                                         </span>
                                         <span className="text-sm font-bold text-white">{mainValue}</span>
@@ -871,12 +981,12 @@ export function RoutePlanner() {
                           <Bot className="w-6 h-6" />
                         </div>
                         <div className="space-y-3">
-                          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{t("planner.summary.method")}</span>
+                          <span className="text-[10px] font-black tracking-[0.3em] text-primary">{t("planner.summary.method")}</span>
                           <h4 className="text-xl font-black text-white leading-tight">
                             {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
                           </h4>
                           <div className="space-y-1">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30">{t("planner.summary.model")}</span>
+                            <span className="text-[10px] font-black tracking-[0.3em] text-white/30">{t("planner.summary.model")}</span>
                             <p className="text-sm sm:text-base font-bold text-white/85 leading-snug">
                               {getSummaryModelLabel()}
                             </p>
@@ -912,7 +1022,7 @@ export function RoutePlanner() {
                         <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">
                           <stat.icon className="w-5 h-5 text-primary/80 group-hover:text-primary transition-colors" />
                           <div className="flex flex-col">
-                            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-white/30">{stat.label}</span>
+                            <span className="text-[8px] font-black tracking-[0.2em] text-white/30">{stat.label}</span>
                             <span className="text-xs font-black text-white">{stat.value}</span>
                           </div>
                         </div>
@@ -920,7 +1030,7 @@ export function RoutePlanner() {
                     </div>
 
                     <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(255,128,0,0.12)]">
-                      <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/80">
+                      <div className="text-[10px] font-black tracking-[0.24em] text-primary/80">
                         Open Source Support
                       </div>
                       <a

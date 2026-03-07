@@ -540,7 +540,14 @@
         "updated": "Plan enregistré écrasé.",
         "loaded": "Plan enregistré chargé.",
         "deleted": "Plan enregistré supprimé.",
-        "clearedAll": "Formulaire et plans enregistrés supprimés."
+        "clearedAll": "Formulaire et plans enregistrés supprimés.",
+        "duplicate": "Dupliquer",
+        "duplicated": "Le plan a été enregistré et chargé comme variante.",
+        "latest": "Dernier enregistrement",
+        "variantSuffix": "Variante",
+        "apiKeyMissing": "Une clé API valide est requise pour générer un itinéraire.",
+        "apiKeyJump": "Aller à la clé API",
+        "active": "Active"
       },
       "stops": "Arrêts",
       "model": "Modèle IA"
@@ -742,6 +749,10 @@
       "destinationDetails": {
         "label": "Planifier les heures plus précisément",
         "description": "Définis si besoin les heures de départ et d’arrivée."
+      },
+      "roundTripHint": {
+        "badge": "Astuce boucle",
+        "text": "Si le départ et l’arrivée sont identiques, indique simplement ci-dessous des régions et zones cibles. L’IA planifie alors une boucle depuis ton point de départ."
       }
     },
     "optimization": {
@@ -1066,6 +1077,14 @@
         "safe": "Sans problème",
         "caution": "Avec prudence",
         "critical": "Plutôt inadaptée"
+      },
+      "spotlight": {
+        "title": "Évaluation rapide",
+        "topRecommendation": "Meilleure recommandation",
+        "bestLeg": "Meilleure étape",
+        "bestOvernight": "Meilleur lieu de nuitée",
+        "criticalLeg": "Étape la plus critique",
+        "notFound": "Pas encore clairement identifiable"
       }
     },
     "feedback": {

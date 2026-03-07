@@ -26,7 +26,7 @@ export default function Datenschutz() {
             <div className="text-center space-y-4 mb-16">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+                <span className="text-primary font-black text-[10px] tracking-[0.3em]">
                   {t("privacy.badge")}
                 </span>
               </span>
@@ -40,7 +40,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
                     <Shield className="w-6 h-6" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.general.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("privacy.general.title")}</h2>
                 </div>
                 <p className="text-white/60 leading-relaxed italic font-serif">
                   {t("privacy.general.description")}
@@ -53,20 +53,20 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
                     <Database className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.dataProcessing.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("privacy.dataProcessing.title")}</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="space-y-3">
-                    <h3 className="font-black text-primary uppercase text-sm tracking-widest">{t("privacy.dataProcessing.local.title")}</h3>
+                    <h3 className="font-black text-primary text-sm tracking-widest">{t("privacy.dataProcessing.local.title")}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.local.description")}</p>
                   </div>
                   <div className="space-y-3">
-                    <h3 className="font-black text-primary uppercase text-sm tracking-widest">{t("privacy.dataProcessing.ai.title")}</h3>
+                    <h3 className="font-black text-primary text-sm tracking-widest">{t("privacy.dataProcessing.ai.title")}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.ai.description")}</p>
                   </div>
                   <div className="space-y-3">
-                    <h3 className="font-black text-primary uppercase text-sm tracking-widest">{t("privacy.dataProcessing.feedback.title")}</h3>
+                    <h3 className="font-black text-primary text-sm tracking-widest">{t("privacy.dataProcessing.feedback.title")}</h3>
                     <p className="text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.feedback.description")}</p>
                   </div>
                 </div>
@@ -78,7 +78,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/40">
                     <EyeOff className="w-6 h-6" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.cookies.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("privacy.cookies.title")}</h2>
                 </div>
                 <div className="space-y-4 text-white/60 text-sm">
                   <p>{t("privacy.cookies.sidebar.description")}</p>
@@ -92,7 +92,7 @@ export default function Datenschutz() {
                   <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
                     <Lock className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">{t("privacy.hosting.title")}</h2>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("privacy.hosting.title")}</h2>
                 </div>
                 <p className="text-white/60 text-sm leading-relaxed">
                   {t("privacy.hosting.description")}
@@ -101,7 +101,7 @@ export default function Datenschutz() {
 
               {/* Rights */}
               <section className="p-10 rounded-[3rem] border-2 border-primary/20 bg-primary/5 shadow-2xl">
-                <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">{t("privacy.rights.title")}</h2>
+                <h2 className="text-xl md:text-2xl font-black tracking-tight mb-4">{t("privacy.rights.title")}</h2>
                 <p className="text-white/70 leading-relaxed">
                   {t("privacy.rights.description")}
                 </p>
@@ -109,7 +109,7 @@ export default function Datenschutz() {
             </div>
 
             <div className="text-center pt-12">
-              <Link to="/" className="inline-flex items-center gap-2 text-white/40 hover:text-primary transition-colors font-black uppercase text-[10px] tracking-widest group">
+              <Link to="/" className="inline-flex items-center gap-2 text-white/40 hover:text-primary transition-colors font-black text-[10px] tracking-widest group">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 {t("privacy.backToHome")}
               </Link>

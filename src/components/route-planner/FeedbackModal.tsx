@@ -49,10 +49,10 @@ export function FeedbackModal({ open, mode, onClose, onSubmit }: FeedbackModalPr
                 <MessageSquareHeart className="h-6 w-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-xs font-black uppercase tracking-[0.35em] text-primary">
+                <p className="text-xs font-black tracking-[0.35em] text-primary">
                   {t("planner.feedback.badge")}
                 </p>
-                <DialogTitle className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">
+                <DialogTitle className="text-xl sm:text-2xl font-black tracking-tight text-white">
                   {t("planner.feedback.title")}
                 </DialogTitle>
               </div>

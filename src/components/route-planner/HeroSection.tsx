@@ -25,7 +25,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8 reveal-once">
           <span className="flex h-2 w-2 rounded-full bg-primary" />
-          <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+          <span className="text-primary font-black text-[10px] tracking-[0.3em]">
             {t("hero.badge")}
           </span>
         </div>
@@ -79,7 +79,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center w-1/3 sm:w-auto">
                 <span className="text-white font-black text-base sm:text-lg md:text-xl lg:text-3xl xl:text-4xl tracking-tighter drop-shadow-md leading-none mb-1 md:mb-2">{stat.value}</span>
-                <span className="text-white/70 text-[6px] sm:text-[8px] md:text-[10px] lg:text-[11px] uppercase tracking-[0.3em] font-black drop-shadow-sm text-center">{stat.label}</span>
+                <span className="text-white/70 text-[6px] sm:text-[8px] md:text-[10px] lg:text-[11px] tracking-[0.3em] font-black drop-shadow-sm text-center">{stat.label}</span>
               </div>
             ))}
           </div>

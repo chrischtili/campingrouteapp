@@ -540,7 +540,14 @@
         "updated": "Opgeslagen plan overschreven.",
         "loaded": "Opgeslagen plan geladen.",
         "deleted": "Opgeslagen plan verwijderd.",
-        "clearedAll": "Formulier en opgeslagen plannen gewist."
+        "clearedAll": "Formulier en opgeslagen plannen gewist.",
+        "duplicate": "Dupliceren",
+        "duplicated": "Planning als variant opgeslagen en geladen.",
+        "latest": "Laatst opgeslagen",
+        "variantSuffix": "Variant",
+        "apiKeyMissing": "Voor het genereren van een route is een geldige API-key vereist.",
+        "apiKeyJump": "Naar API-key",
+        "active": "Actief"
       },
       "stops": "Tussenstops",
       "model": "AI-model"
@@ -742,6 +749,10 @@
       "destinationDetails": {
         "label": "Tijden nauwkeuriger plannen",
         "description": "Stel optioneel vertrek- en aankomsttijd in."
+      },
+      "roundTripHint": {
+        "badge": "Rondrit-tip",
+        "text": "Als start en bestemming gelijk zijn, kun je hieronder alleen regio’s en doelgebieden invullen. De AI plant daaruit een rondrit vanaf je thuisbasis."
       }
     },
     "optimization": {
@@ -1066,6 +1077,14 @@
         "safe": "Onkritisch",
         "caution": "Met voorzichtigheid",
         "critical": "Eerder ongeschikt"
+      },
+      "spotlight": {
+        "title": "Snelle beoordeling",
+        "topRecommendation": "Topaanbeveling",
+        "bestLeg": "Beste etappe",
+        "bestOvernight": "Beste overnachtingsplek",
+        "criticalLeg": "Meest kritische etappe",
+        "notFound": "Nog niet duidelijk herkenbaar"
       }
     },
     "feedback": {

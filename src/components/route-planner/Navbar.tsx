@@ -105,10 +105,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             className="w-8 h-8 transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110"
           />
           <div className="flex flex-col">
-            <span className="font-black text-2xl tracking-tighter text-white uppercase leading-none">
+            <span className="font-black text-2xl tracking-tighter text-white leading-none">
               Camping<span className="text-primary">Route</span>
             </span>
-            <span className="text-[8px] font-black uppercase tracking-[0.4em] text-white/40 leading-none mt-1">
+            <span className="text-[8px] font-black tracking-[0.4em] text-white/40 leading-none mt-1">
               {t("navbar.subtitle")}
             </span>
           </div>
@@ -121,7 +121,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="text-xs sm:text-sm font-black uppercase tracking-widest text-white/60 hover:text-primary transition-colors relative group"
+                className="text-xs sm:text-sm font-black tracking-widest text-white/60 hover:text-primary transition-colors relative group"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
@@ -137,7 +137,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-white hover:bg-white/5 gap-1 rounded-lg font-black uppercase text-[8px] sm:text-[10px] tracking-widest border border-white/5 px-2 py-1"
+                className="text-white hover:bg-white/5 gap-1 rounded-lg font-black text-[8px] sm:text-[10px] tracking-widest border border-white/5 px-2 py-1"
               >
                 <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                 {i18n.language.toUpperCase()}
@@ -154,7 +154,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
           <Button
             onClick={handlePlanNow}
-            className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-black uppercase text-[8px] sm:text-[10px] tracking-widest transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
+            className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-black text-[8px] sm:text-[10px] tracking-widest transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
             style={{
               background: "rgba(255, 128, 0, 0.25)",
               backdropFilter: "blur(8px)",
@@ -186,7 +186,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white flex items-center justify-between group py-2"
+                className="text-xl sm:text-2xl font-black tracking-tighter text-white flex items-center justify-between group py-2"
               >
                 {link.name}
                 <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
@@ -201,7 +201,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                   <button onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-white/40'}`}>FR</button>
                   <button onClick={() => { changeLanguage('it'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-white/40'}`}>IT</button>
                 </div>
-              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black uppercase text-[8px] sm:text-[10px] tracking-widest">
+              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-black text-[8px] sm:text-[10px] tracking-widest">
                 {t("navbar.planNow")}
               </Button>
             </div>

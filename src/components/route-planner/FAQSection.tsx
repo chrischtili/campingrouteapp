@@ -116,7 +116,7 @@ export function FAQSection() {
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
             <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
               {t("faq.badge")}
             </span>
           </span>
@@ -167,7 +167,7 @@ export function FAQSection() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {faq.content.map((col, j) => (
                           <div key={j} className="space-y-3 p-6 rounded-2xl bg-white/5 border border-white/5">
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">{col.label}</h4>
+                            <h4 className="text-[10px] font-black tracking-[0.2em] text-primary">{col.label}</h4>
                             <ul className="space-y-2">
                               {col.items.map((item, k) => (
                                 <li key={k} className="text-sm text-white/60 flex items-start gap-2 leading-relaxed">
@@ -187,7 +187,7 @@ export function FAQSection() {
                           <div key={j} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 group/step hover:bg-white/10 transition-colors">
                             <span className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-xs font-black text-primary border border-primary/20">{j+1}</span>
                             <div>
-                              <p className="text-sm font-bold text-white uppercase tracking-tight">{step.title}</p>
+                              <p className="text-sm font-bold text-white tracking-tight">{step.title}</p>
                               <p className="text-xs text-white/40">{step.desc}</p>
                             </div>
                           </div>

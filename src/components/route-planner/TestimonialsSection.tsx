@@ -35,7 +35,7 @@ export function TestimonialsSection() {
         <div className="text-center mb-24">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8 reveal-once">
             <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
               {t("testimonials.badge")}
             </span>
           </span>
@@ -82,7 +82,7 @@ export function TestimonialsSection() {
                     </div>
                     <div>
                       <h4 className="font-black text-white text-[0.95rem] sm:text-[1.08rem] tracking-tight leading-none mb-1">{t.author}</h4>
-                      <p className="text-white/38 text-[9px] uppercase tracking-[0.18em] font-black">{t.role}</p>
+                      <p className="text-white/38 text-[9px] tracking-[0.18em] font-black">{t.role}</p>
                     </div>
                   </div>
                 </div>

@@ -27,6 +27,37 @@ const createEmptyStage = (): RouteStage => ({
   departureTime: "",
 });
 
+const getStageMinimumDate = (stages: RouteStage[], index: number, startDate: string) => {
+  if (index === 0) return startDate;
+  return stages[index - 1]?.departureDate || stages[index - 1]?.arrivalDate || startDate;
+};
+
+const normalizeStageDates = (stages: RouteStage[], startDate: string) => {
+  return stages.map((stage, index, currentStages) => {
+    if (!stage.detailsEnabled) {
+      return stage;
+    }
+
+    const minimumDate = getStageMinimumDate(currentStages, index, startDate);
+    const nextStage = { ...stage };
+
+    if (minimumDate) {
+      if (!nextStage.arrivalDate || nextStage.arrivalDate < minimumDate) {
+        nextStage.arrivalDate = minimumDate;
+      }
+    }
+
+    const departureMinimumDate = nextStage.arrivalDate || minimumDate;
+    if (departureMinimumDate) {
+      if (!nextStage.departureDate || nextStage.departureDate < departureMinimumDate) {
+        nextStage.departureDate = departureMinimumDate;
+      }
+    }
+
+    return nextStage;
+  });
+};
+
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -60,8 +91,13 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = e.target.value;
+    const nextEndDate = !formData.endDate || formData.endDate < newStartDate ? newStartDate : formData.endDate;
+    const nextStages = normalizeStageDates(formData.stages, newStartDate);
+
     onChange({
       startDate: newStartDate,
+      endDate: nextEndDate,
+      stages: nextStages,
     });
   };
 
@@ -87,7 +123,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       }
       return nextStage;
     });
-    onChange({ stages: nextStages });
+    onChange({ stages: normalizeStageDates(nextStages, formData.startDate) });
   };
 
   const addStage = () => {

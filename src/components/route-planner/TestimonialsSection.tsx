@@ -27,9 +27,9 @@ export function TestimonialsSection() {
 
   return (
     <section className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden" id="testimonials">
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(8,10,12,0.98),rgba(11,13,15,0.98))]" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/25" />
-      <Quote className="absolute -top-10 -left-10 w-64 h-64 text-white/[0.03] -rotate-12 pointer-events-none" />
+      <div className="content-section-dark content-section-testimonials absolute inset-0 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/5 via-transparent to-black/10 dark:from-white/[0.025] dark:via-transparent dark:to-black/0" />
+      <Quote className="absolute -top-10 -left-10 w-64 h-64 text-foreground/[0.03] dark:text-white/[0.03] -rotate-12 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-24">
@@ -39,7 +39,7 @@ export function TestimonialsSection() {
               {t("testimonials.badge")}
             </span>
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[0.95] reveal-once delay-1">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground dark:text-white tracking-tight leading-[0.95] reveal-once delay-1">
             {t("testimonials.title")}
           </h2>
         </div>
@@ -52,37 +52,28 @@ export function TestimonialsSection() {
               style={{ animationDelay: `${Math.min(i, 4) * 0.08}s` }}
             >
               <div className="relative flex-1 flex flex-col">
-                <div
-                  className="relative p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] shadow-2xl transition-all duration-500 group-hover:scale-[1.02] flex-1 flex flex-col justify-between"
-                  style={{
-                    background: "linear-gradient(180deg, rgba(31,33,37,0.94), rgba(24,26,30,0.97))",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    border: "1px solid rgba(255, 255, 255, 0.10)",
-                    boxShadow: "0 22px 48px rgba(0,0,0,0.22)",
-                  }}
-                >
+                <div className="testimonial-card relative p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] shadow-2xl transition-all duration-500 group-hover:scale-[1.02] flex-1 flex flex-col justify-between">
                   <div className="pointer-events-none absolute inset-0 rounded-3xl sm:rounded-[3rem] border border-primary/0 opacity-0 transition-all duration-500 group-hover:border-primary/22 group-hover:opacity-100" />
                   <div>
                     <div className="flex gap-1 mb-6 shrink-0">
                       {Array.from({ length: 5 }).map((_, j) => (
                         <Star
                           key={j}
-                          className={`w-4 h-4 ${j < t.rating ? "text-primary fill-primary" : "text-white/10"}`}
+                          className={`w-4 h-4 ${j < t.rating ? "text-primary fill-primary" : "text-foreground/10 dark:text-white/10"}`}
                         />
                       ))}
                     </div>
-                    <p className="text-white/82 text-sm sm:text-[0.94rem] leading-7 font-medium italic">
+                    <p className="text-foreground/80 dark:text-white/82 text-sm sm:text-[0.94rem] leading-7 font-medium italic">
                       "{t.text}"
                     </p>
                   </div>
-                  <div className="mt-8 flex items-center gap-4 pt-6 border-t border-white/10">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-black text-xl shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                  <div className="mt-8 flex items-center gap-4 pt-6 border-t border-border dark:border-white/10">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/15 border border-primary/25 flex items-center justify-center text-primary font-black text-xl shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-500">
                       {t.author[0]}
                     </div>
                     <div>
-                      <h4 className="font-black text-white text-[0.95rem] sm:text-[1.08rem] tracking-tight leading-none mb-1">{t.author}</h4>
-                      <p className="text-white/38 text-[9px] tracking-[0.18em] font-black">{t.role}</p>
+                      <h4 className="font-black text-foreground dark:text-white text-[0.95rem] sm:text-[1.08rem] tracking-tight leading-none mb-1">{t.author}</h4>
+                      <p className="text-foreground/40 dark:text-white/38 text-[9px] tracking-[0.18em] font-black">{t.role}</p>
                     </div>
                   </div>
                 </div>

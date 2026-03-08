@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, MapPin, Bot, Settings2, Truck, Bed, FileText, ChevronLeft, ChevronRight, Loader2, Calendar, Clock3, Users, Sparkles, Check, Wallet, Save, FolderOpen, Trash2 } from "lucide-react";
+import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
@@ -48,8 +48,6 @@ export function RoutePlanner() {
   const [loadingMessage, setLoadingMessage] = useState<string>('');
   const [aiError, setAIError] = useState<string>('');
   const [aiModel, setAiModel] = useState<string>('');
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
   const [activeSavedPlanId, setActiveSavedPlanId] = useState<string | null>(null);
@@ -74,6 +72,7 @@ export function RoutePlanner() {
   const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
   const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
   const hasValidDirectApiKey = !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
+  const plannerSectionClass = "theme-band -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 sm:py-7 rounded-[2rem] sm:rounded-[2.5rem]";
   const validActivityValues = new Set([
     "nature",
     "hiking",
@@ -84,13 +83,25 @@ export function RoutePlanner() {
     "relaxation",
   ]);
 
-  const sanitizeFormData = (data: Partial<FormData>): FormData => ({
-    ...initialFormData,
-    ...data,
-    activities: ((data.activities as string[] | undefined) || []).filter((value) =>
-      validActivityValues.has(value)
-    ),
-  });
+  const sanitizeFormData = (data: Partial<FormData> & { travelCompanions?: string[]; dogFriendly?: boolean }): FormData => {
+    const legacyDogFriendly = typeof data.dogFriendly === "boolean"
+      ? data.dogFriendly
+      : ((data.travelCompanions as string[] | undefined) || []).includes("pets");
+    const facilities = Array.isArray(data.facilities) ? [...data.facilities] : [];
+
+    if (legacyDogFriendly && !facilities.includes("dogs")) {
+      facilities.push("dogs");
+    }
+
+    return {
+      ...initialFormData,
+      ...data,
+      facilities,
+      activities: ((data.activities as string[] | undefined) || []).filter((value) =>
+        validActivityValues.has(value)
+      ),
+    };
+  };
 
   const sanitizeAISettings = (settings: AISettings): AISettings => ({
     ...settings,
@@ -167,11 +178,8 @@ export function RoutePlanner() {
     setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
     setOutput("");
     setAIError("");
-    setCurrentStep(1);
-    setCompletedSteps([]);
-
     toast.success(t("planner.summary.savedPlans.duplicated"));
-    requestAnimationFrame(() => scrollToStepContent());
+    requestAnimationFrame(() => scrollToPlannerContent());
   };
 
   const loadSavedPlan = (plan: SavedPlan) => {
@@ -180,10 +188,8 @@ export function RoutePlanner() {
     setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
     setOutput("");
     setAIError("");
-    setCurrentStep(1);
-    setCompletedSteps([]);
     toast.success(t("planner.summary.savedPlans.loaded"));
-    requestAnimationFrame(() => scrollToStepContent());
+    requestAnimationFrame(() => scrollToPlannerContent());
   };
 
   const deleteSavedPlan = (planId: string) => {
@@ -205,8 +211,6 @@ export function RoutePlanner() {
     setFormData(initialFormData);
     setOutput("");
     setAIError("");
-    setCompletedSteps([]);
-    setCurrentStep(1);
     toast.success(t("planner.summary.savedPlans.clearedAll"));
   };
 
@@ -289,15 +293,6 @@ export function RoutePlanner() {
     };
   }, []);
 
-  const steps = [
-    { icon: Bot, label: t("planner.steps.ai.label"), description: t("planner.steps.ai.desc") },
-    { icon: Route, label: t("planner.steps.route.label"), description: t("planner.steps.route.desc") },
-    { icon: Settings2, label: t("planner.steps.optimization.label"), description: t("planner.steps.optimization.desc") },
-    { icon: Truck, label: t("planner.steps.vehicle.label"), description: t("planner.steps.vehicle.desc") },
-    { icon: Bed, label: t("planner.steps.accommodation.label"), description: t("planner.steps.accommodation.desc") },
-    { icon: FileText, label: t("planner.steps.summary.label"), description: t("planner.steps.summary.desc") },
-  ];
-
   const handleFormChange = (data: Partial<FormData>) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
@@ -317,7 +312,7 @@ export function RoutePlanner() {
     });
   };
 
-  const scrollToStepContent = () => {
+  const scrollToPlannerContent = () => {
     setTimeout(() => {
       const element = formRef.current;
       if (element) {
@@ -329,7 +324,6 @@ export function RoutePlanner() {
   };
 
   const scrollToApiKeyInput = () => {
-    setCurrentStep(1);
     setTimeout(() => {
       const element = document.getElementById('apiKey');
       if (element) {
@@ -343,61 +337,14 @@ export function RoutePlanner() {
     }, 120);
   };
 
-  const nextStep = () => {
-    if (currentStep < steps.length) {
-      const newStep = currentStep + 1;
-      setCurrentStep(newStep);
-      if (!completedSteps.includes(currentStep)) {
-        setCompletedSteps([...completedSteps, currentStep]);
-      }
-      scrollToStepContent();
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      scrollToStepContent();
-    }
-  };
-
-  const canNavigateToStep = (step: number) => {
-    if (step === 1) return true;
-    if (step === 2) return true;
-    if (step === currentStep) return true;
-    return isRouteStepValid || completedSteps.includes(step);
-  };
-
-  const goToStep = (step: number) => {
-    if (canNavigateToStep(step)) {
-      setCurrentStep(step);
-      scrollToStepContent();
-    }
-  };
-
   const isModelSelected = () => {
     if (!aiSettings.useDirectAI) return true;
     const currentProvider = aiSettings.aiProvider;
     const modelKey = `${currentProvider}Model` as 'openaiModel' | 'mistralModel' | 'googleModel';
     return !!aiSettings[modelKey];
   };
-  const isAIConfigValid = !aiSettings.useDirectAI
-    ? true
-    : !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
   const hasInvalidStage = formData.stages.some((stage) => !stage.destination?.trim());
   const isRouteStepValid = !!formData.startPoint && !!formData.destination && !hasInvalidStage;
-
-  const isStepValid = () => {
-    switch (currentStep) {
-      case 1:
-        if (!aiSettings.useDirectAI) return true;
-        return !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey) && isModelSelected();
-      case 2:
-        return isRouteStepValid;
-      default:
-        return true;
-    }
-  };
 
   const shouldPromptForFeedback = () => {
     if (typeof window === "undefined") return false;
@@ -541,7 +488,6 @@ export function RoutePlanner() {
         void trackGeneration("prompt");
       }
       
-      setCurrentStep(steps.length + 1);
       setTimeout(() => {
         if (outputSectionRef.current) {
           const yOffset = -100;
@@ -554,11 +500,6 @@ export function RoutePlanner() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await runGeneration();
   };
 
   return (
@@ -604,7 +545,7 @@ export function RoutePlanner() {
       </Suspense>
 
       {showForm && (
-        <section id="planner" className="py-24 px-4 bg-[#0b1110] text-white relative overflow-hidden border-y border-white/5">
+        <section id="planner" className="planner-scope relative overflow-hidden py-24 px-4 text-foreground dark:text-white">
           <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.08]">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -616,9 +557,9 @@ export function RoutePlanner() {
               <rect width="100%" height="100%" fill="url(#map-grid-open)" />
             </svg>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/40 to-black/68 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/4 via-black/8 to-black/12 pointer-events-none dark:from-black/18 dark:via-black/40 dark:to-black/68" />
 
-          <div className="max-w-5xl mx-auto relative z-10 text-white">
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-foreground dark:text-white">
             <div className="text-center mb-24">
               <motion.span 
                 initial={{ opacity: 0, y: 10 }}
@@ -634,128 +575,31 @@ export function RoutePlanner() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-3xl md:text-7xl font-black text-white mt-8 tracking-tighter leading-none"
+                className="mt-8 text-3xl font-black tracking-tighter leading-none text-foreground dark:text-white md:text-7xl"
               >
                 {t("planner.title")}
               </motion.h2>
             </div>
 
-            {/* Modern Progress Steps - ARROW FLOW VERSION */}
-            <div id="planner-progress" className="mb-8 md:mb-16 app-glass p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] relative z-20 shadow-xl sm:shadow-2xl overflow-x-auto md:overflow-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-              <div className="flex items-center justify-between relative px-2 pt-2 pb-4 md:pt-0 md:pb-0 min-w-[max-content] md:min-w-0 gap-6 md:gap-0">
-                {steps.map((step, i) => {
-                  const Icon = step.icon;
-                  const stepNumber = i + 1;
-                  const isActive = stepNumber === currentStep;
-                  const isLast = i === steps.length - 1;
-                  
-                  // CHECK IF STEP IS ACTUALLY FILLED WITH DATA
-                  const isStepCompleted = () => {
-                    switch(stepNumber) {
-                      case 1:
-                        if (!aiSettings.useDirectAI) return true;
-                        return isAIConfigValid;
-                      case 2: return isRouteStepValid;
-                      case 3: return formData.routePreferences.length > 0;
-                      case 4: 
-                        return formData.vehicleLength !== initialFormData.vehicleLength || 
-                               formData.vehicleHeight !== initialFormData.vehicleHeight ||
-                               formData.vehicleWidth !== initialFormData.vehicleWidth ||
-                               formData.weightClass !== initialFormData.weightClass ||
-                               formData.vehicleType !== initialFormData.vehicleType ||
-                               formData.fuelType !== initialFormData.fuelType ||
-                               formData.toiletteSystem !== initialFormData.toiletteSystem ||
-                               formData.heatingSystem !== initialFormData.heatingSystem ||
-                               formData.levelingJacks !== initialFormData.levelingJacks ||
-                               formData.solarPower !== initialFormData.solarPower ||
-                               formData.batteryCapacity !== initialFormData.batteryCapacity ||
-                               formData.autonomyDays !== initialFormData.autonomyDays;
-                      case 5: return formData.travelCompanions.length > 0 || formData.accommodationType.length > 0 || formData.activities.length > 0;
-                      case 6: return !!output; 
-                      default: return false;
-                    }
-                  };
-
-                  const isDone = isStepCompleted();
-                  const isNavigable = canNavigateToStep(stepNumber);
-
-                  return (
-                    <div key={i} className="flex flex-1 items-center">
-                      <button
-                        onClick={() => goToStep(stepNumber)}
-                        disabled={!isNavigable}
-                        title={isNavigable ? t("planner.steps.openStep") : undefined}
-                        className={`flex flex-col items-center group relative flex-1 transition-all duration-500 ${!isNavigable ? "opacity-20 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
-                      >
-                        <div className="relative">
-                          <motion.div 
-                            whileHover={isNavigable ? { scale: 1.1, rotate: 5 } : {}}
-                            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 border-2 shrink-0 ${
-                              isActive 
-                                ? "bg-primary border-primary text-white shadow-xl shadow-primary/40 scale-110 z-10" 
-                                : isDone 
-                                  ? "bg-[#1a2e1a] border-[#2d4d2d] text-[#4ade80] shadow-lg shadow-black/20" 
-                                  : "bg-white/5 border-white/10 text-white/20 group-hover:border-primary/50 group-hover:bg-primary/10 group-hover:text-white/80"
-                            }`}
-                          >
-                            <Icon className="w-5 h-5" />
-                          </motion.div>
-                          
-                          {isDone && (
-                            <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#4ade80] rounded-full flex items-center justify-center border-2 border-[#0a140f] z-30 shadow-lg">
-                              <Check className="w-3 h-3 text-[#0a140f] stroke-[4px]" />
-                            </div>
-                          )}
-                        </div>
-                        <span className={`text-[8px] sm:text-[10px] font-medium mt-2 sm:mt-4 tracking-[0.02em] transition-colors text-center px-1 sm:px-2 ${isActive ? "text-primary" : isDone ? "text-[#4ade80]/60" : "text-white/20"}`}>
-                          {step.label}
-                        </span>
-                      </button>
-
-                      {!isLast && (
-                        <div className="flex items-center justify-center mb-6 md:mb-8 lg:mb-10">
-                          <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-500 shrink-0 ${
-                            isActive 
-                              ? "text-primary scale-125" 
-                              : isDone 
-                                ? "text-[#4ade80]/30" 
-                                : "text-white/5"
-                          }`} />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mt-3 md:mt-5 px-2 text-xs sm:text-sm font-semibold text-white/60">
-                {t("planner.steps.hint")}
-                {!isRouteStepValid && currentStep >= 2 && (
-                  <div className="mt-2 text-xs sm:text-sm font-semibold text-amber-300">
-                    {t("planner.steps.routeIncomplete")}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="mb-8 md:mb-12 p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl space-y-6 text-left">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+            <div className={`${plannerSectionClass} theme-band-vehicle mb-8 md:mb-12 space-y-6 text-left`}>
+              <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
                 <div className="space-y-2">
-                  <div className="text-lg font-black tracking-tight text-white">
+                  <div className="text-lg font-black tracking-tight text-foreground dark:text-white">
                     {t("planner.summary.savedPlans.title")}
                   </div>
-                  <div className="text-xs text-white/60 leading-relaxed">
+                  <div className="text-xs leading-relaxed text-foreground/65 dark:text-white/60">
                     {t("planner.summary.savedPlans.desc")}
                   </div>
                   <div className="text-[10px] font-semibold tracking-[0.08em] text-primary/80">
                     {t("planner.summary.save.note")}
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+                <div className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 xl:max-w-[48rem]">
                   <Button
                     type="button"
                     onClick={() => saveCurrentPlan()}
                     disabled={!formData.startPoint || !formData.destination}
-                    className="rounded-xl px-4 h-11 border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-semibold transition-all active:scale-95 inline-flex items-center gap-2"
+                    className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
                   >
                     <Save className="w-4 h-4" />
                     {t("planner.summary.savedPlans.saveCurrent")}
@@ -764,7 +608,7 @@ export function RoutePlanner() {
                     type="button"
                     onClick={runGeneration}
                     disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                    className="rounded-xl px-4 h-11 border-2 border-primary/30 bg-primary hover:bg-primary/90 text-white font-semibold transition-all active:scale-95 inline-flex items-center gap-2"
+                    className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary hover:bg-primary/90 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
                   >
                     <Bot className="w-4 h-4" />
                     {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
@@ -773,7 +617,7 @@ export function RoutePlanner() {
                     type="button"
                     variant="outline"
                     onClick={clearPlannerData}
-                    className="rounded-xl px-4 h-11 border-2 border-white/10 bg-transparent hover:bg-white/5 text-white/80 font-semibold transition-all active:scale-95"
+                    className="rounded-xl px-5 h-12 w-full border-2 border-foreground/10 bg-transparent text-foreground/80 transition-all active:scale-95 hover:bg-foreground/5 dark:border-white/10 dark:text-white/80 dark:hover:bg-white/5 font-semibold sm:col-span-2 xl:col-span-1"
                   >
                     {t("planner.summary.save.clear")}
                   </Button>
@@ -796,7 +640,7 @@ export function RoutePlanner() {
               )}
 
               {savedPlans.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-5 text-sm text-white/50">
+                <div className="rounded-2xl border border-primary/30 bg-white/60 px-4 py-5 text-sm text-foreground/60 shadow-sm dark:bg-white/[0.04] dark:text-white/50">
                   {t("planner.summary.savedPlans.empty")}
                 </div>
               ) : (
@@ -808,47 +652,50 @@ export function RoutePlanner() {
                     return (
                     <div
                       key={plan.id}
-                      className={`rounded-2xl px-4 py-4 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_22rem] xl:grid-cols-[minmax(0,1fr)_24rem] gap-4 transition-all ${isActivePlan ? "border-2 border-primary/30 bg-primary/8 shadow-lg shadow-primary/10" : "border border-white/10 bg-black/10"}`}
+                      className={`rounded-2xl px-4 py-4 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_21rem] gap-4 transition-all ${isActivePlan ? "border-2 border-primary/55 bg-primary/[0.06] shadow-[0_12px_30px_rgba(0,0,0,0.10),0_0_0_1px_rgba(255,128,0,0.10)]" : "border border-primary/35 bg-white/[0.04] shadow-[inset_0_0_0_1px_rgba(255,128,0,0.08)]"}`}
                     >
-                      <div className="space-y-2 min-w-0">
+                      <div className="space-y-3 min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
                           {isActivePlan && (
-                            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary/90">
+                            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/8 px-2.5 py-1 text-[10px] font-medium text-primary/90">
                               {t("planner.summary.savedPlans.active")}
                             </span>
                           )}
                           {isLatestPlan && (
-                            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold text-white/65">
+                            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-medium text-white/65">
                               {t("planner.summary.savedPlans.latest")}
                             </span>
                           )}
                         </div>
-                        <div className="text-[11px] text-white/40">
+                        <div className="text-[11px] text-white/38">
                           {new Date(plan.savedAt).toLocaleString(locale)}
                         </div>
-                        <div className="space-y-1.5 text-xs text-white/62 leading-relaxed">
-                          <div>
-                            <span className="text-white/38">{t("planner.summary.start")}:</span>{" "}
-                            <span>{plan.formData.startPoint || t("planner.summary.notSpecified")}</span>
-                            {" · "}
-                            <span className="text-white/38">{t("planner.summary.destination")}:</span>{" "}
-                            <span>{plan.formData.destination || t("planner.summary.notSpecified")}</span>
+                        <div className="space-y-2 text-sm text-white/76 leading-relaxed">
+                          <div className="font-semibold text-white leading-snug break-words">
+                            {plan.formData.startPoint || t("planner.summary.notSpecified")} → {plan.formData.destination || t("planner.summary.notSpecified")}
                           </div>
-                          <div>
-                            <span className="text-white/38">{t("prompt.labels.targetRegions")}:</span>{" "}
-                            <span>{plan.formData.targetRegions?.trim() || t("planner.summary.notSpecified")}</span>
+                          <div className="space-y-1 text-xs">
+                            <div>
+                              <span className="text-white/38">{t("planner.summary.start")} / {t("planner.summary.destination")}:</span>{" "}
+                              <span className="text-white/68">{plan.formData.startPoint || t("planner.summary.notSpecified")} · {plan.formData.destination || t("planner.summary.notSpecified")}</span>
+                            </div>
+                            <div>
+                              <span className="text-white/38">{t("prompt.labels.targetRegions")}:</span>{" "}
+                              <span className="text-white/68">{plan.formData.targetRegions?.trim() || t("planner.summary.notSpecified")}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 w-full min-w-0 self-start">
+                      <div className="grid grid-cols-2 gap-2 w-full min-w-0 self-start xl:self-center">
                         <Button
                           type="button"
                           variant="outline"
                           onClick={() => loadSavedPlan(plan)}
-                          className={`rounded-xl min-h-[42px] px-3 border-2 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 w-full ${isActivePlan ? "border-primary/25 bg-primary/15 text-white" : "border-white/10 bg-white/5 hover:bg-white/10 text-white"}`}
+                          disabled={isActivePlan}
+                          className={`rounded-xl min-h-[42px] px-3 border-2 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 w-full ${isActivePlan ? "border-primary/20 bg-primary/10 text-white/60 cursor-default" : "border-white/10 bg-white/5 hover:bg-white/10 text-white"}`}
                         >
                           <FolderOpen className="w-4 h-4" />
-                          {t("planner.summary.savedPlans.load")}
+                          {isActivePlan ? t("planner.summary.savedPlans.active") : t("planner.summary.savedPlans.load")}
                         </Button>
                         <Button
                           type="button"
@@ -864,7 +711,7 @@ export function RoutePlanner() {
                           variant="outline"
                           onClick={() => saveCurrentPlan(plan.id)}
                           disabled={!formData.startPoint || !formData.destination}
-                          className="rounded-xl min-h-[42px] px-3 border-2 border-primary/20 bg-primary/10 hover:bg-primary/15 text-white/85 font-semibold transition-all active:scale-95 w-full justify-center"
+                          className={`rounded-xl min-h-[42px] px-3 border-2 font-semibold transition-all active:scale-95 w-full justify-center ${isActivePlan ? "border-primary/30 bg-primary/15 hover:bg-primary/20 text-white" : "border-primary/16 bg-primary/8 hover:bg-primary/12 text-white/85"}`}
                         >
                           {t("planner.summary.savedPlans.overwrite")}
                         </Button>
@@ -885,28 +732,39 @@ export function RoutePlanner() {
               )}
             </div>
 
-            {/* Form Steps */}
+            <div className="grid grid-cols-1 gap-8 items-start">
             <motion.div 
-              key={currentStep}
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="app-glass p-6 sm:p-10 md:p-16 rounded-3xl md:rounded-[3rem] relative overflow-hidden shadow-2xl" 
+              className="relative overflow-visible pb-28 sm:pb-32" 
               ref={formRef}
             >
-              <div className="space-y-12 relative z-10">
-                {currentStep === 1 && (
+              <div className="space-y-6 relative z-10">
+                <div className={`${plannerSectionClass} theme-band-ai`}>
                   <AISettingsSection
                     aiSettings={aiSettings}
                     onAISettingsChange={handleAISettingsChange}
                     aiError={aiError}
                   />
-                )}
-                {currentStep === 2 && <RouteSection formData={formData} onChange={handleFormChange} />}
-                {currentStep === 3 && <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />}
-                {currentStep === 4 && <VehicleSection formData={formData} onChange={handleFormChange} />}
-                {currentStep === 5 && <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />}
-                {currentStep >= 6 && (
-                  <div className="space-y-10">
+                </div>
+
+                <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                  <RouteSection formData={formData} onChange={handleFormChange} />
+                </div>
+
+                <div className={`${plannerSectionClass} theme-band-ai`}>
+                  <VehicleSection formData={formData} onChange={handleFormChange} />
+                </div>
+
+                <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                  <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />
+                </div>
+
+                <div className={`${plannerSectionClass} theme-band-ai`}>
+                  <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />
+                </div>
+
+                <div className={`${plannerSectionClass} theme-band-vehicle space-y-10`}>
                     <div className="space-y-4">
                       <h3 className="text-2xl sm:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
                         <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/20">
@@ -922,7 +780,7 @@ export function RoutePlanner() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-                      <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/5 border-2 border-white/10 shadow-xl flex flex-col gap-6">
+                      <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
                           <div className="flex flex-col gap-1 text-center sm:text-left">
                             <span className="text-[10px] font-semibold tracking-[0.08em] text-primary">{t("planner.summary.start")}</span>
@@ -992,12 +850,12 @@ export function RoutePlanner() {
                         )}
                       </div>
 
-                      <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-primary/5 border-2 border-primary/20 shadow-xl flex flex-col justify-between gap-6 sm:gap-0">
-                        <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 mb-6">
+                      <div className="p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/5 border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col justify-between gap-6 sm:gap-0">
+                        <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center text-primary mb-6">
                           <Bot className="w-6 h-6" />
                         </div>
                         <div className="space-y-3">
-                          <span className="text-[10px] font-semibold tracking-[0.08em] text-primary">{t("planner.summary.method")}</span>
+                          <span className="text-[10px] font-semibold tracking-[0.08em] text-primary/80">{t("planner.summary.method")}</span>
                           <h4 className="text-xl font-black text-white leading-tight">
                             {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
                           </h4>
@@ -1045,72 +903,62 @@ export function RoutePlanner() {
                       ))}
                     </div>
 
-                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-3xl border-2 border-primary/20 bg-primary/8 px-5 py-5 shadow-[0_20px_60px_rgba(255,128,0,0.12)]">
-                      <div className="text-[10px] font-semibold tracking-[0.08em] text-primary/80">
+                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-[1.9rem] border border-white/10 bg-white/[0.06] px-5 py-5 shadow-[0_18px_48px_rgba(0,0,0,0.14)]">
+                      <div className="text-[10px] font-semibold tracking-[0.08em] text-primary/75">
                         Open Source Support
                       </div>
                       <a
                         href="https://www.buymeacoffee.com/campingroute"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-w-[260px] flex-col items-center justify-center gap-1 px-6 py-3.5 rounded-2xl border-2 border-primary/40 text-white bg-primary/90 hover:bg-primary transition-colors shadow-[0_18px_50px_rgba(255,128,0,0.28)]"
+                        className="inline-flex min-w-[260px] flex-col items-center justify-center gap-1 px-6 py-3.5 rounded-2xl border border-primary/30 text-white bg-white/[0.06] hover:bg-white/[0.1] transition-colors shadow-[0_14px_38px_rgba(0,0,0,0.12)]"
                       >
-                        <span className="flex items-center justify-center gap-2 text-sm sm:text-base font-bold tracking-normal">
+                        <span className="flex items-center justify-center gap-2 text-sm sm:text-base font-bold tracking-normal text-primary">
                           <span aria-hidden="true">☕</span>
                           <span>{t("planner.summary.save.coffee")}</span>
                         </span>
-                        <span className="text-[10px] sm:text-xs font-semibold text-white/80 tracking-normal">
+                        <span className="text-[10px] sm:text-xs font-semibold text-foreground/72 dark:text-white/72 tracking-normal">
                           (Buy me a coffee)
                         </span>
                       </a>
-                      <div className="text-[11px] sm:text-xs text-white/70 leading-relaxed max-w-lg">
+                      <div className="text-[11px] sm:text-xs text-foreground/68 dark:text-white/68 leading-relaxed max-w-lg">
                         {t("planner.summary.save.coffeeHint")}
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Navigation - Only hide in the final result step (currentStep > 7) */}
-              {currentStep <= steps.length && (
-                <div className="flex justify-between items-center gap-4 mt-12 pt-8 border-t border-white/5 relative z-10">
-                  {currentStep > 1 ? (
-                    <Button 
-                      variant="outline" 
-                      onClick={prevStep} 
-                      className="rounded-xl px-4 sm:px-6 border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition-all active:scale-95 flex items-center gap-2 h-12 text-sm sm:text-base"
-                    >
-                      <ChevronLeft className="w-4 h-4 shrink-0" />
-                      <span className="hidden sm:inline">{t("planner.nav.back")}</span>
-                    </Button>
-                  ) : <div />}
-                  
-                  {currentStep < steps.length ? (
-                    <Button 
-                      onClick={nextStep} 
-                      disabled={!isStepValid()} 
-                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-8 font-black shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 h-12 text-sm sm:text-base flex-1 sm:flex-none max-w-[200px] sm:max-w-none ml-auto flex items-center justify-center"
-                    >
-                      <span>{t("planner.nav.next")}</span>
-                      <ChevronRight className="w-4 h-4 ml-2 shrink-0" />
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={handleSubmit} 
-                      disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage}
-                      className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 sm:px-10 py-6 font-black text-base sm:text-xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 flex-1 sm:flex-none ml-auto text-center leading-tight"
-                    >
-                      {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
-                    </Button>
-                  )}
                 </div>
-              )}
+              </div>
             </motion.div>
+            </div>
           </div>
+
+      {showForm && (
+        <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[calc(env(safe-area-inset-bottom)+12px)] sm:px-6">
+          <div className="theme-surface mx-auto max-w-[calc(100%-1rem)] rounded-[1.1rem] px-3 py-3 sm:max-w-[calc(100%-3rem)] sm:px-4">
+            <div className="flex items-center gap-3">
+              <div className="hidden min-w-0 sm:block">
+                <div className="text-[10px] font-semibold tracking-[0.08em] text-primary">
+                  {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
+                </div>
+                <div className="truncate text-sm font-semibold text-foreground/78 dark:text-white/78">
+                  {formData.startPoint || t("planner.summary.notSpecified")} → {summaryPrimaryDestination || t("planner.summary.notSpecified")}
+                </div>
+              </div>
+              <Button
+                type="button"
+                onClick={runGeneration}
+                disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
+                className="ml-auto h-12 w-full rounded-2xl bg-primary text-white font-semibold hover:bg-primary/90 sm:w-auto sm:min-w-[260px]"
+              >
+                {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {(output || isLoading || aiError) && (
         <div
-          className="mt-16 max-w-5xl mx-auto scroll-mt-24 rounded-[2rem] bg-[linear-gradient(180deg,rgba(7,12,11,0.88),rgba(7,12,11,0.96))] shadow-[0_24px_80px_rgba(0,0,0,0.24)] backdrop-blur-[2px] px-3 py-3 sm:px-4 sm:py-4"
+          className="theme-surface mx-auto mt-16 max-w-[calc(100%-1rem)] scroll-mt-24 rounded-[1.5rem] px-3 py-3 sm:max-w-[calc(100%-3rem)] sm:px-4 sm:py-4"
           ref={outputSectionRef}
         >
           <OutputSection
@@ -1136,7 +984,7 @@ export function RoutePlanner() {
               targetRegions: formData.targetRegions,
               preferScenicLongerStops: formData.preferScenicLongerStops,
               travelPace: formData.travelPace,
-              budgetLevel: formData.budgetLevel,
+              avgCampsitePriceMax: formData.avgCampsitePriceMax,
               quietPlaces: formData.quietPlaces,
             }}
             onEngagement={handleOutputEngagement}

@@ -13,6 +13,8 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   isDark: boolean;
+  resolvedTheme: "light" | "dark";
+  systemTheme: "light" | "dark";
 };
 
 const initialState: ThemeProviderState = {
@@ -20,6 +22,8 @@ const initialState: ThemeProviderState = {
   setTheme: () => null,
   toggleTheme: () => null,
   isDark: false,
+  resolvedTheme: "dark",
+  systemTheme: "dark",
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -31,15 +35,14 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
-  const [hasUserSelectedTheme, setHasUserSelectedTheme] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [systemTheme, setSystemTheme] = useState<"light" | "dark">("dark");
 
   // Theme initialisieren
   useEffect(() => {
     const savedTheme = localStorage.getItem(storageKey) as Theme | null;
     if (savedTheme) {
       setThemeState(savedTheme);
-      setHasUserSelectedTheme(true);
     } else {
       setThemeState("system");
     }
@@ -52,6 +55,7 @@ export function ThemeProvider({
     if (theme === "system") {
       // Systemeinstellungen verwenden
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setSystemTheme(systemPrefersDark ? "dark" : "light");
       setIsDark(systemPrefersDark);
       if (systemPrefersDark) {
         htmlElement.classList.add("dark");
@@ -79,6 +83,7 @@ export function ThemeProvider({
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
       if (theme === "system") {
+        setSystemTheme(e.matches ? "dark" : "light");
         const htmlElement = document.documentElement;
         if (e.matches) {
           htmlElement.classList.add("dark");
@@ -99,7 +104,6 @@ export function ThemeProvider({
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
     if (newTheme !== "system") {
-      setHasUserSelectedTheme(true);
       localStorage.setItem(storageKey, newTheme);
     } else {
       // Bei Systemeinstellung Speicherung löschen (DSGVO-konform)
@@ -116,6 +120,8 @@ export function ThemeProvider({
     setTheme,
     toggleTheme,
     isDark,
+    resolvedTheme: isDark ? "dark" : "light",
+    systemTheme,
   };
 
   return (

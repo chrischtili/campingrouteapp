@@ -77,9 +77,9 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
 
   return (
     <section id="example-route" className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,128,0,0.10),transparent_40%),linear-gradient(180deg,rgba(10,12,14,0.98),rgba(8,10,12,0.98))] pointer-events-none" />
+      <div className="absolute inset-0 content-section-dark content-section-example pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[920px] h-[920px] bg-primary/8 rounded-full blur-[140px] pointer-events-none opacity-70" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/15 via-transparent to-black/30" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/5 via-transparent to-black/10 dark:from-white/[0.03] dark:via-transparent dark:to-black/0" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -88,9 +88,9 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
           viewport={{ once: true }}
           className="text-center space-y-4"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
             <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
+            <span className="text-primary font-semibold text-[10px] tracking-[0.08em]">
               {t("exampleRoute.badge")}
             </span>
           </span>
@@ -104,7 +104,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-14 mx-auto max-w-5xl rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(24,24,28,0.92),rgba(19,20,24,0.96))] shadow-[0_28px_80px_rgba(0,0,0,0.35)] p-8 sm:p-10"
+          className="example-card mt-14 mx-auto max-w-5xl rounded-[2rem] p-8 shadow-[0_28px_80px_rgba(0,0,0,0.18)] sm:p-10"
         >
           <p className="text-base text-foreground/78 leading-relaxed mb-8">
             {t("exampleRoute.lead")}
@@ -156,7 +156,7 @@ export function RouteExampleSection({ onStartPlanning }: RouteExampleSectionProp
               type="button"
               variant="outline"
               onClick={() => setShowDetails((prev) => !prev)}
-              className="flex-1 rounded-full h-12 text-base font-semibold border-white/15 bg-black/40 hover:bg-black/60"
+              className="flex-1 rounded-full h-12 text-base font-semibold border-slate-900/10 bg-white/70 text-foreground hover:bg-white dark:border-white/15 dark:bg-black/40 dark:text-white dark:hover:bg-black/60"
             >
               {showDetails ? t("exampleRoute.details.hide") : t("exampleRoute.details.show")}
             </Button>

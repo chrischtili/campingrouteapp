@@ -65,7 +65,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   };
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       <div className="space-y-4">
         <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
           <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
@@ -126,8 +126,8 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             onClick={() => selectMode(mode.id === 'direct')}
             className={`group relative p-4 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
               mode.active 
-                ? 'border-primary bg-primary/10 shadow-xl shadow-primary/10' 
-                : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10 shadow-lg'
+                ? 'border-primary bg-primary/[0.08] shadow-[0_14px_36px_rgba(0,0,0,0.12)]' 
+                : 'border-white/8 bg-white/[0.06] hover:border-white/14 hover:bg-white/[0.08] shadow-[0_14px_36px_rgba(0,0,0,0.10)]'
             }`}
           >
             <div className={`w-10 h-10 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-8 transition-all duration-500 ${mode.active ? "bg-primary text-white scale-110 rotate-3 shadow-lg shadow-primary/30" : "bg-white/5 text-white/40 group-hover:text-white"}`}>
@@ -165,7 +165,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="space-y-8 p-6 sm:p-10 rounded-3xl sm:rounded-[3rem] bg-white/5 backdrop-blur-3xl border-2 border-white/10 shadow-2xl scroll-mt-28"
+            className="space-y-8 p-5 sm:p-8 rounded-3xl sm:rounded-[2.5rem] bg-white/[0.06] backdrop-blur-3xl border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.12)] scroll-mt-28"
           >
             {aiError && (
               <Alert variant="destructive" className="rounded-xl sm:rounded-2xl border-destructive/20 bg-destructive/10 p-4 sm:p-6">
@@ -200,10 +200,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     });
                   }}
                 >
-                  <SelectTrigger className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                  <SelectTrigger className={inputClass}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                  <SelectContent>
                     <SelectItem value="google">Google Gemini 3.1</SelectItem>
                     <SelectItem value="openai">OpenAI ChatGPT</SelectItem>
                     <SelectItem value="mistral">Mistral Large</SelectItem>
@@ -219,10 +219,10 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                       value={aiSettings.openaiModel || "gpt-5.2"}
                       onValueChange={(value) => onAISettingsChange({ openaiModel: value })}
                     >
-                      <SelectTrigger id="openaiModel" className={inputClass} style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                      <SelectTrigger id="openaiModel" className={inputClass}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl sm:rounded-2xl bg-[#0a140f] border-white/10 shadow-2xl">
+                      <SelectContent>
                         <SelectItem value="gpt-5.2">ChatGPT 5.2</SelectItem>
                         <SelectItem value="gpt-5.4">ChatGPT 5.4</SelectItem>
                       </SelectContent>
@@ -244,7 +244,6 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     value={aiSettings.apiKey}
                     onChange={(e) => onAISettingsChange({ apiKey: e.target.value })}
                     className={`${inputClass} pl-12 sm:pl-14`}
-                    style={{ background: "rgba(255, 255, 255, 0.05)", borderColor: "rgba(255, 255, 255, 0.2)" }}
                   />
                   <Lock className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-white/20 pointer-events-none" />
                 </div>

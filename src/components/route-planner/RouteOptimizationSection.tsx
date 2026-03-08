@@ -1,9 +1,11 @@
 import { FormData } from "@/types/routePlanner";
-import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
-import { useRef, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Target, Navigation, Sparkles, ShieldAlert, Landmark, ChevronDown } from "lucide-react";
+import { Target, Navigation, Sparkles, ShieldAlert, Landmark } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface RouteOptimizationSectionProps {
   formData: FormData;
@@ -11,183 +13,174 @@ interface RouteOptimizationSectionProps {
   onChange: (data: Partial<FormData>) => void;
 }
 
+type OptimizationPanel = null | "roadType" | "restrictions" | "landscape" | "experiences" | "avoidRegions";
+
 export function RouteOptimizationSection({ formData, onCheckboxChange, onChange }: RouteOptimizationSectionProps) {
   const { t } = useTranslation();
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    roadType: false,
-    restrictions: false,
-    landscape: false,
-    experiences: false,
-    avoidRegions: false,
-  });
+  const isMobile = useIsMobile();
+  const [activePanel, setActivePanel] = useState<OptimizationPanel>(null);
 
   const categories = [
     {
-      id: 'roadType',
+      id: "roadType" as const,
       label: t("planner.optimization.categories.roadType.label"),
       icon: Navigation,
-      accent: "text-primary",
       options: [
-        { value: 'motorways', label: t("planner.optimization.categories.roadType.options.motorways") },
-        { value: 'country', label: t("planner.optimization.categories.roadType.options.country") },
-        { value: 'scenic', label: t("planner.optimization.categories.roadType.options.scenic") },
-      ]
+        { value: "motorways", label: t("planner.optimization.categories.roadType.options.motorways") },
+        { value: "country", label: t("planner.optimization.categories.roadType.options.country") },
+        { value: "scenic", label: t("planner.optimization.categories.roadType.options.scenic") },
+      ],
     },
     {
-      id: 'restrictions',
+      id: "restrictions" as const,
       label: t("planner.optimization.categories.restrictions.label"),
       icon: ShieldAlert,
-      accent: "text-secondary",
       options: [
-        { value: 'traffic', label: t("planner.optimization.categories.avoidances.options.traffic") },
-        { value: 'construction', label: t("planner.optimization.categories.avoidances.options.construction") },
-        { value: 'toll', label: t("planner.optimization.categories.avoidances.options.toll") },
-        { value: 'tunnels', label: t("planner.optimization.categories.avoidances.options.tunnels") },
-        { value: 'night', label: t("planner.optimization.categories.avoidances.options.night") },
-        { value: 'innerCities', label: t("planner.optimization.categories.restrictions.options.innerCities") },
-        { value: 'oldTowns', label: t("planner.optimization.categories.restrictions.options.oldTowns") },
-        { value: 'hairpins', label: t("planner.optimization.categories.restrictions.options.hairpins") },
-        { value: 'narrowRoads', label: t("planner.optimization.categories.restrictions.options.narrowRoads") },
-        { value: 'unpavedRoads', label: t("planner.optimization.categories.restrictions.options.unpavedRoads") },
-        { value: 'ferries', label: t("planner.optimization.categories.restrictions.options.ferries") },
-      ]
+        { value: "traffic", label: t("planner.optimization.categories.avoidances.options.traffic") },
+        { value: "construction", label: t("planner.optimization.categories.avoidances.options.construction") },
+        { value: "night", label: t("planner.optimization.categories.avoidances.options.night") },
+        { value: "innerCities", label: t("planner.optimization.categories.restrictions.options.innerCities") },
+        { value: "narrowRoads", label: t("planner.optimization.categories.restrictions.options.narrowRoads") },
+        { value: "unpavedRoads", label: t("planner.optimization.categories.restrictions.options.unpavedRoads") },
+      ],
     },
     {
-      id: 'landscape',
+      id: "landscape" as const,
       label: t("planner.optimization.categories.landscape.label"),
       icon: Sparkles,
-      accent: "text-primary",
       options: [
-        { value: 'mountains', label: t("planner.optimization.categories.landscape.options.mountains") },
-        { value: 'coastal', label: t("planner.optimization.categories.landscape.options.coastal") },
-        { value: 'lakes', label: t("planner.optimization.categories.landscape.options.lakes") },
-        { value: 'forest', label: t("planner.optimization.categories.landscape.options.forest") },
-        { value: 'rural', label: t("planner.optimization.categories.landscape.options.rural") },
-      ]
+        { value: "mountains", label: t("planner.optimization.categories.landscape.options.mountains") },
+        { value: "coastal", label: t("planner.optimization.categories.landscape.options.coastal") },
+        { value: "lakes", label: t("planner.optimization.categories.landscape.options.lakes") },
+        { value: "forest", label: t("planner.optimization.categories.landscape.options.forest") },
+        { value: "rural", label: t("planner.optimization.categories.landscape.options.rural") },
+      ],
     },
     {
-      id: 'experiences',
+      id: "experiences" as const,
       label: t("planner.optimization.categories.experiences.label"),
       icon: Landmark,
-      accent: "text-secondary",
       options: [
-        { value: 'cities', label: t("planner.optimization.categories.experiences.options.cities") },
-        { value: 'unesco', label: t("planner.optimization.categories.experiences.options.unesco") },
-        { value: 'farm', label: t("planner.optimization.categories.experiences.options.farm") },
-        { value: 'markets', label: t("planner.optimization.categories.experiences.options.markets") },
-      ]
-    }
+        { value: "unesco", label: t("planner.optimization.categories.experiences.options.unesco") },
+        { value: "farm", label: t("planner.optimization.categories.experiences.options.farm") },
+        { value: "markets", label: t("planner.optimization.categories.experiences.options.markets") },
+      ],
+    },
   ];
 
-  const toggleSection = (key: string) => {
-    setOpenSections((prev) => {
-      const nextValue = !prev[key];
-      if (nextValue) {
-        requestAnimationFrame(() => {
-          const element = sectionRefs.current[key];
-          if (!element) return;
-          const top = element.getBoundingClientRect().top + window.scrollY - 110;
-          window.scrollTo({ top, behavior: "smooth" });
-        });
-      }
-      return {
-        roadType: false,
-        restrictions: false,
-        landscape: false,
-        experiences: false,
-        avoidRegions: false,
-        [key]: nextValue,
-      };
-    });
+  const panelTriggerClass =
+    "planner-panel-trigger rounded-2xl border-2 px-5 py-4 text-left transition-colors";
+  const textareaClass =
+    "popup-input w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-foreground dark:text-white placeholder:font-normal text-left resize-none";
+
+  const renderPanelShell = (title: string, description: string, content: ReactNode) => {
+    if (isMobile) {
+      return (
+        <Sheet open={!!activePanel} onOpenChange={(open) => !open && setActivePanel(null)}>
+          <SheetContent side="bottom" className="theme-popup-shell theme-popup-optimization max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0 shadow-[0_-32px_120px_rgba(0,0,0,0.72)] ring-2 ring-primary/35 backdrop-blur-xl">
+            <SheetHeader className="theme-popup-divider border-b px-6 py-5 text-left">
+              <SheetTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</SheetTitle>
+              <SheetDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</SheetDescription>
+            </SheetHeader>
+            <div className="px-6 pt-6">{content}</div>
+          </SheetContent>
+        </Sheet>
+      );
+    }
+
+    return (
+      <Dialog open={!!activePanel} onOpenChange={(open) => !open && setActivePanel(null)}>
+        <DialogContent className="theme-popup-shell theme-popup-optimization max-h-[90vh] max-w-4xl overflow-y-auto border-2 p-0 shadow-[0_36px_140px_rgba(0,0,0,0.74)] ring-2 ring-primary/35 backdrop-blur-xl">
+          <DialogHeader className="theme-popup-divider border-b px-6 py-5 text-left">
+            <DialogTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</DialogTitle>
+            <DialogDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</DialogDescription>
+          </DialogHeader>
+          <div className="px-6 pb-6 pt-6">{content}</div>
+        </DialogContent>
+      </Dialog>
+    );
   };
-  
+
+  const getSelectedLabels = (options: { value: string; label: string }[]) => {
+    const labels = options.filter((option) => formData.routePreferences.includes(option.value)).map((option) => option.label);
+    return labels.length > 0 ? labels.slice(0, 3).join(", ") : t("planner.summary.notSpecified");
+  };
+
   return (
-    <div className="space-y-12">
+    <div className="space-y-8">
       <div className="space-y-4 text-left">
-        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
+        <h3 className="text-2xl md:text-3xl font-bold flex items-center gap-3 tracking-tight text-foreground dark:text-white">
           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-lg border-2 border-primary/20">
             <Target className="w-6 h-6" />
           </div>
           {t("planner.optimization.title")}
         </h3>
-        <p className="text-white/80 text-lg leading-relaxed italic font-medium">
-          {t("planner.optimization.subtitle")}
-        </p>
+        <p className="text-foreground/62 dark:text-white/58 text-base md:text-lg leading-relaxed">{t("planner.optimization.subtitle")}</p>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {categories.map((cat) => (
-          <div
-            key={cat.id}
-            ref={(node) => {
-              sectionRefs.current[cat.id] = node;
-            }}
-            style={{ overflowAnchor: "none" }}
-            className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${
-              openSections[cat.id] ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"
-            }`}
-          >
-            <button
-              type="button"
-              onClick={() => toggleSection(cat.id)}
-              className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1"
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openSections[cat.id] ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
-                  <cat.icon className="w-4 h-4" />
-                </div>
-                <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">{cat.label}</span>
+          <button key={cat.id} type="button" className={panelTriggerClass} onClick={() => setActivePanel(cat.id)}>
+            <div className="flex items-start gap-3">
+              <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
+                <cat.icon className="h-4 w-4" />
               </div>
-              <ChevronDown className={`w-4 h-4 transition-transform ${openSections[cat.id] ? "rotate-180 text-primary" : "text-white/70"}`} />
-            </button>
-            {openSections[cat.id] && (
-              <div className="mt-4">
-                <ToggleGroup
-                  name="routePreferences"
-                  options={cat.options}
-                  selectedValues={formData.routePreferences}
-                  onChange={onCheckboxChange}
-                />
+              <div>
+                <div className="text-sm font-semibold text-foreground dark:text-white">{cat.label}</div>
+                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{getSelectedLabels(cat.options)}</div>
               </div>
-            )}
-          </div>
+            </div>
+          </button>
         ))}
 
-        <div
-          ref={(node) => {
-            sectionRefs.current.avoidRegions = node;
-          }}
-          style={{ overflowAnchor: "none" }}
-          className={`rounded-2xl border-2 p-4 sm:p-5 transition-colors ${openSections.avoidRegions ? "border-primary/30 bg-white/10" : "border-white/10 bg-white/5"}`}
-        >
-          <button
-            type="button"
-            onClick={() => toggleSection("avoidRegions")}
-            className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-1 py-1"
-          >
-            <div className="flex items-center gap-3">
-              <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${openSections.avoidRegions ? "bg-primary/15 border-primary/30 text-primary" : "bg-white/5 border-white/20 text-primary/90"}`}>
-                <ShieldAlert className="w-4 h-4" />
-              </div>
-              <span className="text-xs md:text-sm font-semibold tracking-[0.04em] text-white">{t("planner.optimization.avoidRegions.label")}</span>
+        <button type="button" className={panelTriggerClass} onClick={() => setActivePanel("avoidRegions")}>
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
+              <ShieldAlert className="h-4 w-4" />
             </div>
-            <ChevronDown className={`w-4 h-4 transition-transform ${openSections.avoidRegions ? "rotate-180 text-primary" : "text-white/70"}`} />
-          </button>
-          {openSections.avoidRegions && (
-            <div className="mt-4">
-              <textarea
-                id="avoidRegions"
-                placeholder={t("planner.optimization.avoidRegions.placeholder")}
-                value={formData.avoidRegions}
-                onChange={(e) => onChange({ avoidRegions: e.target.value })}
-                rows={4}
-                className="w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl bg-white/5 border-2 border-white/10 shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/60 placeholder:font-normal text-left resize-none"
-              />
+            <div>
+              <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.optimization.avoidRegions.label")}</div>
+              <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{formData.avoidRegions?.trim() || t("planner.optimization.avoidRegions.placeholder")}</div>
             </div>
-          )}
-        </div>
+          </div>
+        </button>
       </div>
+
+      {categories.map((cat) =>
+        activePanel === cat.id
+          ? (
+            <div key={cat.id}>
+              {renderPanelShell(
+              cat.label,
+              t("planner.optimization.subtitle"),
+              <ToggleGroup
+                name="routePreferences"
+                options={cat.options}
+                selectedValues={formData.routePreferences}
+                onChange={onCheckboxChange}
+              />,
+            )}
+            </div>
+          )
+          : null,
+      )}
+
+      {activePanel === "avoidRegions" && (
+        <div key="avoidRegions">
+          {renderPanelShell(
+          t("planner.optimization.avoidRegions.label"),
+          t("planner.optimization.avoidRegions.placeholder"),
+          <textarea
+            id="avoidRegions"
+            placeholder={t("planner.optimization.avoidRegions.placeholder")}
+            value={formData.avoidRegions}
+            onChange={(e) => onChange({ avoidRegions: e.target.value })}
+            rows={4}
+            className={textareaClass}
+          />,
+        )}
+        </div>
+      )}
     </div>
   );
 }

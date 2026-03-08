@@ -16,15 +16,15 @@ export function FeaturesSection() {
   return (
     <section className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden" id="features">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,128,0,0.10),transparent_38%),linear-gradient(180deg,rgba(7,10,11,0.98),rgba(9,11,12,0.98))]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/30" />
+        <div className="content-section-dark content-section-features absolute inset-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/10 dark:from-white/[0.03] dark:via-transparent dark:to-black/0" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16 sm:mb-32 space-y-4 sm:space-y-8">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/15 bg-primary/[0.06] reveal-once">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/15 bg-primary/[0.06] reveal-once">
             <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
+            <span className="text-primary font-semibold text-[10px] tracking-[0.08em]">
               {t("features.badge")}
             </span>
           </span>
@@ -41,11 +41,7 @@ export function FeaturesSection() {
               style={{ animationDelay: `${Math.min(i, 4) * 0.08}s` }}
             >
               <div
-                className="absolute inset-0 rounded-3xl sm:rounded-[2rem] shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition-all duration-500 group-hover:scale-[1.015] group-hover:-translate-y-1 group-hover:shadow-[0_18px_40px_rgba(255,128,0,0.16)]"
-                style={{
-                  background: "linear-gradient(180deg, rgba(30,32,36,0.94), rgba(24,26,30,0.97))",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                }}
+                className="feature-card absolute inset-0 rounded-3xl sm:rounded-[2rem] shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition-all duration-500 group-hover:scale-[1.015] group-hover:-translate-y-1 group-hover:shadow-[0_18px_40px_rgba(255,128,0,0.16)]"
               />
               <div className="absolute inset-0 rounded-3xl sm:rounded-[2rem] border border-primary/0 opacity-0 transition-all duration-500 group-hover:border-primary/25 group-hover:opacity-100" />
               

@@ -49,11 +49,9 @@ export interface FormData {
   routePreferences: string[];
   accommodationType: string[];
   avgCampsitePriceMax: string;
-  budgetLevel: string;
   quietPlaces: boolean;
   accommodation: string;
   activities: string[];
-  travelCompanions: string[];
   avoidHighways: string[];
   avoidTollCountries: string[];
   avoidRegions: string;
@@ -112,11 +110,9 @@ export const initialFormData: FormData = {
   routePreferences: [],
   accommodationType: [],
   avgCampsitePriceMax: '50',
-  budgetLevel: '',
   quietPlaces: false,
   accommodation: '',
   activities: [],
-  travelCompanions: [],
   avoidHighways: [],
   avoidTollCountries: [],
   avoidRegions: '',

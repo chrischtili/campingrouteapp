@@ -49,7 +49,7 @@ const App = () => {
   const { t, i18n } = useTranslation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
-  const displayReleaseVersion = `v${(releaseVersion || "0.4.8").replace(/^v/i, "")}`;
+  const displayReleaseVersion = `v${(releaseVersion || "0.5.0").replace(/^v/i, "")}`;
 
   const openWhatsNew = React.useCallback(() => {
     setShowWhatsNew(true);
@@ -260,13 +260,13 @@ const App = () => {
             <Sonner />
           </Suspense>
           <Dialog open={showWhatsNew} onOpenChange={(open) => !open && handleDismissWhatsNew()}>
-            <DialogContent className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-xl overflow-y-auto border border-white/10 bg-[#0b1110] p-0 text-white shadow-2xl sm:w-full">
+            <DialogContent className="theme-popup-shell max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-xl overflow-y-auto border p-0 sm:w-full">
               <div className="p-6 sm:p-8">
                 <DialogHeader className="space-y-3 text-left">
-                  <DialogTitle className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                  <DialogTitle className="text-xl sm:text-2xl font-black tracking-tight text-foreground dark:text-white">
                     {t("app.whatsNew.title", { version: displayReleaseVersion })}
                   </DialogTitle>
-                  <DialogDescription className="text-sm leading-relaxed text-white/70">
+                  <DialogDescription className="text-sm leading-relaxed text-muted-foreground dark:text-white/70">
                     {t("app.whatsNew.description")}
                   </DialogDescription>
                 </DialogHeader>
@@ -278,7 +278,7 @@ const App = () => {
                     t("app.whatsNew.items.stageTrafficLight"),
                     t("app.whatsNew.items.roundTrips"),
                   ].map((item) => (
-                    <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">
+                    <div key={item} className="rounded-2xl border border-border bg-white/70 px-4 py-3 text-sm text-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/85">
                       {item}
                     </div>
                   ))}
@@ -289,7 +289,7 @@ const App = () => {
                     type="button"
                     variant="outline"
                     onClick={handleDismissWhatsNew}
-                    className="border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    className="border-border bg-white/70 text-foreground hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
                   >
                     {t("app.whatsNew.dismiss")}
                   </Button>

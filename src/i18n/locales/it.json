@@ -10,7 +10,15 @@
     "faq": "FAQ",
     "planNow": "Pianifica ora",
     "subtitle": "Prompt IA smart",
-    "whatsNew": "Novità della {{version}}"
+    "whatsNew": "Novità della {{version}}",
+    "theme": {
+      "system": "Sistema",
+      "dark": "Scuro",
+      "light": "Chiaro",
+      "activateLight": "Attiva tema chiaro",
+      "activateDark": "Attiva tema scuro",
+      "useSystem": "Usa tema di sistema"
+    }
   },
   "hero": {
     "badge": "Generatore di prompt IA",
@@ -497,7 +505,7 @@
   },
   "planner": {
     "badge": "Pianificatore itinerari",
-    "title": "Il percorso perfetto in 6 passaggi",
+    "title": "Tutto per il tuo itinerario in un unico posto",
     "cta": "Pianifica itinerario ora",
     "loading": {
       "ai": "🤖 Genero itinerario...",
@@ -592,8 +600,8 @@
         "label": "Riepilogo",
         "desc": ""
       },
-      "hint": "Puoi anche toccare direttamente un passaggio qui sopra per aprirlo.",
-      "openStep": "Apri passaggio",
+      "hint": "Modifica ogni sezione direttamente nel modulo.",
+      "openStep": "Apri sezione",
       "routeIncomplete": "Compila partenza, destinazione e ogni tappa intermedia aggiunta."
     },
     "ai": {
@@ -694,6 +702,25 @@
         "label": "Regioni & aree obiettivo",
         "hint": "Per i tour ad anello da casa puoi impostare partenza e arrivo uguali e indicare qui solo regioni o paesaggi.",
         "placeholder": "ad es. Mosella, Alto Adige, Bretagna, costa del Mare del Nord o Foresta Nera"
+      },
+      "quickStart": {
+        "label": "Avvio rapido",
+        "description": "Applica con un clic preferenze tipiche del percorso e vedi subito cosa è già attivo.",
+        "active": "Selezioni attive",
+        "summary": {
+          "start": "Partenza",
+          "destination": "Destinazione",
+          "regions": "Regioni",
+          "style": "Stile tappe"
+        },
+        "options": {
+          "roundTrip": "Tour ad anello",
+          "dog": "Con cane",
+          "shortStages": "Tappe brevi",
+          "farm": "Agriturismo",
+          "nature": "Natura",
+          "gpx": "GPX"
+        }
       },
       "preferScenicLongerStops": {
         "label": "Soste più lunghe nei luoghi particolarmente belli",
@@ -852,6 +879,10 @@
         "power": "Autonomia",
         "systems": "Sistemi"
       },
+      "details": {
+        "label": "Dettagli tecnici",
+        "description": "Energia, riscaldamento, sistema WC e martinetti."
+      },
       "length": "Lunghezza",
       "height": "Altezza",
       "width": "Larghezza",
@@ -930,6 +961,12 @@
       "group": {
         "travelers": "Viaggiatori",
         "budget": "Budget"
+      },
+      "dogToggle": {
+        "description": "Attiva se il percorso deve considerare strutture adatte agli animali."
+      },
+      "dogFriendlyToggle": {
+        "label": "Considerare strutture adatte ai cani"
       },
       "categories": {
         "companions": {

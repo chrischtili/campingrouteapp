@@ -29,7 +29,7 @@ interface OutputSectionProps {
     targetRegions?: string;
     preferScenicLongerStops?: boolean;
     travelPace: string;
-    budgetLevel: string;
+    avgCampsitePriceMax?: string;
     quietPlaces: boolean;
   };
   onEngagement?: () => void;
@@ -268,7 +268,7 @@ ${gpxOnly}`;
     });
 
     working = escapeHtml(working)
-      .replace(/\*\*(.+?)\*\*/g, '<strong class="font-black text-white">$1</strong>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/(https?:\/\/[^\s<]+)/g, (match) => {
         const cleanUrl = match.replace(/[),.;!?]+$/g, "");
         const trailing = match.slice(cleanUrl.length);
@@ -317,7 +317,7 @@ ${gpxOnly}`;
     const flushParagraph = () => {
       if (!paragraphBuffer.length) return;
       html.push(
-        `<p class="text-white/88 leading-8 mb-5">${paragraphBuffer
+        `<p class="leading-8 mb-5">${paragraphBuffer
           .map((line) => inlineFormat(line))
           .join("<br />")}</p>`
       );
@@ -328,7 +328,7 @@ ${gpxOnly}`;
       if (!listBuffer) return;
       const tag = listBuffer.type;
       html.push(
-        `<${tag} class="${tag === "ul" ? "list-disc" : "list-decimal"} pl-5 space-y-2 mb-6 text-white/88">` +
+        `<${tag} class="${tag === "ul" ? "list-disc" : "list-decimal"} pl-5 space-y-2 mb-6">` +
           listBuffer.items.map((item) => `<li class="pl-1 leading-7">${inlineFormat(item)}</li>`).join("") +
           `</${tag}>`
       );
@@ -347,7 +347,7 @@ ${gpxOnly}`;
       if (/^---+$/.test(line)) {
         flushParagraph();
         flushList();
-        html.push('<hr class="my-8 border-0 border-t border-white/10" />');
+        html.push('<hr class="my-8 border-0 border-t" />');
         continue;
       }
 
@@ -363,10 +363,10 @@ ${gpxOnly}`;
         const tag = level === 1 ? "h1" : level === 2 ? "h2" : "h3";
         const className =
           level === 1
-            ? "mt-12 mb-6 text-2xl sm:text-3xl font-black tracking-[0.1em] text-white"
+            ? "mt-12 mb-6 text-2xl sm:text-3xl font-black tracking-[0.08em]"
             : level === 2
-              ? "mt-12 mb-5 text-xl sm:text-2xl font-black tracking-[0.12em] text-white"
-              : "mt-10 mb-4 text-lg sm:text-xl font-black tracking-[0.16em] text-white";
+              ? "mt-12 mb-5 text-xl sm:text-2xl font-black tracking-[0.08em]"
+              : "mt-10 mb-4 text-lg sm:text-xl font-black tracking-[0.08em]";
         html.push(`<${tag} id="${headingId}" class="${className}">${inlineFormat(headingText)}</${tag}>`);
         continue;
       }
@@ -412,8 +412,17 @@ ${gpxOnly}`;
   const outputBody = useDirectAI ? directAiBody : output;
   const sectionLinks = useMemo(() => extractSectionLinks(outputBody), [outputBody]);
   const formattedHtml = useMemo(() => buildFormattedHtml(outputBody, sectionLinks), [outputBody, sectionLinks]);
+  const analysisLines = useMemo(() => {
+    const skipRegex = /^(wichtig|important|importante|belangrijk|plane die route|gib zuerst|falls deine plattform|gpx-datei|anforderungen|nutze ausschließlich|erfinde keine|falls kein download möglich ist|wenn ich|verwende diese drei begriffe|block\s+\d+|gib die gpx-datei)/i;
+    return outputBody
+      .replace(/\r\n/g, "\n")
+      .split("\n")
+      .map((line) => line.replace(/^[-*•\d.\s]+/, "").trim())
+      .filter(Boolean)
+      .filter((line) => !skipRegex.test(line));
+  }, [outputBody]);
+
   const stageRiskItems = useMemo<StageRiskItem[]>(() => {
-    const lines = outputBody.replace(/\r\n/g, "\n").split("\n");
     const patterns = [
       { level: "critical" as const, regex: /\b(eher ungeeignet|für dieses fahrzeug eher ungeeignet|rather unsuitable|unsuitable for this vehicle|plutôt inadaptée|piuttosto inadatta|eerder ongeschikt)\b/i },
       { level: "caution" as const, regex: /\b(mit vorsicht|use caution|avec prudence|con prudenza|met voorzichtigheid)\b/i },
@@ -421,17 +430,11 @@ ${gpxOnly}`;
     ];
     const ratingLeadRegex = /^(bewertung|rating|évaluation|valutazione|beoordeling)\s*[:–-]/i;
     const stageContextRegex = /\b(etappe|stage|leg|fahrtabschnitt|trajet)\b/i;
-    const skipRegex = /^(wichtig|important|importante|belangrijk|plane die route|gib zuerst|falls deine plattform|gpx-datei|anforderungen)/i;
-
-    const cleanedLines = lines
-      .map((line) => line.replace(/^[-*•\d.\s]+/, "").trim())
-      .filter(Boolean)
-      .filter((line) => !skipRegex.test(line));
 
     const items: StageRiskItem[] = [];
     const seen = new Set<string>();
 
-    for (const line of cleanedLines) {
+    for (const line of analysisLines) {
       const match = patterns.find((entry) => entry.regex.test(line));
       if (!match) continue;
       if (!ratingLeadRegex.test(line) && !stageContextRegex.test(line)) continue;
@@ -446,7 +449,7 @@ ${gpxOnly}`;
     }
 
     return items;
-  }, [outputBody, t]);
+  }, [analysisLines, t]);
 
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
     const cleaned = sanitizeGpxContent(gpxContent);
@@ -493,10 +496,6 @@ ${gpxOnly}`;
     {
       label: t("planner.summary.style"),
       value: summary?.travelPace ? t(`planner.route.travelPace.options.${summary.travelPace}`) : t("planner.summary.notSelected")
-    },
-    {
-      label: t("planner.accommodation.budgetLevel.label"),
-      value: summary?.budgetLevel ? t(`planner.accommodation.budgetLevel.options.${summary.budgetLevel}`) : t("planner.summary.notSelected")
     },
     {
       label: t("planner.accommodation.quietPlaces.label"),
@@ -547,9 +546,11 @@ ${gpxOnly}`;
   }, [summary, t]);
 
   const overviewBudget = useMemo(() => {
-    if (summary?.budgetLevel) return t(`planner.accommodation.budgetLevel.options.${summary.budgetLevel}`);
+    if (Number(summary?.avgCampsitePriceMax || 0) > 0) {
+      return `${t("prompt.labels.budgetUpTo")} ${summary?.avgCampsitePriceMax}€`;
+    }
     return t("planner.summary.notSelected");
-  }, [summary, t]);
+  }, [summary?.avgCampsitePriceMax, t]);
 
   const overviewScenicStops = useMemo(() => {
     if (summary?.preferScenicLongerStops) return t("prompt.labels.yes");
@@ -570,18 +571,21 @@ ${gpxOnly}`;
   ];
 
   const spotlightCards = useMemo(() => {
-    const normalizedLines = outputBody
-      .replace(/\r\n/g, "\n")
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean);
+    if (!useDirectAI) return [];
+
     const safeLeg = stageRiskItems.find((item) => item.level === "safe");
     const criticalLeg = stageRiskItems.find((item) => item.level === "critical") || stageRiskItems.find((item) => item.level === "caution");
-    const overnightLine = normalizedLines.find((line) => /^(durchreise-stopp|2-3-nächte-platz|urlaubsziel|transit stop|2-3 night stay|holiday base|halte de transit|séjour 2-3 nuits|base de vacances|sosta di passaggio|soggiorno di 2-3 notti|base vacanza|doorreisstop|plek voor 2-3 nachten|vakantiebasis)\b/i.test(line));
+    const overnightLine = analysisLines.find((line) => /^(durchreise-stopp|2-3-nächte-platz|urlaubsziel|transit stop|2-3 night stay|holiday base|halte de transit|séjour 2-3 nuits|base de vacances|sosta di passaggio|soggiorno di 2-3 notti|base vacanza|doorreisstop|plek voor 2-3 nachten|vakantiebasis)\b/i.test(line));
     const overnightMatch = overnightLine?.match(/^(?:durchreise-stopp|2-3-nächte-platz|urlaubsziel|transit stop|2-3 night stay|holiday base|halte de transit|séjour 2-3 nuits|base de vacances|sosta di passaggio|soggiorno di 2-3 notti|base vacanza|doorreisstop|plek voor 2-3 nachten|vakantiebasis)\s*:?\s*(.+)$/i);
-    const topRecommendation = summary?.targetRegions?.trim()
-      ? (summary.preferScenicLongerStops ? `${summary.targetRegions.trim()} — ${t("planner.output.overview.onRequest")}` : summary.targetRegions.trim())
-      : overviewRoute;
+    const recommendationLine = analysisLines.find((line) =>
+      /^(top-empfehlung|empfehlung|fazit|recommendation|summary|conclusion|recommandation|conclusione|aanbeveling|samenvatting)\b/i.test(line),
+    );
+    const recommendationMatch = recommendationLine?.match(/^[^:–-]+[:–-]\s*(.+)$/);
+    const topRecommendation = recommendationMatch?.[1]?.trim()
+      || overnightMatch?.[1]?.trim()
+      || (summary?.targetRegions?.trim()
+        ? (summary.preferScenicLongerStops ? `${summary.targetRegions.trim()} — ${t("planner.output.overview.onRequest")}` : summary.targetRegions.trim())
+        : overviewRoute);
 
     return [
       {
@@ -609,7 +613,7 @@ ${gpxOnly}`;
         value: criticalLeg ? criticalLeg.detail : t("planner.output.spotlight.notFound"),
       },
     ];
-  }, [outputBody, overviewRoute, stageRiskItems, summary, t]);
+  }, [analysisLines, overviewRoute, stageRiskItems, summary, t, useDirectAI]);
 
   if (isLoading) {
     return (
@@ -619,10 +623,10 @@ ${gpxOnly}`;
           <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
         </div>
         <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black text-white tracking-tighter drop-shadow-sm">
+          <h3 className="text-2xl font-black text-foreground dark:text-white tracking-tighter drop-shadow-sm">
             {loadingMessage || (useDirectAI ? t("planner.loading.ai") : t("planner.loading.prompt"))}
           </h3>
-          <p className="text-white text-base sm:text-lg font-semibold drop-shadow-sm">
+          <p className="text-muted-foreground dark:text-white text-base sm:text-lg font-semibold drop-shadow-sm">
             {t("planner.output.loading.wait")}
           </p>
         </div>
@@ -634,7 +638,7 @@ ${gpxOnly}`;
     return (
       <Alert variant="destructive" className="rounded-[2rem] border-destructive/20 bg-destructive/10 p-8">
         <AlertCircle className="h-6 w-6 text-destructive" />
-        <AlertDescription className="font-bold text-lg text-white ml-2">{aiError}</AlertDescription>
+        <AlertDescription className="font-bold text-lg text-foreground dark:text-white ml-2">{aiError}</AlertDescription>
       </Alert>
     );
   }
@@ -645,18 +649,11 @@ ${gpxOnly}`;
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
+      className="output-scope space-y-6"
     >
       <div className="relative group">
-        <div 
-          className="relative rounded-[3rem] border border-white/6 shadow-2xl overflow-hidden"
-          style={{
-            background: "linear-gradient(180deg, rgba(10,14,12,0.96), rgba(10,14,12,0.93))",
-            backdropFilter: "blur(28px)",
-            WebkitBackdropFilter: "blur(28px)",
-          }}
-        >
-          <div className="relative flex flex-col lg:flex-row items-stretch lg:items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-white/10 gap-3 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]">
+        <div className="output-shell relative rounded-[3rem] overflow-hidden backdrop-blur-[28px]">
+          <div className="output-header relative flex flex-col lg:flex-row items-stretch lg:items-center justify-between px-4 sm:px-6 py-4 sm:py-5 gap-3">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
               <div className="w-11 h-11 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-[0_12px_32px_rgba(255,128,0,0.16)]">
@@ -666,10 +663,10 @@ ${gpxOnly}`;
                 <span className="text-[9px] font-semibold tracking-[0.08em] text-primary leading-none mb-1.5">
                   {useDirectAI ? `AI Route (${aiModel})` : t("planner.output.customPrompt")}
                 </span>
-                <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-none">
+                <h2 className="text-lg sm:text-2xl font-black text-foreground dark:text-white tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h2>
-                <p className="mt-1.5 text-xs sm:text-sm text-white/55 font-medium">
+                <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground dark:text-white/55 font-medium">
                   {useDirectAI ? t("planner.output.results.title") : t("planner.output.nextSteps.description")}
                 </p>
                 {gpxBlocksSwapped && (
@@ -683,7 +680,7 @@ ${gpxOnly}`;
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2 w-full lg:w-auto">
               <Button
                 onClick={handleCopy}
-                className="h-10 px-3 sm:px-4 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-[10px] tracking-[0.04em] transition-all group/btn shadow-sm"
+                className="h-10 px-3 sm:px-4 rounded-xl border-2 border-border bg-card/70 hover:bg-card text-foreground dark:border-white/10 dark:bg-white/8 dark:hover:bg-white/10 dark:text-white font-semibold text-[10px] tracking-[0.04em] transition-all group/btn shadow-sm"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
@@ -722,7 +719,7 @@ ${gpxOnly}`;
 
               <Button
                 onClick={handlePrint}
-                className="h-10 px-3 sm:px-4 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-[10px] tracking-[0.04em] transition-all group/btn"
+                className="h-10 px-3 sm:px-4 rounded-xl border-2 border-border bg-card/70 hover:bg-card text-foreground dark:border-white/10 dark:bg-white/8 dark:hover:bg-white/10 dark:text-white font-semibold text-[10px] tracking-[0.04em] transition-all group/btn"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}
@@ -730,36 +727,38 @@ ${gpxOnly}`;
             </div>
           </div>
 
-          <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 bg-[linear-gradient(180deg,rgba(8,12,10,0.82),rgba(8,12,10,0.88))]">
+          <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5">
             {summary && (
               <div className="space-y-3 sm:space-y-4">
-                <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
-                  <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
-                    {t("planner.output.spotlight.title")}
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {spotlightCards.map((item) => {
-                      const Icon = item.icon;
-                      return (
-                        <div key={item.id} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
-                          <div className="flex items-center gap-2.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
-                              <Icon className="w-3.5 h-3.5" />
+                {useDirectAI && spotlightCards.length > 0 && (
+                  <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
+                    <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
+                      {t("planner.output.spotlight.title")}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {spotlightCards.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <div key={item.id} className="output-card rounded-2xl px-3.5 py-3">
+                            <div className="flex items-center gap-2.5 mb-1.5">
+                              <div className="w-8 h-8 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
+                                <Icon className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="text-[9px] font-semibold tracking-[0.05em] text-muted-foreground dark:text-white/45">
+                                {item.label}
+                              </div>
                             </div>
-                            <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45">
-                              {item.label}
+                            <div className="text-sm sm:text-[15px] font-bold text-foreground dark:text-white/92 leading-snug">
+                              {item.value}
                             </div>
                           </div>
-                          <div className="text-sm sm:text-[15px] font-bold text-white/92 leading-snug">
-                            {item.value}
-                          </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
                   <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                     {t("planner.output.overview.title")}
                   </div>
@@ -767,16 +766,16 @@ ${gpxOnly}`;
                     {overviewCards.map((item) => {
                       const Icon = item.icon;
                       return (
-                        <div key={item.id} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
+                        <div key={item.id} className="output-card rounded-2xl px-3.5 py-3">
                           <div className="flex items-center gap-2.5 mb-1.5">
                             <div className="w-8 h-8 rounded-xl border border-primary/20 bg-primary/10 flex items-center justify-center text-primary">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
-                            <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45">
+                            <div className="text-[9px] font-semibold tracking-[0.05em] text-muted-foreground dark:text-white/45">
                               {item.label}
                             </div>
                           </div>
-                          <div className="text-sm sm:text-[15px] font-bold text-white/92 leading-snug">
+                          <div className="text-sm sm:text-[15px] font-bold text-foreground dark:text-white/92 leading-snug">
                             {item.value}
                           </div>
                         </div>
@@ -785,17 +784,17 @@ ${gpxOnly}`;
                   </div>
                 </div>
 
-                <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
                   <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                   {t("planner.output.summary.title")}
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
                     {summaryItems.map((item) => (
-                      <div key={item.label} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
-                        <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45 mb-2">
+                      <div key={item.label} className="output-card rounded-2xl px-3.5 py-3">
+                        <div className="text-[9px] font-semibold tracking-[0.05em] text-muted-foreground dark:text-white/45 mb-2">
                           {item.label}
                         </div>
-                        <div className="text-sm sm:text-base font-bold text-white/90 leading-snug">
+                        <div className="text-sm sm:text-base font-bold text-foreground dark:text-white/90 leading-snug">
                           {item.value}
                         </div>
                       </div>
@@ -805,7 +804,7 @@ ${gpxOnly}`;
               </div>
             )}
             {useDirectAI && stageRiskItems.length > 0 && (
-              <div className="p-4 sm:p-5 rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+              <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
                 <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                   {t("planner.output.risk.title")}
                 </div>
@@ -830,11 +829,11 @@ ${gpxOnly}`;
                           };
 
                     return (
-                      <div key={`${item.title}-${index}`} className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-3">
+                      <div key={`${item.title}-${index}`} className="output-card rounded-2xl px-3.5 py-3">
                         <div className="flex items-start justify-between gap-3 mb-3">
                           <div className="flex items-center gap-3 min-w-0">
                             <span className={`mt-1 h-3 w-3 rounded-full shrink-0 ${config.dot}`} />
-                            <div className="text-sm sm:text-base font-bold text-white/92 leading-snug">
+                            <div className="text-sm sm:text-base font-bold text-foreground dark:text-white/92 leading-snug">
                               {item.title}
                             </div>
                           </div>
@@ -842,7 +841,7 @@ ${gpxOnly}`;
                             {config.label}
                           </span>
                         </div>
-                        <div className="text-xs sm:text-sm text-white/68 leading-5 sm:leading-6">
+                        <div className="text-xs sm:text-sm text-muted-foreground dark:text-white/68 leading-5 sm:leading-6">
                           {item.detail}
                         </div>
                       </div>
@@ -858,15 +857,15 @@ ${gpxOnly}`;
                     key={section.id}
                     type="button"
                     onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[9px] font-semibold tracking-[0.05em] text-white/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-white"
+                    className="rounded-full border border-border bg-card/70 px-4 py-2 text-[9px] font-semibold tracking-[0.05em] text-muted-foreground transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-foreground dark:border-white/10 dark:bg-white/8 dark:text-white/70 dark:hover:text-white"
                   >
                     {section.label}
                   </button>
                 ))}
               </div>
             )}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-2xl border border-white/10 bg-[rgba(8,12,10,0.92)] p-2">
-              <div className="text-[9px] font-semibold tracking-[0.05em] text-white/45 px-3 py-1 sm:py-0">
+            <div className="output-togglebar flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-2xl p-2">
+              <div className="text-[9px] font-semibold tracking-[0.05em] text-muted-foreground dark:text-white/45 px-3 py-1 sm:py-0">
                 {t("planner.output.view.label")}
               </div>
               <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto sm:items-center">
@@ -876,7 +875,7 @@ ${gpxOnly}`;
                   className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-semibold tracking-[0.04em] transition-colors ${
                     outputView === "formatted"
                       ? "bg-primary text-white"
-                      : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                      : "bg-card/70 text-muted-foreground hover:bg-card hover:text-foreground dark:bg-white/8 dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white"
                   }`}
                 >
                   {t("planner.output.view.formatted")}
@@ -887,7 +886,7 @@ ${gpxOnly}`;
                   className={`min-w-0 rounded-xl px-3 sm:px-4 py-2 text-[10px] font-semibold tracking-[0.04em] transition-colors ${
                     outputView === "raw"
                       ? "bg-primary text-white"
-                      : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                      : "bg-card/70 text-muted-foreground hover:bg-card hover:text-foreground dark:bg-white/8 dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white"
                   }`}
                 >
                   {t("planner.output.view.raw")}
@@ -895,46 +894,46 @@ ${gpxOnly}`;
               </div>
             </div>
             {useDirectAI ? (
-            <div className="space-y-5 rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-4 sm:px-6 py-5 shadow-[0_20px_60px_rgba(0,0,0,0.16)]">
-                <div className="flex items-center gap-3 pb-4 border-b border-white/10">
+            <div className="output-panel space-y-5 rounded-[1.5rem] px-4 sm:px-6 py-5">
+                <div className="flex items-center gap-3 pb-4 border-b border-border/80 dark:border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
-                  <div className="text-[9px] font-semibold tracking-[0.06em] text-white/45">
+                  <div className="text-[9px] font-semibold tracking-[0.06em] text-muted-foreground dark:text-white/45">
                     {t("planner.output.title.direct")}
                   </div>
                 </div>
                 {outputView === "formatted" ? (
                   <div
-                    className="whitespace-pre-wrap font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-6 sm:leading-7 selection:bg-primary/30 selection:text-white outline-none"
+                    className="output-formatted whitespace-pre-wrap font-sans text-sm sm:text-[15px] md:text-base leading-6 sm:leading-7 selection:bg-primary/30 selection:text-white outline-none"
                     dangerouslySetInnerHTML={{ __html: formattedHtml }}
                   />
                 ) : (
-                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-6 sm:leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-foreground dark:text-white/90 leading-6 sm:leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
                     {outputBody}
                   </pre>
                 )}
               </div>
             ) : (
-            <div className="space-y-5 rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(9,13,11,0.98),rgba(9,13,11,0.94))] px-4 sm:px-6 py-5 shadow-[0_20px_60px_rgba(0,0,0,0.16)]">
-                <div className="flex items-center gap-3 pb-4 border-b border-white/10">
+            <div className="output-panel space-y-5 rounded-[1.5rem] px-4 sm:px-6 py-5">
+                <div className="flex items-center gap-3 pb-4 border-b border-border/80 dark:border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
-                  <div className="text-[9px] font-semibold tracking-[0.06em] text-white/45">
+                  <div className="text-[9px] font-semibold tracking-[0.06em] text-muted-foreground dark:text-white/45">
                     {t("planner.output.title.prompt")}
                   </div>
                 </div>
                 {outputView === "formatted" ? (
                   <div
-                    className="font-sans text-sm sm:text-[15px] md:text-base text-white/88 leading-6 sm:leading-7 selection:bg-primary/30 selection:text-white outline-none"
+                    className="output-formatted font-sans text-sm sm:text-[15px] md:text-base leading-6 sm:leading-7 selection:bg-primary/30 selection:text-white outline-none"
                     dangerouslySetInnerHTML={{ __html: formattedHtml }}
                   />
                 ) : (
-                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-white/90 leading-6 sm:leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
+                  <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm md:text-base text-foreground dark:text-white/90 leading-6 sm:leading-relaxed selection:bg-primary/30 selection:text-white outline-none">
                     {outputBody}
                   </pre>
                 )}
               </div>
             )}
 
-            <div className="rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(9,13,11,0.96),rgba(9,13,11,0.92))] border border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.16)] overflow-hidden">
+            <div className="output-panel rounded-[1.5rem] overflow-hidden">
               <button
                 type="button"
                 onClick={() => setChecklistOpen((open) => !open)}
@@ -944,21 +943,21 @@ ${gpxOnly}`;
                   <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-1">
                     {t("planner.output.checklist.title")}
                   </div>
-                  <div className="text-xs sm:text-sm text-white/55">
+                  <div className="text-xs sm:text-sm text-muted-foreground dark:text-white/55">
                     {t("planner.output.checklist.items.water")} · {t("planner.output.checklist.items.power")} · {t("planner.output.checklist.items.gas")}
                   </div>
                 </div>
-                <ChevronDown className={`w-3.5 h-3.5 text-white/55 transition-transform ${checklistOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground dark:text-white/55 transition-transform ${checklistOpen ? "rotate-180" : ""}`} />
               </button>
               {checklistOpen && (
                 <div className="px-4 sm:px-5 pb-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-white/78 font-medium">
-                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.water")}</div>
-                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.power")}</div>
-                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.gas")}</div>
-                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.waste")}</div>
-                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.documents")}</div>
-                    <div className="rounded-2xl border border-white/8 bg-black/10 px-3.5 py-2.5">• {t("planner.output.checklist.items.apps")}</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-foreground dark:text-white/78 font-medium">
+                    <div className="output-checklist-item rounded-2xl px-3.5 py-2.5">• {t("planner.output.checklist.items.water")}</div>
+                    <div className="output-checklist-item rounded-2xl px-3.5 py-2.5">• {t("planner.output.checklist.items.power")}</div>
+                    <div className="output-checklist-item rounded-2xl px-3.5 py-2.5">• {t("planner.output.checklist.items.gas")}</div>
+                    <div className="output-checklist-item rounded-2xl px-3.5 py-2.5">• {t("planner.output.checklist.items.waste")}</div>
+                    <div className="output-checklist-item rounded-2xl px-3.5 py-2.5">• {t("planner.output.checklist.items.documents")}</div>
+                    <div className="output-checklist-item rounded-2xl px-3.5 py-2.5">• {t("planner.output.checklist.items.apps")}</div>
                   </div>
                 </div>
               )}
@@ -968,8 +967,8 @@ ${gpxOnly}`;
       </div>
 
       {!useDirectAI && (
-        <div className="relative rounded-[3rem] border border-white/6 shadow-2xl overflow-hidden">
-          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 bg-white/5">
+        <div className="output-shell relative rounded-[3rem] overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 output-header">
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
                 <ChevronRight className="w-6 h-6" />
@@ -978,10 +977,10 @@ ${gpxOnly}`;
                 <span className="text-[10px] font-semibold tracking-[0.12em] text-primary leading-none mb-1">
                   {t("planner.output.nextSteps.title")}
                 </span>
-                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
+                <h4 className="text-xl sm:text-2xl font-black text-foreground dark:text-white tracking-tight leading-none">
                   {t("planner.output.customPrompt")}
                 </h4>
-                <p className="text-white/70 text-sm sm:text-base font-semibold">
+                <p className="text-muted-foreground dark:text-white/70 text-sm sm:text-base font-semibold">
                   {t("planner.output.nextSteps.description")}
                 </p>
               </div>
@@ -990,14 +989,14 @@ ${gpxOnly}`;
             <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-border bg-card/70 hover:bg-card text-foreground dark:border-white/10 dark:bg-white/8 dark:hover:bg-white/10 dark:text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
               </Button>
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-border bg-card/70 hover:bg-card text-foreground dark:border-white/10 dark:bg-white/8 dark:hover:bg-white/10 dark:text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}
@@ -1008,8 +1007,8 @@ ${gpxOnly}`;
       )}
 
       {useDirectAI && (
-        <div className="relative rounded-[3rem] border border-white/6 shadow-2xl overflow-hidden">
-          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 bg-white/5">
+        <div className="output-shell relative rounded-[3rem] overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 py-6 sm:py-8 gap-6 output-header">
             <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
                 <FileText className="w-6 h-6" />
@@ -1018,7 +1017,7 @@ ${gpxOnly}`;
                 <span className="text-[10px] font-semibold tracking-[0.12em] text-primary leading-none mb-1">
                   {useDirectAI ? t("planner.output.results.title") : t("planner.output.customPrompt")}
                 </span>
-                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
+                <h4 className="text-xl sm:text-2xl font-black text-foreground dark:text-white tracking-tight leading-none">
                   {useDirectAI ? t("planner.output.title.direct") : t("planner.output.title.prompt")}
                 </h4>
               </div>
@@ -1027,7 +1026,7 @@ ${gpxOnly}`;
             <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
               <Button
                 onClick={handleCopy}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-border bg-card/70 hover:bg-card text-foreground dark:border-white/10 dark:bg-white/8 dark:hover:bg-white/10 dark:text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 {copied ? <Check className="w-3 h-3 mr-1 sm:mr-2 text-green-400" /> : <Copy className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />}
                 {t("buttons.copy")}
@@ -1066,7 +1065,7 @@ ${gpxOnly}`;
 
               <Button
                 onClick={handlePrint}
-                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
+                className="flex-1 md:flex-none h-12 px-4 sm:px-6 rounded-xl border-2 border-border bg-card/70 hover:bg-card text-foreground dark:border-white/10 dark:bg-white/8 dark:hover:bg-white/10 dark:text-white font-black text-[9px] tracking-widest transition-all group/btn shrink-0"
               >
                 <Printer className="w-3 h-3 mr-1 sm:mr-2 text-primary transition-colors" />
                 {t("buttons.print")}

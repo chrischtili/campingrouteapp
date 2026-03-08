@@ -10,7 +10,15 @@
     "faq": "FAQ",
     "planNow": "Plan Now",
     "subtitle": "Smart AI Prompts",
-    "whatsNew": "What's new in {{version}}"
+    "whatsNew": "What's new in {{version}}",
+    "theme": {
+      "system": "System",
+      "dark": "Dark",
+      "light": "Light",
+      "activateLight": "Activate light theme",
+      "activateDark": "Activate dark theme",
+      "useSystem": "Use system theme"
+    }
   },
   "hero": {
     "badge": "AI Prompt Generator",
@@ -497,7 +505,7 @@
   },
   "planner": {
     "badge": "Route Planner",
-    "title": "Your perfect route in 6 steps",
+    "title": "Everything for your route in one place",
     "cta": "Plan Now",
     "loading": {
       "ai": "🤖 Generating route...",
@@ -592,8 +600,8 @@
         "label": "Summary",
         "desc": ""
       },
-      "hint": "You can also tap a step above to open it directly.",
-      "openStep": "Open step",
+      "hint": "Adjust each section directly in the form.",
+      "openStep": "Open section",
       "routeIncomplete": "Please fill in start, destination, and every added stop."
     },
     "ai": {
@@ -694,6 +702,25 @@
         "label": "Regions & target areas",
         "hint": "For round trips from home, you can set start and destination to the same place and define only regions or landscapes here.",
         "placeholder": "e.g. Moselle, South Tyrol, Brittany, North Sea coast or Black Forest"
+      },
+      "quickStart": {
+        "label": "Quick start",
+        "description": "Apply common route preferences with one click and see which choices are already active.",
+        "active": "Active selections",
+        "summary": {
+          "start": "Start",
+          "destination": "Destination",
+          "regions": "Regions",
+          "style": "Stage style"
+        },
+        "options": {
+          "roundTrip": "Round trip",
+          "dog": "With dog",
+          "shortStages": "Short stages",
+          "farm": "Farm stay",
+          "nature": "Nature",
+          "gpx": "GPX"
+        }
       },
       "additional": {
         "label": "Additional Info",
@@ -852,6 +879,10 @@
         "power": "Self-sufficiency",
         "systems": "Systems"
       },
+      "details": {
+        "label": "Technical details",
+        "description": "Power, heating, toilet system, and leveling jacks."
+      },
       "length": "Length",
       "height": "Height",
       "width": "Width",
@@ -930,6 +961,12 @@
       "group": {
         "travelers": "Travelers",
         "budget": "Budget"
+      },
+      "dogToggle": {
+        "description": "Enable this if the route should consider pet-friendly places."
+      },
+      "dogFriendlyToggle": {
+        "label": "Consider dog-friendly places"
       },
       "categories": {
         "companions": {

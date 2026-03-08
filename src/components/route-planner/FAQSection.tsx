@@ -125,8 +125,8 @@ export function FAQSection() {
 
   return (
     <section id="faq" className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(8,10,12,0.98),rgba(11,13,15,0.98))]" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/25" />
+      <div className="absolute inset-0 pointer-events-none content-section-dark content-section-features" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/5 via-transparent to-black/10 dark:from-white/[0.03] dark:via-transparent dark:to-black/0" />
       
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
@@ -135,13 +135,13 @@ export function FAQSection() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8">
             <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
+            <span className="text-primary font-semibold text-[10px] tracking-[0.08em]">
               {t("faq.badge")}
             </span>
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[0.95]">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground dark:text-white tracking-tight leading-[0.95]">
             {t("faq.title")}
           </h2>
         </motion.div>
@@ -170,19 +170,19 @@ export function FAQSection() {
                 key={faq.id}
                 id={faq.id}
                 value={faq.id}
-                className="rounded-3xl border-2 border-white/10 bg-white/[0.02] backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04]"
+                className="theme-surface rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/20 hover:bg-white/90 dark:hover:border-white/20 dark:hover:bg-white/[0.04]"
               >
                 <AccordionTrigger className="px-6 sm:px-8 py-6 hover:no-underline group">
                   <div className="flex items-center gap-4 sm:gap-5 text-left">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
                       <faq.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <span className="font-black text-base sm:text-lg md:text-xl tracking-tight text-white">{faq.q}</span>
+                    <span className="font-black text-base sm:text-lg md:text-xl tracking-tight text-foreground dark:text-white">{faq.q}</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
                   <div className="pl-0 sm:pl-[4.25rem] space-y-6 mt-4 sm:mt-0">
-                    <p className="text-white font-bold text-lg">{faq.title}</p>
+                    <p className="text-foreground dark:text-white font-bold text-lg">{faq.title}</p>
                     
                     {faq.content && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -191,7 +191,7 @@ export function FAQSection() {
                             <h4 className="text-[10px] font-semibold tracking-[0.08em] text-primary">{col.label}</h4>
                             <ul className="space-y-2">
                               {col.items.map((item, k) => (
-                                <li key={k} className="text-sm text-white/68 flex items-start gap-2 leading-relaxed">
+                                <li key={k} className="text-sm text-foreground/70 dark:text-white/68 flex items-start gap-2 leading-relaxed">
                                   <div className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-1.5 shrink-0" />
                                   {item}
                                 </li>
@@ -208,8 +208,8 @@ export function FAQSection() {
                           <div key={j} className="flex items-start gap-4">
                             <span className="mt-0.5 w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-xs font-semibold text-primary border border-primary/20">{j+1}</span>
                             <div>
-                              <p className="text-sm font-semibold text-white tracking-tight">{step.title}</p>
-                              <p className="text-sm text-white/60 leading-relaxed">{step.desc}</p>
+                              <p className="text-sm font-semibold text-foreground dark:text-white tracking-tight">{step.title}</p>
+                              <p className="text-sm text-foreground/65 dark:text-white/60 leading-relaxed">{step.desc}</p>
                             </div>
                           </div>
                         ))}
@@ -236,7 +236,7 @@ export function FAQSection() {
                           href="https://github.com/chrischtili/campingrouteapp"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/5 px-4 py-2 text-sm font-semibold text-white/88 transition-colors hover:bg-white/8"
+                          className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/70 px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-card dark:border-white/12 dark:bg-white/5 dark:text-white/88 dark:hover:bg-white/8"
                         >
                           <Github className="w-4 h-4 text-primary" />
                           {t("faq.items.helpImprove.github")}

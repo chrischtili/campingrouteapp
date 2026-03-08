@@ -10,7 +10,15 @@
     "faq": "FAQ",
     "subtitle": "Slimme AI‑prompts",
     "planNow": "Nu plannen",
-    "whatsNew": "Nieuw in {{version}}"
+    "whatsNew": "Nieuw in {{version}}",
+    "theme": {
+      "system": "Systeem",
+      "dark": "Donker",
+      "light": "Licht",
+      "activateLight": "Licht thema inschakelen",
+      "activateDark": "Donker thema inschakelen",
+      "useSystem": "Systeemthema gebruiken"
+    }
   },
   "hero": {
     "badge": "Routeplanner",
@@ -497,7 +505,7 @@
   },
   "planner": {
     "badge": "Routeplanner",
-    "title": "In 6 stappen naar de perfecte route",
+    "title": "Alles voor je route op één plek",
     "cta": "Nu route plannen",
     "loading": {
       "ai": "🤖 Route genereren...",
@@ -592,8 +600,8 @@
         "label": "Samenvatting",
         "desc": ""
       },
-      "hint": "Je kunt hierboven ook direct op een stap tikken om die te openen.",
-      "openStep": "Stap openen",
+      "hint": "Pas elke sectie direct in het formulier aan.",
+      "openStep": "Sectie openen",
       "routeIncomplete": "Vul start, bestemming en elke toegevoegde tussenstop in."
     },
     "ai": {
@@ -694,6 +702,25 @@
         "label": "Regio's & doelgebieden",
         "hint": "Voor rondritten vanuit huis kun je start en bestemming gelijk zetten en hier alleen regio's of landschappen opgeven.",
         "placeholder": "bijv. Moezel, Zuid-Tirol, Bretagne, Noordzeekust of Zwarte Woud"
+      },
+      "quickStart": {
+        "label": "Snelle start",
+        "description": "Zet typische routevoorkeuren met één klik aan en zie meteen wat er al actief is.",
+        "active": "Actieve keuzes",
+        "summary": {
+          "start": "Start",
+          "destination": "Bestemming",
+          "regions": "Regio's",
+          "style": "Etappestijl"
+        },
+        "options": {
+          "roundTrip": "Rondrit",
+          "dog": "Met hond",
+          "shortStages": "Korte etappes",
+          "farm": "Boerderij",
+          "nature": "Natuur",
+          "gpx": "GPX"
+        }
       },
       "preferScenicLongerStops": {
         "label": "Langere stops op bijzonder mooie plekken",
@@ -852,6 +879,10 @@
         "power": "Autonomie",
         "systems": "Systemen"
       },
+      "details": {
+        "label": "Technische details",
+        "description": "Stroom, verwarming, toiletsysteem en steunen."
+      },
       "length": "Lengte",
       "height": "Hoogte",
       "width": "Breedte",
@@ -930,6 +961,12 @@
       "group": {
         "travelers": "Reizigers",
         "budget": "Budget"
+      },
+      "dogToggle": {
+        "description": "Inschakelen als de route huisdiervriendelijke plekken moet meenemen."
+      },
+      "dogFriendlyToggle": {
+        "label": "Hondvriendelijke plekken meenemen"
       },
       "categories": {
         "companions": {

@@ -35,9 +35,6 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const maxDailyDistance = Number(data.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(data.maxDailyDriveHours || 0);
   const hasDailyLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0 && !!data.dailyLimitPriority;
-  const budgetNote = data.avgCampsitePriceMax && data.budgetLevel
-    ? '• ' + t('prompt.labels.budgetNote') + '\n'
-    : '';
   const dataSourcePolicy = t('prompt.dataSourcePolicy');
   const accommodationTypeTagPolicy = t('prompt.accommodationTypeTagPolicy');
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
@@ -101,15 +98,14 @@ ${!isMotorcycleTent ? `• ${t('prompt.labels.length')}: ${data.vehicleLength ||
 • ${t('prompt.labels.width')}: ${data.vehicleWidth || '2.3'} m
 ` : ''}${data.weightClass ? '• ' + t('prompt.labels.weightClass') + ': ' + t(`planner.vehicle.weightClass.options.${data.weightClass}`) + '\n' : ''}${data.vehicleType ? '• ' + t('prompt.labels.vehicleType') + ': ' + t(`planner.vehicle.type.options.${data.vehicleType}`) + '\n' : ''}${!isMotorcycleTent && data.fuelType ? '• ' + t('prompt.labels.fuelType') + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${!isMotorcycleTent && data.solarPower ? '• ' + t('prompt.labels.solar') + ': ' + data.solarPower + 'W\n' : ''}${!isMotorcycleTent && data.batteryCapacity ? '• ' + t('prompt.labels.battery') + ': ' + data.batteryCapacity + 'Ah\n' : ''}${!isMotorcycleTent && data.autonomyDays ? '• ' + t('prompt.labels.autonomyDays') + ': ' + data.autonomyDays + ' ' + t('prompt.labels.autonomyUnit') + '\n' : ''}${!isMotorcycleTent && data.heatingSystem ? '• ' + t('prompt.labels.heating') + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${!isMotorcycleTent && data.levelingJacks ? '• ' + t('prompt.labels.levelingJacks') + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${!isMotorcycleTent && data.toiletteSystem ? '• ' + t('prompt.labels.toilet') + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}${data.routeAdditionalInfo ? '• ' + t('prompt.labels.additional.label') + ': ' + data.routeAdditionalInfo + '\n' : ''}
 
-${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.travelCompanions.length > 0 || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.budgetLevel || data.quietPlaces || data.accommodation ? `
+${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.quietPlaces || data.accommodation ? `
 🏕️ ${t('prompt.sections.accommodation')}:
 ──────────────────────────
 • ${t('prompt.labels.travelers')}: ${data.numberOfTravelers || '2'} ${t('prompt.labels.travelersUnit')}
-${data.travelCompanions.length ? '• ' + t('prompt.labels.companions') + ': ' + data.travelCompanions.map(c => t(`planner.accommodation.categories.companions.options.${c}`)).join(', ') + '\n' : ''}
+${data.dogFriendly ? '• ' + t('planner.accommodation.dogFriendlyToggle.label') + ': ' + t('prompt.labels.yes') + '\n' : ''}
 ${accommodationTypesLine}${accommodationTypePriorityLine}
 ${data.facilities?.length ? '• ' + t('prompt.labels.facilities') + ': ' + data.facilities.map(f => t(`planner.accommodation.categories.facilities.options.${f}`)).join(', ') + '\n' : ''}
 ${data.avgCampsitePriceMax ? '• ' + t('prompt.labels.budget') + ': ' + t('prompt.labels.budgetUpTo') + ' ' + data.avgCampsitePriceMax + '€\n' : ''}
-${data.budgetLevel ? '• ' + t('prompt.labels.budgetLevel') + ': ' + t(`planner.accommodation.budgetLevel.options.${data.budgetLevel}`) + '\n' : ''}${budgetNote}
 ${data.quietPlaces ? '• ' + t('prompt.labels.quietPlaces') + ': ' + t('prompt.labels.yes') + '\n' : ''}
 ${data.accommodation ? '• ' + t('prompt.labels.specialWishes') + ': ' + data.accommodation + '\n' : ''}
 ` : ''}

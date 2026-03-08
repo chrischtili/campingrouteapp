@@ -10,7 +10,15 @@
     "faq": "FAQ",
     "planNow": "Jetzt planen",
     "subtitle": "Smarte KI-Prompts",
-    "whatsNew": "Neu in {{version}}"
+    "whatsNew": "Neu in {{version}}",
+    "theme": {
+      "system": "System",
+      "dark": "Dunkel",
+      "light": "Hell",
+      "activateLight": "Helles Design aktivieren",
+      "activateDark": "Dunkles Design aktivieren",
+      "useSystem": "Systemdesign verwenden"
+    }
   },
   "hero": {
     "badge": "KI-Prompt-Generator",
@@ -497,7 +505,7 @@
   },
   "planner": {
     "badge": "Routenplaner",
-    "title": "In 6 Schritten zur perfekten Route",
+    "title": "Alles für deine Route auf einen Blick",
     "cta": "Jetzt Route planen",
     "loading": {
       "ai": "🤖 Generiere Route...",
@@ -592,8 +600,8 @@
         "label": "Zusammenfassung",
         "desc": ""
       },
-      "hint": "Du kannst auch direkt auf einen Schritt oben tippen.",
-      "openStep": "Schritt öffnen",
+      "hint": "Passe die Bereiche direkt im Formular an.",
+      "openStep": "Bereich öffnen",
       "routeIncomplete": "Bitte fülle Start, Ziel und alle hinzugefügten Zwischenziele aus."
     },
     "ai": {
@@ -694,6 +702,25 @@
         "label": "Regionen & Zielgebiete",
         "hint": "Für Rundtouren ab Heimatort kannst du Start und Ziel identisch setzen und hier nur Regionen oder Landschaften vorgeben.",
         "placeholder": "z. B. Mosel, Südtirol, Bretagne, Nordseeküste oder Schwarzwald"
+      },
+      "quickStart": {
+        "label": "Schnellstart",
+        "description": "Setze mit einem Klick typische Vorgaben und sieh direkt, was für diese Route bereits aktiv ist.",
+        "active": "Aktive Auswahl",
+        "summary": {
+          "start": "Start",
+          "destination": "Ziel",
+          "regions": "Regionen",
+          "style": "Etappenstil"
+        },
+        "options": {
+          "roundTrip": "Rundtour",
+          "dog": "Mit Hund",
+          "shortStages": "Kurze Etappen",
+          "farm": "Bauernhof",
+          "nature": "Natur",
+          "gpx": "GPX"
+        }
       },
       "additional": {
         "label": "Zusatzinfos",
@@ -852,6 +879,10 @@
         "power": "Autarkie",
         "systems": "Systeme"
       },
+      "details": {
+        "label": "Technikdetails",
+        "description": "Energie, Heizung, WC-System und Hubstützen."
+      },
       "length": "Länge",
       "height": "Höhe",
       "width": "Breite",
@@ -930,6 +961,12 @@
       "group": {
         "travelers": "Reisende",
         "budget": "Budget"
+      },
+      "dogToggle": {
+        "description": "Aktivieren, wenn die Route hundefreundliche Plätze berücksichtigen soll."
+      },
+      "dogFriendlyToggle": {
+        "label": "Hundefreundliche Plätze berücksichtigen"
       },
       "categories": {
         "companions": {

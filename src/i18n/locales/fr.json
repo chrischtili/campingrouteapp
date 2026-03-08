@@ -10,7 +10,15 @@
     "faq": "FAQ",
     "planNow": "Planifier maintenant",
     "subtitle": "Prompts IA intelligents",
-    "whatsNew": "Nouveautés de {{version}}"
+    "whatsNew": "Nouveautés de {{version}}",
+    "theme": {
+      "system": "Système",
+      "dark": "Sombre",
+      "light": "Clair",
+      "activateLight": "Activer le thème clair",
+      "activateDark": "Activer le thème sombre",
+      "useSystem": "Utiliser le thème du système"
+    }
   },
   "hero": {
     "badge": "Générateur de prompts IA",
@@ -497,7 +505,7 @@
   },
   "planner": {
     "badge": "Planificateur d’itinéraire",
-    "title": "L’itinéraire parfait en 6 étapes",
+    "title": "Tout pour ton itinéraire en un seul endroit",
     "cta": "Planifier maintenant",
     "loading": {
       "ai": "🤖 Génération de l’itinéraire...",
@@ -592,8 +600,8 @@
         "label": "Résumé",
         "desc": ""
       },
-      "hint": "Tu peux aussi appuyer directement sur une étape ci-dessus pour l’ouvrir.",
-      "openStep": "Ouvrir l’étape",
+      "hint": "Ajuste directement chaque section dans le formulaire.",
+      "openStep": "Ouvrir la section",
       "routeIncomplete": "Veuillez renseigner le départ, la destination et chaque arrêt ajouté."
     },
     "ai": {
@@ -694,6 +702,25 @@
         "label": "Régions & zones cibles",
         "hint": "Pour des boucles au départ de chez vous, vous pouvez définir le départ et l’arrivée au même endroit et n’indiquer ici que des régions ou des paysages.",
         "placeholder": "p. ex. Moselle, Tyrol du Sud, Bretagne, côte de la mer du Nord ou Forêt-Noire"
+      },
+      "quickStart": {
+        "label": "Démarrage rapide",
+        "description": "Applique des préférences typiques en un clic et vois immédiatement ce qui est déjà actif pour cet itinéraire.",
+        "active": "Sélections actives",
+        "summary": {
+          "start": "Départ",
+          "destination": "Arrivée",
+          "regions": "Régions",
+          "style": "Style d’étape"
+        },
+        "options": {
+          "roundTrip": "Boucle",
+          "dog": "Avec chien",
+          "shortStages": "Étapes courtes",
+          "farm": "Ferme",
+          "nature": "Nature",
+          "gpx": "GPX"
+        }
       },
       "preferScenicLongerStops": {
         "label": "Arrêts plus longs dans les endroits particulièrement beaux",
@@ -852,6 +879,10 @@
         "power": "Autonomie",
         "systems": "Systèmes"
       },
+      "details": {
+        "label": "Détails techniques",
+        "description": "Énergie, chauffage, système de WC et vérins."
+      },
       "length": "Longueur",
       "height": "Hauteur",
       "width": "Largeur",
@@ -930,6 +961,12 @@
       "group": {
         "travelers": "Voyageurs",
         "budget": "Budget"
+      },
+      "dogToggle": {
+        "description": "Active si l’itinéraire doit tenir compte des lieux acceptant les animaux."
+      },
+      "dogFriendlyToggle": {
+        "label": "Tenir compte des lieux acceptant les chiens"
       },
       "categories": {
         "companions": {

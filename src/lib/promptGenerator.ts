@@ -182,7 +182,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
   let apiUrl = '';
   let headers: Record<string, string> = {};
   let requestData: unknown = {};
-  const openaiSearchDirective = lang.startsWith('de')
+  const webSearchDirective = lang.startsWith('de')
     ? [
         'Wichtig fuer die Websuche:',
         '- Nutze vor der Antwort zwingend die Websuche.',
@@ -231,7 +231,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
           },
           {
             role: 'user',
-            content: [{ type: 'input_text', text: `${openaiSearchDirective}\n\n${prompt}` }]
+            content: [{ type: 'input_text', text: `${webSearchDirective}\n\n${prompt}` }]
           }
         ],
         tools: [{ type: 'web_search' }],
@@ -259,8 +259,19 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       const googleModel = aiSettings.googleModel || 'gemini-3.1-pro-preview';
       apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${aiSettings.apiKey}`;
       headers = { 'Content-Type': 'application/json' };
+      const usesLegacyGoogleSearch = /^gemini-1\.5/i.test(googleModel);
       requestData = {
-        contents: [{ parts: [{ text: prompt }] }]
+        contents: [{ parts: [{ text: `${webSearchDirective}\n\n${prompt}` }] }],
+        tools: usesLegacyGoogleSearch
+          ? [{
+              google_search_retrieval: {
+                dynamic_retrieval_config: {
+                  mode: 'MODE_DYNAMIC',
+                  dynamic_threshold: 0.3
+                }
+              }
+            }]
+          : [{ google_search: {} }]
       };
       break;
     
@@ -317,7 +328,16 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
   }
 
   if (aiSettings.aiProvider === 'google') {
-    return responseData.candidates[0].content.parts[0].text;
+    const outputText = responseData.candidates
+      ?.flatMap((candidate: any) => candidate.content?.parts || [])
+      ?.map((part: any) => part.text || '')
+      ?.filter(Boolean)
+      ?.join('\n')
+      ?.trim();
+
+    if (outputText) {
+      return outputText;
+    }
   }
   return responseData.choices[0].message.content;
 }

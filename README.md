@@ -13,10 +13,12 @@
 ## 🌟 Highlights (v0.5.0)
 
 - **5 letzte Planungen lokal speicherbar**: Formulareingaben lassen sich direkt im Browser sichern, laden, überschreiben und löschen.
+- **Neues Einseiten-Formular**: Der Planer arbeitet jetzt ohne starren Schritt-Assistenten und bündelt Details in klaren Sektionen und Popups.
+- **Light- und Dark-Design**: Beide Themes sind vollständig ausgearbeitet, inklusive Popups, Akkordeons und Formularsektionen.
 - **Route-Überblick im Ergebnis**: Ausgabe zeigt kompakt Route, Tageslimits, Budget, Fahrfokus und längere Stopps.
 - **Etappen-Ampel ergänzt**: KI-Ergebnisse heben Etappen als `unkritisch`, `mit Vorsicht` oder `eher ungeeignet` hervor.
 - **Regionen-Rundtouren verbessert**: Zielgebiete und „längere Stopps an besonders schönen Orten“ sind direkt in der Reiseroute integriert.
-- **Akkordeons verhalten sich konsistenter**: geöffnete Bereiche scrollen einheitlich statt unruhig zu springen.
+- **Filter-Dialoge statt Formularwand**: Route, Fahrzeug, Übernachtung und Optimierung lassen sich kompakt über Popups und Sheets steuern.
 - **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
@@ -28,7 +30,7 @@
 ## 📦 Features
 
 ### 🎯 Routenplanung
-- 7-Schritte-Assistent für perfekte Planung.
+- Einseiten-Planer mit klaren Sektionen statt starrem Wizard.
 - Etappenoptimierung mit Pausen und Alternativrouten.
 - Echtzeit-KI-Generierung (mit eigenem API-Key) oder Prompt-Erstellung (kostenlos).
 
@@ -105,10 +107,12 @@ MIT License - [Details](LICENSE)
 ## 🌟 Highlights (v0.5.0)
 
 - **Store up to 5 recent plans locally**: save, load, overwrite and delete route setups directly in the browser.
+- **New single-page planner**: the route flow now uses focused sections and overlays instead of a rigid step wizard.
+- **Complete light and dark themes**: both themes now cover popups, accordions and planner sections consistently.
 - **New route overview in the output**: compact summary for route, daily limits, budget, travel focus and longer scenic stops.
 - **Stage traffic-light added**: direct-AI results highlight stages as `uncritical`, `with caution` or `rather unsuitable`.
 - **Region-based roundtrips improved**: target regions and “longer stops at especially beautiful places” are now built into the route flow.
-- **Accordion behavior is more consistent**: opened sections scroll into view cleanly instead of jumping around.
+- **Filter dialogs instead of a form wall**: route, vehicle, accommodation and optimization settings can now be adjusted in focused popups/sheets.
 - **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **AI-powered Route Planning** with GPX export for navigation devices.
 - **100% Free** – Prompt generation possible without any API costs.
@@ -120,7 +124,7 @@ MIT License - [Details](LICENSE)
 ## 📦 Features
 
 ### 🎯 Route Planning
-- 7-step assistant for perfect planning.
+- Single-page planner with focused sections instead of a rigid step wizard.
 - Stage optimization with breaks and alternative routes.
 - Real-time AI generation (with your own API key) or prompt creation (free).
 

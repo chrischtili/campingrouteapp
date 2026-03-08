@@ -170,7 +170,7 @@ export function FAQSection() {
                 key={faq.id}
                 id={faq.id}
                 value={faq.id}
-                className="theme-surface rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/20 hover:bg-white/90 dark:hover:border-white/20 dark:hover:bg-white/[0.04]"
+                className="theme-surface rounded-3xl overflow-hidden border transition-all duration-500 hover:border-primary/18 hover:shadow-[0_24px_64px_rgba(88,93,79,0.14)] data-[state=open]:border-primary/20 data-[state=open]:shadow-[0_24px_64px_rgba(88,93,79,0.16)] dark:border-white/10 dark:hover:border-white/14 dark:hover:shadow-[0_24px_64px_rgba(0,0,0,0.22)] dark:data-[state=open]:border-primary/22 dark:data-[state=open]:bg-[linear-gradient(180deg,rgba(61,81,75,0.92),rgba(46,63,58,0.94))] dark:data-[state=open]:shadow-[0_24px_64px_rgba(0,0,0,0.24)]"
               >
                 <AccordionTrigger className="px-6 sm:px-8 py-6 hover:no-underline group">
                   <div className="flex items-center gap-4 sm:gap-5 text-left">

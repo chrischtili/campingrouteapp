@@ -546,7 +546,8 @@ export function RoutePlanner() {
 
       {showForm && (
         <section id="planner" className="planner-scope relative overflow-hidden py-24 px-4 text-foreground dark:text-white">
-          <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.08]">
+          <div className="absolute inset-0 pointer-events-none content-section-dark content-section-testimonials" />
+          <div className="absolute inset-0 z-[2] pointer-events-none opacity-[0.06] dark:opacity-[0.08]">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern id="map-grid-open" width="80" height="80" patternUnits="userSpaceOnUse">
@@ -557,7 +558,7 @@ export function RoutePlanner() {
               <rect width="100%" height="100%" fill="url(#map-grid-open)" />
             </svg>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/4 via-black/8 to-black/12 pointer-events-none dark:from-black/18 dark:via-black/40 dark:to-black/68" />
+          <div className="absolute inset-0 z-[3] bg-gradient-to-b from-black/4 via-black/6 to-black/10 pointer-events-none dark:from-white/[0.02] dark:via-black/8 dark:to-black/14" />
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-foreground dark:text-white">
             <div className="text-center mb-24">

@@ -37,6 +37,25 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const hasDailyLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0 && !!data.dailyLimitPriority;
   const dataSourcePolicy = t('prompt.dataSourcePolicy');
   const accommodationTypeTagPolicy = t('prompt.accommodationTypeTagPolicy');
+  const openCampingMapPolicy = lang.startsWith('de')
+    ? [
+        'OpenCampingMap-Regeln:',
+        '- Bevorzuge fuer jeden Uebernachtungsort zuerst einen konkreten OpenCampingMap-Eintrag oder einen stabilen OpenCampingMap-Kartenlink.',
+        '- Suche pro Ort nicht nur einmal, sondern gezielt mit Ortsname, Regionsname, Platztyp und ggf. bekanntem Platznamen.',
+        '- Wenn mehrere OpenCampingMap-Treffer moeglich sind, bevorzuge den klarsten Namensbezug zum Zielort, die passendste Uebernachtungsart und den kleinsten Umweg zur Route.',
+        '- Verwende einen OpenCampingMap-Objektlink nur, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit nutze stattdessen einen Kartenlink.',
+        '- Wenn nach mehreren gezielten Suchen kein sicherer OpenCampingMap-Treffer auffindbar ist, sage das knapp und gehe direkt zum naechsten Ort weiter.',
+        '- Erfinde niemals OpenCampingMap-Objekte, IDs, Platznamen, Adressen, Telefonnummern oder Ausstattungen.'
+      ].join('\n')
+    : [
+        'OpenCampingMap rules:',
+        '- Prefer a concrete OpenCampingMap entry or a stable OpenCampingMap map link for each overnight stop.',
+        '- Search each place repeatedly using place name, region, accommodation type and known campsite name if available.',
+        '- If several OpenCampingMap candidates exist, prefer the clearest name match to the target area, the best fitting accommodation type and the smallest detour from the route.',
+        '- Only use a direct OpenCampingMap object link if place and campsite clearly match. If uncertain, use a map link instead.',
+        '- If no reliable OpenCampingMap result can be found after several targeted searches, say so briefly and continue with the next place.',
+        '- Never invent OpenCampingMap objects, IDs, campsite names, addresses, phone numbers or facilities.'
+      ].join('\n');
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
   const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
   const noAccommodationPreference = hasBaseAccommodationType && hasSpecificAccommodationType;
@@ -86,6 +105,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   return `${t('prompt.systemRole', { language: languageName })}
 ${dataSourcePolicy}
 ${accommodationTypeTagPolicy}
+${openCampingMapPolicy}
 
 🗺️ ${t('prompt.sections.route')}:
 ──────────────
@@ -167,16 +187,22 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         'Wichtig fuer die Websuche:',
         '- Nutze vor der Antwort zwingend die Websuche.',
         '- Wenn OpenCampingMap die Primaerquelle sein soll, suche pro Etappe und pro Ort mehrfach gezielt auf OpenCampingMap statt nach dem ersten unsicheren Treffer abzubrechen.',
+        '- Suche OpenCampingMap gezielt mit Ortsname, Region, Platztyp und ggf. bekanntem Platznamen statt nur mit einer einzelnen Kurzsuche.',
+        '- Wenn mehrere OpenCampingMap-Kandidaten auftauchen, waehle den mit dem klarsten Ortsbezug, der passendsten Uebernachtungsart und dem kleinsten Umweg.',
         '- Verwende keine Meta-Antworten wie "wenn du moechtest, kann ich ..." oder "ich kann im naechsten Schritt ...". Liefere die bestmoeglichen Ergebnisse direkt.',
         '- Wenn kein sicherer direkter OpenCampingMap-Objektlink auffindbar ist, nutze stattdessen einen funktionierenden OpenCampingMap-Kartenlink mit passendem Zoom und korrekter Position.',
+        '- Verwende einen OpenCampingMap-Objektlink nur dann, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit ist ein Kartenlink Pflicht.',
         '- Erfinde keine Plaetze, Links, Adressen oder Telefonnummern. Wenn nach mehreren gezielten Suchen nichts Sicheres auffindbar ist, sage das knapp und mache mit dem naechsten Ort weiter.'
       ].join('\n')
     : [
         'Important for web search:',
         '- Always use web search before answering.',
         '- If OpenCampingMap is the primary source, search OpenCampingMap repeatedly for each leg and each place instead of stopping after the first uncertain hit.',
+        '- Search OpenCampingMap using place name, region, accommodation type and known campsite name if available, not just a single short query.',
+        '- If several OpenCampingMap candidates appear, choose the one with the clearest location match, the best fitting accommodation type and the smallest detour.',
         '- Do not produce meta answers like "if you want, I can..." or "in the next step I can...". Deliver the best possible result directly.',
         '- If no reliable direct OpenCampingMap object link can be found, use a working OpenCampingMap map link with appropriate zoom and correct position instead.',
+        '- Only use a direct OpenCampingMap object link when place and campsite clearly match. If uncertain, a map link is required instead.',
         '- Do not invent places, links, addresses, or phone numbers. After several targeted searches, if nothing reliable is found, say so briefly and continue with the next place.'
       ].join('\n');
   

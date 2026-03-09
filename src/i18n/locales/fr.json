@@ -1361,10 +1361,10 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "savedPlans": "Enregistrer, charger, écraser et supprimer jusqu’à 5 plans en local.",
-        "outputSummary": "Nouveau résumé d’itinéraire dans le résultat avec budget, limites journalières et focus de conduite.",
-        "stageTrafficLight": "Le feu tricolore des étapes signale les tronçons comme sans risque, avec prudence ou plutôt inadaptés.",
-        "roundTrips": "Les circuits basés sur des régions et les arrêts prolongés dans de beaux endroits ont été améliorés."
+        "savedPlans": "Exporter les itinéraires en fichier sur le PC et les réimporter plus tard.",
+        "outputSummary": "",
+        "stageTrafficLight": "",
+        "roundTrips": ""
       },
       "dismiss": "Compris",
       "release": "Voir la version"

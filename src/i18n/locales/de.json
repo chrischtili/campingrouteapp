@@ -1360,10 +1360,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "savedPlans": "Bis zu 5 Planungen lokal speichern, laden, überschreiben und löschen.",
-        "outputSummary": "Neuer Route-Überblick im Ergebnis mit Budget, Tageslimits und Fahrfokus.",
-        "stageTrafficLight": "Etappen-Ampel hebt Fahrabschnitte als unkritisch, mit Vorsicht oder eher ungeeignet hervor.",
-        "roundTrips": "Regionenbasierte Rundtouren und längere Stopps an schönen Orten wurden verbessert."
+        "savedPlans": "Routen lokal auf dem PC als Datei exportieren und später wieder importieren.",
+        "outputSummary": "",
+        "stageTrafficLight": "",
+        "roundTrips": ""
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

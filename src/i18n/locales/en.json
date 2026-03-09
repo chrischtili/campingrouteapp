@@ -1361,10 +1361,10 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "savedPlans": "Save, load, overwrite and delete up to 5 plans locally.",
-        "outputSummary": "New route overview in the output with budget, daily limits and travel focus.",
-        "stageTrafficLight": "Stage traffic-light highlights legs as uncritical, with caution or rather unsuitable.",
-        "roundTrips": "Region-based roundtrips and longer scenic stops have been improved."
+        "savedPlans": "Export routes locally to your PC as a file and import them again later.",
+        "outputSummary": "",
+        "stageTrafficLight": "",
+        "roundTrips": ""
       },
       "dismiss": "Got it",
       "release": "View release"

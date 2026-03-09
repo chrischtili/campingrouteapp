@@ -1361,10 +1361,10 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "savedPlans": "Maximaal 5 plannen lokaal opslaan, laden, overschrijven en verwijderen.",
-        "outputSummary": "Nieuw route-overzicht in de output met budget, daglimieten en rijfocus.",
-        "stageTrafficLight": "De etappe-stoplichtweergave markeert trajecten als onkritisch, met voorzichtigheid of eerder ongeschikt.",
-        "roundTrips": "Regiogebaseerde rondreizen en langere stops op mooie plekken zijn verbeterd."
+        "savedPlans": "Routes lokaal als bestand op de pc exporteren en later weer importeren.",
+        "outputSummary": "",
+        "stageTrafficLight": "",
+        "roundTrips": ""
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

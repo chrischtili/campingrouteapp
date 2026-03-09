@@ -274,9 +274,6 @@ const App = () => {
                 <div className="mt-6 space-y-3">
                   {[
                     t("app.whatsNew.items.savedPlans"),
-                    t("app.whatsNew.items.outputSummary"),
-                    t("app.whatsNew.items.stageTrafficLight"),
-                    t("app.whatsNew.items.roundTrips"),
                   ].map((item) => (
                     <div key={item} className="rounded-2xl border border-border bg-white/70 px-4 py-3 text-sm text-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/85">
                       {item}

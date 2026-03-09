@@ -19,7 +19,7 @@ interface NavbarProps {
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.5");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.0");
   const { t, i18n } = useTranslation();
   const { setTheme, resolvedTheme } = useTheme();
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;

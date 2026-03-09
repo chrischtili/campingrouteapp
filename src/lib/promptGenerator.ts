@@ -1,5 +1,6 @@
 import { FormData, AISettings } from "@/types/routePlanner";
 import i18next from "i18next";
+import { DEFAULT_OPENAI_MODEL } from "@/config/ai";
 
 function formatDate(dateString: string): string {
   if (!dateString) return '';
@@ -225,7 +226,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${aiSettings.apiKey}`
       };
-      const actualModel = aiSettings.openaiModel || 'gpt-5.2';
+      const actualModel = aiSettings.openaiModel || DEFAULT_OPENAI_MODEL;
       const systemMessage = lang.startsWith('de')
         ? 'Du bist ein hilfreicher Routenplaner fuer Camping, Wohnmobil, Wohnwagen, Zelt und Motorrad. Nutze vor jeder Antwort die Websuche, um aktuelle Informationen zu finden. Antworte im Markdown-Format.'
         : lang.startsWith('nl')

@@ -19,7 +19,7 @@ interface NavbarProps {
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.7");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.1");
   const { t, i18n } = useTranslation();
   const { setTheme, resolvedTheme } = useTheme();
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
@@ -207,11 +207,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
           <Button
             onClick={handlePlanNow}
-            className="rounded-full px-4 sm:px-6 h-8 sm:h-10 font-semibold text-[8px] sm:text-[10px] tracking-[0.08em] transition-all duration-500 shadow-lg border-2 border-primary/40 text-white"
+            className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white border border-primary/80 shadow-[0_16px_40px_rgba(255,128,0,0.3)] hover:scale-[1.02] hover:shadow-[0_20px_52px_rgba(255,128,0,0.4)]"
             style={{
-              background: "rgba(255, 128, 0, 0.25)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
+              background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
             }}
           >
             {t("navbar.planNow")}
@@ -273,7 +273,13 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                   <button onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>FR</button>
                   <button onClick={() => { changeLanguage('it'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>IT</button>
                 </div>
-              <Button onClick={handlePlanNow} className="bg-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-semibold text-[8px] sm:text-[10px] tracking-[0.08em]">
+              <Button
+                onClick={handlePlanNow}
+                className="rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 font-black text-[9px] sm:text-[11px] tracking-[0.1em] text-white border border-primary/80 shadow-[0_14px_34px_rgba(255,128,0,0.26)]"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
+                }}
+              >
                 {t("navbar.planNow")}
               </Button>
             </div>

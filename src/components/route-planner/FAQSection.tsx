@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { HelpCircle, Sparkles, Zap, Shield, Info, CreditCard, Bot, ChevronRight, Github } from "lucide-react";
+import { HelpCircle, Shield, Info, CreditCard, Github } from "lucide-react";
 
 export function FAQSection() {
   const { t } = useTranslation();
@@ -52,16 +52,6 @@ export function FAQSection() {
       ]
     },
     {
-      id: "diff",
-      icon: Sparkles,
-      q: t("faq.items.diff.q"),
-      title: t("faq.items.diff.title"),
-      content: [
-        { label: t("faq.items.diff.gen"), items: [t("faq.items.diff.gen1"), t("faq.items.diff.gen2"), t("faq.items.diff.gen3"), t("faq.items.diff.gen4")] },
-        { label: t("faq.items.diff.ai"), items: [t("faq.items.diff.ai1"), t("faq.items.diff.ai2"), t("faq.items.diff.ai4")] }
-      ]
-    },
-    {
       id: "howItWorks",
       icon: Info,
       q: t("faq.items.howItWorks.q"),
@@ -91,17 +81,6 @@ export function FAQSection() {
         { label: t("faq.items.privacy.device"), items: [t("faq.items.privacy.device1")] },
         { label: t("faq.items.privacy.sec"), items: [t("faq.items.privacy.sec1")] }
       ]
-    },
-    {
-      id: "aiModel",
-      icon: Bot,
-      q: t("faq.items.aiModel.q"),
-      title: t("faq.items.aiModel.title"),
-      content: [
-        { label: t("faq.items.aiModel.gpt"), items: [t("faq.items.aiModel.gpt1"), t("faq.items.aiModel.gpt2")] },
-        { label: t("faq.items.aiModel.prompt"), items: [t("faq.items.aiModel.prompt1")] }
-      ],
-      footer: t("faq.items.aiModel.recDesc")
     },
     {
       id: "helpImprove",
@@ -228,7 +207,7 @@ export function FAQSection() {
                           onClick={openFeedback}
                           className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/15"
                         >
-                          <Sparkles className="w-4 h-4" />
+                          <HelpCircle className="w-4 h-4" />
                           {t("faq.items.helpImprove.action")}
                         </button>
                         <a

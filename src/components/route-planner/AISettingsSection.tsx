@@ -1,11 +1,12 @@
 import { useRef, useState } from "react";
-import { Bot, FileText, AlertCircle, Lock, ExternalLink, Info, Sparkles, Wand2, Shield, ChevronDown } from "lucide-react";
+import { Bot, AlertCircle, Lock, ExternalLink, Info, Wand2, Shield, ChevronDown } from "lucide-react";
 import { AISettings } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
+import { DEFAULT_OPENAI_MODEL, DIRECT_AI_FEATURE_ENABLED, TOKEN_MODE_PREVIEW_ENABLED } from "@/config/ai";
 
 interface AISettingsSectionProps {
   aiSettings: AISettings;
@@ -17,19 +18,10 @@ const providerHelp = { url: 'https://platform.openai.com/api-keys', name: 'OpenA
 
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
   const { t } = useTranslation();
-  const [showModeCardsMobile, setShowModeCardsMobile] = useState(false);
-  const modeHeaderRef = useRef<HTMLDivElement>(null);
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const providerSectionRef = useRef<HTMLDivElement>(null);
   
   const inputClass = "w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
-  const selectedModeTitle = aiSettings.useDirectAI ? t("planner.ai.mode.direct.title") : t("planner.ai.mode.prompt.title");
-
-  const scrollModeHeaderBelowNavbar = () => {
-    if (!modeHeaderRef.current) return;
-    const navbarOffset = 110;
-    const top = modeHeaderRef.current.getBoundingClientRect().top + window.pageYOffset - navbarOffset;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
 
   const scrollProviderSectionBelowNavbar = () => {
     if (!providerSectionRef.current) return;
@@ -38,22 +30,14 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
     window.scrollTo({ top, behavior: "smooth" });
   };
 
-  const openMobileModePicker = () => {
-    setShowModeCardsMobile((prev) => !prev);
-    setTimeout(() => {
-      scrollModeHeaderBelowNavbar();
-    }, 80);
-  };
-
   const selectMode = (useDirectAI: boolean) => {
+    if (useDirectAI && !DIRECT_AI_FEATURE_ENABLED) return;
     onAISettingsChange({ useDirectAI, aiProvider: "openai" });
 
     if (useDirectAI) {
       setTimeout(() => {
         if (window.innerWidth < 768) {
           scrollProviderSectionBelowNavbar();
-        } else {
-          scrollModeHeaderBelowNavbar();
         }
       }, 180);
     }
@@ -73,88 +57,68 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
         </p>
       </div>
 
-      {/* Mode Selection Grid */}
-      <div ref={modeHeaderRef} className="space-y-3 text-left">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-          <div className="text-xs md:text-sm font-semibold tracking-[0.08em] text-white/75">
-            {t("planner.ai.mode.label")}
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={openMobileModePicker}
-          className="md:hidden w-full rounded-xl sm:rounded-2xl border-2 border-primary/25 bg-primary/10 px-4 sm:px-5 py-3.5 sm:py-4 text-left shadow-lg shadow-primary/10 transition-all active:scale-[0.99]"
-        >
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="text-sm font-semibold tracking-[0.04em] text-white">
-                {t("planner.ai.mode.button")}
-              </div>
-              <div className="mt-2 text-xs font-semibold text-white/70">
-                {t("planner.ai.mode.current", { mode: selectedModeTitle })}
-              </div>
-            </div>
-            <ChevronDown className={`h-5 w-5 text-primary transition-transform ${showModeCardsMobile ? "rotate-180" : ""}`} />
-          </div>
-        </button>
-      </div>
-      <div className={`${showModeCardsMobile ? "grid" : "hidden"} md:grid grid-cols-1 md:grid-cols-2 gap-6`}>
-        {[
-          { 
-            id: 'prompt', 
-            active: !aiSettings.useDirectAI, 
-            icon: FileText, 
-            title: t("planner.ai.mode.prompt.title"), 
-            desc: t("planner.ai.mode.prompt.desc"),
-          },
-          { 
-            id: 'direct', 
-            active: aiSettings.useDirectAI, 
-            icon: Bot, 
-            title: t("planner.ai.mode.direct.title"), 
-            desc: t("planner.ai.mode.direct.desc"),
-          }
-        ].map((mode) => (
+      {TOKEN_MODE_PREVIEW_ENABLED && (
+        <div className="space-y-4 rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
           <button
-            key={mode.id}
             type="button"
-            onClick={() => selectMode(mode.id === 'direct')}
-            className={`group relative p-4 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border-2 text-left transition-all duration-500 ${
-              mode.active 
-                ? 'border-primary bg-primary/[0.08] shadow-[0_14px_36px_rgba(0,0,0,0.12)]' 
-                : 'border-white/8 bg-white/[0.06] hover:border-white/14 hover:bg-white/[0.08] shadow-[0_14px_36px_rgba(0,0,0,0.10)]'
-            }`}
+            onClick={() => setShowAdvancedOptions((prev) => !prev)}
+            className="flex w-full items-center justify-between gap-4 text-left"
           >
-            <div className={`w-10 h-10 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-8 transition-all duration-500 ${mode.active ? "bg-primary text-white scale-110 rotate-3 shadow-lg shadow-primary/30" : "bg-white/5 text-white/40 group-hover:text-white"}`}>
-              <mode.icon className="h-6 w-6 sm:h-8 sm:w-8" />
+            <div>
+              <div className="text-sm font-semibold tracking-[0.06em] text-white">{t("planner.ai.advanced.title")}</div>
+              <div className="mt-1 text-sm text-white/60">{t("planner.ai.advanced.desc")}</div>
             </div>
-            <h4 className={`text-xl sm:text-2xl font-black mb-2 sm:mb-3 transition-colors tracking-tight ${mode.active ? "text-white" : "text-white/40 group-hover:text-white"}`}>
-              {mode.title}
-            </h4>
-            <p className={`text-xs sm:text-sm leading-relaxed transition-colors ${mode.active ? "text-white/80" : "text-white/30 group-hover:text-white/50"}`}>
-              {mode.desc}
-            </p>
-            
-            {mode.active && (
-              <>
-                <motion.div 
-                  layoutId="active-check"
-                  className="absolute top-8 right-8 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-lg"
-                >
-                  <Sparkles className="w-4 h-4 text-white" />
-                </motion.div>
-                <div className="mt-6 inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold tracking-[0.12em] text-primary">
-                  {t("planner.ai.mode.selected")}
-                </div>
-              </>
-            )}
+            <ChevronDown className={`h-5 w-5 text-primary transition-transform ${showAdvancedOptions ? "rotate-180" : ""}`} />
           </button>
-        ))}
-      </div>
+
+          <AnimatePresence initial={false}>
+            {showAdvancedOptions && (
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                className="pt-2"
+              >
+                <div className="rounded-3xl border border-primary/20 bg-primary/[0.06] p-5 sm:p-6 text-left shadow-[0_14px_36px_rgba(0,0,0,0.08)]">
+                  <div className="mb-4 flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15 text-primary">
+                        <Bot className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-black tracking-tight text-white">{t("planner.ai.advanced.tokenTitle")}</div>
+                        <div className="mt-1 text-sm text-white/65">{t("planner.ai.advanced.tokenDesc")}</div>
+                      </div>
+                    </div>
+                    <div className="rounded-full border border-primary/30 bg-primary/12 px-3 py-1 text-[10px] font-semibold tracking-[0.12em] text-primary">
+                      {t("planner.ai.advanced.comingSoon")}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 text-sm text-white/78 md:grid-cols-3">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                      <div className="text-[11px] font-semibold tracking-[0.1em] text-white/50">{t("planner.ai.advanced.tokenModelLabel")}</div>
+                      <div className="mt-1 font-semibold text-white">{t("planner.ai.advanced.tokenModelValue")}</div>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                      <div className="text-[11px] font-semibold tracking-[0.1em] text-white/50">{t("planner.ai.advanced.tokenBillingLabel")}</div>
+                      <div className="mt-1 font-semibold text-white">{t("planner.ai.advanced.tokenBillingValue")}</div>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                      <div className="text-[11px] font-semibold tracking-[0.1em] text-white/50">{t("planner.ai.advanced.tokenStatusLabel")}</div>
+                      <div className="mt-1 font-semibold text-white">{t("planner.ai.advanced.tokenStatusValue")}</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* AI Provider Settings Panel */}
       <AnimatePresence>
-        {aiSettings.useDirectAI && (
+        {DIRECT_AI_FEATURE_ENABLED && aiSettings.useDirectAI && (
           <motion.div 
             ref={providerSectionRef}
             initial={{ opacity: 0, scale: 0.95 }}
@@ -193,14 +157,13 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     {t("planner.ai.provider.openaiModelLabel")}
                   </Label>
                   <Select
-                    value={aiSettings.openaiModel || "gpt-5.2"}
+                    value={aiSettings.openaiModel || DEFAULT_OPENAI_MODEL}
                     onValueChange={(value) => onAISettingsChange({ aiProvider: "openai", openaiModel: value })}
                   >
                     <SelectTrigger id="openaiModel" className={inputClass}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="gpt-5.2">ChatGPT 5.2</SelectItem>
                       <SelectItem value="gpt-5.4">ChatGPT 5.4</SelectItem>
                     </SelectContent>
                   </Select>

@@ -90,37 +90,35 @@
   },
   "exampleRoute": {
     "badge": "Example Route",
-    "title": "Karlsruhe ⇄ Zierow",
-    "subtitle": "14 days • approx. 1,495 km • Slow travel with 5.5 t & dog",
-    "lead": "A calm, dog-friendly round trip with clear stages, fixed stops, and plenty of buffer for breaks.",
+    "title": "Karlsruhe → Perleberg → Wismar → Karlsruhe",
+    "subtitle": "12 days • approx. 1,350 km • Slow travel 3.5-7.5 t",
+    "lead": "Start on June 3, 2026, booked intermediate stops in Perleberg and Wismar, a daily limit of 250 km, and a return route that deliberately avoids mirroring the outbound trip.",
     "keyFacts": [
       {
         "label": "Start",
-        "value": "June 4, 2026 (Corpus Christi, BW)"
+        "value": "June 3, 2026 • Karlsruhe"
       },
       {
-        "label": "Total distance",
-        "value": "approx. 1,495 km"
+        "label": "Intermediate stops",
+        "value": "Perleberg • Wismar"
       },
       {
-        "label": "Trip length",
-        "value": "14 days"
+        "label": "Fixed dates",
+        "value": "Perleberg June 6 • Wismar June 7-14"
+      },
+      {
+        "label": "Daily limit",
+        "value": "max. 250 km / day"
       },
       {
         "label": "Vehicle",
-        "value": "7.2 m • 3.2 m • 5.5 t"
-      },
-      {
-        "label": "Budget",
-        "value": "€1,200–1,500"
+        "value": "7.2 m • 3.3 m • 5.5 t"
       }
     ],
     "ruleNotice": {
-      "title": "Important for 5.5 t",
+      "title": "Travel note",
       "items": [
-        "Observe truck overtaking bans and speed limits.",
-        "Motorways: 100 km/h only with approval, otherwise 80 km/h; rural roads max. 80 km/h.",
-        "Start on June 4, 2026 is Corpus Christi – expect heavy morning traffic."
+        "June 4, 2026 is Corpus Christi in Baden-Wuerttemberg: expect heavier excursion traffic on the south-west axis toward Franconia and Hesse."
       ]
     },
     "details": {
@@ -131,159 +129,161 @@
       "title": "Stage planning",
       "outward": {
         "title": "Outbound",
-        "range": "June 4–7, 2026",
+        "range": "June 3-7, 2026",
         "items": [
           {
-            "title": "Stage 1: Karlsruhe → Fulda/Rhön area",
+            "title": "Stage 1: Karlsruhe → Obereisenheim / Wuerzburg",
+            "date": "June 3, 2026",
+            "distance": "approx. 185 km",
+            "duration": "approx. 2:50-3:20 h",
+            "route": "Easy start via A5 / A6 / A81 toward Wuerzburg. Kanu-Club Wuerzburg with OCM link https://opencampingmap.org/en/way/1190353250 and official site https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "pause": "Short lunch or coffee break near Heilbronn, then arrive early in the wine village.",
+            "note": "Relaxed start before the holiday traffic."
+          },
+          {
+            "title": "Stage 2: Obereisenheim / Wuerzburg → Hann. Muenden / Knickhagen",
             "date": "June 4, 2026",
-            "distance": "approx. 210 km",
-            "duration": "approx. 3:00 h",
-            "route": "A5 to Hattenbacher Dreieck, then toward Fulda.",
-            "pause": "After ~1.5 h near Alsfeld for a dog walk.",
-            "note": "Holiday traffic possible."
+            "distance": "approx. 235 km",
+            "duration": "approx. 3:30-3:50 h",
+            "route": "Head north on the A7 toward the Fulda / Werra / Weser region. Campingplatz Knickhagen with site page https://www.campingplatz-knickhagen.de/Campingplatz/ and restaurant https://www.campingplatz-knickhagen.de/Die-Gaststaette/Speisekarte/",
+            "pause": "Longer break around Fulda or Kassel to keep the holiday relaxed.",
+            "note": "Very fitting evening stop with restaurant directly on site."
           },
           {
-            "title": "Stage 2: Fulda area → Magdeburg/Elbe area",
+            "title": "Stage 3: Knickhagen → Havelberg area",
             "date": "June 5, 2026",
-            "distance": "approx. 240 km",
-            "duration": "approx. 3:30 h",
-            "route": "A7 / A4 / A71 north. The Harz bypass is often calmer than the A7 Kassel hills.",
-            "pause": "Near Sangerhausen or south of Magdeburg."
+            "distance": "approx. 245 km",
+            "duration": "approx. 3:45-4:15 h",
+            "route": "A7 / A38 / A14 / B189 with a calm eastern bypass. Campinginsel Havelberg with https://opencampingmap.org/de/way/211239954 and https://www.campinginsel-havelberg.de/",
+            "pause": "Pause window south of Magdeburg or around Stendal.",
+            "note": "Buffer day before the fixed date in Perleberg."
           },
           {
-            "title": "Stage 3: Magdeburg area → Perleberg",
+            "title": "Stage 4: Havelberg / Perleberg area → Perleberg",
             "date": "June 6, 2026",
-            "distance": "approx. 110 km",
-            "duration": "approx. 1:45 h",
-            "route": "B189 northbound.",
-            "pause": "Short day – plenty of time for Perleberg."
+            "distance": "approx. 0-90 km",
+            "duration": "approx. 0:00-1:30 h",
+            "route": "Perleberg is fixed for June 6, 2026 with planned arrival around 13:00. This day therefore stays deliberately short and soft.",
+            "pause": "Supplies, town time, or just a very short transfer instead of a full driving stage."
           },
           {
-            "title": "Stage 4: Perleberg → Zierow",
+            "title": "Stage 5: Perleberg → Wismar",
             "date": "June 7, 2026",
-            "distance": "approx. 85 km",
-            "duration": "approx. 1:30 h",
-            "route": "Final easy stretch to the campsite.",
-            "pause": "Relaxed arrival for check-in."
+            "distance": "approx. 150 km",
+            "duration": "approx. 2:20-2:45 h",
+            "route": "Quiet northern route toward the Baltic Sea with arrival timed for the booked Wismar stay.",
+            "pause": "Short stop near Schwerin or drive straight through to arrive in Wismar early."
           }
         ]
       },
       "stay": {
-        "title": "On-site stay",
-        "range": "June 7–14 (Zierow/Wismar)",
-        "note": "Booked: Ostsee-Camping-Ferienpark Zierow."
+        "title": "Stay on site",
+        "range": "June 7-14, 2026 (Wismar)",
+        "note": "Wismar is firmly booked. Strong base for the old town, old harbor, and World Heritage House: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/ • more inspiration: https://one-million-places.com/en/germany/wismar-sights-of-the-unseco-hanseatic-city"
       },
       "return": {
         "title": "Return",
-        "range": "June 14–17, 2026",
+        "range": "June 14-16, 2026",
         "items": [
           {
-            "title": "Stage 5: Zierow → Lüneburg Heath (Uelzen area)",
+            "title": "Stage 6: Wismar → Lueneburg Heath",
             "date": "June 14, 2026",
-            "distance": "approx. 140 km",
-            "duration": "approx. 2:15 h",
-            "route": "B208 / B4 southbound (slow travel through the countryside).",
-            "pause": "Good stops at farm shops or field paths."
+            "distance": "approx. 195 km",
+            "duration": "approx. 3:00-3:30 h",
+            "route": "Do not return via the outbound track, but head southwest via country roads and smaller federal roads into the heath. Naturcamping Lueneburger Heide with OCM link https://opencampingmap.org/en/way/79293021 and campsite page https://naturcamping-lh.de/campingplatz/",
+            "pause": "Break near Ludwigslust or Uelzen, then a relaxed rolling-in evening in the heath."
           },
           {
-            "title": "Stage 6: Uelzen area → Harz",
+            "title": "Stage 7: Lueneburg Heath → Guxhagen / Fuldaschleife",
             "date": "June 15, 2026",
-            "distance": "approx. 130 km",
-            "duration": "approx. 2:00 h",
-            "route": "B4 toward Braunschweig/Harz.",
-            "pause": "Dog-friendly walks near the campsite."
+            "distance": "approx. 245 km",
+            "duration": "approx. 3:45-4:10 h",
+            "route": "Via B4 / A7 back toward Hesse, but without copying the outbound route. For the last overnight stop: Camping Fuldaschleife with site page https://fuldaschleife.de/ and pitch selection https://fuldaschleife.de/stellplatz-auswahlen/",
+            "pause": "Longer midday stop around Hildesheim or Goettingen to keep the north-south axis calm."
           },
           {
-            "title": "Stage 7: Harz → Spessart/Main",
+            "title": "Stage 8: Guxhagen / Fuldaschleife → Karlsruhe",
             "date": "June 16, 2026",
-            "distance": "approx. 230 km",
-            "duration": "approx. 3:30 h",
-            "route": "A7 southbound.",
-            "pause": "Lunch stop at service areas with truck lanes."
-          },
-          {
-            "title": "Stage 8: Spessart → Karlsruhe",
-            "date": "June 17, 2026",
-            "distance": "approx. 160 km",
-            "duration": "approx. 2:00 h",
-            "route": "Final leg home.",
-            "pause": "Arrival in the afternoon."
+            "distance": "approx. 220 km",
+            "duration": "approx. 3:10-3:40 h",
+            "route": "Final drive home via A7 / A6 / A5 back to Karlsruhe, without an overlong final stage.",
+            "pause": "Short rest-area or truck-stop break near Heilbronn, then relaxed arrival home in the afternoon."
           }
         ]
       }
     },
     "overnights": {
       "title": "Overnights",
-      "note": "Prices are estimates for 2026 (inflation included).",
+      "note": "This route uses only specifically named places and direct links.",
       "items": [
         {
-          "title": "Outbound • Fulda area",
-          "name": "KNAUS Campingpark Hünfeld",
-          "price": "approx. €35–45 / night",
+          "title": "June 3 • Mainfranken",
+          "name": "Kanu-Club Wuerzburg / Obereisenheim",
+          "price": "approx. EUR25-40 / night",
           "details": [
-            "Quiet Rhön location near A7",
-            "Restaurant Praforst by the lake",
-            "Good dog-walking paths"
+            "OpenCampingMap: https://opencampingmap.org/en/way/1190353250",
+            "Official site: https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "Calm first evening on the Main with wine villages and short reach to town or dinner options"
           ]
         },
         {
-          "title": "Outbound • Magdeburg area",
-          "name": "Campingplatz Barleber See",
-          "price": "approx. €25–35 / night",
+          "title": "June 4 • North Hesse",
+          "name": "Campingplatz Knickhagen",
+          "price": "approx. EUR30-45 / night",
           "details": [
-            "Right by the lake",
-            "Snack bar/restaurant on site",
-            "Large pitches for 7 m+"
+            "Official site: https://www.campingplatz-knickhagen.de/Campingplatz/",
+            "Restaurant / menu: https://www.campingplatz-knickhagen.de/Die-Gaststaette/Speisekarte/",
+            "Quiet stop near Hann. Muenden with a real dinner option directly on site"
           ]
         },
         {
-          "title": "Outbound • Perleberg",
-          "name": "Kristalltherme Bad Wilsnack (stellplatz)",
-          "price": "approx. €15–20 + visitor tax",
+          "title": "June 5 • Reserve before Perleberg",
+          "name": "Campinginsel Havelberg",
+          "price": "approx. EUR30-45 / night",
           "details": [
-            "Very quiet, wellness option",
-            "Perleberg quickly reachable",
-            "Alternative: Stellplatz am Hagen"
+            "OpenCampingMap: https://opencampingmap.org/de/way/211239954",
+            "Official site: https://www.campinginsel-havelberg.de/",
+            "Clean reserve and buffer night before the fixed date in Perleberg"
           ]
         },
         {
-          "title": "Destination",
-          "name": "Ostsee-Camping-Ferienpark Zierow",
-          "price": "June 7–14 booked",
+          "title": "June 6 • Intermediate stop Perleberg",
+          "name": "Booked stay",
+          "price": "Arrival around 13:00",
           "details": [
-            "Close to Wismar & Poel Island",
-            "Dog beaches nearby",
-            "Ideal base"
+            "No campsite search needed anymore",
+            "Deliberately planned as a short destination and buffer section instead of a full driving day",
+            "Havelberg remains the nearest fallback option"
           ]
         },
         {
-          "title": "Return • Lüneburg Heath",
-          "name": "Uhlenköper-Camp Uelzen",
-          "price": "approx. €30–40 / night",
+          "title": "June 7-14 • Wismar",
+          "name": "Booked stay",
+          "price": "June 7-14, 2026",
           "details": [
-            "Eco-focused, dog-friendly",
-            "Organic shop & café",
-            "Canoe rental"
+            "No campsite search needed, full focus on town, harbor, and day trips",
+            "World Heritage House: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/",
+            "Additional overview: https://one-million-places.com/en/germany/wismar-sights-of-the-unseco-hanseatic-city"
           ]
         },
         {
-          "title": "Return • Harz",
-          "name": "Campingplatz Am Brocken",
-          "price": "approx. €35–45 / night",
+          "title": "June 14 • Lueneburg Heath",
+          "name": "Naturcamping Lueneburger Heide",
+          "price": "approx. EUR35-50 / night",
           "details": [
-            "In the heart of the Harz",
-            "Restaurant on site",
-            "Great for hiking"
+            "OpenCampingMap: https://opencampingmap.org/en/way/79293021",
+            "Official site: https://naturcamping-lh.de/campingplatz/",
+            "Restaurant on site: https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
         },
         {
-          "title": "Return • Spessart",
-          "name": "Camping Main-Spessart",
-          "price": "approx. €30–40 / night",
+          "title": "June 15 • North Hesse",
+          "name": "Camping Fuldaschleife",
+          "price": "approx. EUR30-45 / night",
           "details": [
-            "Right on the Main river",
-            "Inn with beer garden",
-            "Beautiful river view"
+            "Official site: https://fuldaschleife.de/",
+            "Pitch info / selection: https://fuldaschleife.de/stellplatz-auswahlen/",
+            "Restaurant / menu: https://fuldaschleife.de/wp-content/uploads/2024/06/Speisekarte-Mai-2024.pdf"
           ]
         }
       ]
@@ -294,25 +294,25 @@
         "outward": {
           "title": "Outbound",
           "items": [
-            "Rhön (Wasserkuppe): panoramic walk",
-            "Magdeburg waterway crossing: canal bridge over the Elbe",
-            "Perleberg old town & wildlife park"
+            "Mainfranken around Obereisenheim: wine villages, Main riverbanks, and a gentle travel opening",
+            "Hann. Muenden / Weserstein as a strong stop on the way north",
+            "Havelberg Cathedral as a quality add-on or fallback before Perleberg: https://havelberg-dom.de/havelberg-dombesuch-info-oeffnungszeiten-lage/"
           ]
         },
         "onsite": {
           "title": "On site",
           "items": [
-            "Wismar old town (UNESCO) & old harbor",
-            "Poel Island: dog beaches (e.g. Timmendorf)",
-            "Schloss Bothmer in Klütz"
+            "Wismar old town (UNESCO), old harbor, and Brick Gothic all within compact walking distance",
+            "World Heritage House Wismar: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/",
+            "St. Georgen Wismar: https://www.visit-mv.com/destinations/a-st-georgen-church-wismar"
           ]
         },
         "return": {
           "title": "Return",
           "items": [
-            "Hundertwasser Station Uelzen",
-            "Brocken hike or Brocken railway (dogs with muzzle)",
-            "Wertheim old town & castle ruins"
+            "Lueneburg Heath as a quiet natural contrast to the Baltic coast and city days in Wismar",
+            "Fuldaschleife for one last relaxed river evening before driving home",
+            "The return route stays independent and deliberately avoids repeating the same north-south axis as the outbound trip"
           ]
         }
       }
@@ -464,21 +464,21 @@
         "step3a": "Copy the prompt or use your own API key to generate directly in the app."
       },
       "cost": {
-        "q": "Is it really free to use?",
-        "title": "Yes, Camping Route is free and open source.",
+        "q": "What does Camping Route actually cost me?",
+        "title": "Camping Route itself is free.",
         "free": "The App",
         "free1": "The form and prompt generation are 100% free.",
         "free2": "No registration, no database, no backend.",
-        "opt": "AI API Costs",
-        "transDesc": "You only need your own API key for 'Use AI directly'. Those API costs go straight to OpenAI, Google, or Mistral. Camping Route does not charge anything on top."
+        "opt": "External AI Costs",
+        "transDesc": "Costs only arise if you use the generated prompt in a paid AI service. Those costs are charged solely by your chosen provider, not by Camping Route."
       },
       "privacy": {
-        "q": "What happens to my entered data?",
-        "title": "Your data stays on your device.",
+        "q": "Where is my entered data stored?",
+        "title": "On your device by default.",
         "device": "Local & Secure",
-        "device1": "We run no backend and no database. Saved inputs stay on your device. API keys are not stored.",
-        "sec": "No Server Transmission",
-        "sec1": "Your data only leaves your device if you send it directly to the API of the chosen AI provider."
+        "device1": "For the current planning flow, we do not run a central user account system or server-side plan storage. Saved inputs remain locally in your browser or in your exported file.",
+        "sec": "Only when using external AI",
+        "sec1": "Your data only leaves your device when you paste the generated prompt into an external AI service yourself."
       },
       "aiModel": {
         "q": "Which AI model should I choose?",
@@ -612,7 +612,7 @@
     },
     "ai": {
       "title": "AI Settings",
-      "description": "Choose how you want to interact with the AI.",
+      "description": "Generate a finished prompt for your preferred AI.",
       "mode": {
         "prompt": {
           "title": "Generate Prompt",
@@ -620,7 +620,7 @@
         },
         "direct": {
           "title": "Use AI Directly",
-          "desc": "Generate route directly in the app. You use your OWN API key and pay directly to your AI provider (e.g. OpenAI)."
+          "desc": "Currently inactive."
         },
         "label": "How would you like to plan?",
         "selected": "Selected",

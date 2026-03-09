@@ -90,37 +90,35 @@
   },
   "exampleRoute": {
     "badge": "Beispielroute",
-    "title": "Karlsruhe ⇄ Zierow",
-    "subtitle": "14 Tage • ca. 1.495 km • Slow Travel mit 5,5 t & Hund",
-    "lead": "Langsame, hundefreundliche Rundreise mit klaren Etappen, festen Stopps und genügend Puffer für Pausen.",
+    "title": "Karlsruhe → Perleberg → Wismar → Karlsruhe",
+    "subtitle": "12 Tage • ca. 1.350 km • Slow Travel 3,5-7,5 t",
+    "lead": "Start am 03.06.2026, gebuchte Zwischenziele in Perleberg und Wismar, maximal 250 km pro Tag und ein Rückweg, der bewusst nicht der Hinfahrt folgt.",
     "keyFacts": [
       {
         "label": "Start",
-        "value": "04.06.2026 (Fronleichnam, BW)"
+        "value": "03.06.2026 • Karlsruhe"
       },
       {
-        "label": "Gesamtstrecke",
-        "value": "ca. 1.495 km"
+        "label": "Zwischenziele",
+        "value": "Perleberg • Wismar"
       },
       {
-        "label": "Reisedauer",
-        "value": "14 Tage"
+        "label": "Fixtermine",
+        "value": "Perleberg 06.06. • Wismar 07.06.–14.06."
+      },
+      {
+        "label": "Tageslimit",
+        "value": "max. 250 km / Tag"
       },
       {
         "label": "Fahrzeug",
-        "value": "7,2 m • 3,2 m • 5,5 t"
-      },
-      {
-        "label": "Budget",
-        "value": "1.200–1.500 €"
+        "value": "7,2 m • 3,3 m • 5,5 t"
       }
     ],
     "ruleNotice": {
-      "title": "Wichtiger Hinweis für 5,5 t",
+      "title": "Reisehinweis",
       "items": [
-        "LKW-Überholverbote beachten und Tempo-Limits einhalten.",
-        "Auf Autobahnen meist 100 km/h nur mit Zulassung, sonst 80 km/h; Landstraße max. 80 km/h.",
-        "Start am 04.06.2026 ist Fronleichnam – am Morgen mit starkem Reiseverkehr rechnen."
+        "Am 04.06.2026 ist Fronleichnam in Baden-Württemberg: auf der Süd-West-Achse Richtung Franken und Hessen mit dichterem Ausflugsverkehr rechnen."
       ]
     },
     "details": {
@@ -131,159 +129,161 @@
       "title": "Etappenplanung",
       "outward": {
         "title": "Hinfahrt",
-        "range": "04.06.–07.06.2026",
+        "range": "03.06.–07.06.2026",
         "items": [
           {
-            "title": "Etappe 1: Karlsruhe → Raum Fulda/Rhön",
+            "title": "Etappe 1: Karlsruhe → Obereisenheim / Würzburg",
+            "date": "03.06.2026",
+            "distance": "ca. 185 km",
+            "duration": "ca. 2:50–3:20 h",
+            "route": "Lockerer Auftakt über A5 / A6 / A81 Richtung Würzburg. Kanu-Club Würzburg mit OCM-Link https://opencampingmap.org/en/way/1190353250 und offiziellem Platzlink https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "pause": "Kurzer Mittags- oder Kaffeestopp im Raum Heilbronn, dann bewusst früh in den Weinort einrollen.",
+            "note": "Ruhiger Einstieg vor dem Feiertagsverkehr."
+          },
+          {
+            "title": "Etappe 2: Obereisenheim / Würzburg → Hann. Münden / Knickhagen",
             "date": "04.06.2026",
-            "distance": "ca. 210 km",
-            "duration": "ca. 3:00 h",
-            "route": "A5 bis Hattenbacher Dreieck, dann Richtung Fulda.",
-            "pause": "Nach ca. 1,5 h im Bereich Alsfeld für Gassi-Runde.",
-            "note": "Feiertagsverkehr möglich."
+            "distance": "ca. 235 km",
+            "duration": "ca. 3:30–3:50 h",
+            "route": "Über A7 nordwärts in den Raum Fulda / Werra / Weser. Campingplatz Knickhagen mit Platzseite https://www.campingplatz-knickhagen.de/Campingplatz/ und Gaststätte https://www.campingplatz-knickhagen.de/Die-Gaststaette/Speisekarte/",
+            "pause": "Längere Pause im Raum Fulda oder Kassel, damit der Feiertag entspannt bleibt.",
+            "note": "Sehr passender Abendstopp mit Gastronomie direkt am Platz."
           },
           {
-            "title": "Etappe 2: Raum Fulda → Raum Magdeburg/Elbe",
+            "title": "Etappe 3: Knickhagen → Raum Havelberg",
             "date": "05.06.2026",
-            "distance": "ca. 240 km",
-            "duration": "ca. 3:30 h",
-            "route": "A7 / A4 / A71 Richtung Norden. Ostumfahrung Harz oft entspannter als A7 Kasseler Berge.",
-            "pause": "Bei Sangerhausen oder südlich von Magdeburg."
+            "distance": "ca. 245 km",
+            "duration": "ca. 3:45–4:15 h",
+            "route": "A7 / A38 / A14 / B189 mit ruhiger Ostumfahrung. Campinginsel Havelberg mit https://opencampingmap.org/de/way/211239954 und https://www.campinginsel-havelberg.de/",
+            "pause": "Pausenfenster südlich von Magdeburg oder im Raum Stendal.",
+            "note": "Puffertag vor dem fixen Termin in Perleberg."
           },
           {
-            "title": "Etappe 3: Raum Magdeburg → Perleberg",
+            "title": "Etappe 4: Havelberg / Raum Perleberg → Perleberg",
             "date": "06.06.2026",
-            "distance": "ca. 110 km",
-            "duration": "ca. 1:45 h",
-            "route": "B189 Richtung Norden.",
-            "pause": "Kurze Etappe – Zeit für Perleberg & Umgebung."
+            "distance": "ca. 0–90 km",
+            "duration": "ca. 0:00–1:30 h",
+            "route": "Perleberg ist fix auf den 06.06.2026 mit geplanter Ankunft gegen 13:00 gesetzt. Dieser Tag bleibt daher bewusst kurz und weich geschnitten.",
+            "pause": "Versorgung, Stadtzeit oder nur eine sehr kurze Anfahrt statt voller Fahretappe."
           },
           {
-            "title": "Etappe 4: Perleberg → Zierow",
+            "title": "Etappe 5: Perleberg → Wismar",
             "date": "07.06.2026",
-            "distance": "ca. 85 km",
-            "duration": "ca. 1:30 h",
-            "route": "Letztes Stück entspannt bis zum Campingplatz.",
-            "pause": "Ankunft zur Check-in-Zeit in Zierow."
+            "distance": "ca. 150 km",
+            "duration": "ca. 2:20–2:45 h",
+            "route": "Ruhige Nordroute Richtung Ostsee mit Ankunft passend zum gebuchten Wismar-Aufenthalt.",
+            "pause": "Kurzer Halt im Raum Schwerin oder bewusst direkt durchfahren, um in Wismar früh anzukommen."
           }
         ]
       },
       "stay": {
         "title": "Aufenthalt vor Ort",
-        "range": "07.06.–14.06. (Zierow/Wismar)",
-        "note": "Zielort fest gebucht: Ostsee-Camping-Ferienpark Zierow."
+        "range": "07.06.–14.06.2026 (Wismar)",
+        "note": "Wismar ist fest gebucht. Gute Basis für Altstadt, Alter Hafen und Welterbehaus: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/ • weitere Inspiration: https://one-million-places.com/en/germany/wismar-sights-of-the-unseco-hanseatic-city"
       },
       "return": {
         "title": "Rückfahrt",
-        "range": "14.06.–17.06.2026",
+        "range": "14.06.–16.06.2026",
         "items": [
           {
-            "title": "Etappe 5: Zierow → Lüneburger Heide (Raum Uelzen)",
+            "title": "Etappe 6: Wismar → Lüneburger Heide",
             "date": "14.06.2026",
-            "distance": "ca. 140 km",
-            "duration": "ca. 2:15 h",
-            "route": "B208 / B4 Richtung Süden (Slow Travel über Land).",
-            "pause": "Geeignete Stopps an Feldwegen oder Hofläden."
+            "distance": "ca. 195 km",
+            "duration": "ca. 3:00–3:30 h",
+            "route": "Nicht zurück über die Hinfahrt, sondern südwestlich über Land und kleinere Bundesstraßen in die Heide. Naturcamping Lüneburger Heide mit OCM-Link https://opencampingmap.org/en/way/79293021 und Platzseite https://naturcamping-lh.de/campingplatz/",
+            "pause": "Pause im Raum Ludwigslust oder Uelzen, danach entspannter Einrollabend in die Heide."
           },
           {
-            "title": "Etappe 6: Raum Uelzen → Harz",
+            "title": "Etappe 7: Lüneburger Heide → Guxhagen / Fuldaschleife",
             "date": "15.06.2026",
-            "distance": "ca. 130 km",
-            "duration": "ca. 2:00 h",
-            "route": "B4 Richtung Braunschweig/Harz.",
-            "pause": "Hundefreundliche Spaziergänge am Platz."
+            "distance": "ca. 245 km",
+            "duration": "ca. 3:45–4:10 h",
+            "route": "Über B4 / A7 wieder Richtung Hessen, aber ohne Rückweg-Kopie. Für die letzte Zwischennacht: Camping Fuldaschleife mit Platzseite https://fuldaschleife.de/ und Stellplatzauswahl https://fuldaschleife.de/stellplatz-auswahlen/",
+            "pause": "Längerer Mittagsstopp im Raum Hildesheim oder Göttingen, damit die Nord-Süd-Achse ruhig bleibt."
           },
           {
-            "title": "Etappe 7: Harz → Spessart/Main",
+            "title": "Etappe 8: Guxhagen / Fuldaschleife → Karlsruhe",
             "date": "16.06.2026",
-            "distance": "ca. 230 km",
-            "duration": "ca. 3:30 h",
-            "route": "A7 Richtung Süden.",
-            "pause": "Lunch-Stopp an Autohöfen mit LKW-Spur."
-          },
-          {
-            "title": "Etappe 8: Spessart → Karlsruhe",
-            "date": "17.06.2026",
-            "distance": "ca. 160 km",
-            "duration": "ca. 2:00 h",
-            "route": "Letzte Etappe nach Hause.",
-            "pause": "Ankunft am Nachmittag."
+            "distance": "ca. 220 km",
+            "duration": "ca. 3:10–3:40 h",
+            "route": "Letzte Heimfahrt über die A7 / A6 / A5 zurück nach Karlsruhe, ohne überlange Schluss-Etappe.",
+            "pause": "Kurzer Rastplatz- oder Autohof-Stopp im Raum Heilbronn, dann entspannte Heimankunft am Nachmittag."
           }
         ]
       }
     },
     "overnights": {
       "title": "Übernachtungen",
-      "note": "Preise sind Schätzungen für 2026 (Inflation berücksichtigt).",
+      "note": "Die Route nutzt nur konkret benannte Plätze und direkte Links.",
       "items": [
         {
-          "title": "Hinfahrt • Raum Fulda",
-          "name": "KNAUS Campingpark Hünfeld",
-          "price": "ca. 35–45 € / Nacht",
+          "title": "03.06. • Mainfranken",
+          "name": "Kanu-Club Würzburg / Obereisenheim",
+          "price": "ca. 25–40 € / Nacht",
           "details": [
-            "Ruhige Rhönlage nahe der A7",
-            "Restaurant Praforst am See",
-            "Gute Gassigehwege"
+            "OpenCampingMap: https://opencampingmap.org/en/way/1190353250",
+            "Offizieller Platzlink: https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "Ruhiger erster Abend am Main mit Weinorten und kurzer Stadt-/Gastro-Reichweite"
           ]
         },
         {
-          "title": "Hinfahrt • Raum Magdeburg",
-          "name": "Campingplatz Barleber See",
-          "price": "ca. 25–35 € / Nacht",
+          "title": "04.06. • Nordhessen",
+          "name": "Campingplatz Knickhagen",
+          "price": "ca. 30–45 € / Nacht",
           "details": [
-            "Direkt am See",
-            "Imbiss/Restaurant vor Ort",
-            "Große Parzellen für 7 m+"
+            "Offizieller Platzlink: https://www.campingplatz-knickhagen.de/Campingplatz/",
+            "Gaststätte / Speisekarte: https://www.campingplatz-knickhagen.de/Die-Gaststaette/Speisekarte/",
+            "Ruhiger Zwischenstopp bei Hann. Münden mit echter Abendessen-Option direkt am Platz"
           ]
         },
         {
-          "title": "Hinfahrt • Perleberg",
-          "name": "Stellplatz Kristalltherme Bad Wilsnack",
-          "price": "ca. 15–20 € + Kurtaxe",
+          "title": "05.06. • Reserve vor Perleberg",
+          "name": "Campinginsel Havelberg",
+          "price": "ca. 30–45 € / Nacht",
           "details": [
-            "Sehr ruhig, Wellness-Option",
-            "Perleberg schnell erreichbar",
-            "Alternative: Stellplatz am Hagen"
+            "OpenCampingMap: https://opencampingmap.org/de/way/211239954",
+            "Offizieller Platzlink: https://www.campinginsel-havelberg.de/",
+            "Saubere Reserve- und Puffernacht vor dem fixen Termin in Perleberg"
           ]
         },
         {
-          "title": "Zielort",
-          "name": "Ostsee-Camping-Ferienpark Zierow",
-          "price": "07.–14.06. fest gebucht",
+          "title": "06.06. • Zwischenziel Perleberg",
+          "name": "Gebuchter Aufenthalt",
+          "price": "Ankunft ca. 13:00",
           "details": [
-            "Wismar & Insel Poel in der Nähe",
-            "Hundestrände erreichbar",
-            "Idealer Ausgangspunkt"
+            "Keine Platzsuche mehr nötig",
+            "Bewusst als kurzer Ziel- und Pufferabschnitt statt voller Fahretappe angelegt",
+            "Havelberg bleibt die naheliegendste Ausweichoption"
           ]
         },
         {
-          "title": "Rückfahrt • Lüneburger Heide",
-          "name": "Uhlenköper-Camp Uelzen",
-          "price": "ca. 30–40 € / Nacht",
+          "title": "07.06.–14.06. • Wismar",
+          "name": "Gebuchter Aufenthalt",
+          "price": "07.06.–14.06.2026",
           "details": [
-            "Ökologisch, hundefreundlich",
-            "Bioladen & Café",
-            "Kanuverleih"
+            "Keine Platzsuche nötig, Fokus voll auf Stadt, Hafen und Tagesausflüge",
+            "Welterbehaus: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/",
+            "Zusätzlicher Überblick: https://one-million-places.com/en/germany/wismar-sights-of-the-unseco-hanseatic-city"
           ]
         },
         {
-          "title": "Rückfahrt • Harz",
-          "name": "Campingplatz Am Brocken",
-          "price": "ca. 35–45 € / Nacht",
+          "title": "14.06. • Lüneburger Heide",
+          "name": "Naturcamping Lüneburger Heide",
+          "price": "ca. 35–50 € / Nacht",
           "details": [
-            "Mitten im Harz",
-            "Restaurant am Platz",
-            "Top zum Wandern"
+            "OpenCampingMap: https://opencampingmap.org/en/way/79293021",
+            "Offizieller Platzlink: https://naturcamping-lh.de/campingplatz/",
+            "Gastronomie am Platz: https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
         },
         {
-          "title": "Rückfahrt • Spessart",
-          "name": "Camping Main-Spessart",
-          "price": "ca. 30–40 € / Nacht",
+          "title": "15.06. • Nordhessen",
+          "name": "Camping Fuldaschleife",
+          "price": "ca. 30–45 € / Nacht",
           "details": [
-            "Direkt am Mainufer",
-            "Gasthof mit Biergarten",
-            "Schöner Flussblick"
+            "Offizieller Platzlink: https://fuldaschleife.de/",
+            "Platzinfos / Auswahl: https://fuldaschleife.de/stellplatz-auswahlen/",
+            "Restaurant / Karte: https://fuldaschleife.de/wp-content/uploads/2024/06/Speisekarte-Mai-2024.pdf"
           ]
         }
       ]
@@ -294,25 +294,25 @@
         "outward": {
           "title": "Hinfahrt",
           "items": [
-            "Rhön (Wasserkuppe): Spaziergang mit Panorama",
-            "Wasserstraßenkreuz Magdeburg: Trogbrücke über die Elbe",
-            "Perleberg Altstadt & Tierpark"
+            "Mainfranken rund um Obereisenheim: Weinorte, Mainufer und ruhiger Reiseauftakt",
+            "Hann. Münden / Weserstein als starker Zwischenstopp auf dem Weg nach Norden",
+            "Havelberg Dom als hochwertiges Zusatz- oder Ausweichziel vor Perleberg: https://havelberg-dom.de/havelberg-dombesuch-info-oeffnungszeiten-lage/"
           ]
         },
         "onsite": {
           "title": "Vor Ort",
           "items": [
-            "Wismar Altstadt (UNESCO) & Alter Hafen",
-            "Insel Poel: Hundestrände (z. B. Timmendorf)",
-            "Schloss Bothmer in Klütz"
+            "Wismar Altstadt (UNESCO), Alter Hafen und Backsteingotik kompakt zu Fuß",
+            "Welterbehaus Wismar: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/",
+            "St. Georgen Wismar: https://www.visit-mv.com/destinations/a-st-georgen-church-wismar"
           ]
         },
         "return": {
           "title": "Rückfahrt",
           "items": [
-            "Hundertwasser-Bahnhof Uelzen",
-            "Brockenwanderung oder Brockenbahn (Hund mit Maulkorb)",
-            "Wertheim Altstadt & Burgruine"
+            "Lüneburger Heide als ruhiger Naturkontrast zur Ostsee und zu den Städtetagen in Wismar",
+            "Fuldaschleife für einen letzten entspannten Flussabend vor der Heimfahrt",
+            "Der Rückweg bleibt eigenständig und vermeidet bewusst die identische Nord-Süd-Achse der Hinfahrt"
           ]
         }
       }
@@ -322,19 +322,19 @@
       "items": [
         {
           "label": "Navigation",
-          "value": "Navi mit Fahrzeugmaßen (L: 7,2 m • H: 3,2 m • 5,5 t) nutzen, z. B. TomTom Go Camper oder Garmin."
+          "value": "Navi mit Fahrzeugmaßen (7,2 m / 3,3 m / 5,5 t) fahren und in Altstadt- oder Weinortnähe keine engen Abkürzungen riskieren."
         },
         {
           "label": "Entsorgung",
-          "value": "Clesana-Toilette = Restmüll. Grauwasser-Entsorgung auf allen genannten Plätzen."
+          "value": "Clesana bleibt ein klarer Vorteil. Grauwasser und Frischwasser lassen sich an den verlinkten Campingplätzen sauber nachziehen."
         },
         {
-          "label": "Frischwasser",
-          "value": "Großer Tank, Auffüllen an jeder Station möglich."
+          "label": "Restaurant-Strategie",
+          "value": "Die Route ist gezielt auf Plätze mit Gastronomie oder realistischer fußläufiger Abendoption aufgebaut, nicht nur auf reine Schlafstopps."
         },
         {
           "label": "Notfall",
-          "value": "Tierkliniken entlang der Route vorab markieren (z. B. Magdeburg, Lüneburg)."
+          "value": "Tierarzt-/Klinikpunkte für Würzburg, Kassel/Göttingen, Raum Stendal und Wismar vorab im Navi sichern."
         }
       ]
     },
@@ -343,15 +343,15 @@
       "items": [
         {
           "label": "Tanken",
-          "value": "Autohöfe sind günstiger als Autobahn. LKW-Spuren nutzen, wenn PKW-Säulen zu eng sind."
+          "value": "Autohöfe an A7 und A14 sind meist entspannter als kleine Dorftankstellen. Mit 5,5 t lieber große Stationen anfahren."
         },
         {
           "label": "Einkaufen",
-          "value": "Große Parkplätze in Gewerbegebieten suchen (z. B. Kaufland, Globus)."
+          "value": "Versorgung am einfachsten bei Würzburg, Kassel/Göttingen, Perleberg und Wismar bündeln statt täglich klein einzukaufen."
         },
         {
-          "label": "Apps",
-          "value": "Clever Tanken, Park4Night (>7 m, Hund erlaubt), Promobil Stellplatz-Radar, Warn-App NINA."
+          "label": "Wichtige Links",
+          "value": "OpenCampingMap allgemein: https://opencampingmap.org • Würzburg: https://opencampingmap.org/en/way/1190353250 • Havelberg: https://opencampingmap.org/de/way/211239954 • Lüneburger Heide: https://opencampingmap.org/en/way/79293021"
         }
       ]
     },
@@ -360,19 +360,19 @@
       "items": [
         {
           "label": "Budget",
-          "value": "Ca. 1.200–1.500 € für Sprit, Stellplätze, Verpflegung und Eintritte."
+          "value": "Mit gebuchten Stopps in Perleberg und Wismar bleibt die restliche Route kalkulierbar und flexibel genug für eine ruhige Slow-Travel-Planung."
         },
         {
           "label": "Nachhaltigkeit",
-          "value": "Dank Solar & Clesana ohne Chemie. Beutel im Restmüll entsorgen, regionale Hofläden nutzen."
+          "value": "Solar, Batterie und Clesana passen gut zu ruhigen Naturplätzen. Regionale Gastronomie am Main, in Nordhessen und in der Heide ergänzt die Route sinnvoll."
         },
         {
           "label": "Gesundheit",
-          "value": "Zeckenschutz für den Hund im Juni Pflicht, Impfausweis griffbereit."
+          "value": "Im Juni an Main, Heide und Ostsee an Zecken- und Mückenschutz denken; Wasser für Mensch und Hund griffbereit halten."
         },
         {
           "label": "Reisezeit",
-          "value": "Juni ist ideal: lange Tage, Ostsee ca. 15–17 °C."
+          "value": "Anfang bis Mitte Juni passt ideal: lange Tage, gute Lichtfenster für Wismar und genug Reserve für ruhige Nachmittagsankünfte."
         }
       ]
     },
@@ -381,15 +381,15 @@
       "items": [
         {
           "label": "Checkliste",
-          "value": "CEE-Adapterkabel (lang), Wasserschlauch + Gießkanne, Auffahrkeile (Heavy Duty)."
+          "value": "CEE-Kabel lang, Wasserschlauch, Auffahrkeile und genügend Reserve für entspannte Etappenabstände."
         },
         {
-          "label": "Reifen/Notfall",
-          "value": "Reifenreparaturset für LKW/Reisemobile mitführen."
+          "label": "Fahrzeugdaten",
+          "value": "3,3 m Höhe und 5,5 t sollten vor allem in Altstädten, bei Restaurant-Abstechern und auf Nebenstraßen immer aktiv mitgedacht werden."
         },
         {
           "label": "Autarkie",
-          "value": "600W Solar / 600Ah / Clesana – daher flexible Platzwahl möglich."
+          "value": "600W Solar / 600Ah / Clesana erlauben entspannte Puffer, falls ein Platz nur einfache Versorgung bietet."
         }
       ]
     },
@@ -398,15 +398,15 @@
       "items": [
         {
           "label": "Wildcamping",
-          "value": "In Deutschland verboten, in Schutzgebieten streng kontrolliert."
+          "value": "In Deutschland kein echter Plan-B. Deshalb arbeitet diese neue Beispielroute nur mit konkreten Plätzen und belastbaren Alternativen."
         },
         {
           "label": "Fahrtüchtigkeit",
-          "value": "Einmaliges Übernachten auf Parkplätzen bei 7,2 m oft schwierig – lieber Stellplätze."
+          "value": "Mit 7,2 m lieber früh genug einrollen und nicht auf spontane Innenstadt-Parkplätze spekulieren."
         },
         {
           "label": "Optionen",
-          "value": "Landvergnügen oder Bauernhöfe sind gute spontane Alternativen."
+          "value": "Falls eine Etappe neu geschnitten werden muss, lassen sich Havelberg oder die Fuldaschleife gut als Puffernacht nutzen."
         }
       ]
     },
@@ -414,12 +414,12 @@
       "title": "Alternativen bei Stau",
       "items": [
         {
-          "label": "A7 Hinfahrt",
-          "value": "Ausweichen über die B27 (Fulda → Göttingen) – landschaftlich schön, aber langsamer."
+          "label": "Nordhessen",
+          "value": "Wenn A7/Kassel zäh wird, früher runter und die Annäherung an Hann. Münden / Knickhagen über ruhigere Bundesstraßen fahren."
         },
         {
-          "label": "Hamburg Rückfahrt",
-          "value": "Hamburg weiträumig östlich umfahren (Uelzen/B4), Elbtunnel meiden."
+          "label": "Rückweg",
+          "value": "Bei viel Verkehr Richtung Süden die Heide-Etappe verlängern und die Fuldaschleife erst am Folgetag anfahren, statt hektisch durchzufahren."
         }
       ]
     }
@@ -448,10 +448,10 @@
         "gen2": "Diesen fügst du in ChatGPT oder Claude ein.",
         "gen3": "Kostenlos mit deinem bestehenden KI-Account.",
         "gen4": "Du steuerst den weiteren Chat selbst.",
-        "ai": "Modus: KI direkt nutzen (API-Key nötig)",
-        "ai1": "Die Route wird direkt in der App erzeugt und angezeigt.",
-        "ai2": "Kein Kopieren zwischen Tabs.",
-        "ai4": "Du benötigst einen eigenen API-Key deines KI-Anbieters."
+        "ai": "Modus: Prompt Generieren",
+        "ai1": "Du bekommst einen fertigen Prompt für deine bevorzugte KI.",
+        "ai2": "Du behältst die volle Kontrolle über den weiteren Chat.",
+        "ai4": "Ideal, wenn du ChatGPT, Claude oder eine andere KI bereits selbst nutzt."
       },
       "howItWorks": {
         "q": "Wie funktioniert die Planung genau?",
@@ -461,34 +461,34 @@
         "step2": "Dein Fahrzeug",
         "step2a": "Fahrzeugdaten und Autarkie eintragen.",
         "step3": "Wünsche & Generierung",
-        "step3a": "Prompt kopieren oder per eigenem API-Key direkt in der App generieren."
+        "step3a": "Prompt kopieren und in deiner bevorzugten KI verwenden."
       },
       "cost": {
-        "q": "Ist die Nutzung wirklich kostenlos?",
-        "title": "Ja, Camping Route ist kostenlos und Open Source.",
+        "q": "Was kostet mich Camping Route wirklich?",
+        "title": "Camping Route selbst ist kostenlos.",
         "free": "Die App",
         "free1": "Formular und Prompt-Erstellung sind 100% kostenlos.",
         "free2": "Keine Anmeldung, keine Datenbank, kein Backend.",
-        "opt": "KI-API-Kosten",
-        "transDesc": "Nur für 'KI direkt nutzen' brauchst du einen eigenen API-Key. Die API-Kosten zahlst du direkt an OpenAI. Camping Route verdient daran nichts."
+        "opt": "Externe KI-Kosten",
+        "transDesc": "Kosten entstehen nur dann, wenn du den generierten Prompt in einem kostenpflichtigen KI-Dienst nutzt. Diese Kosten laufen ausschließlich über deinen gewählten Anbieter, nicht über Camping Route."
       },
       "privacy": {
-        "q": "Was passiert mit meinen eingegebenen Daten?",
-        "title": "Deine Daten bleiben auf deinem Gerät.",
+        "q": "Wo werden meine eingegebenen Daten gespeichert?",
+        "title": "Standardmäßig auf deinem Gerät.",
         "device": "Lokal & Sicher",
-        "device1": "Wir betreiben kein Backend und keine Datenbank. Gespeicherte Eingaben bleiben lokal auf deinem Gerät. API-Keys werden nicht gespeichert.",
-        "sec": "Keine Server-Übertragung",
-        "sec1": "Deine Daten verlassen dein Gerät nur, wenn du sie direkt an die API des gewählten KI-Anbieters sendest."
+        "device1": "Wir betreiben für den aktuellen Planungsablauf kein zentrales Nutzerkonto und keine serverseitige Planspeicherung. Gespeicherte Eingaben bleiben lokal in deinem Browser oder in deiner exportierten Datei.",
+        "sec": "Nur bei externer KI-Nutzung",
+        "sec1": "Deine Daten verlassen dein Gerät erst dann, wenn du den generierten Prompt selbst in einen externen KI-Dienst einfügst."
       },
       "aiModel": {
         "q": "Welches KI-Modell soll ich wählen?",
-        "title": "Aktuell fokussieren wir uns auf OpenAI und eine klare Prompt-Alternative.",
-        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Sehr stark bei Logik, Tageslimits, Budgetvorgaben und strukturierter Routenplanung. Im KI-Direkt-Modus ist Websuche aktiv.",
-        "gpt2": "ChatGPT 5.2 ist die stabile Standardwahl. ChatGPT 5.4 kannst du zusätzlich testen, wenn du mehr Tiefe oder etwas andere Ergebnisse willst.",
+        "title": "Aktuell fokussieren wir uns auf eine klare Prompt-Alternative.",
+        "gpt": "Externe KI deiner Wahl",
+        "gpt1": "Nutze den generierten Prompt in ChatGPT, Claude oder einer anderen KI, die gut zu deinem Workflow passt.",
+        "gpt2": "CampingRoute selbst bleibt dabei bewusst schlank und konzentriert sich auf gute Eingaben und einen starken Prompt.",
         "prompt": "Prompt-Modus als Alternative",
-        "prompt1": "Wenn du keinen API-Key nutzen willst, erzeugst du einfach den fertigen Prompt und fügst ihn in deinem bevorzugten Chat ein.",
-        "recDesc": "Tipp: Für die meisten Nutzer ist ChatGPT 5.2 die stabile Standardwahl."
+        "prompt1": "Du erzeugst den fertigen Prompt und fügst ihn in deinem bevorzugten Chat ein.",
+        "recDesc": "Tipp: Für die meisten Nutzer ist der Prompt-Modus der einfachste und flexibelste Weg."
       },
       "helpImprove": {
         "q": "Kann ich helfen, Camping Route besser zu machen?",
@@ -611,7 +611,7 @@
     },
     "ai": {
       "title": "KI-Einstellungen",
-      "description": "Wähle aus, wie du mit der KI interagieren möchtest.",
+      "description": "Erzeuge einen fertigen Prompt für deine bevorzugte KI.",
       "mode": {
         "prompt": {
           "title": "Prompt generieren",
@@ -619,7 +619,7 @@
         },
         "direct": {
           "title": "KI direkt nutzen",
-          "desc": "Route direkt in der App generieren. Du nutzt deinen EIGENEN OpenAI-API-Key und zahlst direkt an OpenAI."
+          "desc": "Aktuell nicht aktiv."
         },
         "label": "Wie möchtest du planen?",
         "selected": "Ausgewählt",
@@ -1202,8 +1202,8 @@
         "description": "Wenn du die lokale Speicherung aktivierst, werden deine Formulareingaben und Einstellungen (z.B. gewählte Sprache) ausschließlich lokal in deinem Browser gespeichert und nach 30 Tagen automatisch gelöscht. API-Schlüssel werden niemals gespeichert. Diese Daten werden nicht an unsere Server übertragen."
       },
       "ai": {
-        "title": "KI-Integration (OpenAI, Gemini, Mistral)",
-        "description": "Wenn du die direkte KI-Generierung nutzt, werden deine Formulardaten (Start, Ziel, Fahrzeug, Vorlieben) in einen Text umgewandelt (Prompt) und über deinen eigenen API-Key direkt an den von dir gewählten KI-Anbieter (OpenAI, Google Gemini oder Mistral AI) gesendet. Wir speichern diesen Traffic nicht und loggen keine API-Schlüssel. Es gelten die Datenschutzbestimmungen des jeweils von dir genutzten KI-Anbieters."
+        "title": "KI-Integration",
+        "description": "CampingRoute erzeugt einen strukturierten Prompt, den du in deiner bevorzugten KI nutzt. Wir speichern dabei keine API-Schlüssel und keine zentralen Nutzerdaten."
       },
       "feedback": {
         "title": "Feedback nach Generierung",

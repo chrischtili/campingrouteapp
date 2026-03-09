@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, ChevronDown, AlertCircle, Download, Map, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert } from "lucide-react";
+import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, ChevronDown, AlertCircle, Download, Map as MapIcon, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -559,7 +559,7 @@ ${gpxOnly}`;
   }, [summary, t]);
 
   const overviewCards = [
-    { id: "route", icon: Map, label: t("planner.output.overview.route"), value: overviewRoute },
+    { id: "route", icon: MapIcon, label: t("planner.output.overview.route"), value: overviewRoute },
     { id: "duration", icon: CalendarRange, label: t("planner.output.overview.duration"), value: overviewDays },
     { id: "drivingFocus", icon: RouteIcon, label: t("planner.output.overview.drivingFocus"), value: overviewDrivingFocus },
     { id: "dailyWindow", icon: Clock3, label: t("planner.output.overview.dailyWindow"), value: [

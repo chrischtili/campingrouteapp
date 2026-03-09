@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Map, Calendar, Euro, Star, Tent, Mountain, Compass, Sun, Moon, Droplets, Wind, Thermometer, Clock, Fuel, Utensils, Wine, TreePine, Fish, Bike, Activity, Camera, ShoppingBag, Info, AlertTriangle, CheckCircle, Route as RouteIcon, CarFront, Dog, GasPump, BatteryFull, Water, Trash2, Wrench, Smartphone, CreditCard, Scale, Ruler, Gauge, ShieldCheck } from "lucide-react";
+import { Map as MapIcon, Calendar, Euro, Star, Tent, Mountain, Compass, Sun, Moon, Droplets, Wind, Thermometer, Clock, Fuel, Utensils, Wine, TreePine, Fish, Bike, Activity, Camera, ShoppingBag, Info, AlertTriangle, CheckCircle, Route as RouteIcon, CarFront, Dog, GasPump, BatteryFull, Water, Trash2, Wrench, Smartphone, CreditCard, Scale, Ruler, Gauge, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -362,7 +362,7 @@ export function KIExampleRoute() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h2 className="text-xl font-bold text-primary flex items-center gap-3">
-                  <Map className="h-5 w-5" />
+                  <MapIcon className="h-5 w-5" />
                   {exampleRoute.title}
                 </h2>
                 <p className="text-muted-foreground mt-1">{exampleRoute.subtitle}</p>
@@ -448,7 +448,7 @@ export function KIExampleRoute() {
                 
                 <div>
                   <h3 className="font-semibold mb-3 flex items-center gap-2">
-                    <Map className="h-5 w-5 text-primary" />
+                    <MapIcon className="h-5 w-5 text-primary" />
                     Kartenansicht
                   </h3>
                   <div className="aspect-video rounded-lg overflow-hidden border">

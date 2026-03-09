@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload } from "lucide-react";
+import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload, Map as MapIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
@@ -1103,7 +1103,7 @@ export function RoutePlanner() {
                             {targetRegionsSummary && (
                               <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
-                                  <Map className="w-5 h-5" />
+                                  <MapIcon className="w-5 h-5" />
                                 </div>
                                 <div className="flex flex-col min-w-0">
                                   <span className="text-[10px] font-black tracking-widest text-white/30">

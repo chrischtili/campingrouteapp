@@ -397,8 +397,11 @@
   }
 
   .light .site-nav-menu {
-    background: rgba(248, 244, 236, 0.96);
-    border-color: rgba(85, 92, 78, 0.08);
+    background: rgba(248, 244, 236, 0.56);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 22px 54px rgba(86, 84, 67, 0.14);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .light .site-footer {

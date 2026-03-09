@@ -98,9 +98,8 @@ export function FAQSection() {
       q: t("faq.items.aiModel.q"),
       title: t("faq.items.aiModel.title"),
       content: [
-        { label: t("faq.items.aiModel.gemini"), items: [t("faq.items.aiModel.gemini1")] },
-        { label: t("faq.items.aiModel.gpt"), items: [t("faq.items.aiModel.gpt1")] },
-        { label: t("faq.items.aiModel.mistral"), items: [t("faq.items.aiModel.mistral1")] }
+        { label: t("faq.items.aiModel.gpt"), items: [t("faq.items.aiModel.gpt1"), t("faq.items.aiModel.gpt2")] },
+        { label: t("faq.items.aiModel.prompt"), items: [t("faq.items.aiModel.prompt1")] }
       ],
       footer: t("faq.items.aiModel.recDesc")
     },

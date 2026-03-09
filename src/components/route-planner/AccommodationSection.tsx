@@ -53,6 +53,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         { value: "wifi", label: t("planner.accommodation.categories.facilities.options.wifi") },
         { value: "pool", label: t("planner.accommodation.categories.facilities.options.pool") },
         { value: "restaurant", label: t("planner.accommodation.categories.facilities.options.restaurant") },
+        { value: "restaurantNearby", label: t("planner.accommodation.categories.facilities.options.restaurantNearby") },
         { value: "dogs", label: t("planner.accommodation.categories.facilities.options.dogs") },
         { value: "kids", label: t("planner.accommodation.categories.facilities.options.kids") },
         { value: "accessible", label: t("planner.accommodation.categories.facilities.options.accessible") },

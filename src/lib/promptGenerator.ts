@@ -35,6 +35,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const maxDailyDistance = Number(data.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(data.maxDailyDriveHours || 0);
   const hasDailyLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0 && !!data.dailyLimitPriority;
+  const wantsRestaurantLinks = (data.facilities || []).some((facility) => facility === 'restaurant' || facility === 'restaurantNearby');
   const dataSourcePolicy = t('prompt.dataSourcePolicy');
   const accommodationTypeTagPolicy = t('prompt.accommodationTypeTagPolicy');
   const openCampingMapPolicy = lang.startsWith('de')
@@ -64,6 +65,11 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const accommodationTypePriorityLine = noAccommodationPreference
     ? '• ' + t('prompt.labels.accommodationTypePriorityNote') + '\n'
+    : '';
+  const restaurantLinkInstruction = wantsRestaurantLinks
+    ? lang.startsWith('de')
+      ? '\n\nWichtig: Wenn bei einem vorgeschlagenen Platz ein Restaurant am Platz oder ein gutes Restaurant in fußläufiger Entfernung auffindbar ist, nenne 1 bis 3 konkrete Restaurants mit direktem Link. Erfinde keine Restaurants oder URLs. Wenn kein verlässlicher Restaurant-Link auffindbar ist, sage das knapp.'
+      : '\n\nImportant: If a proposed stop has a restaurant on site or a good restaurant within walking distance, include 1 to 3 concrete restaurants with direct links. Never invent restaurants or URLs. If no reliable restaurant link can be found, state that briefly.'
     : '';
 
   const stageLines = (data.stages || [])
@@ -100,6 +106,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     maxDailyDriveHours > 0 ? `• ${t('prompt.labels.maxDailyDriveTime')}: ${data.maxDailyDriveHours} h` : '',
     hasDailyLimitPriority ? `• ${t('prompt.labels.dailyLimitPriority')}: ${t(`planner.route.limitPriority.options.${data.dailyLimitPriority}`)}` : '',
     data.travelPace ? `• ${t('prompt.labels.travelPace')}: ${t(`planner.route.travelPace.options.${data.travelPace}`)} (${t('prompt.labels.travelPaceNote')})` : '',
+    data.routeAdditionalInfo ? `• ${t('prompt.labels.additional.label')}: ${data.routeAdditionalInfo}` : '',
   ].filter(Boolean).join('\n');
 
   return `${t('prompt.systemRole', { language: languageName })}
@@ -116,7 +123,7 @@ ${routeLines}
 ${!isMotorcycleTent ? `• ${t('prompt.labels.length')}: ${data.vehicleLength || '7'} m
 • ${t('prompt.labels.height')}: ${data.vehicleHeight || '2.9'} m
 • ${t('prompt.labels.width')}: ${data.vehicleWidth || '2.3'} m
-` : ''}${data.weightClass ? '• ' + t('prompt.labels.weightClass') + ': ' + t(`planner.vehicle.weightClass.options.${data.weightClass}`) + '\n' : ''}${data.vehicleType ? '• ' + t('prompt.labels.vehicleType') + ': ' + t(`planner.vehicle.type.options.${data.vehicleType}`) + '\n' : ''}${!isMotorcycleTent && data.fuelType ? '• ' + t('prompt.labels.fuelType') + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${!isMotorcycleTent && data.solarPower ? '• ' + t('prompt.labels.solar') + ': ' + data.solarPower + 'W\n' : ''}${!isMotorcycleTent && data.batteryCapacity ? '• ' + t('prompt.labels.battery') + ': ' + data.batteryCapacity + 'Ah\n' : ''}${!isMotorcycleTent && data.autonomyDays ? '• ' + t('prompt.labels.autonomyDays') + ': ' + data.autonomyDays + ' ' + t('prompt.labels.autonomyUnit') + '\n' : ''}${!isMotorcycleTent && data.heatingSystem ? '• ' + t('prompt.labels.heating') + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${!isMotorcycleTent && data.levelingJacks ? '• ' + t('prompt.labels.levelingJacks') + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${!isMotorcycleTent && data.toiletteSystem ? '• ' + t('prompt.labels.toilet') + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}${data.routeAdditionalInfo ? '• ' + t('prompt.labels.additional.label') + ': ' + data.routeAdditionalInfo + '\n' : ''}
+` : ''}${data.weightClass ? '• ' + t('prompt.labels.weightClass') + ': ' + t(`planner.vehicle.weightClass.options.${data.weightClass}`) + '\n' : ''}${data.vehicleType ? '• ' + t('prompt.labels.vehicleType') + ': ' + t(`planner.vehicle.type.options.${data.vehicleType}`) + '\n' : ''}${!isMotorcycleTent && data.fuelType ? '• ' + t('prompt.labels.fuelType') + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${!isMotorcycleTent && data.solarPower ? '• ' + t('prompt.labels.solar') + ': ' + data.solarPower + 'W\n' : ''}${!isMotorcycleTent && data.batteryCapacity ? '• ' + t('prompt.labels.battery') + ': ' + data.batteryCapacity + 'Ah\n' : ''}${!isMotorcycleTent && data.autonomyDays ? '• ' + t('prompt.labels.autonomyDays') + ': ' + data.autonomyDays + ' ' + t('prompt.labels.autonomyUnit') + '\n' : ''}${!isMotorcycleTent && data.heatingSystem ? '• ' + t('prompt.labels.heating') + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${!isMotorcycleTent && data.levelingJacks ? '• ' + t('prompt.labels.levelingJacks') + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${!isMotorcycleTent && data.toiletteSystem ? '• ' + t('prompt.labels.toilet') + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}
 
 ${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.quietPlaces || data.accommodation ? `
 🏕️ ${t('prompt.sections.accommodation')}:
@@ -161,6 +168,7 @@ ${data.additionalInfo}
 
 ${t('prompt.instructions')}
 ${t('prompt.instructionsCamperPlanning')}
+${restaurantLinkInstruction}
 ${gpxInstructions ? `\n\n${gpxInstructions}` : ''}
 `;
 }
@@ -170,7 +178,7 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
   
   if (process.env.NODE_ENV === 'development') {
     console.log('=== AI API Call Details ===');
-    console.log('Provider:', aiSettings.aiProvider);
+    console.log('Provider:', 'openai');
     console.log('API Key present:', !!aiSettings.apiKey?.trim());
   }
 
@@ -241,40 +249,6 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       };
       break;
     
-    case 'mistral':
-      apiUrl = 'https://api.mistral.ai/v1/chat/completions';
-      headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${aiSettings.apiKey}`
-      };
-      requestData = {
-        model: aiSettings.mistralModel || 'mistral-large-latest',
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 32000,
-        temperature: 0.7
-      };
-      break;
-    
-    case 'google':
-      const googleModel = aiSettings.googleModel || 'gemini-3.1-pro-preview';
-      apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${aiSettings.apiKey}`;
-      headers = { 'Content-Type': 'application/json' };
-      const usesLegacyGoogleSearch = /^gemini-1\.5/i.test(googleModel);
-      requestData = {
-        contents: [{ parts: [{ text: `${webSearchDirective}\n\n${prompt}` }] }],
-        tools: usesLegacyGoogleSearch
-          ? [{
-              google_search_retrieval: {
-                dynamic_retrieval_config: {
-                  mode: 'MODE_DYNAMIC',
-                  dynamic_threshold: 0.3
-                }
-              }
-            }]
-          : [{ google_search: {} }]
-      };
-      break;
-    
     default:
       throw new Error('Unsupported AI provider');
   }
@@ -296,13 +270,6 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       errorData = await response.json();
     } catch {
       // ignore parse errors and fall back to generic copy
-    }
-
-    if (
-      aiSettings.aiProvider === 'google' &&
-      (response.status === 503 || errorData?.error?.status === 'UNAVAILABLE')
-    ) {
-      throw new Error(i18next.t("planner.loading.googleUnavailable"));
     }
 
     throw new Error(i18next.t("planner.loading.error"));
@@ -327,17 +294,5 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
     }
   }
 
-  if (aiSettings.aiProvider === 'google') {
-    const outputText = responseData.candidates
-      ?.flatMap((candidate: any) => candidate.content?.parts || [])
-      ?.map((part: any) => part.text || '')
-      ?.filter(Boolean)
-      ?.join('\n')
-      ?.trim();
-
-    if (outputText) {
-      return outputText;
-    }
-  }
   return responseData.choices[0].message.content;
 }

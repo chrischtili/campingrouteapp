@@ -13,15 +13,10 @@ interface AISettingsSectionProps {
   aiError: string;
 }
 
-const providerHelp = {
-  openai: { url: 'https://platform.openai.com/api-keys', name: 'OpenAI' },
-  google: { url: 'https://makersuite.google.com/', name: 'Google AI Studio' },
-  mistral: { url: 'https://console.mistral.ai/', name: 'Mistral AI' },
-};
+const providerHelp = { url: 'https://platform.openai.com/api-keys', name: 'OpenAI' };
 
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
   const { t } = useTranslation();
-  const currentProvider = aiSettings.aiProvider as keyof typeof providerHelp;
   const [showModeCardsMobile, setShowModeCardsMobile] = useState(false);
   const modeHeaderRef = useRef<HTMLDivElement>(null);
   const providerSectionRef = useRef<HTMLDivElement>(null);
@@ -51,7 +46,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   };
 
   const selectMode = (useDirectAI: boolean) => {
-    onAISettingsChange({ useDirectAI });
+    onAISettingsChange({ useDirectAI, aiProvider: "openai" });
 
     if (useDirectAI) {
       setTimeout(() => {
@@ -189,46 +184,27 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     <Info className="w-5 h-5 md:w-4 md:h-4" /> {t("planner.ai.provider.help")}
                   </button>
                 </Label>
-                <Select 
-                  value={aiSettings.aiProvider} 
-                  onValueChange={(value) => {
-                    onAISettingsChange({ 
-                      aiProvider: value, 
-                      openaiModel: value === 'openai' ? 'gpt-5.2' : aiSettings.openaiModel,
-                      googleModel: value === 'google' ? 'gemini-3.1-pro-preview' : aiSettings.googleModel,
-                      mistralModel: value === 'mistral' ? 'mistral-large-latest' : aiSettings.mistralModel
-                    });
-                  }}
-                >
-                  <SelectTrigger className={inputClass}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="google">Google Gemini 3.1</SelectItem>
-                    <SelectItem value="openai">OpenAI ChatGPT</SelectItem>
-                    <SelectItem value="mistral">Mistral Large</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="rounded-xl sm:rounded-2xl border-2 border-primary/20 bg-primary/10 px-4 py-3 text-sm font-semibold text-white/85">
+                  OpenAI
+                </div>
 
-                {aiSettings.aiProvider === "openai" && (
-                  <div className="space-y-3 pt-2">
-                    <Label htmlFor="openaiModel" className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-white/75">
-                      {t("planner.ai.provider.openaiModelLabel")}
-                    </Label>
-                    <Select
-                      value={aiSettings.openaiModel || "gpt-5.2"}
-                      onValueChange={(value) => onAISettingsChange({ openaiModel: value })}
-                    >
-                      <SelectTrigger id="openaiModel" className={inputClass}>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="gpt-5.2">ChatGPT 5.2</SelectItem>
-                        <SelectItem value="gpt-5.4">ChatGPT 5.4</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
+                <div className="space-y-3 pt-2">
+                  <Label htmlFor="openaiModel" className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-white/75">
+                    {t("planner.ai.provider.openaiModelLabel")}
+                  </Label>
+                  <Select
+                    value={aiSettings.openaiModel || "gpt-5.2"}
+                    onValueChange={(value) => onAISettingsChange({ aiProvider: "openai", openaiModel: value })}
+                  >
+                    <SelectTrigger id="openaiModel" className={inputClass}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="gpt-5.2">ChatGPT 5.2</SelectItem>
+                      <SelectItem value="gpt-5.4">ChatGPT 5.4</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div className="space-y-4 text-left">
@@ -252,13 +228,13 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <a 
-                href={providerHelp[currentProvider]?.url} 
+                href={providerHelp.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-base md:text-sm font-bold text-white group"
               >
                 <ExternalLink className="w-5 h-5 group-hover:rotate-12 transition-transform text-primary" />
-                {t("planner.ai.apiKey.create", { name: providerHelp[currentProvider]?.name })}
+                {t("planner.ai.apiKey.create", { name: providerHelp.name })}
               </a>
               
               <div className="flex items-start gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 shadow-lg">

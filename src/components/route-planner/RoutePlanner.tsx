@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy } from "lucide-react";
+import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
@@ -42,6 +42,31 @@ const isMeaningfulStage = (stage: Partial<RouteStage> | undefined) => {
     stage.departureTime
   );
 };
+
+const normalizeOptionalSummaryText = (value: string | undefined, placeholders: string[]) => {
+  const trimmed = value?.trim() || "";
+  if (!trimmed) return "";
+  return placeholders.includes(trimmed) ? "" : trimmed;
+};
+
+const normalizeStoredDateValue = (value: string | undefined) => {
+  const trimmed = value?.trim() || "";
+  if (!trimmed) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+
+  const localizedMatch = trimmed.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})$/);
+  if (!localizedMatch) return trimmed;
+
+  const [, day, month, year] = localizedMatch;
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+};
+
+const normalizeStoredAISettings = (settings?: Partial<AISettings>): AISettings => ({
+  ...initialAISettings,
+  ...settings,
+  aiProvider: "openai",
+  apiKey: "",
+});
 
 const normalizePlannerDates = (
   formData: FormData,
@@ -123,7 +148,21 @@ export function RoutePlanner() {
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const importFileRef = useRef<HTMLInputElement>(null);
+  const notSpecifiedLabel = t("planner.summary.notSpecified");
+  const summaryTextPlaceholders = [
+    notSpecifiedLabel,
+    "Nicht angegeben",
+    "Not specified",
+    "Non spécifié",
+    "Non specificato",
+    "Niet opgegeven",
+  ];
   const summaryPrimaryDestination = formData.destination;
+  const selectedStageNames = formData.stages
+    .map((stage) => stage.destination?.trim())
+    .filter(Boolean) as string[];
+  const targetRegionsSummary = normalizeOptionalSummaryText(formData.targetRegions, summaryTextPlaceholders);
   const locale = i18n.language.startsWith('de')
     ? 'de-DE'
     : i18n.language.startsWith('nl')
@@ -153,6 +192,13 @@ export function RoutePlanner() {
       ? data.dogFriendly
       : ((data.travelCompanions as string[] | undefined) || []).includes("pets");
     const facilities = Array.isArray(data.facilities) ? [...data.facilities] : [];
+    const normalizedStages = ((data.stages as RouteStage[] | undefined) || [])
+      .filter(isMeaningfulStage)
+      .map((stage) => ({
+        ...stage,
+        arrivalDate: normalizeStoredDateValue(stage.arrivalDate),
+        departureDate: normalizeStoredDateValue(stage.departureDate),
+      }));
 
     if (legacyDogFriendly && !facilities.includes("dogs")) {
       facilities.push("dogs");
@@ -161,7 +207,10 @@ export function RoutePlanner() {
     return {
       ...initialFormData,
       ...data,
-      stages: ((data.stages as RouteStage[] | undefined) || []).filter(isMeaningfulStage),
+      startDate: normalizeStoredDateValue(data.startDate),
+      endDate: normalizeStoredDateValue(data.endDate),
+      destinationDepartureDate: normalizeStoredDateValue(data.destinationDepartureDate),
+      stages: normalizedStages,
       facilities,
       activities: ((data.activities as string[] | undefined) || []).filter((value) =>
         validActivityValues.has(value)
@@ -169,10 +218,7 @@ export function RoutePlanner() {
     };
   };
 
-  const sanitizeAISettings = (settings: AISettings): AISettings => ({
-    ...settings,
-    apiKey: ''
-  });
+  const sanitizeAISettings = (settings: AISettings): AISettings => normalizeStoredAISettings(settings);
 
   const persistSavedPlans = (plans: SavedPlan[]) => {
     if (typeof window === "undefined") return;
@@ -183,7 +229,7 @@ export function RoutePlanner() {
     const start = data.startPoint?.trim() || t("planner.summary.notSpecified");
     const destination = data.destination?.trim() || t("planner.summary.notSpecified");
     const firstStage = data.stages.find((stage) => stage.destination?.trim())?.destination?.trim();
-    const region = data.targetRegions?.trim();
+    const region = normalizeOptionalSummaryText(data.targetRegions, summaryTextPlaceholders);
     const suffix = firstStage || region || "";
     return suffix ? `${start} → ${destination} · ${suffix}` : `${start} → ${destination}`;
   };
@@ -195,16 +241,7 @@ export function RoutePlanner() {
 
   const getSummaryModelLabel = () => {
     if (!aiSettings.useDirectAI) return "—";
-    switch (aiSettings.aiProvider) {
-      case "openai":
-        return `OpenAI ${getOpenAIModelLabel(aiSettings.openaiModel)}`;
-      case "google":
-        return "Google Gemini 3.1";
-      case "mistral":
-        return "Mistral Large";
-      default:
-        return t("planner.summary.notSelected");
-    }
+    return `OpenAI ${getOpenAIModelLabel(aiSettings.openaiModel)}`;
   };
 
   const saveCurrentPlan = (overrideId?: string) => {
@@ -241,7 +278,7 @@ export function RoutePlanner() {
 
     setActiveSavedPlanId(plan.id);
     setFormData(sanitizeFormData(plan.formData));
-    setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
+    setAISettings(normalizeStoredAISettings(plan.aiSettings));
     setOutput("");
     setAIError("");
     toast.success(t("planner.summary.savedPlans.duplicated"));
@@ -251,7 +288,7 @@ export function RoutePlanner() {
   const loadSavedPlan = (plan: SavedPlan) => {
     setActiveSavedPlanId(plan.id);
     setFormData(sanitizeFormData(plan.formData));
-    setAISettings({ ...initialAISettings, ...plan.aiSettings, apiKey: "" });
+    setAISettings(normalizeStoredAISettings(plan.aiSettings));
     setOutput("");
     setAIError("");
     toast.success(t("planner.summary.savedPlans.loaded"));
@@ -278,6 +315,63 @@ export function RoutePlanner() {
     setOutput("");
     setAIError("");
     toast.success(t("planner.summary.savedPlans.clearedAll"));
+  };
+
+  const exportCurrentPlanToFile = () => {
+    const exportPayload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      formData: sanitizeFormData(formData),
+      aiSettings: sanitizeAISettings(aiSettings),
+    };
+
+    const safeStart = formData.startPoint?.trim().replace(/[^\p{L}\p{N}-]+/gu, "-").replace(/^-+|-+$/g, "");
+    const safeDestination = formData.destination?.trim().replace(/[^\p{L}\p{N}-]+/gu, "-").replace(/^-+|-+$/g, "");
+    const nameCore = [safeStart, safeDestination].filter(Boolean).join("_") || "planung";
+    const dateStamp = new Date().toISOString().slice(0, 10);
+    const fileName = `campingroute-${nameCore}-${dateStamp}.json`;
+
+    const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast.success(t("planner.summary.savedPlans.exported"));
+  };
+
+  const triggerPlanImport = () => {
+    importFileRef.current?.click();
+  };
+
+  const importPlanFromFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const raw = await file.text();
+      const parsed = JSON.parse(raw);
+      if (!parsed?.formData) {
+        throw new Error("invalid");
+      }
+
+      setActiveSavedPlanId(null);
+      setFormData(sanitizeFormData(parsed.formData));
+      setAISettings(normalizeStoredAISettings(parsed.aiSettings || {}));
+      setOutput("");
+      setAIError("");
+      setPromptReadyToCopy(false);
+      toast.success(t("planner.summary.savedPlans.imported"));
+      requestAnimationFrame(() => scrollToPlannerContent());
+    } catch {
+      toast.error(t("planner.summary.savedPlans.importError"));
+    } finally {
+      event.target.value = "";
+    }
   };
 
   // AUTO-OPEN LOGIC
@@ -325,7 +419,7 @@ export function RoutePlanner() {
           label: String(entry.label || buildSavedPlanLabel(sanitizeFormData(entry.formData))),
           savedAt: Number(entry.savedAt || Date.now()),
           formData: sanitizeFormData(entry.formData),
-          aiSettings: { ...initialAISettings, ...(entry.aiSettings || {}), apiKey: "" },
+          aiSettings: normalizeStoredAISettings(entry.aiSettings || {}),
         }))
         .sort((a, b) => b.savedAt - a.savedAt)
         .slice(0, MAX_SAVED_PLANS);
@@ -372,7 +466,7 @@ export function RoutePlanner() {
 
   const handleAISettingsChange = (settings: Partial<AISettings>) => {
     setPromptReadyToCopy(false);
-    setAISettings(prev => ({ ...prev, ...settings }));
+    setAISettings(prev => ({ ...prev, ...settings, aiProvider: "openai" }));
   };
 
   const handleCheckboxChange = (name: string, value: string, checked: boolean) => {
@@ -414,9 +508,7 @@ export function RoutePlanner() {
 
   const isModelSelected = () => {
     if (!aiSettings.useDirectAI) return true;
-    const currentProvider = aiSettings.aiProvider;
-    const modelKey = `${currentProvider}Model` as 'openaiModel' | 'mistralModel' | 'googleModel';
-    return !!aiSettings[modelKey];
+    return !!aiSettings.openaiModel;
   };
   const hasInvalidStage = formData.stages.some((stage) => !stage.destination?.trim());
   const isRouteStepValid = !!formData.startPoint && !!formData.destination && !hasInvalidStage;
@@ -451,14 +543,8 @@ export function RoutePlanner() {
       message,
       mode: feedbackMode,
       language: i18n.language,
-      provider: aiSettings.useDirectAI ? aiSettings.aiProvider : "prompt",
-      model: aiSettings.useDirectAI
-        ? aiSettings.aiProvider === "google"
-          ? aiSettings.googleModel
-          : aiSettings.aiProvider === "openai"
-            ? aiSettings.openaiModel
-            : aiSettings.mistralModel
-        : "prompt-generator",
+      provider: aiSettings.useDirectAI ? "openai" : "prompt",
+      model: aiSettings.useDirectAI ? aiSettings.openaiModel : "prompt-generator",
       timestamp: new Date().toISOString(),
     };
 
@@ -576,9 +662,9 @@ export function RoutePlanner() {
           setIsLoading(false);
           return;
         }
-        const aiResponse = await callAIAPI(formData, aiSettings);
+        const aiResponse = await callAIAPI(formData, { ...aiSettings, aiProvider: "openai" });
         setOutput(normalizeAIOutput(aiResponse));
-        setAiModel(aiSettings.aiProvider.toUpperCase());
+        setAiModel(getOpenAIModelLabel(aiSettings.openaiModel));
         setFeedbackEligible(true);
         setPromptReadyToCopy(false);
         void trackGeneration("route");
@@ -695,51 +781,80 @@ export function RoutePlanner() {
                   <div className="text-lg font-black tracking-tight text-foreground dark:text-white">
                     {t("planner.summary.savedPlans.title")}
                   </div>
-                  <div className="text-xs leading-relaxed text-foreground/65 dark:text-white/60">
+                  <div className="text-sm leading-relaxed text-foreground/78 dark:text-white/72">
                     {t("planner.summary.savedPlans.desc")}
                   </div>
-                  <div className="text-[10px] font-semibold tracking-[0.08em] text-primary/80">
+                  <div className="text-[13px] leading-relaxed font-medium text-foreground/82 dark:text-white/78">
                     {t("planner.summary.save.note")}
                   </div>
                 </div>
-                <div className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 xl:max-w-[48rem]">
-                  <Button
-                    type="button"
-                    onClick={() => saveCurrentPlan()}
-                    disabled={!formData.startPoint || !formData.destination}
-                    className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
-                  >
-                    <Save className="w-4 h-4" />
-                    {t("planner.summary.savedPlans.saveCurrent")}
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={runGeneration}
-                    disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                    className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary hover:bg-primary/90 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
-                  >
-                    <Bot className="w-4 h-4" />
-                    {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={clearPlannerData}
-                    className="rounded-xl px-5 h-12 w-full border-2 border-foreground/10 bg-transparent text-foreground/80 transition-all active:scale-95 hover:bg-foreground/5 dark:border-white/10 dark:text-white/80 dark:hover:bg-white/5 font-semibold sm:col-span-2 xl:col-span-1"
-                  >
-                    {t("planner.summary.save.clear")}
-                  </Button>
+                <div className="w-full xl:max-w-[60rem] space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Button
+                      type="button"
+                      onClick={() => saveCurrentPlan()}
+                      disabled={!formData.startPoint || !formData.destination}
+                      className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary/15 hover:bg-primary/20 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
+                    >
+                      <Save className="w-4 h-4" />
+                      {t("planner.summary.savedPlans.saveCurrent")}
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={runGeneration}
+                      disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
+                      className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary hover:bg-primary/90 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
+                    >
+                      <Bot className="w-4 h-4" />
+                      {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={exportCurrentPlanToFile}
+                      className="rounded-xl px-4 h-11 w-full border border-slate-500/20 bg-white/88 text-slate-800 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 hover:bg-white"
+                    >
+                      <Download className="w-4 h-4" />
+                      {t("planner.summary.savedPlans.export")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={triggerPlanImport}
+                      className="rounded-xl px-4 h-11 w-full border border-slate-500/20 bg-white/88 text-slate-800 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 hover:bg-white"
+                    >
+                      <Upload className="w-4 h-4" />
+                      {t("planner.summary.savedPlans.import")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={clearPlannerData}
+                      className="rounded-xl px-4 h-11 w-full border border-red-300/55 bg-red-50 text-red-700 transition-all active:scale-95 hover:bg-red-100 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-100 font-semibold"
+                    >
+                      {t("planner.summary.save.clear")}
+                    </Button>
+                  </div>
                 </div>
+                <input
+                  ref={importFileRef}
+                  type="file"
+                  accept="application/json,.json"
+                  className="hidden"
+                  onChange={importPlanFromFile}
+                />
               </div>
 
               {aiSettings.useDirectAI && !hasValidDirectApiKey && (
-                <div className="rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
+                <div className="rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-[0_12px_30px_rgba(120,74,0,0.08)] dark:border-amber-400/28 dark:bg-amber-400/12 dark:text-amber-50">
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <span className="font-semibold">{t("planner.summary.savedPlans.apiKeyMissing")}</span>
+                    <span className="font-semibold text-amber-950 dark:text-amber-50">{t("planner.summary.savedPlans.apiKeyMissing")}</span>
                     <button
                       type="button"
                       onClick={scrollToApiKeyInput}
-                      className="inline-flex items-center justify-center rounded-xl border border-amber-300/30 bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-100 transition hover:bg-amber-300/15"
+                      className="inline-flex items-center justify-center rounded-xl border border-amber-400/60 bg-white/70 px-3 py-1.5 text-xs font-bold text-amber-900 transition hover:bg-white dark:border-amber-200/35 dark:bg-amber-200/14 dark:text-amber-50 dark:hover:bg-amber-200/20"
                     >
                       {t("planner.summary.savedPlans.apiKeyJump")}
                     </button>
@@ -787,10 +902,25 @@ export function RoutePlanner() {
                               <span className="text-white/38">{t("planner.summary.start")} / {t("planner.summary.destination")}:</span>{" "}
                               <span className="text-white/68">{plan.formData.startPoint || t("planner.summary.notSpecified")} · {plan.formData.destination || t("planner.summary.notSpecified")}</span>
                             </div>
-                            <div>
-                              <span className="text-white/38">{t("prompt.labels.targetRegions")}:</span>{" "}
-                              <span className="text-white/68">{plan.formData.targetRegions?.trim() || t("planner.summary.notSpecified")}</span>
-                            </div>
+                            {plan.formData.stages.some((stage) => stage.destination?.trim()) && (
+                              <div>
+                                <span className="text-white/38">{t("planner.summary.stops")}:</span>{" "}
+                                <span className="text-white/68">
+                                  {plan.formData.stages
+                                    .map((stage) => stage.destination?.trim())
+                                    .filter(Boolean)
+                                    .join(" · ")}
+                                </span>
+                              </div>
+                            )}
+                            {normalizeOptionalSummaryText(plan.formData.targetRegions, summaryTextPlaceholders) && (
+                              <div>
+                                <span className="text-white/38">{t("prompt.labels.targetRegions")}:</span>{" "}
+                                <span className="text-white/68">
+                                  {normalizeOptionalSummaryText(plan.formData.targetRegions, summaryTextPlaceholders)}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -956,6 +1086,41 @@ export function RoutePlanner() {
                             )}
                           </div>
                         )}
+
+                        {(selectedStageNames.length > 0 || targetRegionsSummary) && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 border-t border-white/5 pt-6">
+                            {selectedStageNames.length > 0 && (
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
+                                  <Route className="w-5 h-5" />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-[10px] font-black tracking-widest text-white/30">
+                                    {t("planner.summary.stops")}
+                                  </span>
+                                  <span className="text-sm font-bold text-white break-words">
+                                    {selectedStageNames.join(" · ")}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+                            {targetRegionsSummary && (
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
+                                  <Map className="w-5 h-5" />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-[10px] font-black tracking-widest text-white/30">
+                                    {t("prompt.labels.targetRegions")}
+                                  </span>
+                                  <span className="text-sm font-bold text-white break-words">
+                                    {targetRegionsSummary}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       <div className="p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/5 border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col justify-between gap-6 sm:gap-0">
@@ -1011,27 +1176,28 @@ export function RoutePlanner() {
                       ))}
                     </div>
 
-                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-3 text-center rounded-[1.9rem] border border-white/10 bg-white/[0.06] px-5 py-5 shadow-[0_18px_48px_rgba(0,0,0,0.14)]">
-                      <div className="text-[10px] font-semibold tracking-[0.08em] text-primary/75">
-                        Open Source Support
+                    <div className="w-full max-w-lg mx-auto flex flex-col items-center gap-3 text-center px-2 py-2">
+                      <div className="text-[11px] sm:text-xs text-foreground/62 dark:text-white/64 leading-relaxed max-w-lg">
+                        {t("planner.summary.save.coffeeHint")}
                       </div>
                       <a
                         href="https://www.buymeacoffee.com/campingroute"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-w-[260px] flex-col items-center justify-center gap-1 px-6 py-3.5 rounded-2xl border border-primary/30 text-white bg-white/[0.06] hover:bg-white/[0.1] transition-colors shadow-[0_14px_38px_rgba(0,0,0,0.12)]"
+                        className="inline-flex min-w-[290px] items-center justify-center gap-3 px-6 py-4 rounded-[1.5rem] border border-primary/50 text-white bg-[linear-gradient(135deg,rgba(201,123,0,0.24),rgba(201,123,0,0.12))] hover:bg-[linear-gradient(135deg,rgba(201,123,0,0.3),rgba(201,123,0,0.16))] transition-all duration-200 shadow-[0_18px_42px_rgba(201,123,0,0.2)] hover:shadow-[0_22px_48px_rgba(201,123,0,0.28)] hover:-translate-y-0.5"
                       >
-                        <span className="flex items-center justify-center gap-2 text-sm sm:text-base font-bold tracking-normal text-primary">
-                          <span aria-hidden="true">☕</span>
-                          <span>{t("planner.summary.save.coffee")}</span>
+                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-lg shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" aria-hidden="true">
+                          ☕
                         </span>
-                        <span className="text-[10px] sm:text-xs font-semibold text-foreground/72 dark:text-white/72 tracking-normal">
-                          (Buy me a coffee)
+                        <span className="flex flex-col items-start text-left leading-none">
+                          <span className="text-base sm:text-lg font-black tracking-tight text-primary">
+                            {t("planner.summary.save.coffee")}
+                          </span>
+                          <span className="mt-1 text-[11px] sm:text-xs font-semibold text-white/72 tracking-[0.02em]">
+                            Buy me a coffee
+                          </span>
                         </span>
                       </a>
-                      <div className="text-[11px] sm:text-xs text-foreground/68 dark:text-white/68 leading-relaxed max-w-lg">
-                        {t("planner.summary.save.coffeeHint")}
-                      </div>
                     </div>
                 </div>
               </div>
@@ -1042,14 +1208,24 @@ export function RoutePlanner() {
       {showForm && (
         <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[calc(env(safe-area-inset-bottom)+12px)] sm:px-6">
           <div className="theme-surface mx-auto max-w-[calc(100%-1rem)] rounded-[1.1rem] px-3 py-3 sm:max-w-[calc(100%-3rem)] sm:px-4">
-            <div className="flex items-center gap-3">
-              <div className="hidden min-w-0 sm:block">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="min-w-0">
                 <div className="text-[10px] font-semibold tracking-[0.08em] text-primary">
                   {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
                 </div>
                 <div className="truncate text-sm font-semibold text-foreground/78 dark:text-white/78">
                   {formData.startPoint || t("planner.summary.notSpecified")} → {summaryPrimaryDestination || t("planner.summary.notSpecified")}
                 </div>
+                {aiSettings.useDirectAI && !hasValidDirectApiKey && (
+                  <button
+                    type="button"
+                    onClick={scrollToApiKeyInput}
+                    className="mt-1 inline-flex items-center gap-2 text-[11px] font-semibold text-amber-900 hover:text-amber-950 dark:text-amber-200 dark:hover:text-amber-100"
+                  >
+                    <span className="inline-flex h-2 w-2 rounded-full bg-amber-500" />
+                    {t("planner.summary.savedPlans.apiKeyMissing")}
+                  </button>
+                )}
               </div>
               <Button
                 type="button"

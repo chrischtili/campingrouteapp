@@ -154,7 +154,20 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       }
       return nextStage;
     });
-    onChange({ stages: normalizeStageDates(nextStages, formData.startDate) });
+    const normalizedStages = normalizeStageDates(nextStages, formData.startDate);
+    const latestStageDate = normalizedStages.reduce<string>((latest, stage) => {
+      const candidate = stage.departureDate || stage.arrivalDate || "";
+      if (!candidate) return latest;
+      return !latest || candidate > latest ? candidate : latest;
+    }, "");
+
+    onChange({
+      stages: normalizedStages,
+      endDate:
+        formData.endDate && latestStageDate && latestStageDate > formData.endDate
+          ? latestStageDate
+          : formData.endDate,
+    });
   };
 
   const addStage = () => {

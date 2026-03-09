@@ -445,7 +445,7 @@
         "title": "Entweder kostenlos kopieren oder direkt in der App generieren.",
         "gen": "Modus: Prompt Generieren (Kostenlos)",
         "gen1": "Du bekommst einen fertigen Prompt.",
-        "gen2": "Diesen fügst du in ChatGPT, Claude oder Gemini ein.",
+        "gen2": "Diesen fügst du in ChatGPT oder Claude ein.",
         "gen3": "Kostenlos mit deinem bestehenden KI-Account.",
         "gen4": "Du steuerst den weiteren Chat selbst.",
         "ai": "Modus: KI direkt nutzen (API-Key nötig)",
@@ -470,7 +470,7 @@
         "free1": "Formular und Prompt-Erstellung sind 100% kostenlos.",
         "free2": "Keine Anmeldung, keine Datenbank, kein Backend.",
         "opt": "KI-API-Kosten",
-        "transDesc": "Nur für 'KI direkt nutzen' brauchst du einen eigenen API-Key. Die API-Kosten zahlst du direkt an OpenAI, Google oder Mistral. Camping Route verdient daran nichts."
+        "transDesc": "Nur für 'KI direkt nutzen' brauchst du einen eigenen API-Key. Die API-Kosten zahlst du direkt an OpenAI. Camping Route verdient daran nichts."
       },
       "privacy": {
         "q": "Was passiert mit meinen eingegebenen Daten?",
@@ -482,14 +482,13 @@
       },
       "aiModel": {
         "q": "Welches KI-Modell soll ich wählen?",
-        "title": "Jedes Modell hat eigene Stärken bei der Routenplanung.",
-        "gemini": "Google Gemini 3.1 (Empfehlung)",
-        "gemini1": "Stark bei aktuellen Orten, Stellplätzen und POIs. Oft die beste Wahl für realistische Routen in Europa.",
+        "title": "Aktuell fokussieren wir uns auf OpenAI und eine klare Prompt-Alternative.",
         "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Sehr stark bei Logik, Tageslimits und Budgetvorgaben. Im KI-Direkt-Modus ist Websuche aktiv. 5.2 ist die stabile Standardwahl, 5.4 kannst du zusätzlich testen.",
-        "mistral": "Mistral Large",
-        "mistral1": "Schnell, solide und oft günstiger als OpenAI.",
-        "recDesc": "Tipp: Für Stellplätze und landschaftliche Highlights ist Gemini aktuell meist die beste Wahl."
+        "gpt1": "Sehr stark bei Logik, Tageslimits, Budgetvorgaben und strukturierter Routenplanung. Im KI-Direkt-Modus ist Websuche aktiv.",
+        "gpt2": "ChatGPT 5.2 ist die stabile Standardwahl. ChatGPT 5.4 kannst du zusätzlich testen, wenn du mehr Tiefe oder etwas andere Ergebnisse willst.",
+        "prompt": "Prompt-Modus als Alternative",
+        "prompt1": "Wenn du keinen API-Key nutzen willst, erzeugst du einfach den fertigen Prompt und fügst ihn in deinem bevorzugten Chat ein.",
+        "recDesc": "Tipp: Für die meisten Nutzer ist ChatGPT 5.2 die stabile Standardwahl."
       },
       "helpImprove": {
         "q": "Kann ich helfen, Camping Route besser zu machen?",
@@ -544,7 +543,7 @@
       "save": {
         "title": "Eingaben lokal speichern",
         "desc": "Speichert deine Formulareingaben für 30 Tage lokal auf diesem Gerät. Mit „Daten löschen“ entfernst du die gespeicherten Daten von diesem Gerät.",
-        "note": "API-Keys werden niemals gespeichert.",
+        "note": "API-Keys werden niemals gespeichert. Planungen kannst du zusätzlich lokal als Datei exportieren und später wieder importieren.",
         "coffee": "Support CampingRoute",
         "coffeeHint": "CampingRoute.app ist offen & werbefrei – dein Support hilft bei Serverkosten + Entwicklungskosten. Danke!",
         "clear": "Daten löschen"
@@ -566,6 +565,11 @@
         "duplicated": "Planung als Variante gespeichert und geladen.",
         "latest": "Zuletzt gespeichert",
         "variantSuffix": "Variante",
+        "export": "Planung exportieren",
+        "exported": "Planung lokal als Datei exportiert.",
+        "import": "Planung importieren",
+        "imported": "Planung aus Datei geladen.",
+        "importError": "Datei konnte nicht importiert werden.",
         "apiKeyMissing": "Für „Route generieren“ muss ein gültiger API-Key eingetragen sein.",
         "apiKeyJump": "Zum API-Key",
         "active": "Aktiv"
@@ -615,7 +619,7 @@
         },
         "direct": {
           "title": "KI direkt nutzen",
-          "desc": "Route direkt in der App generieren. Du nutzt deinen EIGENEN API-Key und zahlst direkt an deinen KI-Anbieter (z.B. OpenAI)."
+          "desc": "Route direkt in der App generieren. Du nutzt deinen EIGENEN OpenAI-API-Key und zahlst direkt an OpenAI."
         },
         "label": "Wie möchtest du planen?",
         "selected": "Ausgewählt",
@@ -624,7 +628,7 @@
         "button": "Modus auswählen"
       },
       "provider": {
-        "label": "Anbieter & Modell",
+        "label": "Modell",
         "help": "Welches Modell wählen?",
         "openaiModelLabel": "OpenAI-Modell"
       },
@@ -1003,6 +1007,7 @@
             "wifi": "WLAN",
             "pool": "Pool & Wellness",
             "restaurant": "Restaurant am Platz",
+            "restaurantNearby": "Restaurant fußläufig erreichbar",
             "dogs": "Hunde erlaubt",
             "kids": "Kinderfreundlich & Spielplatz",
             "accessible": "Barrierefrei",

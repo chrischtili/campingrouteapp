@@ -220,7 +220,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
         {/* Mobile Toggle */}
         <button 
-          className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/60 dark:bg-white/5 flex items-center justify-center text-foreground dark:text-white border border-foreground/10 dark:border-white/10"
+          className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/70 dark:bg-black/45 flex items-center justify-center text-foreground dark:text-white border border-foreground/12 dark:border-white/18 shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_18px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
@@ -232,7 +232,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="site-nav-menu lg:hidden absolute top-full left-0 right-0 border-b p-6 sm:p-8 shadow-xl"
+          className="site-nav-menu lg:hidden absolute top-full left-0 right-0 border-b p-6 sm:p-8 shadow-xl backdrop-blur-2xl bg-white/88 dark:bg-black/78 border-white/20 dark:border-white/14"
         >
           <div className="flex flex-col gap-4 sm:gap-6">
             {navLinks.map((link) => (
@@ -245,11 +245,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                 <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             ))}
-            <div className="h-px bg-foreground/10 dark:bg-white/5 my-2" />
+            <div className="h-px bg-foreground/12 dark:bg-white/12 my-2" />
             <button
               type="button"
               onClick={openWhatsNew}
-              className="text-sm font-bold text-foreground/60 dark:text-white/60 hover:text-primary transition-colors text-left py-1"
+              className="text-sm font-bold text-foreground/70 dark:text-white/78 hover:text-primary transition-colors text-left py-1"
             >
               {t("navbar.whatsNew", { version: displayReleaseVersion })}
             </button>
@@ -261,7 +261,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               }}
               aria-label={themeToggleLabel}
               title={themeToggleLabel}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-foreground/15 bg-white/70 text-foreground hover:bg-white/90 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-foreground/15 bg-white/75 text-foreground hover:bg-white/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/16 dark:border-white/18"
             >
               <ThemeIcon className="h-5 w-5 text-primary" />
             </button>

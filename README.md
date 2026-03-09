@@ -12,9 +12,9 @@
 
 ## 🌟 Highlights (v0.5.1)
 
-- **Prompt-First statt KI-Einstellungsballast**: Der Fokus liegt jetzt klar auf dem sauberen Prompt-Workflow für externe KI-Tools.
-- **5 letzte Planungen lokal speicherbar**: Formulareingaben lassen sich direkt im Browser sichern, laden, überschreiben und löschen.
-- **Export & Import lokal als Datei**: Planungen können ohne API-Key als JSON exportiert und wieder importiert werden.
+- **Routen lokal auf dem PC speicherbar**: Planungen lassen sich ohne API-Key als JSON-Datei exportieren und später wieder importieren.
+- **5 letzte Planungen zusätzlich im Browser speicherbar**: Formulareingaben lassen sich direkt lokal sichern, laden, überschreiben und löschen.
+- **Klarer Prompt-Workflow**: Der Planer konzentriert sich auf saubere Prompts für externe KI-Tools statt auf überladene KI-Einstellungen.
 - **Neues Einseiten-Formular**: Der Planer arbeitet ohne starren Schritt-Assistenten und bündelt Details in klaren Sektionen und Popups.
 - **Light- und Dark-Design überarbeitet**: Sektionen, Popups, FAQ und Sticky-Aktionen sind visuell aufeinander abgestimmt.
 - **Kompakte Übersichten in Buttons & Zusammenfassung**: Eingaben werden direkt auf Triggern und im Summary-Bereich verdichtet angezeigt.
@@ -105,9 +105,9 @@ MIT License - [Details](LICENSE)
 
 ## 🌟 Highlights (v0.5.1)
 
-- **Prompt-first flow**: the planner now focuses on generating a clean prompt for external AI tools.
-- **Store up to 5 recent plans locally**: save, load, overwrite and delete route setups directly in the browser.
-- **Local export and import**: full plans can be exported and imported as JSON files without any API key.
+- **Save routes locally on your PC**: plans can be exported as JSON files without any API key and imported again later.
+- **Store up to 5 recent plans in the browser as well**: save, load, overwrite, and delete route setups locally.
+- **Clear prompt-focused flow**: the planner now focuses on clean prompts for external AI tools instead of overloaded AI settings.
 - **New single-page planner**: the route flow now uses focused sections and overlays instead of a rigid step wizard.
 - **Refined light and dark themes**: sections, popups, FAQ, and sticky actions now feel visually aligned.
 - **Compact summaries in buttons and overview cards**: entered data surfaces directly where it is most useful.

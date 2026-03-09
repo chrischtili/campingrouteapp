@@ -66,6 +66,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const accommodationTypePriorityLine = noAccommodationPreference
     ? '• ' + t('prompt.labels.accommodationTypePriorityNote') + '\n'
     : '';
+  const pdfDownloadInstruction = lang.startsWith('de')
+    ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und biete sie zum Download an. Verwende dafür einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
+    : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and offer it as a download. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
   const restaurantLinkInstruction = wantsRestaurantLinks
     ? lang.startsWith('de')
       ? '\n\nWichtig: Wenn bei einem vorgeschlagenen Platz ein Restaurant am Platz oder ein gutes Restaurant in fußläufiger Entfernung auffindbar ist, nenne 1 bis 3 konkrete Restaurants mit direktem Link. Erfinde keine Restaurants oder URLs. Wenn kein verlässlicher Restaurant-Link auffindbar ist, sage das knapp.'
@@ -168,6 +171,7 @@ ${data.additionalInfo}
 
 ${t('prompt.instructions')}
 ${t('prompt.instructionsCamperPlanning')}
+${pdfDownloadInstruction}
 ${restaurantLinkInstruction}
 ${gpxInstructions ? `\n\n${gpxInstructions}` : ''}
 `;

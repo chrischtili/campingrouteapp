@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Routenplaner für Camping- und Roadtrip-Routen
 
-[![Version](https://img.shields.io/badge/version-v0.5.6-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 🌟 Highlights (v0.5.6)
+## 🌟 Highlights (v0.5.0)
 
 - **5 letzte Planungen lokal speicherbar**: Formulareingaben lassen sich direkt im Browser sichern, laden, überschreiben und löschen.
 - **Neues Einseiten-Formular**: Der Planer arbeitet jetzt ohne starren Schritt-Assistenten und bündelt Details in klaren Sektionen und Popups.
@@ -98,13 +98,13 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.5.6-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI route planner for RVs, caravans, tents, and motorcycles – now international!**
 
 ---
 
-## 🌟 Highlights (v0.5.6)
+## 🌟 Highlights (v0.5.0)
 
 - **Store up to 5 recent plans locally**: save, load, overwrite and delete route setups directly in the browser.
 - **New single-page planner**: the route flow now uses focused sections and overlays instead of a rigid step wizard.

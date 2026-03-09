@@ -42,14 +42,14 @@ const normalizeStageDates = (stages: RouteStage[], startDate: string) => {
     const nextStage = { ...stage };
 
     if (minimumDate) {
-      if (!nextStage.arrivalDate || nextStage.arrivalDate < minimumDate) {
+      if (nextStage.arrivalDate && nextStage.arrivalDate < minimumDate) {
         nextStage.arrivalDate = minimumDate;
       }
     }
 
     const departureMinimumDate = nextStage.arrivalDate || minimumDate;
     if (departureMinimumDate) {
-      if (!nextStage.departureDate || nextStage.departureDate < departureMinimumDate) {
+      if (nextStage.departureDate && nextStage.departureDate < departureMinimumDate) {
         nextStage.departureDate = departureMinimumDate;
       }
     }
@@ -62,6 +62,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [activePanel, setActivePanel] = useState<null | "times" | "stages" | "limits" | "notes">(null);
+  const locale = (typeof navigator !== "undefined" && navigator.language) || "de-DE";
 
   const glassPanelStyle = undefined;
 
@@ -81,6 +82,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const isStartMissing = !formData.startPoint?.trim();
   const isDestinationMissing = !formData.destination?.trim();
   const hasStages = formData.stages.length > 0;
+  const selectedStageNames = formData.stages
+    .map((stage) => stage.destination.trim())
+    .filter(Boolean);
 
   const formatDriveHours = (hours: number) => {
     const totalMinutes = Math.round(hours * 60);
@@ -89,9 +93,36 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     return `${displayHours}:${String(minutes).padStart(2, "0")}`;
   };
 
+  const formatSummaryDate = (value: string) => {
+    if (!value) return "";
+    const date = new Date(`${value}T00:00:00`);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString(locale);
+  };
+
+  const timesSummary = [
+    formData.startDate ? `${t("planner.route.departure")}: ${formatSummaryDate(formData.startDate)}` : "",
+    formData.endDate ? `${t("planner.route.arrival")}: ${formatSummaryDate(formData.endDate)}` : "",
+    formData.startTime ? `${t("planner.route.departureTime")}: ${formData.startTime}` : "",
+    formData.endTime ? `${t("planner.route.arrivalTime")}: ${formData.endTime}` : "",
+  ].filter(Boolean).join(" · ") || `${t("planner.route.departureTime")} · ${t("planner.route.arrivalTime")}`;
+
+  const stagesSummary = selectedStageNames.length
+    ? selectedStageNames.slice(0, 3).join(" · ")
+    : t("planner.route.stages.empty");
+
+  const limitsSummaryParts = [
+    maxDailyDistance > 0 ? `${formData.maxDailyDistance} km` : "",
+    maxDailyDriveHours > 0 ? `${formatDriveHours(maxDailyDriveHours)} h` : "",
+    formData.travelPace ? t("planner.route.travelPace.options." + formData.travelPace) : "",
+  ].filter(Boolean);
+  const limitsSummary = limitsSummaryParts.join(" · ") || t("planner.route.travelPace.label");
+
+  const notesSummary = formData.routeAdditionalInfo.trim() || t("planner.route.additional.placeholder");
+
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = e.target.value;
-    const nextEndDate = !formData.endDate || formData.endDate < newStartDate ? newStartDate : formData.endDate;
+    const nextEndDate = formData.endDate && formData.endDate < newStartDate ? newStartDate : formData.endDate;
     const nextStages = normalizeStageDates(formData.stages, newStartDate);
 
     onChange({
@@ -733,7 +764,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               </div>
               <div>
                 <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.departure")} · {t("planner.route.arrival")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{t("planner.route.departureTime")} · {t("planner.route.arrivalTime")}</div>
+                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{timesSummary}</div>
               </div>
             </div>
           </button>
@@ -745,7 +776,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               </div>
               <div>
                 <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.stages.title")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{hasStages ? `${formData.stages.length} ${t("planner.route.stages.title")}` : t("planner.route.stages.empty")}</div>
+                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{stagesSummary}</div>
               </div>
             </div>
           </button>
@@ -757,7 +788,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               </div>
               <div>
                 <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.maxDistance")} · {t("planner.route.maxDriveTime")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{t("planner.route.travelPace.label")}</div>
+                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{limitsSummary}</div>
               </div>
             </div>
           </button>
@@ -769,7 +800,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               </div>
               <div>
                 <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.additional.label")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{t("planner.route.additional.placeholder")}</div>
+                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{notesSummary}</div>
               </div>
             </div>
           </button>

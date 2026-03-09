@@ -27,6 +27,16 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const glassPanelStyle = undefined;
 
   const detailTriggerClass = "planner-panel-trigger rounded-2xl border-2 px-5 py-4 text-left transition-colors";
+  const detailSummaryParts = [
+    !isMotorcycleTent && Number(formData.solarPower || 0) > 0 ? `${formData.solarPower}W` : "",
+    !isMotorcycleTent && Number(formData.batteryCapacity || 0) > 0 ? `${formData.batteryCapacity}Ah` : "",
+    !isMotorcycleTent && Number(formData.autonomyDays || 0) > 0 ? `${formData.autonomyDays} ${t("planner.vehicle.autonomyUnit")}` : "",
+    formData.fuelType ? t(`planner.vehicle.fuel.options.${formData.fuelType}`) : "",
+    formData.toiletteSystem ? t(`planner.vehicle.toilet.options.${formData.toiletteSystem}`) : "",
+    formData.heatingSystem ? t(`planner.vehicle.heating.options.${formData.heatingSystem}`) : "",
+    formData.levelingJacks ? t(`planner.vehicle.levelingJacks.options.${formData.levelingJacks}`) : "",
+  ].filter(Boolean);
+  const detailSummary = detailSummaryParts.join(" · ") || t("planner.vehicle.details.description");
 
   const renderPanelShell = (title: string, description: string, content: ReactNode) => {
     if (isMobile) {
@@ -273,7 +283,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           </div>
           <div>
             <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.vehicle.details.label")}</div>
-            <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{t("planner.vehicle.details.description")}</div>
+            <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{detailSummary}</div>
           </div>
         </div>
       </button>

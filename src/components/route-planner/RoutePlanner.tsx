@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FormData, AISettings, initialFormData, initialAISettings } from "@/types/routePlanner";
+import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -24,6 +24,55 @@ const FeaturesSection = lazy(() => import("./FeaturesSection").then(m => ({ defa
 const TestimonialsSection = lazy(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
 const RouteExampleSection = lazy(() => import("./RouteExampleSection").then(m => ({ default: m.RouteExampleSection })));
 const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQSection })));
+
+const getStageMinimumDate = (stages: RouteStage[], index: number, startDate: string) => {
+  if (index === 0) return startDate;
+  return stages[index - 1]?.departureDate || stages[index - 1]?.arrivalDate || startDate;
+};
+
+const normalizePlannerDates = (formData: FormData, patch: Partial<FormData>): FormData => {
+  const nextFormData = { ...formData };
+  const shouldNormalizeEndDate =
+    Object.prototype.hasOwnProperty.call(patch, "startDate") ||
+    (Object.prototype.hasOwnProperty.call(patch, "endDate") && !!nextFormData.endDate);
+  const shouldNormalizeStages =
+    Object.prototype.hasOwnProperty.call(patch, "startDate") ||
+    Object.prototype.hasOwnProperty.call(patch, "stages");
+
+  if (nextFormData.startDate && shouldNormalizeEndDate) {
+    if (nextFormData.endDate && nextFormData.endDate < nextFormData.startDate) {
+      nextFormData.endDate = nextFormData.startDate;
+    }
+  }
+
+  if (nextFormData.startDate && shouldNormalizeStages) {
+    nextFormData.stages = nextFormData.stages.map((stage, index, currentStages) => {
+      if (!stage.detailsEnabled) {
+        return stage;
+      }
+
+      const nextStage = { ...stage };
+      const minimumDate = getStageMinimumDate(currentStages, index, nextFormData.startDate);
+
+      if (minimumDate) {
+        if (nextStage.arrivalDate && nextStage.arrivalDate < minimumDate) {
+          nextStage.arrivalDate = minimumDate;
+        }
+      }
+
+      const departureMinimumDate = nextStage.arrivalDate || minimumDate;
+      if (departureMinimumDate) {
+        if (nextStage.departureDate && nextStage.departureDate < departureMinimumDate) {
+          nextStage.departureDate = departureMinimumDate;
+        }
+      }
+
+      return nextStage;
+    });
+  }
+
+  return nextFormData;
+};
 
 export function RoutePlanner() {
   const { t, i18n } = useTranslation();
@@ -294,7 +343,7 @@ export function RoutePlanner() {
   }, []);
 
   const handleFormChange = (data: Partial<FormData>) => {
-    setFormData(prev => ({ ...prev, ...data }));
+    setFormData(prev => normalizePlannerDates({ ...prev, ...data }, data));
   };
 
   const handleAISettingsChange = (settings: Partial<AISettings>) => {

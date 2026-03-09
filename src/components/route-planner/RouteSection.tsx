@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
-import { Map, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, X } from "lucide-react";
+import { Map as MapIcon, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, type ReactNode } from "react";
 
@@ -674,7 +674,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       <div className="space-y-4 text-left">
         <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-left text-foreground dark:text-white">
           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-            <Map className="w-6 h-6" />
+            <MapIcon className="w-6 h-6" />
           </div>
           {t("planner.route.title")}
         </h3>
@@ -737,7 +737,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
         <div className="space-y-3 pt-2">
           <Label htmlFor="targetRegions" className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
-            <Map className="w-4 h-4 text-primary" /> {t("planner.route.targetRegions.label")}
+            <MapIcon className="w-4 h-4 text-primary" /> {t("planner.route.targetRegions.label")}
           </Label>
           <p className="text-foreground/52 dark:text-white/50 text-sm leading-relaxed">
             {t("planner.route.targetRegions.hint")}

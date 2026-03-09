@@ -518,7 +518,8 @@
       "back": "Terug",
       "next": "Verder",
       "generateRoute": "Route genereren",
-      "generatePrompt": "Prompt genereren"
+      "generatePrompt": "Prompt genereren",
+      "copyPrompt": "Prompt kopieren"
     },
     "summary": {
       "title": "Samenvatting",

@@ -518,7 +518,8 @@
       "back": "Back",
       "next": "Next",
       "generateRoute": "Generate Route",
-      "generatePrompt": "Generate Prompt"
+      "generatePrompt": "Generate Prompt",
+      "copyPrompt": "Copy Prompt"
     },
     "summary": {
       "title": "Summary",

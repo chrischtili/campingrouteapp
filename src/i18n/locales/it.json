@@ -518,7 +518,8 @@
       "back": "Indietro",
       "next": "Avanti",
       "generateRoute": "Genera itinerario",
-      "generatePrompt": "Genera prompt"
+      "generatePrompt": "Genera prompt",
+      "copyPrompt": "Copia prompt"
     },
     "summary": {
       "title": "Riepilogo",

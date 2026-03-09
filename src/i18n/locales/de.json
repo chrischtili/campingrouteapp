@@ -518,7 +518,8 @@
       "back": "Zurück",
       "next": "Weiter",
       "generateRoute": "Route Generieren",
-      "generatePrompt": "Prompt Generieren"
+      "generatePrompt": "Prompt Generieren",
+      "copyPrompt": "Prompt Kopieren"
     },
     "summary": {
       "title": "Zusammenfassung",

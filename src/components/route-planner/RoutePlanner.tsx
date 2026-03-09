@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight } from "lucide-react";
+import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
@@ -30,13 +30,28 @@ const getStageMinimumDate = (stages: RouteStage[], index: number, startDate: str
   return stages[index - 1]?.departureDate || stages[index - 1]?.arrivalDate || startDate;
 };
 
-const normalizePlannerDates = (formData: FormData, patch: Partial<FormData>): FormData => {
+const isMeaningfulStage = (stage: Partial<RouteStage> | undefined) => {
+  if (!stage) return false;
+  return Boolean(
+    stage.destination?.trim() ||
+    stage.booked ||
+    stage.detailsEnabled ||
+    stage.arrivalDate ||
+    stage.arrivalTime ||
+    stage.departureDate ||
+    stage.departureTime
+  );
+};
+
+const normalizePlannerDates = (
+  formData: FormData,
+  patch: Partial<FormData>,
+  options: { didStartDateChange?: boolean } = {},
+): FormData => {
   const nextFormData = { ...formData };
-  const shouldNormalizeEndDate =
-    Object.prototype.hasOwnProperty.call(patch, "startDate") ||
-    (Object.prototype.hasOwnProperty.call(patch, "endDate") && !!nextFormData.endDate);
+  const shouldNormalizeEndDate = !!options.didStartDateChange;
   const shouldNormalizeStages =
-    Object.prototype.hasOwnProperty.call(patch, "startDate") ||
+    !!options.didStartDateChange ||
     Object.prototype.hasOwnProperty.call(patch, "stages");
 
   if (nextFormData.startDate && shouldNormalizeEndDate) {
@@ -104,6 +119,7 @@ export function RoutePlanner() {
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
   const [releaseVersion, setReleaseVersion] = useState<string>("");
+  const [promptReadyToCopy, setPromptReadyToCopy] = useState<boolean>(false);
   
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -145,6 +161,7 @@ export function RoutePlanner() {
     return {
       ...initialFormData,
       ...data,
+      stages: ((data.stages as RouteStage[] | undefined) || []).filter(isMeaningfulStage),
       facilities,
       activities: ((data.activities as string[] | undefined) || []).filter((value) =>
         validActivityValues.has(value)
@@ -343,14 +360,23 @@ export function RoutePlanner() {
   }, []);
 
   const handleFormChange = (data: Partial<FormData>) => {
-    setFormData(prev => normalizePlannerDates({ ...prev, ...data }, data));
+    setPromptReadyToCopy(false);
+    setFormData(prev => {
+      const nextFormData = { ...prev, ...data };
+      const didStartDateChange =
+        Object.prototype.hasOwnProperty.call(data, "startDate") && data.startDate !== prev.startDate;
+
+      return normalizePlannerDates(nextFormData, data, { didStartDateChange });
+    });
   };
 
   const handleAISettingsChange = (settings: Partial<AISettings>) => {
+    setPromptReadyToCopy(false);
     setAISettings(prev => ({ ...prev, ...settings }));
   };
 
   const handleCheckboxChange = (name: string, value: string, checked: boolean) => {
+    setPromptReadyToCopy(false);
     setFormData(prev => {
       const currentValues = (prev[name as keyof FormData] as string[]) || [];
       if (checked) {
@@ -505,11 +531,39 @@ export function RoutePlanner() {
     return normalized;
   };
 
+  const copyPromptOutput = async () => {
+    if (!output || aiSettings.useDirectAI) return;
+
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = output;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      if (successful) {
+        handleOutputEngagement();
+        setPromptReadyToCopy(false);
+        toast.success(t("planner.output.actions.copied"));
+      } else {
+        toast.error(t("planner.output.actions.copyError"));
+      }
+    } catch {
+      toast.error(t("planner.output.actions.copyError"));
+    }
+  };
+
   const runGeneration = async () => {
     setIsLoading(true);
     setAIError('');
     setOutput('');
     setFeedbackEligible(false);
+    setPromptReadyToCopy(false);
     setTimeout(() => {
       outputSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
@@ -526,6 +580,7 @@ export function RoutePlanner() {
         setOutput(normalizeAIOutput(aiResponse));
         setAiModel(aiSettings.aiProvider.toUpperCase());
         setFeedbackEligible(true);
+        setPromptReadyToCopy(false);
         void trackGeneration("route");
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
@@ -534,6 +589,7 @@ export function RoutePlanner() {
         setOutput(generatedOutput);
         setAiModel('');
         setFeedbackEligible(true);
+        setPromptReadyToCopy(true);
         void trackGeneration("prompt");
       }
       
@@ -550,6 +606,8 @@ export function RoutePlanner() {
       setIsLoading(false);
     }
   };
+
+  const isStickyPromptCopyMode = !aiSettings.useDirectAI && promptReadyToCopy && !!output && !isLoading && !aiError;
 
   return (
     <main className="min-h-screen bg-background" id="main-content">
@@ -995,11 +1053,22 @@ export function RoutePlanner() {
               </div>
               <Button
                 type="button"
-                onClick={runGeneration}
+                onClick={isStickyPromptCopyMode ? copyPromptOutput : runGeneration}
                 disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                className="ml-auto h-12 w-full rounded-2xl bg-primary text-white font-semibold hover:bg-primary/90 sm:w-auto sm:min-w-[260px]"
+                className={`ml-auto h-12 w-full rounded-2xl text-white font-semibold sm:w-auto sm:min-w-[260px] ${
+                  isStickyPromptCopyMode
+                    ? "bg-emerald-600/90 hover:bg-emerald-600 shadow-[0_14px_36px_rgba(5,150,105,0.28)]"
+                    : "bg-primary hover:bg-primary/90"
+                }`}
               >
-                {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                {isStickyPromptCopyMode ? (
+                  <>
+                    <Copy className="mr-2 h-4 w-4" />
+                    {t("planner.nav.copyPrompt")}
+                  </>
+                ) : (
+                  aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")
+                )}
               </Button>
             </div>
           </div>

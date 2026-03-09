@@ -90,37 +90,35 @@
   },
   "exampleRoute": {
     "badge": "Voorbeeldroute",
-    "title": "Karlsruhe ⇄ Zierow",
-    "subtitle": "14 dagen • ca. 1.495 km • slow travel met 5,5 t & hond",
-    "lead": "Een rustige, hondvriendelijke rondreis met duidelijke etappes, vaste stops en genoeg buffer voor pauzes.",
+    "title": "Karlsruhe → Perleberg → Wismar → Karlsruhe",
+    "subtitle": "12 dagen • ca. 1.350 km • slow travel 3,5-7,5 t",
+    "lead": "Start op 03.06.2026, geboekte tussenstops in Perleberg en Wismar, maximaal 250 km per dag en een terugreis die bewust niet gelijk is aan de heenreis.",
     "keyFacts": [
       {
         "label": "Start",
-        "value": "4 juni 2026 (Sacramentsdag, BW)"
+        "value": "03.06.2026 • Karlsruhe"
       },
       {
-        "label": "Totale afstand",
-        "value": "ca. 1.495 km"
+        "label": "Tussenstops",
+        "value": "Perleberg • Wismar"
       },
       {
-        "label": "Reisduur",
-        "value": "14 dagen"
+        "label": "Vaste data",
+        "value": "Perleberg 06.06. • Wismar 07.06.–14.06."
+      },
+      {
+        "label": "Daglimiet",
+        "value": "max. 250 km / dag"
       },
       {
         "label": "Voertuig",
-        "value": "7,2 m • 3,2 m • 5,5 t"
-      },
-      {
-        "label": "Budget",
-        "value": "€1.200–1.500"
+        "value": "7,2 m • 3,3 m • 5,5 t"
       }
     ],
     "ruleNotice": {
-      "title": "Belangrijk voor 5,5 t",
+      "title": "Reisnotitie",
       "items": [
-        "Let op inhaalverboden voor vrachtwagens en snelheidslimieten.",
-        "Snelwegen: 100 km/u alleen met goedkeuring, anders 80 km/u; buitenwegen max. 80 km/u.",
-        "Start op 4 juni 2026 is Sacramentsdag – reken op druk verkeer in de ochtend."
+        "Op 04.06.2026 is het Sacramentsdag in Baden-Wuerttemberg: richting Franken en Hessen is meer uitgaansverkeer op de zuidwest-as te verwachten."
       ]
     },
     "details": {
@@ -131,159 +129,161 @@
       "title": "Etappeplanning",
       "outward": {
         "title": "Heenreis",
-        "range": "4–7 juni 2026",
+        "range": "03.06.–07.06.2026",
         "items": [
           {
-            "title": "Etappe 1: Karlsruhe → Fulda/Rhön‑regio",
-            "date": "4 juni 2026",
-            "distance": "ca. 210 km",
-            "duration": "ca. 3:00 u",
-            "route": "A5 tot Hattenbacher Dreieck, daarna richting Fulda.",
-            "pause": "Na ~1,5 u bij Alsfeld voor een hondenwandeling.",
-            "note": "Feestdagverkeer mogelijk."
+            "title": "Etappe 1: Karlsruhe → Obereisenheim / Wuerzburg",
+            "date": "03.06.2026",
+            "distance": "ca. 185 km",
+            "duration": "ca. 2:50–3:20 u",
+            "route": "Rustige start via A5 / A6 / A81 richting Wuerzburg. Kanu-Club Wuerzburg met OCM-link https://opencampingmap.org/en/way/1190353250 en officiële link https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "pause": "Korte lunch- of koffiestop bij Heilbronn en daarna bewust vroeg aankomen in het wijndorp.",
+            "note": "Rustige start voor het feestdagverkeer."
           },
           {
-            "title": "Etappe 2: Fulda‑regio → Magdeburg/Elbe‑regio",
-            "date": "5 juni 2026",
-            "distance": "ca. 240 km",
-            "duration": "ca. 3:30 u",
-            "route": "A7 / A4 / A71 noordwaarts. De Harz‑omleiding is vaak rustiger dan de A7‑heuvels bij Kassel.",
-            "pause": "Bij Sangerhausen of ten zuiden van Magdeburg."
+            "title": "Etappe 2: Obereisenheim / Wuerzburg → Hann. Muenden / Knickhagen",
+            "date": "04.06.2026",
+            "distance": "ca. 235 km",
+            "duration": "ca. 3:30–3:50 u",
+            "route": "Via de A7 noordwaarts naar de regio Fulda / Werra / Weser. Campingplatz Knickhagen met campinglink https://www.campingplatz-knickhagen.de/Campingplatz/ en restaurant https://www.campingplatz-knickhagen.de/Die-Gaststaette/Speisekarte/",
+            "pause": "Langere pauze rond Fulda of Kassel zodat de feestdag ontspannen blijft.",
+            "note": "Zeer passende avondstop met restaurant direct op de camping."
           },
           {
-            "title": "Etappe 3: Magdeburg‑regio → Perleberg",
-            "date": "6 juni 2026",
-            "distance": "ca. 110 km",
-            "duration": "ca. 1:45 u",
-            "route": "B189 richting noord.",
-            "pause": "Korte dag – ruim de tijd voor Perleberg."
+            "title": "Etappe 3: Knickhagen → regio Havelberg",
+            "date": "05.06.2026",
+            "distance": "ca. 245 km",
+            "duration": "ca. 3:45–4:15 u",
+            "route": "A7 / A38 / A14 / B189 met rustige oostelijke omleiding. Campinginsel Havelberg met https://opencampingmap.org/de/way/211239954 en https://www.campinginsel-havelberg.de/",
+            "pause": "Pauzemoment ten zuiden van Magdeburg of rond Stendal.",
+            "note": "Bufferdag voor de vaste datum in Perleberg."
           },
           {
-            "title": "Etappe 4: Perleberg → Zierow",
-            "date": "7 juni 2026",
-            "distance": "ca. 85 km",
-            "duration": "ca. 1:30 u",
-            "route": "Laatste ontspannen stuk naar de camping.",
-            "pause": "Relaxte aankomst voor inchecken."
+            "title": "Etappe 4: Havelberg / regio Perleberg → Perleberg",
+            "date": "06.06.2026",
+            "distance": "ca. 0–90 km",
+            "duration": "ca. 0:00–1:30 u",
+            "route": "Perleberg staat vast op 06.06.2026 met geplande aankomst rond 13:00. Daarom blijft deze dag bewust kort en licht.",
+            "pause": "Boodschappen, tijd in de stad of alleen een heel korte rit in plaats van een volledige etappe."
+          },
+          {
+            "title": "Etappe 5: Perleberg → Wismar",
+            "date": "07.06.2026",
+            "distance": "ca. 150 km",
+            "duration": "ca. 2:20–2:45 u",
+            "route": "Rustige noordroute richting Oostzee met aankomst passend bij het geboekte verblijf in Wismar.",
+            "pause": "Korte stop bij Schwerin of direct doorrijden om vroeg in Wismar aan te komen."
           }
         ]
       },
       "stay": {
         "title": "Verblijf ter plaatse",
-        "range": "7–14 juni (Zierow/Wismar)",
-        "note": "Geboekt: Ostsee‑Camping‑Ferienpark Zierow."
+        "range": "07.06.–14.06.2026 (Wismar)",
+        "note": "Wismar is vast geboekt. Goede basis voor de oude stad, oude haven en het Werelderfgoedhuis: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/ • extra inspiratie: https://one-million-places.com/en/germany/wismar-sights-of-the-unseco-hanseatic-city"
       },
       "return": {
         "title": "Terugreis",
-        "range": "14–17 juni 2026",
+        "range": "14.06.–16.06.2026",
         "items": [
           {
-            "title": "Etappe 5: Zierow → Lüneburger Heide (Uelzen‑regio)",
-            "date": "14 juni 2026",
-            "distance": "ca. 140 km",
-            "duration": "ca. 2:15 u",
-            "route": "B208 / B4 zuidwaarts (rustige rit door het platteland).",
-            "pause": "Leuke stops bij boerderijwinkels of veldpaden."
+            "title": "Etappe 6: Wismar → Lueneburger Heide",
+            "date": "14.06.2026",
+            "distance": "ca. 195 km",
+            "duration": "ca. 3:00–3:30 u",
+            "route": "Niet terug over de heenreis, maar zuidwestelijk via land- en Bundesstrassen de heide in. Naturcamping Lueneburger Heide met OCM-link https://opencampingmap.org/en/way/79293021 en campinglink https://naturcamping-lh.de/campingplatz/",
+            "pause": "Pauze bij Ludwigslust of Uelzen en daarna ontspannen de heide inrollen."
           },
           {
-            "title": "Etappe 6: Uelzen‑regio → Harz",
-            "date": "15 juni 2026",
-            "distance": "ca. 130 km",
-            "duration": "ca. 2:00 u",
-            "route": "B4 richting Braunschweig/Harz.",
-            "pause": "Hondvriendelijke wandelingen nabij de camping."
+            "title": "Etappe 7: Lueneburger Heide → Guxhagen / Fuldaschleife",
+            "date": "15.06.2026",
+            "distance": "ca. 245 km",
+            "duration": "ca. 3:45–4:10 u",
+            "route": "Via B4 / A7 terug richting Hessen, maar zonder kopie van de heenreis. Voor de laatste overnachting: Camping Fuldaschleife met campinglink https://fuldaschleife.de/ en plek-info https://fuldaschleife.de/stellplatz-auswahlen/",
+            "pause": "Langere middagpauze bij Hildesheim of Goettingen om de noord-zuidas rustig te houden."
           },
           {
-            "title": "Etappe 7: Harz → Spessart/Main",
-            "date": "16 juni 2026",
-            "distance": "ca. 230 km",
-            "duration": "ca. 3:30 u",
-            "route": "A7 zuidwaarts.",
-            "pause": "Lunchstop op rustplaatsen met vrachtstroken."
-          },
-          {
-            "title": "Etappe 8: Spessart → Karlsruhe",
-            "date": "17 juni 2026",
-            "distance": "ca. 160 km",
-            "duration": "ca. 2:00 u",
-            "route": "Laatste stuk naar huis.",
-            "pause": "Aankomst in de namiddag."
+            "title": "Etappe 8: Guxhagen / Fuldaschleife → Karlsruhe",
+            "date": "16.06.2026",
+            "distance": "ca. 220 km",
+            "duration": "ca. 3:10–3:40 u",
+            "route": "Laatste rit via A7 / A6 / A5 terug naar Karlsruhe, zonder te lange slottappe.",
+            "pause": "Korte stop rond Heilbronn en daarna ontspannen thuiskomst in de namiddag."
           }
         ]
       }
     },
     "overnights": {
       "title": "Overnachtingen",
-      "note": "Prijzen zijn schattingen voor 2026 (inflatie inbegrepen).",
+      "note": "De route gebruikt alleen concreet benoemde plaatsen en directe links.",
       "items": [
         {
-          "title": "Heenreis • Fulda‑regio",
-          "name": "KNAUS Campingpark Hünfeld",
-          "price": "ca. €35–45 / nacht",
+          "title": "03.06. • Mainfranken",
+          "name": "Kanu-Club Wuerzburg / Obereisenheim",
+          "price": "ca. EUR25–40 / nacht",
           "details": [
-            "Rustige Rhön‑locatie bij A7",
-            "Restaurant Praforst aan het meer",
-            "Goede hondenwandelpaden"
+            "OpenCampingMap: https://opencampingmap.org/en/way/1190353250",
+            "Officiële link: https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "Rustige eerste avond aan de Main met wijndorpen en eetgelegenheden op korte afstand"
           ]
         },
         {
-          "title": "Heenreis • Magdeburg‑regio",
-          "name": "Campingplatz Barleber See",
-          "price": "ca. €25–35 / nacht",
+          "title": "04.06. • Noord-Hessen",
+          "name": "Campingplatz Knickhagen",
+          "price": "ca. EUR30–45 / nacht",
           "details": [
-            "Direct aan het meer",
-            "Snack/restaurant aanwezig",
-            "Grote plaatsen voor 7 m+"
+            "Officiële link: https://www.campingplatz-knickhagen.de/Campingplatz/",
+            "Restaurant / kaart: https://www.campingplatz-knickhagen.de/Die-Gaststaette/Speisekarte/",
+            "Rustige tussenstop bij Hann. Muenden met echte dineroptie direct op de camping"
           ]
         },
         {
-          "title": "Heenreis • Perleberg",
-          "name": "Kristalltherme Bad Wilsnack (stellplaats)",
-          "price": "ca. €15–20 + toeristenbelasting",
+          "title": "05.06. • Reserve voor Perleberg",
+          "name": "Campinginsel Havelberg",
+          "price": "ca. EUR30–45 / nacht",
           "details": [
-            "Zeer rustig, wellness‑optie",
-            "Perleberg snel bereikbaar",
-            "Alternatief: Stellplatz am Hagen"
+            "OpenCampingMap: https://opencampingmap.org/de/way/211239954",
+            "Officiële link: https://www.campinginsel-havelberg.de/",
+            "Zuivere buffer-overnachting voor de vaste afspraak in Perleberg"
           ]
         },
         {
-          "title": "Bestemming",
-          "name": "Ostsee‑Camping‑Ferienpark Zierow",
-          "price": "7–14 juni geboekt",
+          "title": "06.06. • Tussenstop Perleberg",
+          "name": "Geboekt verblijf",
+          "price": "Aankomst rond 13:00",
           "details": [
-            "Dicht bij Wismar & eiland Poel",
-            "Hondenstranden in de buurt",
-            "Ideale uitvalsbasis"
+            "Geen plaatszoektocht meer nodig",
+            "Bewust opgezet als korte doel- en buffersectie",
+            "Havelberg blijft de dichtstbijzijnde uitwijkoptie"
           ]
         },
         {
-          "title": "Terugreis • Lüneburger Heide",
-          "name": "Uhlenköper‑Camp Uelzen",
-          "price": "ca. €30–40 / nacht",
+          "title": "07.06.–14.06. • Wismar",
+          "name": "Geboekt verblijf",
+          "price": "07.06.–14.06.2026",
           "details": [
-            "Eco‑gericht, hondvriendelijk",
-            "Biowinkel & café",
-            "Kanoverhuur"
+            "Geen plaatszoektocht, volle focus op stad, haven en dagtochten",
+            "Werelderfgoedhuis: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/",
+            "Extra overzicht: https://one-million-places.com/en/germany/wismar-sights-of-the-unseco-hanseatic-city"
           ]
         },
         {
-          "title": "Terugreis • Harz",
-          "name": "Campingplatz Am Brocken",
-          "price": "ca. €35–45 / nacht",
+          "title": "14.06. • Lueneburger Heide",
+          "name": "Naturcamping Lueneburger Heide",
+          "price": "ca. EUR35–50 / nacht",
           "details": [
-            "In het hart van de Harz",
-            "Restaurant op het terrein",
-            "Ideaal om te wandelen"
+            "OpenCampingMap: https://opencampingmap.org/en/way/79293021",
+            "Officiële link: https://naturcamping-lh.de/campingplatz/",
+            "Restaurant op de camping: https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
         },
         {
-          "title": "Terugreis • Spessart",
-          "name": "Camping Main‑Spessart",
-          "price": "ca. €30–40 / nacht",
+          "title": "15.06. • Noord-Hessen",
+          "name": "Camping Fuldaschleife",
+          "price": "ca. EUR30–45 / nacht",
           "details": [
-            "Direct aan de Main",
-            "Herberg met biergarten",
-            "Mooi uitzicht op de rivier"
+            "Officiële link: https://fuldaschleife.de/",
+            "Plek-info / selectie: https://fuldaschleife.de/stellplatz-auswahlen/",
+            "Restaurant / kaart: https://fuldaschleife.de/wp-content/uploads/2024/06/Speisekarte-Mai-2024.pdf"
           ]
         }
       ]
@@ -294,25 +294,25 @@
         "outward": {
           "title": "Heenreis",
           "items": [
-            "Rhön (Wasserkuppe): panoramawandeling",
-            "Magdeburg waterkruising: kanaalbrug over de Elbe",
-            "Perleberg oude stad & wildpark"
+            "Mainfranken rond Obereisenheim: wijndorpen, Main-oevers en een rustige start",
+            "Hann. Muenden / Weserstein als sterke tussenstop richting noorden",
+            "Dom van Havelberg als waardevolle extra of uitwijkdoel voor Perleberg: https://havelberg-dom.de/havelberg-dombesuch-info-oeffnungszeiten-lage/"
           ]
         },
         "onsite": {
           "title": "Ter plaatse",
           "items": [
-            "Wismar oude stad (UNESCO) & oude haven",
-            "Eiland Poel: hondenstranden (bijv. Timmendorf)",
-            "Schloss Bothmer in Klütz"
+            "Wismar oude stad (UNESCO), oude haven en baksteengotiek compact te voet",
+            "Werelderfgoedhuis Wismar: https://www.wismar-stralsund.de/en/experience_world_heritage/visitor_centres/world_heritage_house_wismar/",
+            "St. Georgen Wismar: https://www.visit-mv.com/destinations/a-st-georgen-church-wismar"
           ]
         },
         "return": {
           "title": "Terugreis",
           "items": [
-            "Hundertwasser‑station Uelzen",
-            "Brocken‑wandeling of Brockenbahn (honden met muilkorf)",
-            "Wertheim oude stad & kasteelruïne"
+            "De Lueneburger Heide als rustig natuurcontrast met de Oostzee en de stadsdagen in Wismar",
+            "Fuldaschleife voor een laatste ontspannen avond aan de rivier",
+            "De terugreis blijft zelfstandig en vermijdt bewust dezelfde noord-zuidas als de heenreis"
           ]
         }
       }
@@ -464,21 +464,21 @@
         "step3a": "Kopieer de prompt of gebruik je eigen API-key voor directe generatie in de app."
       },
       "cost": {
-        "q": "Is het echt gratis?",
-        "title": "Ja, Camping Route is gratis en open source.",
+        "q": "Wat kost Camping Route mij echt?",
+        "title": "Camping Route zelf is gratis.",
         "free": "De app",
         "free1": "Formulier en promptgeneratie zijn 100% gratis.",
         "free2": "Geen registratie, geen database, geen backend.",
-        "opt": "AI‑API‑kosten",
-        "transDesc": "Alleen voor ‘AI direct gebruiken’ heb je je eigen API-key nodig. Die API-kosten betaal je direct aan OpenAI, Google of Mistral. Camping Route rekent niets extra."
+        "opt": "Externe AI-kosten",
+        "transDesc": "Kosten ontstaan alleen als je de gegenereerde prompt gebruikt in een betaalde AI-dienst. Die kosten lopen uitsluitend via de door jou gekozen aanbieder, niet via Camping Route."
       },
       "privacy": {
-        "q": "Wat gebeurt er met mijn gegevens?",
-        "title": "Je data blijft op je apparaat.",
+        "q": "Waar worden mijn ingevoerde gegevens opgeslagen?",
+        "title": "Standaard op je apparaat.",
         "device": "Lokaal & veilig",
-        "device1": "We hebben geen backend of database. Opgeslagen gegevens blijven lokaal op je apparaat. API-keys worden niet opgeslagen.",
-        "sec": "Geen serveroverdracht",
-        "sec1": "Je data verlaat je apparaat alleen als je deze direct naar de API van de gekozen provider stuurt."
+        "device1": "Voor de huidige flow hebben we geen centraal accountsysteem en geen server-side opslag van plannen. Opgeslagen gegevens blijven lokaal in je browser of in je geëxporteerde bestand.",
+        "sec": "Alleen bij externe AI",
+        "sec1": "Je data verlaat je apparaat pas wanneer je de gegenereerde prompt zelf in een externe AI-dienst plakt."
       },
       "aiModel": {
         "q": "Welk AI‑model moet ik kiezen?",
@@ -612,7 +612,7 @@
     },
     "ai": {
       "title": "AI‑instellingen",
-      "description": "Kies hoe je met de AI wilt werken.",
+      "description": "Genereer een kant-en-klare prompt voor de AI van jouw keuze.",
       "mode": {
         "prompt": {
           "title": "Prompt genereren",
@@ -620,7 +620,7 @@
         },
         "direct": {
           "title": "AI direct gebruiken",
-          "desc": "Route direct in de app genereren. Je gebruikt je EIGEN API‑key en betaalt direct aan de AI‑provider (bijv. OpenAI)."
+          "desc": "Momenteel niet actief."
         },
         "label": "Hoe wil je plannen?",
         "selected": "Geselecteerd",

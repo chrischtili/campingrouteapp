@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Routenplaner für Camping- und Roadtrip-Routen
 
-[![Version](https://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,17 +10,16 @@
 
 ---
 
-## 🌟 Highlights (v0.5.0)
+## 🌟 Highlights (v0.5.1)
 
+- **Prompt-First statt KI-Einstellungsballast**: Der Fokus liegt jetzt klar auf dem sauberen Prompt-Workflow für externe KI-Tools.
 - **5 letzte Planungen lokal speicherbar**: Formulareingaben lassen sich direkt im Browser sichern, laden, überschreiben und löschen.
-- **Neues Einseiten-Formular**: Der Planer arbeitet jetzt ohne starren Schritt-Assistenten und bündelt Details in klaren Sektionen und Popups.
-- **Light- und Dark-Design**: Beide Themes sind vollständig ausgearbeitet, inklusive Popups, Akkordeons und Formularsektionen.
-- **Route-Überblick im Ergebnis**: Ausgabe zeigt kompakt Route, Tageslimits, Budget, Fahrfokus und längere Stopps.
-- **Etappen-Ampel ergänzt**: KI-Ergebnisse heben Etappen als `unkritisch`, `mit Vorsicht` oder `eher ungeeignet` hervor.
-- **Regionen-Rundtouren verbessert**: Zielgebiete und „längere Stopps an besonders schönen Orten“ sind direkt in der Reiseroute integriert.
-- **Filter-Dialoge statt Formularwand**: Route, Fahrzeug, Übernachtung und Optimierung lassen sich kompakt über Popups und Sheets steuern.
+- **Export & Import lokal als Datei**: Planungen können ohne API-Key als JSON exportiert und wieder importiert werden.
+- **Neues Einseiten-Formular**: Der Planer arbeitet ohne starren Schritt-Assistenten und bündelt Details in klaren Sektionen und Popups.
+- **Light- und Dark-Design überarbeitet**: Sektionen, Popups, FAQ und Sticky-Aktionen sind visuell aufeinander abgestimmt.
+- **Kompakte Übersichten in Buttons & Zusammenfassung**: Eingaben werden direkt auf Triggern und im Summary-Bereich verdichtet angezeigt.
+- **Beispielroute gestrafft**: Showcase-Route ist deutlich kompakter und in allen Sprachen auf denselben Stand gebracht.
 - **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
-- **KI-gestützte Routenplanung** mit GPX-Export für Navigationsgeräte.
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
 
 ---
@@ -32,7 +31,7 @@
 ### 🎯 Routenplanung
 - Einseiten-Planer mit klaren Sektionen statt starrem Wizard.
 - Etappenoptimierung mit Pausen und Alternativrouten.
-- Echtzeit-KI-Generierung (mit eigenem API-Key) oder Prompt-Erstellung (kostenlos).
+- Prompt-Erstellung für ChatGPT, Claude und andere KI-Tools.
 
 ### 🚐 Fahrzeugintegration
 - Größe, Gewicht, Führerscheinklasse und technische Ausstattung.
@@ -45,18 +44,17 @@
 - Aktivitäten-Filter (Wandern, Kultur, Gastronomie, Fotografie).
 
 ### 📥 Export & Integration
-- **GPX-Datei-Download** für Navigationsgeräte.
-- Druckfunktion für die fertige Route.
-- In Zwischenablage kopieren für die Nutzung in ChatGPT, Gemini oder Mistral.
+- **GPX-Datei-Anweisung** für Navigationsgeräte im generierten Prompt.
+- Lokaler Export und Import kompletter Planungen.
+- In Zwischenablage kopieren für die Nutzung in ChatGPT, Claude oder anderen KI-Tools.
 
 ## 💻 Technische Details
 
-### Unterstützte KI-Modelle
-| Anbieter | Modell | Empfehlung |
-|----------|--------|------------|
-| Google | Gemini 3.1 Pro Preview | Beste Wahl für Europa |
-| OpenAI | GPT-5.2 / GPT-5.4 | Logisch stark, jetzt beide mit Websuche |
-| Mistral | Mistral Large | Europäisch optimiert |
+### Unterstützter KI-Workflow
+| Modus | Beschreibung |
+|-------|--------------|
+| Prompt generieren | Erzeugt einen fertigen Prompt für externe KI-Tools |
+| Externe KI | Nutzung in ChatGPT, Claude oder vergleichbaren Tools |
 
 ### Tech-Stack
 - **Frontend**: React 18, TypeScript, Vite
@@ -82,6 +80,7 @@ npm run dev
 
 - [ ] Benutzerkonten mit Routenspeicherung
 - [ ] Community-Features (Route teilen & bewerten)
+- [ ] Token-basierte KI-Routengenerierung
 - [ ] Integration mit Navigations-Apps (Komoot, Garmin)
 - [ ] Erweiterung auf weitere Sprachen (Spanisch, Polnisch)
 
@@ -98,23 +97,22 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI route planner for RVs, caravans, tents, and motorcycles – now international!**
 
 ---
 
-## 🌟 Highlights (v0.5.0)
+## 🌟 Highlights (v0.5.1)
 
+- **Prompt-first flow**: the planner now focuses on generating a clean prompt for external AI tools.
 - **Store up to 5 recent plans locally**: save, load, overwrite and delete route setups directly in the browser.
+- **Local export and import**: full plans can be exported and imported as JSON files without any API key.
 - **New single-page planner**: the route flow now uses focused sections and overlays instead of a rigid step wizard.
-- **Complete light and dark themes**: both themes now cover popups, accordions and planner sections consistently.
-- **New route overview in the output**: compact summary for route, daily limits, budget, travel focus and longer scenic stops.
-- **Stage traffic-light added**: direct-AI results highlight stages as `uncritical`, `with caution` or `rather unsuitable`.
-- **Region-based roundtrips improved**: target regions and “longer stops at especially beautiful places” are now built into the route flow.
-- **Filter dialogs instead of a form wall**: route, vehicle, accommodation and optimization settings can now be adjusted in focused popups/sheets.
+- **Refined light and dark themes**: sections, popups, FAQ, and sticky actions now feel visually aligned.
+- **Compact summaries in buttons and overview cards**: entered data surfaces directly where it is most useful.
+- **Radically shortened example route**: the showcase route is now much leaner and aligned across all languages.
 - **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
-- **AI-powered Route Planning** with GPX export for navigation devices.
 - **100% Free** – Prompt generation possible without any API costs.
 
 ---
@@ -126,7 +124,7 @@ MIT License - [Details](LICENSE)
 ### 🎯 Route Planning
 - Single-page planner with focused sections instead of a rigid step wizard.
 - Stage optimization with breaks and alternative routes.
-- Real-time AI generation (with your own API key) or prompt creation (free).
+- Prompt generation for ChatGPT, Claude, and similar AI tools.
 
 ### 🚐 Vehicle Integration
 - Size, weight, and axle load calculation.
@@ -137,6 +135,11 @@ MIT License - [Details](LICENSE)
 - Pitch search by criteria (campsite, wild camping, farm, etc.).
 - Facilities (power, water, dog-friendly, pool).
 - Activity filters (hiking, culture, gastronomy, photography).
+
+### 📥 Export & Integration
+- GPX export instructions inside the generated prompt.
+- Local export and import of complete plans.
+- Clipboard-friendly output for use in ChatGPT, Claude, or similar tools.
 
 ## 🤝 Contributors
 

@@ -6,12 +6,12 @@ import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { DEFAULT_OPENAI_MODEL, DIRECT_AI_FEATURE_ENABLED } from "@/config/ai";
 
 // Statische Importe für ALLES was zum Formular gehört - SICHERHEIT GEHT VOR
 import { HeroSection } from "./HeroSection";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
-import { AISettingsSection } from "./AISettingsSection";
 import { RouteSection } from "./RouteSection";
 import { RouteOptimizationSection } from "./RouteOptimizationSection";
 import { VehicleSection } from "./VehicleSection";
@@ -66,6 +66,8 @@ const normalizeStoredAISettings = (settings?: Partial<AISettings>): AISettings =
   ...settings,
   aiProvider: "openai",
   apiKey: "",
+  useDirectAI: DIRECT_AI_FEATURE_ENABLED ? !!settings?.useDirectAI : false,
+  openaiModel: DEFAULT_OPENAI_MODEL,
 });
 
 const normalizePlannerDates = (
@@ -175,7 +177,10 @@ export function RoutePlanner() {
   const hasDateWindow = !!formData.startDate || !!formData.endDate;
   const hasDistanceLimit = Number(formData.maxDailyDistance || 0) > 0;
   const hasDriveTimeLimit = Number(formData.maxDailyDriveHours || 0) > 0;
-  const hasValidDirectApiKey = !!aiSettings.apiKey?.trim() && /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
+  const hasValidDirectApiKey =
+    DIRECT_AI_FEATURE_ENABLED &&
+    !!aiSettings.apiKey?.trim() &&
+    /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
   const plannerSectionClass = "theme-band -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 sm:py-7 rounded-[2rem] sm:rounded-[2.5rem]";
   const validActivityValues = new Set([
     "nature",
@@ -235,12 +240,11 @@ export function RoutePlanner() {
   };
 
   const getOpenAIModelLabel = (model: string) => {
-    if (model === "gpt-5.4") return "ChatGPT 5.4";
-    return "ChatGPT 5.2";
+    return "ChatGPT 5.4";
   };
 
   const getSummaryModelLabel = () => {
-    if (!aiSettings.useDirectAI) return "—";
+    if (!DIRECT_AI_FEATURE_ENABLED || !aiSettings.useDirectAI) return "—";
     return `OpenAI ${getOpenAIModelLabel(aiSettings.openaiModel)}`;
   };
 
@@ -507,7 +511,7 @@ export function RoutePlanner() {
   };
 
   const isModelSelected = () => {
-    if (!aiSettings.useDirectAI) return true;
+    if (!DIRECT_AI_FEATURE_ENABLED || !aiSettings.useDirectAI) return true;
     return !!aiSettings.openaiModel;
   };
   const hasInvalidStage = formData.stages.some((stage) => !stage.destination?.trim());
@@ -979,30 +983,22 @@ export function RoutePlanner() {
             >
               <div className="space-y-6 relative z-10">
                 <div className={`${plannerSectionClass} theme-band-ai`}>
-                  <AISettingsSection
-                    aiSettings={aiSettings}
-                    onAISettingsChange={handleAISettingsChange}
-                    aiError={aiError}
-                  />
-                </div>
-
-                <div className={`${plannerSectionClass} theme-band-vehicle`}>
                   <RouteSection formData={formData} onChange={handleFormChange} />
                 </div>
 
-                <div className={`${plannerSectionClass} theme-band-ai`}>
+                <div className={`${plannerSectionClass} theme-band-vehicle`}>
                   <VehicleSection formData={formData} onChange={handleFormChange} />
                 </div>
 
-                <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                <div className={`${plannerSectionClass} theme-band-ai`}>
                   <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />
                 </div>
 
-                <div className={`${plannerSectionClass} theme-band-ai`}>
+                <div className={`${plannerSectionClass} theme-band-vehicle`}>
                   <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />
                 </div>
 
-                <div className={`${plannerSectionClass} theme-band-vehicle space-y-10`}>
+                <div className={`${plannerSectionClass} theme-band-ai space-y-10`}>
                     <div className="space-y-4">
                       <h3 className="text-2xl sm:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
                         <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/20">

@@ -1,3 +1,5 @@
+import { DEFAULT_OPENAI_MODEL } from "@/config/ai";
+
 export interface RouteStage {
   destination: string;
   booked: boolean;
@@ -125,7 +127,7 @@ export const initialAISettings: AISettings = {
   aiProvider: 'openai',
   apiKey: '',
   useDirectAI: false,
-  openaiModel: 'gpt-5.2',
+  openaiModel: DEFAULT_OPENAI_MODEL,
   mistralModel: 'mistral-large-latest',
   googleModel: 'gemini-3.1-pro-preview'
 };

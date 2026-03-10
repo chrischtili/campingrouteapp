@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const { t } = useTranslation();
-  const [releaseVersion, setReleaseVersion] = useState("0.5.1");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.9");
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   
   useEffect(() => {

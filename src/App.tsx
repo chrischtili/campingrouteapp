@@ -49,7 +49,7 @@ const App = () => {
   const { t, i18n } = useTranslation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
-  const displayReleaseVersion = `v${(releaseVersion || "0.5.1").replace(/^v/i, "")}`;
+  const displayReleaseVersion = `v${(releaseVersion || "0.5.11").replace(/^v/i, "")}`;
 
   const openWhatsNew = React.useCallback(() => {
     setShowWhatsNew(true);

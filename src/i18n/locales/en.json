@@ -1350,6 +1350,8 @@
     "backToTop": "Back to top"
   },
   "buttons": {
+    "ok": "OK",
+    "cancel": "Cancel",
     "copy": "Copy",
     "print": "Print"
   },

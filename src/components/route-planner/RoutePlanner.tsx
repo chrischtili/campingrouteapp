@@ -807,10 +807,10 @@ export function RoutePlanner() {
                       type="button"
                       onClick={runGeneration}
                       disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                      className="rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary hover:bg-primary/90 text-white font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
+                      className="planner-primary-button rounded-xl px-5 h-12 w-full border-2 border-primary/30 bg-primary hover:bg-primary/90 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2"
                     >
                       <Bot className="w-4 h-4" />
-                      {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                      <span>{aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}</span>
                     </Button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1203,46 +1203,39 @@ export function RoutePlanner() {
 
       {showForm && (
         <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[calc(env(safe-area-inset-bottom)+12px)] sm:px-6">
-          <div className="theme-surface mx-auto max-w-[calc(100%-1rem)] rounded-[1.1rem] px-3 py-3 sm:max-w-[calc(100%-3rem)] sm:px-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="min-w-0">
-                <div className="text-[10px] font-semibold tracking-[0.08em] text-primary">
-                  {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
-                </div>
-                <div className="truncate text-sm font-semibold text-foreground/78 dark:text-white/78">
-                  {formData.startPoint || t("planner.summary.notSpecified")} → {summaryPrimaryDestination || t("planner.summary.notSpecified")}
-                </div>
-                {aiSettings.useDirectAI && !hasValidDirectApiKey && (
-                  <button
-                    type="button"
-                    onClick={scrollToApiKeyInput}
-                    className="mt-1 inline-flex items-center gap-2 text-[11px] font-semibold text-amber-900 hover:text-amber-950 dark:text-amber-200 dark:hover:text-amber-100"
-                  >
-                    <span className="inline-flex h-2 w-2 rounded-full bg-amber-500" />
-                    {t("planner.summary.savedPlans.apiKeyMissing")}
-                  </button>
-                )}
-              </div>
+          <div className="mx-auto flex max-w-[calc(100%-1rem)] flex-col items-center gap-3 sm:max-w-[calc(100%-3rem)]">
+              {aiSettings.useDirectAI && !hasValidDirectApiKey && (
+                <button
+                  type="button"
+                  onClick={scrollToApiKeyInput}
+                  className="inline-flex items-center gap-2 self-start rounded-full border border-amber-300/55 bg-[linear-gradient(135deg,rgba(255,251,235,0.82),rgba(255,243,199,0.62))] px-3 py-2 text-[11px] font-semibold text-amber-900 shadow-[0_10px_24px_rgba(217,119,6,0.12)] backdrop-blur-xl hover:text-amber-950 dark:border-amber-200/18 dark:bg-[linear-gradient(135deg,rgba(120,53,15,0.5),rgba(69,26,3,0.3))] dark:text-amber-200 dark:hover:text-amber-100"
+                >
+                  <span className="inline-flex h-2 w-2 rounded-full bg-amber-500" />
+                  {t("planner.summary.savedPlans.apiKeyMissing")}
+                </button>
+              )}
               <Button
                 type="button"
                 onClick={isStickyPromptCopyMode ? copyPromptOutput : runGeneration}
                 disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                className={`ml-auto h-12 w-full rounded-2xl text-white font-semibold sm:w-auto sm:min-w-[260px] ${
+                className={`planner-primary-button h-11 w-auto max-w-full rounded-[1.25rem] border px-4 text-sm font-semibold backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] ${
                   isStickyPromptCopyMode
-                    ? "bg-emerald-600/90 hover:bg-emerald-600 shadow-[0_14px_36px_rgba(5,150,105,0.28)]"
-                    : "bg-primary hover:bg-primary/90"
+                    ? "border-emerald-100/30 bg-[linear-gradient(135deg,rgba(16,185,129,0.5),rgba(5,150,105,0.26))] shadow-[0_18px_42px_rgba(5,150,105,0.2),inset_0_1px_0_rgba(255,255,255,0.22)] hover:bg-[linear-gradient(135deg,rgba(16,185,129,0.6),rgba(5,150,105,0.34))]"
+                    : "border-primary/35 bg-[linear-gradient(135deg,rgba(255,173,64,0.5),rgba(255,128,0,0.24))] shadow-[0_18px_44px_rgba(255,128,0,0.18),inset_0_1px_0_rgba(255,255,255,0.24)] hover:bg-[linear-gradient(135deg,rgba(255,173,64,0.62),rgba(255,128,0,0.34))]"
                 }`}
+                style={{ color: "#fff" }}
               >
                 {isStickyPromptCopyMode ? (
                   <>
                     <Copy className="mr-2 h-4 w-4" />
-                    {t("planner.nav.copyPrompt")}
+                    <span style={{ color: "#fff", WebkitTextFillColor: "#fff" }}>{t("planner.nav.copyPrompt")}</span>
                   </>
                 ) : (
-                  aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")
+                  <span style={{ color: "#fff", WebkitTextFillColor: "#fff" }}>
+                    {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                  </span>
                 )}
               </Button>
-            </div>
           </div>
         </div>
       )}

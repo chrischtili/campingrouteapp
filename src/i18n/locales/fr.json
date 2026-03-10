@@ -1350,6 +1350,8 @@
     "backToTop": "Haut de page"
   },
   "buttons": {
+    "ok": "OK",
+    "cancel": "Annuler",
     "copy": "Copier",
     "print": "Imprimer"
   },

@@ -1180,6 +1180,8 @@
     "feedback": "Feedback geven"
   },
   "buttons": {
+    "ok": "OK",
+    "cancel": "Annuleren",
     "copy": "Kopieren",
     "print": "Afdrukken"
   },

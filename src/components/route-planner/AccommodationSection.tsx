@@ -3,13 +3,15 @@ import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { Switch } from "@/components/ui/switch";
-import { useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Bed, Users, Home, Settings, Wallet, MessageSquare, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cloneFormDataSnapshot } from "@/lib/formDataSnapshot";
 
 interface AccommodationSectionProps {
   formData: FormData;
@@ -23,6 +25,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [activePanel, setActivePanel] = useState<AccommodationPanel>(null);
+  const snapshotRef = useRef<FormData | null>(null);
 
   const categories = [
     {
@@ -80,6 +83,41 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
     "planner-panel-trigger rounded-3xl border px-5 py-4 text-left transition-colors";
   const switchClass =
     "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
+  const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
+
+  const openPanel = (panel: AccommodationPanel) => {
+    if (!panel) return;
+    snapshotRef.current = cloneFormDataSnapshot(formData);
+    setActivePanel(panel);
+  };
+
+  const closePanel = () => {
+    snapshotRef.current = null;
+    setActivePanel(null);
+  };
+
+  const cancelPanel = () => {
+    if (snapshotRef.current) {
+      onChange(snapshotRef.current);
+    }
+    closePanel();
+  };
+
+  const renderPopupActions = () => (
+    <div className={popupActionsClass}>
+      <Button
+        type="button"
+        variant="outline"
+        className="h-11 rounded-xl border-slate-900/12 bg-white/70 px-5 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
+        onClick={cancelPanel}
+      >
+        {t("buttons.cancel")}
+      </Button>
+      <Button type="button" className="h-11 rounded-xl px-5 font-semibold" onClick={closePanel}>
+        {t("buttons.ok")}
+      </Button>
+    </div>
+  );
 
   const getSelectedLabels = (options: { value: string; label: string }[], selected: string[]) => {
     const labels = options.filter((option) => selected.includes(option.value)).map((option) => option.label);
@@ -89,26 +127,30 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   const renderPanelShell = (title: string, description: string, content: ReactNode) => {
     if (isMobile) {
       return (
-        <Sheet open={!!activePanel} onOpenChange={(open) => !open && setActivePanel(null)}>
-          <SheetContent side="bottom" className="theme-popup-shell theme-popup-accommodation max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0 shadow-[0_-32px_120px_rgba(0,0,0,0.72)] ring-2 ring-primary/35 backdrop-blur-xl">
+        <Sheet open={!!activePanel} onOpenChange={(open) => !open && cancelPanel()}>
+          <SheetContent hideCloseButton side="bottom" className="theme-popup-shell theme-popup-accommodation max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0 shadow-[0_-32px_120px_rgba(0,0,0,0.72)] ring-2 ring-primary/35 backdrop-blur-xl">
             <SheetHeader className="theme-popup-divider border-b px-6 py-5 text-left">
               <SheetTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</SheetTitle>
               <SheetDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</SheetDescription>
             </SheetHeader>
             <div className="px-6 pt-6">{content}</div>
+            {renderPopupActions()}
           </SheetContent>
         </Sheet>
       );
     }
 
     return (
-      <Dialog open={!!activePanel} onOpenChange={(open) => !open && setActivePanel(null)}>
-        <DialogContent className="theme-popup-shell theme-popup-accommodation max-h-[90vh] max-w-4xl overflow-y-auto border-2 p-0 shadow-[0_36px_140px_rgba(0,0,0,0.74)] ring-2 ring-primary/35 backdrop-blur-xl">
+      <Dialog open={!!activePanel} onOpenChange={(open) => !open && cancelPanel()}>
+        <DialogContent hideCloseButton className="theme-popup-shell theme-popup-accommodation max-h-[90vh] max-w-4xl overflow-y-auto border-2 p-0 shadow-[0_36px_140px_rgba(0,0,0,0.74)] ring-2 ring-primary/35 backdrop-blur-xl">
           <DialogHeader className="theme-popup-divider border-b px-6 py-5 text-left">
             <DialogTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</DialogTitle>
             <DialogDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</DialogDescription>
           </DialogHeader>
-          <div className="px-6 pb-6 pt-6">{content}</div>
+          <div className="px-6 pt-6">{content}</div>
+          <div className="pb-6">
+            {renderPopupActions()}
+          </div>
         </DialogContent>
       </Dialog>
     );
@@ -224,7 +266,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => setActivePanel("type")}>
+        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("type")}>
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
               <Home className="h-4 w-4" />
@@ -236,7 +278,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           </div>
         </button>
 
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => setActivePanel("facilities")}>
+        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("facilities")}>
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
               <Settings className="h-4 w-4" />
@@ -248,7 +290,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           </div>
         </button>
 
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => setActivePanel("interests")}>
+        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("interests")}>
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
               <Heart className="h-4 w-4" />
@@ -260,7 +302,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
           </div>
         </button>
 
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => setActivePanel("additional")}>
+        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("additional")}>
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
               <MessageSquare className="h-4 w-4" />

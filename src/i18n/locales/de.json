@@ -517,7 +517,7 @@
       "back": "Zurück",
       "next": "Weiter",
       "generateRoute": "Route Generieren",
-      "generatePrompt": "Prompt Generieren",
+      "generatePrompt": "Prompt generieren",
       "copyPrompt": "Prompt Kopieren"
     },
     "summary": {
@@ -1349,6 +1349,8 @@
     "backToTop": "Nach oben"
   },
   "buttons": {
+    "ok": "OK",
+    "cancel": "Abbrechen",
     "copy": "Kopieren",
     "print": "Drucken"
   },

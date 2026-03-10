@@ -232,7 +232,9 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="site-nav-menu lg:hidden absolute top-full left-0 right-0 border-b p-6 sm:p-8 shadow-xl backdrop-blur-2xl bg-white/58 dark:bg-black/78 border-white/28 dark:border-white/14"
+          className={`site-nav-menu lg:hidden fixed left-0 right-0 z-[60] border-b p-6 sm:p-8 shadow-xl backdrop-blur-2xl ${
+            scrolled ? "top-[72px] sm:top-[84px]" : "top-[96px] sm:top-[112px]"
+          }`}
         >
           <div className="flex flex-col gap-4 sm:gap-6">
             {navLinks.map((link) => (

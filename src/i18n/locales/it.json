@@ -1350,6 +1350,8 @@
     "backToTop": "Torna su"
   },
   "buttons": {
+    "ok": "OK",
+    "cancel": "Annulla",
     "copy": "Copia",
     "print": "Stampa"
   },

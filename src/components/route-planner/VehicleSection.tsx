@@ -5,10 +5,12 @@ import { FormSlider } from "./FormSlider";
 import { useTranslation } from "react-i18next";
 import { Truck, Ruler, Weight, Zap, Toilet, Flame, MoveVertical, Fuel, Settings, Car, Tag } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { cloneFormDataSnapshot } from "@/lib/formDataSnapshot";
 
 interface VehicleSectionProps {
   formData: FormData;
@@ -20,6 +22,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const isMobile = useIsMobile();
   const isMotorcycleTent = formData.vehicleType === "motorcycleTent";
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const snapshotRef = useRef<FormData | null>(null);
   
   const inputClass = "popup-input w-full h-11 sm:h-12 px-4 sm:px-5 rounded-xl sm:rounded-2xl transition-all outline-none font-bold text-sm sm:text-base text-foreground dark:text-white placeholder:font-normal text-left";
   const disabledInputClass = "opacity-50 cursor-not-allowed";
@@ -37,30 +40,68 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
     formData.levelingJacks ? t(`planner.vehicle.levelingJacks.options.${formData.levelingJacks}`) : "",
   ].filter(Boolean);
   const detailSummary = detailSummaryParts.join(" · ") || t("planner.vehicle.details.description");
+  const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
+
+  const openDetails = () => {
+    snapshotRef.current = cloneFormDataSnapshot(formData);
+    setDetailsOpen(true);
+  };
+
+  const closeDetails = () => {
+    snapshotRef.current = null;
+    setDetailsOpen(false);
+  };
+
+  const cancelDetails = () => {
+    if (snapshotRef.current) {
+      onChange(snapshotRef.current);
+    }
+    closeDetails();
+  };
+
+  const renderPopupActions = () => (
+    <div className={popupActionsClass}>
+      <Button
+        type="button"
+        variant="outline"
+        className="h-11 rounded-xl border-slate-900/12 bg-white/70 px-5 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
+        onClick={cancelDetails}
+      >
+        {t("buttons.cancel")}
+      </Button>
+      <Button type="button" className="h-11 rounded-xl px-5 font-semibold" onClick={closeDetails}>
+        {t("buttons.ok")}
+      </Button>
+    </div>
+  );
 
   const renderPanelShell = (title: string, description: string, content: ReactNode) => {
     if (isMobile) {
       return (
-        <Sheet open={detailsOpen} onOpenChange={setDetailsOpen}>
-          <SheetContent side="bottom" className="theme-popup-shell theme-popup-vehicle max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0 shadow-[0_-32px_120px_rgba(0,0,0,0.72)] ring-2 ring-primary/35 backdrop-blur-xl">
+        <Sheet open={detailsOpen} onOpenChange={(open) => !open && cancelDetails()}>
+          <SheetContent hideCloseButton side="bottom" className="theme-popup-shell theme-popup-vehicle max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0 shadow-[0_-32px_120px_rgba(0,0,0,0.72)] ring-2 ring-primary/35 backdrop-blur-xl">
             <SheetHeader className="theme-popup-divider border-b px-6 py-5 text-left">
               <SheetTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</SheetTitle>
               <SheetDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</SheetDescription>
             </SheetHeader>
             <div className="px-6 pt-6">{content}</div>
+            {renderPopupActions()}
           </SheetContent>
         </Sheet>
       );
     }
 
     return (
-      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-        <DialogContent className="theme-popup-shell theme-popup-vehicle max-h-[90vh] max-w-4xl overflow-y-auto border-2 p-0 shadow-[0_36px_140px_rgba(0,0,0,0.74)] ring-2 ring-primary/35 backdrop-blur-xl">
+      <Dialog open={detailsOpen} onOpenChange={(open) => !open && cancelDetails()}>
+        <DialogContent hideCloseButton className="theme-popup-shell theme-popup-vehicle max-h-[90vh] max-w-4xl overflow-y-auto border-2 p-0 shadow-[0_36px_140px_rgba(0,0,0,0.74)] ring-2 ring-primary/35 backdrop-blur-xl">
           <DialogHeader className="theme-popup-divider border-b px-6 py-5 text-left">
             <DialogTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</DialogTitle>
             <DialogDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</DialogDescription>
           </DialogHeader>
-          <div className="px-6 pb-6 pt-6">{content}</div>
+          <div className="px-6 pt-6">{content}</div>
+          <div className="pb-6">
+            {renderPopupActions()}
+          </div>
         </DialogContent>
       </Dialog>
     );
@@ -276,7 +317,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
       </div>
 
-      <button type="button" className={detailTriggerClass} onClick={() => setDetailsOpen(true)}>
+      <button type="button" className={detailTriggerClass} onClick={openDetails}>
         <div className="flex items-start gap-3">
           <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
             <Settings className="h-4 w-4" />

@@ -23,6 +23,16 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const isMotorcycleTent = formData.vehicleType === "motorcycleTent";
   const [detailsOpen, setDetailsOpen] = useState(false);
   const snapshotRef = useRef<FormData | null>(null);
+  const motorcycleVehicleReset: Partial<FormData> = {
+    weightClass: "",
+    fuelType: "",
+    toiletteSystem: "",
+    solarPower: "0",
+    batteryCapacity: "0",
+    autonomyDays: "0",
+    heatingSystem: "",
+    levelingJacks: "",
+  };
   
   const inputClass = "popup-input w-full h-11 sm:h-12 px-4 sm:px-5 rounded-xl sm:rounded-2xl transition-all outline-none font-bold text-sm sm:text-base text-foreground dark:text-white placeholder:font-normal text-left";
   const disabledInputClass = "opacity-50 cursor-not-allowed";
@@ -34,15 +44,18 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
     !isMotorcycleTent && Number(formData.solarPower || 0) > 0 ? `${formData.solarPower}W` : "",
     !isMotorcycleTent && Number(formData.batteryCapacity || 0) > 0 ? `${formData.batteryCapacity}Ah` : "",
     !isMotorcycleTent && Number(formData.autonomyDays || 0) > 0 ? `${formData.autonomyDays} ${t("planner.vehicle.autonomyUnit")}` : "",
-    formData.fuelType ? t(`planner.vehicle.fuel.options.${formData.fuelType}`) : "",
-    formData.toiletteSystem ? t(`planner.vehicle.toilet.options.${formData.toiletteSystem}`) : "",
-    formData.heatingSystem ? t(`planner.vehicle.heating.options.${formData.heatingSystem}`) : "",
-    formData.levelingJacks ? t(`planner.vehicle.levelingJacks.options.${formData.levelingJacks}`) : "",
+    !isMotorcycleTent && formData.fuelType ? t(`planner.vehicle.fuel.options.${formData.fuelType}`) : "",
+    !isMotorcycleTent && formData.toiletteSystem ? t(`planner.vehicle.toilet.options.${formData.toiletteSystem}`) : "",
+    !isMotorcycleTent && formData.heatingSystem ? t(`planner.vehicle.heating.options.${formData.heatingSystem}`) : "",
+    !isMotorcycleTent && formData.levelingJacks ? t(`planner.vehicle.levelingJacks.options.${formData.levelingJacks}`) : "",
   ].filter(Boolean);
   const detailSummary = detailSummaryParts.join(" · ") || t("planner.vehicle.details.description");
   const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
 
   const openDetails = () => {
+    if (isMotorcycleTent) {
+      return;
+    }
     snapshotRef.current = cloneFormDataSnapshot(formData);
     setDetailsOpen(true);
   };
@@ -271,9 +284,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
               <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
                 <Weight className="w-4 h-4 text-primary" /> {t("planner.vehicle.weightClass.label")}
               </Label>
-              <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })}>
+              <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })} disabled={isMotorcycleTent}>
                 <SelectTrigger
-                  className={inputClass}
+                  className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`}
                 >
                   <SelectValue placeholder={t("planner.vehicle.weightClass.placeholder")} />
                 </SelectTrigger>
@@ -288,7 +301,16 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
               <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
                 <Car className="w-4 h-4 text-primary" /> {t("planner.vehicle.type.label")}
               </Label>
-              <Select value={formData.vehicleType} onValueChange={(value) => onChange({ vehicleType: value })}>
+              <Select
+                value={formData.vehicleType}
+                onValueChange={(value) =>
+                  onChange(
+                    value === "motorcycleTent"
+                      ? { vehicleType: value, ...motorcycleVehicleReset }
+                      : { vehicleType: value }
+                  )
+                }
+              >
                 <SelectTrigger
                   className={inputClass}
                 >
@@ -317,7 +339,12 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
       </div>
 
-      <button type="button" className={detailTriggerClass} onClick={openDetails}>
+      <button
+        type="button"
+        className={`${detailTriggerClass} ${isMotorcycleTent ? "cursor-not-allowed opacity-55" : ""}`}
+        onClick={openDetails}
+        disabled={isMotorcycleTent}
+      >
         <div className="flex items-start gap-3">
           <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
             <Settings className="h-4 w-4" />

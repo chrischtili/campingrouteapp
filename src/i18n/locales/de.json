@@ -915,7 +915,7 @@
           "motorcycleTent": "Motorrad + Zelt"
         }
       },
-      "typeNote": "Bei Motorrad + Zelt werden Maße, Autarkie und Systeme ignoriert.",
+      "typeNote": "Bei Motorrad + Zelt sind Gewichtsklasse und Technikdetails nicht auswählbar und werden ignoriert.",
       "fuel": {
         "label": "Kraftstoff",
         "placeholder": "Wählen",

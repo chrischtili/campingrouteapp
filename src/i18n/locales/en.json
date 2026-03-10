@@ -916,7 +916,7 @@
           "motorcycleTent": "Motorcycle + tent"
         }
       },
-      "typeNote": "With motorcycle + tent, dimensions, self-sufficiency, and systems are ignored.",
+      "typeNote": "With motorcycle + tent, weight class and technical details are disabled and ignored.",
       "fuel": {
         "label": "Fuel",
         "placeholder": "Select",

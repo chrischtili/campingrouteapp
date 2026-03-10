@@ -916,7 +916,7 @@
           "motorcycleTent": "Moto + tente"
         }
       },
-      "typeNote": "Avec moto + tente, les dimensions, l’autonomie et les systèmes sont ignorés.",
+      "typeNote": "Avec moto + tente, la catégorie de poids et les détails techniques sont désactivés et ignorés.",
       "fuel": {
         "label": "Carburant",
         "placeholder": "Sélectionner",

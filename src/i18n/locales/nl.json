@@ -916,7 +916,7 @@
           "motorcycleTent": "Motor + tent"
         }
       },
-      "typeNote": "Bij motor + tent worden afmetingen, autonomie en systemen genegeerd.",
+      "typeNote": "Bij motor + tent zijn gewichtsklasse en technische details uitgeschakeld en worden ze genegeerd.",
       "fuel": {
         "label": "Brandstof",
         "placeholder": "Selecteer",

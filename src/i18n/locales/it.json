@@ -916,7 +916,7 @@
           "motorcycleTent": "Moto + tenda"
         }
       },
-      "typeNote": "Con Moto + tenda le misure, l'autonomia e i sistemi vengono ignorati.",
+      "typeNote": "Con Moto + tenda, la categoria di peso e i dettagli tecnici sono disattivati e ignorati.",
       "fuel": {
         "label": "Carburante",
         "placeholder": "Seleziona",

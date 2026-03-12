@@ -881,7 +881,7 @@
       "description": "Technical specs.",
       "group": {
         "dimensions": "Dimensions",
-        "weight": "Class & type",
+        "weight": "Type & class",
         "power": "Self-sufficiency",
         "systems": "Systems"
       },

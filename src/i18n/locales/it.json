@@ -881,7 +881,7 @@
       "description": "Dati tecnici del tuo veicolo.",
       "group": {
         "dimensions": "Dimensioni",
-        "weight": "Classe & tipo",
+        "weight": "Tipo & classe",
         "power": "Autonomia",
         "systems": "Sistemi"
       },

@@ -881,7 +881,7 @@
       "description": "Technische gegevens van je voertuig.",
       "group": {
         "dimensions": "Afmetingen",
-        "weight": "Klasse & type",
+        "weight": "Type & klasse",
         "power": "Autonomie",
         "systems": "Systemen"
       },

@@ -286,23 +286,6 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           <div className="space-y-5 w-full">
             <div className="space-y-3">
               <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
-                <Weight className="w-4 h-4 text-primary" /> {t("planner.vehicle.weightClass.label")}
-              </Label>
-              <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })} disabled={isLightweightVehicle}>
-                <SelectTrigger
-                  className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}
-                >
-                  <SelectValue placeholder={t("planner.vehicle.weightClass.placeholder")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="lt35">{t("planner.vehicle.weightClass.options.lt35")}</SelectItem>
-                  <SelectItem value="bt35_75">{t("planner.vehicle.weightClass.options.bt35_75")}</SelectItem>
-                  <SelectItem value="gt75">{t("planner.vehicle.weightClass.options.gt75")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-3">
-              <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
                 <Car className="w-4 h-4 text-primary" /> {t("planner.vehicle.type.label")}
               </Label>
               <Select
@@ -342,6 +325,23 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                   {t("planner.vehicle.typeNote")}
                 </p>
               )}
+            </div>
+            <div className="space-y-3">
+              <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
+                <Weight className="w-4 h-4 text-primary" /> {t("planner.vehicle.weightClass.label")}
+              </Label>
+              <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })} disabled={isLightweightVehicle}>
+                <SelectTrigger
+                  className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}
+                >
+                  <SelectValue placeholder={t("planner.vehicle.weightClass.placeholder")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="lt35">{t("planner.vehicle.weightClass.options.lt35")}</SelectItem>
+                  <SelectItem value="bt35_75">{t("planner.vehicle.weightClass.options.bt35_75")}</SelectItem>
+                  <SelectItem value="gt75">{t("planner.vehicle.weightClass.options.gt75")}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </motion.div>

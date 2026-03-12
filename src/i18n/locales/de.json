@@ -880,7 +880,7 @@
       "description": "Technische Daten deines Fahrzeugs.",
       "group": {
         "dimensions": "Abmessungen",
-        "weight": "Klasse & Typ",
+        "weight": "Typ & Klasse",
         "power": "Autarkie",
         "systems": "Systeme"
       },

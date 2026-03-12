@@ -32,7 +32,11 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const lang = (i18next.language || 'en').toLowerCase();
   const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : lang.startsWith('it') ? 'Italiano' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
-  const isMotorcycleTent = data.vehicleType === 'motorcycleTent';
+  const isLightweightVehicle =
+    data.vehicleType === 'carTent' ||
+    data.vehicleType === 'carRoofTent' ||
+    data.vehicleType === 'bicycleTent' ||
+    data.vehicleType === 'motorcycleTent';
   const maxDailyDistance = Number(data.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(data.maxDailyDriveHours || 0);
   const hasDailyLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0 && !!data.dailyLimitPriority;
@@ -124,10 +128,10 @@ ${routeLines}
 
 🚐 ${t('prompt.sections.vehicle')}:
 ───────────────────────────
-${!isMotorcycleTent ? `• ${t('prompt.labels.length')}: ${data.vehicleLength || '7'} m
+${!isLightweightVehicle ? `• ${t('prompt.labels.length')}: ${data.vehicleLength || '7'} m
 • ${t('prompt.labels.height')}: ${data.vehicleHeight || '2.9'} m
 • ${t('prompt.labels.width')}: ${data.vehicleWidth || '2.3'} m
-` : ''}${!isMotorcycleTent && data.weightClass ? '• ' + t('prompt.labels.weightClass') + ': ' + t(`planner.vehicle.weightClass.options.${data.weightClass}`) + '\n' : ''}${data.vehicleType ? '• ' + t('prompt.labels.vehicleType') + ': ' + t(`planner.vehicle.type.options.${data.vehicleType}`) + '\n' : ''}${!isMotorcycleTent && data.fuelType ? '• ' + t('prompt.labels.fuelType') + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${!isMotorcycleTent && data.solarPower ? '• ' + t('prompt.labels.solar') + ': ' + data.solarPower + 'W\n' : ''}${!isMotorcycleTent && data.batteryCapacity ? '• ' + t('prompt.labels.battery') + ': ' + data.batteryCapacity + 'Ah\n' : ''}${!isMotorcycleTent && data.autonomyDays ? '• ' + t('prompt.labels.autonomyDays') + ': ' + data.autonomyDays + ' ' + t('prompt.labels.autonomyUnit') + '\n' : ''}${!isMotorcycleTent && data.heatingSystem ? '• ' + t('prompt.labels.heating') + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${!isMotorcycleTent && data.levelingJacks ? '• ' + t('prompt.labels.levelingJacks') + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${!isMotorcycleTent && data.toiletteSystem ? '• ' + t('prompt.labels.toilet') + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}
+` : ''}${!isLightweightVehicle && data.weightClass ? '• ' + t('prompt.labels.weightClass') + ': ' + t(`planner.vehicle.weightClass.options.${data.weightClass}`) + '\n' : ''}${data.vehicleType ? '• ' + t('prompt.labels.vehicleType') + ': ' + t(`planner.vehicle.type.options.${data.vehicleType}`) + '\n' : ''}${!isLightweightVehicle && data.fuelType ? '• ' + t('prompt.labels.fuelType') + ': ' + t(`planner.vehicle.fuel.options.${data.fuelType}`) + '\n' : ''}${!isLightweightVehicle && data.solarPower ? '• ' + t('prompt.labels.solar') + ': ' + data.solarPower + 'W\n' : ''}${!isLightweightVehicle && data.batteryCapacity ? '• ' + t('prompt.labels.battery') + ': ' + data.batteryCapacity + 'Ah\n' : ''}${!isLightweightVehicle && data.autonomyDays ? '• ' + t('prompt.labels.autonomyDays') + ': ' + data.autonomyDays + ' ' + t('prompt.labels.autonomyUnit') + '\n' : ''}${!isLightweightVehicle && data.heatingSystem ? '• ' + t('prompt.labels.heating') + ': ' + t(`planner.vehicle.heating.options.${data.heatingSystem}`) + '\n' : ''}${!isLightweightVehicle && data.levelingJacks ? '• ' + t('prompt.labels.levelingJacks') + ': ' + t(`planner.vehicle.levelingJacks.options.${data.levelingJacks}`) + '\n' : ''}${!isLightweightVehicle && data.toiletteSystem ? '• ' + t('prompt.labels.toilet') + ': ' + t(`planner.vehicle.toilet.options.${data.toiletteSystem}`) + '\n' : ''}
 
 ${(data.numberOfTravelers && data.numberOfTravelers !== '1') || data.accommodationType.length > 0 || data.facilities?.length > 0 || data.avgCampsitePriceMax || data.quietPlaces || data.accommodation ? `
 🏕️ ${t('prompt.sections.accommodation')}:

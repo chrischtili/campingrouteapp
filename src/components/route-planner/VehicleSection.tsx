@@ -20,10 +20,14 @@ interface VehicleSectionProps {
 export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const isMotorcycleTent = formData.vehicleType === "motorcycleTent";
+  const isLightweightVehicle =
+    formData.vehicleType === "carTent" ||
+    formData.vehicleType === "carRoofTent" ||
+    formData.vehicleType === "bicycleTent" ||
+    formData.vehicleType === "motorcycleTent";
   const [detailsOpen, setDetailsOpen] = useState(false);
   const snapshotRef = useRef<FormData | null>(null);
-  const motorcycleVehicleReset: Partial<FormData> = {
+  const lightweightVehicleReset: Partial<FormData> = {
     weightClass: "",
     fuelType: "",
     toiletteSystem: "",
@@ -41,19 +45,19 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
   const detailTriggerClass = "planner-panel-trigger rounded-2xl border-2 px-5 py-4 text-left transition-colors";
   const detailSummaryParts = [
-    !isMotorcycleTent && Number(formData.solarPower || 0) > 0 ? `${formData.solarPower}W` : "",
-    !isMotorcycleTent && Number(formData.batteryCapacity || 0) > 0 ? `${formData.batteryCapacity}Ah` : "",
-    !isMotorcycleTent && Number(formData.autonomyDays || 0) > 0 ? `${formData.autonomyDays} ${t("planner.vehicle.autonomyUnit")}` : "",
-    !isMotorcycleTent && formData.fuelType ? t(`planner.vehicle.fuel.options.${formData.fuelType}`) : "",
-    !isMotorcycleTent && formData.toiletteSystem ? t(`planner.vehicle.toilet.options.${formData.toiletteSystem}`) : "",
-    !isMotorcycleTent && formData.heatingSystem ? t(`planner.vehicle.heating.options.${formData.heatingSystem}`) : "",
-    !isMotorcycleTent && formData.levelingJacks ? t(`planner.vehicle.levelingJacks.options.${formData.levelingJacks}`) : "",
+    !isLightweightVehicle && Number(formData.solarPower || 0) > 0 ? `${formData.solarPower}W` : "",
+    !isLightweightVehicle && Number(formData.batteryCapacity || 0) > 0 ? `${formData.batteryCapacity}Ah` : "",
+    !isLightweightVehicle && Number(formData.autonomyDays || 0) > 0 ? `${formData.autonomyDays} ${t("planner.vehicle.autonomyUnit")}` : "",
+    !isLightweightVehicle && formData.fuelType ? t(`planner.vehicle.fuel.options.${formData.fuelType}`) : "",
+    !isLightweightVehicle && formData.toiletteSystem ? t(`planner.vehicle.toilet.options.${formData.toiletteSystem}`) : "",
+    !isLightweightVehicle && formData.heatingSystem ? t(`planner.vehicle.heating.options.${formData.heatingSystem}`) : "",
+    !isLightweightVehicle && formData.levelingJacks ? t(`planner.vehicle.levelingJacks.options.${formData.levelingJacks}`) : "",
   ].filter(Boolean);
   const detailSummary = detailSummaryParts.join(" · ") || t("planner.vehicle.details.description");
   const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
 
   const openDetails = () => {
-    if (isMotorcycleTent) {
+    if (isLightweightVehicle) {
       return;
     }
     snapshotRef.current = cloneFormDataSnapshot(formData);
@@ -126,7 +130,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isMotorcycleTent ? "opacity-40 pointer-events-none" : ""}`}
+        className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
         style={glassPanelStyle}
       >
         <div className="flex items-center gap-3">
@@ -136,9 +140,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           </span>
         </div>
         <div className="space-y-5 w-full">
-          <FormSlider id="solarPower" label={t("planner.vehicle.solar")} value={formData.solarPower === "" ? 0 : parseFloat(formData.solarPower)} min={0} max={1000} step={50} unit="W" onChange={(v) => onChange({ solarPower: v.toString() })} disabled={isMotorcycleTent} compact />
-          <FormSlider id="batteryCapacity" label={t("planner.vehicle.battery")} value={formData.batteryCapacity === "" ? 0 : parseFloat(formData.batteryCapacity)} min={0} max={1000} step={25} unit="Ah" onChange={(v) => onChange({ batteryCapacity: v.toString() })} disabled={isMotorcycleTent} compact />
-          <FormSlider id="autonomyDays" label={t("planner.vehicle.autonomyDays")} value={formData.autonomyDays === "" ? 0 : parseFloat(formData.autonomyDays)} min={0} max={10} step={1} unit={t("planner.vehicle.autonomyUnit")} onChange={(v) => onChange({ autonomyDays: v.toString() })} disabled={isMotorcycleTent} compact />
+          <FormSlider id="solarPower" label={t("planner.vehicle.solar")} value={formData.solarPower === "" ? 0 : parseFloat(formData.solarPower)} min={0} max={1000} step={50} unit="W" onChange={(v) => onChange({ solarPower: v.toString() })} disabled={isLightweightVehicle} compact />
+          <FormSlider id="batteryCapacity" label={t("planner.vehicle.battery")} value={formData.batteryCapacity === "" ? 0 : parseFloat(formData.batteryCapacity)} min={0} max={1000} step={25} unit="Ah" onChange={(v) => onChange({ batteryCapacity: v.toString() })} disabled={isLightweightVehicle} compact />
+          <FormSlider id="autonomyDays" label={t("planner.vehicle.autonomyDays")} value={formData.autonomyDays === "" ? 0 : parseFloat(formData.autonomyDays)} min={0} max={10} step={1} unit={t("planner.vehicle.autonomyUnit")} onChange={(v) => onChange({ autonomyDays: v.toString() })} disabled={isLightweightVehicle} compact />
         </div>
       </motion.div>
 
@@ -146,7 +150,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isMotorcycleTent ? "opacity-40 pointer-events-none" : ""}`}
+        className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
         style={glassPanelStyle}
       >
         <div className="flex items-center gap-3">
@@ -160,8 +164,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
               <Fuel className="w-4 h-4 text-primary" /> {t("planner.vehicle.fuel.label")}
             </Label>
-            <Select value={formData.fuelType} onValueChange={(value) => onChange({ fuelType: value })} disabled={isMotorcycleTent}>
-              <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`}>
+            <Select value={formData.fuelType} onValueChange={(value) => onChange({ fuelType: value })} disabled={isLightweightVehicle}>
+              <SelectTrigger className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}>
                 <SelectValue placeholder={t("planner.vehicle.fuel.placeholder")} />
               </SelectTrigger>
               <SelectContent>
@@ -178,8 +182,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
               <Toilet className="w-4 h-4 text-primary" /> {t("planner.vehicle.toilet.label")}
             </Label>
-            <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })} disabled={isMotorcycleTent}>
-              <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`}>
+            <Select value={formData.toiletteSystem} onValueChange={(value) => onChange({ toiletteSystem: value })} disabled={isLightweightVehicle}>
+              <SelectTrigger className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}>
                 <SelectValue placeholder={t("planner.vehicle.toilet.placeholder")} />
               </SelectTrigger>
               <SelectContent>
@@ -197,8 +201,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
               <Flame className="w-4 h-4 text-primary" /> {t("planner.vehicle.heating.label")}
             </Label>
-            <Select value={formData.heatingSystem} onValueChange={(value) => onChange({ heatingSystem: value })} disabled={isMotorcycleTent}>
-              <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`}>
+            <Select value={formData.heatingSystem} onValueChange={(value) => onChange({ heatingSystem: value })} disabled={isLightweightVehicle}>
+              <SelectTrigger className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}>
                 <SelectValue placeholder={t("planner.vehicle.heating.placeholder")} />
               </SelectTrigger>
               <SelectContent>
@@ -213,8 +217,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
               <MoveVertical className="w-4 h-4 text-primary" /> {t("planner.vehicle.levelingJacks.label")}
             </Label>
-            <Select value={formData.levelingJacks} onValueChange={(value) => onChange({ levelingJacks: value })} disabled={isMotorcycleTent}>
-              <SelectTrigger className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`}>
+            <Select value={formData.levelingJacks} onValueChange={(value) => onChange({ levelingJacks: value })} disabled={isLightweightVehicle}>
+              <SelectTrigger className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}>
                 <SelectValue placeholder={t("planner.vehicle.levelingJacks.placeholder")} />
               </SelectTrigger>
               <SelectContent>
@@ -247,7 +251,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isMotorcycleTent ? "opacity-40 pointer-events-none" : ""}`}
+          className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
           style={glassPanelStyle}
         >
           <div className="flex items-center gap-3">
@@ -257,10 +261,10 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </span>
           </div>
           <div className="space-y-5 w-full">
-            <FormSlider id="vehicleLength" label={t("planner.vehicle.length")} value={formData.vehicleLength === "" ? 7 : parseFloat(formData.vehicleLength)} min={5} max={12} step={0.1} unit="m" onChange={(v) => onChange({ vehicleLength: v.toString() })} disabled={isMotorcycleTent} compact />
+            <FormSlider id="vehicleLength" label={t("planner.vehicle.length")} value={formData.vehicleLength === "" ? 7 : parseFloat(formData.vehicleLength)} min={5} max={12} step={0.1} unit="m" onChange={(v) => onChange({ vehicleLength: v.toString() })} disabled={isLightweightVehicle} compact />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <FormSlider id="vehicleHeight" label={t("planner.vehicle.height")} value={formData.vehicleHeight === "" ? 2.9 : parseFloat(formData.vehicleHeight)} min={2} max={3.8} step={0.1} unit="m" onChange={(v) => onChange({ vehicleHeight: v.toString() })} disabled={isMotorcycleTent} compact />
-              <FormSlider id="vehicleWidth" label={t("planner.vehicle.width")} value={formData.vehicleWidth === "" ? 2.3 : parseFloat(formData.vehicleWidth)} min={1.9} max={2.5} step={0.1} unit="m" onChange={(v) => onChange({ vehicleWidth: v.toString() })} disabled={isMotorcycleTent} compact />
+              <FormSlider id="vehicleHeight" label={t("planner.vehicle.height")} value={formData.vehicleHeight === "" ? 2.9 : parseFloat(formData.vehicleHeight)} min={2} max={3.8} step={0.1} unit="m" onChange={(v) => onChange({ vehicleHeight: v.toString() })} disabled={isLightweightVehicle} compact />
+              <FormSlider id="vehicleWidth" label={t("planner.vehicle.width")} value={formData.vehicleWidth === "" ? 2.3 : parseFloat(formData.vehicleWidth)} min={1.9} max={2.5} step={0.1} unit="m" onChange={(v) => onChange({ vehicleWidth: v.toString() })} disabled={isLightweightVehicle} compact />
             </div>
           </div>
         </motion.div>
@@ -284,9 +288,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
               <Label className="text-xs md:text-sm font-medium tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
                 <Weight className="w-4 h-4 text-primary" /> {t("planner.vehicle.weightClass.label")}
               </Label>
-              <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })} disabled={isMotorcycleTent}>
+              <Select value={formData.weightClass} onValueChange={(value) => onChange({ weightClass: value })} disabled={isLightweightVehicle}>
                 <SelectTrigger
-                  className={`${inputClass} ${isMotorcycleTent ? disabledInputClass : ""}`}
+                  className={`${inputClass} ${isLightweightVehicle ? disabledInputClass : ""}`}
                 >
                   <SelectValue placeholder={t("planner.vehicle.weightClass.placeholder")} />
                 </SelectTrigger>
@@ -305,8 +309,11 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                 value={formData.vehicleType}
                 onValueChange={(value) =>
                   onChange(
+                    value === "carTent" ||
+                    value === "carRoofTent" ||
+                    value === "bicycleTent" ||
                     value === "motorcycleTent"
-                      ? { vehicleType: value, ...motorcycleVehicleReset }
+                      ? { vehicleType: value, ...lightweightVehicleReset }
                       : { vehicleType: value }
                   )
                 }
@@ -324,11 +331,13 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                   <SelectItem value="expedition">{t("planner.vehicle.type.options.expedition")}</SelectItem>
                   <SelectItem value="caravan">{t("planner.vehicle.type.options.caravan")}</SelectItem>
                   <SelectItem value="pickupCamper">{t("planner.vehicle.type.options.pickupCamper")}</SelectItem>
-                  <SelectItem value="tent">{t("planner.vehicle.type.options.tent")}</SelectItem>
+                  <SelectItem value="carTent">{t("planner.vehicle.type.options.carTent")}</SelectItem>
+                  <SelectItem value="carRoofTent">{t("planner.vehicle.type.options.carRoofTent")}</SelectItem>
+                  <SelectItem value="bicycleTent">{t("planner.vehicle.type.options.bicycleTent")}</SelectItem>
                   <SelectItem value="motorcycleTent">{t("planner.vehicle.type.options.motorcycleTent")}</SelectItem>
                 </SelectContent>
               </Select>
-              {isMotorcycleTent && (
+              {isLightweightVehicle && (
                 <p className="text-xs text-foreground/62 dark:text-white/60">
                   {t("planner.vehicle.typeNote")}
                 </p>
@@ -341,9 +350,9 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
       <button
         type="button"
-        className={`${detailTriggerClass} ${isMotorcycleTent ? "cursor-not-allowed opacity-55" : ""}`}
+        className={`${detailTriggerClass} ${isLightweightVehicle ? "cursor-not-allowed opacity-55" : ""}`}
         onClick={openDetails}
-        disabled={isMotorcycleTent}
+        disabled={isLightweightVehicle}
       >
         <div className="flex items-start gap-3">
           <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">

@@ -192,10 +192,23 @@ export function RoutePlanner() {
     "relaxation",
   ]);
 
+  const normalizeVehicleType = (vehicleType: unknown): string => {
+    if (vehicleType === "tent") return "carTent";
+    if (vehicleType === "roofTent") return "carRoofTent";
+    return typeof vehicleType === "string" ? vehicleType : "";
+  };
+
+  const isLightweightVehicleType = (vehicleType: string): boolean =>
+    vehicleType === "carTent" ||
+    vehicleType === "carRoofTent" ||
+    vehicleType === "bicycleTent" ||
+    vehicleType === "motorcycleTent";
+
   const sanitizeFormData = (data: Partial<FormData> & { travelCompanions?: string[]; dogFriendly?: boolean }): FormData => {
     const legacyDogFriendly = typeof data.dogFriendly === "boolean"
       ? data.dogFriendly
       : ((data.travelCompanions as string[] | undefined) || []).includes("pets");
+    const normalizedVehicleType = normalizeVehicleType(data.vehicleType);
     const facilities = Array.isArray(data.facilities) ? [...data.facilities] : [];
     const normalizedStages = ((data.stages as RouteStage[] | undefined) || [])
       .filter(isMeaningfulStage)
@@ -209,9 +222,10 @@ export function RoutePlanner() {
       facilities.push("dogs");
     }
 
-    return {
+    const sanitized: FormData = {
       ...initialFormData,
       ...data,
+      vehicleType: normalizedVehicleType,
       startDate: normalizeStoredDateValue(data.startDate),
       endDate: normalizeStoredDateValue(data.endDate),
       destinationDepartureDate: normalizeStoredDateValue(data.destinationDepartureDate),
@@ -221,6 +235,25 @@ export function RoutePlanner() {
         validActivityValues.has(value)
       ),
     };
+
+    if (isLightweightVehicleType(normalizedVehicleType)) {
+      return {
+        ...sanitized,
+        vehicleLength: initialFormData.vehicleLength,
+        vehicleHeight: initialFormData.vehicleHeight,
+        vehicleWidth: initialFormData.vehicleWidth,
+        weightClass: "",
+        fuelType: "",
+        toiletteSystem: "",
+        solarPower: "0",
+        batteryCapacity: "0",
+        autonomyDays: "0",
+        heatingSystem: "",
+        levelingJacks: "",
+      };
+    }
+
+    return sanitized;
   };
 
   const sanitizeAISettings = (settings: AISettings): AISettings => normalizeStoredAISettings(settings);

@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Routenplaner für Camping- und Roadtrip-Routen
 
-[![Version](https://img.shields.io/badge/version-v0.5.11-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.12-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 🌟 Highlights (v0.5.11)
+## 🌟 Highlights (v0.5.12)
 
 - **Routen lokal auf dem PC speicherbar**: Planungen lassen sich ohne API-Key als JSON-Datei exportieren und später wieder importieren.
 - **5 letzte Planungen zusätzlich im Browser speicherbar**: Formulareingaben lassen sich direkt lokal sichern, laden, überschreiben und löschen.
@@ -97,13 +97,13 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.5.11-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.12-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI route planner for RVs, caravans, tents, and motorcycles – now international!**
 
 ---
 
-## 🌟 Highlights (v0.5.11)
+## 🌟 Highlights (v0.5.12)
 
 - **Save routes locally on your PC**: plans can be exported as JSON files without any API key and imported again later.
 - **Store up to 5 recent plans in the browser as well**: save, load, overwrite, and delete route setups locally.

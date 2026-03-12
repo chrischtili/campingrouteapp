@@ -881,7 +881,7 @@
       "description": "Spécifications techniques.",
       "group": {
         "dimensions": "Dimensions",
-        "weight": "Catégorie & type",
+        "weight": "Type & catégorie",
         "power": "Autonomie",
         "systems": "Systèmes"
       },

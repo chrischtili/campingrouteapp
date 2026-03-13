@@ -544,7 +544,9 @@
         "title": "Salva input localmente",
         "desc": "Salva i tuoi input del modulo localmente su questo dispositivo per 30 giorni. Con „Elimina dati“ rimuovi i dati salvati da questo dispositivo.",
         "note": "Le chiavi API non vengono mai salvate.",
+        "coffeeBadge": "Supporta",
         "coffee": "Supporta CampingRoute",
+        "coffeeTagline": "Open source e senza pubblicità",
         "coffeeHint": "CampingRoute.app è open‑source & senza pubblicità – il tuo supporto aiuta a coprire i costi server + sviluppo. Grazie!",
         "clear": "Elimina dati"
       },

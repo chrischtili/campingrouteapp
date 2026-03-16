@@ -1,4 +1,4 @@
-import { MapPin, ChevronRight, Play } from "lucide-react";
+import { MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
@@ -45,7 +45,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
         </div>
 
         <div className="w-full flex flex-col items-center gap-4 md:gap-6 mt-auto pb-20 md:pb-24 lg:pb-28">
-          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 md:gap-4 justify-center items-center reveal-once delay-3 w-full">
+          <div className="flex justify-center items-center reveal-once delay-3 w-full">
             <Button
               size="sm"
               onClick={() => onStartPlanning?.()}
@@ -60,18 +60,6 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                 <MapPin className="w-5 h-5 sm:w-4 sm:h-4 md:w-5 lg:w-6 lg:h-6 group-hover:rotate-12 transition-transform" />
                 {t("hero.planNow")}
               </span>
-            </Button>
-
-            <Button
-              variant="outline"
-              size="sm"
-              asChild
-              className="w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl border-slate-900/10 bg-white/70 backdrop-blur-md text-foreground hover:bg-white hover:border-primary/40 hover:text-primary transition-all border-2 dark:border-white/25 dark:bg-black/35 dark:text-white dark:hover:bg-black/45 dark:hover:border-white/45 dark:hover:text-primary font-bold group/example text-base sm:text-sm md:text-base lg:text-lg"
-            >
-              <a href="#example-route">
-                <Play className="w-5 h-5 sm:w-3 sm:h-3 md:w-4 lg:w-5 lg:h-5 mr-2 sm:mr-1 md:mr-2 lg:mr-3 fill-current group-hover/example:text-primary transition-colors" />
-                {t("hero.viewExample")}
-              </a>
             </Button>
           </div>
 

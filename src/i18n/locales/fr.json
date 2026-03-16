@@ -463,6 +463,10 @@
         "step3": "Préférences & génération",
         "step3a": "Copiez le prompt ou utilisez votre propre clé API pour générer directement dans l’app."
       },
+      "exampleRoute": {
+        "q": "À quoi ressemble un itinéraire exemple ?",
+        "title": "Un exemple concret avec étapes, arrêts et nuitées."
+      },
       "cost": {
         "q": "Quel est le vrai coût de Camping Route ?",
         "title": "Camping Route lui-même est gratuit.",
@@ -507,6 +511,11 @@
     "badge": "Planificateur d’itinéraire",
     "title": "Tout pour ton itinéraire en un seul endroit",
     "cta": "Planifier maintenant",
+    "launcher": {
+      "title": "Création de prompt, recherche d’emplacements et itinéraire au même endroit",
+      "description": "Ouvre le planificateur, cherche des emplacements adaptés puis complète ton itinéraire et le prompt IA dans le même flux.",
+      "hint": "Le chercheur d’emplacements s’ouvre directement dans le panneau du planificateur."
+    },
     "loading": {
       "ai": "🤖 Génération de l’itinéraire...",
       "prompt": "📝 Création du prompt...",
@@ -558,6 +567,8 @@
         "load": "Charger",
         "overwrite": "Écraser",
         "delete": "Supprimer",
+        "expand": "Déplier",
+        "collapse": "Replier",
         "saved": "Plan enregistré localement.",
         "updated": "Plan enregistré écrasé.",
         "loaded": "Plan enregistré chargé.",
@@ -639,7 +650,7 @@
         "hint": "Votre clé n’est pas stockée et n’est utilisée que pour cette session.",
         "placeholder": "Votre clé",
         "create": "Créer une clé API chez {{name}} →",
-        "security": "Camping Route est <b>une application 100% frontend, sans backend ni base de données !</b> Nous ne stockons ni ne voyons votre clé API. Elle reste uniquement dans cette session du navigateur et est envoyée chiffrée directement au fournisseur d’IA."
+        "security": "Camping Route ne stocke pas votre clé API et ne la traite pas côté serveur. Elle reste uniquement dans cette session du navigateur et est envoyée chiffrée directement au fournisseur d’IA sélectionné."
       }
     },
     "route": {
@@ -799,6 +810,47 @@
       "roundTripHint": {
         "badge": "Astuce boucle",
         "text": "Pour une boucle : mets le même lieu au départ et à l’arrivée, puis ajoute les régions ci-dessous."
+      }
+    },
+    "placeFinder": {
+      "title": "Recherche d’emplacements",
+      "description": "Facultatif : recherchez des campings et aires de camping-car pour un lieu précis et reprenez-les directement comme destination ou étape.",
+      "searchLabel": "Lieu",
+      "searchPlaceholder": "p. ex. Annecy, Colmar, Nantes ou Avignon",
+      "searchHelp": "La recherche utilise des données OSM publiques et fonctionne mieux avec des villes ou lieux précis.",
+      "searchButton": "Rechercher",
+      "loading": "Recherche en cours ...",
+      "results": "{{count}} lieux correspondants trouvés",
+      "empty": "Aucun lieu correspondant n’a été trouvé pour cette recherche.",
+      "detailDescription": "Informations courtes sur le lieu et reprise directe dans votre itinéraire.",
+      "noImage": "Aucune image disponible",
+      "notAvailable": "Aucune information",
+      "categories": {
+        "camp_site": "Camping",
+        "caravan_site": "Aire de camping-car"
+      },
+      "labels": {
+        "locality": "Localité",
+        "fee": "Indication tarifaire",
+        "openingHours": "Horaires",
+        "website": "Site web"
+      },
+      "tags": {
+        "toilets": "Toilettes",
+        "showers": "Douches",
+        "power": "Électricité"
+      },
+      "actions": {
+        "title": "Ajouter à l’itinéraire",
+        "setDestination": "Définir comme destination",
+        "addStage": "Ajouter comme étape {{num}}",
+        "replaceStage": "Remplacer l’étape {{num}}",
+        "openSource": "Ouvrir l’entrée OSM",
+        "openWebsite": "Ouvrir le site web"
+      },
+      "errors": {
+        "region_not_supported": "Veuillez saisir un lieu ou une ville précise. Les recherches par région ne sont pas encore prises en charge ici.",
+        "searchFailed": "La recherche d’emplacements est actuellement indisponible. Réessayez plus tard ou vérifiez le proxy."
       }
     },
     "optimization": {
@@ -1198,7 +1250,7 @@
     "title": "Confidentialité",
     "general": {
       "title": "Traitement général des données",
-      "description": "La protection de vos données est très importante. CampingRoute.app est une application 100% côté client. Nous n’exploitons pas de base de données et ne créons pas de comptes. Toutes les données que vous saisissez restent principalement dans votre navigateur."
+      "description": "La protection de vos données est très importante. CampingRoute.app fonctionne principalement côté client et n’utilise ni comptes utilisateur ni stockage centralisé des plans. Pour certaines fonctions, des requêtes proxy côté serveur vers des services de données publics peuvent être utilisées. Les données de planification que vous saisissez restent principalement dans votre navigateur."
     },
     "dataProcessing": {
       "title": "Traitement des données & IA",
@@ -1209,6 +1261,10 @@
       "ai": {
         "title": "Intégration IA (OpenAI, Gemini, Mistral)",
         "description": "Si vous utilisez l’IA directe, vos données (départ, destination, véhicule, préférences) sont transformées en texte (prompt) et envoyées directement au fournisseur choisi via votre clé API. Nous ne stockons ni ne journalisons ce trafic ni les clés. Les conditions de confidentialité du fournisseur s’appliquent."
+      },
+      "places": {
+        "title": "Recherche d’emplacements & données OSM",
+        "description": "Si vous utilisez la recherche d’emplacements, votre recherche est transmise côté serveur à des services OpenStreetMap publics afin de trouver des campings et aires correspondants. Nous ne stockons pas ces recherches."
       },
       "feedback": {
         "title": "Retour après génération",
@@ -1367,10 +1423,10 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "savedPlans": "Exporter les itinéraires en fichier sur le PC et les réimporter plus tard.",
-        "outputSummary": "",
-        "stageTrafficLight": "",
-        "roundTrips": ""
+        "plannerPanel": "Le planificateur d’itinéraire s’ouvre désormais dans un panneau latéral, ce qui rend tout le flux plus clair.",
+        "placeFinder": "Nouveau chercheur d’emplacements dans le planificateur : recherche des campings et aires pour une ville et ajoute-les directement comme destination ou étape.",
+        "savedPlans": "Les derniers itinéraires peuvent maintenant être enregistrés localement, rouverts plus tard, exportés et réimportés.",
+        "exampleRoute": "L’itinéraire d’exemple est maintenant accessible directement depuis la navigation et s’ouvre dans la FAQ."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

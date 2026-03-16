@@ -56,18 +56,22 @@ export default function Datenschutz() {
                   <h2 className="text-xl md:text-2xl font-black tracking-tight">{t("privacy.dataProcessing.title")}</h2>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="space-y-3">
+                <div className="space-y-5">
+                  <div className="rounded-[1.75rem] border border-black/6 bg-black/[0.02] px-6 py-5 dark:border-white/8 dark:bg-white/[0.03]">
                     <h3 className="font-semibold text-primary text-sm tracking-[0.04em]">{t("privacy.dataProcessing.local.title")}</h3>
-                    <p className="text-foreground/62 dark:text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.local.description")}</p>
+                    <p className="mt-3 max-w-3xl text-foreground/68 dark:text-white/60 text-sm leading-7">{t("privacy.dataProcessing.local.description")}</p>
                   </div>
-                  <div className="space-y-3">
+                  <div className="rounded-[1.75rem] border border-black/6 bg-black/[0.02] px-6 py-5 dark:border-white/8 dark:bg-white/[0.03]">
                     <h3 className="font-semibold text-primary text-sm tracking-[0.04em]">{t("privacy.dataProcessing.ai.title")}</h3>
-                    <p className="text-foreground/62 dark:text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.ai.description")}</p>
+                    <p className="mt-3 max-w-3xl text-foreground/68 dark:text-white/60 text-sm leading-7">{t("privacy.dataProcessing.ai.description")}</p>
                   </div>
-                  <div className="space-y-3">
+                  <div className="rounded-[1.75rem] border border-black/6 bg-black/[0.02] px-6 py-5 dark:border-white/8 dark:bg-white/[0.03]">
+                    <h3 className="font-semibold text-primary text-sm tracking-[0.04em]">{t("privacy.dataProcessing.places.title")}</h3>
+                    <p className="mt-3 max-w-3xl text-foreground/68 dark:text-white/60 text-sm leading-7">{t("privacy.dataProcessing.places.description")}</p>
+                  </div>
+                  <div className="rounded-[1.75rem] border border-black/6 bg-black/[0.02] px-6 py-5 dark:border-white/8 dark:bg-white/[0.03]">
                     <h3 className="font-semibold text-primary text-sm tracking-[0.04em]">{t("privacy.dataProcessing.feedback.title")}</h3>
-                    <p className="text-foreground/62 dark:text-white/60 text-sm leading-relaxed">{t("privacy.dataProcessing.feedback.description")}</p>
+                    <p className="mt-3 max-w-3xl text-foreground/68 dark:text-white/60 text-sm leading-7">{t("privacy.dataProcessing.feedback.description")}</p>
                   </div>
                 </div>
               </section>

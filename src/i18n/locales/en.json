@@ -463,6 +463,10 @@
         "step3": "Preferences & Generation",
         "step3a": "Copy the prompt or use your own API key to generate directly in the app."
       },
+      "exampleRoute": {
+        "q": "What does an example route look like?",
+        "title": "A concrete example with stages, stops, and overnight suggestions."
+      },
       "cost": {
         "q": "What does Camping Route actually cost me?",
         "title": "Camping Route itself is free.",
@@ -507,6 +511,11 @@
     "badge": "Route Planner",
     "title": "Everything for your route in one place",
     "cta": "Plan Now",
+    "launcher": {
+      "title": "Prompt creation, place search and route planning in one place",
+      "description": "Open the planner, search suitable places and then complete your route details and AI prompt in one flow.",
+      "hint": "The place finder opens directly inside the planner panel."
+    },
     "loading": {
       "ai": "🤖 Generating route...",
       "prompt": "📝 Creating prompt...",
@@ -558,6 +567,8 @@
         "load": "Load",
         "overwrite": "Overwrite",
         "delete": "Delete",
+        "expand": "Expand",
+        "collapse": "Collapse",
         "saved": "Plan saved locally.",
         "updated": "Saved plan overwritten.",
         "loaded": "Saved plan loaded.",
@@ -639,7 +650,7 @@
         "hint": "Your key is not stored and is used only for this session.",
         "placeholder": "Your key",
         "create": "Create API key at {{name}} →",
-        "security": "Camping Route is <b>a pure frontend app with no backend or database!</b> We never store or see your API key. It stays only in this browser session and is sent encrypted directly to the AI provider."
+        "security": "Camping Route does not store your API key and does not process it server-side. It stays only in this browser session and is sent encrypted directly to the selected AI provider."
       }
     },
     "route": {
@@ -799,6 +810,47 @@
       "roundTripHint": {
         "badge": "Round-trip tip",
         "text": "For round trips: set start and destination to the same place, then add regions below."
+      }
+    },
+    "placeFinder": {
+      "title": "Place Finder",
+      "description": "Optional: Search campsites and motorhome stopovers for a specific place and add them directly as destination or stop.",
+      "searchLabel": "Place",
+      "searchPlaceholder": "e.g. Brighton, York, Canterbury or Inverness",
+      "searchHelp": "The search uses public OSM data and works best with specific towns or places.",
+      "searchButton": "Search places",
+      "loading": "Searching ...",
+      "results": "{{count}} matching places found",
+      "empty": "No matching places were found for this search.",
+      "detailDescription": "Short place info and direct transfer into your route.",
+      "noImage": "No image available",
+      "notAvailable": "Not available",
+      "categories": {
+        "camp_site": "Campsite",
+        "caravan_site": "Motorhome stopover"
+      },
+      "labels": {
+        "locality": "Locality",
+        "fee": "Fee",
+        "openingHours": "Opening hours",
+        "website": "Website"
+      },
+      "tags": {
+        "toilets": "Toilets",
+        "showers": "Showers",
+        "power": "Power"
+      },
+      "actions": {
+        "title": "Add to route",
+        "setDestination": "Set as destination",
+        "addStage": "Add as stop {{num}}",
+        "replaceStage": "Replace stop {{num}}",
+        "openSource": "Open OSM entry",
+        "openWebsite": "Open website"
+      },
+      "errors": {
+        "region_not_supported": "Please enter a specific place or city. Regional searches are not supported here yet.",
+        "searchFailed": "Place search is currently unavailable. Please try the query again later or check the proxy."
       }
     },
     "optimization": {
@@ -1198,7 +1250,7 @@
     "title": "Privacy",
     "general": {
       "title": "General Data Processing",
-      "description": "Protecting your data is very important to us. CampingRoute.app is designed as a pure client-side application. This means we do not operate databases or create user accounts. All data you enter remains primarily in your browser."
+      "description": "Protecting your data is very important to us. CampingRoute.app works primarily client-side and does not use user accounts or central route storage. For selected features, server-side proxy requests to public data services may be used. Your route planning inputs remain primarily in your browser."
     },
     "dataProcessing": {
       "title": "Data Processing & AI",
@@ -1209,6 +1261,10 @@
       "ai": {
         "title": "AI Integration (OpenAI, Gemini, Mistral)",
         "description": "If you use direct AI generation, your form data (start, destination, vehicle, preferences) is converted into text (prompt) and sent directly to your chosen AI provider (OpenAI, Google Gemini, or Mistral AI) using your own API key. We do not store this traffic or log API keys. The privacy policies of the AI provider you use apply."
+      },
+      "places": {
+        "title": "Place search & OSM data",
+        "description": "If you use the place finder, your search term is forwarded server-side to public OpenStreetMap services to find matching campsites and stopovers. We do not store these search requests."
       },
       "feedback": {
         "title": "Feedback after generation",
@@ -1367,10 +1423,10 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "savedPlans": "Export routes locally to your PC as a file and import them again later.",
-        "outputSummary": "",
-        "stageTrafficLight": "",
-        "roundTrips": ""
+        "plannerPanel": "The route planner now opens as a side panel, making the full flow easier to use.",
+        "placeFinder": "New place finder inside the planner: search campsites and motorhome pitches for a town and insert them directly as destination or stopover.",
+        "savedPlans": "Recent plans can now be stored locally, reopened later, exported and imported again.",
+        "exampleRoute": "The sample route is now available directly from the navigation and opens in the FAQ section."
       },
       "dismiss": "Got it",
       "release": "View release"

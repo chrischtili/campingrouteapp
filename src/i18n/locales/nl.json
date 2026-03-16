@@ -463,6 +463,10 @@
         "step3": "Voorkeuren & generatie",
         "step3a": "Kopieer de prompt of gebruik je eigen API-key voor directe generatie in de app."
       },
+      "exampleRoute": {
+        "q": "Hoe ziet een voorbeeldroute eruit?",
+        "title": "Een concreet voorbeeld met etappes, stops en overnachtingen."
+      },
       "cost": {
         "q": "Wat kost Camping Route mij echt?",
         "title": "Camping Route zelf is gratis.",
@@ -507,6 +511,11 @@
     "badge": "Routeplanner",
     "title": "Alles voor je route op één plek",
     "cta": "Nu route plannen",
+    "launcher": {
+      "title": "Promptopbouw, plaatszoeker en routeplanning op één plek",
+      "description": "Open de planner, zoek geschikte plekken en rond daarna je routedetails en AI-prompt in één flow af.",
+      "hint": "De plaatszoeker opent direct in het plannerpaneel."
+    },
     "loading": {
       "ai": "🤖 Route genereren...",
       "prompt": "📝 Prompt maken...",
@@ -558,6 +567,8 @@
         "load": "Laden",
         "overwrite": "Overschrijven",
         "delete": "Verwijderen",
+        "expand": "Openklappen",
+        "collapse": "Inklappen",
         "saved": "Plan lokaal opgeslagen.",
         "updated": "Opgeslagen plan overschreven.",
         "loaded": "Opgeslagen plan geladen.",
@@ -639,7 +650,7 @@
         "hint": "Je key wordt niet opgeslagen en alleen voor deze sessie gebruikt.",
         "placeholder": "Je API‑key",
         "create": "API‑key aanmaken bij {{name}} →",
-        "security": "Camping Route is <b>een pure frontend‑app zonder backend of database!</b> We slaan je API‑key nooit op en zien hem niet. Hij blijft alleen in deze browsersessie en wordt versleuteld direct naar de AI‑provider gestuurd."
+        "security": "Camping Route slaat je API‑key niet op en verwerkt hem niet server-side. Hij blijft alleen in deze browsersessie en wordt versleuteld direct naar de gekozen AI-provider gestuurd."
       }
     },
     "route": {
@@ -799,6 +810,47 @@
       "roundTripHint": {
         "badge": "Rondrit-tip",
         "text": "Voor rondritten: zet start en bestemming gelijk en vul daaronder regio’s in."
+      }
+    },
+    "placeFinder": {
+      "title": "Plaatszoeker",
+      "description": "Optioneel: zoek campings en camperplaatsen voor een concrete plaats en neem ze direct over als bestemming of tussenstop.",
+      "searchLabel": "Plaats",
+      "searchPlaceholder": "bijv. Maastricht, Delft, Utrecht of Deventer",
+      "searchHelp": "De zoekfunctie gebruikt openbare OSM-data en werkt het best met concrete plaatsen of steden.",
+      "searchButton": "Plaatsen zoeken",
+      "loading": "Zoeken ...",
+      "results": "{{count}} passende plaatsen gevonden",
+      "empty": "Voor deze zoekopdracht zijn geen passende plaatsen gevonden.",
+      "detailDescription": "Korte info over de plek en directe overname in je route.",
+      "noImage": "Geen afbeelding beschikbaar",
+      "notAvailable": "Geen informatie",
+      "categories": {
+        "camp_site": "Camping",
+        "caravan_site": "Camperplaats"
+      },
+      "labels": {
+        "locality": "Plaats",
+        "fee": "Kosten",
+        "openingHours": "Openingstijden",
+        "website": "Website"
+      },
+      "tags": {
+        "toilets": "Toiletten",
+        "showers": "Douches",
+        "power": "Stroom"
+      },
+      "actions": {
+        "title": "Aan route toevoegen",
+        "setDestination": "Als bestemming instellen",
+        "addStage": "Als tussenstop {{num}} toevoegen",
+        "replaceStage": "Tussenstop {{num}} vervangen",
+        "openSource": "OSM-item openen",
+        "openWebsite": "Website openen"
+      },
+      "errors": {
+        "region_not_supported": "Voer een concrete plaats of stad in. Zoekopdrachten op regio worden hier nog niet ondersteund.",
+        "searchFailed": "De plaatszoeker is momenteel niet beschikbaar. Probeer het later opnieuw of controleer de proxy."
       }
     },
     "optimization": {
@@ -1217,7 +1269,7 @@
     "title": "Privacy",
     "general": {
       "title": "Algemene gegevensverwerking",
-      "description": "Bescherming van je gegevens is belangrijk. CampingRoute.app is een pure client‑side applicatie. We hebben geen database en geen accounts. Alles blijft primair in je browser."
+      "description": "Bescherming van je gegevens is belangrijk. CampingRoute.app werkt grotendeels client-side en gebruikt geen gebruikersaccounts of centrale route-opslag. Voor sommige functies kunnen server-side proxyverzoeken naar openbare datadiensten worden gebruikt. Je ingevoerde routegegevens blijven primair in je browser."
     },
     "dataProcessing": {
       "title": "Gegevensverwerking & AI",
@@ -1228,6 +1280,10 @@
       "ai": {
         "title": "AI‑integratie (OpenAI, Gemini, Mistral)",
         "description": "Als je directe AI‑generatie gebruikt, worden je gegevens omgezet in een prompt en via jouw API‑key naar je gekozen provider gestuurd. We loggen of bewaren die data niet. De privacyvoorwaarden van de provider gelden."
+      },
+      "places": {
+        "title": "Plaatszoeker & OSM-data",
+        "description": "Als je de plaatszoeker gebruikt, wordt je zoekterm server-side doorgestuurd naar openbare OpenStreetMap-diensten om passende campings en camperplaatsen te vinden. We slaan deze zoekopdrachten niet op."
       },
       "feedback": {
         "title": "Feedback na generatie",
@@ -1367,10 +1423,10 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "savedPlans": "Routes lokaal als bestand op de pc exporteren en later weer importeren.",
-        "outputSummary": "",
-        "stageTrafficLight": "",
-        "roundTrips": ""
+        "plannerPanel": "De routeplanner opent nu als zijpaneel, waardoor de hele flow overzichtelijker blijft.",
+        "placeFinder": "Nieuwe plaatszoeker in de planner: zoek campings en camperplaatsen voor een plaats en zet ze direct als bestemming of tussenstop.",
+        "savedPlans": "Recente planningen kunnen nu lokaal worden opgeslagen, later opnieuw geopend, geëxporteerd en geïmporteerd.",
+        "exampleRoute": "De voorbeeldroute is nu direct via de navigatie bereikbaar en opent in de FAQ-sectie."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

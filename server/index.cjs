@@ -63,7 +63,10 @@ const OVERPASS_ENDPOINTS = [
   'https://overpass.kumi.systems/api/interpreter'
 ];
 const NOMINATIM_TIMEOUT_MS = 8000;
-const OVERPASS_TIMEOUT_MS = 8000;
+const OVERPASS_TIMEOUT_MS = 2500;
+const PLACE_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
+const PLACE_SEARCH_CACHE_MAX_ENTRIES = 100;
+const placeSearchCache = new Map();
 
 function ensureJsonFile(filePath, fallback) {
   if (!fs.existsSync(filePath)) {
@@ -276,6 +279,38 @@ function isPointInsideBoundingBox(lat, lon, boundingBox) {
   return lat >= boundingBox.south && lat <= boundingBox.north && lon >= boundingBox.west && lon <= boundingBox.east;
 }
 
+function getPlaceSearchCacheKey(query, categories, limit) {
+  return JSON.stringify({
+    query: normalizeText(query),
+    categories: [...categories].sort(),
+    limit,
+  });
+}
+
+function readPlaceSearchCache(cacheKey) {
+  const entry = placeSearchCache.get(cacheKey);
+  if (!entry) return null;
+  if (Date.now() - entry.createdAt > PLACE_SEARCH_CACHE_TTL_MS) {
+    placeSearchCache.delete(cacheKey);
+    return null;
+  }
+  return entry.value;
+}
+
+function writePlaceSearchCache(cacheKey, value) {
+  placeSearchCache.set(cacheKey, {
+    createdAt: Date.now(),
+    value,
+  });
+
+  if (placeSearchCache.size <= PLACE_SEARCH_CACHE_MAX_ENTRIES) return;
+
+  const oldestKey = placeSearchCache.keys().next().value;
+  if (oldestKey) {
+    placeSearchCache.delete(oldestKey);
+  }
+}
+
 function hasLocalityAddress(result) {
   const address = result && typeof result.address === 'object' ? result.address : {};
   return [
@@ -433,7 +468,7 @@ async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox })
       lastError = error;
     }
 
-    if (mergedElements.length >= Math.max(limit * 2, 10)) {
+    if (mergedElements.length > 0) {
       return { elements: mergedElements };
     }
   }
@@ -621,8 +656,16 @@ function toPlaceResult(element) {
 }
 
 async function searchPlaces(query, categories, limit) {
+  const cacheKey = getPlaceSearchCacheKey(query, categories, limit);
+  const cachedResult = readPlaceSearchCache(cacheKey);
+  if (cachedResult) return cachedResult;
+
   const place = await geocodePlace(query);
-  if (!place) return { results: [] };
+  if (!place) {
+    const emptyResult = { results: [] };
+    writePlaceSearchCache(cacheKey, emptyResult);
+    return emptyResult;
+  }
   if (isRegionResult(place)) {
     return { error: 'region_not_supported' };
   }
@@ -630,7 +673,9 @@ async function searchPlaces(query, categories, limit) {
   const lat = toNumber(place.lat, NaN);
   const lon = toNumber(place.lon, NaN);
   if (Number.isNaN(lat) || Number.isNaN(lon)) {
-    return { results: [] };
+    const emptyResult = { results: [] };
+    writePlaceSearchCache(cacheKey, emptyResult);
+    return emptyResult;
   }
 
   let overpassData;
@@ -646,7 +691,9 @@ async function searchPlaces(query, categories, limit) {
   } catch (error) {
     if (String(error?.message || '').startsWith('upstream_')) {
       console.warn(`[places] returning empty results for "${query}" after upstream failure: ${error.message}`);
-      return { results: [] };
+      const emptyResult = { results: [] };
+      writePlaceSearchCache(cacheKey, emptyResult);
+      return emptyResult;
     }
     throw error;
   }
@@ -677,7 +724,9 @@ async function searchPlaces(query, categories, limit) {
   const unnamedResults = sortedResults.filter((entry) => isUnnamedPlace(entry.name));
   const results = [...namedResults, ...unnamedResults].slice(0, limit);
 
-  return { results };
+  const result = { results };
+  writePlaceSearchCache(cacheKey, result);
+  return result;
 }
 
 function serveStatic(req, res, pathname) {

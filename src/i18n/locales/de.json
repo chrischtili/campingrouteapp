@@ -559,7 +559,7 @@
         "clear": "Daten löschen"
       },
       "savedPlans": {
-        "title": "5 letzte Planungen",
+        "title": "Letzte Planungen",
         "desc": "Speichert bis zu 5 Planungen lokal im Browser. Du kannst sie später wieder laden, überschreiben oder löschen.",
         "saveCurrent": "Aktuelle Planung speichern",
         "empty": "Noch keine Planung gespeichert.",

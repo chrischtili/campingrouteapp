@@ -258,6 +258,16 @@ function parseBoundingBoxArea(boundingbox) {
   return Math.abs(north - south) * Math.abs(east - west);
 }
 
+function parseBoundingBox(boundingbox) {
+  if (!Array.isArray(boundingbox) || boundingbox.length !== 4) return null;
+  const south = toNumber(boundingbox[0], NaN);
+  const north = toNumber(boundingbox[1], NaN);
+  const west = toNumber(boundingbox[2], NaN);
+  const east = toNumber(boundingbox[3], NaN);
+  if ([south, north, west, east].some((value) => Number.isNaN(value))) return null;
+  return { south, north, west, east };
+}
+
 function hasLocalityAddress(result) {
   const address = result && typeof result.address === 'object' ? result.address : {};
   return [
@@ -312,6 +322,7 @@ async function geocodePlace(query) {
 }
 
 function buildOverpassQuery({ lat, lon, categories, limit, radius }) {
+  const rawLimit = Math.max(20, Math.min(limit * 8, 160));
   const body = categories
     .map((category) => `nwr(around:${radius},${lat},${lon})["tourism"="${category}"];`)
     .join('\n');
@@ -320,38 +331,111 @@ function buildOverpassQuery({ lat, lon, categories, limit, radius }) {
 (
 ${body}
 );
-out center tags ${Math.max(1, Math.min(limit * 2, 60))};`;
+out center tags ${rawLimit};`;
 }
 
-async function fetchOverpassPlaces({ lat, lon, categories, limit }) {
-  const attempts = [
-    { radius: 22000, endpoint: OVERPASS_ENDPOINTS[0] },
-    { radius: 12000, endpoint: OVERPASS_ENDPOINTS[0] },
-    { radius: 22000, endpoint: OVERPASS_ENDPOINTS[1] },
-    { radius: 12000, endpoint: OVERPASS_ENDPOINTS[2] }
-  ];
+function buildOverpassBoundingBoxQuery({ boundingBox, categories, limit }) {
+  const rawLimit = Math.max(30, Math.min(limit * 12, 220));
+  const body = categories
+    .map(
+      (category) =>
+        `nwr(${boundingBox.south},${boundingBox.west},${boundingBox.north},${boundingBox.east})["tourism"="${category}"];`
+    )
+    .join('\n');
 
+  return `[out:json][timeout:25];
+(
+${body}
+);
+out center tags ${rawLimit};`;
+}
+
+async function fetchOverpassData(query) {
   let lastError = null;
-
-  for (const attempt of attempts) {
+  for (const endpoint of OVERPASS_ENDPOINTS) {
     try {
-      const overpassQuery = buildOverpassQuery({
-        lat,
-        lon,
-        categories,
-        limit,
-        radius: attempt.radius,
-      });
-      return await fetchJson(attempt.endpoint, {
+      return await fetchJson(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain;charset=UTF-8',
         },
-        body: overpassQuery,
+        body: query,
       });
     } catch (error) {
       lastError = error;
     }
+  }
+
+  throw lastError || new Error('searchFailed');
+}
+
+async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox }) {
+  const radiusPlan = [3000, 6000, 12000, 22000];
+  const mergedElements = [];
+  const seen = new Set();
+  let lastError = null;
+
+  const cityBoundingBox = parseBoundingBox(boundingbox);
+  const boundingBoxArea = parseBoundingBoxArea(boundingbox);
+
+  if (cityBoundingBox && boundingBoxArea !== null && boundingBoxArea <= 0.08) {
+    try {
+      const boundingBoxData = await fetchOverpassData(
+        buildOverpassBoundingBoxQuery({
+          boundingBox: cityBoundingBox,
+          categories,
+          limit,
+        })
+      );
+
+      if (Array.isArray(boundingBoxData?.elements)) {
+        for (const element of boundingBoxData.elements) {
+          const key = `${element.type}-${element.id}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          mergedElements.push(element);
+        }
+      }
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  for (const radius of radiusPlan) {
+    let radiusData = null;
+
+    try {
+      radiusData = await fetchOverpassData(
+        buildOverpassQuery({
+          lat,
+          lon,
+          categories,
+          limit,
+          radius,
+        })
+      );
+    } catch (error) {
+      lastError = error;
+    }
+
+    if (!radiusData || !Array.isArray(radiusData.elements)) {
+      continue;
+    }
+
+    for (const element of radiusData.elements) {
+      const key = `${element.type}-${element.id}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      mergedElements.push(element);
+    }
+
+    if (mergedElements.length >= Math.max(limit * 3, 15)) {
+      break;
+    }
+  }
+
+  if (mergedElements.length > 0) {
+    return { elements: mergedElements };
   }
 
   throw lastError || new Error('searchFailed');
@@ -445,10 +529,10 @@ function scorePlaceResult(entry, searchContext) {
   if (normalizedName === normalizedQuery) score += 40;
   else if (normalizedName.includes(normalizedQuery) && normalizedQuery) score += 18;
 
-  if (normalizedLocality === normalizedQuery) score += 30;
-  else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 18;
+  if (normalizedLocality === normalizedQuery) score += 40;
+  else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 22;
 
-  if (normalizedAddress.includes(normalizedQuery) && normalizedQuery) score += 12;
+  if (normalizedAddress.includes(normalizedQuery) && normalizedQuery) score += 16;
   if (entry.address) score += 8;
   if (entry.locality) score += 10;
   if (entry.website) score += 6;
@@ -458,7 +542,7 @@ function scorePlaceResult(entry, searchContext) {
   if (entry.hasShowers) score += 2;
   if (entry.hasDumpStation) score += 2;
 
-  score += Math.max(0, 25 - Math.min(distanceKm, 25));
+  score += Math.max(0, 28 - Math.min(distanceKm * 1.5, 28));
   score += Math.max(0, 10 - categoryPriority.indexOf(entry.category));
 
   return score;
@@ -511,7 +595,13 @@ async function searchPlaces(query, categories, limit) {
     return { results: [] };
   }
 
-  const overpassData = await fetchOverpassPlaces({ lat, lon, categories, limit });
+  const overpassData = await fetchOverpassPlaces({
+    lat,
+    lon,
+    categories,
+    limit,
+    boundingbox: place.boundingbox,
+  });
   const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
   const seen = new Set();
   const rawResults = Array.isArray(overpassData?.elements)

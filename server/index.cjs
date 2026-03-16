@@ -59,7 +59,8 @@ const REQUEST_HEADERS = {
 const OVERPASS_ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.private.coffee/api/interpreter',
-  'https://lz4.overpass-api.de/api/interpreter'
+  'https://lz4.overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter'
 ];
 
 function ensureJsonFile(filePath, fallback) {
@@ -362,6 +363,7 @@ async function fetchOverpassData(query) {
         body: query,
       });
     } catch (error) {
+      console.warn(`[places] overpass failed via ${endpoint}: ${error.message}`);
       lastError = error;
     }
   }
@@ -595,13 +597,22 @@ async function searchPlaces(query, categories, limit) {
     return { results: [] };
   }
 
-  const overpassData = await fetchOverpassPlaces({
-    lat,
-    lon,
-    categories,
-    limit,
-    boundingbox: place.boundingbox,
-  });
+  let overpassData;
+  try {
+    overpassData = await fetchOverpassPlaces({
+      lat,
+      lon,
+      categories,
+      limit,
+      boundingbox: place.boundingbox,
+    });
+  } catch (error) {
+    if (String(error?.message || '').startsWith('upstream_')) {
+      console.warn(`[places] returning empty results for "${query}" after upstream failure: ${error.message}`);
+      return { results: [] };
+    }
+    throw error;
+  }
   const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
   const seen = new Set();
   const rawResults = Array.isArray(overpassData?.elements)

@@ -27,6 +27,7 @@ dist-ssr
 counter.json
 
 # Ignore custom server files (production configuration)
-server/
+server/*
+!server/index.cjs
 COUNTER_SERVER_DOKUMENTATION.md
 public/version.json

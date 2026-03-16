@@ -229,17 +229,18 @@ export function RoutePlanner() {
 
     if (!scrollPanel || !activeSection) return;
 
-    const panelRect = scrollPanel.getBoundingClientRect();
-    const sectionRect = activeSection.getBoundingClientRect();
-    const topPadding = isMobile ? 20 : 24;
-    const targetTop = scrollPanel.scrollTop + (sectionRect.top - panelRect.top) - topPadding;
+    const topPadding = isMobile ? 18 : 22;
+    const animationDelay = isMobile ? 220 : 140;
 
-    window.requestAnimationFrame(() => {
+    const timeoutId = window.setTimeout(() => {
+      const targetTop = activeSection.offsetTop - topPadding;
       scrollPanel.scrollTo({
         top: Math.max(0, targetTop),
         behavior: "smooth",
       });
-    });
+    }, animationDelay);
+
+    return () => window.clearTimeout(timeoutId);
   }, [activePlannerSection, isMobile, showForm]);
 
   const normalizeVehicleType = (vehicleType: unknown): string => {

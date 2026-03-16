@@ -1423,10 +1423,10 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "plannerPanel": "The route planner now opens as a side panel, making the full flow easier to use.",
-        "placeFinder": "New place finder inside the planner: search campsites and motorhome pitches for a town and insert them directly as destination or stopover.",
-        "savedPlans": "Recent plans can now be stored locally, reopened later, exported and imported again.",
-        "exampleRoute": "The sample route is now available directly from the navigation and opens in the FAQ section."
+        "plannerPanel": "The route planner is now structured as a clearer accordion flow, with only one main section open at a time.",
+        "placeFinder": "The place finder inside the planner is now faster and more stable when searching campsites and motorhome pitches for specific towns.",
+        "savedPlans": "Recent plans, support access, and the final summary are now arranged more clearly inside the panel.",
+        "exampleRoute": "Panel surfaces and dark-mode colors were unified so the full planner feels calmer and more consistent."
       },
       "dismiss": "Got it",
       "release": "View release"

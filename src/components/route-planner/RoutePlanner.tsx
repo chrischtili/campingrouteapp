@@ -185,10 +185,11 @@ export function RoutePlanner() {
     DIRECT_AI_FEATURE_ENABLED &&
     !!aiSettings.apiKey?.trim() &&
     /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
-  const plannerSectionClass = "theme-band -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 sm:py-7 rounded-[2rem] sm:rounded-[2.5rem]";
-  const plannerAccordionItemClass = "overflow-hidden rounded-[1.75rem] border-2 border-primary/20 bg-white/[0.04] shadow-[0_12px_30px_rgba(15,23,42,0.06)]";
-  const plannerAccordionTriggerClass = "px-5 sm:px-6 py-5 text-left hover:no-underline transition-colors hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04]";
-  const plannerAccordionContentClass = "px-4 sm:px-6 pb-4 sm:pb-6";
+  const plannerSectionClass = "px-4 sm:px-6 lg:px-8 py-6 sm:py-7";
+  const plannerAccordionItemClass = "overflow-hidden rounded-[1.75rem] border-2 border-primary/20 bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] shadow-[0_12px_30px_rgba(15,23,42,0.06)] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))]";
+  const plannerAccordionTriggerClass = "px-5 sm:px-6 py-5 text-left hover:no-underline transition-colors hover:bg-black/[0.02] data-[state=open]:bg-black/[0.02] dark:hover:bg-white/[0.03] dark:data-[state=open]:bg-white/[0.03]";
+  const plannerAccordionContentClass = "px-5 sm:px-6 pb-5 sm:pb-6 pt-0";
+  const plannerPanelSurfaceClass = "bg-[linear-gradient(180deg,rgba(238,242,249,0.985),rgba(231,236,245,0.985))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.985),rgba(44,53,70,0.985))]";
   const validActivityValues = new Set([
     "nature",
     "hiking",
@@ -856,7 +857,7 @@ export function RoutePlanner() {
             transition={{ duration: 0.3, ease: "easeOut" }}
           />
           <motion.div
-            className={`absolute flex flex-col bg-background shadow-[0_36px_140px_rgba(0,0,0,0.28)] ${
+            className={`theme-popup-shell theme-popup-vehicle absolute flex flex-col shadow-[0_36px_140px_rgba(0,0,0,0.28)] ${
               isMobile
                 ? "inset-x-0 bottom-0 h-[96vh] rounded-t-[2rem] border-t-2"
                 : "right-0 top-0 h-full w-[min(100vw,1180px)] border-l-2"
@@ -876,20 +877,7 @@ export function RoutePlanner() {
                 <X className="h-5 w-5" />
               </Button>
             </div>
-            <section id="planner" className="planner-scope relative flex-1 overflow-y-auto px-4 pb-12 pt-24 text-foreground dark:text-white sm:pb-16">
-          <div className="absolute inset-0 pointer-events-none content-section-dark content-section-testimonials" />
-          <div className="absolute inset-0 z-[2] pointer-events-none opacity-[0.06] dark:opacity-[0.08]">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="map-grid-open" width="80" height="80" patternUnits="userSpaceOnUse">
-                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1" />
-                  <circle cx="40" cy="40" r="0.9" fill="currentColor" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#map-grid-open)" />
-            </svg>
-          </div>
-          <div className="absolute inset-0 z-[3] bg-gradient-to-b from-black/4 via-black/6 to-black/10 pointer-events-none dark:from-white/[0.02] dark:via-black/8 dark:to-black/14" />
+            <section id="planner" className={`planner-scope relative flex-1 overflow-y-auto px-4 pb-12 pt-24 text-foreground dark:text-white sm:pb-16 ${plannerPanelSurfaceClass}`}>
 
             <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-foreground dark:text-white">
             <div className="text-center mb-24">
@@ -946,7 +934,7 @@ export function RoutePlanner() {
                   )}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-vehicle space-y-6 text-left`}>
+                  <div className={`${plannerSectionClass} space-y-6 text-left`}>
                   <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
                     <div className="space-y-2">
                       <div className="text-[13px] leading-relaxed font-medium text-foreground/82 dark:text-white/78">
@@ -1174,7 +1162,7 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(t("planner.placeFinder.title"), t("planner.placeFinder.description"))}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                  <div className={plannerSectionClass}>
                     <PlaceFinderSection formData={formData} onChange={handlePlaceFinderChange} />
                   </div>
                 </AccordionContent>
@@ -1185,7 +1173,7 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(t("planner.route.title"), routeSummary)}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-ai`}>
+                  <div className={plannerSectionClass}>
                     <RouteSection formData={formData} onChange={handleFormChange} />
                   </div>
                 </AccordionContent>
@@ -1196,7 +1184,7 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(t("planner.vehicle.title"), vehicleSummary)}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                  <div className={plannerSectionClass}>
                     <VehicleSection formData={formData} onChange={handleFormChange} />
                   </div>
                 </AccordionContent>
@@ -1207,7 +1195,7 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(t("planner.accommodation.title"), accommodationSummary)}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-ai`}>
+                  <div className={plannerSectionClass}>
                     <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />
                   </div>
                 </AccordionContent>
@@ -1221,7 +1209,7 @@ export function RoutePlanner() {
                   )}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                  <div className={plannerSectionClass}>
                     <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />
                   </div>
                 </AccordionContent>
@@ -1231,7 +1219,7 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(t("planner.summary.title"), summaryAccordionText)}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} theme-band-ai space-y-10`}>
+                  <div className={`${plannerSectionClass} space-y-10`}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
                       <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
@@ -1441,7 +1429,7 @@ export function RoutePlanner() {
 
             </section>
 
-            <div className="relative z-20 border-t border-white/10 bg-background/88 px-3 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-3 backdrop-blur-xl sm:px-6">
+            <div className={`relative z-20 border-t border-white/10 px-3 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-3 backdrop-blur-xl sm:px-6 ${plannerPanelSurfaceClass}`}>
               <div className="mx-auto flex max-w-full flex-col items-center gap-3">
               {aiSettings.useDirectAI && !hasValidDirectApiKey && (
                 <button

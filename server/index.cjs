@@ -253,11 +253,27 @@ function parseBoundingBoxArea(boundingbox) {
   return Math.abs(north - south) * Math.abs(east - west);
 }
 
+function hasLocalityAddress(result) {
+  const address = result && typeof result.address === 'object' ? result.address : {};
+  return [
+    'city',
+    'town',
+    'village',
+    'hamlet',
+    'municipality',
+    'suburb',
+    'quarter',
+    'neighbourhood'
+  ].some((key) => typeof address[key] === 'string' && address[key].trim());
+}
+
 function isRegionResult(result) {
   const addressType = String(result?.addresstype || '').toLowerCase();
   const type = String(result?.type || '').toLowerCase();
   const placeClass = String(result?.class || '').toLowerCase();
   const area = parseBoundingBoxArea(result?.boundingbox);
+  if (CITYLIKE_ADDRESS_TYPES.has(addressType) || hasLocalityAddress(result)) return false;
+  if (placeClass === 'place' && !REGION_ADDRESS_TYPES.has(addressType)) return false;
   if (REGION_ADDRESS_TYPES.has(addressType)) return true;
   if (placeClass === 'boundary' || type === 'administrative') return true;
   if (!CITYLIKE_ADDRESS_TYPES.has(addressType) && area !== null && area > 0.35) return true;

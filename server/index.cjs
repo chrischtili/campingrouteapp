@@ -271,6 +271,11 @@ function parseBoundingBox(boundingbox) {
   return { south, north, west, east };
 }
 
+function isPointInsideBoundingBox(lat, lon, boundingBox) {
+  if (!boundingBox) return false;
+  return lat >= boundingBox.south && lat <= boundingBox.north && lon >= boundingBox.west && lon <= boundingBox.east;
+}
+
 function hasLocalityAddress(result) {
   const address = result && typeof result.address === 'object' ? result.address : {};
   return [
@@ -398,7 +403,7 @@ async function fetchOverpassData(query) {
 }
 
 async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox }) {
-  const radiusPlan = [3000, 6000, 12000, 22000];
+  const radiusPlan = [2500, 6000, 12000];
   const mergedElements = [];
   const seen = new Set();
   let lastError = null;
@@ -426,6 +431,10 @@ async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox })
       }
     } catch (error) {
       lastError = error;
+    }
+
+    if (mergedElements.length >= Math.max(limit * 2, 10)) {
+      return { elements: mergedElements };
     }
   }
 
@@ -543,7 +552,7 @@ function normalizeText(value) {
 }
 
 function scorePlaceResult(entry, searchContext) {
-  const { lat, lon, query, categoryPriority } = searchContext;
+  const { lat, lon, query, categoryPriority, boundingBox } = searchContext;
   let score = 0;
   const normalizedQuery = normalizeText(query);
   const normalizedName = normalizeText(entry.name);
@@ -561,6 +570,7 @@ function scorePlaceResult(entry, searchContext) {
   else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 22;
 
   if (normalizedAddress.includes(normalizedQuery) && normalizedQuery) score += 16;
+  if (isPointInsideBoundingBox(entry.lat, entry.lon, boundingBox)) score += 45;
   if (entry.address) score += 8;
   if (entry.locality) score += 10;
   if (entry.website) score += 6;
@@ -624,6 +634,7 @@ async function searchPlaces(query, categories, limit) {
   }
 
   let overpassData;
+  const boundingBox = parseBoundingBox(place.boundingbox);
   try {
     overpassData = await fetchOverpassPlaces({
       lat,
@@ -657,8 +668,8 @@ async function searchPlaces(query, categories, limit) {
     : [];
 
   const sortedResults = rawResults.sort((left, right) => {
-    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority });
-    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority });
+    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
+    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
     return rightScore - leftScore;
   });
 

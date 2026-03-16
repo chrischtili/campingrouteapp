@@ -661,22 +661,14 @@ async function searchPlaces(query, categories, limit) {
   if (cachedResult) return cachedResult;
 
   const place = await geocodePlace(query);
-  if (!place) {
-    const emptyResult = { results: [] };
-    writePlaceSearchCache(cacheKey, emptyResult);
-    return emptyResult;
-  }
+  if (!place) return { results: [] };
   if (isRegionResult(place)) {
     return { error: 'region_not_supported' };
   }
 
   const lat = toNumber(place.lat, NaN);
   const lon = toNumber(place.lon, NaN);
-  if (Number.isNaN(lat) || Number.isNaN(lon)) {
-    const emptyResult = { results: [] };
-    writePlaceSearchCache(cacheKey, emptyResult);
-    return emptyResult;
-  }
+  if (Number.isNaN(lat) || Number.isNaN(lon)) return { results: [] };
 
   let overpassData;
   const boundingBox = parseBoundingBox(place.boundingbox);
@@ -691,9 +683,7 @@ async function searchPlaces(query, categories, limit) {
   } catch (error) {
     if (String(error?.message || '').startsWith('upstream_')) {
       console.warn(`[places] returning empty results for "${query}" after upstream failure: ${error.message}`);
-      const emptyResult = { results: [] };
-      writePlaceSearchCache(cacheKey, emptyResult);
-      return emptyResult;
+      return { results: [] };
     }
     throw error;
   }
@@ -725,7 +715,9 @@ async function searchPlaces(query, categories, limit) {
   const results = [...namedResults, ...unnamedResults].slice(0, limit);
 
   const result = { results };
-  writePlaceSearchCache(cacheKey, result);
+  if (results.length > 0) {
+    writePlaceSearchCache(cacheKey, result);
+  }
   return result;
 }
 

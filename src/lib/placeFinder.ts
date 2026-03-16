@@ -9,7 +9,7 @@ interface SearchPlacesOptions {
 export async function searchPlaces({
   query,
   categories,
-  limit = 18,
+  limit = 8,
 }: SearchPlacesOptions): Promise<PlaceSearchResult[]> {
   const params = new URLSearchParams({
     q: query.trim(),

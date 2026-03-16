@@ -727,7 +727,7 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'GET' && pathname === '/api/places/search') {
       const query = String(url.searchParams.get('q') || '').trim();
-      const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 18), 24));
+      const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 8), 12));
       const categories = url.searchParams
         .getAll('category')
         .map((entry) => String(entry || '').trim())

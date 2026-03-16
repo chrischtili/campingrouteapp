@@ -358,19 +358,46 @@ async function fetchOverpassPlaces({ lat, lon, categories, limit }) {
 }
 
 function deriveLocality(tags = {}) {
-  return tags['addr:city'] || tags['addr:town'] || tags['addr:village'] || tags['addr:hamlet'] || tags['addr:place'] || '';
+  return (
+    tags['addr:city'] ||
+    tags['addr:town'] ||
+    tags['addr:village'] ||
+    tags['addr:hamlet'] ||
+    tags['addr:municipality'] ||
+    tags['addr:suburb'] ||
+    tags['addr:quarter'] ||
+    tags['addr:neighbourhood'] ||
+    tags['addr:place'] ||
+    tags['is_in:city'] ||
+    tags['is_in:town'] ||
+    tags['contact:city'] ||
+    ''
+  );
 }
 
 function deriveCountry(tags = {}) {
-  return tags['addr:country'] || tags['addr:country_code'] || '';
+  return tags['addr:country'] || String(tags['addr:country_code'] || '').toUpperCase() || '';
 }
 
 function deriveAddress(tags = {}) {
+  if (typeof tags['addr:full'] === 'string' && tags['addr:full'].trim()) {
+    return tags['addr:full'].trim();
+  }
+  if (typeof tags.address === 'string' && tags.address.trim()) {
+    return tags.address.trim();
+  }
+
   const parts = [
     tags['addr:street'],
     tags['addr:housenumber'],
+    tags['addr:place'],
+    tags['addr:suburb'],
+    tags['addr:quarter'],
+    tags['addr:neighbourhood'],
     tags['addr:postcode'],
+    tags['addr:city_district'],
     tags['addr:city'] || tags['addr:town'] || tags['addr:village'] || tags['addr:hamlet'],
+    tags['addr:state'],
     tags['addr:country'],
   ].filter(Boolean);
   return parts.join(', ');
@@ -378,6 +405,63 @@ function deriveAddress(tags = {}) {
 
 function deriveDescription(tags = {}) {
   return tags.description || tags.note || tags['description:de'] || '';
+}
+
+function isUnnamedPlace(name) {
+  return !name || /^unbenannter platz$/i.test(String(name).trim());
+}
+
+function toRadians(value) {
+  return (value * Math.PI) / 180;
+}
+
+function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+  const earthRadiusKm = 6371;
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return earthRadiusKm * c;
+}
+
+function normalizeText(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function scorePlaceResult(entry, searchContext) {
+  const { lat, lon, query, categoryPriority } = searchContext;
+  let score = 0;
+  const normalizedQuery = normalizeText(query);
+  const normalizedName = normalizeText(entry.name);
+  const normalizedLocality = normalizeText(entry.locality);
+  const normalizedAddress = normalizeText(entry.address);
+  const distanceKm = calculateDistanceKm(lat, lon, entry.lat, entry.lon);
+
+  if (!isUnnamedPlace(entry.name)) score += 40;
+  else score -= 35;
+
+  if (normalizedName === normalizedQuery) score += 40;
+  else if (normalizedName.includes(normalizedQuery) && normalizedQuery) score += 18;
+
+  if (normalizedLocality === normalizedQuery) score += 30;
+  else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 18;
+
+  if (normalizedAddress.includes(normalizedQuery) && normalizedQuery) score += 12;
+  if (entry.address) score += 8;
+  if (entry.locality) score += 10;
+  if (entry.website) score += 6;
+  if (entry.phone) score += 3;
+  if (entry.hasPowerSupply) score += 2;
+  if (entry.hasToilets) score += 2;
+  if (entry.hasShowers) score += 2;
+  if (entry.hasDumpStation) score += 2;
+
+  score += Math.max(0, 25 - Math.min(distanceKm, 25));
+  score += Math.max(0, 10 - categoryPriority.indexOf(entry.category));
+
+  return score;
 }
 
 function toPlaceResult(element) {
@@ -428,9 +512,9 @@ async function searchPlaces(query, categories, limit) {
   }
 
   const overpassData = await fetchOverpassPlaces({ lat, lon, categories, limit });
-
+  const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
   const seen = new Set();
-  const results = Array.isArray(overpassData?.elements)
+  const rawResults = Array.isArray(overpassData?.elements)
     ? overpassData.elements
         .filter((element) => {
           const tourism = element?.tags?.tourism;
@@ -443,8 +527,17 @@ async function searchPlaces(query, categories, limit) {
           seen.add(entry.id);
           return true;
         })
-        .slice(0, limit)
     : [];
+
+  const sortedResults = rawResults.sort((left, right) => {
+    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority });
+    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority });
+    return rightScore - leftScore;
+  });
+
+  const namedResults = sortedResults.filter((entry) => !isUnnamedPlace(entry.name));
+  const unnamedResults = sortedResults.filter((entry) => isUnnamedPlace(entry.name));
+  const results = [...namedResults, ...unnamedResults].slice(0, limit);
 
   return { results };
 }

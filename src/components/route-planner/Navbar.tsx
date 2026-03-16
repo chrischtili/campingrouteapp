@@ -19,7 +19,7 @@ interface NavbarProps {
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.1");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.13");
   const { t, i18n } = useTranslation();
   const { setTheme, resolvedTheme } = useTheme();
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
@@ -88,6 +88,15 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     setMobileMenuOpen(false);
   };
 
+  const handleFAQItemNavigation = (itemId: string) => {
+    if (!isHomePage) {
+      navigate(`/?faq=${itemId}`);
+    } else {
+      window.dispatchEvent(new CustomEvent("open-faq", { detail: itemId }));
+    }
+    setMobileMenuOpen(false);
+  };
+
   const handlePlanNow = () => {
     if (!isHomePage) {
       navigate("/?plan=true");
@@ -108,7 +117,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const navLinks = [
     { name: t("navbar.features"), href: "#features" },
-    { name: t("navbar.exampleRoute"), href: "#example-route" },
+    { name: t("navbar.exampleRoute"), faqItem: "exampleRoute" },
     { name: t("navbar.faq"), href: "#faq" },
   ];
 
@@ -153,7 +162,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             {navLinks.map((link) => (
               <button
                 key={link.name}
-                onClick={() => handleNavClick(link.href)}
+                onClick={() => link.faqItem ? handleFAQItemNavigation(link.faqItem) : handleNavClick(link.href!)}
                 className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-foreground/65 hover:text-primary transition-colors relative group"
               >
                 {link.name}
@@ -240,7 +249,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             {navLinks.map((link) => (
               <button
                 key={link.name}
-                onClick={() => handleNavClick(link.href)}
+                onClick={() => link.faqItem ? handleFAQItemNavigation(link.faqItem) : handleNavClick(link.href!)}
                 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
               >
                 {link.name}

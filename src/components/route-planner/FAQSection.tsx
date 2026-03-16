@@ -8,10 +8,18 @@ import {
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { HelpCircle, Shield, Info, CreditCard, Github } from "lucide-react";
+import { RouteExampleContent } from "./RouteExampleSection";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export function FAQSection() {
+type FAQSectionProps = {
+  onStartPlanning?: () => void;
+};
+
+export function FAQSection({ onStartPlanning }: FAQSectionProps) {
   const { t } = useTranslation();
   const [openItem, setOpenItem] = useState<string | undefined>(undefined);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const openFeedback = () => {
     window.dispatchEvent(new Event("open-feedback"));
@@ -40,6 +48,31 @@ export function FAQSection() {
     return () => window.removeEventListener('open-faq', handleOpenFAQ);
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const faqItem = params.get("faq");
+    if (!faqItem) return;
+
+    setOpenItem(faqItem);
+    setTimeout(() => {
+      const el = document.getElementById(faqItem);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 100);
+
+    params.delete("faq");
+    const nextSearch = params.toString();
+    navigate(
+      {
+        pathname: location.pathname,
+        search: nextSearch ? `?${nextSearch}` : "",
+      },
+      { replace: true },
+    );
+  }, [location.pathname, location.search, navigate]);
+
   const faqs = [
     {
       id: "whatIs",
@@ -61,6 +94,13 @@ export function FAQSection() {
         { title: t("faq.items.howItWorks.step2"), desc: t("faq.items.howItWorks.step2a") },
         { title: t("faq.items.howItWorks.step3"), desc: t("faq.items.howItWorks.step3a") }
       ]
+    },
+    {
+      id: "exampleRoute",
+      icon: Info,
+      q: t("faq.items.exampleRoute.q"),
+      title: t("faq.items.exampleRoute.title"),
+      customContent: true,
     },
     {
       id: "cost",
@@ -192,6 +232,10 @@ export function FAQSection() {
                           </div>
                         ))}
                       </div>
+                    )}
+
+                    {faq.customContent && (
+                      <RouteExampleContent onStartPlanning={onStartPlanning} />
                     )}
 
                     {faq.footer && (

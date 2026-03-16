@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI-Routenplaner für Camping- und Roadtrip-Routen
 
-[![Version](https://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.13-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -10,15 +10,14 @@
 
 ---
 
-## 🌟 Highlights (v0.5.1)
+## 🌟 Highlights (v0.5.13)
 
-- **Routen lokal auf dem PC speicherbar**: Planungen lassen sich ohne API-Key als JSON-Datei exportieren und später wieder importieren.
-- **5 letzte Planungen zusätzlich im Browser speicherbar**: Formulareingaben lassen sich direkt lokal sichern, laden, überschreiben und löschen.
-- **Klarer Prompt-Workflow**: Der Planer konzentriert sich auf saubere Prompts für externe KI-Tools statt auf überladene KI-Einstellungen.
-- **Neues Einseiten-Formular**: Der Planer arbeitet ohne starren Schritt-Assistenten und bündelt Details in klaren Sektionen und Popups.
-- **Light- und Dark-Design überarbeitet**: Sektionen, Popups, FAQ und Sticky-Aktionen sind visuell aufeinander abgestimmt.
-- **Kompakte Übersichten in Buttons & Zusammenfassung**: Eingaben werden direkt auf Triggern und im Summary-Bereich verdichtet angezeigt.
-- **Beispielroute gestrafft**: Showcase-Route ist deutlich kompakter und in allen Sprachen auf denselben Stand gebracht.
+- **Neues Planer-Panel**: Der Routenplaner öffnet sich jetzt als seitliches Overlay statt als langer Seitenblock.
+- **Platzfinder direkt im Planer**: Campingplätze und Stellplätze lassen sich ortsbasiert suchen und direkt als Ziel oder Zwischenziel übernehmen.
+- **Lokale Planungen verbessert**: Die letzten fünf Planungen können im Browser gespeichert, geladen, exportiert und importiert werden.
+- **Beispielroute direkt über die Navigation**: Der Navbar-Link öffnet den passenden FAQ-Eintrag automatisch.
+- **Fahrzeuglogik erweitert**: Pkw mit Zelt, Pkw mit Dachzelt, Fahrrad mit Zelt und Motorrad + Zelt sind sauber abgebildet; irrelevante Felder werden ausgeblendet und nicht in den Prompt übernommen.
+- **Prompt und UI sprachlich neutraler**: Formulierungen passen jetzt besser zu unterschiedlichen Fahrzeugtypen und internationalen Zielen.
 - **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
 
@@ -97,21 +96,20 @@ MIT License - [Details](LICENSE)
 
 # 🚐 Camping Route - AI Prompt Generator for Motorhomes
 
-[![Version](https://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.13-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 
 **The intelligent AI route planner for RVs, caravans, tents, and motorcycles – now international!**
 
 ---
 
-## 🌟 Highlights (v0.5.1)
+## 🌟 Highlights (v0.5.13)
 
-- **Save routes locally on your PC**: plans can be exported as JSON files without any API key and imported again later.
-- **Store up to 5 recent plans in the browser as well**: save, load, overwrite, and delete route setups locally.
-- **Clear prompt-focused flow**: the planner now focuses on clean prompts for external AI tools instead of overloaded AI settings.
-- **New single-page planner**: the route flow now uses focused sections and overlays instead of a rigid step wizard.
-- **Refined light and dark themes**: sections, popups, FAQ, and sticky actions now feel visually aligned.
-- **Compact summaries in buttons and overview cards**: entered data surfaces directly where it is most useful.
-- **Radically shortened example route**: the showcase route is now much leaner and aligned across all languages.
+- **New planner panel**: the route planner now opens as a side overlay instead of a long page block.
+- **Place finder inside the planner**: campsites and motorhome pitches can be searched by town and inserted directly as destination or stopover.
+- **Improved local planning storage**: the last five plans can be stored in the browser, reopened, exported, and imported again.
+- **Sample route available from the navigation**: the navbar link opens the matching FAQ entry automatically.
+- **Expanded vehicle logic**: car + tent, car + roof tent, bicycle + tent, and motorcycle + tent are now handled cleanly; irrelevant fields are hidden and excluded from prompts.
+- **More neutral prompt and UI copy**: wording now fits different vehicle types and international destinations better.
 - **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **100% Free** – Prompt generation possible without any API costs.
 

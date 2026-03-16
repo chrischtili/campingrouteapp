@@ -49,7 +49,7 @@ const App = () => {
   const { t, i18n } = useTranslation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
-  const displayReleaseVersion = `v${(releaseVersion || "0.5.1").replace(/^v/i, "")}`;
+  const displayReleaseVersion = `v${(releaseVersion || "0.5.13").replace(/^v/i, "")}`;
 
   const openWhatsNew = React.useCallback(() => {
     setShowWhatsNew(true);
@@ -273,12 +273,17 @@ const App = () => {
 
                 <div className="mt-6 space-y-3">
                   {[
+                    t("app.whatsNew.items.plannerPanel"),
+                    t("app.whatsNew.items.placeFinder"),
                     t("app.whatsNew.items.savedPlans"),
-                  ].map((item) => (
+                    t("app.whatsNew.items.exampleRoute"),
+                  ]
+                    .filter(Boolean)
+                    .map((item) => (
                     <div key={item} className="rounded-2xl border border-border bg-white/70 px-4 py-3 text-sm text-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/85">
                       {item}
                     </div>
-                  ))}
+                    ))}
                 </div>
 
                 <DialogFooter className="mt-6 flex-col gap-3 sm:flex-row sm:justify-end">

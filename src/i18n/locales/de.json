@@ -463,6 +463,10 @@
         "step3": "Wünsche & Generierung",
         "step3a": "Prompt kopieren und in deiner bevorzugten KI verwenden."
       },
+      "exampleRoute": {
+        "q": "Wie sieht eine Beispielroute aus?",
+        "title": "Ein konkretes Beispiel mit Etappen, Stopps und Übernachtungen."
+      },
       "cost": {
         "q": "Was kostet mich Camping Route wirklich?",
         "title": "Camping Route selbst ist kostenlos.",
@@ -506,6 +510,10 @@
     "badge": "Routenplaner",
     "title": "Alles für deine Route auf einen Blick",
     "cta": "Jetzt Route planen",
+    "launcher": {
+      "title": "Prompterzeugung, Platzsuche und Route an einem Ort",
+      "description": "Öffne den Planer, suche optional passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt zusammen."
+    },
     "loading": {
       "ai": "🤖 Generiere Route...",
       "prompt": "📝 Erstelle Prompt...",
@@ -518,7 +526,7 @@
       "next": "Weiter",
       "generateRoute": "Route Generieren",
       "generatePrompt": "Prompt generieren",
-      "copyPrompt": "Prompt Kopieren"
+      "copyPrompt": "Prompt kopieren"
     },
     "summary": {
       "title": "Zusammenfassung",
@@ -558,6 +566,8 @@
         "load": "Laden",
         "overwrite": "Überschreiben",
         "delete": "Löschen",
+        "expand": "Aufklappen",
+        "collapse": "Zuklappen",
         "saved": "Planung lokal gespeichert.",
         "updated": "Gespeicherte Planung überschrieben.",
         "loaded": "Gespeicherte Planung geladen.",
@@ -638,7 +648,7 @@
         "hint": "Dein Key wird nicht gespeichert und nur für diese Sitzung genutzt.",
         "placeholder": "Dein API-Schlüssel",
         "create": "API-Schlüssel bei {{name}} erstellen →",
-        "security": "Camping Route ist <b>eine reine Frontend-App ohne Backend oder Datenbank!</b> Wir speichern oder sehen deinen API-Key niemals. Er bleibt nur in dieser Sitzung im Browser und wird verschlüsselt direkt an den KI-Anbieter gesendet."
+        "security": "Camping Route speichert deinen API-Key nicht und verarbeitet ihn nicht serverseitig. Er bleibt nur in dieser Sitzung im Browser und wird verschlüsselt direkt an den gewählten KI-Anbieter gesendet."
       }
     },
     "route": {
@@ -798,6 +808,47 @@
       "roundTripHint": {
         "badge": "Rundtour-Tipp",
         "text": "Für Rundtouren: Start und Ziel identisch setzen, Regionen darunter angeben."
+      }
+    },
+    "placeFinder": {
+      "title": "Platzfinder",
+      "description": "Optional: Suche passende Campingplätze und Stellplätze für einen Ort und übernimm sie direkt als Ziel oder Zwischenziel.",
+      "searchLabel": "Ort",
+      "searchPlaceholder": "z. B. Dresden, Wismar, Annecy oder Verona",
+      "searchHelp": "Die Suche läuft über öffentliche OSM-Daten und funktioniert am besten mit konkreten Orten oder Städten.",
+      "searchButton": "Plätze suchen",
+      "loading": "Suche läuft ...",
+      "results": "{{count}} passende Plätze gefunden",
+      "empty": "Für diese Suche wurden keine passenden Plätze gefunden.",
+      "detailDescription": "Kurzinfos zum Platz und direkte Übernahme in deine Route.",
+      "noImage": "Kein Bild verfügbar",
+      "notAvailable": "Keine Angabe",
+      "categories": {
+        "camp_site": "Campingplatz",
+        "caravan_site": "Stellplatz"
+      },
+      "labels": {
+        "locality": "Ort",
+        "fee": "Kostenhinweis",
+        "openingHours": "Öffnungszeiten",
+        "website": "Website"
+      },
+      "tags": {
+        "toilets": "Toiletten",
+        "showers": "Duschen",
+        "power": "Strom"
+      },
+      "actions": {
+        "title": "In Route übernehmen",
+        "setDestination": "Als Ziel setzen",
+        "addStage": "Als Zwischenziel {{num}} hinzufügen",
+        "replaceStage": "Zwischenziel {{num}} ersetzen",
+        "openSource": "OSM-Eintrag öffnen",
+        "openWebsite": "Website öffnen"
+      },
+      "errors": {
+        "region_not_supported": "Bitte gib einen konkreten Ort oder eine Stadt ein. Regionssuchen unterstützen wir hier aktuell noch nicht.",
+        "searchFailed": "Die Platzsuche ist gerade nicht verfügbar. Prüfe später noch einmal den Suchbegriff oder den Proxy."
       }
     },
     "optimization": {
@@ -1197,7 +1248,7 @@
     "title": "Datenschutz",
     "general": {
       "title": "Grundsätzliches zur Datenverarbeitung",
-      "description": "Der Schutz deiner Daten ist uns ein wichtiges Anliegen. CampingRoute.app ist als reine Client-Side-Anwendung konzipiert. Das bedeutet, dass wir keine Datenbanken betreiben und keine Nutzerkonten anlegen. Alle von dir eingegebenen Daten verbleiben primär in deinem Browser."
+      "description": "Der Schutz deiner Daten ist uns ein wichtiges Anliegen. CampingRoute.app arbeitet überwiegend clientseitig und verzichtet auf Nutzerkonten sowie zentrale Planspeicherung. Für einzelne Funktionen können serverseitige Proxy-Anfragen an öffentliche Datendienste genutzt werden. Deine eingegebenen Planungsdaten verbleiben primär in deinem Browser."
     },
     "dataProcessing": {
       "title": "Datenverarbeitung & KI",
@@ -1208,6 +1259,10 @@
       "ai": {
         "title": "KI-Integration",
         "description": "CampingRoute erzeugt einen strukturierten Prompt, den du in deiner bevorzugten KI nutzt. Wir speichern dabei keine API-Schlüssel und keine zentralen Nutzerdaten."
+      },
+      "places": {
+        "title": "Platzsuche & OSM-Daten",
+        "description": "Wenn du die Platzsuche nutzt, wird dein Suchbegriff serverseitig an öffentliche OpenStreetMap-Dienste weitergeleitet, um passende Camping- und Stellplätze zu ermitteln. Wir speichern diese Suchanfragen nicht."
       },
       "feedback": {
         "title": "Feedback nach Generierung",
@@ -1366,10 +1421,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "savedPlans": "Routen lokal auf dem PC als Datei exportieren und später wieder importieren.",
-        "outputSummary": "",
-        "stageTrafficLight": "",
-        "roundTrips": ""
+        "plannerPanel": "Der Routenplaner öffnet sich jetzt als seitliches Panel und bleibt beim Ausfüllen übersichtlicher.",
+        "placeFinder": "Neuer Platzfinder im Planer: Suche passende Camping- und Stellplätze für einen Ort und übernimm sie direkt als Ziel oder Zwischenziel.",
+        "savedPlans": "Die letzten Planungen lassen sich lokal speichern, wieder laden, exportieren und importieren.",
+        "exampleRoute": "Die Beispielroute ist jetzt direkt über die Navigation erreichbar und öffnet sich im FAQ-Bereich."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

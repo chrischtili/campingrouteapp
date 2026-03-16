@@ -302,7 +302,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
       </div>
 
       {error && (
-        <div className="rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-100">
+        <div className="rounded-2xl border border-red-300/80 bg-red-50 px-4 py-3 text-sm font-semibold text-red-800 shadow-sm dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-100">
           {error}
         </div>
       )}

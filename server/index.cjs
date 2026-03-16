@@ -59,8 +59,14 @@ const REQUEST_HEADERS = {
 const OVERPASS_ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.private.coffee/api/interpreter',
-  'https://lz4.overpass-api.de/api/interpreter'
+  'https://lz4.overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter'
 ];
+const NOMINATIM_TIMEOUT_MS = 8000;
+const OVERPASS_TIMEOUT_MS = 2500;
+const PLACE_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
+const PLACE_SEARCH_CACHE_MAX_ENTRIES = 100;
+const placeSearchCache = new Map();
 
 function ensureJsonFile(filePath, fallback) {
   if (!fs.existsSync(filePath)) {
@@ -268,6 +274,42 @@ function parseBoundingBox(boundingbox) {
   return { south, north, west, east };
 }
 
+function isPointInsideBoundingBox(lat, lon, boundingBox) {
+  if (!boundingBox) return false;
+  return lat >= boundingBox.south && lat <= boundingBox.north && lon >= boundingBox.west && lon <= boundingBox.east;
+}
+
+function getPlaceSearchCacheKey(query, categories, limit) {
+  return JSON.stringify({
+    query: normalizeText(query),
+    categories: [...categories].sort(),
+    limit,
+  });
+}
+
+function readPlaceSearchCache(cacheKey) {
+  const entry = placeSearchCache.get(cacheKey);
+  if (!entry) return null;
+  if (Date.now() - entry.createdAt > PLACE_SEARCH_CACHE_TTL_MS) {
+    placeSearchCache.delete(cacheKey);
+    return null;
+  }
+  return entry.value;
+}
+
+function writePlaceSearchCache(cacheKey, value) {
+  placeSearchCache.set(cacheKey, {
+    createdAt: Date.now(),
+    value,
+  });
+
+  if (placeSearchCache.size <= PLACE_SEARCH_CACHE_MAX_ENTRIES) return;
+
+  const oldestKey = placeSearchCache.keys().next().value;
+  if (oldestKey) {
+    placeSearchCache.delete(oldestKey);
+  }
+}
 function hasLocalityAddress(result) {
   const address = result && typeof result.address === 'object' ? result.address : {};
   return [
@@ -296,13 +338,34 @@ function isRegionResult(result) {
 }
 
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      ...REQUEST_HEADERS,
-      ...(options.headers || {}),
-    },
-  });
+  const controller = new AbortController();
+  const timeoutMs = Number(options.timeoutMs || 0);
+  const timeoutId =
+    timeoutMs > 0
+      ? setTimeout(() => {
+          controller.abort(new Error(`upstream_timeout_${timeoutMs}`));
+        }, timeoutMs)
+      : null;
+
+  let response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        ...REQUEST_HEADERS,
+        ...(options.headers || {}),
+      },
+    });
+  } catch (error) {
+    if (timeoutId) clearTimeout(timeoutId);
+    if (error?.name === 'AbortError') {
+      throw new Error(`upstream_timeout_${timeoutMs}`);
+    }
+    throw error;
+  }
+
+  if (timeoutId) clearTimeout(timeoutId);
   if (!response.ok) {
     throw new Error(`upstream_${response.status}`);
   }
@@ -316,7 +379,9 @@ async function geocodePlace(query) {
     addressdetails: '1',
     limit: '5',
   });
-  const results = await fetchJson(`https://nominatim.openstreetmap.org/search?${params.toString()}`);
+  const results = await fetchJson(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
+    timeoutMs: NOMINATIM_TIMEOUT_MS,
+  });
   if (!Array.isArray(results) || results.length === 0) return null;
   return results.find((entry) => !isRegionResult(entry)) || results[0];
 }
@@ -356,12 +421,14 @@ async function fetchOverpassData(query) {
     try {
       return await fetchJson(endpoint, {
         method: 'POST',
+        timeoutMs: OVERPASS_TIMEOUT_MS,
         headers: {
           'Content-Type': 'text/plain;charset=UTF-8',
         },
         body: query,
       });
     } catch (error) {
+      console.warn(`[places] overpass failed via ${endpoint}: ${error.message}`);
       lastError = error;
     }
   }
@@ -370,7 +437,7 @@ async function fetchOverpassData(query) {
 }
 
 async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox }) {
-  const radiusPlan = [3000, 6000, 12000, 22000];
+  const radiusPlan = [2500, 6000, 12000];
   const mergedElements = [];
   const seen = new Set();
   let lastError = null;
@@ -398,6 +465,10 @@ async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox })
       }
     } catch (error) {
       lastError = error;
+    }
+
+    if (mergedElements.length > 0) {
+      return { elements: mergedElements };
     }
   }
 
@@ -515,7 +586,7 @@ function normalizeText(value) {
 }
 
 function scorePlaceResult(entry, searchContext) {
-  const { lat, lon, query, categoryPriority } = searchContext;
+  const { lat, lon, query, categoryPriority, boundingBox } = searchContext;
   let score = 0;
   const normalizedQuery = normalizeText(query);
   const normalizedName = normalizeText(entry.name);
@@ -533,6 +604,7 @@ function scorePlaceResult(entry, searchContext) {
   else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 22;
 
   if (normalizedAddress.includes(normalizedQuery) && normalizedQuery) score += 16;
+  if (isPointInsideBoundingBox(entry.lat, entry.lon, boundingBox)) score += 45;
   if (entry.address) score += 8;
   if (entry.locality) score += 10;
   if (entry.website) score += 6;
@@ -583,6 +655,10 @@ function toPlaceResult(element) {
 }
 
 async function searchPlaces(query, categories, limit) {
+  const cacheKey = getPlaceSearchCacheKey(query, categories, limit);
+  const cachedResult = readPlaceSearchCache(cacheKey);
+  if (cachedResult) return cachedResult;
+
   const place = await geocodePlace(query);
   if (!place) return { results: [] };
   if (isRegionResult(place)) {
@@ -591,17 +667,25 @@ async function searchPlaces(query, categories, limit) {
 
   const lat = toNumber(place.lat, NaN);
   const lon = toNumber(place.lon, NaN);
-  if (Number.isNaN(lat) || Number.isNaN(lon)) {
-    return { results: [] };
-  }
+  if (Number.isNaN(lat) || Number.isNaN(lon)) return { results: [] };
 
-  const overpassData = await fetchOverpassPlaces({
-    lat,
-    lon,
-    categories,
-    limit,
-    boundingbox: place.boundingbox,
-  });
+  let overpassData;
+  const boundingBox = parseBoundingBox(place.boundingbox);
+  try {
+    overpassData = await fetchOverpassPlaces({
+      lat,
+      lon,
+      categories,
+      limit,
+      boundingbox: place.boundingbox,
+    });
+  } catch (error) {
+    if (String(error?.message || '').startsWith('upstream_')) {
+      console.warn(`[places] returning empty results for "${query}" after upstream failure: ${error.message}`);
+      return { results: [] };
+    }
+    throw error;
+  }
   const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
   const seen = new Set();
   const rawResults = Array.isArray(overpassData?.elements)
@@ -620,8 +704,8 @@ async function searchPlaces(query, categories, limit) {
     : [];
 
   const sortedResults = rawResults.sort((left, right) => {
-    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority });
-    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority });
+    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
+    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
     return rightScore - leftScore;
   });
 
@@ -629,7 +713,11 @@ async function searchPlaces(query, categories, limit) {
   const unnamedResults = sortedResults.filter((entry) => isUnnamedPlace(entry.name));
   const results = [...namedResults, ...unnamedResults].slice(0, limit);
 
-  return { results };
+  const result = { results };
+  if (results.length > 0) {
+    writePlaceSearchCache(cacheKey, result);
+  }
+  return result;
 }
 
 function serveStatic(req, res, pathname) {
@@ -690,7 +778,7 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'GET' && pathname === '/api/places/search') {
       const query = String(url.searchParams.get('q') || '').trim();
-      const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 18), 24));
+      const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 8), 12));
       const categories = url.searchParams
         .getAll('category')
         .map((entry) => String(entry || '').trim())

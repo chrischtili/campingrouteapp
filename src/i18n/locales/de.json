@@ -1421,10 +1421,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "plannerPanel": "Der Routenplaner öffnet sich jetzt als seitliches Panel und bleibt beim Ausfüllen übersichtlicher.",
-        "placeFinder": "Neuer Platzfinder im Planer: Suche passende Camping- und Stellplätze für einen Ort und übernimm sie direkt als Ziel oder Zwischenziel.",
-        "savedPlans": "Die letzten Planungen lassen sich lokal speichern, wieder laden, exportieren und importieren.",
-        "exampleRoute": "Die Beispielroute ist jetzt direkt über die Navigation erreichbar und öffnet sich im FAQ-Bereich."
+        "plannerPanel": "Der Routenplaner ist jetzt als übersichtliches Accordion aufgebaut: immer nur ein Bereich ist offen und die Navigation wirkt deutlich ruhiger.",
+        "placeFinder": "Der Platzfinder im Planer wurde stabiler und schneller gemacht und sucht passende Camping- und Stellplätze direkt für konkrete Orte.",
+        "savedPlans": "Letzte Planungen, Support und Zusammenfassung sind im Panel klarer angeordnet und schneller erreichbar.",
+        "exampleRoute": "Die Panel-Oberfläche und Dark-Mode-Farben wurden vereinheitlicht, damit der Planer insgesamt ruhiger und konsistenter wirkt."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

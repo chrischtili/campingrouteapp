@@ -62,6 +62,8 @@ const OVERPASS_ENDPOINTS = [
   'https://lz4.overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter'
 ];
+const NOMINATIM_TIMEOUT_MS = 8000;
+const OVERPASS_TIMEOUT_MS = 8000;
 
 function ensureJsonFile(filePath, fallback) {
   if (!fs.existsSync(filePath)) {
@@ -297,13 +299,34 @@ function isRegionResult(result) {
 }
 
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      ...REQUEST_HEADERS,
-      ...(options.headers || {}),
-    },
-  });
+  const controller = new AbortController();
+  const timeoutMs = Number(options.timeoutMs || 0);
+  const timeoutId =
+    timeoutMs > 0
+      ? setTimeout(() => {
+          controller.abort(new Error(`upstream_timeout_${timeoutMs}`));
+        }, timeoutMs)
+      : null;
+
+  let response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        ...REQUEST_HEADERS,
+        ...(options.headers || {}),
+      },
+    });
+  } catch (error) {
+    if (timeoutId) clearTimeout(timeoutId);
+    if (error?.name === 'AbortError') {
+      throw new Error(`upstream_timeout_${timeoutMs}`);
+    }
+    throw error;
+  }
+
+  if (timeoutId) clearTimeout(timeoutId);
   if (!response.ok) {
     throw new Error(`upstream_${response.status}`);
   }
@@ -317,7 +340,9 @@ async function geocodePlace(query) {
     addressdetails: '1',
     limit: '5',
   });
-  const results = await fetchJson(`https://nominatim.openstreetmap.org/search?${params.toString()}`);
+  const results = await fetchJson(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
+    timeoutMs: NOMINATIM_TIMEOUT_MS,
+  });
   if (!Array.isArray(results) || results.length === 0) return null;
   return results.find((entry) => !isRegionResult(entry)) || results[0];
 }
@@ -357,6 +382,7 @@ async function fetchOverpassData(query) {
     try {
       return await fetchJson(endpoint, {
         method: 'POST',
+        timeoutMs: OVERPASS_TIMEOUT_MS,
         headers: {
           'Content-Type': 'text/plain;charset=UTF-8',
         },

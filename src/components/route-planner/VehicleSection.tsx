@@ -234,18 +234,6 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4 text-left">
-        <h3 className="text-2xl md:text-3xl font-bold flex items-center gap-3 tracking-tight text-foreground dark:text-white">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-            <Truck className="w-6 h-6" />
-          </div>
-          {t("planner.vehicle.title")}
-        </h3>
-        <p className="text-foreground/62 dark:text-white/58 text-base md:text-lg leading-relaxed">
-          {t("planner.vehicle.description")}
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
         {/* Dimensions Group */}
         <motion.div 
@@ -261,10 +249,10 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
             </span>
           </div>
           <div className="space-y-5 w-full">
-            <FormSlider id="vehicleLength" label={t("planner.vehicle.length")} value={formData.vehicleLength === "" ? 7 : parseFloat(formData.vehicleLength)} min={5} max={12} step={0.1} unit="m" onChange={(v) => onChange({ vehicleLength: v.toString() })} disabled={isLightweightVehicle} compact />
+            <FormSlider id="vehicleLength" label={t("planner.vehicle.length")} value={formData.vehicleLength === "" ? 5 : parseFloat(formData.vehicleLength)} min={5} max={12} step={0.1} unit="m" onChange={(v) => onChange({ vehicleLength: v.toString() })} disabled={isLightweightVehicle} compact />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <FormSlider id="vehicleHeight" label={t("planner.vehicle.height")} value={formData.vehicleHeight === "" ? 2.9 : parseFloat(formData.vehicleHeight)} min={2} max={3.8} step={0.1} unit="m" onChange={(v) => onChange({ vehicleHeight: v.toString() })} disabled={isLightweightVehicle} compact />
-              <FormSlider id="vehicleWidth" label={t("planner.vehicle.width")} value={formData.vehicleWidth === "" ? 2.3 : parseFloat(formData.vehicleWidth)} min={1.9} max={2.5} step={0.1} unit="m" onChange={(v) => onChange({ vehicleWidth: v.toString() })} disabled={isLightweightVehicle} compact />
+              <FormSlider id="vehicleHeight" label={t("planner.vehicle.height")} value={formData.vehicleHeight === "" ? 2 : parseFloat(formData.vehicleHeight)} min={2} max={3.8} step={0.1} unit="m" onChange={(v) => onChange({ vehicleHeight: v.toString() })} disabled={isLightweightVehicle} compact />
+              <FormSlider id="vehicleWidth" label={t("planner.vehicle.width")} value={formData.vehicleWidth === "" ? 1.9 : parseFloat(formData.vehicleWidth)} min={1.9} max={2.5} step={0.1} unit="m" onChange={(v) => onChange({ vehicleWidth: v.toString() })} disabled={isLightweightVehicle} compact />
             </div>
           </div>
         </motion.div>

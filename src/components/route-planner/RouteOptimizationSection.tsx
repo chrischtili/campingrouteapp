@@ -150,16 +150,6 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4 text-left">
-        <h3 className="text-2xl md:text-3xl font-bold flex items-center gap-3 tracking-tight text-foreground dark:text-white">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-lg border-2 border-primary/20">
-            <Target className="w-6 h-6" />
-          </div>
-          {t("planner.optimization.title")}
-        </h3>
-        <p className="text-foreground/62 dark:text-white/58 text-base md:text-lg leading-relaxed">{t("planner.optimization.subtitle")}</p>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {categories.map((cat) => (
           <button key={cat.id} type="button" className={panelTriggerClass} onClick={() => openPanel(cat.id)}>

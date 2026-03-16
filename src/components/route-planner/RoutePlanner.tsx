@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import { DEFAULT_OPENAI_MODEL, DIRECT_AI_FEATURE_ENABLED } from "@/config/ai";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 // Statische Importe für ALLES was zum Formular gehört - SICHERHEIT GEHT VOR
 import { HeroSection } from "./HeroSection";
@@ -143,8 +144,8 @@ export function RoutePlanner() {
   const [aiModel, setAiModel] = useState<string>('');
   const [showForm, setShowForm] = useState<boolean>(false);
   const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
-  const [savedPlansOpen, setSavedPlansOpen] = useState<boolean>(false);
   const [activeSavedPlanId, setActiveSavedPlanId] = useState<string | null>(null);
+  const [activePlannerSection, setActivePlannerSection] = useState<string>("");
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
@@ -185,6 +186,9 @@ export function RoutePlanner() {
     !!aiSettings.apiKey?.trim() &&
     /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
   const plannerSectionClass = "theme-band -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 sm:py-7 rounded-[2rem] sm:rounded-[2.5rem]";
+  const plannerAccordionItemClass = "overflow-hidden rounded-[1.75rem] border-2 border-primary/20 bg-white/[0.04] shadow-[0_12px_30px_rgba(15,23,42,0.06)]";
+  const plannerAccordionTriggerClass = "px-5 sm:px-6 py-5 text-left hover:no-underline transition-colors hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04]";
+  const plannerAccordionContentClass = "px-4 sm:px-6 pb-4 sm:pb-6";
   const validActivityValues = new Set([
     "nature",
     "hiking",
@@ -194,6 +198,48 @@ export function RoutePlanner() {
     "gastronomy",
     "relaxation",
   ]);
+  const routeSummary = [formData.startPoint?.trim(), formData.destination?.trim()].filter(Boolean).join(" → ") || t("planner.route.description");
+  const vehicleSummary = formData.vehicleType
+    ? t(`planner.vehicle.type.options.${formData.vehicleType}`)
+    : t("planner.vehicle.description");
+  const accommodationSummary = [
+    ...(formData.accommodationType || []).slice(0, 2).map((value) => t(`planner.accommodation.categories.type.options.${value}`)),
+    ...(formData.facilities || []).slice(0, 2).map((value) => t(`planner.accommodation.categories.facilities.options.${value}`)),
+  ].filter(Boolean).join(" · ") || t("planner.accommodation.subtitle");
+  const optimizationSummary = [
+    ...(formData.roadPreferences || []).slice(0, 2).map((value) => t(`planner.optimization.categories.roadType.options.${value}`)),
+    ...(formData.routeRestrictions || []).slice(0, 2).map((value) => {
+      const restrictionKey = ["innerCities", "narrowRoads", "unpavedRoads"].includes(value)
+        ? `planner.optimization.categories.restrictions.options.${value}`
+        : `planner.optimization.categories.avoidances.options.${value}`;
+      return t(restrictionKey);
+    }),
+    targetRegionsSummary,
+  ].filter(Boolean).join(" · ") || t("planner.optimization.subtitle");
+  const summaryAccordionText = output
+    ? t("planner.summary.check")
+    : [formData.startPoint?.trim(), summaryPrimaryDestination?.trim()].filter(Boolean).join(" → ") || t("planner.summary.check");
+
+  useEffect(() => {
+    if (!showForm || !activePlannerSection) return;
+
+    const scrollPanel = document.getElementById("planner");
+    const activeSection = document.querySelector<HTMLElement>(`[data-planner-section="${activePlannerSection}"]`);
+
+    if (!scrollPanel || !activeSection) return;
+
+    const panelRect = scrollPanel.getBoundingClientRect();
+    const sectionRect = activeSection.getBoundingClientRect();
+    const topPadding = isMobile ? 20 : 24;
+    const targetTop = scrollPanel.scrollTop + (sectionRect.top - panelRect.top) - topPadding;
+
+    window.requestAnimationFrame(() => {
+      scrollPanel.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior: "smooth",
+      });
+    });
+  }, [activePlannerSection, isMobile, showForm]);
 
   const normalizeVehicleType = (vehicleType: unknown): string => {
     if (vehicleType === "tent") return "carTent";
@@ -532,6 +578,17 @@ export function RoutePlanner() {
       revealPlanner();
     }
   };
+
+  const renderPlannerAccordionHeader = (title: string, summary: string) => (
+    <div className="flex flex-1 flex-col gap-1 pr-4 text-left">
+      <span className="text-lg font-black tracking-tight text-foreground dark:text-white">
+        {title}
+      </span>
+      <span className="text-sm leading-relaxed text-foreground/72 dark:text-white/68">
+        {summary}
+      </span>
+    </div>
+  );
 
   const scrollToApiKeyInput = () => {
     setTimeout(() => {
@@ -872,36 +929,24 @@ export function RoutePlanner() {
               </motion.p>
             </div>
 
-            <div className={`${plannerSectionClass} theme-band-vehicle mb-8 md:mb-12`}>
-              <PlaceFinderSection formData={formData} onChange={handlePlaceFinderChange} />
-            </div>
-
-            <div className={`${plannerSectionClass} theme-band-vehicle mb-8 md:mb-12 space-y-6 text-left`}>
-              <button
-                type="button"
-                onClick={() => setSavedPlansOpen((current) => !current)}
-                className="flex w-full items-center justify-between gap-4 rounded-[1.5rem] border-2 border-primary/25 bg-white/[0.05] px-5 py-4 text-left shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition hover:border-primary/45 hover:bg-white/[0.08] dark:bg-white/[0.03]"
-              >
-                <div className="space-y-2">
-                  <div className="text-lg font-black tracking-tight text-foreground dark:text-white">
-                    {t("planner.summary.savedPlans.title")}
-                  </div>
-                  <div className="text-sm leading-relaxed text-foreground/78 dark:text-white/72">
-                    {t("planner.summary.savedPlans.desc")}
-                  </div>
-                  <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary/80">
-                    {savedPlansOpen ? t("planner.summary.savedPlans.collapse") : t("planner.summary.savedPlans.expand")}
-                  </div>
-                </div>
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary">
-                  <ChevronRight
-                    className={`h-5 w-5 transition-transform ${savedPlansOpen ? "rotate-90" : ""}`}
-                  />
-                </div>
-              </button>
-
-              {savedPlansOpen && (
-                <>
+            <Accordion
+              type="single"
+              collapsible
+              value={activePlannerSection}
+              onValueChange={(value) => setActivePlannerSection(value)}
+              className="mb-8 space-y-5 md:mb-12"
+            >
+              <AccordionItem value="savedPlans" data-planner-section="savedPlans" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(
+                    t("planner.summary.savedPlans.title"),
+                    savedPlans.length > 0
+                      ? `${savedPlans.length} ${t("planner.summary.savedPlans.title").toLowerCase()}`
+                      : t("planner.summary.savedPlans.desc"),
+                  )}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-vehicle space-y-6 text-left`}>
                   <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
                     <div className="space-y-2">
                       <div className="text-[13px] leading-relaxed font-medium text-foreground/82 dark:text-white/78">
@@ -1088,49 +1133,105 @@ export function RoutePlanner() {
                       })}
                     </div>
                   )}
-                </>
-              )}
-            </div>
 
-            <div className="grid grid-cols-1 gap-8 items-start">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="relative overflow-visible pb-28 sm:pb-32" 
-              ref={formRef}
-            >
-              <div className="space-y-6 relative z-10">
-                <div className={`${plannerSectionClass} theme-band-ai`}>
-                  <RouteSection formData={formData} onChange={handleFormChange} />
-                </div>
-
-                <div className={`${plannerSectionClass} theme-band-vehicle`}>
-                  <VehicleSection formData={formData} onChange={handleFormChange} />
-                </div>
-
-                <div className={`${plannerSectionClass} theme-band-ai`}>
-                  <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />
-                </div>
-
-                <div className={`${plannerSectionClass} theme-band-vehicle`}>
-                  <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />
-                </div>
-
-                <div className={`${plannerSectionClass} theme-band-ai space-y-10`}>
-                    <div className="space-y-4">
-                      <h3 className="text-2xl sm:text-3xl font-black flex items-center gap-3 tracking-tight text-white">
-                        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/20">
-                          <FileText className="w-6 h-6" />
-                        </div>
-                        {t("planner.summary.title")}
-                      </h3>
-                      {!output && (
-                        <p className="text-white/40 italic text-sm ml-16 text-left">
-                          {t("planner.summary.check")}
-                        </p>
-                      )}
+                  <div className="mx-auto w-full max-w-xl flex flex-col items-center gap-4 px-1 pt-2 text-center">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-primary shadow-[0_10px_28px_rgba(201,123,0,0.16)]">
+                      <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_rgba(201,123,0,0.8)]" />
+                      {t("planner.summary.save.coffeeBadge")}
                     </div>
+                    <div className="text-[11px] sm:text-xs text-foreground/62 dark:text-white/64 leading-relaxed max-w-lg">
+                      {t("planner.summary.save.coffeeHint")}
+                    </div>
+                    <a
+                      href="https://www.buymeacoffee.com/campingroute"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex w-full max-w-[380px] items-center justify-center gap-4 overflow-hidden rounded-[1.75rem] border border-primary/30 px-6 py-4 text-slate-950 transition-all duration-300 hover:-translate-y-1 hover:border-primary/55 shadow-[0_24px_60px_rgba(15,23,42,0.1)] hover:shadow-[0_30px_72px_rgba(15,23,42,0.14)] bg-[linear-gradient(135deg,rgba(255,252,247,0.99),rgba(244,237,226,0.99))] dark:border-primary/45 dark:text-white dark:shadow-[0_24px_60px_rgba(15,23,42,0.18)] dark:hover:border-primary/70 dark:hover:shadow-[0_30px_72px_rgba(15,23,42,0.24)] dark:bg-[linear-gradient(135deg,rgba(88,102,128,0.94),rgba(66,77,100,0.96))]"
+                    >
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(201,123,0,0.08),transparent_40%)] opacity-100 dark:bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.14),transparent_42%)]" />
+                      <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/82 text-xl shadow-[inset_0_0_0_1px_rgba(148,163,184,0.22)] backdrop-blur-md dark:bg-white/16 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.16)]" aria-hidden="true">
+                        ☕
+                      </span>
+                      <span className="relative flex flex-col items-start text-left leading-none">
+                        <span className="text-lg sm:text-xl font-black tracking-tight text-slate-950 dark:text-white">
+                          {t("planner.summary.save.coffee")}
+                        </span>
+                        <span className="mt-1 text-[11px] sm:text-xs font-semibold text-slate-800 tracking-[0.08em] uppercase dark:text-white/85">
+                          {t("planner.summary.save.coffeeTagline")}
+                        </span>
+                      </span>
+                      <span className="relative text-xl text-slate-800 transition-transform duration-300 group-hover:translate-x-1 dark:text-white/88" aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                  </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
+              <AccordionItem value="placeFinder" data-planner-section="placeFinder" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.placeFinder.title"), t("planner.placeFinder.description"))}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                    <PlaceFinderSection formData={formData} onChange={handlePlaceFinderChange} />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="route" data-planner-section="route" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.route.title"), routeSummary)}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-ai`}>
+                    <RouteSection formData={formData} onChange={handleFormChange} />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="vehicle" data-planner-section="vehicle" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.vehicle.title"), vehicleSummary)}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                    <VehicleSection formData={formData} onChange={handleFormChange} />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="accommodation" data-planner-section="accommodation" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.accommodation.title"), accommodationSummary)}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-ai`}>
+                    <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="optimization" data-planner-section="optimization" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(
+                    `${t("planner.optimization.title")} · ${t("planner.optimization.categories.roadType.label")} & ${t("planner.optimization.categories.restrictions.label")}`,
+                    optimizationSummary,
+                  )}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-vehicle`}>
+                    <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="summary" data-planner-section="summary" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.summary.title"), summaryAccordionText)}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={`${plannerSectionClass} theme-band-ai space-y-10`}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
                       <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
@@ -1289,42 +1390,17 @@ export function RoutePlanner() {
                         </div>
                       ))}
                     </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-                    <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-4 text-center px-2 py-2">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-primary shadow-[0_10px_28px_rgba(201,123,0,0.16)]">
-                        <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_rgba(201,123,0,0.8)]" />
-                        {t("planner.summary.save.coffeeBadge")}
-                      </div>
-                      <div className="text-[11px] sm:text-xs text-foreground/62 dark:text-white/64 leading-relaxed max-w-lg">
-                        {t("planner.summary.save.coffeeHint")}
-                      </div>
-                      <a
-                        href="https://www.buymeacoffee.com/campingroute"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group relative inline-flex w-full max-w-[380px] items-center justify-center gap-4 overflow-hidden rounded-[1.75rem] border border-primary/30 px-6 py-4 text-slate-950 transition-all duration-300 hover:-translate-y-1 hover:border-primary/55 shadow-[0_24px_60px_rgba(15,23,42,0.1)] hover:shadow-[0_30px_72px_rgba(15,23,42,0.14)] bg-[linear-gradient(135deg,rgba(255,252,247,0.99),rgba(244,237,226,0.99))] dark:border-primary/45 dark:text-white dark:shadow-[0_24px_60px_rgba(15,23,42,0.18)] dark:hover:border-primary/70 dark:hover:shadow-[0_30px_72px_rgba(15,23,42,0.24)] dark:bg-[linear-gradient(135deg,rgba(88,102,128,0.94),rgba(66,77,100,0.96))]"
-                      >
-                        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(201,123,0,0.08),transparent_40%)] opacity-100 dark:bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.14),transparent_42%)]" />
-                        <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/82 text-xl shadow-[inset_0_0_0_1px_rgba(148,163,184,0.22)] backdrop-blur-md dark:bg-white/16 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.16)]" aria-hidden="true">
-                          ☕
-                        </span>
-                        <span className="relative flex flex-col items-start text-left leading-none">
-                          <span className="text-lg sm:text-xl font-black tracking-tight text-slate-950 dark:text-white">
-                            {t("planner.summary.save.coffee")}
-                          </span>
-                          <span className="mt-1 text-[11px] sm:text-xs font-semibold text-slate-800 tracking-[0.08em] uppercase dark:text-white/85">
-                            {t("planner.summary.save.coffeeTagline")}
-                          </span>
-                        </span>
-                        <span className="relative text-xl text-slate-800 transition-transform duration-300 group-hover:translate-x-1 dark:text-white/88" aria-hidden="true">
-                          →
-                        </span>
-                      </a>
-                    </div>
-                </div>
-              </div>
-            </motion.div>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="relative overflow-visible pb-28 sm:pb-32" 
+              ref={formRef}
+            >
                 {(output || isLoading || aiError) && (
                   <div
                     className="theme-surface mx-auto mt-16 max-w-[calc(100%-1rem)] scroll-mt-24 rounded-[1.5rem] px-3 py-3 sm:max-w-[calc(100%-3rem)] sm:px-4 sm:py-4"
@@ -1360,6 +1436,7 @@ export function RoutePlanner() {
                     />
                   </div>
                 )}
+            </motion.div>
             </div>
 
             </section>

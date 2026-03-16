@@ -234,17 +234,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
   };
 
   return (
-    <div className="space-y-8 text-left">
-      <div className="space-y-4">
-        <h3 className="text-2xl md:text-3xl font-black tracking-tight text-white flex items-center gap-4">
-          <span className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-            <MapPin className="w-6 h-6" />
-          </span>
-          <span>{t("planner.placeFinder.title")}</span>
-        </h3>
-        <p className="max-w-5xl text-base leading-relaxed text-white/62">{t("planner.placeFinder.description")}</p>
-      </div>
-
+    <div className="text-left">
       <div className={panelClass}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div className="space-y-3">

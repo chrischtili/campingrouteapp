@@ -710,19 +710,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   );
 
   return (
-    <div className="space-y-12">
-      <div className="space-y-4 text-left">
-        <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3 tracking-tight text-left text-foreground dark:text-white">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-            <MapIcon className="w-6 h-6" />
-          </div>
-          {t("planner.route.title")}
-        </h3>
-        <p className="text-foreground/62 dark:text-white/60 text-lg leading-relaxed italic">
-          {t("planner.route.description")}
-        </p>
-      </div>
-
+    <div className="space-y-8">
       <div className="p-6 sm:p-8 md:p-10 shadow-2xl space-y-6" style={glassPanelStyle}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
@@ -787,8 +775,8 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             placeholder={t("planner.route.targetRegions.placeholder")}
             value={formData.targetRegions}
             onChange={(e) => onChange({ targetRegions: e.target.value })}
-            rows={3}
-            className={`${inputClass} min-h-[110px] sm:min-h-[130px] p-4 sm:p-8 resize-none`}
+            rows={2}
+            className={`${inputClass} min-h-[84px] sm:min-h-[96px] p-4 sm:p-6 resize-none`}
           />
         </div>
 

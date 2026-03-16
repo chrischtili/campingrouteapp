@@ -848,7 +848,7 @@
       },
       "errors": {
         "region_not_supported": "Bitte gib einen konkreten Ort oder eine Stadt ein. Regionssuchen unterstützen wir hier aktuell noch nicht.",
-        "searchFailed": "Die Platzsuche ist gerade nicht verfügbar. Prüfe später noch einmal den Suchbegriff oder den Proxy."
+        "searchFailed": "Die Platzsuche ist gerade nicht verfügbar. Bitte versuche es in ein paar Minuten noch einmal."
       }
     },
     "optimization": {

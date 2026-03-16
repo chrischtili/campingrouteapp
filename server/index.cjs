@@ -56,6 +56,11 @@ const REQUEST_HEADERS = {
   'User-Agent': 'CampingRoute/0.5.13 (+https://campingroute.app)',
   Accept: 'application/json'
 };
+const OVERPASS_ENDPOINTS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+  'https://lz4.overpass-api.de/api/interpreter'
+];
 
 function ensureJsonFile(filePath, fallback) {
   if (!fs.existsSync(filePath)) {
@@ -306,8 +311,7 @@ async function geocodePlace(query) {
   return results.find((entry) => !isRegionResult(entry)) || results[0];
 }
 
-function buildOverpassQuery({ lat, lon, categories, limit }) {
-  const radius = 35000;
+function buildOverpassQuery({ lat, lon, categories, limit, radius }) {
   const body = categories
     .map((category) => `nwr(around:${radius},${lat},${lon})["tourism"="${category}"];`)
     .join('\n');
@@ -317,6 +321,40 @@ function buildOverpassQuery({ lat, lon, categories, limit }) {
 ${body}
 );
 out center tags ${Math.max(1, Math.min(limit * 2, 60))};`;
+}
+
+async function fetchOverpassPlaces({ lat, lon, categories, limit }) {
+  const attempts = [
+    { radius: 22000, endpoint: OVERPASS_ENDPOINTS[0] },
+    { radius: 12000, endpoint: OVERPASS_ENDPOINTS[0] },
+    { radius: 22000, endpoint: OVERPASS_ENDPOINTS[1] },
+    { radius: 12000, endpoint: OVERPASS_ENDPOINTS[2] }
+  ];
+
+  let lastError = null;
+
+  for (const attempt of attempts) {
+    try {
+      const overpassQuery = buildOverpassQuery({
+        lat,
+        lon,
+        categories,
+        limit,
+        radius: attempt.radius,
+      });
+      return await fetchJson(attempt.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=UTF-8',
+        },
+        body: overpassQuery,
+      });
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error('searchFailed');
 }
 
 function deriveLocality(tags = {}) {
@@ -389,14 +427,7 @@ async function searchPlaces(query, categories, limit) {
     return { results: [] };
   }
 
-  const overpassQuery = buildOverpassQuery({ lat, lon, categories, limit });
-  const overpassData = await fetchJson('https://overpass-api.de/api/interpreter', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain;charset=UTF-8',
-    },
-    body: overpassQuery,
-  });
+  const overpassData = await fetchOverpassPlaces({ lat, lon, categories, limit });
 
   const seen = new Set();
   const results = Array.isArray(overpassData?.elements)

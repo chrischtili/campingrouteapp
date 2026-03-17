@@ -1410,6 +1410,7 @@
   "buttons": {
     "ok": "OK",
     "cancel": "Abbrechen",
+    "close": "Schließen",
     "copy": "Kopieren",
     "print": "Drucken"
   },

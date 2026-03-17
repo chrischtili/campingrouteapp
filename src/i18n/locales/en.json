@@ -1412,6 +1412,7 @@
   "buttons": {
     "ok": "OK",
     "cancel": "Cancel",
+    "close": "Close",
     "copy": "Copy",
     "print": "Print"
   },

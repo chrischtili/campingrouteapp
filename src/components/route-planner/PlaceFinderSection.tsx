@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { BedDouble, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, Zap } from "lucide-react";
+import { BedDouble, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -360,13 +360,27 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
           <SheetContent side="bottom" hideCloseButton className="max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0">
             {selectedPlace && (
               <>
-                <SheetHeader className="border-b px-6 py-5 text-left">
-                  <SheetTitle className="text-left text-xl font-bold text-foreground dark:text-white">
-                    {selectedPlace.name}
-                  </SheetTitle>
-                  <SheetDescription className="text-left text-sm text-foreground/60 dark:text-white/58">
-                    {t("planner.placeFinder.detailDescription")}
-                  </SheetDescription>
+                <SheetHeader className="sticky top-0 z-10 border-b bg-background/95 px-4 py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <SheetTitle className="text-left text-lg font-bold text-foreground dark:text-white sm:text-xl">
+                        {selectedPlace.name}
+                      </SheetTitle>
+                      <SheetDescription className="mt-1 text-left text-sm text-foreground/60 dark:text-white/58">
+                        {t("planner.placeFinder.detailDescription")}
+                      </SheetDescription>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setSelectedPlace(null)}
+                      className="h-10 w-10 shrink-0 rounded-full border border-border/70 bg-white/75 text-foreground hover:bg-white dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
+                      aria-label={t("buttons.close")}
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
                 </SheetHeader>
                 <div className="px-6 pt-6">{renderDetails(selectedPlace)}</div>
               </>

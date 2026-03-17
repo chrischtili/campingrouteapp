@@ -561,6 +561,8 @@
       },
       "savedPlans": {
         "title": "5 recent plans",
+        "count_one": "{{count}} plan",
+        "count_other": "{{count}} plans",
         "desc": "Stores up to 5 plans locally in the browser. You can load, overwrite or delete them later.",
         "saveCurrent": "Save current plan",
         "empty": "No plan saved yet.",

@@ -561,6 +561,8 @@
       },
       "savedPlans": {
         "title": "5 ultimi piani",
+        "count_one": "{{count}} piano",
+        "count_other": "{{count}} piani",
         "desc": "Salva fino a 5 piani localmente nel browser. In seguito puoi caricarli, sovrascriverli o eliminarli.",
         "saveCurrent": "Salva il piano attuale",
         "empty": "Nessun piano salvato finora.",

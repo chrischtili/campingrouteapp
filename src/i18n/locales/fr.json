@@ -561,6 +561,8 @@
       },
       "savedPlans": {
         "title": "5 derniers plans",
+        "count_one": "{{count}} plan",
+        "count_other": "{{count}} plans",
         "desc": "Enregistre jusqu’à 5 plans localement dans le navigateur. Vous pouvez ensuite les charger, les écraser ou les supprimer.",
         "saveCurrent": "Enregistrer le plan actuel",
         "empty": "Aucun plan enregistré pour le moment.",

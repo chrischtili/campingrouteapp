@@ -930,7 +930,7 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(
                     t("planner.summary.savedPlans.title"),
                     savedPlans.length > 0
-                      ? `${savedPlans.length} ${t("planner.summary.savedPlans.title").toLowerCase()}`
+                      ? t("planner.summary.savedPlans.count", { count: savedPlans.length })
                       : t("planner.summary.savedPlans.desc"),
                   )}
                 </AccordionTrigger>

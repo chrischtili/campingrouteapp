@@ -561,6 +561,8 @@
       },
       "savedPlans": {
         "title": "5 recente plannen",
+        "count_one": "{{count}} planning",
+        "count_other": "{{count}} planningen",
         "desc": "Slaat maximaal 5 plannen lokaal in de browser op. Je kunt ze later laden, overschrijven of verwijderen.",
         "saveCurrent": "Huidig plan opslaan",
         "empty": "Nog geen plan opgeslagen.",

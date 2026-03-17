@@ -186,6 +186,7 @@ export function RoutePlanner() {
     !!aiSettings.apiKey?.trim() &&
     /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
   const plannerSectionClass = "px-4 sm:px-6 lg:px-8 py-6 sm:py-7";
+  const plannerSummarySectionClass = "px-1 sm:px-6 lg:px-8 py-4 sm:py-7";
   const plannerAccordionItemClass = "overflow-hidden rounded-[1.75rem] border-2 border-primary/20 bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] shadow-[0_12px_30px_rgba(15,23,42,0.06)] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))]";
   const plannerAccordionTriggerClass = "px-5 sm:px-6 py-5 text-left hover:no-underline transition-colors hover:bg-black/[0.02] data-[state=open]:bg-black/[0.02] dark:hover:bg-white/[0.03] dark:data-[state=open]:bg-white/[0.03]";
   const plannerAccordionContentClass = "px-5 sm:px-6 pb-5 sm:pb-6 pt-0";
@@ -1220,9 +1221,9 @@ export function RoutePlanner() {
                   {renderPlannerAccordionHeader(t("planner.summary.title"), summaryAccordionText)}
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={`${plannerSectionClass} space-y-10`}>
+                  <div className={`${plannerSummarySectionClass} space-y-5 sm:space-y-10`}>
                     <div className="grid grid-cols-1 gap-6 text-left">
-                      <div className="p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-6">
+                      <div className="p-4 sm:p-8 rounded-[1.5rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-5 sm:gap-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
                           <div className="flex flex-col gap-1 text-center sm:text-left">
                             <span className="text-[10px] font-semibold tracking-[0.08em] text-primary">{t("planner.summary.start")}</span>
@@ -1329,7 +1330,7 @@ export function RoutePlanner() {
 
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-left">
                       {[
                         { 
                           label: t("planner.summary.vehicle"), 
@@ -1353,11 +1354,11 @@ export function RoutePlanner() {
                         },
                         { label: t("planner.summary.interests"), value: formData.activities.length + " " + t("planner.summary.selected"), icon: Sparkles },
                       ].map((stat, i) => (
-                        <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">
-                          <stat.icon className="w-5 h-5 text-primary/80 group-hover:text-primary transition-colors" />
-                          <div className="flex flex-col">
+                        <div key={i} className="p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 flex items-start gap-3 sm:gap-4 group hover:bg-white/10 transition-colors min-w-0">
+                          <stat.icon className="mt-0.5 w-5 h-5 text-primary/80 group-hover:text-primary transition-colors shrink-0" />
+                          <div className="flex min-w-0 flex-col">
                             <span className="text-[8px] font-semibold tracking-[0.08em] text-white/35">{stat.label}</span>
-                            <span className="text-xs font-black text-white">{stat.value}</span>
+                            <span className="text-[11px] sm:text-xs font-black text-white break-words">{stat.value}</span>
                           </div>
                         </div>
                       ))}

@@ -1221,8 +1221,8 @@ export function RoutePlanner() {
                 </AccordionTrigger>
                 <AccordionContent className={plannerAccordionContentClass}>
                   <div className={`${plannerSectionClass} space-y-10`}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-                      <div className="md:col-span-2 lg:col-span-2 p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-6">
+                    <div className="grid grid-cols-1 gap-6 text-left">
+                      <div className="p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/7 border border-white/8 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col gap-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between border-b border-white/5 pb-6 gap-4 sm:gap-0">
                           <div className="flex flex-col gap-1 text-center sm:text-left">
                             <span className="text-[10px] font-semibold tracking-[0.08em] text-primary">{t("planner.summary.start")}</span>
@@ -1327,23 +1327,6 @@ export function RoutePlanner() {
                         )}
                       </div>
 
-                      <div className="p-6 sm:p-8 rounded-[1.75rem] sm:rounded-[2.2rem] bg-white/5 border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.14)] flex flex-col justify-between gap-6 sm:gap-0">
-                        <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center text-primary mb-6">
-                          <Bot className="w-6 h-6" />
-                        </div>
-                        <div className="space-y-3">
-                          <span className="text-[10px] font-semibold tracking-[0.08em] text-primary/80">{t("planner.summary.method")}</span>
-                          <h4 className="text-xl font-black text-white leading-tight">
-                            {aiSettings.useDirectAI ? t("planner.summary.direct") : t("planner.summary.prompt")}
-                          </h4>
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-semibold tracking-[0.08em] text-white/35">{t("planner.summary.model")}</span>
-                            <p className="text-sm sm:text-base font-bold text-white/85 leading-snug">
-                              {getSummaryModelLabel()}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">

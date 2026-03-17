@@ -551,7 +551,7 @@
       "save": {
         "title": "Eingaben lokal speichern",
         "desc": "Speichert deine Formulareingaben für 30 Tage lokal auf diesem Gerät. Mit „Daten löschen“ entfernst du die gespeicherten Daten von diesem Gerät.",
-        "note": "API-Keys werden niemals gespeichert. Planungen kannst du zusätzlich lokal als Datei exportieren und später wieder importieren.",
+        "note": "Planungen kannst du zusätzlich lokal als Datei exportieren und später wieder importieren.",
         "coffeeBadge": "Unterstützen",
         "coffee": "Support CampingRoute",
         "coffeeTagline": "Open Source & werbefrei",

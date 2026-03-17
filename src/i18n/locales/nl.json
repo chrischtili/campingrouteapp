@@ -552,7 +552,7 @@
       "save": {
         "title": "Invoer lokaal opslaan",
         "desc": "Slaat je formuliergegevens 30 dagen lokaal op dit apparaat op. Met “Gegevens wissen” verwijder je opgeslagen data van dit apparaat.",
-        "note": "API‑keys worden nooit opgeslagen.",
+        "note": "Planningen kunnen ook lokaal als bestand worden geëxporteerd en later opnieuw worden geïmporteerd.",
         "coffeeBadge": "Steunen",
         "coffee": "Steun CampingRoute",
         "coffeeTagline": "Open source en reclamevrij",

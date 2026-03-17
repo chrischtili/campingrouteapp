@@ -552,7 +552,7 @@
       "save": {
         "title": "Salva input localmente",
         "desc": "Salva i tuoi input del modulo localmente su questo dispositivo per 30 giorni. Con „Elimina dati“ rimuovi i dati salvati da questo dispositivo.",
-        "note": "Le chiavi API non vengono mai salvate.",
+        "note": "I piani possono anche essere esportati localmente come file e importati di nuovo in seguito.",
         "coffeeBadge": "Supporta",
         "coffee": "Supporta CampingRoute",
         "coffeeTagline": "Open source e senza pubblicità",

@@ -552,7 +552,7 @@
       "save": {
         "title": "Enregistrer les saisies en local",
         "desc": "Enregistre vos saisies sur cet appareil pendant 30 jours. Utilisez « Effacer les données » pour supprimer les données enregistrées sur cet appareil.",
-        "note": "Les clés API ne sont jamais stockées.",
+        "note": "Les plans peuvent aussi être exportés localement sous forme de fichier puis réimportés plus tard.",
         "coffeeBadge": "Soutenir",
         "coffee": "Soutenir CampingRoute",
         "coffeeTagline": "Open source et sans publicité",

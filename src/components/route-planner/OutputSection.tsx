@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, ChevronDown, AlertCircle, Download, Map as MapIcon, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert } from "lucide-react";
+import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, ChevronDown, AlertCircle, Download, Map as MapIcon, CalendarRange, Route as RouteIcon, Clock3, Wallet, Trees, Award, BedDouble, TriangleAlert, Heart } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -728,6 +728,30 @@ ${gpxOnly}`;
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5">
+            {!useDirectAI && (
+              <div className="flex flex-col gap-3 rounded-[1.25rem] border border-primary/14 bg-[linear-gradient(180deg,rgba(238,242,249,0.94),rgba(231,236,245,0.94))] px-4 py-3 sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.72),rgba(44,53,70,0.78))]">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-primary">
+                    <Heart className="h-3.5 w-3.5 fill-current" />
+                    {t("planner.summary.save.coffeeBadge")}
+                  </div>
+                  <p className="mt-1 text-xs sm:text-sm leading-relaxed text-muted-foreground dark:text-white/68">
+                    {t("planner.summary.save.coffeeHint")}
+                  </p>
+                </div>
+                <a
+                  href="https://www.buymeacoffee.com/campingroute"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-primary/45 bg-primary px-4 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-white shadow-[0_12px_24px_rgba(201,123,0,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/92 hover:shadow-[0_16px_28px_rgba(201,123,0,0.32)]"
+                >
+                  <span className="text-base leading-none" aria-hidden="true">☕</span>
+                  {t("planner.summary.save.coffee")}
+                  <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </a>
+              </div>
+            )}
+
             {summary && (
               <div className="space-y-3 sm:space-y-4">
                 {useDirectAI && spotlightCards.length > 0 && (

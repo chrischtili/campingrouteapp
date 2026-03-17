@@ -1124,37 +1124,6 @@ export function RoutePlanner() {
                     </div>
                   )}
 
-                  <div className="mx-auto w-full max-w-xl flex flex-col items-center gap-4 px-1 pt-2 text-center">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-primary shadow-[0_10px_28px_rgba(201,123,0,0.16)]">
-                      <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_rgba(201,123,0,0.8)]" />
-                      {t("planner.summary.save.coffeeBadge")}
-                    </div>
-                    <div className="text-[11px] sm:text-xs text-foreground/62 dark:text-white/64 leading-relaxed max-w-lg">
-                      {t("planner.summary.save.coffeeHint")}
-                    </div>
-                    <a
-                      href="https://www.buymeacoffee.com/campingroute"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative inline-flex w-full max-w-[380px] items-center justify-center gap-4 overflow-hidden rounded-[1.75rem] border border-primary/30 px-6 py-4 text-slate-950 transition-all duration-300 hover:-translate-y-1 hover:border-primary/55 shadow-[0_24px_60px_rgba(15,23,42,0.1)] hover:shadow-[0_30px_72px_rgba(15,23,42,0.14)] bg-[linear-gradient(135deg,rgba(255,252,247,0.99),rgba(244,237,226,0.99))] dark:border-primary/45 dark:text-white dark:shadow-[0_24px_60px_rgba(15,23,42,0.18)] dark:hover:border-primary/70 dark:hover:shadow-[0_30px_72px_rgba(15,23,42,0.24)] dark:bg-[linear-gradient(135deg,rgba(88,102,128,0.94),rgba(66,77,100,0.96))]"
-                    >
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(201,123,0,0.08),transparent_40%)] opacity-100 dark:bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.14),transparent_42%)]" />
-                      <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/82 text-xl shadow-[inset_0_0_0_1px_rgba(148,163,184,0.22)] backdrop-blur-md dark:bg-white/16 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.16)]" aria-hidden="true">
-                        ☕
-                      </span>
-                      <span className="relative flex flex-col items-start text-left leading-none">
-                        <span className="text-lg sm:text-xl font-black tracking-tight text-slate-950 dark:text-white">
-                          {t("planner.summary.save.coffee")}
-                        </span>
-                        <span className="mt-1 text-[11px] sm:text-xs font-semibold text-slate-800 tracking-[0.08em] uppercase dark:text-white/85">
-                          {t("planner.summary.save.coffeeTagline")}
-                        </span>
-                      </span>
-                      <span className="relative text-xl text-slate-800 transition-transform duration-300 group-hover:translate-x-1 dark:text-white/88" aria-hidden="true">
-                        →
-                      </span>
-                    </a>
-                  </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>

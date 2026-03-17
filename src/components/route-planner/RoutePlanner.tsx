@@ -969,7 +969,7 @@ export function RoutePlanner() {
                           type="button"
                           variant="outline"
                           onClick={exportCurrentPlanToFile}
-                          className="rounded-xl px-4 h-11 w-full border border-slate-500/20 bg-white/88 text-slate-800 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 hover:bg-white"
+                          className="rounded-xl px-4 h-11 w-full border border-slate-500/20 bg-white/88 text-slate-800 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/10"
                         >
                           <Download className="w-4 h-4" />
                           {t("planner.summary.savedPlans.export")}
@@ -978,7 +978,7 @@ export function RoutePlanner() {
                           type="button"
                           variant="outline"
                           onClick={triggerPlanImport}
-                          className="rounded-xl px-4 h-11 w-full border border-slate-500/20 bg-white/88 text-slate-800 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 hover:bg-white"
+                          className="rounded-xl px-4 h-11 w-full border border-slate-500/20 bg-white/88 text-slate-800 font-semibold transition-all active:scale-95 inline-flex items-center justify-center gap-2 hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/10"
                         >
                           <Upload className="w-4 h-4" />
                           {t("planner.summary.savedPlans.import")}

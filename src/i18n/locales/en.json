@@ -9,7 +9,7 @@
     "exampleRoute": "Example Route",
     "faq": "FAQ",
     "placeFinder": "Place Finder",
-    "planNow": "Plan Route",
+    "planNow": "Generate Prompt",
     "subtitle": "Smart AI Prompts",
     "whatsNew": "What's new in {{version}}",
     "theme": {
@@ -25,7 +25,7 @@
     "badge": "AI Prompt Generator",
     "title": "Camping Route",
     "description": "Our AI prompt generator is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
-    "planNow": "Plan Route Now",
+    "planNow": "Generate Prompt",
     "viewExample": "View Example",
     "stats": {
       "rating": {
@@ -511,7 +511,7 @@
   "planner": {
     "badge": "Route Planner",
     "title": "Everything for your route in one place",
-    "cta": "Plan Now",
+    "cta": "Generate Prompt",
     "launcher": {
       "title": "Prompt creation, place search and route planning in one place",
       "description": "Open the planner, search suitable places and then complete your route details and AI prompt in one flow.",
@@ -865,7 +865,8 @@
       },
       "errors": {
         "region_not_supported": "Please enter a specific place or city. Regional searches are not supported here yet.",
-        "searchFailed": "Place search is currently unavailable. Please try the query again later or check the proxy."
+        "searchFailed": "Place search is currently unavailable. Please try the query again later or check the proxy.",
+        "rateLimited": "Too many search requests in a short time. Please wait a moment and try again."
       }
     },
     "optimization": {

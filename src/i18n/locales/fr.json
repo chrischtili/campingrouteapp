@@ -9,7 +9,7 @@
     "exampleRoute": "Itinéraire exemple",
     "faq": "FAQ",
     "placeFinder": "Recherche d’emplacements",
-    "planNow": "Planifier l’itinéraire",
+    "planNow": "Générer le prompt",
     "subtitle": "Prompts IA intelligents",
     "whatsNew": "Nouveautés de {{version}}",
     "theme": {
@@ -25,7 +25,7 @@
     "badge": "Générateur de prompts IA",
     "title": "Camping Route",
     "description": "Notre générateur de prompts IA est votre compagnon pratique pour trouver les prompts parfaits pour votre IA préférée. Il vous aide à planifier plus sereinement vos voyages en camping-car, caravane, tente ou moto, avec recherche d’emplacements et de campings, planification des étapes et export GPX.",
-    "planNow": "Planifier l’itinéraire",
+    "planNow": "Générer le prompt",
     "viewExample": "Voir l’exemple",
     "stats": {
       "rating": {
@@ -511,7 +511,7 @@
   "planner": {
     "badge": "Planificateur d’itinéraire",
     "title": "Tout pour ton itinéraire en un seul endroit",
-    "cta": "Planifier maintenant",
+    "cta": "Générer le prompt",
     "launcher": {
       "title": "Création de prompt, recherche d’emplacements et itinéraire au même endroit",
       "description": "Ouvre le planificateur, cherche des emplacements adaptés puis complète ton itinéraire et le prompt IA dans le même flux.",
@@ -865,7 +865,8 @@
       },
       "errors": {
         "region_not_supported": "Veuillez saisir un lieu ou une ville précise. Les recherches par région ne sont pas encore prises en charge ici.",
-        "searchFailed": "La recherche d’emplacements est actuellement indisponible. Réessayez plus tard ou vérifiez le proxy."
+        "searchFailed": "La recherche d’emplacements est actuellement indisponible. Réessayez plus tard ou vérifiez le proxy.",
+        "rateLimited": "Trop de recherches ont été envoyées en peu de temps. Veuillez patienter un instant puis réessayer."
       }
     },
     "optimization": {

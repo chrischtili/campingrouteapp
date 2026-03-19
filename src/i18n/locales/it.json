@@ -9,7 +9,7 @@
     "exampleRoute": "Itinerario d'esempio",
     "faq": "FAQ",
     "placeFinder": "Ricerca aree",
-    "planNow": "Pianifica itinerario",
+    "planNow": "Genera prompt",
     "subtitle": "Prompt IA smart",
     "whatsNew": "Novità della {{version}}",
     "theme": {
@@ -25,7 +25,7 @@
     "badge": "Generatore di prompt IA",
     "title": "Camping Route",
     "description": "Il nostro generatore di prompt IA è il tuo compagno pratico per trovare i prompt perfetti per la tua IA preferita. Ti aiuta a pianificare con più tranquillità i tuoi viaggi in camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, pianificazione delle tappe ed export GPX.",
-    "planNow": "Pianifica itinerario ora",
+    "planNow": "Genera prompt",
     "viewExample": "Guarda l'itinerario d'esempio",
     "stats": {
       "rating": {
@@ -511,7 +511,7 @@
   "planner": {
     "badge": "Pianificatore itinerari",
     "title": "Tutto per il tuo itinerario in un unico posto",
-    "cta": "Pianifica itinerario ora",
+    "cta": "Genera prompt",
     "launcher": {
       "title": "Creazione prompt, ricerca aree e pianificazione in un unico posto",
       "description": "Apri il pianificatore, cerca aree adatte e completa poi dettagli del percorso e prompt IA nello stesso flusso.",
@@ -865,7 +865,8 @@
       },
       "errors": {
         "region_not_supported": "Inserisci un luogo o una città specifica. Le ricerche per regione qui non sono ancora supportate.",
-        "searchFailed": "La ricerca delle aree non è al momento disponibile. Riprova più tardi o controlla il proxy."
+        "searchFailed": "La ricerca delle aree non è al momento disponibile. Riprova più tardi o controlla il proxy.",
+        "rateLimited": "Troppe ricerche in poco tempo. Attendi un momento e riprova."
       }
     },
     "optimization": {

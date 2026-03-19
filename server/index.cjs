@@ -67,6 +67,11 @@ const OVERPASS_TIMEOUT_MS = 5000;
 const PLACE_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
 const PLACE_SEARCH_CACHE_MAX_ENTRIES = 100;
 const placeSearchCache = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const PLACE_RATE_LIMITS = {
+  suggest: { max: 15, bucket: new Map() },
+  search: { max: 4, bucket: new Map() }
+};
 
 function ensureJsonFile(filePath, fallback) {
   if (!fs.existsSync(filePath)) {
@@ -85,6 +90,41 @@ function readJson(filePath, fallback) {
 
 function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+function getClientIp(req) {
+  const forwardedFor = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  if (forwardedFor) return forwardedFor;
+  return (
+    req.socket?.remoteAddress ||
+    req.connection?.remoteAddress ||
+    'unknown'
+  );
+}
+
+function isRateLimited(req, key) {
+  const config = PLACE_RATE_LIMITS[key];
+  if (!config) return false;
+
+  const now = Date.now();
+  const ip = getClientIp(req);
+  const entry = config.bucket.get(ip);
+
+  if (!entry || now >= entry.resetAt) {
+    config.bucket.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+  } else {
+    entry.count += 1;
+  }
+
+  if (config.bucket.size > 5000) {
+    for (const [bucketIp, bucketEntry] of config.bucket.entries()) {
+      if (now >= bucketEntry.resetAt) {
+        config.bucket.delete(bucketIp);
+      }
+    }
+  }
+
+  return (config.bucket.get(ip)?.count || 0) > config.max;
 }
 
 function toLocalDateKey(date = new Date()) {
@@ -901,6 +941,11 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === '/api/places/search') {
+      if (isRateLimited(req, 'search')) {
+        sendJson(res, 429, { error: 'rateLimited' });
+        return;
+      }
+
       const query = String(url.searchParams.get('q') || '').trim();
       const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 8), 12));
       const lat = toNumber(url.searchParams.get('lat'), NaN);
@@ -934,6 +979,11 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === '/api/places/suggest') {
+      if (isRateLimited(req, 'suggest')) {
+        sendJson(res, 429, { error: 'rateLimited' });
+        return;
+      }
+
       const query = String(url.searchParams.get('q') || '').trim();
       const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 6), 8));
 

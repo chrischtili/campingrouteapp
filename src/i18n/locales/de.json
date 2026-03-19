@@ -9,7 +9,7 @@
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
     "placeFinder": "Platzfinder",
-    "planNow": "Route planen",
+    "planNow": "Prompt generieren",
     "subtitle": "Smarte KI-Prompts",
     "whatsNew": "Neu in {{version}}",
     "theme": {
@@ -25,7 +25,7 @@
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
     "description": "Unser KI-Prompt-Generator ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
-    "planNow": "Route jetzt planen",
+    "planNow": "Prompt generieren",
     "viewExample": "Beispielroute ansehen",
     "stats": {
       "rating": {
@@ -510,7 +510,7 @@
   "planner": {
     "badge": "Routenplaner",
     "title": "Alles für deine Route auf einen Blick",
-    "cta": "Jetzt Route planen",
+    "cta": "Prompt generieren",
     "launcher": {
       "title": "Prompterzeugung, Platzsuche und Route an einem Ort",
       "description": "Öffne den Planer, suche optional passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt zusammen."
@@ -863,7 +863,8 @@
       },
       "errors": {
         "region_not_supported": "Bitte gib einen konkreten Ort oder eine Stadt ein. Regionssuchen unterstützen wir hier aktuell noch nicht.",
-        "searchFailed": "Die Platzsuche ist gerade nicht verfügbar. Bitte versuche es in ein paar Minuten noch einmal."
+        "searchFailed": "Die Platzsuche ist gerade nicht verfügbar. Bitte versuche es in ein paar Minuten noch einmal.",
+        "rateLimited": "Zu viele Suchanfragen in kurzer Zeit. Bitte warte kurz und versuche es dann erneut."
       }
     },
     "optimization": {

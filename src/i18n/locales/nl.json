@@ -10,7 +10,7 @@
     "faq": "FAQ",
     "placeFinder": "Plaatszoeker",
     "subtitle": "Slimme AI‑prompts",
-    "planNow": "Route plannen",
+    "planNow": "Prompt genereren",
     "whatsNew": "Nieuw in {{version}}",
     "theme": {
       "system": "Systeem",
@@ -22,10 +22,10 @@
     }
   },
   "hero": {
-    "badge": "Routeplanner",
+    "badge": "AI-Promptgenerator",
     "title": "Plan je perfecte camperroute",
     "description": "Onze AI-promptgenerator is je praktische begeleider om de perfecte prompts voor je favoriete AI te vinden. Daarmee plan je je reizen met camper, caravan, tent of motor een stuk makkelijker, inclusief camping- en camperplaatszoekfunctie, etappeplanning en GPX-export.",
-    "planNow": "Nu route plannen",
+    "planNow": "Prompt genereren",
     "viewExample": "Bekijk voorbeeld",
     "stats": {
       "rating": {
@@ -511,7 +511,7 @@
   "planner": {
     "badge": "Routeplanner",
     "title": "Alles voor je route op één plek",
-    "cta": "Nu route plannen",
+    "cta": "Prompt genereren",
     "launcher": {
       "title": "Promptopbouw, plaatszoeker en routeplanning op één plek",
       "description": "Open de planner, zoek geschikte plekken en rond daarna je routedetails en AI-prompt in één flow af.",
@@ -865,7 +865,8 @@
       },
       "errors": {
         "region_not_supported": "Voer een concrete plaats of stad in. Zoekopdrachten op regio worden hier nog niet ondersteund.",
-        "searchFailed": "De plaatszoeker is momenteel niet beschikbaar. Probeer het later opnieuw of controleer de proxy."
+        "searchFailed": "De plaatszoeker is momenteel niet beschikbaar. Probeer het later opnieuw of controleer de proxy.",
+        "rateLimited": "Te veel zoekopdrachten in korte tijd. Wacht even en probeer het daarna opnieuw."
       }
     },
     "optimization": {

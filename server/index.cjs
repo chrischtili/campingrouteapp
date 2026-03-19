@@ -63,7 +63,7 @@ const OVERPASS_ENDPOINTS = [
   'https://overpass.kumi.systems/api/interpreter'
 ];
 const NOMINATIM_TIMEOUT_MS = 8000;
-const OVERPASS_TIMEOUT_MS = 2500;
+const OVERPASS_TIMEOUT_MS = 5000;
 const PLACE_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
 const PLACE_SEARCH_CACHE_MAX_ENTRIES = 100;
 const placeSearchCache = new Map();
@@ -390,6 +390,28 @@ async function geocodePlace(query) {
     timeoutMs: NOMINATIM_TIMEOUT_MS,
   });
   if (!Array.isArray(results) || results.length === 0) return null;
+  const normalizedQuery = normalizeText(query);
+  const directLocalityMatch = results.find((entry) => {
+    const address = entry && typeof entry.address === 'object' ? entry.address : {};
+    const labels = [
+      entry?.name,
+      address.city,
+      address.town,
+      address.village,
+      address.hamlet,
+      address.municipality,
+      address.suburb,
+      address.quarter,
+      address.neighbourhood,
+      typeof entry?.display_name === 'string' ? entry.display_name.split(',')[0] : '',
+    ];
+
+    return labels.some((label) => normalizeText(label) === normalizedQuery);
+  });
+
+  if (directLocalityMatch) {
+    return directLocalityMatch;
+  }
   return results.find((entry) => !isRegionResult(entry)) || results[0];
 }
 
@@ -444,7 +466,7 @@ async function fetchOverpassData(query) {
 }
 
 async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox }) {
-  const radiusPlan = [2500, 6000, 12000];
+  const radiusPlan = [4000, 10000, 20000];
   const mergedElements = [];
   const seen = new Set();
   let lastError = null;

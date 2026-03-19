@@ -546,12 +546,12 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
 
       {isMobile ? (
         <Sheet open={!!selectedPlace} onOpenChange={(open) => !open && setSelectedPlace(null)}>
-          <SheetContent side="bottom" hideCloseButton className="max-h-[88vh] w-full max-w-full overflow-x-hidden overflow-y-auto border-2 px-0 pb-6 pt-0">
+          <SheetContent side="bottom" hideCloseButton className="max-h-[88dvh] w-screen max-w-[100vw] overflow-x-hidden overflow-y-auto border-2 px-0 pb-6 pt-0">
             {selectedPlace && (
               <>
-                <SheetHeader className="sticky top-0 z-10 border-b bg-background/95 px-4 py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">
+                <SheetHeader className="sticky top-0 z-10 border-b bg-background/95 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">
                   <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <SheetTitle className="text-left text-lg font-bold leading-tight text-foreground dark:text-white sm:text-xl">
                         {selectedPlace.name}
                       </SheetTitle>
@@ -571,7 +571,9 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                     </Button>
                   </div>
                 </SheetHeader>
-                <div className="px-4 pt-5 sm:px-6 sm:pt-6">{renderDetails(selectedPlace)}</div>
+                <div className="overflow-x-hidden pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-5 sm:px-6 sm:pt-6">
+                  {renderDetails(selectedPlace)}
+                </div>
               </>
             )}
           </SheetContent>

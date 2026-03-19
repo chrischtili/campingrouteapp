@@ -822,6 +822,8 @@
       "searchLabel": "Place",
       "searchPlaceholder": "e.g. Brighton, York, Canterbury or Inverness",
       "searchHelp": "Enter a place or choose a matching suggestion.",
+      "osmAttributionPrefix": "Place data is based on",
+      "osmAttributionSuffix": "OpenStreetMap contributors",
       "suggestions": {
         "loading": "Looking up places ...",
         "selected": "Selected place: {{place}}"

@@ -381,7 +381,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             </div>
             <p className={helperClass}>{t("planner.placeFinder.searchHelp")}</p>
             <p className={standalone ? "text-xs text-foreground/48 dark:text-white/44" : "text-xs text-white/44"}>
-              Platzdaten basieren auf{" "}
+              {t("planner.placeFinder.osmAttributionPrefix")}{" "}
               <a
                 href="https://www.openstreetmap.org/copyright"
                 target="_blank"
@@ -390,7 +390,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
               >
                 OpenStreetMap
               </a>
-              {" "}© OpenStreetMap contributors
+              {" "}© {t("planner.placeFinder.osmAttributionSuffix")}
             </p>
             {selectedSuggestion && (
               <p className="text-xs font-medium text-primary/90">

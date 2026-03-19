@@ -822,6 +822,8 @@
       "searchLabel": "Luogo",
       "searchPlaceholder": "es. Verona, Siena, Lecce o Bolzano",
       "searchHelp": "Inserisci un luogo oppure scegli un suggerimento adatto.",
+      "osmAttributionPrefix": "I dati delle aree si basano su",
+      "osmAttributionSuffix": "i contributori di OpenStreetMap",
       "suggestions": {
         "loading": "Sto cercando i luoghi ...",
         "selected": "Luogo selezionato: {{place}}"

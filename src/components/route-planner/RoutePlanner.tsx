@@ -814,7 +814,15 @@ export function RoutePlanner() {
       
       <HeroSection onStartPlanning={revealPlanner} />
       <Sheet open={placeFinderOpen} onOpenChange={setPlaceFinderOpen}>
-        <SheetContent side="left" hideCloseButton className="left-0 right-0 h-dvh w-full max-w-full overflow-x-hidden overflow-y-auto border-0 p-0 sm:right-auto sm:h-full sm:w-[min(92vw,42rem)] sm:max-w-none sm:border-r">
+        <SheetContent
+          side={isMobile ? "bottom" : "left"}
+          hideCloseButton
+          className={
+            isMobile
+              ? "inset-0 h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] overflow-x-hidden overflow-y-auto rounded-none border-0 p-0"
+              : "left-0 h-full w-[min(92vw,42rem)] max-w-none overflow-x-hidden overflow-y-auto border-0 p-0 sm:border-r"
+          }
+        >
           <div className="min-h-full bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.985))] dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.985))]">
             <SheetHeader className="sticky top-0 z-10 border-b bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.97))] pb-5 pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] pt-[max(1rem,env(safe-area-inset-top))] text-left backdrop-blur-xl dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.97))] sm:px-6 sm:py-5">
               <div className="flex items-start justify-between gap-3">

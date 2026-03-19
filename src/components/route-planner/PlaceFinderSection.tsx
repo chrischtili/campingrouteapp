@@ -50,8 +50,8 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
 
   const searchDisabled = query.trim().length < 2 || selectedCategories.length === 0 || isLoading;
   const panelClass = standalone
-    ? "rounded-[1.75rem] border border-border/70 bg-background/85 p-5 sm:p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/[0.04]"
-    : "rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
+    ? "rounded-[1.75rem] border border-border/70 bg-background/85 p-4 sm:p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/[0.04]"
+    : "rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-4 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
   const inputClass = standalone
     ? "w-full rounded-2xl border border-border/70 bg-background px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15 dark:border-white/12 dark:bg-white/8 dark:text-white dark:placeholder:text-white/38"
     : "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
@@ -329,7 +329,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
   };
 
   return (
-    <div className="text-left">
+    <div className="space-y-4 text-left sm:space-y-5">
       <div className={panelClass}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div className="space-y-3">
@@ -550,7 +550,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
 
       {isMobile ? (
         <Sheet open={!!selectedPlace} onOpenChange={(open) => !open && setSelectedPlace(null)}>
-          <SheetContent side="bottom" hideCloseButton className="inset-x-0 max-h-[88dvh] w-auto max-w-none overflow-x-hidden overflow-y-auto border-2 px-0 pb-6 pt-0">
+          <SheetContent side="bottom" hideCloseButton className="inset-x-0 max-h-[88dvh] w-auto max-w-none overflow-x-hidden overflow-y-auto rounded-t-[1.75rem] border-x-0 border-b-0 border-t border-border/70 px-0 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-0 shadow-[0_-18px_50px_rgba(15,23,42,0.14)] dark:border-white/10">
             {selectedPlace && (
               <>
                 <SheetHeader className="sticky top-0 z-10 w-full max-w-full overflow-x-hidden border-b bg-background/95 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">

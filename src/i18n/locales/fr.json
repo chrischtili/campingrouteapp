@@ -8,7 +8,8 @@
     "features": "Fonctionnalités",
     "exampleRoute": "Itinéraire exemple",
     "faq": "FAQ",
-    "planNow": "Planifier maintenant",
+    "placeFinder": "Recherche d’emplacements",
+    "planNow": "Planifier l’itinéraire",
     "subtitle": "Prompts IA intelligents",
     "whatsNew": "Nouveautés de {{version}}",
     "theme": {
@@ -23,7 +24,7 @@
   "hero": {
     "badge": "Générateur de prompts IA",
     "title": "Camping Route",
-    "description": "Planifiez avec l’IA des itinéraires sur mesure pour camping-car, caravane, tente ou moto, avec recherche d’emplacements et de campings, étapes adaptées et export GPX.",
+    "description": "Notre générateur de prompts IA est votre compagnon pratique pour trouver les prompts parfaits pour votre IA préférée. Il vous aide à planifier plus sereinement vos voyages en camping-car, caravane, tente ou moto, avec recherche d’emplacements et de campings, planification des étapes et export GPX.",
     "planNow": "Planifier l’itinéraire",
     "viewExample": "Voir l’exemple",
     "stats": {
@@ -817,6 +818,7 @@
     "placeFinder": {
       "title": "Recherche d’emplacements",
       "description": "Facultatif : recherchez des campings et aires de camping-car pour un lieu précis et reprenez-les directement comme destination ou étape.",
+      "standaloneDescription": "Recherchez de façon autonome des campings et aires de camping-car pour un lieu, sans créer d’itinéraire ni de prompt IA.",
       "searchLabel": "Lieu",
       "searchPlaceholder": "p. ex. Annecy, Colmar, Nantes ou Avignon",
       "searchHelp": "La recherche utilise des données OSM publiques et fonctionne mieux avec des villes ou lieux précis.",

@@ -7,12 +7,14 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { searchPlaces } from "@/lib/placeFinder";
+import { initialFormData } from "@/types/routePlanner";
 import type { FormData, RouteStage } from "@/types/routePlanner";
 import type { PlaceCategory, PlaceSearchResult } from "@/types/placeFinder";
 
 interface PlaceFinderSectionProps {
-  formData: FormData;
-  onChange: (data: Partial<FormData>) => void;
+  formData?: FormData;
+  onChange?: (data: Partial<FormData>) => void;
+  standalone?: boolean;
 }
 
 const createEmptyStage = (destination = ""): RouteStage => ({
@@ -30,7 +32,7 @@ const categoryIconMap = {
   caravan_site: Caravan,
 } satisfies Record<PlaceCategory, typeof BedDouble>;
 
-export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionProps) {
+export function PlaceFinderSection({ formData = initialFormData, onChange, standalone = false }: PlaceFinderSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [query, setQuery] = useState(formData.targetRegions || formData.destination || "");
@@ -42,11 +44,19 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
   const [hasSearched, setHasSearched] = useState(false);
 
   const searchDisabled = query.trim().length < 2 || selectedCategories.length === 0 || isLoading;
-  const panelClass = "rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
-  const inputClass = "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
-  const helperClass = "text-sm text-white/60 leading-relaxed";
+  const panelClass = standalone
+    ? "rounded-[1.75rem] border border-border/70 bg-background/85 p-5 sm:p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/[0.04]"
+    : "rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
+  const inputClass = standalone
+    ? "w-full rounded-2xl border border-border/70 bg-background px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15 dark:border-white/12 dark:bg-white/8 dark:text-white dark:placeholder:text-white/38"
+    : "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
+  const helperClass = standalone ? "text-sm text-foreground/60 dark:text-white/60 leading-relaxed" : "text-sm text-white/60 leading-relaxed";
 
   const stageActions = useMemo(() => {
+    if (standalone || !onChange) {
+      return [];
+    }
+
     const existingStages = formData.stages.map((stage, index) => ({
       id: `replace-${index}`,
       label: t("planner.placeFinder.actions.replaceStage", { num: index + 1 }),
@@ -72,7 +82,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
       },
       ...existingStages,
     ];
-  }, [formData.stages, onChange, t]);
+  }, [formData.stages, onChange, standalone, t]);
 
   const trackPlaceFinderUsage = async (mode: "place_search" | "place_select") => {
     if (import.meta.env.DEV) {
@@ -202,27 +212,29 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.placeFinder.actions.title")}</div>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {stageActions.map((action) => (
-                <Button
-                  key={action.id}
-                  type="button"
-                  variant="outline"
-                  className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
-                  onClick={() => {
-                    void trackPlaceFinderUsage("place_select");
-                    action.onSelect(place);
-                    setSelectedPlace(null);
-                  }}
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  {action.label}
-                </Button>
-              ))}
+          {!standalone && stageActions.length > 0 && (
+            <div className="space-y-3">
+              <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.placeFinder.actions.title")}</div>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {stageActions.map((action) => (
+                  <Button
+                    key={action.id}
+                    type="button"
+                    variant="outline"
+                    className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
+                    onClick={() => {
+                      void trackPlaceFinderUsage("place_select");
+                      action.onSelect(place);
+                      setSelectedPlace(null);
+                    }}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    {action.label}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="flex flex-wrap gap-3">
             {place.sourceUrl && (
@@ -300,7 +312,9 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
                   active
                     ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_rgba(255,138,0,0.22)]"
-                    : "border-white/10 bg-white/5 text-white/62 hover:bg-white/8"
+                    : standalone
+                      ? "border-border bg-background text-foreground/68 hover:bg-muted/70 dark:border-white/10 dark:bg-white/5 dark:text-white/62 dark:hover:bg-white/8"
+                      : "border-white/10 bg-white/5 text-white/62 hover:bg-white/8"
                 }`}
               >
                 <Icon className={`h-4 w-4 ${active ? "text-primary-foreground" : "text-primary"}`} />
@@ -318,7 +332,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
       )}
 
       {hasSearched && !isLoading && results.length === 0 && !error && (
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-sm text-white/62">
+        <div className={`rounded-2xl px-5 py-4 text-sm ${standalone ? "border border-border/70 bg-muted/40 text-foreground/62 dark:border-white/10 dark:bg-white/[0.03] dark:text-white/62" : "border border-white/10 bg-white/[0.03] text-white/62"}`}>
           {t("planner.placeFinder.empty")}
         </div>
       )}
@@ -331,7 +345,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
             exit={{ opacity: 0, y: -12 }}
             className="space-y-4"
           >
-            <div className="text-sm font-semibold text-white/70">
+            <div className={`text-sm font-semibold ${standalone ? "text-foreground/70 dark:text-white/70" : "text-white/70"}`}>
               {t("planner.placeFinder.results", { count: results.length })}
             </div>
 
@@ -344,24 +358,28 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
                     key={place.id}
                     type="button"
                     onClick={() => setSelectedPlace(place)}
-                    className="group overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] text-left transition hover:border-primary/30 hover:bg-white/[0.06]"
+                    className={`group overflow-hidden rounded-[1.5rem] text-left transition ${
+                      standalone
+                        ? "border border-border/70 bg-background/90 hover:border-primary/30 hover:bg-muted/50 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
+                        : "border border-white/10 bg-white/[0.04] hover:border-primary/30 hover:bg-white/[0.06]"
+                    }`}
                   >
                     <div className="space-y-3 p-4">
                         <div className="flex items-start justify-between gap-3">
                           <div className="min-w-0">
-                            <div className="truncate text-base font-black text-white">{place.name}</div>
+                            <div className={`truncate text-base font-black ${standalone ? "text-foreground dark:text-white" : "text-white"}`}>{place.name}</div>
                             <div className="mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-primary/85">
                               {t(`planner.placeFinder.categories.${place.category}`)}
                             </div>
                           </div>
-                          <ExternalLink className="h-4 w-4 shrink-0 text-white/25 transition group-hover:text-primary" />
+                          <ExternalLink className={`h-4 w-4 shrink-0 transition group-hover:text-primary ${standalone ? "text-foreground/25 dark:text-white/25" : "text-white/25"}`} />
                         </div>
 
-                        <div className="text-sm text-white/62 line-clamp-2">
+                        <div className={`text-sm line-clamp-2 ${standalone ? "text-foreground/62 dark:text-white/62" : "text-white/62"}`}>
                           {place.address || `${place.locality}${place.country ? `, ${place.country}` : ""}`}
                         </div>
 
-                        <div className="flex flex-wrap gap-2 text-[11px] text-white/55">
+                        <div className={`flex flex-wrap gap-2 text-[11px] ${standalone ? "text-foreground/55 dark:text-white/55" : "text-white/55"}`}>
                           {place.hasToilets && <span>{t("planner.placeFinder.tags.toilets")}</span>}
                           {place.hasShowers && <span>{t("planner.placeFinder.tags.showers")}</span>}
                           {place.hasPowerSupply && <span>{t("planner.placeFinder.tags.power")}</span>}

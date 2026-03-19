@@ -8,7 +8,8 @@
     "features": "Funzionalità",
     "exampleRoute": "Itinerario d'esempio",
     "faq": "FAQ",
-    "planNow": "Pianifica ora",
+    "placeFinder": "Ricerca aree",
+    "planNow": "Pianifica itinerario",
     "subtitle": "Prompt IA smart",
     "whatsNew": "Novità della {{version}}",
     "theme": {
@@ -23,7 +24,7 @@
   "hero": {
     "badge": "Generatore di prompt IA",
     "title": "Camping Route",
-    "description": "Pianifica con l’IA itinerari su misura per camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, tappe adatte ed export GPX.",
+    "description": "Il nostro generatore di prompt IA è il tuo compagno pratico per trovare i prompt perfetti per la tua IA preferita. Ti aiuta a pianificare con più tranquillità i tuoi viaggi in camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, pianificazione delle tappe ed export GPX.",
     "planNow": "Pianifica itinerario ora",
     "viewExample": "Guarda l'itinerario d'esempio",
     "stats": {
@@ -817,6 +818,7 @@
     "placeFinder": {
       "title": "Ricerca aree",
       "description": "Opzionale: cerca campeggi e aree camper per un luogo preciso e inseriscili direttamente come destinazione o tappa.",
+      "standaloneDescription": "Cerca in autonomia campeggi e aree camper per un luogo, senza creare un itinerario o un prompt IA.",
       "searchLabel": "Luogo",
       "searchPlaceholder": "es. Verona, Siena, Lecce o Bolzano",
       "searchHelp": "La ricerca usa dati OSM pubblici e funziona meglio con città o luoghi specifici.",

@@ -8,8 +8,9 @@
     "features": "Features",
     "exampleRoute": "Voorbeeldroute",
     "faq": "FAQ",
+    "placeFinder": "Plaatszoeker",
     "subtitle": "Slimme AI‑prompts",
-    "planNow": "Nu plannen",
+    "planNow": "Route plannen",
     "whatsNew": "Nieuw in {{version}}",
     "theme": {
       "system": "Systeem",
@@ -23,7 +24,7 @@
   "hero": {
     "badge": "Routeplanner",
     "title": "Plan je perfecte camperroute",
-    "description": "Plan met AI routes op maat voor camper, caravan, tent of motor, inclusief camping- en camperplaatszoekfunctie, slimme etappes en GPX-export.",
+    "description": "Onze AI-promptgenerator is je praktische begeleider om de perfecte prompts voor je favoriete AI te vinden. Daarmee plan je je reizen met camper, caravan, tent of motor een stuk makkelijker, inclusief camping- en camperplaatszoekfunctie, etappeplanning en GPX-export.",
     "planNow": "Nu route plannen",
     "viewExample": "Bekijk voorbeeld",
     "stats": {
@@ -817,6 +818,7 @@
     "placeFinder": {
       "title": "Plaatszoeker",
       "description": "Optioneel: zoek campings en camperplaatsen voor een concrete plaats en neem ze direct over als bestemming of tussenstop.",
+      "standaloneDescription": "Zoek zelfstandig naar passende campings en camperplaatsen voor een plaats, zonder route- of promptgeneratie.",
       "searchLabel": "Plaats",
       "searchPlaceholder": "bijv. Maastricht, Delft, Utrecht of Deventer",
       "searchHelp": "De zoekfunctie gebruikt openbare OSM-data en werkt het best met concrete plaatsen of steden.",

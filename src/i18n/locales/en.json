@@ -8,7 +8,8 @@
     "features": "Features",
     "exampleRoute": "Example Route",
     "faq": "FAQ",
-    "planNow": "Plan Now",
+    "placeFinder": "Place Finder",
+    "planNow": "Plan Route",
     "subtitle": "Smart AI Prompts",
     "whatsNew": "What's new in {{version}}",
     "theme": {
@@ -23,7 +24,7 @@
   "hero": {
     "badge": "AI Prompt Generator",
     "title": "Camping Route",
-    "description": "Plan tailored routes for RV, caravan, tent, or motorcycle with AI, including campsite and pitch search, practical stages, and GPX export.",
+    "description": "Our AI prompt generator is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
     "planNow": "Plan Route Now",
     "viewExample": "View Example",
     "stats": {
@@ -817,6 +818,7 @@
     "placeFinder": {
       "title": "Place Finder",
       "description": "Optional: Search campsites and motorhome stopovers for a specific place and add them directly as destination or stop.",
+      "standaloneDescription": "Search independently for suitable campsites and motorhome stopovers for a place, without creating a route or AI prompt.",
       "searchLabel": "Place",
       "searchPlaceholder": "e.g. Brighton, York, Canterbury or Inverness",
       "searchHelp": "The search uses public OSM data and works best with specific towns or places.",

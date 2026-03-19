@@ -461,19 +461,10 @@
   }
 
   .light .hero-mobile-copy {
-    background: rgba(255, 255, 255, 0.44);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 10px 28px rgba(67, 62, 43, 0.08);
-  }
-
-  @media (min-width: 768px) {
-    .light .hero-mobile-copy {
-      background: transparent;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      box-shadow: none;
-    }
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
   }
 
   .dark .hero-image {
@@ -481,17 +472,9 @@
   }
 
   .dark .hero-mobile-copy {
-    background: rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-
-  @media (min-width: 768px) {
-    .dark .hero-mobile-copy {
-      background: transparent;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .light .hero-stats-card {

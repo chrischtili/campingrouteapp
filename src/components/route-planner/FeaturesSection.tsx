@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 
 export function FeaturesSection() {
   const { t } = useTranslation();
+  const featureIntro = t("hero.description");
+  const introSentenceMatch = featureIntro.match(/^(.+?[.!?])\s+(.+)$/s);
 
   const features = [
     { icon: Compass, title: t("features.promptGen.title"), description: t("features.promptGen.description"), accent: "text-indigo-400" },
@@ -31,6 +33,18 @@ export function FeaturesSection() {
             <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tight leading-[0.95] reveal-once delay-1">
               {t("features.title")}
             </h2>
+            <div className="mx-auto max-w-3xl reveal-once delay-2">
+              <p className="text-base sm:text-lg md:text-xl text-foreground/72 font-medium leading-relaxed">
+                {introSentenceMatch ? (
+                  <>
+                    <span className="block">{introSentenceMatch[1]}</span>
+                    <span className="mt-2 block">{introSentenceMatch[2]}</span>
+                  </>
+                ) : (
+                  featureIntro
+                )}
+              </p>
+            </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">

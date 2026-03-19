@@ -1,14 +1,15 @@
 {
   "seo": {
     "title": "Camping Route - KI-Routenplaner mit Stellplatz- & Campingplatzsuche",
-    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad inklusive Stellplatz- und Campingplatzsuche, passenden Etappen, Zwischenstopps und GPX-Export in Europa.",
+    "description": "Erstelle mit unserem KI-Prompt-Generator präzise Prompts für Routen mit Wohnmobil, Wohnwagen, Zelt oder Motorrad – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe für deine bevorzugte KI.",
     "keywords": "Camping Routenplaner, Stellplatz Finder, Campingplatz Finder, Campingfinder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Stellplatzsuche, Campingplatzsuche, Camping Route, CampingRoute, Campingrouten"
   },
   "navbar": {
     "features": "Features",
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
-    "planNow": "Jetzt planen",
+    "placeFinder": "Platzfinder",
+    "planNow": "Route planen",
     "subtitle": "Smarte KI-Prompts",
     "whatsNew": "Neu in {{version}}",
     "theme": {
@@ -23,7 +24,7 @@
   "hero": {
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
-    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad – inklusive Stellplatz- und Campingplatzsuche, passenden Etappen und GPX-Export.",
+    "description": "Unser KI-Prompt-Generator ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
     "planNow": "Route jetzt planen",
     "viewExample": "Beispielroute ansehen",
     "stats": {
@@ -46,7 +47,7 @@
     "title": "Warum Camping Route?",
     "promptGen": {
       "title": "KI-Prompt-Generierung",
-      "description": "Erstellt optimierte Prompts für deine KI-gestützte Routenplanung mit Wohnmobil-spezifischen Parametern."
+      "description": "Erstellt strukturierte KI-Prompts für deine bevorzugte KI, damit du Routen mit passenden Stellplätzen, Campingplätzen, Etappen und GPX-Ausgabe gezielt planen kannst."
     },
     "smartFilters": {
       "title": "Smarte Filter",
@@ -815,6 +816,7 @@
     "placeFinder": {
       "title": "Platzfinder",
       "description": "Optional: Suche passende Campingplätze und Stellplätze für einen Ort und übernimm sie direkt als Ziel oder Zwischenziel.",
+      "standaloneDescription": "Suche eigenständig nach passenden Campingplätzen und Stellplätzen für einen Ort, ganz ohne Routen- oder Prompt-Erstellung.",
       "searchLabel": "Ort",
       "searchPlaceholder": "z. B. Dresden, Wismar, Annecy oder Verona",
       "searchHelp": "Die Suche läuft über öffentliche OSM-Daten und funktioniert am besten mit konkreten Orten oder Städten.",

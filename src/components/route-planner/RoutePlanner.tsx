@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload, Map as MapIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
@@ -147,6 +148,7 @@ export function RoutePlanner() {
   const [activeSavedPlanId, setActiveSavedPlanId] = useState<string | null>(null);
   const [activePlannerSection, setActivePlannerSection] = useState<string>("");
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
+  const [placeFinderOpen, setPlaceFinderOpen] = useState<boolean>(false);
   const [feedbackMode, setFeedbackMode] = useState<"prompt" | "route">("prompt");
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
   const [releaseVersion, setReleaseVersion] = useState<string>("");
@@ -798,9 +800,26 @@ export function RoutePlanner() {
 
   return (
     <main className="min-h-screen bg-background" id="main-content">
-      <Navbar onStartPlanning={revealPlanner} />
+      <Navbar onStartPlanning={revealPlanner} onOpenPlaceFinder={() => setPlaceFinderOpen(true)} />
       
       <HeroSection onStartPlanning={revealPlanner} />
+      <Sheet open={placeFinderOpen} onOpenChange={setPlaceFinderOpen}>
+        <SheetContent side="left" className="w-[min(92vw,42rem)] overflow-y-auto border-r p-0 sm:max-w-none">
+          <div className="min-h-full bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.985))] dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.985))]">
+            <SheetHeader className="border-b px-6 py-5 text-left">
+              <SheetTitle className="text-left text-2xl font-black tracking-tight text-foreground dark:text-white">
+                {t("planner.placeFinder.title")}
+              </SheetTitle>
+              <SheetDescription className="text-left text-sm leading-relaxed text-foreground/62 dark:text-white/62">
+                {t("planner.placeFinder.standaloneDescription")}
+              </SheetDescription>
+            </SheetHeader>
+            <div className="px-5 py-5 sm:px-6 sm:py-6">
+              <PlaceFinderSection standalone />
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
 
       <Suspense fallback={<div className="h-96" />}>
         <FeaturesSection />

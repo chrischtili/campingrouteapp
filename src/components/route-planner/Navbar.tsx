@@ -14,9 +14,10 @@ import { useTheme } from "@/components/ui/theme-provider";
 
 interface NavbarProps {
   onStartPlanning?: () => void;
+  onOpenPlaceFinder?: () => void;
 }
 
-export function Navbar({ onStartPlanning }: NavbarProps) {
+export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [releaseVersion, setReleaseVersion] = useState("0.5.15");
@@ -103,6 +104,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     } else if (onStartPlanning) {
       onStartPlanning();
     }
+    setMobileMenuOpen(false);
+  };
+
+  const handleOpenPlaceFinder = () => {
+    onOpenPlaceFinder?.();
     setMobileMenuOpen(false);
   };
 
@@ -215,6 +221,15 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           </DropdownMenu>
 
           <Button
+            type="button"
+            variant="ghost"
+            onClick={handleOpenPlaceFinder}
+            className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-primary bg-primary/[0.11] hover:bg-primary/[0.16] dark:bg-primary/[0.14] dark:hover:bg-primary/[0.2] border border-primary/30 shadow-[0_12px_30px_rgba(255,128,0,0.16)] dark:shadow-[0_10px_28px_rgba(255,128,0,0.12)]"
+          >
+            {t("navbar.placeFinder")}
+          </Button>
+
+          <Button
             onClick={handlePlanNow}
             className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white border border-primary/80 shadow-[0_16px_40px_rgba(255,128,0,0.3)] hover:scale-[1.02] hover:shadow-[0_20px_52px_rgba(255,128,0,0.4)]"
             style={{
@@ -259,6 +274,14 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <div className="h-px bg-foreground/12 dark:bg-white/12 my-2" />
             <button
               type="button"
+              onClick={handleOpenPlaceFinder}
+              className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
+            >
+              {t("navbar.placeFinder")}
+              <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+            <button
+              type="button"
               onClick={openWhatsNew}
               className="text-sm font-bold text-foreground/70 dark:text-white/78 hover:text-primary transition-colors text-left py-1"
             >
@@ -276,7 +299,8 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             >
               <ThemeIcon className="h-5 w-5 text-primary" />
             </button>
-            <div className="flex items-center justify-between">
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center justify-between gap-4">
                 <div className="flex gap-3 sm:gap-4">
                   <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>DE</button>
                   <button onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>EN</button>
@@ -284,9 +308,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                   <button onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>FR</button>
                   <button onClick={() => { changeLanguage('it'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>IT</button>
                 </div>
+              </div>
               <Button
                 onClick={handlePlanNow}
-                className="rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 font-black text-[9px] sm:text-[11px] tracking-[0.1em] text-white border border-primary/80 shadow-[0_14px_34px_rgba(255,128,0,0.26)]"
+                className="w-full rounded-2xl min-h-[54px] px-5 py-3 font-black text-[11px] sm:text-[12px] tracking-[0.12em] text-white border border-primary/80 shadow-[0_18px_42px_rgba(255,128,0,0.3)]"
                 style={{
                   background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
                 }}

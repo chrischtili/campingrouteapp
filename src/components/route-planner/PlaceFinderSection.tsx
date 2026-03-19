@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Switch } from "@/components/ui/switch";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { searchPlaceSuggestions, searchPlaces } from "@/lib/placeFinder";
+import { buildPlaceTransferLabel, type PlaceTransferTarget } from "@/lib/placeFinderTransfer";
 import { initialFormData } from "@/types/routePlanner";
 import type { FormData, RouteStage } from "@/types/routePlanner";
 import type { PlaceCategory, PlaceSearchResult, PlaceSuggestion } from "@/types/placeFinder";
@@ -16,6 +17,9 @@ interface PlaceFinderSectionProps {
   formData?: FormData;
   onChange?: (data: Partial<FormData>) => void;
   standalone?: boolean;
+  initialCategories?: PlaceCategory[];
+  hideCategoryFilters?: boolean;
+  onTransferToPrompt?: (place: PlaceSearchResult, target: PlaceTransferTarget, stageIndex?: number) => void;
 }
 
 const createEmptyStage = (destination = ""): RouteStage => ({
@@ -33,11 +37,21 @@ const categoryIconMap = {
   caravan_site: BusFront,
 } satisfies Record<PlaceCategory, typeof Caravan>;
 
-export function PlaceFinderSection({ formData = initialFormData, onChange, standalone = false }: PlaceFinderSectionProps) {
+export function PlaceFinderSection({
+  formData = initialFormData,
+  onChange,
+  standalone = false,
+  initialCategories,
+  hideCategoryFilters = false,
+  onTransferToPrompt,
+}: PlaceFinderSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const initialCategoriesKey = initialCategories?.join("|") || "camp_site|caravan_site";
   const [query, setQuery] = useState(formData.targetRegions || formData.destination || "");
-  const [selectedCategories, setSelectedCategories] = useState<PlaceCategory[]>(["camp_site", "caravan_site"]);
+  const [selectedCategories, setSelectedCategories] = useState<PlaceCategory[]>(
+    initialCategories?.length ? initialCategories : ["camp_site", "caravan_site"],
+  );
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState<PlaceSuggestion | null>(null);
   const [isSuggesting, setIsSuggesting] = useState(false);
@@ -50,15 +64,19 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
 
   const searchDisabled = query.trim().length < 2 || selectedCategories.length === 0 || isLoading;
   const panelClass = standalone
-    ? "rounded-[1.75rem] border border-border/70 bg-background/85 p-4 sm:p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/[0.04]"
-    : "rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-4 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
+    ? "w-full min-w-0 rounded-[1.75rem] border border-border/70 bg-background/85 p-4 sm:p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/[0.04]"
+    : "w-full min-w-0 rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-4 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
   const inputClass = standalone
-    ? "w-full rounded-2xl border border-border/70 bg-background px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15 dark:border-white/12 dark:bg-white/8 dark:text-white dark:placeholder:text-white/38"
+    ? "w-full rounded-2xl border border-border/70 bg-background px-4 py-3 text-base font-medium text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15 sm:text-sm dark:border-white/12 dark:bg-white/8 dark:text-white dark:placeholder:text-white/38"
     : "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
   const helperClass = standalone ? "text-sm text-foreground/60 dark:text-white/60 leading-relaxed" : "text-sm text-white/60 leading-relaxed";
   const labelClass = standalone ? "text-sm font-semibold text-foreground dark:text-white" : "text-sm font-semibold text-white";
   const switchClass =
     "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
+
+  useEffect(() => {
+    setSelectedCategories(initialCategories?.length ? initialCategories : ["camp_site", "caravan_site"]);
+  }, [initialCategoriesKey]);
 
   const stageActions = useMemo(() => {
     if (standalone || !onChange) {
@@ -69,8 +87,12 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
       id: `replace-${index}`,
       label: t("planner.placeFinder.actions.replaceStage", { num: index + 1 }),
       onSelect: (place: PlaceSearchResult) => {
+        const transferredPlaceLabel = buildPlaceTransferLabel({
+          placeName: place.name,
+          locality: place.locality,
+        });
         const nextStages = formData.stages.map((stage, stageIndex) =>
-          stageIndex === index ? { ...stage, destination: place.name } : stage,
+          stageIndex === index ? { ...stage, destination: transferredPlaceLabel } : stage,
         );
         onChange({ stages: nextStages });
       },
@@ -80,17 +102,57 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
       {
         id: "destination",
         label: t("planner.placeFinder.actions.setDestination"),
-        onSelect: (place: PlaceSearchResult) => onChange({ destination: place.name }),
+        onSelect: (place: PlaceSearchResult) =>
+          onChange({
+            destination: buildPlaceTransferLabel({
+              placeName: place.name,
+              locality: place.locality,
+            }),
+          }),
       },
       {
         id: "append-stage",
         label: t("planner.placeFinder.actions.addStage", { num: formData.stages.length + 1 }),
-        onSelect: (place: PlaceSearchResult) =>
-          onChange({ stages: [...formData.stages, createEmptyStage(place.name)] }),
+        onSelect: (place: PlaceSearchResult) => {
+          const transferredPlaceLabel = buildPlaceTransferLabel({
+            placeName: place.name,
+            locality: place.locality,
+          });
+          onChange({ stages: [...formData.stages, createEmptyStage(transferredPlaceLabel)] });
+        },
       },
       ...existingStages,
     ];
   }, [formData.stages, onChange, standalone, t]);
+
+  const transferActions = useMemo(() => {
+    if (!standalone || !onTransferToPrompt) {
+      return [];
+    }
+
+    const existingStages = formData.stages
+      .map((stage, index) => ({ stage, index }))
+      .filter(({ stage }) => Boolean(stage.destination?.trim()))
+      .map(({ index }) => ({
+        id: `transfer-replace-${index}`,
+        label: t("planner.placeFinder.actions.replaceStage", { num: index + 1 }),
+        onSelect: (place: PlaceSearchResult) => onTransferToPrompt(place, "replace-stage", index),
+      }));
+
+    return [
+      {
+        id: "transfer-destination",
+        label: t("planner.placeFinder.actions.setDestination"),
+        onSelect: (place: PlaceSearchResult) => onTransferToPrompt(place, "destination"),
+      },
+      {
+        id: "transfer-append-stage",
+        label: t("planner.placeFinder.actions.addStage", { num: existingStages.length + 1 }),
+        onSelect: (place: PlaceSearchResult) => onTransferToPrompt(place, "append-stage"),
+      },
+      ...existingStages,
+    ];
+  }, [formData.stages, onTransferToPrompt, standalone, t]);
 
   const trackPlaceFinderUsage = async (mode: "place_search" | "place_search_solo" | "place_select") => {
     if (import.meta.env.DEV) {
@@ -299,6 +361,28 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             </div>
           )}
 
+          {standalone && transferActions.length > 0 && (
+            <div className="space-y-3">
+              <div className="text-sm font-semibold text-foreground dark:text-white">
+                {t("planner.placeFinder.actions.transferTitle")}
+              </div>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {transferActions.map((action) => (
+                  <Button
+                    key={action.id}
+                    type="button"
+                    variant="outline"
+                    className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
+                    onClick={() => action.onSelect(place)}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    {action.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid max-w-full grid-cols-1 gap-3 sm:flex sm:flex-wrap">
             {place.sourceUrl && (
               <a
@@ -329,10 +413,10 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
   };
 
   return (
-    <div className="space-y-4 text-left sm:space-y-5">
+    <div className="w-full min-w-0 space-y-4 text-left sm:space-y-5">
       <div className={panelClass}>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-          <div className="space-y-3">
+        <div className="grid w-full min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <div className="min-w-0 space-y-3">
             <label className={labelClass}>{t("planner.placeFinder.searchLabel")}</label>
             <div className="relative">
               <input
@@ -435,49 +519,51 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
           </Button>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {(["camp_site", "caravan_site"] as PlaceCategory[]).map((category) => {
-            const active = selectedCategories.includes(category);
-            const Icon = categoryIconMap[category];
-            return (
-              <button
-                key={category}
-                type="button"
-                onClick={() => toggleCategory(category)}
-                className={`flex w-full items-center justify-between gap-4 rounded-[1.35rem] border px-4 py-3 text-left transition ${
-                  standalone
-                    ? active
-                      ? "border-primary/35 bg-primary/[0.08] shadow-[0_14px_28px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
-                      : "border-border/80 bg-background/92 hover:bg-muted/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
-                    : active
-                      ? "border-primary/35 bg-primary/[0.12] shadow-[0_14px_28px_rgba(255,138,0,0.14)]"
-                      : "border-white/10 bg-white/[0.05] hover:bg-white/[0.08]"
-                }`}
-              >
-                <span className="flex min-w-0 items-start gap-3">
-                  <span className="mt-0.5 rounded-xl bg-primary/12 p-2 text-primary">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className={`block text-sm font-semibold ${standalone ? "text-foreground dark:text-white" : "text-white"}`}>
-                      {t(`planner.placeFinder.categories.${category}`)}
+        {!hideCategoryFilters && (
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {(["camp_site", "caravan_site"] as PlaceCategory[]).map((category) => {
+              const active = selectedCategories.includes(category);
+              const Icon = categoryIconMap[category];
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => toggleCategory(category)}
+                  className={`flex w-full min-w-0 flex-col items-stretch gap-3 rounded-[1.35rem] border px-4 py-3 text-left transition sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
+                    standalone
+                      ? active
+                        ? "border-primary/35 bg-primary/[0.08] shadow-[0_14px_28px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
+                        : "border-border/80 bg-background/92 hover:bg-muted/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
+                      : active
+                        ? "border-primary/35 bg-primary/[0.12] shadow-[0_14px_28px_rgba(255,138,0,0.14)]"
+                        : "border-white/10 bg-white/[0.05] hover:bg-white/[0.08]"
+                  }`}
+                >
+                  <span className="flex min-w-0 flex-1 items-start gap-3">
+                    <span className="mt-0.5 rounded-xl bg-primary/12 p-2 text-primary">
+                      <Icon className="h-4 w-4" />
                     </span>
-                    <span className={`mt-1 block text-xs leading-relaxed ${standalone ? "text-foreground/60 dark:text-white/58" : "text-white/58"}`}>
-                      {t(`planner.placeFinder.categoryDescriptions.${category}`)}
+                    <span className="min-w-0 flex-1">
+                      <span className={`block text-sm font-semibold ${standalone ? "text-foreground dark:text-white" : "text-white"}`}>
+                        {t(`planner.placeFinder.categories.${category}`)}
+                      </span>
+                      <span className={`mt-1 block text-xs leading-relaxed ${standalone ? "text-foreground/60 dark:text-white/58" : "text-white/58"}`}>
+                        {t(`planner.placeFinder.categoryDescriptions.${category}`)}
+                      </span>
                     </span>
                   </span>
-                </span>
-                <Switch
-                  checked={active}
-                  onCheckedChange={() => toggleCategory(category)}
-                  className={switchClass}
-                  aria-label={t(`planner.placeFinder.categories.${category}`)}
-                  onClick={(event) => event.stopPropagation()}
-                />
-              </button>
-            );
-          })}
-        </div>
+                  <Switch
+                    checked={active}
+                    onCheckedChange={() => toggleCategory(category)}
+                    className={`${switchClass} ml-[3.25rem] shrink-0 self-start sm:ml-0 sm:self-center`}
+                    aria-label={t(`planner.placeFinder.categories.${category}`)}
+                    onClick={(event) => event.stopPropagation()}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {error && (

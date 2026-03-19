@@ -5,6 +5,7 @@
     "keywords": "camping routeplanner, camping finder, camperplaats zoeker, campingzoeker, camper routeplanner, caravan routeplanner, tent roadtrip plannen, motor routeplanner, GPX routeplanner, campingroute, Camping Route, CampingRoute, campingroutes"
   },
   "navbar": {
+    "navigation": "Navigatie",
     "features": "Features",
     "exampleRoute": "Voorbeeldroute",
     "faq": "FAQ",
@@ -12,6 +13,10 @@
     "subtitle": "Slimme AI‑prompts",
     "planNow": "Prompt genereren",
     "whatsNew": "Nieuw in {{version}}",
+    "placeFinderDescriptions": {
+      "camping": "Aparte zoekpagina voor klassieke campings.",
+      "stopover": "Aparte zoekpagina voor flexibele camperstops."
+    },
     "theme": {
       "system": "Systeem",
       "dark": "Donker",
@@ -857,11 +862,18 @@
       },
       "actions": {
         "title": "Aan route toevoegen",
+        "transferTitle": "Aan prompt toevoegen",
+        "transferDestination": "Als bestemming in de prompt gebruiken",
+        "transferStage": "Als tussenstop in de prompt gebruiken",
         "setDestination": "Als bestemming instellen",
         "addStage": "Als tussenstop {{num}} toevoegen",
         "replaceStage": "Tussenstop {{num}} vervangen",
         "openSource": "OSM-item openen",
         "openWebsite": "Website openen"
+      },
+      "transfer": {
+        "successDestination": "{{place}} is als bestemming in de promptgenerator overgenomen.",
+        "successStage": "{{place}} is als tussenstop in de promptgenerator overgenomen."
       },
       "errors": {
         "region_not_supported": "Voer een concrete plaats of stad in. Zoekopdrachten op regio worden hier nog niet ondersteund.",

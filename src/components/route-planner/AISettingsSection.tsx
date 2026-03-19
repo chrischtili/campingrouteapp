@@ -57,6 +57,56 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
         </p>
       </div>
 
+      <div className="space-y-4 rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
+        <div className="text-sm font-semibold tracking-[0.06em] text-white">{t("planner.ai.mode.label")}</div>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <button
+            type="button"
+            onClick={() => selectMode(false)}
+            className={`rounded-[1.75rem] border p-5 text-left transition-all ${
+              !aiSettings.useDirectAI
+                ? "border-primary/40 bg-primary/12 shadow-[0_16px_40px_rgba(255,128,0,0.14)]"
+                : "border-white/10 bg-white/5 hover:bg-white/8"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-2">
+                <div className="text-lg font-black tracking-tight text-white">{t("planner.ai.mode.prompt.title")}</div>
+                <div className="text-sm leading-6 text-white/65">{t("planner.ai.mode.prompt.desc")}</div>
+              </div>
+              {!aiSettings.useDirectAI && (
+                <div className="rounded-full border border-primary/30 bg-primary/12 px-3 py-1 text-[10px] font-semibold tracking-[0.12em] text-primary">
+                  {t("planner.ai.mode.selected")}
+                </div>
+              )}
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => selectMode(true)}
+            disabled={!DIRECT_AI_FEATURE_ENABLED}
+            className={`rounded-[1.75rem] border p-5 text-left transition-all ${
+              aiSettings.useDirectAI
+                ? "border-primary/40 bg-primary/12 shadow-[0_16px_40px_rgba(255,128,0,0.14)]"
+                : "border-white/10 bg-white/5 hover:bg-white/8 disabled:cursor-not-allowed disabled:opacity-60"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-2">
+                <div className="text-lg font-black tracking-tight text-white">{t("planner.ai.mode.direct.title")}</div>
+                <div className="text-sm leading-6 text-white/65">{t("planner.ai.mode.direct.desc")}</div>
+              </div>
+              {aiSettings.useDirectAI && (
+                <div className="rounded-full border border-primary/30 bg-primary/12 px-3 py-1 text-[10px] font-semibold tracking-[0.12em] text-primary">
+                  {t("planner.ai.mode.selected")}
+                </div>
+              )}
+            </div>
+          </button>
+        </div>
+      </div>
+
       {TOKEN_MODE_PREVIEW_ENABLED && (
         <div className="space-y-4 rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
           <button

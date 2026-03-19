@@ -5,6 +5,7 @@
     "keywords": "Camping Routenplaner, Stellplatz Finder, Campingplatz Finder, Campingfinder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Stellplatzsuche, Campingplatzsuche, Camping Route, CampingRoute, Campingrouten"
   },
   "navbar": {
+    "navigation": "Navigation",
     "features": "Features",
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
@@ -12,6 +13,10 @@
     "planNow": "Prompt generieren",
     "subtitle": "Smarte KI-Prompts",
     "whatsNew": "Neu in {{version}}",
+    "placeFinderDescriptions": {
+      "camping": "Eigene Suchseite für klassische Campingplätze.",
+      "stopover": "Eigene Suchseite für flexible Wohnmobil-Stopps."
+    },
     "theme": {
       "system": "System",
       "dark": "Dunkel",
@@ -508,12 +513,12 @@
     }
   },
   "planner": {
-    "badge": "Routenplaner",
-    "title": "Alles für deine Route auf einen Blick",
+    "badge": "KI-Prompt-Generator",
+    "title": "Alles für deinen Prompt an einem Ort",
     "cta": "Prompt generieren",
     "launcher": {
-      "title": "Prompterzeugung, Platzsuche und Route an einem Ort",
-      "description": "Öffne den Planer, suche optional passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt zusammen."
+      "title": "Der Prompt-Generator für Camping- und Roadtrips",
+      "description": "Öffne den Generator, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen."
     },
     "loading": {
       "ai": "🤖 Generiere Route...",
@@ -634,7 +639,7 @@
         },
         "direct": {
           "title": "KI direkt nutzen",
-          "desc": "Aktuell nicht aktiv."
+          "desc": "Direkte KI-Ausgabe mit deinem API-Key."
         },
         "label": "Wie möchtest du planen?",
         "selected": "Ausgewählt",
@@ -855,11 +860,18 @@
       },
       "actions": {
         "title": "In Route übernehmen",
+        "transferTitle": "In Prompt übernehmen",
+        "transferDestination": "Als Ziel in den Prompt übernehmen",
+        "transferStage": "Als Zwischenziel in den Prompt übernehmen",
         "setDestination": "Als Ziel setzen",
         "addStage": "Als Zwischenziel {{num}} hinzufügen",
         "replaceStage": "Zwischenziel {{num}} ersetzen",
         "openSource": "OSM-Eintrag öffnen",
         "openWebsite": "Website öffnen"
+      },
+      "transfer": {
+        "successDestination": "{{place}} wurde als Ziel in den Prompt-Generator übernommen.",
+        "successStage": "{{place}} wurde als Zwischenziel in den Prompt-Generator übernommen."
       },
       "errors": {
         "region_not_supported": "Bitte gib einen konkreten Ort oder eine Stadt ein. Regionssuchen unterstützen wir hier aktuell noch nicht.",

@@ -5,6 +5,7 @@
     "keywords": "planificateur itinéraire camping, recherche camping, recherche emplacement camping-car, recherche d'emplacements, planificateur camping-car, planificateur caravane, road trip tente, planificateur moto, export GPX camping, Camping Route, CampingRoute, itinéraires camping"
   },
   "navbar": {
+    "navigation": "Navigation",
     "features": "Fonctionnalités",
     "exampleRoute": "Itinéraire exemple",
     "faq": "FAQ",
@@ -12,6 +13,10 @@
     "planNow": "Générer le prompt",
     "subtitle": "Prompts IA intelligents",
     "whatsNew": "Nouveautés de {{version}}",
+    "placeFinderDescriptions": {
+      "camping": "Page de recherche dédiée aux campings classiques.",
+      "stopover": "Page de recherche dédiée aux étapes flexibles en camping-car."
+    },
     "theme": {
       "system": "Système",
       "dark": "Sombre",
@@ -857,11 +862,18 @@
       },
       "actions": {
         "title": "Ajouter à l’itinéraire",
+        "transferTitle": "Ajouter au prompt",
+        "transferDestination": "Utiliser comme destination dans le prompt",
+        "transferStage": "Utiliser comme étape dans le prompt",
         "setDestination": "Définir comme destination",
         "addStage": "Ajouter comme étape {{num}}",
         "replaceStage": "Remplacer l’étape {{num}}",
         "openSource": "Ouvrir l’entrée OSM",
         "openWebsite": "Ouvrir le site web"
+      },
+      "transfer": {
+        "successDestination": "{{place}} a été repris comme destination dans le générateur de prompt.",
+        "successStage": "{{place}} a été repris comme étape dans le générateur de prompt."
       },
       "errors": {
         "region_not_supported": "Veuillez saisir un lieu ou une ville précise. Les recherches par région ne sont pas encore prises en charge ici.",

@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { getFinderNavLabels } from "@/lib/finderPageContent";
 
 export function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const finderLabels = getFinderNavLabels(i18n.language);
   const [releaseVersion, setReleaseVersion] = useState("0.5.16");
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   
@@ -66,6 +68,20 @@ export function Footer() {
             <p className="text-foreground/75 dark:text-white/80 max-w-sm leading-relaxed text-base italic font-serif">
               {t("footer.description")}
             </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/campingplatz-finder"
+                className="inline-flex items-center rounded-full border border-border/70 bg-white/75 px-4 py-2 text-xs font-bold tracking-[0.06em] text-foreground/80 transition-colors hover:text-primary dark:border-white/12 dark:bg-white/8 dark:text-white/78"
+              >
+                {finderLabels.camping}
+              </Link>
+              <Link
+                to="/stellplatz-finder"
+                className="inline-flex items-center rounded-full border border-border/70 bg-white/75 px-4 py-2 text-xs font-bold tracking-[0.06em] text-foreground/80 transition-colors hover:text-primary dark:border-white/12 dark:bg-white/8 dark:text-white/78"
+              >
+                {finderLabels.stopover}
+              </Link>
+            </div>
           </div>
 
           {/* Links Columns */}

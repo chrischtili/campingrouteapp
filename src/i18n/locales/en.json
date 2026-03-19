@@ -5,6 +5,7 @@
     "keywords": "AI camping route planner, campsite finder, motorhome pitch finder, camping finder, RV route planner, caravan route planner, tent road trip planner, motorcycle route planner, GPX route planner, campsite route planner, Camping Route, CampingRoute, camping routes"
   },
   "navbar": {
+    "navigation": "Navigation",
     "features": "Features",
     "exampleRoute": "Example Route",
     "faq": "FAQ",
@@ -12,6 +13,10 @@
     "planNow": "Generate Prompt",
     "subtitle": "Smart AI Prompts",
     "whatsNew": "What's new in {{version}}",
+    "placeFinderDescriptions": {
+      "camping": "Dedicated search page for classic campsites.",
+      "stopover": "Dedicated search page for flexible motorhome stopovers."
+    },
     "theme": {
       "system": "System",
       "dark": "Dark",
@@ -509,13 +514,13 @@
     }
   },
   "planner": {
-    "badge": "Route Planner",
-    "title": "Everything for your route in one place",
+    "badge": "AI Prompt Generator",
+    "title": "Everything for your prompt in one place",
     "cta": "Generate Prompt",
     "launcher": {
-      "title": "Prompt creation, place search and route planning in one place",
-      "description": "Open the planner, search suitable places and then complete your route details and AI prompt in one flow.",
-      "hint": "The place finder opens directly inside the planner panel."
+      "title": "The prompt generator for camping and road trips",
+      "description": "Open the generator, search suitable places if needed and then complete your route details and AI prompt in one strong flow.",
+      "hint": "Place search is available directly inside the generator."
     },
     "loading": {
       "ai": "🤖 Generating route...",
@@ -636,7 +641,7 @@
         },
         "direct": {
           "title": "Use AI Directly",
-          "desc": "Currently inactive."
+          "desc": "Direct AI output with your API key."
         },
         "label": "How would you like to plan?",
         "selected": "Selected",
@@ -857,11 +862,18 @@
       },
       "actions": {
         "title": "Add to route",
+        "transferTitle": "Add to prompt",
+        "transferDestination": "Use as destination in the prompt",
+        "transferStage": "Use as stop in the prompt",
         "setDestination": "Set as destination",
         "addStage": "Add as stop {{num}}",
         "replaceStage": "Replace stop {{num}}",
         "openSource": "Open OSM entry",
         "openWebsite": "Open website"
+      },
+      "transfer": {
+        "successDestination": "{{place}} was added to the prompt generator as destination.",
+        "successStage": "{{place}} was added to the prompt generator as a stop."
       },
       "errors": {
         "region_not_supported": "Please enter a specific place or city. Regional searches are not supported here yet.",

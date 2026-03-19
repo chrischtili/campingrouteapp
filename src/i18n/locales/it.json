@@ -5,6 +5,7 @@
     "keywords": "pianificatore itinerari campeggio, cerca campeggi, cerca aree sosta, trova campeggi, pianificatore camper, pianificatore caravan, viaggio in tenda, pianificatore moto, export GPX campeggio, Camping Route, CampingRoute, itinerari campeggio"
   },
   "navbar": {
+    "navigation": "Navigazione",
     "features": "Funzionalità",
     "exampleRoute": "Itinerario d'esempio",
     "faq": "FAQ",
@@ -12,6 +13,10 @@
     "planNow": "Genera prompt",
     "subtitle": "Prompt IA smart",
     "whatsNew": "Novità della {{version}}",
+    "placeFinderDescriptions": {
+      "camping": "Pagina dedicata alla ricerca di campeggi classici.",
+      "stopover": "Pagina dedicata alla ricerca di soste flessibili per camper."
+    },
     "theme": {
       "system": "Sistema",
       "dark": "Scuro",
@@ -857,11 +862,18 @@
       },
       "actions": {
         "title": "Aggiungi all’itinerario",
+        "transferTitle": "Aggiungi al prompt",
+        "transferDestination": "Usa come destinazione nel prompt",
+        "transferStage": "Usa come tappa nel prompt",
         "setDestination": "Imposta come destinazione",
         "addStage": "Aggiungi come tappa {{num}}",
         "replaceStage": "Sostituisci tappa {{num}}",
         "openSource": "Apri voce OSM",
         "openWebsite": "Apri sito web"
+      },
+      "transfer": {
+        "successDestination": "{{place}} è stato trasferito come destinazione nel generatore di prompt.",
+        "successStage": "{{place}} è stato trasferito come tappa nel generatore di prompt."
       },
       "errors": {
         "region_not_supported": "Inserisci un luogo o una città specifica. Le ricerche per regione qui non sono ancora supportate.",

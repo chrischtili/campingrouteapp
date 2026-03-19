@@ -8,6 +8,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { getFinderSeo } from "@/lib/finderPageContent";
+import { getPromptGeneratorSeo } from "@/lib/promptGeneratorPageContent";
 
 // ScrollToTop Component
 const ScrollToTop = () => {
@@ -24,6 +26,9 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Impressum = lazy(() => import("./pages/Impressum"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz"));
 const AdminStats = lazy(() => import("./pages/AdminStats"));
+const CampingplatzFinder = lazy(() => import("./pages/CampingplatzFinder"));
+const StellplatzFinder = lazy(() => import("./pages/StellplatzFinder"));
+const PromptGenerator = lazy(() => import("./pages/PromptGenerator"));
 
 // Dynamische Importe für UI-Komponenten
 const Toaster = lazy(() => import("@/components/ui/toaster").then((module) => ({ default: module.Toaster })));
@@ -47,6 +52,7 @@ if (typeof window !== 'undefined' && !('requestIdleCallback' in window)) {
 
 const App = () => {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
   const displayReleaseVersion = `v${(releaseVersion || "0.5.16").replace(/^v/i, "")}`;
@@ -175,14 +181,19 @@ const App = () => {
 
   // Dynamically update SEO tags based on language
   React.useEffect(() => {
-    document.title = t("seo.title");
+    const pageSeo = getPromptGeneratorSeo(location.pathname, i18n.language) || getFinderSeo(location.pathname, i18n.language);
+    const seoTitle = pageSeo?.title || t("seo.title");
+    const seoDescription = pageSeo?.description || t("seo.description");
+    const seoKeywords = pageSeo?.keywords || t("seo.keywords");
+
+    document.title = seoTitle;
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute("content", t("seo.description"));
+      metaDescription.setAttribute("content", seoDescription);
     }
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute("content", t("seo.keywords"));
+      metaKeywords.setAttribute("content", seoKeywords);
     }
     // Update lang attribute on html tag
     document.documentElement.lang = i18n.language;
@@ -254,6 +265,8 @@ const App = () => {
       meta.setAttribute('content', content);
     };
 
+    upsertMeta('og:title', seoTitle);
+    upsertMeta('og:description', seoDescription);
     upsertMeta('og:url', currentUrl.toString());
 
     const currentLocale = languageMap[i18n.language] || 'en-US';
@@ -267,7 +280,7 @@ const App = () => {
       meta.setAttribute('content', loc);
       document.head.appendChild(meta);
     });
-  }, [t, i18n.language]);
+  }, [t, i18n.language, location.pathname, location.search]);
 
   // Use requestIdleCallback for non-critical initialization
   React.useEffect(() => {
@@ -347,6 +360,9 @@ const App = () => {
           <Suspense fallback={<div className="min-h-screen bg-gray-50"></div>}>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/prompt-generator" element={<PromptGenerator />} />
+              <Route path="/campingplatz-finder" element={<CampingplatzFinder />} />
+              <Route path="/stellplatz-finder" element={<StellplatzFinder />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               {/* Admin-Seite (nicht verlinkt, nur per direkter URL aufrufbar) */}

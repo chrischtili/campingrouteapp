@@ -11,17 +11,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { motion } from "framer-motion";
 import { useTheme } from "@/components/ui/theme-provider";
+import { getFinderNavLabels } from "@/lib/finderPageContent";
 
 interface NavbarProps {
   onStartPlanning?: () => void;
-  onOpenPlaceFinder?: () => void;
 }
 
-export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
+export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [releaseVersion, setReleaseVersion] = useState("0.5.16");
   const { t, i18n } = useTranslation();
+  const finderLabels = getFinderNavLabels(i18n.language);
   const { setTheme, resolvedTheme } = useTheme();
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   const location = useLocation();
@@ -100,19 +101,17 @@ export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
 
   const handlePlanNow = () => {
     if (!isHomePage) {
-      navigate("/?plan=true");
+      navigate("/prompt-generator");
     } else if (onStartPlanning) {
       onStartPlanning();
+    } else {
+      navigate("/prompt-generator");
     }
     setMobileMenuOpen(false);
   };
 
-  const handleOpenPlaceFinder = () => {
-    if (!isHomePage || !onOpenPlaceFinder) {
-      navigate("/?placeFinder=true");
-    } else {
-      onOpenPlaceFinder();
-    }
+  const handleOpenPlaceFinder = (path = "/campingplatz-finder") => {
+    navigate(path);
     setMobileMenuOpen(false);
   };
 
@@ -167,77 +166,121 @@ export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-6">
-          <div className="flex items-center gap-4">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => link.faqItem ? handleFAQItemNavigation(link.faqItem) : handleNavClick(link.href!)}
-                className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-foreground/65 hover:text-primary transition-colors relative group"
-              >
-                {link.name}
-                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={openWhatsNew}
-            className="hidden xl:inline-flex text-xs font-semibold tracking-[0.02em] text-foreground/55 hover:text-primary transition-colors"
-          >
-            {t("navbar.whatsNew", { version: displayReleaseVersion })}
-          </button>
-
-          <div className="h-4 w-px bg-foreground/10 mx-2 hidden sm:block" />
-
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label={themeToggleLabel}
-            title={themeToggleLabel}
-            onClick={() => setTheme(oppositeExplicitTheme)}
-            className="rounded-xl border border-foreground/15 bg-white/70 text-foreground hover:bg-white/90 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
-          >
-            <ThemeIcon className="w-4 h-4 text-primary" />
-          </Button>
-
-          {/* Language Switcher */}
+        <div className="hidden lg:flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-foreground hover:bg-black/5 dark:text-white dark:hover:bg-white/5 gap-1 rounded-lg font-semibold text-[8px] sm:text-[10px] tracking-[0.08em] border border-foreground/5 dark:border-white/5 px-2 py-1"
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-11 w-11 rounded-2xl border border-foreground/12 bg-white/72 text-foreground hover:bg-white/88 dark:border-white/14 dark:bg-white/10 dark:text-white dark:hover:bg-white/14 shadow-[0_14px_34px_rgba(15,23,42,0.10)] backdrop-blur-2xl"
+                aria-label={t("navbar.navigation")}
+                title={t("navbar.navigation")}
               >
-                <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                {i18n.language.toUpperCase()}
+                <Menu className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-xl border border-border bg-popover text-popover-foreground shadow-xl">
-              <DropdownMenuItem onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className="hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">DEUTSCH</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className="hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ENGLISH</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => { changeLanguage('nl'); setMobileMenuOpen(false); }} className="hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">NEDERLANDS</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className="hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">FRANÇAIS</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => { changeLanguage('it'); setMobileMenuOpen(false); }} className="hover:bg-primary hover:text-white font-bold cursor-pointer rounded-lg m-1 text-sm">ITALIANO</DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-80 rounded-[1.5rem] border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
+              {navLinks.map((link) => (
+                <DropdownMenuItem
+                  key={link.name}
+                  onClick={() => link.faqItem ? handleFAQItemNavigation(link.faqItem) : handleNavClick(link.href!)}
+                  className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
+                >
+                  <div className="flex w-full items-center justify-between gap-3">
+                    <span className="text-sm font-black text-foreground dark:text-white">{link.name}</span>
+                    <ChevronRight className="h-4 w-4 text-primary" />
+                  </div>
+                </DropdownMenuItem>
+              ))}
+
+              <div className="my-2 h-px bg-foreground/8 dark:bg-white/10" />
+
+              <DropdownMenuItem
+                onClick={openWhatsNew}
+                className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
+              >
+                <span className="text-sm font-semibold text-foreground/75 dark:text-white/78">
+                  {t("navbar.whatsNew", { version: displayReleaseVersion })}
+                </span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={() => setTheme(oppositeExplicitTheme)}
+                className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
+              >
+                <div className="flex w-full items-center justify-between gap-3">
+                  <span className="text-sm font-semibold text-foreground dark:text-white">{themeToggleLabel}</span>
+                  <ThemeIcon className="h-4 w-4 text-primary" />
+                </div>
+              </DropdownMenuItem>
+
+              <div className="mx-1 mt-2 rounded-2xl border border-border/70 bg-background/70 px-3 py-3 dark:border-white/10 dark:bg-white/5">
+                <div className="mb-2 flex items-center gap-2 text-[11px] font-black tracking-[0.14em] text-foreground/55 dark:text-white/55">
+                  <Globe className="h-3.5 w-3.5 text-primary" />
+                  {i18n.language.toUpperCase()}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    ["de", "DE"],
+                    ["en", "EN"],
+                    ["nl", "NL"],
+                    ["fr", "FR"],
+                    ["it", "IT"],
+                  ].map(([lng, label]) => (
+                    <button
+                      key={lng}
+                      type="button"
+                      onClick={() => changeLanguage(lng)}
+                      className={`inline-flex min-w-[44px] items-center justify-center rounded-xl border px-3 py-2 text-xs font-black tracking-[0.08em] transition-colors ${
+                        i18n.language === lng
+                          ? "border-primary/40 bg-primary/12 text-primary"
+                          : "border-border/70 bg-background/80 text-foreground/65 hover:bg-muted/70 dark:border-white/10 dark:bg-white/6 dark:text-white/65 dark:hover:bg-white/10"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={handleOpenPlaceFinder}
-            className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-white bg-white/72 hover:bg-white/82 dark:bg-white/10 dark:hover:bg-white/14 border border-white/70 dark:border-white/14 shadow-[0_18px_42px_rgba(15,23,42,0.10)] dark:shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
-            style={{
-              backgroundImage:
-                resolvedTheme === "dark"
-                  ? "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))"
-                  : "linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62))",
-            }}
-          >
-            {t("navbar.placeFinder")}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-white bg-white/72 hover:bg-white/82 dark:bg-white/10 dark:hover:bg-white/14 border border-white/70 dark:border-white/14 shadow-[0_18px_42px_rgba(15,23,42,0.10)] dark:shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
+                style={{
+                  backgroundImage:
+                    resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))"
+                      : "linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62))",
+                }}
+              >
+                {t("navbar.placeFinder")}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72 rounded-2xl border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
+              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
+                <Link to="/campingplatz-finder" className="flex w-full flex-col items-start gap-1">
+                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.camping}</span>
+                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
+                    {t("navbar.placeFinderDescriptions.camping")}
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
+                <Link to="/stellplatz-finder" className="flex w-full flex-col items-start gap-1">
+                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.stopover}</span>
+                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
+                    {t("navbar.placeFinderDescriptions.stopover")}
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Button
             onClick={handlePlanNow}
@@ -284,10 +327,18 @@ export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
             <div className="h-px bg-foreground/12 dark:bg-white/12 my-2" />
             <button
               type="button"
-              onClick={handleOpenPlaceFinder}
+              onClick={() => handleOpenPlaceFinder("/campingplatz-finder")}
               className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
             >
-              {t("navbar.placeFinder")}
+              {finderLabels.camping}
+              <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleOpenPlaceFinder("/stellplatz-finder")}
+              className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
+            >
+              {finderLabels.stopover}
               <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <button

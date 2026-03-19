@@ -228,7 +228,13 @@ export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
             type="button"
             variant="ghost"
             onClick={handleOpenPlaceFinder}
-            className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-primary bg-primary/[0.11] hover:bg-primary/[0.16] dark:bg-primary/[0.14] dark:hover:bg-primary/[0.2] border border-primary/30 shadow-[0_12px_30px_rgba(255,128,0,0.16)] dark:shadow-[0_10px_28px_rgba(255,128,0,0.12)]"
+            className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-white bg-white/72 hover:bg-white/82 dark:bg-white/10 dark:hover:bg-white/14 border border-white/70 dark:border-white/14 shadow-[0_18px_42px_rgba(15,23,42,0.10)] dark:shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
+            style={{
+              backgroundImage:
+                resolvedTheme === "dark"
+                  ? "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62))",
+            }}
           >
             {t("navbar.placeFinder")}
           </Button>

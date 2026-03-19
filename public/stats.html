@@ -12,6 +12,7 @@
             --accent-prompts: #f59e0b;
             --accent-direct: #6366f1;
             --accent-places: #0ea5a4;
+            --accent-places-solo: #f97316;
             --accent-selects: #14b8a6;
             --accent-feedback: #e11d48;
             --accent-neutral: #64748b;
@@ -225,6 +226,14 @@
 
         .stat-card.selects .value {
             color: var(--accent-selects);
+        }
+
+        .stat-card.places-solo {
+            border-left-color: var(--accent-places-solo);
+        }
+
+        .stat-card.places-solo .value {
+            color: var(--accent-places-solo);
         }
 
         .stat-card.feedback {
@@ -462,6 +471,12 @@
                         <div class="label">Heute gesucht</div>
                     </div>
 
+                    <div class="stat-card emphasis places-solo">
+                        <h3>Solo-Finder heute</h3>
+                        <div class="value" id="place-searches-solo-today">-</div>
+                        <div class="label">Eigenständig genutzt</div>
+                    </div>
+
                     <div class="stat-card emphasis feedback">
                         <h3>Feedback heute</h3>
                         <div class="value" id="feedback-today">-</div>
@@ -508,6 +523,12 @@
                     <h3>Finder-Suchen gesamt</h3>
                     <div class="value" id="place-searches">-</div>
                     <div class="label">Suche nach Stell- & Campingplätzen</div>
+                </div>
+
+                <div class="stat-card neutral places-solo">
+                    <h3>Solo-Finder gesamt</h3>
+                    <div class="value" id="place-searches-solo">-</div>
+                    <div class="label">Nur der eigenständige Platzfinder</div>
                 </div>
 
                 <div class="stat-card neutral selects">
@@ -610,6 +631,8 @@
         const routeGenerationsTodayEl = document.getElementById('route-generations-today');
         const placeSearchesEl = document.getElementById('place-searches');
         const placeSearchesTodayEl = document.getElementById('place-searches-today');
+        const placeSearchesSoloEl = document.getElementById('place-searches-solo');
+        const placeSearchesSoloTodayEl = document.getElementById('place-searches-solo-today');
         const placeSelectsEl = document.getElementById('place-selects');
         const feedbackTotalEl = document.getElementById('feedback-total');
         const feedbackTodayEl = document.getElementById('feedback-today');
@@ -702,7 +725,8 @@
                 prompts: Number(series[1]?.[day.key] || 0),
                 direct: Number(series[2]?.[day.key] || 0),
                 places: Number(series[3]?.[day.key] || 0),
-                feedback: Number(series[4]?.[day.key] || 0),
+                placesSolo: Number(series[4]?.[day.key] || 0),
+                feedback: Number(series[5]?.[day.key] || 0),
             }));
         }
 
@@ -784,15 +808,18 @@
                 const promptGenerations = Number(generations.prompt || 0);
                 const routeGenerations = Number(generations.route || 0);
                 const placeSearches = Number(generations.place_search || 0);
+                const placeSearchesSolo = Number(generations.place_search_solo || 0);
                 const placeSelects = Number(generations.place_select || 0);
                 const promptHistory = generationHistory.prompt || {};
                 const routeHistory = generationHistory.route || {};
                 const placeSearchHistory = generationHistory.place_search || {};
+                const placeSearchSoloHistory = generationHistory.place_search_solo || {};
                 const promptToday = Number(promptHistory[todayKey] || 0);
                 const routeToday = Number(routeHistory[todayKey] || 0);
                 const placeSearchToday = Number(placeSearchHistory[todayKey] || 0);
+                const placeSearchSoloToday = Number(placeSearchSoloHistory[todayKey] || 0);
                 const feedbackHistory = feedbackSummary.history || {};
-                latestChartDays = mergeDailySeries(history, promptHistory, routeHistory, placeSearchHistory, feedbackHistory);
+                latestChartDays = mergeDailySeries(history, promptHistory, routeHistory, placeSearchHistory, placeSearchSoloHistory, feedbackHistory);
 
                 totalVisitsEl.textContent = visits.toLocaleString('de-DE');
                 todayVisitsEl.textContent = todayVisits.toLocaleString('de-DE');
@@ -803,6 +830,8 @@
                 routeGenerationsTodayEl.textContent = routeToday.toLocaleString('de-DE');
                 placeSearchesEl.textContent = placeSearches.toLocaleString('de-DE');
                 placeSearchesTodayEl.textContent = placeSearchToday.toLocaleString('de-DE');
+                placeSearchesSoloEl.textContent = placeSearchesSolo.toLocaleString('de-DE');
+                placeSearchesSoloTodayEl.textContent = placeSearchSoloToday.toLocaleString('de-DE');
                 placeSelectsEl.textContent = placeSelects.toLocaleString('de-DE');
                 updateFeedbackStats(feedbackSummary);
                 renderFeedbackList(feedbackItems);
@@ -861,6 +890,7 @@
             const promptValues = preparedDays.map((day) => day.prompts ?? 0);
             const directValues = preparedDays.map((day) => day.direct ?? 0);
             const placeValues = preparedDays.map((day) => day.places ?? 0);
+            const placeSoloValues = preparedDays.map((day) => day.placesSolo ?? 0);
             const feedbackValues = preparedDays.map((day) => day.feedback ?? 0);
             const labels = preparedDays.map((day) => day.label);
 
@@ -872,13 +902,14 @@
             ctx.fillStyle = '#333';
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('Besuche, Prompts, KI direkt, Finder und Feedback (7 Tage)', canvas.width / 2, 25);
+            ctx.fillText('Besuche, Prompts, KI direkt, Finder, Solo-Finder und Feedback (7 Tage)', canvas.width / 2, 25);
 
             const maxValue = Math.max(
                 ...visitValues,
                 ...promptValues,
                 ...directValues,
                 ...placeValues,
+                ...placeSoloValues,
                 ...feedbackValues,
                 10
             );
@@ -896,11 +927,12 @@
                 { label: 'Prompts', color: 'rgba(255, 159, 67, 0.95)' },
                 { label: 'KI direkt', color: 'rgba(108, 92, 231, 0.95)' },
                 { label: 'Finder', color: 'rgba(14, 165, 164, 0.95)' },
+                { label: 'Solo-Finder', color: 'rgba(249, 115, 22, 0.95)' },
                 { label: 'Feedback', color: 'rgba(220, 53, 69, 0.95)' },
             ];
 
             legendItems.forEach((item, index) => {
-                const x = chartLeft + index * 108;
+                const x = chartLeft + index * 96;
                 ctx.fillStyle = item.color;
                 ctx.fillRect(x, 34, 18, 4);
                 ctx.fillStyle = '#4b5d5a';
@@ -909,10 +941,10 @@
                 ctx.fillText(item.label, x + 26, 40);
             });
 
-            const barSeries = [visitValues, promptValues, directValues, placeValues, feedbackValues];
+            const barSeries = [visitValues, promptValues, directValues, placeValues, placeSoloValues, feedbackValues];
             const innerGroupWidth = Math.max(26, groupWidth * 0.72);
             const gap = 4;
-            const barWidth = Math.max(5, Math.min(14, (innerGroupWidth - gap * 4) / 5));
+            const barWidth = Math.max(4, Math.min(12, (innerGroupWidth - gap * 5) / 6));
 
             barSeries.forEach((values, seriesIndex) => {
                 values.forEach((value, index) => {

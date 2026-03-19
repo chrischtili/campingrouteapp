@@ -84,7 +84,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     ];
   }, [formData.stages, onChange, standalone, t]);
 
-  const trackPlaceFinderUsage = async (mode: "place_search" | "place_select") => {
+  const trackPlaceFinderUsage = async (mode: "place_search" | "place_search_solo" | "place_select") => {
     if (import.meta.env.DEV) {
       return;
     }
@@ -113,7 +113,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     setIsLoading(true);
     setError("");
     setHasSearched(true);
-    void trackPlaceFinderUsage("place_search");
+    void trackPlaceFinderUsage(standalone ? "place_search_solo" : "place_search");
 
     try {
       const nextResults = await searchPlaces({

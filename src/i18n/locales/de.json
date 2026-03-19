@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - KI-Routenplaner mit Stellplatz- & Campingfinder",
-    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad inklusive Stellplatz- und Campingfinder, passenden Etappen, Zwischenstopps und GPX-Export in Europa.",
+    "title": "Camping Route - KI-Routenplaner mit Stellplatz- & Campingplatzsuche",
+    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad inklusive Stellplatz- und Campingplatzsuche, passenden Etappen, Zwischenstopps und GPX-Export in Europa.",
     "keywords": "Camping Routenplaner, Stellplatz Finder, Campingplatz Finder, Campingfinder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Stellplatzsuche, Campingplatzsuche, Camping Route, CampingRoute, Campingrouten"
   },
   "navbar": {
@@ -23,7 +23,7 @@
   "hero": {
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
-    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad – inklusive Stellplatz- und Campingfinder, passenden Etappen und GPX-Export.",
+    "description": "Plane mit KI individuelle Routen für Wohnmobil, Wohnwagen, Zelt oder Motorrad – inklusive Stellplatz- und Campingplatzsuche, passenden Etappen und GPX-Export.",
     "planNow": "Route jetzt planen",
     "viewExample": "Beispielroute ansehen",
     "stats": {

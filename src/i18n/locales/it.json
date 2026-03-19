@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Pianificatore IA con cerca aree sosta e campeggi",
-    "description": "Pianifica con l'IA itinerari su misura per camper, caravan, tenda o moto con cerca aree sosta e campeggi, tappe adatte e export GPX in Europa.",
+    "title": "Camping Route - Pianificatore IA con ricerca di aree sosta e campeggi",
+    "description": "Pianifica con l'IA itinerari su misura per camper, caravan, tenda o moto con ricerca di aree sosta e campeggi, tappe adatte e export GPX in Europa.",
     "keywords": "pianificatore itinerari campeggio, cerca campeggi, cerca aree sosta, trova campeggi, pianificatore camper, pianificatore caravan, viaggio in tenda, pianificatore moto, export GPX campeggio, Camping Route, CampingRoute, itinerari campeggio"
   },
   "navbar": {
@@ -23,7 +23,7 @@
   "hero": {
     "badge": "Generatore di prompt IA",
     "title": "Camping Route",
-    "description": "Pianifica con l’IA itinerari su misura per camper, caravan, tenda o moto, con cerca aree sosta e campeggi, tappe adatte ed export GPX.",
+    "description": "Pianifica con l’IA itinerari su misura per camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, tappe adatte ed export GPX.",
     "planNow": "Pianifica itinerario ora",
     "viewExample": "Guarda l'itinerario d'esempio",
     "stats": {

@@ -75,7 +75,7 @@
     <meta name="theme-color" content="#ffffff">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://campingroute.app" />
+    <link rel="canonical" href="https://campingroute.app/" />
     
     <!-- Sitemap -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
@@ -189,6 +189,54 @@
     <!-- 2. LCP optimization handled by fetchpriority="high" on the image element -->
     
     <script>
+      (function() {
+        var supportedLangs = ['de', 'en', 'nl', 'fr', 'it'];
+        var current = new URL(window.location.href);
+        var canonical = new URL(current.origin + current.pathname);
+        var params = new URLSearchParams(current.search);
+        var lng = params.get('lng');
+
+        params.delete('lng');
+        params.forEach(function(value, key) {
+          canonical.searchParams.set(key, value);
+        });
+
+        if (lng === 'de') {
+          history.replaceState({}, '', canonical.toString() + current.hash);
+        }
+
+        var canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (canonicalLink) {
+          var canonicalHref = canonical.toString();
+          if (lng && lng !== 'de') {
+            var localizedCanonical = new URL(canonical.toString());
+            localizedCanonical.searchParams.set('lng', lng);
+            canonicalHref = localizedCanonical.toString();
+          }
+          canonicalLink.setAttribute('href', canonicalHref);
+        }
+
+        document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(function(link) {
+          var hreflang = link.getAttribute('hreflang');
+          if (!hreflang || (hreflang !== 'x-default' && supportedLangs.indexOf(hreflang) === -1)) return;
+
+          var altUrl = new URL(canonical.toString());
+          if (hreflang && hreflang !== 'de' && hreflang !== 'x-default') {
+            altUrl.searchParams.set('lng', hreflang);
+          }
+          link.setAttribute('href', altUrl.toString());
+        });
+
+        var ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) {
+          var currentUrl = new URL(canonical.toString());
+          if (lng && lng !== 'de') {
+            currentUrl.searchParams.set('lng', lng);
+          }
+          ogUrl.setAttribute('content', currentUrl.toString());
+        }
+      })();
+
       // Mark body as loaded when CSS is ready
       document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('css-loaded');

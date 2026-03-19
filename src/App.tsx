@@ -197,7 +197,19 @@ const App = () => {
     const supported = Object.keys(languageMap);
 
     const url = new URL(window.location.href);
-    const baseUrl = `${url.origin}${url.pathname}`;
+    const currentLng = supported.includes(i18n.language) ? i18n.language : "de";
+    const canonicalUrl = new URL(`${url.origin}${url.pathname}`);
+    const canonicalSearchParams = new URLSearchParams(url.search);
+    canonicalSearchParams.delete("lng");
+
+    canonicalSearchParams.forEach((value, key) => {
+      canonicalUrl.searchParams.set(key, value);
+    });
+
+    if (url.searchParams.get("lng") === "de") {
+      const normalizedUrl = canonicalUrl.toString() + url.hash;
+      window.history.replaceState({}, "", normalizedUrl);
+    }
 
     const upsertLink = (hreflang: string, href: string) => {
       let link = document.head.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`) as HTMLLinkElement | null;
@@ -211,11 +223,26 @@ const App = () => {
     };
 
     supported.forEach((lng) => {
-      const altUrl = new URL(baseUrl);
-      altUrl.searchParams.set('lng', lng);
+      const altUrl = new URL(canonicalUrl.toString());
+      if (lng !== "de") {
+        altUrl.searchParams.set('lng', lng);
+      }
       upsertLink(lng, altUrl.toString());
     });
-    upsertLink('x-default', baseUrl);
+    upsertLink('x-default', canonicalUrl.toString());
+
+    let canonicalLink = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement("link");
+      canonicalLink.setAttribute("rel", "canonical");
+      document.head.appendChild(canonicalLink);
+    }
+
+    const currentUrl = new URL(canonicalUrl.toString());
+    if (currentLng !== "de") {
+      currentUrl.searchParams.set("lng", currentLng);
+    }
+    canonicalLink.setAttribute("href", currentUrl.toString());
 
     const upsertMeta = (property: string, content: string) => {
       let meta = document.head.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
@@ -226,6 +253,8 @@ const App = () => {
       }
       meta.setAttribute('content', content);
     };
+
+    upsertMeta('og:url', currentUrl.toString());
 
     const currentLocale = languageMap[i18n.language] || 'en-US';
     upsertMeta('og:locale', currentLocale);

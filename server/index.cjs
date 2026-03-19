@@ -747,9 +747,17 @@ function serveStatic(req, res, pathname) {
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const host = String(req.headers.host || '').toLowerCase();
   const pathname = url.pathname;
 
   try {
+    if (host.startsWith('www.campingroute.app')) {
+      const redirectUrl = `https://campingroute.app${url.pathname}${url.search}`;
+      res.writeHead(308, { Location: redirectUrl });
+      res.end();
+      return;
+    }
+
     if (req.method === 'OPTIONS') {
       res.writeHead(204);
       res.end();

@@ -822,6 +822,10 @@
       "searchLabel": "Plaats",
       "searchPlaceholder": "bijv. Maastricht, Delft, Utrecht of Deventer",
       "searchHelp": "De zoekfunctie gebruikt openbare OSM-data en werkt het best met concrete plaatsen of steden.",
+      "suggestions": {
+        "loading": "Plaatsen worden opgezocht ...",
+        "selected": "Geselecteerde plaats: {{place}}"
+      },
       "searchButton": "Plaatsen zoeken",
       "loading": "Zoeken ...",
       "results": "{{count}} passende plaatsen gevonden",

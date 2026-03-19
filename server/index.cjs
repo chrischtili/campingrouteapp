@@ -294,6 +294,14 @@ function getPlaceSearchCacheKey(query, categories, limit) {
   });
 }
 
+function normalizeDisplayLabel(value) {
+  return String(value || '')
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(', ');
+}
+
 function readPlaceSearchCache(cacheKey) {
   const entry = placeSearchCache.get(cacheKey);
   if (!entry) return null;
@@ -413,6 +421,74 @@ async function geocodePlace(query) {
     return directLocalityMatch;
   }
   return results.find((entry) => !isRegionResult(entry)) || results[0];
+}
+
+async function geocodePlaceSuggestions(query, limit = 6) {
+  const params = new URLSearchParams({
+    q: query,
+    format: 'jsonv2',
+    addressdetails: '1',
+    limit: String(Math.max(3, Math.min(limit * 2, 10))),
+  });
+  const results = await fetchJson(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
+    timeoutMs: NOMINATIM_TIMEOUT_MS,
+  });
+  if (!Array.isArray(results) || results.length === 0) return [];
+
+  const filteredResults = results.filter((entry) => !isRegionResult(entry));
+  const shortlist = filteredResults.length > 0 ? filteredResults : results;
+  const seen = new Set();
+
+  return shortlist
+    .map((entry) => {
+      const address = entry && typeof entry.address === 'object' ? entry.address : {};
+      const name =
+        entry?.name ||
+        address.city ||
+        address.town ||
+        address.village ||
+        address.hamlet ||
+        address.municipality ||
+        address.suburb ||
+        address.quarter ||
+        address.neighbourhood ||
+        '';
+      const locality =
+        address.city ||
+        address.town ||
+        address.village ||
+        address.hamlet ||
+        address.municipality ||
+        address.suburb ||
+        address.quarter ||
+        address.neighbourhood ||
+        name;
+      const region = address.state || address.county || address.region || '';
+      const country = address.country || '';
+      const boundingBox = Array.isArray(entry?.boundingbox) && entry.boundingbox.length === 4 ? entry.boundingbox.join(',') : '';
+      const label = normalizeDisplayLabel(entry?.display_name || [locality, region, country].filter(Boolean).join(', '));
+      return {
+        id: `${entry?.osm_type || 'nominatim'}-${entry?.osm_id || entry?.place_id || name}`,
+        name: String(name || locality || label).trim(),
+        locality: String(locality || '').trim(),
+        region: String(region || '').trim(),
+        country: String(country || '').trim(),
+        label,
+        lat: toNumber(entry?.lat, NaN),
+        lon: toNumber(entry?.lon, NaN),
+        boundingBox,
+        importance: Number(entry?.importance || 0),
+      };
+    })
+    .filter((entry) => entry.name && entry.label && !Number.isNaN(entry.lat) && !Number.isNaN(entry.lon))
+    .filter((entry) => {
+      const dedupeKey = `${normalizeText(entry.name)}|${normalizeText(entry.label)}`;
+      if (seen.has(dedupeKey)) return false;
+      seen.add(dedupeKey);
+      return true;
+    })
+    .sort((left, right) => right.importance - left.importance)
+    .slice(0, limit);
 }
 
 function buildOverpassQuery({ lat, lon, categories, limit, radius }) {
@@ -683,30 +759,41 @@ function toPlaceResult(element) {
   };
 }
 
-async function searchPlaces(query, categories, limit) {
+async function searchPlaces(query, categories, limit, locationOverride = null) {
   const cacheKey = getPlaceSearchCacheKey(query, categories, limit);
   const cachedResult = readPlaceSearchCache(cacheKey);
   if (cachedResult) return cachedResult;
 
-  const place = await geocodePlace(query);
-  if (!place) return { results: [] };
-  if (isRegionResult(place)) {
-    return { error: 'region_not_supported' };
+  let lat = NaN;
+  let lon = NaN;
+  let boundingBox = null;
+
+  if (locationOverride && Number.isFinite(locationOverride.lat) && Number.isFinite(locationOverride.lon)) {
+    lat = Number(locationOverride.lat);
+    lon = Number(locationOverride.lon);
+    boundingBox = locationOverride.boundingBox || null;
+  } else {
+    const place = await geocodePlace(query);
+    if (!place) return { results: [] };
+    if (isRegionResult(place)) {
+      return { error: 'region_not_supported' };
+    }
+
+    lat = toNumber(place.lat, NaN);
+    lon = toNumber(place.lon, NaN);
+    boundingBox = parseBoundingBox(place.boundingbox);
   }
 
-  const lat = toNumber(place.lat, NaN);
-  const lon = toNumber(place.lon, NaN);
   if (Number.isNaN(lat) || Number.isNaN(lon)) return { results: [] };
 
   let overpassData;
-  const boundingBox = parseBoundingBox(place.boundingbox);
   try {
     overpassData = await fetchOverpassPlaces({
       lat,
       lon,
       categories,
       limit,
-      boundingbox: place.boundingbox,
+      boundingbox: boundingBox ? [boundingBox.south, boundingBox.north, boundingBox.west, boundingBox.east] : null,
     });
   } catch (error) {
     if (String(error?.message || '').startsWith('upstream_')) {
@@ -816,6 +903,11 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && pathname === '/api/places/search') {
       const query = String(url.searchParams.get('q') || '').trim();
       const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 8), 12));
+      const lat = toNumber(url.searchParams.get('lat'), NaN);
+      const lon = toNumber(url.searchParams.get('lon'), NaN);
+      const bboxRaw = String(url.searchParams.get('bbox') || '').trim();
+      const bboxParts = bboxRaw ? bboxRaw.split(',').map((entry) => entry.trim()) : [];
+      const overrideBoundingBox = bboxParts.length === 4 ? parseBoundingBox(bboxParts) : null;
       const categories = url.searchParams
         .getAll('category')
         .map((entry) => String(entry || '').trim())
@@ -826,13 +918,32 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
-      const placeSearch = await searchPlaces(query, categories, limit);
+      const locationOverride =
+        Number.isFinite(lat) && Number.isFinite(lon)
+          ? { lat, lon, boundingBox: overrideBoundingBox }
+          : null;
+
+      const placeSearch = await searchPlaces(query, categories, limit, locationOverride);
       if (placeSearch.error) {
         sendJson(res, 400, { error: placeSearch.error });
         return;
       }
 
       sendJson(res, 200, { results: placeSearch.results || [] });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/places/suggest') {
+      const query = String(url.searchParams.get('q') || '').trim();
+      const limit = Math.max(1, Math.min(toNumber(url.searchParams.get('limit'), 6), 8));
+
+      if (query.length < 2) {
+        sendJson(res, 200, { suggestions: [] });
+        return;
+      }
+
+      const suggestions = await geocodePlaceSuggestions(query, limit);
+      sendJson(res, 200, { suggestions });
       return;
     }
 

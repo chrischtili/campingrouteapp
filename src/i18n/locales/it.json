@@ -822,6 +822,10 @@
       "searchLabel": "Luogo",
       "searchPlaceholder": "es. Verona, Siena, Lecce o Bolzano",
       "searchHelp": "La ricerca usa dati OSM pubblici e funziona meglio con città o luoghi specifici.",
+      "suggestions": {
+        "loading": "Sto cercando i luoghi ...",
+        "selected": "Luogo selezionato: {{place}}"
+      },
       "searchButton": "Cerca aree",
       "loading": "Ricerca in corso ...",
       "results": "{{count}} luoghi trovati",

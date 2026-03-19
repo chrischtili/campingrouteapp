@@ -822,6 +822,10 @@
       "searchLabel": "Lieu",
       "searchPlaceholder": "p. ex. Annecy, Colmar, Nantes ou Avignon",
       "searchHelp": "La recherche utilise des données OSM publiques et fonctionne mieux avec des villes ou lieux précis.",
+      "suggestions": {
+        "loading": "Recherche de lieux ...",
+        "selected": "Lieu sélectionné : {{place}}"
+      },
       "searchButton": "Rechercher",
       "loading": "Recherche en cours ...",
       "results": "{{count}} lieux correspondants trouvés",

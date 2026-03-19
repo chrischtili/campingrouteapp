@@ -822,6 +822,10 @@
       "searchLabel": "Place",
       "searchPlaceholder": "e.g. Brighton, York, Canterbury or Inverness",
       "searchHelp": "The search uses public OSM data and works best with specific towns or places.",
+      "suggestions": {
+        "loading": "Looking up places ...",
+        "selected": "Selected place: {{place}}"
+      },
       "searchButton": "Search places",
       "loading": "Searching ...",
       "results": "{{count}} matching places found",

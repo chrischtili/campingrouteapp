@@ -1,5 +1,17 @@
 export type PlaceCategory = "camp_site" | "caravan_site";
 
+export interface PlaceSuggestion {
+  id: string;
+  name: string;
+  locality: string;
+  region: string;
+  country: string;
+  label: string;
+  lat: number;
+  lon: number;
+  boundingBox: string;
+}
+
 export interface PlaceSearchResult {
   id: string;
   name: string;

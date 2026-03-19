@@ -820,6 +820,10 @@
       "searchLabel": "Ort",
       "searchPlaceholder": "z. B. Dresden, Wismar, Annecy oder Verona",
       "searchHelp": "Die Suche läuft über öffentliche OSM-Daten und funktioniert am besten mit konkreten Orten oder Städten.",
+      "suggestions": {
+        "loading": "Ort wird vorgeschlagen ...",
+        "selected": "Ausgewählter Ort: {{place}}"
+      },
       "searchButton": "Plätze suchen",
       "loading": "Suche läuft ...",
       "results": "{{count}} passende Plätze gefunden",

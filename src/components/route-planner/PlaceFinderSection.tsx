@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 import { BedDouble, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, X, Zap } from "lucide-react";
@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { searchPlaces } from "@/lib/placeFinder";
+import { searchPlaceSuggestions, searchPlaces } from "@/lib/placeFinder";
 import { initialFormData } from "@/types/routePlanner";
 import type { FormData, RouteStage } from "@/types/routePlanner";
-import type { PlaceCategory, PlaceSearchResult } from "@/types/placeFinder";
+import type { PlaceCategory, PlaceSearchResult, PlaceSuggestion } from "@/types/placeFinder";
 
 interface PlaceFinderSectionProps {
   formData?: FormData;
@@ -37,6 +37,10 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
   const isMobile = useIsMobile();
   const [query, setQuery] = useState(formData.targetRegions || formData.destination || "");
   const [selectedCategories, setSelectedCategories] = useState<PlaceCategory[]>(["camp_site", "caravan_site"]);
+  const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
+  const [selectedSuggestion, setSelectedSuggestion] = useState<PlaceSuggestion | null>(null);
+  const [isSuggesting, setIsSuggesting] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [results, setResults] = useState<PlaceSearchResult[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<PlaceSearchResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +55,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     ? "w-full rounded-2xl border border-border/70 bg-background px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15 dark:border-white/12 dark:bg-white/8 dark:text-white dark:placeholder:text-white/38"
     : "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
   const helperClass = standalone ? "text-sm text-foreground/60 dark:text-white/60 leading-relaxed" : "text-sm text-white/60 leading-relaxed";
+  const labelClass = standalone ? "text-sm font-semibold text-foreground dark:text-white" : "text-sm font-semibold text-white";
 
   const stageActions = useMemo(() => {
     if (standalone || !onChange) {
@@ -108,6 +113,37 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     );
   };
 
+  useEffect(() => {
+    if (query.trim().length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setIsSuggesting(false);
+      return;
+    }
+
+    if (selectedSuggestion && query.trim() === selectedSuggestion.label) {
+      setShowSuggestions(false);
+      setIsSuggesting(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(async () => {
+      setIsSuggesting(true);
+      try {
+        const nextSuggestions = await searchPlaceSuggestions({ query });
+        setSuggestions(nextSuggestions);
+        setShowSuggestions(nextSuggestions.length > 0);
+      } catch {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      } finally {
+        setIsSuggesting(false);
+      }
+    }, 220);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [query, selectedSuggestion]);
+
   const handleSearch = async () => {
     if (searchDisabled) return;
     setIsLoading(true);
@@ -119,6 +155,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
       const nextResults = await searchPlaces({
         query,
         categories: selectedCategories,
+        suggestion: selectedSuggestion || undefined,
       });
       setResults(nextResults);
     } catch (searchError) {
@@ -133,6 +170,14 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSelectSuggestion = (suggestion: PlaceSuggestion) => {
+    setSelectedSuggestion(suggestion);
+    setQuery(suggestion.label);
+    setSuggestions([]);
+    setShowSuggestions(false);
+    setError("");
   };
 
   const renderDetails = (place: PlaceSearchResult) => {
@@ -270,11 +315,25 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
       <div className={panelClass}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-white">{t("planner.placeFinder.searchLabel")}</label>
+            <label className={labelClass}>{t("planner.placeFinder.searchLabel")}</label>
             <div className="relative">
               <input
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => {
+                  const nextValue = event.target.value;
+                  setQuery(nextValue);
+                  if (selectedSuggestion && nextValue.trim() !== selectedSuggestion.label) {
+                    setSelectedSuggestion(null);
+                  }
+                }}
+                onFocus={() => {
+                  if (!selectedSuggestion && suggestions.length > 0) {
+                    setShowSuggestions(true);
+                  }
+                }}
+                onBlur={() => {
+                  window.setTimeout(() => setShowSuggestions(false), 120);
+                }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
                     event.preventDefault();
@@ -285,8 +344,44 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                 className={`${inputClass} pl-12`}
               />
               <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary/70" />
+              {showSuggestions && (
+                <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-border/80 bg-background/98 shadow-[0_18px_40px_rgba(15,23,42,0.14)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/96">
+                  {isSuggesting && (
+                    <div className="px-4 py-3 text-sm text-foreground/60 dark:text-white/60">
+                      {t("planner.placeFinder.suggestions.loading")}
+                    </div>
+                  )}
+                  {!isSuggesting &&
+                    suggestions.map((suggestion) => (
+                      <button
+                        key={suggestion.id}
+                        type="button"
+                        className="flex w-full items-start gap-3 border-b border-border/50 px-4 py-3 text-left transition last:border-b-0 hover:bg-muted/70 dark:border-white/6 dark:hover:bg-white/6"
+                        onMouseDown={(event) => {
+                          event.preventDefault();
+                          handleSelectSuggestion(suggestion);
+                        }}
+                      >
+                        <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-semibold text-foreground dark:text-white">
+                            {suggestion.name}
+                          </span>
+                          <span className="block truncate text-xs text-foreground/60 dark:text-white/58">
+                            {suggestion.label}
+                          </span>
+                        </span>
+                      </button>
+                    ))}
+                </div>
+              )}
             </div>
             <p className={helperClass}>{t("planner.placeFinder.searchHelp")}</p>
+            {selectedSuggestion && (
+              <p className="text-xs font-medium text-primary/90">
+                {t("planner.placeFinder.suggestions.selected", { place: selectedSuggestion.name })}
+              </p>
+            )}
           </div>
 
           <Button

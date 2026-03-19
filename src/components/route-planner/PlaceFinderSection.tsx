@@ -74,6 +74,24 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
     ];
   }, [formData.stages, onChange, t]);
 
+  const trackPlaceFinderUsage = async (mode: "place_search" | "place_select") => {
+    if (import.meta.env.DEV) {
+      return;
+    }
+
+    try {
+      await fetch("/api/count-generation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mode }),
+      });
+    } catch {
+      // Usage tracking must not block the place finder flow.
+    }
+  };
+
   const toggleCategory = (category: PlaceCategory) => {
     setSelectedCategories((current) =>
       current.includes(category) ? current.filter((entry) => entry !== category) : [...current, category],
@@ -85,6 +103,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
     setIsLoading(true);
     setError("");
     setHasSearched(true);
+    void trackPlaceFinderUsage("place_search");
 
     try {
       const nextResults = await searchPlaces({
@@ -193,6 +212,7 @@ export function PlaceFinderSection({ formData, onChange }: PlaceFinderSectionPro
                   variant="outline"
                   className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
                   onClick={() => {
+                    void trackPlaceFinderUsage("place_select");
                     action.onSelect(place);
                     setSelectedPlace(null);
                   }}

@@ -102,11 +102,11 @@ function incrementCounter() {
   const counter = readJson(COUNTER_PATH, {
     visits: 0,
     history: {},
-    generations: { prompt: 0, route: 0, history: { prompt: {}, route: {} } }
+    generations: { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } }
   });
   counter.visits = Number(counter.visits || 0) + 1;
   counter.history = counter.history || {};
-  counter.generations = counter.generations || { prompt: 0, route: 0, history: { prompt: {}, route: {} } };
+  counter.generations = counter.generations || { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } };
   const key = todayKey();
   counter.history[key] = Number(counter.history[key] || 0) + 1;
   writeJson(COUNTER_PATH, counter);
@@ -117,12 +117,13 @@ function incrementGeneration(mode) {
   const counter = readJson(COUNTER_PATH, {
     visits: 0,
     history: {},
-    generations: { prompt: 0, route: 0, history: { prompt: {}, route: {} } }
+    generations: { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } }
   });
   counter.history = counter.history || {};
-  counter.generations = counter.generations || { prompt: 0, route: 0, history: { prompt: {}, route: {} } };
-  counter.generations.history = counter.generations.history || { prompt: {}, route: {} };
-  const normalizedMode = mode === 'route' ? 'route' : 'prompt';
+  counter.generations = counter.generations || { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } };
+  counter.generations.history = counter.generations.history || { prompt: {}, route: {}, place_search: {}, place_select: {} };
+  const allowedModes = new Set(['prompt', 'route', 'place_search', 'place_select']);
+  const normalizedMode = allowedModes.has(mode) ? mode : 'prompt';
   const key = todayKey();
   counter.generations[normalizedMode] = Number(counter.generations[normalizedMode] || 0) + 1;
   counter.generations.history[normalizedMode] = counter.generations.history[normalizedMode] || {};
@@ -135,9 +136,9 @@ function getCounter() {
   const counter = readJson(COUNTER_PATH, {
     visits: 0,
     history: {},
-    generations: { prompt: 0, route: 0, history: { prompt: {}, route: {} } }
+    generations: { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } }
   });
-  const generationsHistory = counter.generations?.history || { prompt: {}, route: {} };
+  const generationsHistory = counter.generations?.history || { prompt: {}, route: {}, place_search: {}, place_select: {} };
   return {
     success: true,
     data: {
@@ -146,9 +147,13 @@ function getCounter() {
       generations: {
         prompt: Number(counter.generations?.prompt || 0),
         route: Number(counter.generations?.route || 0),
+        place_search: Number(counter.generations?.place_search || 0),
+        place_select: Number(counter.generations?.place_select || 0),
         history: {
           prompt: generationsHistory.prompt || {},
-          route: generationsHistory.route || {}
+          route: generationsHistory.route || {},
+          place_search: generationsHistory.place_search || {},
+          place_select: generationsHistory.place_select || {}
         }
       }
     },
@@ -832,7 +837,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  ensureJsonFile(COUNTER_PATH, { visits: 0, history: {}, generations: { prompt: 0, route: 0, history: { prompt: {}, route: {} } } });
+  ensureJsonFile(COUNTER_PATH, { visits: 0, history: {}, generations: { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } } });
   ensureJsonFile(FEEDBACK_PATH, { feedback: [] });
   console.log(`Server läuft auf http://${HOST}:${PORT}`);
   console.log(`Dist: ${DIST_DIR}`);

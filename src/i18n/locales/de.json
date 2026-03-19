@@ -819,7 +819,7 @@
       "standaloneDescription": "Suche eigenständig nach passenden Campingplätzen und Stellplätzen für einen Ort, ganz ohne Routen- oder Prompt-Erstellung.",
       "searchLabel": "Ort",
       "searchPlaceholder": "z. B. Dresden, Wismar, Annecy oder Verona",
-      "searchHelp": "Die Suche läuft über öffentliche OSM-Daten und funktioniert am besten mit konkreten Orten oder Städten.",
+      "searchHelp": "Ort eingeben oder passenden Vorschlag auswählen.",
       "suggestions": {
         "loading": "Ort wird vorgeschlagen ...",
         "selected": "Ausgewählter Ort: {{place}}"
@@ -834,6 +834,10 @@
       "categories": {
         "camp_site": "Campingplatz",
         "caravan_site": "Stellplatz"
+      },
+      "categoryDescriptions": {
+        "camp_site": "Suche nach klassischen Campingplätzen mit passender Infrastruktur.",
+        "caravan_site": "Suche nach Wohnmobil-Stellplätzen für kurze oder flexible Stopps."
       },
       "labels": {
         "locality": "Ort",

@@ -821,7 +821,7 @@
       "standaloneDescription": "Zoek zelfstandig naar passende campings en camperplaatsen voor een plaats, zonder route- of promptgeneratie.",
       "searchLabel": "Plaats",
       "searchPlaceholder": "bijv. Maastricht, Delft, Utrecht of Deventer",
-      "searchHelp": "De zoekfunctie gebruikt openbare OSM-data en werkt het best met concrete plaatsen of steden.",
+      "searchHelp": "Voer een plaats in of kies een passende suggestie.",
       "suggestions": {
         "loading": "Plaatsen worden opgezocht ...",
         "selected": "Geselecteerde plaats: {{place}}"
@@ -836,6 +836,10 @@
       "categories": {
         "camp_site": "Camping",
         "caravan_site": "Camperplaats"
+      },
+      "categoryDescriptions": {
+        "camp_site": "Zoek naar klassieke campings met de gebruikelijke voorzieningen.",
+        "caravan_site": "Zoek naar camperplaatsen voor korte of flexibele stops."
       },
       "labels": {
         "locality": "Plaats",

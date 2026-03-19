@@ -821,7 +821,7 @@
       "standaloneDescription": "Recherchez de façon autonome des campings et aires de camping-car pour un lieu, sans créer d’itinéraire ni de prompt IA.",
       "searchLabel": "Lieu",
       "searchPlaceholder": "p. ex. Annecy, Colmar, Nantes ou Avignon",
-      "searchHelp": "La recherche utilise des données OSM publiques et fonctionne mieux avec des villes ou lieux précis.",
+      "searchHelp": "Saisissez un lieu ou choisissez une suggestion adaptée.",
       "suggestions": {
         "loading": "Recherche de lieux ...",
         "selected": "Lieu sélectionné : {{place}}"
@@ -836,6 +836,10 @@
       "categories": {
         "camp_site": "Camping",
         "caravan_site": "Aire de camping-car"
+      },
+      "categoryDescriptions": {
+        "camp_site": "Recherchez des campings classiques avec les équipements habituels.",
+        "caravan_site": "Recherchez des aires pour camping-cars pour des arrêts courts ou flexibles."
       },
       "labels": {
         "locality": "Localité",

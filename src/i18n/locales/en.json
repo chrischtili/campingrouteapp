@@ -821,7 +821,7 @@
       "standaloneDescription": "Search independently for suitable campsites and motorhome stopovers for a place, without creating a route or AI prompt.",
       "searchLabel": "Place",
       "searchPlaceholder": "e.g. Brighton, York, Canterbury or Inverness",
-      "searchHelp": "The search uses public OSM data and works best with specific towns or places.",
+      "searchHelp": "Enter a place or choose a matching suggestion.",
       "suggestions": {
         "loading": "Looking up places ...",
         "selected": "Selected place: {{place}}"
@@ -836,6 +836,10 @@
       "categories": {
         "camp_site": "Campsite",
         "caravan_site": "Motorhome stopover"
+      },
+      "categoryDescriptions": {
+        "camp_site": "Search for classic campsites with the usual on-site facilities.",
+        "caravan_site": "Search for motorhome stopovers for short or flexible stays."
       },
       "labels": {
         "locality": "Locality",

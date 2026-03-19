@@ -821,7 +821,7 @@
       "standaloneDescription": "Cerca in autonomia campeggi e aree camper per un luogo, senza creare un itinerario o un prompt IA.",
       "searchLabel": "Luogo",
       "searchPlaceholder": "es. Verona, Siena, Lecce o Bolzano",
-      "searchHelp": "La ricerca usa dati OSM pubblici e funziona meglio con città o luoghi specifici.",
+      "searchHelp": "Inserisci un luogo oppure scegli un suggerimento adatto.",
       "suggestions": {
         "loading": "Sto cercando i luoghi ...",
         "selected": "Luogo selezionato: {{place}}"
@@ -836,6 +836,10 @@
       "categories": {
         "camp_site": "Campeggio",
         "caravan_site": "Area camper"
+      },
+      "categoryDescriptions": {
+        "camp_site": "Cerca campeggi classici con i servizi tipici in struttura.",
+        "caravan_site": "Cerca aree camper per soste brevi o più flessibili."
       },
       "labels": {
         "locality": "Località",

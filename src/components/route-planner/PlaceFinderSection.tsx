@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { BedDouble, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, X, Zap } from "lucide-react";
+import { BusFront, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Switch } from "@/components/ui/switch";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { searchPlaceSuggestions, searchPlaces } from "@/lib/placeFinder";
 import { initialFormData } from "@/types/routePlanner";
@@ -28,9 +29,9 @@ const createEmptyStage = (destination = ""): RouteStage => ({
 });
 
 const categoryIconMap = {
-  camp_site: BedDouble,
-  caravan_site: Caravan,
-} satisfies Record<PlaceCategory, typeof BedDouble>;
+  camp_site: Caravan,
+  caravan_site: BusFront,
+} satisfies Record<PlaceCategory, typeof Caravan>;
 
 export function PlaceFinderSection({ formData = initialFormData, onChange, standalone = false }: PlaceFinderSectionProps) {
   const { t } = useTranslation();
@@ -56,6 +57,8 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     : "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
   const helperClass = standalone ? "text-sm text-foreground/60 dark:text-white/60 leading-relaxed" : "text-sm text-white/60 leading-relaxed";
   const labelClass = standalone ? "text-sm font-semibold text-foreground dark:text-white" : "text-sm font-semibold text-white";
+  const switchClass =
+    "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
 
   const stageActions = useMemo(() => {
     if (standalone || !onChange) {
@@ -395,7 +398,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
           </Button>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {(["camp_site", "caravan_site"] as PlaceCategory[]).map((category) => {
             const active = selectedCategories.includes(category);
             const Icon = categoryIconMap[category];
@@ -404,16 +407,36 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                 key={category}
                 type="button"
                 onClick={() => toggleCategory(category)}
-                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                  active
-                    ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_rgba(255,138,0,0.22)]"
-                    : standalone
-                      ? "border-border bg-background text-foreground/68 hover:bg-muted/70 dark:border-white/10 dark:bg-white/5 dark:text-white/62 dark:hover:bg-white/8"
-                      : "border-white/10 bg-white/5 text-white/62 hover:bg-white/8"
+                className={`flex w-full items-center justify-between gap-4 rounded-[1.35rem] border px-4 py-3 text-left transition ${
+                  standalone
+                    ? active
+                      ? "border-primary/35 bg-primary/[0.08] shadow-[0_14px_28px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
+                      : "border-border/80 bg-background/92 hover:bg-muted/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
+                    : active
+                      ? "border-primary/35 bg-primary/[0.12] shadow-[0_14px_28px_rgba(255,138,0,0.14)]"
+                      : "border-white/10 bg-white/[0.05] hover:bg-white/[0.08]"
                 }`}
               >
-                <Icon className={`h-4 w-4 ${active ? "text-primary-foreground" : "text-primary"}`} />
-                {t(`planner.placeFinder.categories.${category}`)}
+                <span className="flex min-w-0 items-start gap-3">
+                  <span className="mt-0.5 rounded-xl bg-primary/12 p-2 text-primary">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className={`block text-sm font-semibold ${standalone ? "text-foreground dark:text-white" : "text-white"}`}>
+                      {t(`planner.placeFinder.categories.${category}`)}
+                    </span>
+                    <span className={`mt-1 block text-xs leading-relaxed ${standalone ? "text-foreground/60 dark:text-white/58" : "text-white/58"}`}>
+                      {t(`planner.placeFinder.categoryDescriptions.${category}`)}
+                    </span>
+                  </span>
+                </span>
+                <Switch
+                  checked={active}
+                  onCheckedChange={() => toggleCategory(category)}
+                  className={switchClass}
+                  aria-label={t(`planner.placeFinder.categories.${category}`)}
+                  onClick={(event) => event.stopPropagation()}
+                />
               </button>
             );
           })}

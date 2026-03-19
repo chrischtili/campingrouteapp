@@ -1274,7 +1274,7 @@
       },
       "places": {
         "title": "Platzsuche & OSM-Daten",
-        "description": "Wenn du die Platzsuche nutzt, wird dein Suchbegriff serverseitig an öffentliche OpenStreetMap-Dienste weitergeleitet, um passende Camping- und Stellplätze zu ermitteln. Wir speichern diese Suchanfragen nicht."
+        "description": "Wenn du den Platzfinder auf der Startseite bzw. im Routenplaner nutzt, werden dein Suchbegriff und technisch notwendige Verbindungsdaten serverseitig an öffentliche Nominatim- und Overpass-Dienste auf Basis von OpenStreetMap weitergeleitet, um Orte sowie passende Camping- und Stellplätze zu ermitteln. Wir verwenden diese Suchanfragen nur zur direkten Beantwortung deiner Suche und legen dabei keinen dauerhaften Suchverlauf bei uns an."
       },
       "feedback": {
         "title": "Feedback nach Generierung",

@@ -468,9 +468,19 @@ export function RoutePlanner() {
   // AUTO-OPEN LOGIC
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    let shouldCleanupUrl = false;
+
     if (params.get('plan') === 'true') {
       setShowForm(true);
-      // Clean up URL
+      shouldCleanupUrl = true;
+    }
+
+    if (params.get('placeFinder') === 'true') {
+      setPlaceFinderOpen(true);
+      shouldCleanupUrl = true;
+    }
+
+    if (shouldCleanupUrl) {
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, []);

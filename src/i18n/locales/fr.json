@@ -1276,7 +1276,7 @@
       },
       "places": {
         "title": "Recherche d’emplacements & données OSM",
-        "description": "Si vous utilisez la recherche d’emplacements, votre recherche est transmise côté serveur à des services OpenStreetMap publics afin de trouver des campings et aires correspondants. Nous ne stockons pas ces recherches."
+        "description": "Si vous utilisez le chercheur d’emplacements sur la page d’accueil ou dans le planificateur d’itinéraire, votre recherche ainsi que les données techniques de connexion nécessaires sont transmises côté serveur à des services publics Nominatim et Overpass basés sur OpenStreetMap afin de trouver des lieux ainsi que des campings et aires correspondants. Nous utilisons ces recherches uniquement pour répondre directement à votre demande et ne conservons pas chez nous d’historique de recherche permanent."
       },
       "feedback": {
         "title": "Retour après génération",

@@ -108,7 +108,11 @@ export function Navbar({ onStartPlanning, onOpenPlaceFinder }: NavbarProps) {
   };
 
   const handleOpenPlaceFinder = () => {
-    onOpenPlaceFinder?.();
+    if (!isHomePage || !onOpenPlaceFinder) {
+      navigate("/?placeFinder=true");
+    } else {
+      onOpenPlaceFinder();
+    }
     setMobileMenuOpen(false);
   };
 

@@ -1295,7 +1295,7 @@
       },
       "places": {
         "title": "Plaatszoeker & OSM-data",
-        "description": "Als je de plaatszoeker gebruikt, wordt je zoekterm server-side doorgestuurd naar openbare OpenStreetMap-diensten om passende campings en camperplaatsen te vinden. We slaan deze zoekopdrachten niet op."
+        "description": "Als je de plaatszoeker op de startpagina of in de routeplanner gebruikt, worden je zoekterm en technisch noodzakelijke verbindingsgegevens server-side doorgestuurd naar openbare Nominatim- en Overpass-diensten op basis van OpenStreetMap om plaatsen en passende campings en camperplaatsen te vinden. We gebruiken deze zoekopdrachten alleen om je zoekopdracht direct te beantwoorden en bewaren daarbij geen permanente zoekgeschiedenis aan onze kant."
       },
       "feedback": {
         "title": "Feedback na generatie",

@@ -1276,7 +1276,7 @@
       },
       "places": {
         "title": "Ricerca aree & dati OSM",
-        "description": "Se utilizzi la ricerca aree, il tuo termine di ricerca viene inoltrato lato server a servizi OpenStreetMap pubblici per trovare campeggi e aree camper corrispondenti. Non memorizziamo queste ricerche."
+        "description": "Se utilizzi la ricerca aree nella pagina iniziale o nel pianificatore di itinerario, il tuo termine di ricerca e i dati di connessione tecnicamente necessari vengono inoltrati lato server a servizi pubblici Nominatim e Overpass basati su OpenStreetMap per trovare luoghi nonché campeggi e aree camper corrispondenti. Utilizziamo queste ricerche solo per rispondere direttamente alla tua richiesta e non conserviamo da parte nostra una cronologia di ricerca permanente."
       },
       "feedback": {
         "title": "Feedback dopo la generazione",

@@ -380,6 +380,18 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
               )}
             </div>
             <p className={helperClass}>{t("planner.placeFinder.searchHelp")}</p>
+            <p className={standalone ? "text-xs text-foreground/48 dark:text-white/44" : "text-xs text-white/44"}>
+              Platzdaten basieren auf{" "}
+              <a
+                href="https://www.openstreetmap.org/copyright"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-primary/90 hover:text-primary"
+              >
+                OpenStreetMap
+              </a>
+              {" "}© OpenStreetMap contributors
+            </p>
             {selectedSuggestion && (
               <p className="text-xs font-medium text-primary/90">
                 {t("planner.placeFinder.suggestions.selected", { place: selectedSuggestion.name })}

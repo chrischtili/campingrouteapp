@@ -814,11 +814,11 @@ export function RoutePlanner() {
       
       <HeroSection onStartPlanning={revealPlanner} />
       <Sheet open={placeFinderOpen} onOpenChange={setPlaceFinderOpen}>
-        <SheetContent side="left" hideCloseButton className="h-dvh w-screen max-w-[100vw] overflow-y-auto border-r p-0 sm:h-full sm:w-[min(92vw,42rem)] sm:max-w-none">
+        <SheetContent side="left" hideCloseButton className="left-0 right-0 h-dvh w-[100dvw] max-w-[100dvw] overflow-x-hidden overflow-y-auto border-0 p-0 sm:right-auto sm:h-full sm:w-[min(92vw,42rem)] sm:max-w-none sm:border-r">
           <div className="min-h-full bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.985))] dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.985))]">
-            <SheetHeader className="sticky top-0 z-10 border-b bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.97))] px-5 py-5 text-left backdrop-blur-xl dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.97))] sm:px-6">
+            <SheetHeader className="sticky top-0 z-10 border-b bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.97))] pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] py-5 text-left backdrop-blur-xl dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.97))] sm:px-6">
               <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <SheetTitle className="text-left text-2xl font-black tracking-tight text-foreground dark:text-white">
                     {t("planner.placeFinder.title")}
                   </SheetTitle>
@@ -836,7 +836,7 @@ export function RoutePlanner() {
                 </SheetClose>
               </div>
             </SheetHeader>
-            <div className="px-5 py-5 sm:px-6 sm:py-6">
+            <div className="overflow-x-hidden pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] py-5 sm:px-6 sm:py-6">
               <PlaceFinderSection standalone />
             </div>
           </div>

@@ -1435,10 +1435,10 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "plannerPanel": "Le planificateur d’itinéraire s’ouvre désormais dans un panneau latéral, ce qui rend tout le flux plus clair.",
-        "placeFinder": "Nouveau chercheur d’emplacements dans le planificateur : recherche des campings et aires pour une ville et ajoute-les directement comme destination ou étape.",
-        "savedPlans": "Les derniers itinéraires peuvent maintenant être enregistrés localement, rouverts plus tard, exportés et réimportés.",
-        "exampleRoute": "L’itinéraire d’exemple est maintenant accessible directement depuis la navigation et s’ouvre dans la FAQ."
+        "plannerPanel": "Le chercheur d’emplacements est désormais aussi disponible comme panneau latéral indépendant et peut être utilisé sans le planificateur de prompt.",
+        "placeFinder": "La recherche de lieux propose maintenant des suggestions pendant la saisie et relie la recherche d’emplacements directement au lieu choisi, pour des résultats plus fiables.",
+        "savedPlans": "L’utilisation du chercheur d’emplacements est désormais suivie plus précisément : l’usage autonome apparaît séparément dans le tableau de bord des statistiques.",
+        "exampleRoute": "Les filtres camping et aire utilisent maintenant des cartes à bascule plus calmes au lieu de boutons CTA très voyants."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

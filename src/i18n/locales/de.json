@@ -1434,10 +1434,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "plannerPanel": "Der Routenplaner ist jetzt als übersichtliches Accordion aufgebaut: immer nur ein Bereich ist offen und die Navigation wirkt deutlich ruhiger.",
-        "placeFinder": "Der Platzfinder im Planer wurde stabiler und schneller gemacht und sucht passende Camping- und Stellplätze direkt für konkrete Orte.",
-        "savedPlans": "Letzte Planungen, Support und Zusammenfassung sind im Panel klarer angeordnet und schneller erreichbar.",
-        "exampleRoute": "Die Panel-Oberfläche und Dark-Mode-Farben wurden vereinheitlicht, damit der Planer insgesamt ruhiger und konsistenter wirkt."
+        "plannerPanel": "Der Platzfinder ist jetzt auch eigenständig als linkes Slide-in-Panel verfügbar und kann unabhängig vom Prompt-Planer genutzt werden.",
+        "placeFinder": "Die Ortssuche hat jetzt Vorschläge beim Tippen und bindet die Platzsuche direkt an den ausgewählten Ort, damit Treffer wie Verona oder Würzburg stabiler funktionieren.",
+        "savedPlans": "Die Platzfinder-Nutzung wird jetzt sauberer gemessen: Solo-Nutzung erscheint separat im Statistik-Dashboard.",
+        "exampleRoute": "Campingplatz und Stellplatz werden im Finder jetzt über ruhigere Toggle-Karten statt über auffällige CTA-Buttons gesteuert."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

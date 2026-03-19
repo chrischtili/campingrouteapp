@@ -1435,10 +1435,10 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "plannerPanel": "De routeplanner opent nu als zijpaneel, waardoor de hele flow overzichtelijker blijft.",
-        "placeFinder": "Nieuwe plaatszoeker in de planner: zoek campings en camperplaatsen voor een plaats en zet ze direct als bestemming of tussenstop.",
-        "savedPlans": "Recente planningen kunnen nu lokaal worden opgeslagen, later opnieuw geopend, geëxporteerd en geïmporteerd.",
-        "exampleRoute": "De voorbeeldroute is nu direct via de navigatie bereikbaar en opent in de FAQ-sectie."
+        "plannerPanel": "De plaatszoeker is nu ook beschikbaar als zelfstandig links inschuivend paneel en kan los van de promptplanner worden gebruikt.",
+        "placeFinder": "De locatiezoeker toont nu suggesties tijdens het typen en koppelt de resultaten direct aan de gekozen plaats, zodat zoeken stabieler werkt.",
+        "savedPlans": "Het gebruik van de plaatszoeker wordt nu nauwkeuriger gemeten: zelfstandig gebruik verschijnt apart in het statistiekdashboard.",
+        "exampleRoute": "Camping- en camperplaatsfilters gebruiken nu rustigere toggle-kaarten in plaats van opvallende CTA-knoppen."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

@@ -1,148 +1,92 @@
-# 🚐 Camping Route - KI-Routenplaner für Camping- und Roadtrip-Routen
+# Camping Route
 
-[![Version](https://img.shields.io/badge/version-v0.5.15-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.16-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Der KI-Routenplaner für Wohnmobil, Wohnwagen, Zelt und Motorrad – mit passenden Stopps, Etappen und GPX-Export.**
+Camping Route ist ein mehrsprachiger KI-Prompt-Generator fuer Camping- und Roadtrip-Routen mit Wohnmobil, Wohnwagen, Zelt oder Motorrad. Statt selbst die Route zu berechnen, hilft die App dabei, strukturierte Prompts fuer ChatGPT, Claude und andere KI-Tools zu erstellen, inklusive Etappen, Stellplatz- und Campingplatzsuche sowie GPX-Ausgabe.
 
-👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
+Live: [https://campingroute.app](https://campingroute.app)
 
----
+## Highlights (v0.5.16)
 
-## 🌟 Highlights (v0.5.15)
+- Eigenstaendiger Platzfinder als linkes Slide-in-Panel neben dem normalen Prompt-Planer
+- Ortsvorschlaege beim Tippen fuer stabilere Platzsuche nach konkreten Staedten und Orten
+- Robustere Ortserkennung und tolerantere Platzsuche im Backend
+- Separate Statistik fuer Solo-Nutzung des Platzfinders
+- Ruhigere Toggle-Karten fuer Campingplatz- und Stellplatzfilter
+- Vollstaendig mehrsprachig: Deutsch, Englisch, Niederlaendisch, Franzoesisch, Italienisch
 
-- **Accordion statt Reizüberflutung**: Der Planer zeigt jetzt jeweils nur einen Hauptbereich geöffnet und ist dadurch deutlich leichter zu erfassen.
-- **Platzfinder stabiler und schneller**: Die Ortssuche für Camping- und Stellplätze wurde serverseitig robuster gemacht und reagiert spürbar zuverlässiger.
-- **Bessere Treffer für konkrete Orte**: Ortsbezogene Platzsuche und Ranking wurden nachgeschärft, damit passende Plätze im gesuchten Ort leichter auftauchen.
-- **Planer-Panel klarer sortiert**: Letzte Planungen, Support und Zusammenfassung sind übersichtlicher angeordnet.
-- **Ruhigere Oberfläche im Light- und Dark-Mode**: Panel-Flächen, Accordion-Hintergründe und Kontraste wurden visuell vereinheitlicht.
-- **Vollständig mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
-- **100% kostenlos** – Prompt-Erstellung ohne API-Kosten möglich.
+## Kernfunktionen
 
----
+### KI-Prompt-Planer
+- Strukturierter Routenplaner fuer Start, Ziel, Etappen, Fahrzeugdaten und Reisevorlieben
+- Prompt-Ausgabe fuer externe KI-Tools statt direkter Routengenerierung in der App
+- Unterstuetzung fuer Route generieren, Prompt generieren und GPX-bezogene Ausgabeanweisungen
 
-[![Support CampingRoute](https://img.shields.io/badge/Support%20CampingRoute-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/campingroute)
+### Platzfinder
+- Suche nach Campingplaetzen und Stellplaetzen fuer konkrete Orte
+- Eigenstaendig als Panel nutzbar oder direkt im Planer zur Uebernahme in die Route
+- Ortsvorschlaege beim Tippen fuer praezisere Suche
+- OSM-/OpenStreetMap-basierte Platzdaten mit Detailansicht und externen Links
 
-## 📦 Features
+### Planungen & Export
+- Lokales Speichern von bis zu 5 Planungen im Browser
+- Import und Export kompletter Planungen als JSON
+- Copy-/Print-Flow fuer den fertigen KI-Prompt
 
-### 🎯 Routenplanung
-- Einseiten-Planer mit klaren Sektionen statt starrem Wizard.
-- Etappenoptimierung mit Pausen und Alternativrouten.
-- Prompt-Erstellung für ChatGPT, Claude und andere KI-Tools.
+### Statistik & Feedback
+- Admin-Statistik fuer Besuche, Prompt-Nutzung, Direkt-KI, Platzfinder und Solo-Platzfinder
+- Feedback-Erfassung fuer Prompt- und Direkt-KI-Use-Cases
+- Release-Hinweise pro Version via What's-new-Popup
 
-### 🚐 Fahrzeugintegration
-- Größe, Gewicht, Führerscheinklasse und technische Ausstattung.
-- Kraftstoffart und technische Ausstattung (Solar, Batterie, Toilettensystem).
-- Spezifische Anforderungen werden direkt in den KI-Prompt übernommen.
+## Tech Stack
 
-### 🏕️ Übernachtungen & Interessen
-- Stellplatz-Suche nach Kriterien (Campingplatz, Wildcampen, Bauernhof etc.).
-- Ausstattung (Strom, Wasser, Hunde erlaubt, Pool).
-- Aktivitäten-Filter (Wandern, Kultur, Gastronomie, Fotografie).
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Framer Motion
+- i18next
+- Node.js Server (`server/index.cjs`) fuer Counter, Feedback und Place-Finder-API
 
-### 📥 Export & Integration
-- **GPX-Datei-Anweisung** für Navigationsgeräte im generierten Prompt.
-- Lokaler Export und Import kompletter Planungen.
-- In Zwischenablage kopieren für die Nutzung in ChatGPT, Claude oder anderen KI-Tools.
-
-## 💻 Technische Details
-
-### Unterstützter KI-Workflow
-| Modus | Beschreibung |
-|-------|--------------|
-| Prompt generieren | Erzeugt einen fertigen Prompt für externe KI-Tools |
-| Externe KI | Nutzung in ChatGPT, Claude oder vergleichbaren Tools |
-
-### Tech-Stack
-- **Frontend**: React 18, TypeScript, Vite
-- **Internationalisierung**: i18next, react-i18next
-- **UI**: ShadCN, Tailwind CSS, Framer Motion
-- **Routing**: React Router v6
-
-## 🚀 Installation
+## Lokale Entwicklung
 
 ```bash
-# Repository klonen
 git clone https://github.com/chrischtili/campingrouteapp.git
 cd campingrouteapp
-
-# Abhängigkeiten installieren
 npm install
-
-# Entwicklungsserver starten
 npm run dev
 ```
 
-## 🔮 Roadmap
+Optional den lokalen Server separat starten:
 
-- [ ] Benutzerkonten mit Routenspeicherung
-- [ ] Community-Features (Route teilen & bewerten)
-- [ ] Token-basierte KI-Routengenerierung
-- [ ] Integration mit Navigations-Apps (Komoot, Garmin)
-- [ ] Erweiterung auf weitere Sprachen (Spanisch, Polnisch)
+```bash
+npm run server
+```
 
-## 🤝 Beitragende
+Build:
 
-- [chrischtili](https://github.com/chrischtili) - Lead Developer
-- [Gemini CLI](https://github.com/google/gemini-cli) - KI-Entwicklungsassistent
+```bash
+npm run build
+```
 
-## 📄 Lizenz
+## Release-Workflow
 
-MIT License - [Details](LICENSE)
+- Versionsnummer in `package.json`
+- Build schreibt `dist/version.json` ueber `scripts/write-version.mjs`
+- Navbar, Footer und What's-new-Popup lesen diese Version fuer den sichtbaren Release-Stand
+- GitHub Releases koennen auf Basis der jeweiligen Versionstags erstellt werden
 
----
+## Projektstatus
 
-# 🚐 Camping Route - AI Prompt Generator for Motorhomes
+Camping Route ist bewusst als praktischer Prompt-Generator aufgebaut: Die App liefert die strukturierte Vorlage fuer deine Lieblings-KI und ergaenzt sie um hilfreiche Werkzeuge wie Platzfinder, GPX-Hinweise und lokale Planungsverwaltung.
 
-[![Version](https://img.shields.io/badge/version-v0.5.15-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+## Lizenz
 
-**The intelligent AI route planner for RVs, caravans, tents, and motorcycles – now international!**
+MIT - siehe [LICENSE](LICENSE)
 
----
+## English Summary
 
-## 🌟 Highlights (v0.5.15)
-
-- **Accordion-based planner flow**: only one main section stays open at a time, making the planner much easier to scan and navigate.
-- **Faster, more stable place finder**: the backend town search for campsites and motorhome pitches is now more robust and responsive.
-- **Better in-town ranking**: place search was refined so relevant results inside the searched town are more likely to surface first.
-- **Cleaner planner layout**: recent plans, support access, and the final summary are arranged more clearly inside the panel.
-- **More consistent light and dark surfaces**: planner backgrounds, accordion cards, and panel layers now feel visually calmer and more unified.
-- **Fully multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
-- **100% Free** – Prompt generation possible without any API costs.
-
----
-
-[![Support CampingRoute](https://img.shields.io/badge/Support%20CampingRoute-40DCA5?style=for-the-badge&logo=buymeacoffee&logoColor=ffffff&labelColor=000000)](https://www.buymeacoffee.com/campingroute)
-
-## 📦 Features
-
-### 🎯 Route Planning
-- Single-page planner with focused sections instead of a rigid step wizard.
-- Stage optimization with breaks and alternative routes.
-- Prompt generation for ChatGPT, Claude, and similar AI tools.
-
-### 🚐 Vehicle Integration
-- Size, weight, and axle load calculation.
-- Fuel type and technical equipment (solar, battery, toilet system).
-- Specific requirements are directly incorporated into the AI prompt.
-
-### 🏕️ Accommodation & Interests
-- Pitch search by criteria (campsite, wild camping, farm, etc.).
-- Facilities (power, water, dog-friendly, pool).
-- Activity filters (hiking, culture, gastronomy, photography).
-
-### 📥 Export & Integration
-- GPX export instructions inside the generated prompt.
-- Local export and import of complete plans.
-- Clipboard-friendly output for use in ChatGPT, Claude, or similar tools.
-
-## 🤝 Contributors
-
-- [chrischtili](https://github.com/chrischtili) - Lead Developer
-- [Gemini CLI](https://github.com/google/gemini-cli) - AI Development Assistant
-- Codex (OpenAI) - AI Development Assistant
-
----
-
-© 2026 Camping Route - Created with ❤️ for motorhome enthusiasts
+Camping Route is a multilingual AI prompt generator for camping and road-trip planning. It helps users create structured prompts for tools like ChatGPT or Claude, including route stages, campsite and motorhome stopover search, and GPX export instructions. Version `0.5.16` adds a standalone place finder panel, type-ahead place suggestions, better backend resilience for city matching, separate solo place-finder stats, and calmer toggle-based place filters.

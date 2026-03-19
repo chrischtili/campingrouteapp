@@ -198,7 +198,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     const CategoryIcon = categoryIconMap[place.category];
 
     return (
-      <div className="space-y-5 sm:space-y-6">
+      <div className="max-w-full overflow-x-hidden space-y-5 sm:space-y-6">
         <div className="space-y-3">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-xl bg-primary/12 p-2 text-primary">
@@ -214,21 +214,25 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 text-sm text-foreground/78 dark:text-white/72 sm:grid-cols-2">
-            <div className="flex gap-2">
+          <div className="grid max-w-full grid-cols-1 gap-3 text-sm text-foreground/78 dark:text-white/72 sm:grid-cols-2">
+            <div className="flex min-w-0 gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-              <span>{place.address || `${place.locality}${place.country ? `, ${place.country}` : ""}`}</span>
+              <span className="min-w-0 break-words [overflow-wrap:anywhere]">
+                {place.address || `${place.locality}${place.country ? `, ${place.country}` : ""}`}
+              </span>
             </div>
             {place.phone && (
-              <div className="flex gap-2">
+              <div className="flex min-w-0 gap-2">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>{place.phone}</span>
+                <span className="min-w-0 break-words [overflow-wrap:anywhere]">{place.phone}</span>
               </div>
             )}
           </div>
 
           {place.description && (
-            <p className="text-sm leading-relaxed text-foreground/78 dark:text-white/72">{place.description}</p>
+            <p className="max-w-full break-words text-sm leading-relaxed text-foreground/78 [overflow-wrap:anywhere] dark:text-white/72">
+              {place.description}
+            </p>
           )}
 
           <div className="flex flex-wrap gap-2">
@@ -252,20 +256,20 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             )}
           </div>
 
-          <div className="grid grid-cols-1 gap-3 rounded-[1.25rem] border border-border/70 bg-muted/45 p-4 text-sm text-foreground/72 shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:text-white/68 sm:grid-cols-2">
-            <div>
+          <div className="grid max-w-full grid-cols-1 gap-3 rounded-[1.25rem] border border-border/70 bg-muted/45 p-4 text-sm text-foreground/72 shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:text-white/68 sm:grid-cols-2">
+            <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground dark:text-white/38">{t("planner.placeFinder.labels.locality")}</div>
-              <div className="mt-1 font-medium text-foreground dark:text-white/78">{place.locality || t("planner.placeFinder.notAvailable")}</div>
+              <div className="mt-1 break-words font-medium text-foreground [overflow-wrap:anywhere] dark:text-white/78">{place.locality || t("planner.placeFinder.notAvailable")}</div>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground dark:text-white/38">{t("planner.placeFinder.labels.fee")}</div>
-              <div className="mt-1 font-medium text-foreground dark:text-white/78">{place.fee || t("planner.placeFinder.notAvailable")}</div>
+              <div className="mt-1 break-words font-medium text-foreground [overflow-wrap:anywhere] dark:text-white/78">{place.fee || t("planner.placeFinder.notAvailable")}</div>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground dark:text-white/38">{t("planner.placeFinder.labels.openingHours")}</div>
-              <div className="mt-1 font-medium text-foreground dark:text-white/78">{place.openingHours || t("planner.placeFinder.notAvailable")}</div>
+              <div className="mt-1 break-words font-medium text-foreground [overflow-wrap:anywhere] dark:text-white/78">{place.openingHours || t("planner.placeFinder.notAvailable")}</div>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground dark:text-white/38">{t("planner.placeFinder.labels.website")}</div>
               <div className="mt-1 break-words font-medium text-foreground dark:text-white/78 [overflow-wrap:anywhere]">{place.website || t("planner.placeFinder.notAvailable")}</div>
             </div>
@@ -295,13 +299,13 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
+          <div className="grid max-w-full grid-cols-1 gap-3 sm:flex sm:flex-wrap">
             {place.sourceUrl && (
               <a
                 href={place.sourceUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-full items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 sm:w-auto"
+                className="inline-flex w-full max-w-full items-center gap-2 break-words text-sm font-semibold text-primary [overflow-wrap:anywhere] hover:text-primary/80 sm:w-auto"
               >
                 <ExternalLink className="h-4 w-4" />
                 {t("planner.placeFinder.actions.openSource")}
@@ -312,7 +316,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                 href={place.website}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-full items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 sm:w-auto"
+                className="inline-flex w-full max-w-full items-center gap-2 break-words text-sm font-semibold text-primary [overflow-wrap:anywhere] hover:text-primary/80 sm:w-auto"
               >
                 <ExternalLink className="h-4 w-4" />
                 {t("planner.placeFinder.actions.openWebsite")}
@@ -546,10 +550,10 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
 
       {isMobile ? (
         <Sheet open={!!selectedPlace} onOpenChange={(open) => !open && setSelectedPlace(null)}>
-          <SheetContent side="bottom" hideCloseButton className="max-h-[88dvh] w-screen max-w-[100vw] overflow-x-hidden overflow-y-auto border-2 px-0 pb-6 pt-0">
+          <SheetContent side="bottom" hideCloseButton className="inset-x-0 max-h-[88dvh] w-auto max-w-none overflow-x-hidden overflow-y-auto border-2 px-0 pb-6 pt-0">
             {selectedPlace && (
               <>
-                <SheetHeader className="sticky top-0 z-10 border-b bg-background/95 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">
+                <SheetHeader className="sticky top-0 z-10 w-full max-w-full overflow-x-hidden border-b bg-background/95 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <SheetTitle className="text-left text-lg font-bold leading-tight text-foreground dark:text-white sm:text-xl">
@@ -571,7 +575,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                     </Button>
                   </div>
                 </SheetHeader>
-                <div className="overflow-x-hidden pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-5 sm:px-6 sm:pt-6">
+                <div className="w-full max-w-full overflow-x-hidden pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-5 sm:px-6 sm:pt-6">
                   {renderDetails(selectedPlace)}
                 </div>
               </>

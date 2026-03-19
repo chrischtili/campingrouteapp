@@ -183,18 +183,29 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
     setError("");
   };
 
+  const handleClearQuery = () => {
+    setQuery("");
+    setSelectedSuggestion(null);
+    setSuggestions([]);
+    setShowSuggestions(false);
+    setResults([]);
+    setSelectedPlace(null);
+    setError("");
+    setHasSearched(false);
+  };
+
   const renderDetails = (place: PlaceSearchResult) => {
     const CategoryIcon = categoryIconMap[place.category];
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-5 sm:space-y-6">
         <div className="space-y-3">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-xl bg-primary/12 p-2 text-primary">
               <CategoryIcon className="h-5 w-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl font-black text-foreground dark:text-white">{place.name}</div>
+              <div className="text-lg font-black leading-tight text-foreground dark:text-white sm:text-xl">{place.name}</div>
               <div className="mt-1 text-sm text-muted-foreground dark:text-white/60">
                 {place.category === "camp_site"
                   ? t("planner.placeFinder.categories.camp_site")
@@ -256,7 +267,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             </div>
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground dark:text-white/38">{t("planner.placeFinder.labels.website")}</div>
-              <div className="mt-1 break-all font-medium text-foreground dark:text-white/78">{place.website || t("planner.placeFinder.notAvailable")}</div>
+              <div className="mt-1 break-words font-medium text-foreground dark:text-white/78 [overflow-wrap:anywhere]">{place.website || t("planner.placeFinder.notAvailable")}</div>
             </div>
           </div>
 
@@ -284,13 +295,13 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
             </div>
           )}
 
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
             {place.sourceUrl && (
               <a
                 href={place.sourceUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80"
+                className="inline-flex w-full items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 sm:w-auto"
               >
                 <ExternalLink className="h-4 w-4" />
                 {t("planner.placeFinder.actions.openSource")}
@@ -301,7 +312,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                 href={place.website}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80"
+                className="inline-flex w-full items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 sm:w-auto"
               >
                 <ExternalLink className="h-4 w-4" />
                 {t("planner.placeFinder.actions.openWebsite")}
@@ -344,9 +355,19 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                   }
                 }}
                 placeholder={t("planner.placeFinder.searchPlaceholder")}
-                className={`${inputClass} pl-12`}
+                className={`${inputClass} pl-12 ${query ? "pr-12" : ""}`}
               />
               <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary/70" />
+              {query && (
+                <button
+                  type="button"
+                  onClick={handleClearQuery}
+                  className="absolute right-3 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-foreground/45 transition hover:bg-muted/80 hover:text-foreground dark:text-white/42 dark:hover:bg-white/10 dark:hover:text-white"
+                  aria-label={t("planner.placeFinder.clearSearch")}
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
               {showSuggestions && (
                 <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-border/80 bg-background/98 shadow-[0_18px_40px_rgba(15,23,42,0.14)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/96">
                   {isSuggesting && (
@@ -525,13 +546,13 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
 
       {isMobile ? (
         <Sheet open={!!selectedPlace} onOpenChange={(open) => !open && setSelectedPlace(null)}>
-          <SheetContent side="bottom" hideCloseButton className="max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0">
+          <SheetContent side="bottom" hideCloseButton className="max-h-[88vh] w-full max-w-full overflow-x-hidden overflow-y-auto border-2 px-0 pb-6 pt-0">
             {selectedPlace && (
               <>
                 <SheetHeader className="sticky top-0 z-10 border-b bg-background/95 px-4 py-4 text-left backdrop-blur-xl dark:bg-slate-900/92">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <SheetTitle className="text-left text-lg font-bold text-foreground dark:text-white sm:text-xl">
+                      <SheetTitle className="text-left text-lg font-bold leading-tight text-foreground dark:text-white sm:text-xl">
                         {selectedPlace.name}
                       </SheetTitle>
                       <SheetDescription className="mt-1 text-left text-sm text-foreground/60 dark:text-white/58">
@@ -550,7 +571,7 @@ export function PlaceFinderSection({ formData = initialFormData, onChange, stand
                     </Button>
                   </div>
                 </SheetHeader>
-                <div className="px-6 pt-6">{renderDetails(selectedPlace)}</div>
+                <div className="px-4 pt-5 sm:px-6 sm:pt-6">{renderDetails(selectedPlace)}</div>
               </>
             )}
           </SheetContent>

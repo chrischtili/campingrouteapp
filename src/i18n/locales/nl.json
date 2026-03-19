@@ -822,6 +822,7 @@
       "searchLabel": "Plaats",
       "searchPlaceholder": "bijv. Maastricht, Delft, Utrecht of Deventer",
       "searchHelp": "Voer een plaats in of kies een passende suggestie.",
+      "clearSearch": "Zoekveld wissen",
       "osmAttributionPrefix": "Plaatsgegevens zijn gebaseerd op",
       "osmAttributionSuffix": "OpenStreetMap-bijdragers",
       "suggestions": {

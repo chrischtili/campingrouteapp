@@ -820,6 +820,7 @@
       "searchLabel": "Ort",
       "searchPlaceholder": "z. B. Dresden, Wismar, Annecy oder Verona",
       "searchHelp": "Ort eingeben oder passenden Vorschlag auswählen.",
+      "clearSearch": "Suchfeld leeren",
       "osmAttributionPrefix": "Platzdaten basieren auf",
       "osmAttributionSuffix": "OpenStreetMap-Mitwirkende",
       "suggestions": {

@@ -822,6 +822,7 @@
       "searchLabel": "Lieu",
       "searchPlaceholder": "p. ex. Annecy, Colmar, Nantes ou Avignon",
       "searchHelp": "Saisissez un lieu ou choisissez une suggestion adaptée.",
+      "clearSearch": "Effacer le champ de recherche",
       "osmAttributionPrefix": "Les données des emplacements reposent sur",
       "osmAttributionSuffix": "les contributeurs OpenStreetMap",
       "suggestions": {

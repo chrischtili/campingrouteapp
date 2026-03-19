@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload, Map as MapIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
 import { useTranslation } from "react-i18next";
@@ -814,15 +814,30 @@ export function RoutePlanner() {
       
       <HeroSection onStartPlanning={revealPlanner} />
       <Sheet open={placeFinderOpen} onOpenChange={setPlaceFinderOpen}>
-        <SheetContent side="left" className="w-[min(92vw,42rem)] overflow-y-auto border-r p-0 sm:max-w-none">
+        <SheetContent side="left" hideCloseButton className="w-[min(92vw,42rem)] overflow-y-auto border-r p-0 sm:max-w-none">
           <div className="min-h-full bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.985))] dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.985))]">
-            <SheetHeader className="border-b px-6 py-5 text-left">
-              <SheetTitle className="text-left text-2xl font-black tracking-tight text-foreground dark:text-white">
-                {t("planner.placeFinder.title")}
-              </SheetTitle>
-              <SheetDescription className="text-left text-sm leading-relaxed text-foreground/62 dark:text-white/62">
-                {t("planner.placeFinder.standaloneDescription")}
-              </SheetDescription>
+            <SheetHeader className="sticky top-0 z-10 border-b bg-[linear-gradient(180deg,rgba(248,250,252,0.985),rgba(240,244,249,0.97))] px-5 py-5 text-left backdrop-blur-xl dark:bg-[linear-gradient(180deg,rgba(35,43,58,0.985),rgba(24,31,44,0.97))] sm:px-6">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <SheetTitle className="text-left text-2xl font-black tracking-tight text-foreground dark:text-white">
+                    {t("planner.placeFinder.title")}
+                  </SheetTitle>
+                  <SheetDescription className="mt-1 text-left text-sm leading-relaxed text-foreground/62 dark:text-white/62">
+                    {t("planner.placeFinder.standaloneDescription")}
+                  </SheetDescription>
+                </div>
+                <SheetClose asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-10 w-10 shrink-0 rounded-full border border-border/70 bg-white/75 text-foreground hover:bg-white dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
+                    aria-label={t("buttons.close")}
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                </SheetClose>
+              </div>
             </SheetHeader>
             <div className="px-5 py-5 sm:px-6 sm:py-6">
               <PlaceFinderSection standalone />

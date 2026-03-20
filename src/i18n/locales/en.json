@@ -1452,10 +1452,10 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "plannerPanel": "The place finder is now also available as its own left slide-in panel and can be used independently from the prompt planner.",
-        "placeFinder": "Location search now shows suggestions while typing and ties place results directly to the selected town, making searches like Verona or Wurzburg more reliable.",
-        "savedPlans": "Place finder usage is now tracked more precisely: standalone usage appears separately inside the stats dashboard.",
-        "exampleRoute": "Campsite and stopover filters in the finder now use calmer toggle cards instead of loud CTA-style buttons."
+        "plannerPanel": "The prompt generator now has its own stronger full page instead of a slide-in panel.",
+        "placeFinder": "Campsite finder and stopover finder now run as dedicated search pages with cleaner mobile navigation.",
+        "savedPlans": "Places found in the standalone finders can now be sent straight into the prompt generator as destination or stopover.",
+        "exampleRoute": "Your generator draft now stays in place inside the same browser tab when you switch between prompt generator and place finder."
       },
       "dismiss": "Got it",
       "release": "View release"

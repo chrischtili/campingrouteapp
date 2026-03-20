@@ -1451,10 +1451,10 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "plannerPanel": "De plaatszoeker is nu ook beschikbaar als zelfstandig links inschuivend paneel en kan los van de promptplanner worden gebruikt.",
-        "placeFinder": "De locatiezoeker toont nu suggesties tijdens het typen en koppelt de resultaten direct aan de gekozen plaats, zodat zoeken stabieler werkt.",
-        "savedPlans": "Het gebruik van de plaatszoeker wordt nu nauwkeuriger gemeten: zelfstandig gebruik verschijnt apart in het statistiekdashboard.",
-        "exampleRoute": "Camping- en camperplaatsfilters gebruiken nu rustigere toggle-kaarten in plaats van opvallende CTA-knoppen."
+        "plannerPanel": "De promptgenerator heeft nu een eigen, sterkere volledige pagina in plaats van een inschuivend paneel.",
+        "placeFinder": "Camping- en stellplaatszoekers draaien nu als aparte zoekpagina’s met een schonere mobiele navigatie.",
+        "savedPlans": "Gevonden plaatsen uit de losse zoekers kunnen nu direct als bestemming of tussenstop naar de promptgenerator worden overgenomen.",
+        "exampleRoute": "Je generatorconcept blijft in hetzelfde browsertabblad bewaard wanneer je wisselt tussen promptgenerator en plaatszoeker."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

@@ -55,7 +55,7 @@ const App = () => {
   const location = useLocation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
-  const displayReleaseVersion = `v${(releaseVersion || "0.5.16").replace(/^v/i, "")}`;
+  const displayReleaseVersion = `v${(releaseVersion || "0.5.2").replace(/^v/i, "")}`;
 
   const openWhatsNew = React.useCallback(() => {
     setShowWhatsNew(true);

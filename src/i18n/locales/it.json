@@ -1451,10 +1451,10 @@
       "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
-        "plannerPanel": "La ricerca aree è ora disponibile anche come pannello laterale indipendente e può essere usata separatamente dal pianificatore di prompt.",
-        "placeFinder": "La ricerca località mostra ora suggerimenti durante la digitazione e collega i risultati direttamente al luogo selezionato, per ricerche più affidabili.",
-        "savedPlans": "L’utilizzo della ricerca aree viene ora tracciato con più precisione: l’uso autonomo compare separatamente nella dashboard statistiche.",
-        "exampleRoute": "I filtri per campeggi e aree camper ora usano schede toggle più tranquille invece di pulsanti CTA molto evidenti."
+        "plannerPanel": "Il generatore di prompt ora ha una propria pagina completa, molto più forte di un pannello a comparsa.",
+        "placeFinder": "Il cercatore di campeggi e il cercatore di aree di sosta ora funzionano come pagine dedicate con una navigazione mobile più pulita.",
+        "savedPlans": "I luoghi trovati nei cercatori autonomi possono ora essere trasferiti direttamente nel generatore di prompt come destinazione o tappa intermedia.",
+        "exampleRoute": "La tua bozza del generatore resta nello stesso tab del browser quando passi dal generatore di prompt al cercatore di aree."
       },
       "dismiss": "Capito",
       "release": "Vedi release"

@@ -1450,10 +1450,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "plannerPanel": "Der Platzfinder ist jetzt auch eigenständig als linkes Slide-in-Panel verfügbar und kann unabhängig vom Prompt-Planer genutzt werden.",
-        "placeFinder": "Die Ortssuche hat jetzt Vorschläge beim Tippen und bindet die Platzsuche direkt an den ausgewählten Ort, damit Treffer wie Verona oder Würzburg stabiler funktionieren.",
-        "savedPlans": "Die Platzfinder-Nutzung wird jetzt sauberer gemessen: Solo-Nutzung erscheint separat im Statistik-Dashboard.",
-        "exampleRoute": "Campingplatz und Stellplatz werden im Finder jetzt über ruhigere Toggle-Karten statt über auffällige CTA-Buttons gesteuert."
+        "plannerPanel": "Der Prompt-Generator hat jetzt eine eigene, deutlich stärkere Vollseite statt eines eingeschobenen Panels.",
+        "placeFinder": "Campingplatz-Finder und Stellplatz-Finder laufen jetzt als eigenständige Suchseiten mit sauberer Mobile-Führung.",
+        "savedPlans": "Gefundene Plätze lassen sich aus den Solo-Findern direkt als Ziel oder Zwischenziel in den Prompt-Generator übernehmen.",
+        "exampleRoute": "Dein Generator-Entwurf bleibt im selben Browser-Tab erhalten, wenn du zwischen Prompt-Generator und Platzfinder wechselst."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

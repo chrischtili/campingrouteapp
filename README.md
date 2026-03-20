@@ -1,6 +1,6 @@
 # Camping Route
 
-[![Version](https://img.shields.io/badge/version-v0.5.16-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.2-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -8,13 +8,13 @@ Camping Route ist ein mehrsprachiger KI-Prompt-Generator fuer Camping- und Roadt
 
 Live: [https://campingroute.app](https://campingroute.app)
 
-## Highlights (v0.5.16)
+## Highlights (v0.5.2)
 
-- Eigenstaendiger Platzfinder als linkes Slide-in-Panel neben dem normalen Prompt-Planer
-- Ortsvorschlaege beim Tippen fuer stabilere Platzsuche nach konkreten Staedten und Orten
-- Robustere Ortserkennung und tolerantere Platzsuche im Backend
-- Separate Statistik fuer Solo-Nutzung des Platzfinders
-- Ruhigere Toggle-Karten fuer Campingplatz- und Stellplatzfilter
+- Eigenstaendige Landingpages fuer `Prompt-Generator`, `Campingplatz-Finder` und `Stellplatz-Finder`
+- Deutlich staerkere Mobile-Nutzung ohne die frueheren Slide-in-Panels
+- Platzuebernahme aus den Solo-Findern direkt als Ziel oder Zwischenziel in den Prompt-Generator
+- Generator-Entwurf bleibt beim Wechsel zwischen Prompt-Generator und Findern im selben Tab erhalten
+- Release-Hinweise, Navbar und Footer zeigen konsistent denselben sichtbaren Versionsstand
 - Vollstaendig mehrsprachig: Deutsch, Englisch, Niederlaendisch, Franzoesisch, Italienisch
 
 ## Kernfunktionen
@@ -26,7 +26,7 @@ Live: [https://campingroute.app](https://campingroute.app)
 
 ### Platzfinder
 - Suche nach Campingplaetzen und Stellplaetzen fuer konkrete Orte
-- Eigenstaendig als Panel nutzbar oder direkt im Planer zur Uebernahme in die Route
+- Eigenstaendig als eigene Seite nutzbar oder direkt im Planer zur Uebernahme in die Route
 - Ortsvorschlaege beim Tippen fuer praezisere Suche
 - OSM-/OpenStreetMap-basierte Platzdaten mit Detailansicht und externen Links
 
@@ -89,4 +89,4 @@ MIT - siehe [LICENSE](LICENSE)
 
 ## English Summary
 
-Camping Route is a multilingual AI prompt generator for camping and road-trip planning. It helps users create structured prompts for tools like ChatGPT or Claude, including route stages, campsite and motorhome stopover search, and GPX export instructions. Version `0.5.16` adds a standalone place finder panel, type-ahead place suggestions, better backend resilience for city matching, separate solo place-finder stats, and calmer toggle-based place filters.
+Camping Route is a multilingual AI prompt generator for camping and road-trip planning. It helps users create structured prompts for tools like ChatGPT or Claude, including route stages, campsite and motorhome stopover search, and GPX export instructions. Version `0.5.2` adds dedicated landing pages for the prompt generator plus campsite and stopover finders, smoother mobile flows without the old slide-in panels, handoff from solo finder results into the prompt generator, and a consistent visible release state across navbar, footer, and the what's-new popup.

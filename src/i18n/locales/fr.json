@@ -1451,10 +1451,10 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "plannerPanel": "Le chercheur d’emplacements est désormais aussi disponible comme panneau latéral indépendant et peut être utilisé sans le planificateur de prompt.",
-        "placeFinder": "La recherche de lieux propose maintenant des suggestions pendant la saisie et relie la recherche d’emplacements directement au lieu choisi, pour des résultats plus fiables.",
-        "savedPlans": "L’utilisation du chercheur d’emplacements est désormais suivie plus précisément : l’usage autonome apparaît séparément dans le tableau de bord des statistiques.",
-        "exampleRoute": "Les filtres camping et aire utilisent maintenant des cartes à bascule plus calmes au lieu de boutons CTA très voyants."
+        "plannerPanel": "Le générateur de prompt dispose maintenant de sa propre page complète, bien plus forte qu’un panneau coulissant.",
+        "placeFinder": "Le chercheur de campings et le chercheur d’aires disposent désormais de pages dédiées avec une navigation mobile plus propre.",
+        "savedPlans": "Les lieux trouvés dans les chercheurs autonomes peuvent maintenant être repris directement dans le générateur de prompt comme destination ou étape.",
+        "exampleRoute": "Ton brouillon du générateur reste conservé dans le même onglet quand tu passes du générateur au chercheur d’emplacements."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

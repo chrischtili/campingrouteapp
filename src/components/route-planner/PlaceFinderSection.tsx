@@ -248,14 +248,8 @@ export function PlaceFinderSection({
       });
       setResults(nextResults);
       void trackPlaceFinderUsage(standalone ? "place_search_solo" : "place_search", {
-        query,
-        selectedSuggestionLabel: selectedSuggestion?.label || "",
-        categories: selectedCategories,
-        resultCount: nextResults.length,
         surface: standalone ? "solo" : "planner",
         variant: trackingVariant,
-        pagePath: location.pathname,
-        language: document.documentElement.lang || navigator.language || "",
       });
     } catch (searchError) {
       setResults([]);
@@ -382,20 +376,7 @@ export function PlaceFinderSection({
                     variant="outline"
                     className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
                     onClick={() => {
-                      void trackPlaceFinderUsage("place_select", {
-                        placeLabel: buildPlaceTransferLabel({
-                          placeName: place.name,
-                          locality: place.locality,
-                        }),
-                        locality: place.locality,
-                        category: place.category,
-                        target: action.target,
-                        stageIndex: action.stageIndex,
-                        surface: "planner",
-                        variant: trackingVariant,
-                        pagePath: location.pathname,
-                        language: document.documentElement.lang || navigator.language || "",
-                      });
+                      void trackPlaceFinderUsage("place_select");
                       action.onSelect(place);
                       setSelectedPlace(null);
                     }}
@@ -421,20 +402,7 @@ export function PlaceFinderSection({
                     variant="outline"
                     className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
                     onClick={() => {
-                      void trackPlaceFinderUsage("place_select", {
-                        placeLabel: buildPlaceTransferLabel({
-                          placeName: place.name,
-                          locality: place.locality,
-                        }),
-                        locality: place.locality,
-                        category: place.category,
-                        target: action.target,
-                        stageIndex: action.stageIndex,
-                        surface: "solo",
-                        variant: trackingVariant,
-                        pagePath: location.pathname,
-                        language: document.documentElement.lang || navigator.language || "",
-                      });
+                      void trackPlaceFinderUsage("place_select");
                       action.onSelect(place);
                     }}
                   >

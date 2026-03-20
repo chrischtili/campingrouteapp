@@ -93,8 +93,17 @@ function createCounterDefaults() {
       }
     },
     analytics: {
-      searches: [],
-      transfers: []
+      searches: {
+        dayKey: todayKey(),
+        total: {
+          solo: { camping: 0, stopover: 0, mixed: 0 },
+          planner: { camping: 0, stopover: 0, mixed: 0 }
+        },
+        today: {
+          solo: { camping: 0, stopover: 0, mixed: 0 },
+          planner: { camping: 0, stopover: 0, mixed: 0 }
+        }
+      }
     }
   };
 }
@@ -111,6 +120,21 @@ function normalizeCounter(counter) {
   const nextAnalytics = nextCounter.analytics && typeof nextCounter.analytics === 'object'
     ? nextCounter.analytics
     : {};
+  const nextSearchAnalytics = nextAnalytics.searches && typeof nextAnalytics.searches === 'object' && !Array.isArray(nextAnalytics.searches)
+    ? nextAnalytics.searches
+    : {};
+  const nextSearchTotal = nextSearchAnalytics.total && typeof nextSearchAnalytics.total === 'object'
+    ? nextSearchAnalytics.total
+    : {};
+  const nextSearchToday = nextSearchAnalytics.today && typeof nextSearchAnalytics.today === 'object'
+    ? nextSearchAnalytics.today
+    : {};
+
+  const normalizeSearchBucket = (bucket) => ({
+    camping: Number(bucket?.camping || 0),
+    stopover: Number(bucket?.stopover || 0),
+    mixed: Number(bucket?.mixed || 0)
+  });
 
   return {
     visits: Number(nextCounter.visits || 0),
@@ -130,8 +154,17 @@ function normalizeCounter(counter) {
       }
     },
     analytics: {
-      searches: Array.isArray(nextAnalytics.searches) ? nextAnalytics.searches : fallback.analytics.searches,
-      transfers: Array.isArray(nextAnalytics.transfers) ? nextAnalytics.transfers : fallback.analytics.transfers
+      searches: {
+        dayKey: typeof nextSearchAnalytics.dayKey === 'string' ? nextSearchAnalytics.dayKey : todayKey(),
+        total: {
+          solo: normalizeSearchBucket(nextSearchTotal.solo),
+          planner: normalizeSearchBucket(nextSearchTotal.planner)
+        },
+        today: {
+          solo: normalizeSearchBucket(nextSearchToday.solo),
+          planner: normalizeSearchBucket(nextSearchToday.planner)
+        }
+      }
     }
   };
 }
@@ -155,15 +188,6 @@ function clampNumber(value, min, max, fallback = min) {
   return Math.max(min, Math.min(numeric, max));
 }
 
-function pushAnalyticsEvent(list, entry) {
-  const next = Array.isArray(list) ? list : [];
-  next.unshift(entry);
-  if (next.length > ANALYTICS_EVENT_LIMIT) {
-    next.length = ANALYTICS_EVENT_LIMIT;
-  }
-  return next;
-}
-
 function normalizeFinderSurface(value) {
   return value === 'solo' ? 'solo' : 'planner';
 }
@@ -172,128 +196,32 @@ function normalizeFinderVariant(value) {
   return value === 'camping' || value === 'stopover' ? value : 'mixed';
 }
 
-function normalizeTransferTarget(value) {
-  return value === 'destination' || value === 'append-stage' || value === 'replace-stage'
-    ? value
-    : 'destination';
-}
-
-function formatFinderVariantLabel(variant) {
-  if (variant === 'camping') return 'Campingplatz';
-  if (variant === 'stopover') return 'Stellplatz';
-  return 'Gemischt';
-}
-
-function formatSurfaceLabel(surface) {
-  return surface === 'solo' ? 'Solo-Finder' : 'Prompt-Generator';
-}
-
-function formatTransferTargetLabel(target, stageIndex) {
-  if (target === 'destination') return 'Ziel';
-  if (target === 'append-stage') return 'Zwischenziel hinzufügen';
-  if (target === 'replace-stage') {
-    return Number.isFinite(stageIndex) ? `Zwischenziel ${stageIndex + 1} ersetzen` : 'Zwischenziel ersetzen';
-  }
-  return 'Ziel';
-}
-
-function addAggregateCount(map, key, extra = {}) {
-  if (!key) return;
-  const current = map.get(key) || { key, count: 0 };
-  current.count += 1;
-  Object.assign(current, extra);
-  map.set(key, current);
-}
-
-function buildTopEntries(map, limit = 10) {
-  return Array.from(map.values())
-    .sort((left, right) => right.count - left.count)
-    .slice(0, limit);
-}
-
 function buildCounterAnalytics(counter) {
-  const searches = Array.isArray(counter.analytics?.searches) ? counter.analytics.searches : [];
-  const transfers = Array.isArray(counter.analytics?.transfers) ? counter.analytics.transfers : [];
-
-  const topQueries = new Map();
-  const topVariants = new Map();
-  const topSurfaces = new Map();
-  const topTargets = new Map();
-  const topPlaces = new Map();
-
-  for (const entry of searches) {
-    addAggregateCount(topQueries, entry.searchLabel, {
-      variant: entry.variant,
-      surface: entry.surface
-    });
-    addAggregateCount(topVariants, formatFinderVariantLabel(entry.variant));
-    addAggregateCount(topSurfaces, formatSurfaceLabel(entry.surface));
-  }
-
-  for (const entry of transfers) {
-    addAggregateCount(topTargets, formatTransferTargetLabel(entry.target, entry.stageIndex));
-    addAggregateCount(topPlaces, entry.placeLabel, {
-      variant: entry.variant,
-      surface: entry.surface
-    });
-  }
-
   return {
     searches: {
-      recent: searches.slice(0, 25),
-      topQueries: buildTopEntries(topQueries, 12),
-      topVariants: buildTopEntries(topVariants, 6),
-      topSurfaces: buildTopEntries(topSurfaces, 6)
-    },
-    transfers: {
-      recent: transfers.slice(0, 25),
-      topTargets: buildTopEntries(topTargets, 8),
-      topPlaces: buildTopEntries(topPlaces, 12)
+      summary: counter.analytics.searches
     }
   };
 }
 
 function recordGenerationAnalytics(counter, mode, details = {}) {
-  counter.analytics = counter.analytics || { searches: [], transfers: [] };
+  counter.analytics = counter.analytics || createCounterDefaults().analytics;
 
   if (mode === 'place_search' || mode === 'place_search_solo') {
-    const query = sanitizeText(details.query, 120);
-    const selectedLabel = sanitizeText(details.selectedSuggestionLabel, 180);
-    const searchLabel = selectedLabel || query;
-    if (!searchLabel) return;
+    const currentDayKey = todayKey();
+    if (counter.analytics.searches.dayKey !== currentDayKey) {
+      counter.analytics.searches.dayKey = currentDayKey;
+      counter.analytics.searches.today = {
+        solo: { camping: 0, stopover: 0, mixed: 0 },
+        planner: { camping: 0, stopover: 0, mixed: 0 }
+      };
+    }
 
-    counter.analytics.searches = pushAnalyticsEvent(counter.analytics.searches, {
-      createdAt: new Date().toISOString(),
-      searchLabel,
-      query,
-      selectedSuggestionLabel: selectedLabel,
-      language: sanitizeText(details.language, 12),
-      surface: normalizeFinderSurface(details.surface || (mode === 'place_search_solo' ? 'solo' : 'planner')),
-      variant: normalizeFinderVariant(details.variant),
-      pagePath: sanitizeText(details.pagePath, 80),
-      categories: sanitizeCategoryList(details.categories),
-      resultCount: clampNumber(details.resultCount, 0, 200, 0)
-    });
+    const surface = normalizeFinderSurface(details.surface || (mode === 'place_search_solo' ? 'solo' : 'planner'));
+    const variant = normalizeFinderVariant(details.variant);
+    counter.analytics.searches.total[surface][variant] += 1;
+    counter.analytics.searches.today[surface][variant] += 1;
     return;
-  }
-
-  if (mode === 'place_select') {
-    const placeLabel = sanitizeText(details.placeLabel, 180);
-    if (!placeLabel) return;
-
-    const stageIndex = Number.isFinite(Number(details.stageIndex)) ? Number(details.stageIndex) : null;
-    counter.analytics.transfers = pushAnalyticsEvent(counter.analytics.transfers, {
-      createdAt: new Date().toISOString(),
-      placeLabel,
-      locality: sanitizeText(details.locality, 80),
-      category: sanitizeText(details.category, 32),
-      language: sanitizeText(details.language, 12),
-      surface: normalizeFinderSurface(details.surface),
-      variant: normalizeFinderVariant(details.variant),
-      pagePath: sanitizeText(details.pagePath, 80),
-      target: normalizeTransferTarget(details.target),
-      stageIndex
-    });
   }
 }
 

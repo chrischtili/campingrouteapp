@@ -436,15 +436,15 @@
     "items": {
       "whatIs": {
         "q": "Was ist Camping Route?",
-        "title": "Ein KI-Routenplaner für Camping- und Roadtrips.",
-        "prec": "Warum ein Prompt-Generator?",
-        "prec1": "KI liefert bessere Routen, wenn Vorgaben klar und strukturiert sind.",
-        "prec2": "Camping Route läuft direkt im Browser. Du füllst das Formular aus, wir strukturieren daraus die Route.",
-        "prec3": "So bekommt die KI klare Angaben zu Fahrzeug, Budget, Stopps und Vorlieben.",
-        "ai": "Deine Vorteile",
-        "ai1": "Individuelle statt generische Routen.",
-        "ai2": "Fahrzeugdaten, Budget und Vorlieben werden direkt berücksichtigt.",
-        "ai3": "Weniger Tippen, weniger Nachfragen, schneller zum Ergebnis."
+        "title": "Der Prompt-Generator für Camping- und Roadtrip-Routen.",
+        "prec": "Was Camping Route für dich übernimmt",
+        "prec1": "Du gibst Start, Ziel, Reisedaten, Fahrzeug und Vorlieben einmal sauber ein.",
+        "prec2": "Camping Route baut daraus einen strukturierten Prompt für ChatGPT, Claude oder andere KI-Tools.",
+        "prec3": "Mit dem Platzfinder kannst du passende Campingplätze oder Stellplätze direkt vorab auswählen und übernehmen.",
+        "ai": "Dein Vorteil",
+        "ai1": "Weniger Nachschärfen im KI-Chat.",
+        "ai2": "Bessere Vorgaben für Etappen, Übernachtungen und Fahrzeuglogik.",
+        "ai3": "Schneller vom Wunsch zur brauchbaren Reisevorlage."
       },
       "diff": {
         "q": "Prompt vs. KI Direkt – was ist der Unterschied?",
@@ -461,24 +461,34 @@
       },
       "howItWorks": {
         "q": "Wie funktioniert die Planung genau?",
-        "title": "In wenigen Schritten zur fertigen Route.",
+        "title": "Vom Reiseziel zur fertigen Prompt-Vorlage in drei Schritten.",
         "step1": "Basisdaten",
-        "step1a": "Start, Ziel, Zeiten und Tageslimits festlegen.",
-        "step2": "Dein Fahrzeug",
-        "step2a": "Fahrzeugdaten und Autarkie eintragen.",
-        "step3": "Wünsche & Generierung",
-        "step3a": "Prompt kopieren und in deiner bevorzugten KI verwenden."
+        "step1a": "Start, Ziel, Zeitraum, Tageslimit und Zwischenziele festlegen.",
+        "step2": "Fahrzeug & Plätze",
+        "step2a": "Fahrzeugdaten ergänzen und bei Bedarf passende Camping- oder Stellplätze übernehmen.",
+        "step3": "Prompt erstellen",
+        "step3a": "Den fertigen Prompt kopieren und in deiner bevorzugten KI weiterverwenden."
       },
       "exampleRoute": {
         "q": "Wie sieht eine Beispielroute aus?",
         "title": "Ein konkretes Beispiel mit Etappen, Stopps und Übernachtungen."
+      },
+      "aiModel": {
+        "q": "Wie arbeiten Platzfinder und Prompt-Generator zusammen?",
+        "title": "Gefundene Plätze lassen sich direkt in deine Planung übernehmen.",
+        "gpt": "Im Prompt-Generator",
+        "gpt1": "Im eingebetteten Platzfinder kannst du Treffer direkt als Ziel oder Zwischenziel setzen.",
+        "gpt2": "Bereits vorhandene Stopps werden erkannt, damit du passend ersetzen oder ergänzen kannst.",
+        "prompt": "In den Solo-Findern",
+        "prompt1": "Auch Campingplatz-Finder und Stellplatz-Finder können Treffer direkt in deinen Generator-Entwurf übertragen.",
+        "recDesc": "Dein aktueller Entwurf bleibt im selben Browser-Tab erhalten, wenn du zwischen Finder und Generator wechselst."
       },
       "cost": {
         "q": "Was kostet mich Camping Route wirklich?",
         "title": "Camping Route selbst ist kostenlos.",
         "free": "Die App",
         "free1": "Formular und Prompt-Erstellung sind 100% kostenlos.",
-        "free2": "Keine Anmeldung, keine Datenbank, kein Backend.",
+        "free2": "Keine Anmeldung nötig. Du kannst den Prompt-Generator direkt im Browser nutzen.",
         "opt": "Externe KI-Kosten",
         "transDesc": "Kosten entstehen nur dann, wenn du den generierten Prompt in einem kostenpflichtigen KI-Dienst nutzt. Diese Kosten laufen ausschließlich über deinen gewählten Anbieter, nicht über Camping Route."
       },
@@ -486,19 +496,9 @@
         "q": "Wo werden meine eingegebenen Daten gespeichert?",
         "title": "Standardmäßig auf deinem Gerät.",
         "device": "Lokal & Sicher",
-        "device1": "Wir betreiben für den aktuellen Planungsablauf kein zentrales Nutzerkonto und keine serverseitige Planspeicherung. Gespeicherte Eingaben bleiben lokal in deinem Browser oder in deiner exportierten Datei.",
+        "device1": "Für deine Planungen gibt es kein zentrales Nutzerkonto und keine serverseitige Planspeicherung. Entwürfe und gespeicherte Eingaben bleiben lokal in deinem Browser oder in deiner exportierten Datei.",
         "sec": "Nur bei externer KI-Nutzung",
         "sec1": "Deine Daten verlassen dein Gerät erst dann, wenn du den generierten Prompt selbst in einen externen KI-Dienst einfügst."
-      },
-      "aiModel": {
-        "q": "Welches KI-Modell soll ich wählen?",
-        "title": "Aktuell fokussieren wir uns auf eine klare Prompt-Alternative.",
-        "gpt": "Externe KI deiner Wahl",
-        "gpt1": "Nutze den generierten Prompt in ChatGPT, Claude oder einer anderen KI, die gut zu deinem Workflow passt.",
-        "gpt2": "CampingRoute selbst bleibt dabei bewusst schlank und konzentriert sich auf gute Eingaben und einen starken Prompt.",
-        "prompt": "Prompt-Modus als Alternative",
-        "prompt1": "Du erzeugst den fertigen Prompt und fügst ihn in deinem bevorzugten Chat ein.",
-        "recDesc": "Tipp: Für die meisten Nutzer ist der Prompt-Modus der einfachste und flexibelste Weg."
       },
       "helpImprove": {
         "q": "Kann ich helfen, Camping Route besser zu machen?",
@@ -1327,7 +1327,8 @@
     "license": "MIT Lizenz",
     "sourceCode": "Quellcode auf GitHub",
     "whatsNew": "Neu in {{version}}",
-    "feedback": "Feedback geben"
+    "feedback": "Feedback geben",
+    "support": "CampingRoute unterstützen"
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",

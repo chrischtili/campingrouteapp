@@ -103,6 +103,16 @@ export function FAQSection({ onStartPlanning }: FAQSectionProps) {
       customContent: true,
     },
     {
+      id: "aiModel",
+      icon: Info,
+      q: t("faq.items.aiModel.q"),
+      title: t("faq.items.aiModel.title"),
+      content: [
+        { label: t("faq.items.aiModel.gpt"), items: [t("faq.items.aiModel.gpt1"), t("faq.items.aiModel.gpt2")] },
+        { label: t("faq.items.aiModel.prompt"), items: [t("faq.items.aiModel.prompt1"), t("faq.items.aiModel.recDesc")] }
+      ]
+    },
+    {
       id: "cost",
       icon: CreditCard,
       q: t("faq.items.cost.q"),

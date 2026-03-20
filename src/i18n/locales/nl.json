@@ -436,15 +436,15 @@
     "items": {
       "whatIs": {
         "q": "Wat is Camping Route?",
-        "title": "Een AI-routeplanner voor kampeer- en roadtrips.",
-        "prec": "Waarom een promptgenerator?",
-        "prec1": "AI geeft betere routes als de instructies duidelijk en gestructureerd zijn.",
-        "prec2": "Camping Route draait direct in je browser. Jij vult het formulier in, wij structureren de aanvraag.",
-        "prec3": "Zo krijgt de AI duidelijke informatie over voertuig, budget, stops en voorkeuren.",
-        "ai": "Jouw voordelen",
-        "ai1": "Persoonlijke routes in plaats van standaardvoorstellen.",
-        "ai2": "Voertuig, budget en voorkeuren worden direct meegenomen.",
-        "ai3": "Minder typen, minder vervolgvragen, sneller resultaat."
+        "title": "De promptgenerator voor camping- en roadtriproutes.",
+        "prec": "Wat Camping Route voor je doet",
+        "prec1": "Je vult start, bestemming, reisdata, voertuig en voorkeuren één keer netjes in.",
+        "prec2": "Camping Route bouwt daaruit een gestructureerde prompt voor ChatGPT, Claude of andere AI-tools.",
+        "prec3": "Met de plaatszoeker kun je eerst passende campings of stellplaatsen kiezen en direct overnemen.",
+        "ai": "Jouw voordeel",
+        "ai1": "Minder heen-en-weer in de AI-chat.",
+        "ai2": "Betere instructies voor etappes, overnachtingen en voertuiglogica.",
+        "ai3": "Sneller van reisidee naar een bruikbare routeprompt."
       },
       "diff": {
         "q": "Prompt vs. Direct AI – wat is het verschil?",
@@ -461,24 +461,34 @@
       },
       "howItWorks": {
         "q": "Hoe werkt de planning precies?",
-        "title": "Je route in een paar stappen.",
+        "title": "Van reisidee naar een complete prompt in drie stappen.",
         "step1": "Basisgegevens",
-        "step1a": "Stel start, bestemming, tijden en daglimieten in.",
-        "step2": "Je voertuig",
-        "step2a": "Vul voertuiggegevens en autonomie in.",
-        "step3": "Voorkeuren & generatie",
-        "step3a": "Kopieer de prompt of gebruik je eigen API-key voor directe generatie in de app."
+        "step1a": "Bepaal start, bestemming, reisperiode, daglimiet en eventuele tussenstops.",
+        "step2": "Voertuig en plaatsen",
+        "step2a": "Vul voertuiggegevens aan en neem indien nodig passende campings of stellplaatsen over.",
+        "step3": "Prompt maken",
+        "step3a": "Kopieer de voltooide prompt en gebruik hem verder in je favoriete AI-tool."
       },
       "exampleRoute": {
         "q": "Hoe ziet een voorbeeldroute eruit?",
         "title": "Een concreet voorbeeld met etappes, stops en overnachtingen."
+      },
+      "aiModel": {
+        "q": "Hoe werken plaatszoeker en promptgenerator samen?",
+        "title": "Gevonden plaatsen kun je direct in je planning opnemen.",
+        "gpt": "In de promptgenerator",
+        "gpt1": "In de ingebouwde plaatszoeker kun je resultaten direct als bestemming of tussenstop zetten.",
+        "gpt2": "Bestaande stops worden herkend, zodat je gericht kunt vervangen of aanvullen.",
+        "prompt": "In de losse zoekers",
+        "prompt1": "Ook de campingzoeker en stellplaatszoeker kunnen resultaten direct naar je huidige generatorconcept sturen.",
+        "recDesc": "Je huidige concept blijft in hetzelfde browsertabblad staan wanneer je wisselt tussen zoeker en generator."
       },
       "cost": {
         "q": "Wat kost Camping Route mij echt?",
         "title": "Camping Route zelf is gratis.",
         "free": "De app",
         "free1": "Formulier en promptgeneratie zijn 100% gratis.",
-        "free2": "Geen registratie, geen database, geen backend.",
+        "free2": "Geen registratie nodig. Je gebruikt de promptgenerator direct in je browser.",
         "opt": "Externe AI-kosten",
         "transDesc": "Kosten ontstaan alleen als je de gegenereerde prompt gebruikt in een betaalde AI-dienst. Die kosten lopen uitsluitend via de door jou gekozen aanbieder, niet via Camping Route."
       },
@@ -486,20 +496,9 @@
         "q": "Waar worden mijn ingevoerde gegevens opgeslagen?",
         "title": "Standaard op je apparaat.",
         "device": "Lokaal & veilig",
-        "device1": "Voor de huidige flow hebben we geen centraal accountsysteem en geen server-side opslag van plannen. Opgeslagen gegevens blijven lokaal in je browser of in je geëxporteerde bestand.",
+        "device1": "Er is geen centraal gebruikersaccount voor je plannen en geen serveropslag van planinhoud. Concepten en opgeslagen invoer blijven lokaal in je browser of in je geëxporteerde bestand.",
         "sec": "Alleen bij externe AI",
         "sec1": "Je data verlaat je apparaat pas wanneer je de gegenereerde prompt zelf in een externe AI-dienst plakt."
-      },
-      "aiModel": {
-        "q": "Welk AI‑model moet ik kiezen?",
-        "title": "Elk model heeft andere sterke punten voor routeplanning.",
-        "gemini": "Google Gemini 3.1 (aanbevolen)",
-        "gemini1": "Sterk in actuele plaatsen, campings en POI’s. Vaak de beste keuze voor realistische routes in Europa.",
-        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Sterk in logica, daglimieten en budgetregels. In directe AI-modus staat web search aan. 5.2 is de stabiele standaard; 5.4 kun je extra testen.",
-        "mistral": "Mistral Large",
-        "mistral1": "Snel, degelijk en vaak goedkoper dan OpenAI.",
-        "recDesc": "Tip: voor campings en landschappelijke highlights is Gemini nu meestal de beste keuze."
       },
       "helpImprove": {
         "q": "Kan ik helpen om Camping Route beter te maken?",
@@ -1261,7 +1260,8 @@
     "license": "MIT‑licentie",
     "sourceCode": "GitHub‑project",
     "whatsNew": "Nieuw in {{version}}",
-    "feedback": "Feedback geven"
+    "feedback": "Feedback geven",
+    "support": "Steun CampingRoute"
   },
   "buttons": {
     "ok": "OK",

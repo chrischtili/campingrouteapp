@@ -436,15 +436,15 @@
     "items": {
       "whatIs": {
         "q": "Qu’est‑ce que Camping Route ?",
-        "title": "Un planificateur IA pour les voyages camping et road trip.",
-        "prec": "Pourquoi un générateur de prompts ?",
-        "prec1": "L’IA donne de meilleurs résultats quand les consignes sont claires et structurées.",
-        "prec2": "Camping Route fonctionne directement dans le navigateur. Vous remplissez le formulaire, nous structurons la demande.",
-        "prec3": "L’IA reçoit ainsi des informations claires sur le véhicule, le budget, les étapes et les préférences.",
-        "ai": "Vos avantages",
-        "ai1": "Des itinéraires personnalisés au lieu de propositions génériques.",
-        "ai2": "Le véhicule, le budget et les préférences sont pris en compte dès le départ.",
-        "ai3": "Moins de saisie, moins d’aller-retour, plus vite au résultat."
+        "title": "Le générateur de prompt pour les voyages camping et road trip.",
+        "prec": "Ce que Camping Route fait pour vous",
+        "prec1": "Vous renseignez une fois le départ, l’arrivée, les dates, le véhicule et vos préférences.",
+        "prec2": "Camping Route transforme cela en prompt structuré pour ChatGPT, Claude ou d’autres outils d’IA.",
+        "prec3": "Avec le chercheur d’emplacements, vous pouvez choisir à l’avance des campings ou aires adaptés et les reprendre directement.",
+        "ai": "Votre avantage",
+        "ai1": "Moins d’allers-retours dans le chat IA.",
+        "ai2": "De meilleures consignes pour les étapes, les nuitées et la logique véhicule.",
+        "ai3": "Un passage plus rapide de l’idée de voyage à un prompt vraiment utile."
       },
       "diff": {
         "q": "Prompt vs. IA directe — quelle différence ?",
@@ -461,24 +461,34 @@
       },
       "howItWorks": {
         "q": "Comment fonctionne exactement la planification ?",
-        "title": "Votre itinéraire en quelques étapes.",
+        "title": "Du projet de voyage au prompt final en trois étapes.",
         "step1": "Données de base",
-        "step1a": "Définissez départ, destination, dates et limites journalières.",
-        "step2": "Votre véhicule",
-        "step2a": "Saisissez les données du véhicule et l’autonomie.",
-        "step3": "Préférences & génération",
-        "step3a": "Copiez le prompt ou utilisez votre propre clé API pour générer directement dans l’app."
+        "step1a": "Définissez départ, destination, période, limite quotidienne et éventuelles étapes.",
+        "step2": "Véhicule et emplacements",
+        "step2a": "Ajoutez les données du véhicule et reprenez si besoin des campings ou aires adaptés.",
+        "step3": "Créer le prompt",
+        "step3a": "Copiez le prompt final et poursuivez dans l’outil d’IA de votre choix."
       },
       "exampleRoute": {
         "q": "À quoi ressemble un itinéraire exemple ?",
         "title": "Un exemple concret avec étapes, arrêts et nuitées."
+      },
+      "aiModel": {
+        "q": "Comment le chercheur d’emplacements fonctionne-t-il avec le générateur de prompt ?",
+        "title": "Les lieux trouvés peuvent entrer directement dans votre flux de planification.",
+        "gpt": "Dans le générateur de prompt",
+        "gpt1": "Dans le chercheur intégré, vous pouvez définir un résultat directement comme destination ou étape.",
+        "gpt2": "Les étapes déjà présentes sont reconnues pour remplacer ou ajouter au bon endroit.",
+        "prompt": "Dans les chercheurs autonomes",
+        "prompt1": "Le chercheur de campings et le chercheur d’aires peuvent eux aussi envoyer un résultat vers votre brouillon actuel.",
+        "recDesc": "Votre brouillon reste conservé dans le même onglet quand vous passez du chercheur au générateur."
       },
       "cost": {
         "q": "Quel est le vrai coût de Camping Route ?",
         "title": "Camping Route lui-même est gratuit.",
         "free": "L’app",
         "free1": "Le formulaire et la génération de prompt sont 100% gratuits.",
-        "free2": "Aucune inscription, aucune base de données, aucun backend.",
+        "free2": "Aucune inscription n’est nécessaire. Vous utilisez le générateur directement dans votre navigateur.",
         "opt": "Coûts IA externes",
         "transDesc": "Des coûts n’apparaissent que si vous utilisez le prompt généré dans un service IA payant. Ces coûts dépendent uniquement du fournisseur choisi, pas de Camping Route."
       },
@@ -486,20 +496,9 @@
         "q": "Où sont stockées mes données saisies ?",
         "title": "Sur votre appareil par défaut.",
         "device": "Local & sécurisé",
-        "device1": "Pour le flux actuel, nous n’avons ni système de compte centralisé ni stockage serveur des plans. Les données enregistrées restent localement dans votre navigateur ou dans votre fichier exporté.",
+        "device1": "Il n’existe pas de compte utilisateur central pour vos plans ni de stockage serveur des contenus de planification. Les brouillons et données enregistrées restent dans votre navigateur ou dans votre fichier exporté.",
         "sec": "Uniquement avec une IA externe",
         "sec1": "Vos données ne quittent votre appareil que lorsque vous collez vous-même le prompt généré dans un service IA externe."
-      },
-      "aiModel": {
-        "q": "Quel modèle IA choisir ?",
-        "title": "Chaque modèle a ses points forts pour la planification.",
-        "gemini": "Google Gemini 3.1 (Recommandé)",
-        "gemini1": "Très fort pour les lieux, campings et POI actuels. Souvent le meilleur choix pour des itinéraires réalistes en Europe.",
-        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Très fort pour la logique, les limites journalières et le budget. La recherche web est active en mode IA direct. 5.2 est le choix stable par défaut, 5.4 peut être testé en plus.",
-        "mistral": "Mistral Large",
-        "mistral1": "Rapide, fiable et souvent moins cher qu’OpenAI.",
-        "recDesc": "Conseil : Gemini est actuellement le meilleur choix pour les campings et les points forts du trajet."
       },
       "helpImprove": {
         "q": "Puis-je aider à améliorer Camping Route ?",
@@ -1329,7 +1328,8 @@
     "license": "Licence MIT",
     "sourceCode": "Projet GitHub",
     "whatsNew": "Nouveautés de {{version}}",
-    "feedback": "Donner un avis"
+    "feedback": "Donner un avis",
+    "support": "Soutenir CampingRoute"
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires pour le camping et les road trips, avec une connaissance spécialisée de l’Europe et des destinations internationales. Créez un itinéraire pratique et bien structuré, adapté au type de véhicule sélectionné, selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",

@@ -172,6 +172,54 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <Button
                 type="button"
                 variant="ghost"
+                className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-white bg-white/72 hover:bg-white/82 dark:bg-white/10 dark:hover:bg-white/14 border border-white/70 dark:border-white/14 shadow-[0_18px_42px_rgba(15,23,42,0.10)] dark:shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
+                style={{
+                  backgroundImage:
+                    resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))"
+                      : "linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62))",
+                }}
+              >
+                {t("navbar.placeFinder")}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72 rounded-2xl border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
+              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
+                <Link to="/campingplatz-finder" className="flex w-full flex-col items-start gap-1">
+                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.camping}</span>
+                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
+                    {t("navbar.placeFinderDescriptions.camping")}
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
+                <Link to="/stellplatz-finder" className="flex w-full flex-col items-start gap-1">
+                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.stopover}</span>
+                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
+                    {t("navbar.placeFinderDescriptions.stopover")}
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Button
+            onClick={handlePlanNow}
+            className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white border border-primary/80 shadow-[0_16px_40px_rgba(255,128,0,0.3)] hover:scale-[1.02] hover:shadow-[0_20px_52px_rgba(255,128,0,0.4)]"
+            style={{
+              background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+            }}
+          >
+            {t("navbar.planNow")}
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
                 size="icon"
                 className="h-11 w-11 rounded-2xl border border-foreground/12 bg-white/72 text-foreground hover:bg-white/88 dark:border-white/14 dark:bg-white/10 dark:text-white dark:hover:bg-white/14 shadow-[0_14px_34px_rgba(15,23,42,0.10)] backdrop-blur-2xl"
                 aria-label={t("navbar.navigation")}
@@ -245,54 +293,6 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-white bg-white/72 hover:bg-white/82 dark:bg-white/10 dark:hover:bg-white/14 border border-white/70 dark:border-white/14 shadow-[0_18px_42px_rgba(15,23,42,0.10)] dark:shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
-                style={{
-                  backgroundImage:
-                    resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))"
-                      : "linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62))",
-                }}
-              >
-                {t("navbar.placeFinder")}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-72 rounded-2xl border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
-              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
-                <Link to="/campingplatz-finder" className="flex w-full flex-col items-start gap-1">
-                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.camping}</span>
-                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
-                    {t("navbar.placeFinderDescriptions.camping")}
-                  </span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
-                <Link to="/stellplatz-finder" className="flex w-full flex-col items-start gap-1">
-                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.stopover}</span>
-                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
-                    {t("navbar.placeFinderDescriptions.stopover")}
-                  </span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Button
-            onClick={handlePlanNow}
-            className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white border border-primary/80 shadow-[0_16px_40px_rgba(255,128,0,0.3)] hover:scale-[1.02] hover:shadow-[0_20px_52px_rgba(255,128,0,0.4)]"
-            style={{
-              background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-            }}
-          >
-            {t("navbar.planNow")}
-          </Button>
         </div>
 
         {/* Mobile Toggle */}

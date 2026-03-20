@@ -436,15 +436,15 @@
     "items": {
       "whatIs": {
         "q": "Che cos'è Camping Route?",
-        "title": "Un pianificatore IA per campeggio e road trip.",
-        "prec": "Perché un generatore di prompt?",
-        "prec1": "L'IA dà risultati migliori quando le istruzioni sono chiare e strutturate.",
-        "prec2": "Camping Route funziona direttamente nel browser. Tu compili il modulo, noi strutturiamo la richiesta.",
-        "prec3": "Così l'IA riceve dati chiari su veicolo, budget, tappe e preferenze.",
-        "ai": "I tuoi vantaggi",
-        "ai1": "Itinerari personalizzati invece di proposte generiche.",
-        "ai2": "Veicolo, budget e preferenze sono considerati subito.",
-        "ai3": "Meno testo da scrivere, meno chiarimenti, risultato più rapido."
+        "title": "Il generatore di prompt per viaggi camping e road trip.",
+        "prec": "Che cosa fa Camping Route per te",
+        "prec1": "Inserisci una volta sola partenza, destinazione, date, veicolo e preferenze in modo ordinato.",
+        "prec2": "Camping Route trasforma tutto in un prompt strutturato per ChatGPT, Claude o altri strumenti AI.",
+        "prec3": "Con il cercatore di aree puoi scegliere prima campeggi o soste adatte e trasferirli direttamente.",
+        "ai": "Il tuo vantaggio",
+        "ai1": "Meno avanti e indietro nella chat con l'AI.",
+        "ai2": "Istruzioni migliori per tappe, pernottamenti e logica del veicolo.",
+        "ai3": "Più velocità dall'idea di viaggio a un prompt davvero utile."
       },
       "diff": {
         "q": "Prompt vs. IA diretta – qual è la differenza?",
@@ -461,24 +461,34 @@
       },
       "howItWorks": {
         "q": "Come funziona esattamente la pianificazione?",
-        "title": "L'itinerario in pochi passaggi.",
+        "title": "Dall'idea di viaggio al prompt finale in tre passaggi.",
         "step1": "Dati di base",
-        "step1a": "Definisci partenza, destinazione, tempi e limiti giornalieri.",
-        "step2": "Il tuo veicolo",
-        "step2a": "Inserisci dati del veicolo e autonomia.",
-        "step3": "Preferenze & generazione",
-        "step3a": "Copia il prompt oppure usa la tua chiave API per generare direttamente nell'app."
+        "step1a": "Definisci partenza, destinazione, periodo, limite giornaliero ed eventuali tappe intermedie.",
+        "step2": "Veicolo e posti",
+        "step2a": "Aggiungi i dati del veicolo e, se serve, trasferisci campeggi o aree sosta adatti.",
+        "step3": "Crea il prompt",
+        "step3a": "Copia il prompt finale e continua nel tuo strumento AI preferito."
       },
       "exampleRoute": {
         "q": "Come appare un itinerario di esempio?",
         "title": "Un esempio concreto con tappe, soste e pernottamenti."
+      },
+      "aiModel": {
+        "q": "Come lavorano insieme cercatore di aree e generatore di prompt?",
+        "title": "I luoghi trovati possono entrare direttamente nel tuo flusso di pianificazione.",
+        "gpt": "Nel Prompt Generator",
+        "gpt1": "Nel cercatore integrato puoi impostare i risultati direttamente come destinazione o tappa intermedia.",
+        "gpt2": "Le tappe già presenti vengono riconosciute, così puoi sostituire o aggiungere nel punto giusto.",
+        "prompt": "Nei cercatori autonomi",
+        "prompt1": "Anche il cercatore campeggi e il cercatore aree sosta possono trasferire i risultati direttamente nella bozza attuale.",
+        "recDesc": "La tua bozza attuale resta nello stesso tab del browser quando passi dal cercatore al generatore."
       },
       "cost": {
         "q": "Quanto mi costa davvero Camping Route?",
         "title": "Camping Route di per sé è gratuito.",
         "free": "L'app",
         "free1": "Modulo e creazione del prompt sono 100% gratuiti.",
-        "free2": "Nessuna registrazione, nessun database, nessun backend.",
+        "free2": "Nessuna registrazione necessaria. Usi il generatore di prompt direttamente nel browser.",
         "opt": "Costi IA esterni",
         "transDesc": "I costi nascono solo se usi il prompt generato in un servizio IA a pagamento. Questi costi dipendono esclusivamente dal fornitore scelto, non da Camping Route."
       },
@@ -486,20 +496,9 @@
         "q": "Dove vengono salvati i dati che inserisco?",
         "title": "Di base sul tuo dispositivo.",
         "device": "Locale & sicuro",
-        "device1": "Per il flusso attuale non gestiamo un sistema di account centralizzato né un salvataggio server-side dei piani. I dati salvati restano localmente nel browser o nel file esportato.",
+        "device1": "Per i tuoi piani non esiste un account utente centrale né un salvataggio server-side del contenuto. Bozze e dati salvati restano nel browser o nel file esportato.",
         "sec": "Solo con IA esterna",
         "sec1": "I tuoi dati lasciano il dispositivo solo quando incolli tu stesso il prompt generato in un servizio IA esterno."
-      },
-      "aiModel": {
-        "q": "Quale modello IA dovrei scegliere?",
-        "title": "Ogni modello ha punti di forza diversi per la pianificazione.",
-        "gemini": "Google Gemini 3.1 (consigliato)",
-        "gemini1": "Molto forte su luoghi attuali, campeggi e POI. Spesso è la scelta migliore per itinerari realistici in Europa.",
-        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Molto forte su logica, limiti giornalieri e budget. In modalità IA diretta la ricerca web è attiva. 5.2 è la scelta stabile predefinita, 5.4 è disponibile anche per test.",
-        "mistral": "Mistral Large",
-        "mistral1": "Veloce, solido e spesso più economico di OpenAI.",
-        "recDesc": "Consiglio: per campeggi e highlight paesaggistici, Gemini è attualmente la scelta migliore."
       },
       "helpImprove": {
         "q": "Posso aiutare a migliorare Camping Route?",
@@ -1329,7 +1328,8 @@
     "license": "Licenza MIT",
     "sourceCode": "Codice sorgente su GitHub",
     "whatsNew": "Novità della {{version}}",
-    "feedback": "Invia feedback"
+    "feedback": "Invia feedback",
+    "support": "Supporta CampingRoute"
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari per viaggi camping e road trip con conoscenze specialistiche per l'Europa e destinazioni internazionali. Crea, in base ai miei dati, un itinerario pratico e ben strutturato adatto al tipo di veicolo selezionato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",

@@ -436,15 +436,15 @@
     "items": {
       "whatIs": {
         "q": "What is Camping Route?",
-        "title": "An AI route planner for camping and road trips.",
-        "prec": "Why a prompt generator?",
-        "prec1": "AI gives better routes when your instructions are clear and structured.",
-        "prec2": "Camping Route runs directly in your browser. You fill in the form, we structure the route request.",
-        "prec3": "That gives the AI clear details about vehicle, budget, stops, and preferences.",
-        "ai": "Your Benefits",
-        "ai1": "Individual routes instead of generic ones.",
-        "ai2": "Vehicle data, budget, and preferences are included from the start.",
-        "ai3": "Less typing, fewer follow-up questions, faster results."
+        "title": "The prompt generator for camping and road-trip routes.",
+        "prec": "What Camping Route does for you",
+        "prec1": "You enter your start, destination, travel dates, vehicle, and preferences once in a clean structure.",
+        "prec2": "Camping Route turns that into a well-structured prompt for ChatGPT, Claude, or other AI tools.",
+        "prec3": "With the place finder, you can pick matching campsites or stopovers first and transfer them directly.",
+        "ai": "Your benefit",
+        "ai1": "Less back-and-forth inside the AI chat.",
+        "ai2": "Better instructions for stages, overnight stops, and vehicle logic.",
+        "ai3": "A faster path from travel idea to a useful route prompt."
       },
       "diff": {
         "q": "Prompt vs. Direct AI – what's the difference?",
@@ -461,24 +461,34 @@
       },
       "howItWorks": {
         "q": "How exactly does the planning work?",
-        "title": "Your route in just a few steps.",
+        "title": "From destination to finished route prompt in three steps.",
         "step1": "Basic Data",
-        "step1a": "Set start, destination, timing, and daily limits.",
-        "step2": "Your Vehicle",
-        "step2a": "Enter vehicle details and off-grid setup.",
-        "step3": "Preferences & Generation",
-        "step3a": "Copy the prompt or use your own API key to generate directly in the app."
+        "step1a": "Set your start, destination, travel window, daily limit, and any stopovers.",
+        "step2": "Vehicle & Places",
+        "step2a": "Add vehicle details and optionally transfer matching campsites or stopovers.",
+        "step3": "Create Prompt",
+        "step3a": "Copy the finished prompt and continue in your preferred AI tool."
       },
       "exampleRoute": {
         "q": "What does an example route look like?",
         "title": "A concrete example with stages, stops, and overnight suggestions."
+      },
+      "aiModel": {
+        "q": "How do the place finder and prompt generator work together?",
+        "title": "Places you find can go straight into your planning flow.",
+        "gpt": "Inside the Prompt Generator",
+        "gpt1": "In the embedded place finder, you can set results directly as destination or stopover.",
+        "gpt2": "Existing stops are recognized so you can replace or extend them without guesswork.",
+        "prompt": "Inside the standalone finders",
+        "prompt1": "The campsite finder and stopover finder can also transfer results straight into your current generator draft.",
+        "recDesc": "Your current draft stays in the same browser tab when you switch between finder and generator."
       },
       "cost": {
         "q": "What does Camping Route actually cost me?",
         "title": "Camping Route itself is free.",
         "free": "The App",
         "free1": "The form and prompt generation are 100% free.",
-        "free2": "No registration, no database, no backend.",
+        "free2": "No sign-up required. You can use the prompt generator directly in your browser.",
         "opt": "External AI Costs",
         "transDesc": "Costs only arise if you use the generated prompt in a paid AI service. Those costs are charged solely by your chosen provider, not by Camping Route."
       },
@@ -486,20 +496,9 @@
         "q": "Where is my entered data stored?",
         "title": "On your device by default.",
         "device": "Local & Secure",
-        "device1": "For the current planning flow, we do not run a central user account system or server-side plan storage. Saved inputs remain locally in your browser or in your exported file.",
+        "device1": "There is no central user account for your plans and no server-side plan storage. Drafts and saved inputs stay locally in your browser or in your exported file.",
         "sec": "Only when using external AI",
         "sec1": "Your data only leaves your device when you paste the generated prompt into an external AI service yourself."
-      },
-      "aiModel": {
-        "q": "Which AI model should I choose?",
-        "title": "Each model has different strengths for route planning.",
-        "gemini": "Google Gemini 3.1 (Recommended)",
-        "gemini1": "Strong for current places, campsites, and POIs. Often the best choice for realistic routes in Europe.",
-        "gpt": "OpenAI ChatGPT 5.2 / 5.4",
-        "gpt1": "Very strong for logic, daily limits, and budget rules. Web search is enabled in direct AI mode. 5.2 is the stable default, while 5.4 is available for testing.",
-        "mistral": "Mistral Large",
-        "mistral1": "Fast, solid, and often cheaper than OpenAI.",
-        "recDesc": "Tip: Gemini is currently the strongest choice for campsites and scenic highlights."
       },
       "helpImprove": {
         "q": "Can I help make Camping Route better?",
@@ -1329,7 +1328,8 @@
     "license": "MIT License",
     "sourceCode": "GitHub Project",
     "whatsNew": "What's new in {{version}}",
-    "feedback": "Give feedback"
+    "feedback": "Give feedback",
+    "support": "Support CampingRoute"
   },
   "prompt": {
     "systemRole": "You are a professional route planner for camping and road-trip travel with specialized knowledge of Europe and international destinations. Create a practical, well-structured route based on my specifications that fits the selected vehicle type. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",

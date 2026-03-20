@@ -66,12 +66,236 @@ const NOMINATIM_TIMEOUT_MS = 8000;
 const OVERPASS_TIMEOUT_MS = 5000;
 const PLACE_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
 const PLACE_SEARCH_CACHE_MAX_ENTRIES = 100;
+const ANALYTICS_EVENT_LIMIT = 400;
 const placeSearchCache = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const PLACE_RATE_LIMITS = {
   suggest: { max: 15, bucket: new Map() },
   search: { max: 4, bucket: new Map() }
 };
+
+function createCounterDefaults() {
+  return {
+    visits: 0,
+    history: {},
+    generations: {
+      prompt: 0,
+      route: 0,
+      place_search: 0,
+      place_search_solo: 0,
+      place_select: 0,
+      history: {
+        prompt: {},
+        route: {},
+        place_search: {},
+        place_search_solo: {},
+        place_select: {}
+      }
+    },
+    analytics: {
+      searches: [],
+      transfers: []
+    }
+  };
+}
+
+function normalizeCounter(counter) {
+  const fallback = createCounterDefaults();
+  const nextCounter = counter && typeof counter === 'object' ? counter : {};
+  const nextGenerations = nextCounter.generations && typeof nextCounter.generations === 'object'
+    ? nextCounter.generations
+    : {};
+  const nextHistory = nextGenerations.history && typeof nextGenerations.history === 'object'
+    ? nextGenerations.history
+    : {};
+  const nextAnalytics = nextCounter.analytics && typeof nextCounter.analytics === 'object'
+    ? nextCounter.analytics
+    : {};
+
+  return {
+    visits: Number(nextCounter.visits || 0),
+    history: nextCounter.history && typeof nextCounter.history === 'object' ? nextCounter.history : {},
+    generations: {
+      prompt: Number(nextGenerations.prompt || 0),
+      route: Number(nextGenerations.route || 0),
+      place_search: Number(nextGenerations.place_search || 0),
+      place_search_solo: Number(nextGenerations.place_search_solo || 0),
+      place_select: Number(nextGenerations.place_select || 0),
+      history: {
+        prompt: nextHistory.prompt && typeof nextHistory.prompt === 'object' ? nextHistory.prompt : {},
+        route: nextHistory.route && typeof nextHistory.route === 'object' ? nextHistory.route : {},
+        place_search: nextHistory.place_search && typeof nextHistory.place_search === 'object' ? nextHistory.place_search : {},
+        place_search_solo: nextHistory.place_search_solo && typeof nextHistory.place_search_solo === 'object' ? nextHistory.place_search_solo : {},
+        place_select: nextHistory.place_select && typeof nextHistory.place_select === 'object' ? nextHistory.place_select : {}
+      }
+    },
+    analytics: {
+      searches: Array.isArray(nextAnalytics.searches) ? nextAnalytics.searches : fallback.analytics.searches,
+      transfers: Array.isArray(nextAnalytics.transfers) ? nextAnalytics.transfers : fallback.analytics.transfers
+    }
+  };
+}
+
+function sanitizeText(value, maxLength = 120) {
+  if (typeof value !== 'string') return '';
+  return value.trim().slice(0, maxLength);
+}
+
+function sanitizeCategoryList(entries) {
+  if (!Array.isArray(entries)) return [];
+  return entries
+    .map((entry) => String(entry || '').trim())
+    .filter((entry) => ALLOWED_PLACE_CATEGORIES.has(entry))
+    .slice(0, 4);
+}
+
+function clampNumber(value, min, max, fallback = min) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return fallback;
+  return Math.max(min, Math.min(numeric, max));
+}
+
+function pushAnalyticsEvent(list, entry) {
+  const next = Array.isArray(list) ? list : [];
+  next.unshift(entry);
+  if (next.length > ANALYTICS_EVENT_LIMIT) {
+    next.length = ANALYTICS_EVENT_LIMIT;
+  }
+  return next;
+}
+
+function normalizeFinderSurface(value) {
+  return value === 'solo' ? 'solo' : 'planner';
+}
+
+function normalizeFinderVariant(value) {
+  return value === 'camping' || value === 'stopover' ? value : 'mixed';
+}
+
+function normalizeTransferTarget(value) {
+  return value === 'destination' || value === 'append-stage' || value === 'replace-stage'
+    ? value
+    : 'destination';
+}
+
+function formatFinderVariantLabel(variant) {
+  if (variant === 'camping') return 'Campingplatz';
+  if (variant === 'stopover') return 'Stellplatz';
+  return 'Gemischt';
+}
+
+function formatSurfaceLabel(surface) {
+  return surface === 'solo' ? 'Solo-Finder' : 'Prompt-Generator';
+}
+
+function formatTransferTargetLabel(target, stageIndex) {
+  if (target === 'destination') return 'Ziel';
+  if (target === 'append-stage') return 'Zwischenziel hinzufügen';
+  if (target === 'replace-stage') {
+    return Number.isFinite(stageIndex) ? `Zwischenziel ${stageIndex + 1} ersetzen` : 'Zwischenziel ersetzen';
+  }
+  return 'Ziel';
+}
+
+function addAggregateCount(map, key, extra = {}) {
+  if (!key) return;
+  const current = map.get(key) || { key, count: 0 };
+  current.count += 1;
+  Object.assign(current, extra);
+  map.set(key, current);
+}
+
+function buildTopEntries(map, limit = 10) {
+  return Array.from(map.values())
+    .sort((left, right) => right.count - left.count)
+    .slice(0, limit);
+}
+
+function buildCounterAnalytics(counter) {
+  const searches = Array.isArray(counter.analytics?.searches) ? counter.analytics.searches : [];
+  const transfers = Array.isArray(counter.analytics?.transfers) ? counter.analytics.transfers : [];
+
+  const topQueries = new Map();
+  const topVariants = new Map();
+  const topSurfaces = new Map();
+  const topTargets = new Map();
+  const topPlaces = new Map();
+
+  for (const entry of searches) {
+    addAggregateCount(topQueries, entry.searchLabel, {
+      variant: entry.variant,
+      surface: entry.surface
+    });
+    addAggregateCount(topVariants, formatFinderVariantLabel(entry.variant));
+    addAggregateCount(topSurfaces, formatSurfaceLabel(entry.surface));
+  }
+
+  for (const entry of transfers) {
+    addAggregateCount(topTargets, formatTransferTargetLabel(entry.target, entry.stageIndex));
+    addAggregateCount(topPlaces, entry.placeLabel, {
+      variant: entry.variant,
+      surface: entry.surface
+    });
+  }
+
+  return {
+    searches: {
+      recent: searches.slice(0, 25),
+      topQueries: buildTopEntries(topQueries, 12),
+      topVariants: buildTopEntries(topVariants, 6),
+      topSurfaces: buildTopEntries(topSurfaces, 6)
+    },
+    transfers: {
+      recent: transfers.slice(0, 25),
+      topTargets: buildTopEntries(topTargets, 8),
+      topPlaces: buildTopEntries(topPlaces, 12)
+    }
+  };
+}
+
+function recordGenerationAnalytics(counter, mode, details = {}) {
+  counter.analytics = counter.analytics || { searches: [], transfers: [] };
+
+  if (mode === 'place_search' || mode === 'place_search_solo') {
+    const query = sanitizeText(details.query, 120);
+    const selectedLabel = sanitizeText(details.selectedSuggestionLabel, 180);
+    const searchLabel = selectedLabel || query;
+    if (!searchLabel) return;
+
+    counter.analytics.searches = pushAnalyticsEvent(counter.analytics.searches, {
+      createdAt: new Date().toISOString(),
+      searchLabel,
+      query,
+      selectedSuggestionLabel: selectedLabel,
+      language: sanitizeText(details.language, 12),
+      surface: normalizeFinderSurface(details.surface || (mode === 'place_search_solo' ? 'solo' : 'planner')),
+      variant: normalizeFinderVariant(details.variant),
+      pagePath: sanitizeText(details.pagePath, 80),
+      categories: sanitizeCategoryList(details.categories),
+      resultCount: clampNumber(details.resultCount, 0, 200, 0)
+    });
+    return;
+  }
+
+  if (mode === 'place_select') {
+    const placeLabel = sanitizeText(details.placeLabel, 180);
+    if (!placeLabel) return;
+
+    const stageIndex = Number.isFinite(Number(details.stageIndex)) ? Number(details.stageIndex) : null;
+    counter.analytics.transfers = pushAnalyticsEvent(counter.analytics.transfers, {
+      createdAt: new Date().toISOString(),
+      placeLabel,
+      locality: sanitizeText(details.locality, 80),
+      category: sanitizeText(details.category, 32),
+      language: sanitizeText(details.language, 12),
+      surface: normalizeFinderSurface(details.surface),
+      variant: normalizeFinderVariant(details.variant),
+      pagePath: sanitizeText(details.pagePath, 80),
+      target: normalizeTransferTarget(details.target),
+      stageIndex
+    });
+  }
+}
 
 function ensureJsonFile(filePath, fallback) {
   if (!fs.existsSync(filePath)) {
@@ -139,69 +363,55 @@ function todayKey() {
 }
 
 function incrementCounter() {
-  const counter = readJson(COUNTER_PATH, {
-    visits: 0,
-    history: {},
-    generations: { prompt: 0, route: 0, place_search: 0, place_search_solo: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} } }
-  });
-  counter.visits = Number(counter.visits || 0) + 1;
-  counter.history = counter.history || {};
-  counter.generations = counter.generations || { prompt: 0, route: 0, place_search: 0, place_search_solo: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} } };
+  const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
+  counter.visits += 1;
   const key = todayKey();
   counter.history[key] = Number(counter.history[key] || 0) + 1;
   writeJson(COUNTER_PATH, counter);
   return counter;
 }
 
-function incrementGeneration(mode) {
-  const counter = readJson(COUNTER_PATH, {
-    visits: 0,
-    history: {},
-    generations: { prompt: 0, route: 0, place_search: 0, place_search_solo: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} } }
-  });
-  counter.history = counter.history || {};
-  counter.generations = counter.generations || { prompt: 0, route: 0, place_search: 0, place_search_solo: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} } };
-  counter.generations.history = counter.generations.history || { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} };
+function incrementGeneration(mode, details) {
+  const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
   const allowedModes = new Set(['prompt', 'route', 'place_search', 'place_search_solo', 'place_select']);
   const normalizedMode = allowedModes.has(mode) ? mode : 'prompt';
   const key = todayKey();
   counter.generations[normalizedMode] = Number(counter.generations[normalizedMode] || 0) + 1;
   counter.generations.history[normalizedMode] = counter.generations.history[normalizedMode] || {};
   counter.generations.history[normalizedMode][key] = Number(counter.generations.history[normalizedMode][key] || 0) + 1;
+  recordGenerationAnalytics(counter, normalizedMode, details);
   writeJson(COUNTER_PATH, counter);
   return counter.generations;
 }
 
 function getCounter() {
-  const counter = readJson(COUNTER_PATH, {
-    visits: 0,
-    history: {},
-    generations: { prompt: 0, route: 0, place_search: 0, place_search_solo: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} } }
-  });
-  const generationsHistory = counter.generations?.history || { prompt: {}, route: {}, place_search: {}, place_search_solo: {}, place_select: {} };
+  const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
+  const generationsHistory = counter.generations.history;
+  const analytics = buildCounterAnalytics(counter);
   return {
     success: true,
     data: {
-      visits: Number(counter.visits || 0),
-      history: counter.history || {},
+      visits: counter.visits,
+      history: counter.history,
       generations: {
-        prompt: Number(counter.generations?.prompt || 0),
-        route: Number(counter.generations?.route || 0),
-        place_search: Number(counter.generations?.place_search || 0),
-        place_search_solo: Number(counter.generations?.place_search_solo || 0),
-        place_select: Number(counter.generations?.place_select || 0),
+        prompt: counter.generations.prompt,
+        route: counter.generations.route,
+        place_search: counter.generations.place_search,
+        place_search_solo: counter.generations.place_search_solo,
+        place_select: counter.generations.place_select,
         history: {
-          prompt: generationsHistory.prompt || {},
-          route: generationsHistory.route || {},
-          place_search: generationsHistory.place_search || {},
-          place_search_solo: generationsHistory.place_search_solo || {},
-          place_select: generationsHistory.place_select || {}
+          prompt: generationsHistory.prompt,
+          route: generationsHistory.route,
+          place_search: generationsHistory.place_search,
+          place_search_solo: generationsHistory.place_search_solo,
+          place_select: generationsHistory.place_select
         }
-      }
+      },
+      analytics
     },
     meta: {
       server: 'route-counter',
-      version: 'feedback-v2',
+      version: 'analytics-v3',
       timestamp: new Date().toISOString()
     }
   };
@@ -928,7 +1138,7 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'POST' && pathname === '/api/count-generation') {
       const body = await readBody(req);
-      const generations = incrementGeneration(body?.mode);
+      const generations = incrementGeneration(body?.mode, body?.details);
       sendJson(res, 200, { success: true, generations });
       return;
     }
@@ -1022,7 +1232,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  ensureJsonFile(COUNTER_PATH, { visits: 0, history: {}, generations: { prompt: 0, route: 0, place_search: 0, place_select: 0, history: { prompt: {}, route: {}, place_search: {}, place_select: {} } } });
+  ensureJsonFile(COUNTER_PATH, createCounterDefaults());
   ensureJsonFile(FEEDBACK_PATH, { feedback: [] });
   console.log(`Server läuft auf http://${HOST}:${PORT}`);
   console.log(`Dist: ${DIST_DIR}`);

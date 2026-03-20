@@ -388,6 +388,81 @@
             font-style: italic;
         }
 
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-panel {
+            background: var(--surface-strong);
+            border-radius: 18px;
+            padding: 1.35rem;
+            box-shadow: 0 12px 28px rgba(10, 24, 24, 0.08);
+            border: 1px solid rgba(74, 155, 142, 0.1);
+        }
+
+        .analytics-panel h3 {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-bottom: 0.9rem;
+            letter-spacing: -0.02em;
+        }
+
+        .analytics-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .analytics-item {
+            border: 1px solid rgba(74, 155, 142, 0.1);
+            border-radius: 14px;
+            padding: 0.85rem 0.95rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbfb 100%);
+        }
+
+        .analytics-item-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .analytics-item-title {
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.35;
+        }
+
+        .analytics-item-meta {
+            margin-top: 0.35rem;
+            color: var(--text-light);
+            font-size: 0.82rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem 0.5rem;
+        }
+
+        .analytics-count {
+            flex-shrink: 0;
+            min-width: 2rem;
+            text-align: right;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .analytics-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.18rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: rgba(74, 155, 142, 0.12);
+            color: var(--primary-dark);
+        }
+
         @media (max-width: 768px) {
             .dashboard-container {
                 padding: 1rem;
@@ -557,6 +632,39 @@
                 </div>
             </div>
 
+            <div class="dashboard-section">
+                <h2 class="section-title">Platzfinder Insights</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-panel">
+                        <h3>Top-Suchorte</h3>
+                        <div id="top-searches" class="analytics-list">
+                            <div class="feedback-empty">Noch keine Suchdaten vorhanden.</div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-panel">
+                        <h3>Häufig übernommene Plätze</h3>
+                        <div id="top-transfer-places" class="analytics-list">
+                            <div class="feedback-empty">Noch keine Übernahmen vorhanden.</div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-panel">
+                        <h3>Letzte Suchen</h3>
+                        <div id="recent-searches" class="analytics-list">
+                            <div class="feedback-empty">Noch keine Suchdaten vorhanden.</div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-panel">
+                        <h3>Letzte Übernahmen</h3>
+                        <div id="recent-transfers" class="analytics-list">
+                            <div class="feedback-empty">Noch keine Übernahmen vorhanden.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="chart-container">
                 <h2>💬 Letzte Feedbacks</h2>
                 <div id="feedback-list" class="feedback-list">
@@ -639,10 +747,110 @@
         const feedbackHelpfulRateEl = document.getElementById('feedback-helpful-rate');
         const feedbackCommentsEl = document.getElementById('feedback-comments');
         const feedbackListEl = document.getElementById('feedback-list');
+        const topSearchesEl = document.getElementById('top-searches');
+        const topTransferPlacesEl = document.getElementById('top-transfer-places');
+        const recentSearchesEl = document.getElementById('recent-searches');
+        const recentTransfersEl = document.getElementById('recent-transfers');
         const apiEndpointEl = document.getElementById('api-endpoint');
         const serverInfoEl = document.getElementById('server-info');
         const lastUpdatedEl = document.getElementById('last-updated');
         const apiVersionEl = document.getElementById('api-version');
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function formatTimestamp(value) {
+            if (!value) return '-';
+            try {
+                return new Date(value).toLocaleString('de-DE');
+            } catch {
+                return '-';
+            }
+        }
+
+        function renderAnalyticsList(element, items, renderItem, emptyLabel) {
+            if (!Array.isArray(items) || items.length === 0) {
+                element.innerHTML = `<div class="feedback-empty">${emptyLabel}</div>`;
+                return;
+            }
+
+            element.innerHTML = items.map(renderItem).join('');
+        }
+
+        function renderFinderAnalytics(analytics = {}) {
+            const searches = analytics.searches || {};
+            const transfers = analytics.transfers || {};
+
+            renderAnalyticsList(
+                topSearchesEl,
+                searches.topQueries || [],
+                (item) => `
+                    <div class="analytics-item">
+                        <div class="analytics-item-head">
+                            <div class="analytics-item-title">${escapeHtml(item.key)}</div>
+                            <div class="analytics-count">${Number(item.count || 0).toLocaleString('de-DE')}</div>
+                        </div>
+                    </div>
+                `,
+                'Noch keine Suchdaten vorhanden.'
+            );
+
+            renderAnalyticsList(
+                topTransferPlacesEl,
+                transfers.topPlaces || [],
+                (item) => `
+                    <div class="analytics-item">
+                        <div class="analytics-item-head">
+                            <div class="analytics-item-title">${escapeHtml(item.key)}</div>
+                            <div class="analytics-count">${Number(item.count || 0).toLocaleString('de-DE')}</div>
+                        </div>
+                    </div>
+                `,
+                'Noch keine Übernahmen vorhanden.'
+            );
+
+            renderAnalyticsList(
+                recentSearchesEl,
+                (searches.recent || []).slice(0, 10),
+                (item) => `
+                    <div class="analytics-item">
+                        <div class="analytics-item-head">
+                            <div class="analytics-item-title">${escapeHtml(item.searchLabel)}</div>
+                            <div class="analytics-count">${Number(item.resultCount || 0)}</div>
+                        </div>
+                        <div class="analytics-item-meta">
+                            <span class="analytics-tag">${escapeHtml(item.variant === 'camping' ? 'Campingplatz' : item.variant === 'stopover' ? 'Stellplatz' : 'Gemischt')}</span>
+                            <span class="analytics-tag">${escapeHtml(item.surface === 'solo' ? 'Solo-Finder' : 'Prompt-Generator')}</span>
+                            <span>${formatTimestamp(item.createdAt)}</span>
+                        </div>
+                    </div>
+                `,
+                'Noch keine Suchdaten vorhanden.'
+            );
+
+            renderAnalyticsList(
+                recentTransfersEl,
+                (transfers.recent || []).slice(0, 10),
+                (item) => `
+                    <div class="analytics-item">
+                        <div class="analytics-item-head">
+                            <div class="analytics-item-title">${escapeHtml(item.placeLabel)}</div>
+                            <div class="analytics-count"></div>
+                        </div>
+                        <div class="analytics-item-meta">
+                            <span class="analytics-tag">${escapeHtml(item.target === 'destination' ? 'Ziel' : item.target === 'append-stage' ? 'Zwischenziel hinzufügen' : `Zwischenziel ${Number.isFinite(item.stageIndex) ? item.stageIndex + 1 : ''} ersetzen`.trim())}</span>
+                            <span class="analytics-tag">${escapeHtml(item.surface === 'solo' ? 'Solo-Finder' : 'Prompt-Generator')}</span>
+                            <span>${formatTimestamp(item.createdAt)}</span>
+                        </div>
+                    </div>
+                `,
+                'Noch keine Übernahmen vorhanden.'
+            );
+        }
 
         function updateFeedbackStats(data) {
             const total = typeof data?.total === 'number' ? data.total : 0;
@@ -799,6 +1007,7 @@
                 const history = data?.data?.history || data?.history || {};
                 const generations = data?.data?.generations || data?.generations || {};
                 const generationHistory = generations?.history || {};
+                const analytics = data?.data?.analytics || {};
                 const meta = data?.meta || {};
                 const lastSevenDays = getLastSevenDays(history);
                 const todayKey = toLocalDateKey();
@@ -835,6 +1044,7 @@
                 placeSelectsEl.textContent = placeSelects.toLocaleString('de-DE');
                 updateFeedbackStats(feedbackSummary);
                 renderFeedbackList(feedbackItems);
+                renderFinderAnalytics(analytics);
 
                 setTimeout(() => drawChart(latestChartDays), 100);
 

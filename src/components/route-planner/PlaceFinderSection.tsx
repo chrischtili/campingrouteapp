@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 import { BusFront, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, X, Zap } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -47,6 +48,7 @@ export function PlaceFinderSection({
 }: PlaceFinderSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const location = useLocation();
   const initialCategoriesKey = initialCategories?.join("|") || "camp_site|caravan_site";
   const [query, setQuery] = useState(formData.targetRegions || formData.destination || "");
   const [selectedCategories, setSelectedCategories] = useState<PlaceCategory[]>(
@@ -74,6 +76,15 @@ export function PlaceFinderSection({
   const switchClass =
     "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
 
+  const trackingVariant = useMemo(() => {
+    if (location.pathname === "/campingplatz-finder") return "camping";
+    if (location.pathname === "/stellplatz-finder") return "stopover";
+    if (selectedCategories.length === 1) {
+      return selectedCategories[0] === "camp_site" ? "camping" : "stopover";
+    }
+    return "mixed";
+  }, [location.pathname, selectedCategories]);
+
   useEffect(() => {
     setSelectedCategories(initialCategories?.length ? initialCategories : ["camp_site", "caravan_site"]);
   }, [initialCategoriesKey]);
@@ -86,6 +97,8 @@ export function PlaceFinderSection({
     const existingStages = formData.stages.map((stage, index) => ({
       id: `replace-${index}`,
       label: t("planner.placeFinder.actions.replaceStage", { num: index + 1 }),
+      target: "replace-stage" as const,
+      stageIndex: index,
       onSelect: (place: PlaceSearchResult) => {
         const transferredPlaceLabel = buildPlaceTransferLabel({
           placeName: place.name,
@@ -102,6 +115,7 @@ export function PlaceFinderSection({
       {
         id: "destination",
         label: t("planner.placeFinder.actions.setDestination"),
+        target: "destination" as const,
         onSelect: (place: PlaceSearchResult) =>
           onChange({
             destination: buildPlaceTransferLabel({
@@ -113,6 +127,8 @@ export function PlaceFinderSection({
       {
         id: "append-stage",
         label: t("planner.placeFinder.actions.addStage", { num: formData.stages.length + 1 }),
+        target: "append-stage" as const,
+        stageIndex: formData.stages.length,
         onSelect: (place: PlaceSearchResult) => {
           const transferredPlaceLabel = buildPlaceTransferLabel({
             placeName: place.name,
@@ -136,6 +152,8 @@ export function PlaceFinderSection({
       .map(({ index }) => ({
         id: `transfer-replace-${index}`,
         label: t("planner.placeFinder.actions.replaceStage", { num: index + 1 }),
+        target: "replace-stage" as const,
+        stageIndex: index,
         onSelect: (place: PlaceSearchResult) => onTransferToPrompt(place, "replace-stage", index),
       }));
 
@@ -143,18 +161,24 @@ export function PlaceFinderSection({
       {
         id: "transfer-destination",
         label: t("planner.placeFinder.actions.setDestination"),
+        target: "destination" as const,
         onSelect: (place: PlaceSearchResult) => onTransferToPrompt(place, "destination"),
       },
       {
         id: "transfer-append-stage",
         label: t("planner.placeFinder.actions.addStage", { num: existingStages.length + 1 }),
+        target: "append-stage" as const,
+        stageIndex: existingStages.length,
         onSelect: (place: PlaceSearchResult) => onTransferToPrompt(place, "append-stage"),
       },
       ...existingStages,
     ];
   }, [formData.stages, onTransferToPrompt, standalone, t]);
 
-  const trackPlaceFinderUsage = async (mode: "place_search" | "place_search_solo" | "place_select") => {
+  const trackPlaceFinderUsage = async (
+    mode: "place_search" | "place_search_solo" | "place_select",
+    details: Record<string, unknown> = {},
+  ) => {
     if (import.meta.env.DEV) {
       return;
     }
@@ -165,7 +189,8 @@ export function PlaceFinderSection({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ mode }),
+        keepalive: true,
+        body: JSON.stringify({ mode, details }),
       });
     } catch {
       // Usage tracking must not block the place finder flow.
@@ -214,7 +239,6 @@ export function PlaceFinderSection({
     setIsLoading(true);
     setError("");
     setHasSearched(true);
-    void trackPlaceFinderUsage(standalone ? "place_search_solo" : "place_search");
 
     try {
       const nextResults = await searchPlaces({
@@ -223,6 +247,16 @@ export function PlaceFinderSection({
         suggestion: selectedSuggestion || undefined,
       });
       setResults(nextResults);
+      void trackPlaceFinderUsage(standalone ? "place_search_solo" : "place_search", {
+        query,
+        selectedSuggestionLabel: selectedSuggestion?.label || "",
+        categories: selectedCategories,
+        resultCount: nextResults.length,
+        surface: standalone ? "solo" : "planner",
+        variant: trackingVariant,
+        pagePath: location.pathname,
+        language: document.documentElement.lang || navigator.language || "",
+      });
     } catch (searchError) {
       setResults([]);
       setError(
@@ -348,7 +382,20 @@ export function PlaceFinderSection({
                     variant="outline"
                     className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
                     onClick={() => {
-                      void trackPlaceFinderUsage("place_select");
+                      void trackPlaceFinderUsage("place_select", {
+                        placeLabel: buildPlaceTransferLabel({
+                          placeName: place.name,
+                          locality: place.locality,
+                        }),
+                        locality: place.locality,
+                        category: place.category,
+                        target: action.target,
+                        stageIndex: action.stageIndex,
+                        surface: "planner",
+                        variant: trackingVariant,
+                        pagePath: location.pathname,
+                        language: document.documentElement.lang || navigator.language || "",
+                      });
                       action.onSelect(place);
                       setSelectedPlace(null);
                     }}
@@ -373,7 +420,23 @@ export function PlaceFinderSection({
                     type="button"
                     variant="outline"
                     className="justify-start rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left font-semibold text-foreground hover:bg-primary/10 dark:bg-primary/10 dark:text-white dark:hover:bg-primary/16"
-                    onClick={() => action.onSelect(place)}
+                    onClick={() => {
+                      void trackPlaceFinderUsage("place_select", {
+                        placeLabel: buildPlaceTransferLabel({
+                          placeName: place.name,
+                          locality: place.locality,
+                        }),
+                        locality: place.locality,
+                        category: place.category,
+                        target: action.target,
+                        stageIndex: action.stageIndex,
+                        surface: "solo",
+                        variant: trackingVariant,
+                        pagePath: location.pathname,
+                        language: document.documentElement.lang || navigator.language || "",
+                      });
+                      action.onSelect(place);
+                    }}
                   >
                     <Plus className="mr-2 h-4 w-4" />
                     {action.label}

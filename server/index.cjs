@@ -612,9 +612,9 @@ async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox })
       lastError = error;
     }
 
-    if (mergedElements.length > 0) {
-      return { elements: mergedElements };
-    }
+    // Keep local city matches, but still expand to radius search afterwards.
+    // This avoids prematurely stopping at strict municipal borders when nearby
+    // places just outside the bounding box are still highly relevant.
   }
 
   for (const radius of radiusPlan) {

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Deutschland Nord",
+    "bbox": [52.4, 6.0, 55.2, 14.9]
+  },
+  {
+    "name": "Deutschland Sued",
+    "bbox": [47.1, 6.8, 52.4, 14.9]
+  },
+  {
+    "name": "Niederlande und Belgien",
+    "bbox": [49.3, 2.4, 53.8, 7.3]
+  },
+  {
+    "name": "Luxemburg und Nordost-Frankreich",
+    "bbox": [47.6, 4.0, 50.4, 8.6]
+  },
+  {
+    "name": "Frankreich Nordwest",
+    "bbox": [47.0, -5.8, 50.9, 2.5]
+  },
+  {
+    "name": "Frankreich Suedwest",
+    "bbox": [42.2, -1.9, 47.2, 3.5]
+  },
+  {
+    "name": "Frankreich Suedost",
+    "bbox": [42.3, 3.0, 46.8, 8.4]
+  },
+  {
+    "name": "Alpenraum West",
+    "bbox": [45.3, 5.5, 48.8, 10.8]
+  },
+  {
+    "name": "Alpenraum Ost",
+    "bbox": [45.2, 9.8, 48.9, 17.3]
+  },
+  {
+    "name": "Daenemark",
+    "bbox": [54.5, 8.0, 57.9, 12.9]
+  },
+  {
+    "name": "Tschechien und Slowakei",
+    "bbox": [47.7, 12.0, 51.2, 22.7]
+  },
+  {
+    "name": "Polen West und Mitte",
+    "bbox": [49.0, 14.0, 54.9, 21.5]
+  },
+  {
+    "name": "Norditalien",
+    "bbox": [44.0, 6.4, 46.9, 13.8]
+  },
+  {
+    "name": "Mittelitalien",
+    "bbox": [41.4, 9.0, 44.7, 15.0]
+  },
+  {
+    "name": "Slowenien und Kroatien Nord",
+    "bbox": [44.0, 13.2, 47.1, 17.3]
+  },
+  {
+    "name": "Kroatien Sued und Montenegro",
+    "bbox": [41.8, 15.5, 45.0, 19.5]
+  }
+]

@@ -833,6 +833,11 @@
         "loading": "Sto cercando i luoghi ...",
         "selected": "Luogo selezionato: {{place}}"
       },
+      "map": {
+        "title": "Risultati sulla mappa",
+        "help": "Fai clic sui marker per aprire i dettagli del luogo e capire più rapidamente posizione e distribuzione dei risultati.",
+        "issueLink": "Segnala problemi cartografici a OpenStreetMap"
+      },
       "searchButton": "Cerca aree",
       "loading": "Ricerca in corso ...",
       "results": "{{count}} luoghi trovati",
@@ -1291,7 +1296,7 @@
       },
       "places": {
         "title": "Ricerca aree & dati OSM",
-        "description": "Se utilizzi la ricerca aree nella pagina iniziale o nel pianificatore di itinerario, il tuo termine di ricerca e i dati di connessione tecnicamente necessari vengono inoltrati lato server a servizi pubblici Nominatim e Overpass basati su OpenStreetMap per trovare luoghi nonché campeggi e aree camper corrispondenti. Utilizziamo queste ricerche solo per rispondere direttamente alla tua richiesta e non conserviamo da parte nostra una cronologia di ricerca permanente."
+        "description": "Se utilizzi la ricerca aree nella pagina iniziale o nel pianificatore di itinerario, il tuo termine di ricerca e i dati di connessione tecnicamente necessari vengono inoltrati lato server a Geoapify oppure, come fallback, a servizi pubblici Nominatim e Overpass basati su OpenStreetMap per trovare luoghi nonché campeggi e aree camper corrispondenti. Utilizziamo queste ricerche solo per rispondere direttamente alla tua richiesta e non conserviamo da parte nostra una cronologia di ricerca permanente. Se apri anche la vista mappa, il tuo browser carica tessere cartografiche dal fornitore configurato, che riceve quindi dati tecnici necessari come il tuo indirizzo IP."
       },
       "feedback": {
         "title": "Feedback dopo la generazione",
@@ -1451,10 +1456,10 @@
       "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
-        "plannerPanel": "Il generatore di prompt ora ha una propria pagina completa, molto più forte di un pannello a comparsa.",
-        "placeFinder": "Il cercatore di campeggi e il cercatore di aree di sosta ora funzionano come pagine dedicate con una navigazione mobile più pulita.",
-        "savedPlans": "I luoghi trovati nei cercatori autonomi possono ora essere trasferiti direttamente nel generatore di prompt come destinazione o tappa intermedia.",
-        "exampleRoute": "La tua bozza del generatore resta nello stesso tab del browser quando passi dal generatore di prompt al cercatore di aree."
+        "plannerPanel": "I cercatori di campeggi e aree di sosta mostrano ora i risultati direttamente su una mappa collegata alla lista e ai dettagli.",
+        "placeFinder": "L’autocompletamento dei luoghi passa ora da Geoapify e offre suggerimenti molto più stabili rispetto al vecchio flusso Nominatim.",
+        "savedPlans": "Un indice locale dei luoghi può preparare in anticipo le regioni più usate e velocizzare sensibilmente la ricerca.",
+        "exampleRoute": "Sono pronti file regionali per l’Europa e un workflow di aggiornamento più robusto per costruire l’indice veloce locale."
       },
       "dismiss": "Capito",
       "release": "Vedi release"

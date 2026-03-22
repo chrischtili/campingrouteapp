@@ -3,14 +3,49 @@ const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
 
+function loadDotEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+
+  const content = fs.readFileSync(filePath, 'utf8');
+  const lines = content.split(/\r?\n/);
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+
+    const separatorIndex = trimmed.indexOf('=');
+    if (separatorIndex === -1) continue;
+
+    const key = trimmed.slice(0, separatorIndex).trim();
+    if (!key || process.env[key] !== undefined) continue;
+
+    let value = trimmed.slice(separatorIndex + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+
+    process.env[key] = value;
+  }
+}
+
+loadDotEnvFile(path.join(__dirname, '..', '.env'));
+
 const PORT = Number(process.env.PORT || 3001);
 const HOST = process.env.HOST || '0.0.0.0';
 const DIST_DIR = process.env.DIST_DIR || '/home/kopi/route-planner-pro/dist';
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..');
 const COUNTER_PATH = path.join(DATA_DIR, 'counter.json');
 const FEEDBACK_PATH = path.join(DATA_DIR, 'feedback.json');
+const PLACE_INDEX_PATH = process.env.PLACE_INDEX_PATH || path.join(DATA_DIR, 'place-index.json');
 const ADMIN_USER = process.env.ADMIN_USER || 'kopi';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'sugjax-jobnez-8meXdy';
+const GEOAPIFY_API_KEY = String(process.env.GEOAPIFY_API_KEY || '').trim();
+const GEOAPIFY_GEOCODING_URL = process.env.GEOAPIFY_GEOCODING_URL || 'https://api.geoapify.com/v1/geocode';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -64,14 +99,27 @@ const OVERPASS_ENDPOINTS = [
 ];
 const NOMINATIM_TIMEOUT_MS = 8000;
 const OVERPASS_TIMEOUT_MS = 5000;
-const PLACE_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
-const PLACE_SEARCH_CACHE_MAX_ENTRIES = 100;
+const GEOAPIFY_TIMEOUT_MS = 5000;
+const PLACE_SEARCH_CACHE_TTL_MS = 20 * 60 * 1000;
+const PLACE_SEARCH_CACHE_MAX_ENTRIES = 180;
+const GEOCODE_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const GEOCODE_CACHE_MAX_ENTRIES = 200;
+const PLACE_SUGGESTION_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
+const PLACE_SUGGESTION_CACHE_MAX_ENTRIES = 250;
 const ANALYTICS_EVENT_LIMIT = 400;
 const placeSearchCache = new Map();
+const geocodeCache = new Map();
+const placeSuggestionCache = new Map();
+let placeIndexState = {
+  path: PLACE_INDEX_PATH,
+  entries: [],
+  loadedAt: null,
+  error: null,
+};
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const PLACE_RATE_LIMITS = {
-  suggest: { max: 15, bucket: new Map() },
-  search: { max: 4, bucket: new Map() }
+  suggest: { max: 45, bucket: new Map() },
+  search: { max: 10, bucket: new Map() }
 };
 
 function createCounterDefaults() {
@@ -242,6 +290,79 @@ function readJson(filePath, fallback) {
 
 function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+function normalizePlaceIndexEntry(entry) {
+  const category = String(entry?.category || '').trim();
+  const lat = toNumber(entry?.lat, NaN);
+  const lon = toNumber(entry?.lon, NaN);
+
+  if (!ALLOWED_PLACE_CATEGORIES.has(category) || Number.isNaN(lat) || Number.isNaN(lon)) {
+    return null;
+  }
+
+  return {
+    id: String(entry?.id || `${category}-${lat},${lon}`),
+    name: String(entry?.name || 'Unbenannter Platz').trim() || 'Unbenannter Platz',
+    category,
+    lat,
+    lon,
+    locality: String(entry?.locality || '').trim(),
+    country: String(entry?.country || '').trim(),
+    address: String(entry?.address || '').trim(),
+    website: String(entry?.website || '').trim(),
+    phone: String(entry?.phone || '').trim(),
+    openingHours: String(entry?.openingHours || entry?.opening_hours || '').trim(),
+    fee: String(entry?.fee || '').trim(),
+    description: String(entry?.description || '').trim(),
+    hasToilets: entry?.hasToilets === true || entry?.toilets === true,
+    hasShowers: entry?.hasShowers === true || entry?.showers === true,
+    hasPowerSupply: entry?.hasPowerSupply === true || entry?.powerSupply === true || entry?.power_supply === true,
+    hasDumpStation: entry?.hasDumpStation === true || entry?.dumpStation === true || entry?.dump_station === true,
+    imageUrl: String(entry?.imageUrl || '').trim(),
+    imageAttribution: String(entry?.imageAttribution || '').trim(),
+    sourceUrl: String(entry?.sourceUrl || '').trim(),
+  };
+}
+
+function loadPlaceIndexFromDisk() {
+  if (!fs.existsSync(PLACE_INDEX_PATH)) {
+    placeIndexState = {
+      path: PLACE_INDEX_PATH,
+      entries: [],
+      loadedAt: null,
+      error: null,
+    };
+    return;
+  }
+
+  try {
+    const payload = JSON.parse(fs.readFileSync(PLACE_INDEX_PATH, 'utf8'));
+    const rawEntries = Array.isArray(payload)
+      ? payload
+      : Array.isArray(payload?.entries)
+        ? payload.entries
+        : [];
+    const entries = rawEntries.map(normalizePlaceIndexEntry).filter(Boolean);
+
+    placeIndexState = {
+      path: PLACE_INDEX_PATH,
+      entries,
+      loadedAt: new Date().toISOString(),
+      error: null,
+    };
+  } catch (error) {
+    placeIndexState = {
+      path: PLACE_INDEX_PATH,
+      entries: [],
+      loadedAt: null,
+      error: error instanceof Error ? error.message : 'unknown_error',
+    };
+  }
+}
+
+function getPlaceIndexEntries() {
+  return Array.isArray(placeIndexState.entries) ? placeIndexState.entries : [];
 }
 
 function getClientIp(req) {
@@ -464,11 +585,22 @@ function isPointInsideBoundingBox(lat, lon, boundingBox) {
   return lat >= boundingBox.south && lat <= boundingBox.north && lon >= boundingBox.west && lon <= boundingBox.east;
 }
 
-function getPlaceSearchCacheKey(query, categories, limit) {
+function normalizeText(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function getPlaceSearchCacheKey(query, categories, limit, locationOverride = null) {
   return JSON.stringify({
     query: normalizeText(query),
     categories: [...categories].sort(),
     limit,
+    location: locationOverride
+      ? {
+          lat: Number(Number(locationOverride.lat || 0).toFixed(4)),
+          lon: Number(Number(locationOverride.lon || 0).toFixed(4)),
+          boundingBox: locationOverride.boundingBox || null,
+        }
+      : null,
   });
 }
 
@@ -503,6 +635,42 @@ function writePlaceSearchCache(cacheKey, value) {
     placeSearchCache.delete(oldestKey);
   }
 }
+
+function readTimedCache(cache, cacheKey, ttlMs) {
+  const entry = cache.get(cacheKey);
+  if (!entry) return null;
+  if (Date.now() - entry.createdAt > ttlMs) {
+    cache.delete(cacheKey);
+    return null;
+  }
+  return entry.value;
+}
+
+function writeTimedCache(cache, cacheKey, value, maxEntries) {
+  cache.set(cacheKey, {
+    createdAt: Date.now(),
+    value,
+  });
+
+  if (cache.size <= maxEntries) return;
+
+  const oldestKey = cache.keys().next().value;
+  if (oldestKey) {
+    cache.delete(oldestKey);
+  }
+}
+
+function getGeocodeCacheKey(query) {
+  return normalizeText(query);
+}
+
+function getPlaceSuggestionCacheKey(query, limit) {
+  return JSON.stringify({
+    query: normalizeText(query),
+    limit,
+  });
+}
+
 function hasLocalityAddress(result) {
   const address = result && typeof result.address === 'object' ? result.address : {};
   return [
@@ -565,7 +733,77 @@ async function fetchJson(url, options = {}) {
   return response.json();
 }
 
-async function geocodePlace(query) {
+function normalizeGeoapifyFeature(feature) {
+  const properties = feature && typeof feature.properties === 'object' ? feature.properties : {};
+  const geometry = feature && typeof feature.geometry === 'object' ? feature.geometry : {};
+  const coordinates = Array.isArray(geometry.coordinates) ? geometry.coordinates : [];
+  const lon = toNumber(properties.lon, toNumber(coordinates[0], NaN));
+  const lat = toNumber(properties.lat, toNumber(coordinates[1], NaN));
+  const bboxObject = properties && typeof properties.bbox === 'object' ? properties.bbox : null;
+  const rawBoundingBox = Array.isArray(feature?.bbox)
+    ? feature.bbox
+    : bboxObject
+      ? [bboxObject.lat1, bboxObject.lat2, bboxObject.lon1, bboxObject.lon2]
+      : null;
+  const boundingBox = Array.isArray(rawBoundingBox) && rawBoundingBox.length === 4
+    ? [
+        toNumber(rawBoundingBox[0], NaN),
+        toNumber(rawBoundingBox[1], NaN),
+        toNumber(rawBoundingBox[2], NaN),
+        toNumber(rawBoundingBox[3], NaN),
+      ]
+    : null;
+  const locality =
+    properties.city ||
+    properties.town ||
+    properties.village ||
+    properties.hamlet ||
+    properties.municipality ||
+    properties.suburb ||
+    properties.quarter ||
+    properties.county ||
+    '';
+  const name =
+    locality ||
+    properties.name ||
+    properties.address_line1 ||
+    (typeof properties.formatted === 'string' ? properties.formatted.split(',')[0] : '') ||
+    '';
+  const addressType = String(
+    properties.result_type ||
+      properties.datasource?.sourcename ||
+      properties.category ||
+      properties.place_type ||
+      '',
+  ).toLowerCase();
+
+  return {
+    name: String(name || '').trim(),
+    lat,
+    lon,
+    boundingbox: boundingBox,
+    display_name: normalizeDisplayLabel(properties.formatted || properties.address_line1 || name),
+    addresstype: addressType,
+    class: addressType === 'administrative' ? 'boundary' : 'place',
+    type: addressType,
+    address: {
+      city: properties.city || '',
+      town: properties.town || '',
+      village: properties.village || '',
+      hamlet: properties.hamlet || '',
+      municipality: properties.municipality || '',
+      suburb: properties.suburb || '',
+      quarter: properties.quarter || '',
+      neighbourhood: properties.neighbourhood || '',
+      county: properties.county || '',
+      state: properties.state || '',
+      region: properties.region || '',
+      country: properties.country || '',
+    },
+  };
+}
+
+async function geocodePlaceWithNominatim(query) {
   const params = new URLSearchParams({
     q: query,
     format: 'jsonv2',
@@ -601,7 +839,69 @@ async function geocodePlace(query) {
   return results.find((entry) => !isRegionResult(entry)) || results[0];
 }
 
-async function geocodePlaceSuggestions(query, limit = 6) {
+async function geocodePlaceWithGeoapify(query) {
+  const cacheKey = getGeocodeCacheKey(query);
+  const cachedResult = readTimedCache(geocodeCache, cacheKey, GEOCODE_CACHE_TTL_MS);
+  if (cachedResult !== null) {
+    return cachedResult;
+  }
+
+  const params = new URLSearchParams({
+    text: query,
+    apiKey: GEOAPIFY_API_KEY,
+    limit: '5',
+  });
+  const response = await fetchJson(`${GEOAPIFY_GEOCODING_URL}/search?${params.toString()}`, {
+    timeoutMs: GEOAPIFY_TIMEOUT_MS,
+  });
+  const results = Array.isArray(response?.features)
+    ? response.features
+        .map(normalizeGeoapifyFeature)
+        .filter((entry) => entry && !Number.isNaN(entry.lat) && !Number.isNaN(entry.lon))
+    : [];
+
+  if (results.length === 0) {
+    writeTimedCache(geocodeCache, cacheKey, null, GEOCODE_CACHE_MAX_ENTRIES);
+    return null;
+  }
+
+  const normalizedQuery = normalizeText(query);
+  const directLocalityMatch = results.find((entry) => {
+    const address = entry && typeof entry.address === 'object' ? entry.address : {};
+    const labels = [
+      entry?.name,
+      address.city,
+      address.town,
+      address.village,
+      address.hamlet,
+      address.municipality,
+      address.suburb,
+      address.quarter,
+      address.neighbourhood,
+      typeof entry?.display_name === 'string' ? entry.display_name.split(',')[0] : '',
+    ];
+
+    return labels.some((label) => normalizeText(label) === normalizedQuery);
+  });
+
+  const finalResult = directLocalityMatch || results.find((entry) => !isRegionResult(entry)) || results[0];
+  writeTimedCache(geocodeCache, cacheKey, finalResult || null, GEOCODE_CACHE_MAX_ENTRIES);
+  return finalResult;
+}
+
+async function geocodePlace(query) {
+  if (GEOAPIFY_API_KEY) {
+    try {
+      return await geocodePlaceWithGeoapify(query);
+    } catch (error) {
+      console.warn(`[places] geoapify geocode failed for "${query}": ${error.message}`);
+    }
+  }
+
+  return geocodePlaceWithNominatim(query);
+}
+
+async function geocodePlaceSuggestionsWithNominatim(query, limit = 6) {
   const params = new URLSearchParams({
     q: query,
     format: 'jsonv2',
@@ -669,8 +969,85 @@ async function geocodePlaceSuggestions(query, limit = 6) {
     .slice(0, limit);
 }
 
+async function geocodePlaceSuggestionsWithGeoapify(query, limit = 6) {
+  const cacheKey = getPlaceSuggestionCacheKey(query, limit);
+  const cachedSuggestions = readTimedCache(placeSuggestionCache, cacheKey, PLACE_SUGGESTION_CACHE_TTL_MS);
+  if (cachedSuggestions !== null) {
+    return cachedSuggestions;
+  }
+
+  const params = new URLSearchParams({
+    text: query,
+    apiKey: GEOAPIFY_API_KEY,
+    limit: String(Math.max(3, Math.min(limit * 2, 10))),
+  });
+  const response = await fetchJson(`${GEOAPIFY_GEOCODING_URL}/autocomplete?${params.toString()}`, {
+    timeoutMs: GEOAPIFY_TIMEOUT_MS,
+  });
+  const suggestions = Array.isArray(response?.features)
+    ? response.features
+        .map((feature) => {
+          const normalized = normalizeGeoapifyFeature(feature);
+          if (!normalized || Number.isNaN(normalized.lat) || Number.isNaN(normalized.lon) || isRegionResult(normalized)) {
+            return null;
+          }
+
+          const address = normalized.address || {};
+          const locality =
+            address.city ||
+            address.town ||
+            address.village ||
+            address.hamlet ||
+            address.municipality ||
+            address.suburb ||
+            address.quarter ||
+            normalized.name;
+          const region = address.state || address.county || address.region || '';
+          const country = address.country || '';
+
+          return {
+            id: `geoapify-${feature?.properties?.place_id || `${normalized.lat},${normalized.lon}`}`,
+            name: String(normalized.name || locality || '').trim(),
+            locality: String(locality || '').trim(),
+            region: String(region || '').trim(),
+            country: String(country || '').trim(),
+            label: normalizeDisplayLabel(
+              feature?.properties?.formatted || [locality, region, country].filter(Boolean).join(', '),
+            ),
+            lat: normalized.lat,
+            lon: normalized.lon,
+            boundingBox: Array.isArray(normalized.boundingbox) ? normalized.boundingbox.join(',') : '',
+          };
+        })
+        .filter(
+          (entry) =>
+            entry &&
+            entry.name &&
+            entry.label &&
+            !Number.isNaN(entry.lat) &&
+            !Number.isNaN(entry.lon),
+        )
+        .slice(0, limit)
+    : [];
+
+  writeTimedCache(placeSuggestionCache, cacheKey, suggestions, PLACE_SUGGESTION_CACHE_MAX_ENTRIES);
+  return suggestions;
+}
+
+async function geocodePlaceSuggestions(query, limit = 6) {
+  if (GEOAPIFY_API_KEY) {
+    try {
+      return await geocodePlaceSuggestionsWithGeoapify(query, limit);
+    } catch (error) {
+      console.warn(`[places] geoapify suggest failed for "${query}": ${error.message}`);
+    }
+  }
+
+  return geocodePlaceSuggestionsWithNominatim(query, limit);
+}
+
 function buildOverpassQuery({ lat, lon, categories, limit, radius }) {
-  const rawLimit = Math.max(20, Math.min(limit * 8, 160));
+  const rawLimit = Math.max(24, Math.min(limit * 10, 180));
   const body = categories
     .map((category) => `nwr(around:${radius},${lat},${lon})["tourism"="${category}"];`)
     .join('\n');
@@ -699,61 +1076,38 @@ out center tags ${rawLimit};`;
 }
 
 async function fetchOverpassData(query) {
-  let lastError = null;
-  for (const endpoint of OVERPASS_ENDPOINTS) {
-    try {
-      return await fetchJson(endpoint, {
-        method: 'POST',
-        timeoutMs: OVERPASS_TIMEOUT_MS,
-        headers: {
-          'Content-Type': 'text/plain;charset=UTF-8',
-        },
-        body: query,
-      });
-    } catch (error) {
-      console.warn(`[places] overpass failed via ${endpoint}: ${error.message}`);
-      lastError = error;
-    }
-  }
+  const attempts = OVERPASS_ENDPOINTS.map((endpoint) =>
+    fetchJson(endpoint, {
+      method: 'POST',
+      timeoutMs: OVERPASS_TIMEOUT_MS,
+      headers: {
+        'Content-Type': 'text/plain;charset=UTF-8',
+      },
+      body: query,
+    }).catch((error) => {
+      throw {
+        endpoint,
+        message: error instanceof Error ? error.message : String(error || 'unknown_error'),
+      };
+    })
+  );
 
-  throw lastError || new Error('searchFailed');
+  try {
+    return await Promise.any(attempts);
+  } catch (error) {
+    const failures = Array.isArray(error?.errors) ? error.errors : [];
+    failures.forEach((failure) => {
+      console.warn(`[places] overpass failed via ${failure.endpoint}: ${failure.message}`);
+    });
+    throw new Error(failures[0]?.message || 'searchFailed');
+  }
 }
 
 async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox }) {
-  const radiusPlan = [4000, 10000, 20000];
+  const radiusPlan = [12000, 24000];
   const mergedElements = [];
   const seen = new Set();
   let lastError = null;
-
-  const cityBoundingBox = parseBoundingBox(boundingbox);
-  const boundingBoxArea = parseBoundingBoxArea(boundingbox);
-
-  if (cityBoundingBox && boundingBoxArea !== null && boundingBoxArea <= 0.08) {
-    try {
-      const boundingBoxData = await fetchOverpassData(
-        buildOverpassBoundingBoxQuery({
-          boundingBox: cityBoundingBox,
-          categories,
-          limit,
-        })
-      );
-
-      if (Array.isArray(boundingBoxData?.elements)) {
-        for (const element of boundingBoxData.elements) {
-          const key = `${element.type}-${element.id}`;
-          if (seen.has(key)) continue;
-          seen.add(key);
-          mergedElements.push(element);
-        }
-      }
-    } catch (error) {
-      lastError = error;
-    }
-
-    // Keep local city matches, but still expand to radius search afterwards.
-    // This avoids prematurely stopping at strict municipal borders when nearby
-    // places just outside the bounding box are still highly relevant.
-  }
 
   for (const radius of radiusPlan) {
     let radiusData = null;
@@ -783,7 +1137,7 @@ async function fetchOverpassPlaces({ lat, lon, categories, limit, boundingbox })
       mergedElements.push(element);
     }
 
-    if (mergedElements.length >= Math.max(limit * 3, 15)) {
+    if (mergedElements.length >= Math.max(limit * 3, 18)) {
       break;
     }
   }
@@ -864,10 +1218,6 @@ function calculateDistanceKm(lat1, lon1, lat2, lon2) {
   return earthRadiusKm * c;
 }
 
-function normalizeText(value) {
-  return String(value || '').trim().toLowerCase();
-}
-
 function scorePlaceResult(entry, searchContext) {
   const { lat, lon, query, categoryPriority, boundingBox } = searchContext;
   let score = 0;
@@ -883,11 +1233,11 @@ function scorePlaceResult(entry, searchContext) {
   if (normalizedName === normalizedQuery) score += 40;
   else if (normalizedName.includes(normalizedQuery) && normalizedQuery) score += 18;
 
-  if (normalizedLocality === normalizedQuery) score += 40;
-  else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 22;
+  if (normalizedLocality === normalizedQuery) score += 34;
+  else if (normalizedLocality.includes(normalizedQuery) && normalizedQuery) score += 18;
 
   if (normalizedAddress.includes(normalizedQuery) && normalizedQuery) score += 16;
-  if (isPointInsideBoundingBox(entry.lat, entry.lon, boundingBox)) score += 45;
+  if (isPointInsideBoundingBox(entry.lat, entry.lon, boundingBox)) score += 16;
   if (entry.address) score += 8;
   if (entry.locality) score += 10;
   if (entry.website) score += 6;
@@ -897,10 +1247,91 @@ function scorePlaceResult(entry, searchContext) {
   if (entry.hasShowers) score += 2;
   if (entry.hasDumpStation) score += 2;
 
-  score += Math.max(0, 28 - Math.min(distanceKm * 1.5, 28));
+  score += Math.max(0, 36 - Math.min(distanceKm * 1.2, 36));
+  if (distanceKm <= 12) score += 10;
+  else if (distanceKm <= 20) score += 4;
   score += Math.max(0, 10 - categoryPriority.indexOf(entry.category));
 
   return score;
+}
+
+function mergePreferredNearbyResults(entries, limit, searchContext) {
+  const topEntries = entries.slice(0, limit);
+  const selectedIds = new Set(topEntries.map((entry) => entry.id));
+
+  const nearbyOutskirts = entries
+    .filter((entry) => !selectedIds.has(entry.id))
+    .filter((entry) => calculateDistanceKm(searchContext.lat, searchContext.lon, entry.lat, entry.lon) <= 12)
+    .filter((entry) => !isPointInsideBoundingBox(entry.lat, entry.lon, searchContext.boundingBox))
+    .filter((entry) => !isUnnamedPlace(entry.name));
+
+  if (nearbyOutskirts.length === 0) {
+    return topEntries;
+  }
+
+  const requiredNearby = Math.min(2, nearbyOutskirts.length);
+  const preservedHead = topEntries.slice(0, Math.max(0, limit - requiredNearby));
+  const merged = [...preservedHead, ...nearbyOutskirts.slice(0, requiredNearby)];
+  const deduped = [];
+  const seen = new Set();
+
+  for (const entry of merged) {
+    if (seen.has(entry.id)) continue;
+    seen.add(entry.id);
+    deduped.push(entry);
+  }
+
+  for (const entry of topEntries) {
+    if (deduped.length >= limit) break;
+    if (seen.has(entry.id)) continue;
+    seen.add(entry.id);
+    deduped.push(entry);
+  }
+
+  return deduped.slice(0, limit);
+}
+
+function searchPlacesInLocalIndex({ query, categories, limit, lat, lon, boundingBox }) {
+  const entries = getPlaceIndexEntries();
+  if (entries.length === 0) {
+    return [];
+  }
+
+  const normalizedQuery = normalizeText(query);
+  const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
+  const candidates = entries.filter((entry) => {
+    if (!categoryPriority.includes(entry.category)) {
+      return false;
+    }
+
+    const distanceKm = calculateDistanceKm(lat, lon, entry.lat, entry.lon);
+    const normalizedName = normalizeText(entry.name);
+    const normalizedLocality = normalizeText(entry.locality);
+    const normalizedAddress = normalizeText(entry.address);
+    const matchesText =
+      Boolean(normalizedQuery) &&
+      (normalizedName.includes(normalizedQuery) ||
+        normalizedLocality.includes(normalizedQuery) ||
+        normalizedAddress.includes(normalizedQuery));
+
+    if (distanceKm <= 45) {
+      return true;
+    }
+
+    return matchesText;
+  });
+
+  const sortedResults = candidates.sort((left, right) => {
+    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
+    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
+    return rightScore - leftScore;
+  });
+
+  const namedResults = sortedResults.filter((entry) => !isUnnamedPlace(entry.name));
+  const unnamedResults = sortedResults.filter((entry) => isUnnamedPlace(entry.name));
+  const orderedResults = [...namedResults, ...unnamedResults];
+
+  return mergePreferredNearbyResults(orderedResults, limit, { lat, lon, boundingBox });
 }
 
 function toPlaceResult(element) {
@@ -938,7 +1369,7 @@ function toPlaceResult(element) {
 }
 
 async function searchPlaces(query, categories, limit, locationOverride = null) {
-  const cacheKey = getPlaceSearchCacheKey(query, categories, limit);
+  const cacheKey = getPlaceSearchCacheKey(query, categories, limit, locationOverride);
   const cachedResult = readPlaceSearchCache(cacheKey);
   if (cachedResult) return cachedResult;
 
@@ -964,6 +1395,21 @@ async function searchPlaces(query, categories, limit, locationOverride = null) {
 
   if (Number.isNaN(lat) || Number.isNaN(lon)) return { results: [] };
 
+  const localIndexResults = searchPlacesInLocalIndex({
+    query,
+    categories,
+    limit,
+    lat,
+    lon,
+    boundingBox,
+  });
+
+  if (localIndexResults.length >= Math.min(limit, 4)) {
+    const result = { results: localIndexResults };
+    writePlaceSearchCache(cacheKey, result);
+    return result;
+  }
+
   let overpassData;
   try {
     overpassData = await fetchOverpassPlaces({
@@ -975,6 +1421,14 @@ async function searchPlaces(query, categories, limit, locationOverride = null) {
     });
   } catch (error) {
     if (String(error?.message || '').startsWith('upstream_')) {
+      if (localIndexResults.length > 0) {
+        console.warn(
+          `[places] upstream failure for "${query}" (${error.message}); returning ${localIndexResults.length} local index result(s)`
+        );
+        const partialResult = { results: localIndexResults };
+        writePlaceSearchCache(cacheKey, partialResult);
+        return partialResult;
+      }
       console.warn(`[places] returning empty results for "${query}" after upstream failure: ${error.message}`);
       return { results: [] };
     }
@@ -1005,12 +1459,31 @@ async function searchPlaces(query, categories, limit, locationOverride = null) {
 
   const namedResults = sortedResults.filter((entry) => !isUnnamedPlace(entry.name));
   const unnamedResults = sortedResults.filter((entry) => isUnnamedPlace(entry.name));
-  const results = [...namedResults, ...unnamedResults].slice(0, limit);
+  const orderedResults = [...namedResults, ...unnamedResults];
+  let results = mergePreferredNearbyResults(orderedResults, limit, { lat, lon, boundingBox });
+
+  if (localIndexResults.length > 0) {
+    const mergedResults = [...localIndexResults, ...results];
+    const deduped = [];
+    const seenResultIds = new Set();
+
+    for (const entry of mergedResults) {
+      if (seenResultIds.has(entry.id)) continue;
+      seenResultIds.add(entry.id);
+      deduped.push(entry);
+    }
+
+    const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
+    const reSorted = deduped.sort((left, right) => {
+      const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
+      const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
+      return rightScore - leftScore;
+    });
+    results = mergePreferredNearbyResults(reSorted, limit, { lat, lon, boundingBox });
+  }
 
   const result = { results };
-  if (results.length > 0) {
-    writePlaceSearchCache(cacheKey, result);
-  }
+  writePlaceSearchCache(cacheKey, result);
   return result;
 }
 
@@ -1162,7 +1635,15 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, HOST, () => {
   ensureJsonFile(COUNTER_PATH, createCounterDefaults());
   ensureJsonFile(FEEDBACK_PATH, { feedback: [] });
+  loadPlaceIndexFromDisk();
   console.log(`Server läuft auf http://${HOST}:${PORT}`);
   console.log(`Dist: ${DIST_DIR}`);
   console.log(`Data: ${DATA_DIR}`);
+  if (placeIndexState.entries.length > 0) {
+    console.log(`Place index: ${placeIndexState.entries.length} Einträge aus ${placeIndexState.path}`);
+  } else if (placeIndexState.error) {
+    console.warn(`Place index konnte nicht geladen werden (${placeIndexState.path}): ${placeIndexState.error}`);
+  } else {
+    console.log(`Place index: nicht vorhanden (${placeIndexState.path}), Overpass-Fallback aktiv`);
+  }
 });

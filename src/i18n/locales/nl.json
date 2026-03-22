@@ -833,6 +833,11 @@
         "loading": "Plaatsen worden opgezocht ...",
         "selected": "Geselecteerde plaats: {{place}}"
       },
+      "map": {
+        "title": "Resultaten op de kaart",
+        "help": "Klik op markers om plaatsdetails te openen en sneller te zien hoe de treffers rond je bestemming liggen.",
+        "issueLink": "Kaartprobleem melden bij OpenStreetMap"
+      },
       "searchButton": "Plaatsen zoeken",
       "loading": "Zoeken ...",
       "results": "{{count}} passende plaatsen gevonden",
@@ -1311,7 +1316,7 @@
       },
       "places": {
         "title": "Plaatszoeker & OSM-data",
-        "description": "Als je de plaatszoeker op de startpagina of in de routeplanner gebruikt, worden je zoekterm en technisch noodzakelijke verbindingsgegevens server-side doorgestuurd naar openbare Nominatim- en Overpass-diensten op basis van OpenStreetMap om plaatsen en passende campings en camperplaatsen te vinden. We gebruiken deze zoekopdrachten alleen om je zoekopdracht direct te beantwoorden en bewaren daarbij geen permanente zoekgeschiedenis aan onze kant."
+        "description": "Als je de plaatszoeker op de startpagina of in de routeplanner gebruikt, worden je zoekterm en technisch noodzakelijke verbindingsgegevens server-side doorgestuurd naar Geoapify of, als fallback, naar openbare Nominatim- en Overpass-diensten op basis van OpenStreetMap om plaatsen en passende campings en camperplaatsen te vinden. We gebruiken deze zoekopdrachten alleen om je zoekopdracht direct te beantwoorden en bewaren daarbij geen permanente zoekgeschiedenis aan onze kant. Als je ook de kaartweergave opent, laadt je browser kaarttegels van de geconfigureerde kaartaanbieder, die daarbij technisch noodzakelijke verbindingsgegevens zoals je IP-adres ontvangt."
       },
       "feedback": {
         "title": "Feedback na generatie",
@@ -1451,10 +1456,10 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "plannerPanel": "De promptgenerator heeft nu een eigen, sterkere volledige pagina in plaats van een inschuivend paneel.",
-        "placeFinder": "Camping- en stellplaatszoekers draaien nu als aparte zoekpagina’s met een schonere mobiele navigatie.",
-        "savedPlans": "Gevonden plaatsen uit de losse zoekers kunnen nu direct als bestemming of tussenstop naar de promptgenerator worden overgenomen.",
-        "exampleRoute": "Je generatorconcept blijft in hetzelfde browsertabblad bewaard wanneer je wisselt tussen promptgenerator en plaatszoeker."
+        "plannerPanel": "Camping- en stellplaatszoekers tonen resultaten nu direct op een kaart met gekoppelde lijst en plaatsdetails.",
+        "placeFinder": "Plaats-autocomplete loopt nu via Geoapify en geeft veel stabielere suggesties dan de oude Nominatim-route.",
+        "savedPlans": "Een lokale plaatsindex kan veelgebruikte regio’s vooraf laden en de zoektocht merkbaar versnellen.",
+        "exampleRoute": "Er staan nu Europa-regiobestanden en een robuustere refresh-workflow klaar om de lokale snelle index op te bouwen."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

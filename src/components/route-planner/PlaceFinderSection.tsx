@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 import { BusFront, Caravan, ExternalLink, MapPin, Phone, Plus, Search, ShowerHead, Toilet, X, Zap } from "lucide-react";
 import { useLocation } from "react-router-dom";
+
+import { PlaceFinderMap } from "@/components/route-planner/PlaceFinderMap";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -88,6 +90,12 @@ export function PlaceFinderSection({
   useEffect(() => {
     setSelectedCategories(initialCategories?.length ? initialCategories : ["camp_site", "caravan_site"]);
   }, [initialCategoriesKey]);
+
+  useEffect(() => {
+    if (selectedPlace && !results.some((entry) => entry.id === selectedPlace.id)) {
+      setSelectedPlace(null);
+    }
+  }, [results, selectedPlace]);
 
   const stageActions = useMemo(() => {
     if (standalone || !onChange) {
@@ -443,6 +451,11 @@ export function PlaceFinderSection({
     );
   };
 
+  const mappedResults = useMemo(
+    () => results.filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lon)),
+    [results],
+  );
+
   return (
     <div className="w-full min-w-0 space-y-4 text-left sm:space-y-5">
       <div className={panelClass}>
@@ -556,10 +569,17 @@ export function PlaceFinderSection({
               const active = selectedCategories.includes(category);
               const Icon = categoryIconMap[category];
               return (
-                <button
+                <div
                   key={category}
-                  type="button"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => toggleCategory(category)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      toggleCategory(category);
+                    }
+                  }}
                   className={`flex w-full min-w-0 flex-col items-stretch gap-3 rounded-[1.35rem] border px-4 py-3 text-left transition sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
                     standalone
                       ? active
@@ -590,7 +610,7 @@ export function PlaceFinderSection({
                     aria-label={t(`planner.placeFinder.categories.${category}`)}
                     onClick={(event) => event.stopPropagation()}
                   />
-                </button>
+                </div>
               );
             })}
           </div>
@@ -621,9 +641,17 @@ export function PlaceFinderSection({
               {t("planner.placeFinder.results", { count: results.length })}
             </div>
 
+            <PlaceFinderMap
+              places={mappedResults}
+              selectedPlace={selectedPlace}
+              onSelectPlace={setSelectedPlace}
+              standalone={standalone}
+            />
+
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
               {results.map((place) => {
                 const Icon = categoryIconMap[place.category];
+                const isSelected = selectedPlace?.id === place.id;
 
                 return (
                   <button
@@ -632,8 +660,12 @@ export function PlaceFinderSection({
                     onClick={() => setSelectedPlace(place)}
                     className={`group overflow-hidden rounded-[1.5rem] text-left transition ${
                       standalone
-                        ? "border border-border/70 bg-background/90 hover:border-primary/30 hover:bg-muted/50 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
-                        : "border border-white/10 bg-white/[0.04] hover:border-primary/30 hover:bg-white/[0.06]"
+                        ? isSelected
+                          ? "border border-primary/40 bg-primary/[0.06] shadow-[0_18px_34px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
+                          : "border border-border/70 bg-background/90 hover:border-primary/30 hover:bg-muted/50 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
+                        : isSelected
+                          ? "border border-primary/40 bg-primary/[0.10] shadow-[0_18px_34px_rgba(255,138,0,0.14)]"
+                          : "border border-white/10 bg-white/[0.04] hover:border-primary/30 hover:bg-white/[0.06]"
                     }`}
                   >
                     <div className="space-y-3 p-4">

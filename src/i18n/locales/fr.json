@@ -833,6 +833,11 @@
         "loading": "Recherche de lieux ...",
         "selected": "Lieu sélectionné : {{place}}"
       },
+      "map": {
+        "title": "Résultats sur la carte",
+        "help": "Cliquez sur un marqueur pour ouvrir les détails du lieu et mieux situer les résultats autour de votre destination.",
+        "issueLink": "Signaler un problème cartographique à OpenStreetMap"
+      },
       "searchButton": "Rechercher",
       "loading": "Recherche en cours ...",
       "results": "{{count}} lieux correspondants trouvés",
@@ -1291,7 +1296,7 @@
       },
       "places": {
         "title": "Recherche d’emplacements & données OSM",
-        "description": "Si vous utilisez le chercheur d’emplacements sur la page d’accueil ou dans le planificateur d’itinéraire, votre recherche ainsi que les données techniques de connexion nécessaires sont transmises côté serveur à des services publics Nominatim et Overpass basés sur OpenStreetMap afin de trouver des lieux ainsi que des campings et aires correspondants. Nous utilisons ces recherches uniquement pour répondre directement à votre demande et ne conservons pas chez nous d’historique de recherche permanent."
+        "description": "Si vous utilisez le chercheur d’emplacements sur la page d’accueil ou dans le planificateur d’itinéraire, votre recherche ainsi que les données techniques de connexion nécessaires sont transmises côté serveur à Geoapify ou, en solution de secours, à des services publics Nominatim et Overpass basés sur OpenStreetMap afin de trouver des lieux ainsi que des campings et aires correspondants. Nous utilisons ces recherches uniquement pour répondre directement à votre demande et ne conservons pas chez nous d’historique de recherche permanent. Si vous ouvrez la vue carte, votre navigateur charge aussi des tuiles cartographiques auprès du fournisseur configuré, qui reçoit alors des données techniques nécessaires comme votre adresse IP."
       },
       "feedback": {
         "title": "Retour après génération",
@@ -1451,10 +1456,10 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "plannerPanel": "Le générateur de prompt dispose maintenant de sa propre page complète, bien plus forte qu’un panneau coulissant.",
-        "placeFinder": "Le chercheur de campings et le chercheur d’aires disposent désormais de pages dédiées avec une navigation mobile plus propre.",
-        "savedPlans": "Les lieux trouvés dans les chercheurs autonomes peuvent maintenant être repris directement dans le générateur de prompt comme destination ou étape.",
-        "exampleRoute": "Ton brouillon du générateur reste conservé dans le même onglet quand tu passes du générateur au chercheur d’emplacements."
+        "plannerPanel": "Les chercheurs de campings et d’aires affichent maintenant les résultats directement sur une carte reliée à la liste et aux détails.",
+        "placeFinder": "L’autocomplétion des lieux passe désormais par Geoapify et fournit des suggestions bien plus stables que l’ancien chemin Nominatim.",
+        "savedPlans": "Un index local des emplacements peut précharger les régions souvent utilisées et accélérer nettement la recherche.",
+        "exampleRoute": "Des fichiers de régions pour l’Europe et un workflow de rafraîchissement plus robuste sont prêts pour construire l’index rapide local."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

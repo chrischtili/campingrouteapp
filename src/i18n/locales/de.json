@@ -832,6 +832,11 @@
         "loading": "Ort wird vorgeschlagen ...",
         "selected": "Ausgewählter Ort: {{place}}"
       },
+      "map": {
+        "title": "Treffer auf der Karte",
+        "help": "Marker anklicken, um Platzdetails zu öffnen und Lage sowie Entfernung der Treffer besser einzuordnen.",
+        "issueLink": "Kartenfehler bei OpenStreetMap melden"
+      },
       "searchButton": "Plätze suchen",
       "loading": "Suche läuft ...",
       "results": "{{count}} passende Plätze gefunden",
@@ -1290,7 +1295,7 @@
       },
       "places": {
         "title": "Platzsuche & OSM-Daten",
-        "description": "Wenn du den Platzfinder auf der Startseite bzw. im Routenplaner nutzt, werden dein Suchbegriff und technisch notwendige Verbindungsdaten serverseitig an öffentliche Nominatim- und Overpass-Dienste auf Basis von OpenStreetMap weitergeleitet, um Orte sowie passende Camping- und Stellplätze zu ermitteln. Wir verwenden diese Suchanfragen nur zur direkten Beantwortung deiner Suche und legen dabei keinen dauerhaften Suchverlauf bei uns an."
+        "description": "Wenn du den Platzfinder auf der Startseite bzw. im Routenplaner nutzt, werden dein Suchbegriff und technisch notwendige Verbindungsdaten serverseitig an Geoapify bzw. als Fallback an öffentliche Nominatim- und Overpass-Dienste auf Basis von OpenStreetMap weitergeleitet, um Orte sowie passende Camping- und Stellplätze zu ermitteln. Wir verwenden diese Suchanfragen nur zur direkten Beantwortung deiner Suche und legen dabei keinen dauerhaften Suchverlauf bei uns an. Wenn du zusätzlich die Kartenansicht nutzt, lädt dein Browser Kartenkacheln vom jeweils konfigurierten Kartenanbieter; dabei erhält dieser technisch notwendige Verbindungsdaten wie deine IP-Adresse."
       },
       "feedback": {
         "title": "Feedback nach Generierung",
@@ -1451,10 +1456,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "plannerPanel": "Der Prompt-Generator hat jetzt eine eigene, deutlich stärkere Vollseite statt eines eingeschobenen Panels.",
-        "placeFinder": "Campingplatz-Finder und Stellplatz-Finder laufen jetzt als eigenständige Suchseiten mit sauberer Mobile-Führung.",
-        "savedPlans": "Gefundene Plätze lassen sich aus den Solo-Findern direkt als Ziel oder Zwischenziel in den Prompt-Generator übernehmen.",
-        "exampleRoute": "Dein Generator-Entwurf bleibt im selben Browser-Tab erhalten, wenn du zwischen Prompt-Generator und Platzfinder wechselst."
+        "plannerPanel": "Campingplatz- und Stellplatz-Finder zeigen Treffer jetzt direkt auf einer Karte mit verknüpfter Liste und Platzdetails.",
+        "placeFinder": "Die Ortssuche läuft jetzt über Geoapify und liefert deutlich stabilere Vorschläge als der alte Nominatim-Weg.",
+        "savedPlans": "Ein lokaler Place-Index kann häufig gesuchte Regionen vorab bereitstellen und die Platzsuche spürbar beschleunigen.",
+        "exampleRoute": "Für Europa stehen vorbereitete Regionsdateien und ein robusterer Refresh-Workflow zum Aufbau des lokalen Schnellindex bereit."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

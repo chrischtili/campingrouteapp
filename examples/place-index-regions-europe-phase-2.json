@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Frankreich Suedwest",
+    "bbox": [42.2, -1.9, 47.2, 3.5]
+  },
+  {
+    "name": "Frankreich Suedost",
+    "bbox": [42.3, 3.0, 46.8, 8.4]
+  },
+  {
+    "name": "Alpenraum West",
+    "bbox": [45.3, 5.5, 48.8, 10.8]
+  },
+  {
+    "name": "Alpenraum Ost",
+    "bbox": [45.2, 9.8, 48.9, 17.3]
+  },
+  {
+    "name": "Norditalien",
+    "bbox": [44.0, 6.4, 46.9, 13.8]
+  },
+  {
+    "name": "Mittelitalien",
+    "bbox": [41.4, 9.0, 44.7, 15.0]
+  }
+]

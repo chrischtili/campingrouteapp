@@ -7,7 +7,7 @@ StartLimitIntervalSec=0
 Type=simple
 User=root
 WorkingDirectory=/home/kopi/route-planner-pro
-ExecStart=/usr/bin/node /home/kopi/route-planner-pro/server/index.js
+ExecStart=/usr/bin/node /home/kopi/route-planner-pro/server/index.cjs
 Restart=always
 RestartSec=5
 StandardOutput=journal
@@ -15,6 +15,10 @@ StandardError=journal
 Environment=NODE_ENV=production
 Environment=PORT=3001
 Environment=HOST=0.0.0.0
+Environment=GEOAPIFY_API_KEY=replace_me
+Environment=PLACE_INDEX_PATH=/home/kopi/route-planner-pro/place-index.json
+# Optional but recommended for production builds with Geoapify map tiles:
+# Environment=VITE_GEOAPIFY_MAPS_API_KEY=replace_me
 
 # Prevent systemd from considering the service as failed if it exits with success
 SuccessExitStatus=0

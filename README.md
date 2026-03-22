@@ -1,6 +1,6 @@
 # Camping Route
 
-[![Version](https://img.shields.io/badge/version-v0.5.2-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.3-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -8,7 +8,7 @@ Camping Route ist ein mehrsprachiger KI-Prompt-Generator fuer Camping- und Roadt
 
 Live: [https://campingroute.app](https://campingroute.app)
 
-## Highlights (v0.5.2)
+## Highlights (v0.5.3)
 
 - Eigenstaendige Landingpages fuer `Prompt-Generator`, `Campingplatz-Finder` und `Stellplatz-Finder`
 - Deutlich staerkere Mobile-Nutzung ohne die frueheren Slide-in-Panels
@@ -63,7 +63,16 @@ npm run dev
 Optional den lokalen Server separat starten:
 
 ```bash
+cp .env.example .env
+# GEOAPIFY_API_KEY in .env setzen
 npm run server
+```
+
+Optional fuer die Kartenansicht in der Browser-App:
+
+```bash
+# Empfohlen fuer Produktion, damit die Trefferkarte nicht auf den OSM-Tile-Fallback angewiesen ist
+VITE_GEOAPIFY_MAPS_API_KEY=dein_geoapify_key
 ```
 
 Build:
@@ -71,6 +80,74 @@ Build:
 ```bash
 npm run build
 ```
+
+## Umgebungsvariablen
+
+- `GEOAPIFY_API_KEY`: Empfohlen. Wird serverseitig fuer Ortsvorschlaege und Geocoding verwendet.
+- `VITE_GEOAPIFY_MAPS_API_KEY`: Optional, aber fuer Produktion empfohlen. Wird clientseitig fuer Geoapify-Kartenkacheln verwendet.
+- `PLACE_INDEX_PATH`: Optional. Pfad zu einer lokalen `place-index.json` mit vorindizierten Camping- und Stellplatzdaten.
+- `VITE_MAP_TILE_URL_TEMPLATE`: Optionales Override fuer einen anderen Tile-Provider.
+- `VITE_MAP_TILE_ATTRIBUTION`: Optionales HTML-Attribution-Override passend zum Tile-Provider.
+
+Ohne `GEOAPIFY_API_KEY` faellt die Ortssuche serverseitig weiterhin auf Nominatim zurueck. Ohne `VITE_GEOAPIFY_MAPS_API_KEY` nutzt die Kartenansicht im Browser standardmaessig `tile.openstreetmap.org`, was fuer Entwicklung okay ist, aber fuer produktiven Betrieb nur als kleiner Fallback gedacht sein sollte.
+
+## Eigener Place-Index
+
+Der Server kann einen lokalen, vorindizierten Camping-/Stellplatz-Bestand bevorzugt durchsuchen und nur noch bei fehlenden Treffern auf Overpass zurueckfallen.
+
+Standardpfad:
+
+```bash
+./place-index.json
+```
+
+Oder explizit per Environment:
+
+```bash
+PLACE_INDEX_PATH=/home/kopi/route-planner-pro/place-index.json
+```
+
+Unterstuetzte Eingabeformate fuer den Importer:
+
+- Overpass JSON (`elements`)
+- GeoJSON `FeatureCollection`
+- bereits normalisierte Entry-Arrays
+
+Beispiel:
+
+```bash
+npm run build:place-index -- data/raw-campsites.json place-index.json
+```
+
+Oder direkt aus definierten Bounding Boxes neu ziehen:
+
+```bash
+npm run refresh:place-index -- --bbox=53.94,10.99,54.04,11.23 place-index.json
+```
+
+Oder ueber eine Regionsdatei:
+
+```bash
+npm run refresh:place-index -- --bbox-file=examples/place-index-regions.example.json place-index.json
+```
+
+Fuer einen ersten europaweiten Kernbestand liegt ausserdem eine groessere Beispielkonfiguration bereit:
+
+```bash
+npm run refresh:place-index -- --bbox-file=examples/place-index-regions-europe-core.json place-index.json
+```
+
+Praktischer fuer lokale Builds ist Europa in Etappen:
+
+```bash
+npm run refresh:place-index -- \
+  --bbox-file=examples/place-index-regions-europe-phase-1.json \
+  --bbox-file=examples/place-index-regions-europe-phase-2.json \
+  --bbox-file=examples/place-index-regions-europe-phase-3.json \
+  place-index.json
+```
+
+Beim Serverstart wird die Datei automatisch geladen. Wenn kein lokaler Index vorhanden ist, bleibt der Overpass-Fallback aktiv.
 
 ## Release-Workflow
 
@@ -89,4 +166,4 @@ MIT - siehe [LICENSE](LICENSE)
 
 ## English Summary
 
-Camping Route is a multilingual AI prompt generator for camping and road-trip planning. It helps users create structured prompts for tools like ChatGPT or Claude, including route stages, campsite and motorhome stopover search, and GPX export instructions. Version `0.5.2` adds dedicated landing pages for the prompt generator plus campsite and stopover finders, smoother mobile flows without the old slide-in panels, handoff from solo finder results into the prompt generator, and a consistent visible release state across navbar, footer, and the what's-new popup.
+Camping Route is a multilingual AI prompt generator for camping and road-trip planning. It helps users create structured prompts for tools like ChatGPT or Claude, including route stages, campsite and motorhome stopover search, and GPX export instructions. Version `0.5.3` adds an integrated finder map, Geoapify-powered place suggestions, a local fast-search place index, and prepared region files for a broader Europe rollout.

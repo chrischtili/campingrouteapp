@@ -25,6 +25,14 @@ dist-ssr
 
 # Ignore counter file (not pushed to GitHub)
 counter.json
+place-index.json
+place-index-*.json
+!examples/place-index-*.json
+
+# Local environment files
+.env
+.env.*
+!.env.example
 
 # Ignore custom server files (production configuration)
 server/*

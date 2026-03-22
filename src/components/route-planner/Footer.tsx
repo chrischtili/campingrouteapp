@@ -8,7 +8,7 @@ import { getFinderNavLabels } from "@/lib/finderPageContent";
 export function Footer() {
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.2");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.3");
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   
   useEffect(() => {

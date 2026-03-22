@@ -833,6 +833,11 @@
         "loading": "Looking up places ...",
         "selected": "Selected place: {{place}}"
       },
+      "map": {
+        "title": "Results on the map",
+        "help": "Click markers to open place details and understand the location spread of the results more quickly.",
+        "issueLink": "Report map issues to OpenStreetMap"
+      },
       "searchButton": "Search places",
       "loading": "Searching ...",
       "results": "{{count}} matching places found",
@@ -1291,7 +1296,7 @@
       },
       "places": {
         "title": "Place search & OSM data",
-        "description": "If you use the place finder on the home page or inside the route planner, your search term and technically necessary connection data are forwarded server-side to public Nominatim and Overpass services based on OpenStreetMap in order to find places as well as matching campsites and stopovers. We use these search requests only to answer your search directly and do not keep a permanent search history on our side."
+        "description": "If you use the place finder on the home page or inside the route planner, your search term and technically necessary connection data are forwarded server-side to Geoapify or, as a fallback, to public Nominatim and Overpass services based on OpenStreetMap in order to find places as well as matching campsites and stopovers. We use these search requests only to answer your search directly and do not keep a permanent search history on our side. If you open the map view, your browser also loads map tiles from the configured map provider, which receives technically necessary connection data such as your IP address."
       },
       "feedback": {
         "title": "Feedback after generation",
@@ -1452,10 +1457,10 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "plannerPanel": "The prompt generator now has its own stronger full page instead of a slide-in panel.",
-        "placeFinder": "Campsite finder and stopover finder now run as dedicated search pages with cleaner mobile navigation.",
-        "savedPlans": "Places found in the standalone finders can now be sent straight into the prompt generator as destination or stopover.",
-        "exampleRoute": "Your generator draft now stays in place inside the same browser tab when you switch between prompt generator and place finder."
+        "plannerPanel": "Campsite and stopover finders now show results directly on a map with linked list and place details.",
+        "placeFinder": "Place autocomplete now runs through Geoapify and gives much steadier suggestions than the old Nominatim path.",
+        "savedPlans": "A local place index can prefill frequently used regions and noticeably speed up campsite and stopover search.",
+        "exampleRoute": "Prepared Europe region files and a tougher refresh workflow now help build the local fast-search index."
       },
       "dismiss": "Got it",
       "release": "View release"

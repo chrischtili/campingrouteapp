@@ -769,6 +769,17 @@ function hasLocalityAddress(result) {
   ].some((key) => typeof address[key] === 'string' && address[key].trim());
 }
 
+function isPostalCodeResult(result) {
+  const addressType = String(result?.addresstype || '').toLowerCase();
+  const type = String(result?.type || '').toLowerCase();
+  return addressType === 'postcode' || type === 'postcode';
+}
+
+function isLocalitySuggestionResult(result) {
+  const addressType = String(result?.addresstype || '').toLowerCase();
+  return CITYLIKE_ADDRESS_TYPES.has(addressType) || hasLocalityAddress(result);
+}
+
 function isRegionResult(result) {
   const addressType = String(result?.addresstype || '').toLowerCase();
   const type = String(result?.type || '').toLowerCase();
@@ -825,7 +836,7 @@ function normalizeGeoapifyFeature(feature) {
   const lat = toNumber(properties.lat, toNumber(coordinates[1], NaN));
   const bboxObject = properties && typeof properties.bbox === 'object' ? properties.bbox : null;
   const rawBoundingBox = Array.isArray(feature?.bbox)
-    ? feature.bbox
+    ? [feature.bbox[1], feature.bbox[3], feature.bbox[0], feature.bbox[2]]
     : bboxObject
       ? [bboxObject.lat1, bboxObject.lat2, bboxObject.lon1, bboxObject.lon2]
       : null;
@@ -968,7 +979,11 @@ async function geocodePlaceWithGeoapify(query) {
     return labels.some((label) => normalizeText(label) === normalizedQuery);
   });
 
-  const finalResult = directLocalityMatch || results.find((entry) => !isRegionResult(entry)) || results[0];
+  const finalResult =
+    directLocalityMatch ||
+    results.find((entry) => !isPostalCodeResult(entry) && isLocalitySuggestionResult(entry) && !isRegionResult(entry)) ||
+    results.find((entry) => !isPostalCodeResult(entry) && !isRegionResult(entry)) ||
+    results[0];
   writeTimedCache(geocodeCache, cacheKey, finalResult || null, GEOCODE_CACHE_MAX_ENTRIES);
   return finalResult;
 }
@@ -997,7 +1012,7 @@ async function geocodePlaceSuggestionsWithNominatim(query, limit = 6) {
   });
   if (!Array.isArray(results) || results.length === 0) return [];
 
-  const filteredResults = results.filter((entry) => !isRegionResult(entry));
+  const filteredResults = results.filter((entry) => !isPostalCodeResult(entry) && !isRegionResult(entry));
   const shortlist = filteredResults.length > 0 ? filteredResults : results;
   const seen = new Set();
 
@@ -1072,7 +1087,14 @@ async function geocodePlaceSuggestionsWithGeoapify(query, limit = 6) {
     ? response.features
         .map((feature) => {
           const normalized = normalizeGeoapifyFeature(feature);
-          if (!normalized || Number.isNaN(normalized.lat) || Number.isNaN(normalized.lon) || isRegionResult(normalized)) {
+          if (
+            !normalized ||
+            Number.isNaN(normalized.lat) ||
+            Number.isNaN(normalized.lon) ||
+            isRegionResult(normalized) ||
+            isPostalCodeResult(normalized) ||
+            !isLocalitySuggestionResult(normalized)
+          ) {
             return null;
           }
 

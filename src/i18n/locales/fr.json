@@ -829,6 +829,7 @@
       "clearSearch": "Effacer le champ de recherche",
       "osmAttributionPrefix": "Les données des emplacements reposent sur",
       "osmAttributionSuffix": "les contributeurs OpenStreetMap",
+      "osmLicenseLabel": "Licence : ODbL",
       "suggestions": {
         "loading": "Recherche de lieux ...",
         "selected": "Lieu sélectionné : {{place}}"

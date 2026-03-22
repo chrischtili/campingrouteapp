@@ -829,6 +829,7 @@
       "clearSearch": "Zoekveld wissen",
       "osmAttributionPrefix": "Plaatsgegevens zijn gebaseerd op",
       "osmAttributionSuffix": "OpenStreetMap-bijdragers",
+      "osmLicenseLabel": "Licentie: ODbL",
       "suggestions": {
         "loading": "Plaatsen worden opgezocht ...",
         "selected": "Geselecteerde plaats: {{place}}"

@@ -40,6 +40,7 @@ export function PlaceFinderMap({
   const mapRef = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
+  const lastBoundsKeyRef = useRef<string>("");
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) {
@@ -90,6 +91,9 @@ export function PlaceFinderMap({
     const bounds = L.latLngBounds(
       visiblePlaces.map((place) => [place.lat, place.lon] as [number, number]),
     );
+    const boundsKey = visiblePlaces
+      .map((place) => `${place.id}:${place.lat.toFixed(5)}:${place.lon.toFixed(5)}`)
+      .join("|");
 
     visiblePlaces.forEach((place) => {
       const isSelected = selectedPlace?.id === place.id;
@@ -112,14 +116,14 @@ export function PlaceFinderMap({
 
     invalidateMapSize(map);
 
-    if (selectedPlace && hasCoordinates(selectedPlace)) {
-      const nextZoom = Math.max(map.getZoom(), 13);
-      map.flyTo([selectedPlace.lat, selectedPlace.lon], nextZoom, {
-        animate: true,
-        duration: 0.45,
-      });
+    // Keep the selected marker highlighted, but do not move the map when a user
+    // opens place details from the list. Repositioning is only useful when the
+    // actual result set changes.
+    if (lastBoundsKeyRef.current === boundsKey) {
       return;
     }
+
+    lastBoundsKeyRef.current = boundsKey;
 
     map.fitBounds(bounds, {
       maxZoom: 13,

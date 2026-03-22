@@ -544,6 +544,15 @@ export function PlaceFinderSection({
                 OpenStreetMap
               </a>
               {" "}© {t("planner.placeFinder.osmAttributionSuffix")}
+              {" "}·{" "}
+              <a
+                href="https://opendatacommons.org/licenses/odbl/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-primary/90 hover:text-primary"
+              >
+                {t("planner.placeFinder.osmLicenseLabel")}
+              </a>
             </p>
             {selectedSuggestion && (
               <p className="text-xs font-medium text-primary/90">

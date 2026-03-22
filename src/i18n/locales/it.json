@@ -829,6 +829,7 @@
       "clearSearch": "Cancella campo di ricerca",
       "osmAttributionPrefix": "I dati delle aree si basano su",
       "osmAttributionSuffix": "i contributori di OpenStreetMap",
+      "osmLicenseLabel": "Licenza: ODbL",
       "suggestions": {
         "loading": "Sto cercando i luoghi ...",
         "selected": "Luogo selezionato: {{place}}"

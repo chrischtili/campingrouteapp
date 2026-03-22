@@ -829,6 +829,7 @@
       "clearSearch": "Clear search field",
       "osmAttributionPrefix": "Place data is based on",
       "osmAttributionSuffix": "OpenStreetMap contributors",
+      "osmLicenseLabel": "License: ODbL",
       "suggestions": {
         "loading": "Looking up places ...",
         "selected": "Selected place: {{place}}"

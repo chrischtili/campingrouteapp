@@ -828,6 +828,7 @@
       "clearSearch": "Suchfeld leeren",
       "osmAttributionPrefix": "Platzdaten basieren auf",
       "osmAttributionSuffix": "OpenStreetMap-Mitwirkende",
+      "osmLicenseLabel": "Lizenz: ODbL",
       "suggestions": {
         "loading": "Ort wird vorgeschlagen ...",
         "selected": "Ausgewählter Ort: {{place}}"

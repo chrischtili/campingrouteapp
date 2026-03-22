@@ -1016,6 +1016,24 @@ async function geocodePlaceWithGeoapify(query) {
 }
 
 async function geocodePlace(query) {
+  const localAnchor = findLocalPlaceAnchor(query);
+  if (localAnchor) {
+    return {
+      name: localAnchor.name,
+      lat: localAnchor.lat,
+      lon: localAnchor.lon,
+      boundingbox: localAnchor.boundingBox.split(',').map((value) => toNumber(value, NaN)),
+      display_name: localAnchor.label,
+      addresstype: 'municipality',
+      class: 'place',
+      type: 'municipality',
+      address: {
+        city: localAnchor.locality,
+        country: localAnchor.country,
+      },
+    };
+  }
+
   if (GEOAPIFY_API_KEY) {
     try {
       return await geocodePlaceWithGeoapify(query);
@@ -1171,15 +1189,35 @@ async function geocodePlaceSuggestionsWithGeoapify(query, limit = 6) {
 }
 
 async function geocodePlaceSuggestions(query, limit = 6) {
+  const localSuggestions = searchLocalPlaceSuggestions(query, limit);
+
   if (GEOAPIFY_API_KEY) {
     try {
-      return await geocodePlaceSuggestionsWithGeoapify(query, limit);
+      const upstreamSuggestions = await geocodePlaceSuggestionsWithGeoapify(query, limit);
+      const seen = new Set();
+      return [...localSuggestions, ...upstreamSuggestions]
+        .filter((entry) => {
+          const key = `${normalizeText(entry.locality || entry.name)}|${normalizeText(entry.country)}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .slice(0, limit);
     } catch (error) {
       console.warn(`[places] geoapify suggest failed for "${query}": ${error.message}`);
     }
   }
 
-  return geocodePlaceSuggestionsWithNominatim(query, limit);
+  const nominatimSuggestions = await geocodePlaceSuggestionsWithNominatim(query, limit);
+  const seen = new Set();
+  return [...localSuggestions, ...nominatimSuggestions]
+    .filter((entry) => {
+      const key = `${normalizeText(entry.locality || entry.name)}|${normalizeText(entry.country)}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, limit);
 }
 
 function buildOverpassQuery({ lat, lon, categories, limit, radius }) {
@@ -1506,6 +1544,134 @@ function normalizeDatabasePlaceRow(row) {
     imageAttribution: String(row?.image_attribution || row?.imageAttribution || '').trim(),
     sourceUrl: String(row?.source_url || row?.sourceUrl || '').trim(),
   };
+}
+
+function buildLocalPlaceSuggestionBuckets(entries, query, limit = 6) {
+  if (!Array.isArray(entries) || entries.length === 0) return [];
+
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery) return [];
+
+  const bucketMap = new Map();
+
+  for (const entry of entries) {
+    const locality = String(entry?.locality || '').trim();
+    const name = String(entry?.name || '').trim();
+    const address = String(entry?.address || '').trim();
+    const country = String(entry?.country || '').trim();
+
+    const normalizedLocality = normalizeText(locality);
+    const normalizedName = normalizeText(name);
+    const normalizedAddress = normalizeText(address);
+
+    if (
+      !normalizedLocality.includes(normalizedQuery) &&
+      !normalizedName.includes(normalizedQuery) &&
+      !normalizedAddress.includes(normalizedQuery)
+    ) {
+      continue;
+    }
+
+    const bucketLabel = locality || name;
+    if (!bucketLabel) continue;
+
+    const key = `${normalizeText(bucketLabel)}|${normalizeText(country)}`;
+    const bucket = bucketMap.get(key) || {
+      key,
+      name: locality || name,
+      locality: locality || name,
+      region: '',
+      country,
+      entries: [],
+      exactLocalityMatch: false,
+      exactNameMatch: false,
+      prefixMatch: false,
+    };
+
+    bucket.entries.push(entry);
+    if (normalizedLocality === normalizedQuery) bucket.exactLocalityMatch = true;
+    if (normalizedName === normalizedQuery) bucket.exactNameMatch = true;
+    if (
+      normalizedLocality.startsWith(normalizedQuery) ||
+      normalizedName.startsWith(normalizedQuery) ||
+      normalizedAddress.startsWith(normalizedQuery)
+    ) {
+      bucket.prefixMatch = true;
+    }
+
+    bucketMap.set(key, bucket);
+  }
+
+  return [...bucketMap.values()]
+    .map((bucket) => {
+      const lat =
+        bucket.entries.reduce((sum, entry) => sum + Number(entry.lat || 0), 0) / Math.max(bucket.entries.length, 1);
+      const lon =
+        bucket.entries.reduce((sum, entry) => sum + Number(entry.lon || 0), 0) / Math.max(bucket.entries.length, 1);
+      const radiusKm = Math.max(6, Math.min(18, 4 + bucket.entries.length * 1.5));
+      const boundingBox = calculateBoundingBoxForRadiusKm(lat, lon, radiusKm);
+
+      return {
+        id: `local-${bucket.key}`,
+        name: bucket.name,
+        locality: bucket.locality,
+        region: bucket.region,
+        country: bucket.country,
+        label: normalizeDisplayLabel([bucket.locality, bucket.region, bucket.country].filter(Boolean).join(', ')),
+        lat,
+        lon,
+        boundingBox: [boundingBox.south, boundingBox.north, boundingBox.west, boundingBox.east].join(','),
+        entryCount: bucket.entries.length,
+        exactLocalityMatch: bucket.exactLocalityMatch,
+        exactNameMatch: bucket.exactNameMatch,
+        prefixMatch: bucket.prefixMatch,
+      };
+    })
+    .sort((left, right) => {
+      const leftScore =
+        (left.exactLocalityMatch ? 100 : 0) +
+        (left.exactNameMatch ? 80 : 0) +
+        (left.prefixMatch ? 20 : 0) +
+        Math.min(left.entryCount, 20);
+      const rightScore =
+        (right.exactLocalityMatch ? 100 : 0) +
+        (right.exactNameMatch ? 80 : 0) +
+        (right.prefixMatch ? 20 : 0) +
+        Math.min(right.entryCount, 20);
+      return rightScore - leftScore;
+    })
+    .slice(0, limit);
+}
+
+function searchLocalPlaceSuggestions(query, limit = 6) {
+  const cappedLimit = Math.max(1, Math.min(limit, 8));
+
+  if (ensurePlaceDatabaseReady()) {
+    const likeQuery = sqliteString(`%${normalizeText(query)}%`);
+    const sql = `
+SELECT id, name, category, lat, lon, locality, country, address
+FROM places
+WHERE lower(locality) LIKE ${likeQuery}
+   OR lower(name) LIKE ${likeQuery}
+   OR lower(address) LIKE ${likeQuery}
+LIMIT ${Math.max(cappedLimit * 20, 80)};
+`.trim();
+    const rows = runSqliteJsonQuery(sql).map(normalizeDatabasePlaceRow).filter(Boolean);
+    const suggestions = buildLocalPlaceSuggestionBuckets(rows, query, cappedLimit);
+    if (suggestions.length > 0) return suggestions;
+  }
+
+  return buildLocalPlaceSuggestionBuckets(getPlaceIndexEntries(), query, cappedLimit);
+}
+
+function findLocalPlaceAnchor(query) {
+  const suggestions = searchLocalPlaceSuggestions(query, 6);
+  const normalizedQuery = normalizeText(query);
+  return (
+    suggestions.find((entry) => normalizeText(entry.locality) === normalizedQuery) ||
+    suggestions.find((entry) => normalizeText(entry.name) === normalizedQuery) ||
+    null
+  );
 }
 
 function searchPlacesInLocalDatabase({ query, categories, limit, lat, lon, boundingBox }) {

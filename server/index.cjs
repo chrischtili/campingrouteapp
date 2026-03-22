@@ -1657,13 +1657,27 @@ function searchLocalPlaceSuggestions(query, limit = 6) {
   const cappedLimit = Math.max(1, Math.min(limit, 8));
 
   if (ensurePlaceDatabaseReady()) {
-    const likeQuery = sqliteString(`%${normalizeText(query)}%`);
+    const normalizedQuery = normalizeText(query);
+    const likeQuery = sqliteString(`%${normalizedQuery}%`);
+    const prefixQuery = sqliteString(`${normalizedQuery}%`);
+    const exactQuery = sqliteString(normalizedQuery);
     const sql = `
 SELECT id, name, category, lat, lon, locality, country, address
 FROM places
 WHERE lower(locality) LIKE ${likeQuery}
    OR lower(name) LIKE ${likeQuery}
    OR lower(address) LIKE ${likeQuery}
+ORDER BY
+  CASE
+    WHEN lower(locality) = ${exactQuery} THEN 0
+    WHEN lower(name) = ${exactQuery} THEN 1
+    WHEN lower(locality) LIKE ${prefixQuery} THEN 2
+    WHEN lower(name) LIKE ${prefixQuery} THEN 3
+    WHEN lower(address) LIKE ${prefixQuery} THEN 4
+    ELSE 5
+  END,
+  locality ASC,
+  name ASC
 LIMIT ${Math.max(cappedLimit * 20, 80)};
 `.trim();
     const rows = runSqliteJsonQuery(sql).map(normalizeDatabasePlaceRow).filter(Boolean);
@@ -1735,10 +1749,12 @@ SELECT
   has_dump_station,
   image_url,
   image_attribution,
-  source_url
+  source_url,
+  ((lat - ${lat}) * (lat - ${lat}) + (lon - ${lon}) * (lon - ${lon})) AS approx_distance
 FROM places
 WHERE ${whereClauses.join(' AND ')}
-LIMIT ${Math.max(limit * 8, 80)};
+ORDER BY approx_distance ASC
+LIMIT ${Math.max(limit * 20, 200)};
 `.trim();
 
   const rows = runSqliteJsonQuery(sql);

@@ -134,6 +134,40 @@ npm run build:place-db -- place-index.json places.sqlite
 
 Wenn `PLACE_DATABASE_PATH` auf eine vorhandene SQLite-Datei zeigt, nutzt der Server diese Datenbank bevorzugt fuer die lokale Schnellsuche.
 
+## OSM-Extracts statt Overpass
+
+Fuer groessere Regionen ist ein lokaler Import aus `.osm.pbf`-Extrakten (zum Beispiel von Geofabrik) fairer und stabiler als ein grosser Overpass-Refresh.
+
+Voraussetzungen:
+
+- `osmium` bzw. `osmium-tool` installiert
+- eine oder mehrere `.osm.pbf`-Dateien lokal verfuegbar
+
+Beispiel:
+
+```bash
+npm run import:places -- \
+  /home/kopi/osm-data/germany-latest.osm.pbf \
+  --index-out=place-index.json \
+  --db-out=places.sqlite
+```
+
+Der Importer filtert aktuell:
+
+- `tourism=camp_site`
+- `tourism=caravan_site`
+
+und schreibt daraus optional:
+
+- `place-index.json`
+- `places.sqlite`
+
+Empfohlener Ablauf fuer den Server:
+
+1. OSM-Extrakt(e) laden
+2. `npm run import:places -- ... --db-out=places.sqlite`
+3. `sudo systemctl restart campingroute-counter`
+
 Oder direkt aus definierten Bounding Boxes neu ziehen:
 
 ```bash

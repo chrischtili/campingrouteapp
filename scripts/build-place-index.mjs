@@ -72,6 +72,40 @@ function geometryToPoint(feature) {
     };
   }
 
+  const coordinates = [];
+  const collectCoordinates = (value) => {
+    if (!Array.isArray(value)) return;
+    if (value.length >= 2 && typeof value[0] === "number" && typeof value[1] === "number") {
+      coordinates.push([toNumber(value[0], NaN), toNumber(value[1], NaN)]);
+      return;
+    }
+    value.forEach(collectCoordinates);
+  };
+
+  collectCoordinates(geometry.coordinates);
+
+  if (coordinates.length > 0) {
+    let minLon = Number.POSITIVE_INFINITY;
+    let maxLon = Number.NEGATIVE_INFINITY;
+    let minLat = Number.POSITIVE_INFINITY;
+    let maxLat = Number.NEGATIVE_INFINITY;
+
+    for (const [lon, lat] of coordinates) {
+      if (Number.isNaN(lon) || Number.isNaN(lat)) continue;
+      minLon = Math.min(minLon, lon);
+      maxLon = Math.max(maxLon, lon);
+      minLat = Math.min(minLat, lat);
+      maxLat = Math.max(maxLat, lat);
+    }
+
+    if ([minLon, maxLon, minLat, maxLat].every((value) => Number.isFinite(value))) {
+      return {
+        lon: (minLon + maxLon) / 2,
+        lat: (minLat + maxLat) / 2,
+      };
+    }
+  }
+
   return {
     lon: toNumber(feature?.properties?.lon),
     lat: toNumber(feature?.properties?.lat),

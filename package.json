@@ -9,6 +9,7 @@
     "build": "vite build && node scripts/write-version.mjs",
     "build:dev": "vite build --mode development && node scripts/write-version.mjs",
     "build:place-index": "node scripts/build-place-index.mjs",
+    "build:place-db": "node scripts/build-place-database.mjs",
     "refresh:place-index": "node scripts/refresh-place-index.mjs",
     "lint": "eslint .",
     "preview": "vite preview",

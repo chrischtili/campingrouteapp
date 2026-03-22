@@ -16,6 +16,7 @@ Environment=NODE_ENV=production
 Environment=PORT=3001
 Environment=HOST=0.0.0.0
 Environment=GEOAPIFY_API_KEY=replace_me
+Environment=PLACE_DATABASE_PATH=/home/kopi/route-planner-pro/places.sqlite
 Environment=PLACE_INDEX_PATH=/home/kopi/route-planner-pro/place-index.json
 # Optional but recommended for production builds with Geoapify map tiles:
 # Environment=VITE_GEOAPIFY_MAPS_API_KEY=replace_me

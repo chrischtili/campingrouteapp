@@ -84,6 +84,7 @@ npm run build
 ## Umgebungsvariablen
 
 - `GEOAPIFY_API_KEY`: Empfohlen. Wird serverseitig fuer Ortsvorschlaege und Geocoding verwendet.
+- `PLACE_DATABASE_PATH`: Optional. Pfad zu einer lokalen `places.sqlite`, die bei der Suche bevorzugt vor dem JSON-Index und Overpass verwendet wird.
 - `VITE_GEOAPIFY_MAPS_API_KEY`: Optional, aber fuer Produktion empfohlen. Wird clientseitig fuer Geoapify-Kartenkacheln verwendet.
 - `PLACE_INDEX_PATH`: Optional. Pfad zu einer lokalen `place-index.json` mit vorindizierten Camping- und Stellplatzdaten.
 - `VITE_MAP_TILE_URL_TEMPLATE`: Optionales Override fuer einen anderen Tile-Provider.
@@ -94,6 +95,12 @@ Ohne `GEOAPIFY_API_KEY` faellt die Ortssuche serverseitig weiterhin auf Nominati
 ## Eigener Place-Index
 
 Der Server kann einen lokalen, vorindizierten Camping-/Stellplatz-Bestand bevorzugt durchsuchen und nur noch bei fehlenden Treffern auf Overpass zurueckfallen.
+
+Empfohlene Phase-A-Variante:
+
+- `places.sqlite` als primaere lokale Suchdatenbank
+- `place-index.json` weiterhin als einfacher Fallback und Austauschformat
+- `Overpass` nur noch fuer Ergaenzung oder Notfall
 
 Standardpfad:
 
@@ -118,6 +125,14 @@ Beispiel:
 ```bash
 npm run build:place-index -- data/raw-campsites.json place-index.json
 ```
+
+Aus einem vorhandenen JSON-/GeoJSON-Bestand laesst sich auch direkt eine SQLite-Datenbank bauen:
+
+```bash
+npm run build:place-db -- place-index.json places.sqlite
+```
+
+Wenn `PLACE_DATABASE_PATH` auf eine vorhandene SQLite-Datei zeigt, nutzt der Server diese Datenbank bevorzugt fuer die lokale Schnellsuche.
 
 Oder direkt aus definierten Bounding Boxes neu ziehen:
 

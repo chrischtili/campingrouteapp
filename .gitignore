@@ -28,6 +28,10 @@ counter.json
 place-index.json
 place-index-*.json
 !examples/place-index-*.json
+places.sqlite
+places-*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 # Local environment files
 .env

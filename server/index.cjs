@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const { URL } = require('url');
 
 function loadDotEnvFile(filePath) {
@@ -42,6 +43,7 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..');
 const COUNTER_PATH = path.join(DATA_DIR, 'counter.json');
 const FEEDBACK_PATH = path.join(DATA_DIR, 'feedback.json');
 const PLACE_INDEX_PATH = process.env.PLACE_INDEX_PATH || path.join(DATA_DIR, 'place-index.json');
+const PLACE_DATABASE_PATH = process.env.PLACE_DATABASE_PATH || path.join(DATA_DIR, 'places.sqlite');
 const ADMIN_USER = process.env.ADMIN_USER || 'kopi';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'sugjax-jobnez-8meXdy';
 const GEOAPIFY_API_KEY = String(process.env.GEOAPIFY_API_KEY || '').trim();
@@ -113,6 +115,13 @@ const placeSuggestionCache = new Map();
 let placeIndexState = {
   path: PLACE_INDEX_PATH,
   entries: [],
+  loadedAt: null,
+  error: null,
+};
+let placeDatabaseState = {
+  path: PLACE_DATABASE_PATH,
+  available: false,
+  entryCount: 0,
   loadedAt: null,
   error: null,
 };
@@ -363,6 +372,81 @@ function loadPlaceIndexFromDisk() {
 
 function getPlaceIndexEntries() {
   return Array.isArray(placeIndexState.entries) ? placeIndexState.entries : [];
+}
+
+function sqliteString(value) {
+  return `'${String(value || '').replace(/'/g, "''")}'`;
+}
+
+function ensurePlaceDatabaseReady() {
+  if (!placeDatabaseState.available || !fs.existsSync(PLACE_DATABASE_PATH)) {
+    return false;
+  }
+  return true;
+}
+
+function runSqliteJsonQuery(sql) {
+  if (!ensurePlaceDatabaseReady()) {
+    return [];
+  }
+
+  try {
+    const output = execFileSync('sqlite3', ['-json', PLACE_DATABASE_PATH, sql], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+      maxBuffer: 8 * 1024 * 1024,
+    }).trim();
+
+    if (!output) {
+      return [];
+    }
+
+    const rows = JSON.parse(output);
+    return Array.isArray(rows) ? rows : [];
+  } catch (error) {
+    console.warn(`[places] sqlite query failed (${PLACE_DATABASE_PATH}): ${error instanceof Error ? error.message : String(error)}`);
+    return [];
+  }
+}
+
+function loadPlaceDatabaseFromDisk() {
+  if (!fs.existsSync(PLACE_DATABASE_PATH)) {
+    placeDatabaseState = {
+      path: PLACE_DATABASE_PATH,
+      available: false,
+      entryCount: 0,
+      loadedAt: null,
+      error: null,
+    };
+    return;
+  }
+
+  try {
+    const result = execFileSync('sqlite3', ['-json', PLACE_DATABASE_PATH, 'SELECT COUNT(*) AS entryCount FROM places;'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+      maxBuffer: 1024 * 1024,
+    }).trim();
+
+    const rows = result ? JSON.parse(result) : [];
+    const entryCount = Number(rows?.[0]?.entryCount || 0);
+
+    placeDatabaseState = {
+      path: PLACE_DATABASE_PATH,
+      available: entryCount > 0,
+      entryCount,
+      loadedAt: new Date().toISOString(),
+      error: null,
+    };
+  } catch (error) {
+    placeDatabaseState = {
+      path: PLACE_DATABASE_PATH,
+      available: false,
+      entryCount: 0,
+      loadedAt: null,
+      error: error instanceof Error ? error.message : 'unknown_error',
+    };
+  }
 }
 
 function getClientIp(req) {
@@ -1218,6 +1302,20 @@ function calculateDistanceKm(lat1, lon1, lat2, lon2) {
   return earthRadiusKm * c;
 }
 
+function calculateBoundingBoxForRadiusKm(lat, lon, radiusKm) {
+  const latDelta = radiusKm / 111.32;
+  const cosLat = Math.cos(toRadians(lat));
+  const safeCosLat = Math.abs(cosLat) < 0.1 ? 0.1 : cosLat;
+  const lonDelta = radiusKm / (111.32 * Math.abs(safeCosLat));
+
+  return {
+    south: lat - latDelta,
+    north: lat + latDelta,
+    west: lon - lonDelta,
+    east: lon + lonDelta,
+  };
+}
+
 function scorePlaceResult(entry, searchContext) {
   const { lat, lon, query, categoryPriority, boundingBox } = searchContext;
   let score = 0;
@@ -1289,6 +1387,107 @@ function mergePreferredNearbyResults(entries, limit, searchContext) {
   }
 
   return deduped.slice(0, limit);
+}
+
+function normalizeDatabasePlaceRow(row) {
+  const category = String(row?.category || '').trim();
+  const lat = toNumber(row?.lat, NaN);
+  const lon = toNumber(row?.lon, NaN);
+
+  if (!ALLOWED_PLACE_CATEGORIES.has(category) || Number.isNaN(lat) || Number.isNaN(lon)) {
+    return null;
+  }
+
+  return {
+    id: String(row?.id || `${category}-${lat},${lon}`),
+    name: String(row?.name || 'Unbenannter Platz').trim() || 'Unbenannter Platz',
+    category,
+    lat,
+    lon,
+    locality: String(row?.locality || '').trim(),
+    country: String(row?.country || '').trim(),
+    address: String(row?.address || '').trim(),
+    website: String(row?.website || '').trim(),
+    phone: String(row?.phone || '').trim(),
+    openingHours: String(row?.opening_hours || row?.openingHours || '').trim(),
+    fee: String(row?.fee || '').trim(),
+    description: String(row?.description || '').trim(),
+    hasToilets: Number(row?.has_toilets || 0) === 1,
+    hasShowers: Number(row?.has_showers || 0) === 1,
+    hasPowerSupply: Number(row?.has_power_supply || 0) === 1,
+    hasDumpStation: Number(row?.has_dump_station || 0) === 1,
+    imageUrl: String(row?.image_url || row?.imageUrl || '').trim(),
+    imageAttribution: String(row?.image_attribution || row?.imageAttribution || '').trim(),
+    sourceUrl: String(row?.source_url || row?.sourceUrl || '').trim(),
+  };
+}
+
+function searchPlacesInLocalDatabase({ query, categories, limit, lat, lon, boundingBox }) {
+  if (!ensurePlaceDatabaseReady()) {
+    return [];
+  }
+
+  const normalizedQuery = normalizeText(query);
+  const radiusBox = calculateBoundingBoxForRadiusKm(lat, lon, 45);
+  const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
+  const categorySql = categoryPriority.map((category) => sqliteString(category)).join(', ');
+  const textFilters = normalizedQuery
+    ? [
+        `name_normalized LIKE ${sqliteString(`%${normalizedQuery}%`)}`,
+        `locality_normalized LIKE ${sqliteString(`%${normalizedQuery}%`)}`,
+        `address_normalized LIKE ${sqliteString(`%${normalizedQuery}%`)}`,
+      ].join(' OR ')
+    : '';
+
+  const whereClauses = [
+    `category IN (${categorySql})`,
+    `((lat BETWEEN ${radiusBox.south} AND ${radiusBox.north} AND lon BETWEEN ${radiusBox.west} AND ${radiusBox.east})${
+      textFilters ? ` OR (${textFilters})` : ''
+    })`,
+  ];
+
+  const sql = `
+SELECT
+  id,
+  name,
+  category,
+  lat,
+  lon,
+  locality,
+  country,
+  address,
+  website,
+  phone,
+  opening_hours,
+  fee,
+  description,
+  has_toilets,
+  has_showers,
+  has_power_supply,
+  has_dump_station,
+  image_url,
+  image_attribution,
+  source_url
+FROM places
+WHERE ${whereClauses.join(' AND ')}
+LIMIT ${Math.max(limit * 8, 80)};
+`.trim();
+
+  const rows = runSqliteJsonQuery(sql);
+  const normalizedRows = rows.map(normalizeDatabasePlaceRow).filter(Boolean);
+  if (normalizedRows.length === 0) {
+    return [];
+  }
+
+  const sortedResults = normalizedRows.sort((left, right) => {
+    const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
+    const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
+    return rightScore - leftScore;
+  });
+
+  const namedResults = sortedResults.filter((entry) => !isUnnamedPlace(entry.name));
+  const unnamedResults = sortedResults.filter((entry) => isUnnamedPlace(entry.name));
+  return mergePreferredNearbyResults([...namedResults, ...unnamedResults], limit, { lat, lon, boundingBox });
 }
 
 function searchPlacesInLocalIndex({ query, categories, limit, lat, lon, boundingBox }) {
@@ -1395,7 +1594,7 @@ async function searchPlaces(query, categories, limit, locationOverride = null) {
 
   if (Number.isNaN(lat) || Number.isNaN(lon)) return { results: [] };
 
-  const localIndexResults = searchPlacesInLocalIndex({
+  const localDatabaseResults = searchPlacesInLocalDatabase({
     query,
     categories,
     limit,
@@ -1403,6 +1602,17 @@ async function searchPlaces(query, categories, limit, locationOverride = null) {
     lon,
     boundingBox,
   });
+
+  const localIndexResults = localDatabaseResults.length > 0
+    ? localDatabaseResults
+    : searchPlacesInLocalIndex({
+      query,
+      categories,
+      limit,
+      lat,
+      lon,
+      boundingBox,
+    });
 
   if (localIndexResults.length >= Math.min(limit, 4)) {
     const result = { results: localIndexResults };
@@ -1635,10 +1845,18 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, HOST, () => {
   ensureJsonFile(COUNTER_PATH, createCounterDefaults());
   ensureJsonFile(FEEDBACK_PATH, { feedback: [] });
+  loadPlaceDatabaseFromDisk();
   loadPlaceIndexFromDisk();
   console.log(`Server läuft auf http://${HOST}:${PORT}`);
   console.log(`Dist: ${DIST_DIR}`);
   console.log(`Data: ${DATA_DIR}`);
+  if (placeDatabaseState.available) {
+    console.log(`Place database: ${placeDatabaseState.entryCount} Einträge aus ${placeDatabaseState.path}`);
+  } else if (placeDatabaseState.error) {
+    console.warn(`Place database konnte nicht geladen werden (${placeDatabaseState.path}): ${placeDatabaseState.error}`);
+  } else {
+    console.log(`Place database: nicht vorhanden (${placeDatabaseState.path}), JSON-/Overpass-Fallback aktiv`);
+  }
   if (placeIndexState.entries.length > 0) {
     console.log(`Place index: ${placeIndexState.entries.length} Einträge aus ${placeIndexState.path}`);
   } else if (placeIndexState.error) {

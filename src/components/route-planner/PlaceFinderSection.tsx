@@ -40,38 +40,6 @@ const categoryIconMap = {
   caravan_site: BusFront,
 } satisfies Record<PlaceCategory, typeof Caravan>;
 
-function normalizeSuggestionText(value: string) {
-  return value.trim().toLowerCase();
-}
-
-function pickBestSuggestion(query: string, suggestions: PlaceSuggestion[]) {
-  if (!Array.isArray(suggestions) || suggestions.length === 0) {
-    return null;
-  }
-
-  const normalizedQuery = normalizeSuggestionText(query);
-  if (!normalizedQuery) {
-    return null;
-  }
-
-  const exactMatch =
-    suggestions.find((suggestion) => normalizeSuggestionText(suggestion.label) === normalizedQuery) ||
-    suggestions.find((suggestion) => normalizeSuggestionText(suggestion.name) === normalizedQuery) ||
-    suggestions.find((suggestion) => normalizeSuggestionText(suggestion.locality) === normalizedQuery);
-
-  if (exactMatch) {
-    return exactMatch;
-  }
-
-  const prefixMatch = suggestions.find((suggestion) =>
-    [suggestion.name, suggestion.locality, suggestion.label].some((value) =>
-      normalizeSuggestionText(value).startsWith(normalizedQuery),
-    ),
-  );
-
-  return prefixMatch || null;
-}
-
 export function PlaceFinderSection({
   formData = initialFormData,
   onChange,
@@ -281,14 +249,10 @@ export function PlaceFinderSection({
     setHasSearched(true);
 
     try {
-      const effectiveSuggestion = selectedSuggestion || pickBestSuggestion(query, suggestions);
-      if (effectiveSuggestion && !selectedSuggestion) {
-        setSelectedSuggestion(effectiveSuggestion);
-      }
       const nextResults = await searchPlaces({
         query,
         categories: selectedCategories,
-        suggestion: effectiveSuggestion || undefined,
+        suggestion: selectedSuggestion || undefined,
       });
       setResults(nextResults);
       void trackPlaceFinderUsage(standalone ? "place_search_solo" : "place_search", {

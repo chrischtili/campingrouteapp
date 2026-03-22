@@ -1017,29 +1017,39 @@ async function geocodePlaceWithGeoapify(query) {
 
 async function geocodePlace(query) {
   const localAnchor = findLocalPlaceAnchor(query);
-  if (localAnchor) {
-    return {
-      name: localAnchor.name,
-      lat: localAnchor.lat,
-      lon: localAnchor.lon,
-      boundingbox: localAnchor.boundingBox.split(',').map((value) => toNumber(value, NaN)),
-      display_name: localAnchor.label,
-      addresstype: 'municipality',
-      class: 'place',
-      type: 'municipality',
-      address: {
-        city: localAnchor.locality,
-        country: localAnchor.country,
-      },
-    };
-  }
 
   if (GEOAPIFY_API_KEY) {
     try {
-      return await geocodePlaceWithGeoapify(query);
+      const geoapifyResult = await geocodePlaceWithGeoapify(query);
+      if (geoapifyResult && localAnchor) {
+        const hasStrongMatch = hasStrongPlaceTextMatch(geoapifyResult, query) || isLocalitySuggestionResult(geoapifyResult);
+        const distanceToLocalAnchor = calculateDistanceKm(
+          localAnchor.lat,
+          localAnchor.lon,
+          toNumber(geoapifyResult.lat, NaN),
+          toNumber(geoapifyResult.lon, NaN),
+        );
+
+        if (
+          isPostalCodeResult(geoapifyResult) ||
+          isRegionResult(geoapifyResult) ||
+          !hasStrongMatch ||
+          (!Number.isNaN(distanceToLocalAnchor) && distanceToLocalAnchor > 40)
+        ) {
+          return toGeocodeResultFromLocalAnchor(localAnchor);
+        }
+      }
+
+      if (geoapifyResult) {
+        return geoapifyResult;
+      }
     } catch (error) {
       console.warn(`[places] geoapify geocode failed for "${query}": ${error.message}`);
     }
+  }
+
+  if (localAnchor) {
+    return toGeocodeResultFromLocalAnchor(localAnchor);
   }
 
   return geocodePlaceWithNominatim(query);
@@ -1195,7 +1205,7 @@ async function geocodePlaceSuggestions(query, limit = 6) {
     try {
       const upstreamSuggestions = await geocodePlaceSuggestionsWithGeoapify(query, limit);
       const seen = new Set();
-      return [...localSuggestions, ...upstreamSuggestions]
+      return [...upstreamSuggestions, ...localSuggestions]
         .filter((entry) => {
           const key = `${normalizeText(entry.locality || entry.name)}|${normalizeText(entry.country)}`;
           if (seen.has(key)) return false;
@@ -1672,6 +1682,23 @@ function findLocalPlaceAnchor(query) {
     suggestions.find((entry) => normalizeText(entry.name) === normalizedQuery) ||
     null
   );
+}
+
+function toGeocodeResultFromLocalAnchor(localAnchor) {
+  return {
+    name: localAnchor.name,
+    lat: localAnchor.lat,
+    lon: localAnchor.lon,
+    boundingbox: localAnchor.boundingBox.split(',').map((value) => toNumber(value, NaN)),
+    display_name: localAnchor.label,
+    addresstype: 'municipality',
+    class: 'place',
+    type: 'municipality',
+    address: {
+      city: localAnchor.locality,
+      country: localAnchor.country,
+    },
+  };
 }
 
 function searchPlacesInLocalDatabase({ query, categories, limit, lat, lon, boundingBox }) {

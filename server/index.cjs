@@ -73,10 +73,12 @@ const CITYLIKE_ADDRESS_TYPES = new Set([
   'village',
   'hamlet',
   'municipality',
+  'locality',
+  'borough',
+  'city_district',
   'suburb',
   'quarter',
-  'neighbourhood',
-  'postcode'
+  'neighbourhood'
 ]);
 const REGION_ADDRESS_TYPES = new Set([
   'state',
@@ -780,6 +782,30 @@ function isLocalitySuggestionResult(result) {
   return CITYLIKE_ADDRESS_TYPES.has(addressType) || hasLocalityAddress(result);
 }
 
+function hasStrongPlaceTextMatch(result, query) {
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery) return false;
+
+  const address = result && typeof result.address === 'object' ? result.address : {};
+  const labels = [
+    result?.name,
+    address.city,
+    address.town,
+    address.village,
+    address.hamlet,
+    address.municipality,
+    address.suburb,
+    address.quarter,
+    address.neighbourhood,
+    result?.display_name,
+  ];
+
+  return labels.some((label) => {
+    const normalizedLabel = normalizeText(label);
+    return normalizedLabel === normalizedQuery || normalizedLabel.startsWith(`${normalizedQuery} `);
+  });
+}
+
 function isRegionResult(result) {
   const addressType = String(result?.addresstype || '').toLowerCase();
   const type = String(result?.type || '').toLowerCase();
@@ -981,6 +1007,7 @@ async function geocodePlaceWithGeoapify(query) {
 
   const finalResult =
     directLocalityMatch ||
+    results.find((entry) => !isPostalCodeResult(entry) && !isRegionResult(entry) && hasStrongPlaceTextMatch(entry, query)) ||
     results.find((entry) => !isPostalCodeResult(entry) && isLocalitySuggestionResult(entry) && !isRegionResult(entry)) ||
     results.find((entry) => !isPostalCodeResult(entry) && !isRegionResult(entry)) ||
     results[0];
@@ -1092,9 +1119,12 @@ async function geocodePlaceSuggestionsWithGeoapify(query, limit = 6) {
             Number.isNaN(normalized.lat) ||
             Number.isNaN(normalized.lon) ||
             isRegionResult(normalized) ||
-            isPostalCodeResult(normalized) ||
-            !isLocalitySuggestionResult(normalized)
+            isPostalCodeResult(normalized)
           ) {
+            return null;
+          }
+
+          if (!isLocalitySuggestionResult(normalized) && !hasStrongPlaceTextMatch(normalized, query)) {
             return null;
           }
 

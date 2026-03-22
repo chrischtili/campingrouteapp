@@ -69,7 +69,7 @@ function pickBestSuggestion(query: string, suggestions: PlaceSuggestion[]) {
     ),
   );
 
-  return prefixMatch || suggestions[0];
+  return prefixMatch || null;
 }
 
 export function PlaceFinderSection({

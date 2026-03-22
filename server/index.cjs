@@ -1316,6 +1316,37 @@ function calculateBoundingBoxForRadiusKm(lat, lon, radiusKm) {
   };
 }
 
+function getAdaptiveSearchRadii() {
+  return [12, 20, 32, 45, 60];
+}
+
+function selectAdaptiveRadiusCandidates(entries, limit, searchContext) {
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return [];
+  }
+
+  const radii = getAdaptiveSearchRadii();
+  const minimumNamedResults = Math.min(limit, 4);
+  const minimumTotalResults = Math.min(limit, 6);
+
+  for (const radiusKm of radii) {
+    const nearby = entries.filter(
+      (entry) => calculateDistanceKm(searchContext.lat, searchContext.lon, entry.lat, entry.lon) <= radiusKm
+    );
+
+    if (nearby.length === 0) {
+      continue;
+    }
+
+    const namedNearby = nearby.filter((entry) => !isUnnamedPlace(entry.name));
+    if (namedNearby.length >= minimumNamedResults || nearby.length >= minimumTotalResults) {
+      return nearby;
+    }
+  }
+
+  return entries;
+}
+
 function scorePlaceResult(entry, searchContext) {
   const { lat, lon, query, categoryPriority, boundingBox } = searchContext;
   let score = 0;
@@ -1345,9 +1376,12 @@ function scorePlaceResult(entry, searchContext) {
   if (entry.hasShowers) score += 2;
   if (entry.hasDumpStation) score += 2;
 
-  score += Math.max(0, 36 - Math.min(distanceKm * 1.2, 36));
-  if (distanceKm <= 12) score += 10;
+  score += Math.max(0, 42 - Math.min(distanceKm * 2.2, 42));
+  if (distanceKm <= 5) score += 14;
+  else if (distanceKm <= 12) score += 10;
   else if (distanceKm <= 20) score += 4;
+  else if (distanceKm > 50) score -= 18;
+  else if (distanceKm > 35) score -= 8;
   score += Math.max(0, 10 - categoryPriority.indexOf(entry.category));
 
   return score;
@@ -1427,23 +1461,12 @@ function searchPlacesInLocalDatabase({ query, categories, limit, lat, lon, bound
     return [];
   }
 
-  const normalizedQuery = normalizeText(query);
-  const radiusBox = calculateBoundingBoxForRadiusKm(lat, lon, 45);
+  const radiusBox = calculateBoundingBoxForRadiusKm(lat, lon, 60);
   const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
   const categorySql = categoryPriority.map((category) => sqliteString(category)).join(', ');
-  const textFilters = normalizedQuery
-    ? [
-        `name_normalized LIKE ${sqliteString(`%${normalizedQuery}%`)}`,
-        `locality_normalized LIKE ${sqliteString(`%${normalizedQuery}%`)}`,
-        `address_normalized LIKE ${sqliteString(`%${normalizedQuery}%`)}`,
-      ].join(' OR ')
-    : '';
-
   const whereClauses = [
     `category IN (${categorySql})`,
-    `((lat BETWEEN ${radiusBox.south} AND ${radiusBox.north} AND lon BETWEEN ${radiusBox.west} AND ${radiusBox.east})${
-      textFilters ? ` OR (${textFilters})` : ''
-    })`,
+    `(lat BETWEEN ${radiusBox.south} AND ${radiusBox.north} AND lon BETWEEN ${radiusBox.west} AND ${radiusBox.east})`,
   ];
 
   const sql = `
@@ -1479,7 +1502,9 @@ LIMIT ${Math.max(limit * 8, 80)};
     return [];
   }
 
-  const sortedResults = normalizedRows.sort((left, right) => {
+  const adaptiveRows = selectAdaptiveRadiusCandidates(normalizedRows, limit, { lat, lon });
+
+  const sortedResults = adaptiveRows.sort((left, right) => {
     const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
     const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
     return rightScore - leftScore;
@@ -1496,7 +1521,6 @@ function searchPlacesInLocalIndex({ query, categories, limit, lat, lon, bounding
     return [];
   }
 
-  const normalizedQuery = normalizeText(query);
   const categoryPriority = Array.isArray(categories) && categories.length > 0 ? categories : ['camp_site', 'caravan_site'];
   const candidates = entries.filter((entry) => {
     if (!categoryPriority.includes(entry.category)) {
@@ -1504,23 +1528,12 @@ function searchPlacesInLocalIndex({ query, categories, limit, lat, lon, bounding
     }
 
     const distanceKm = calculateDistanceKm(lat, lon, entry.lat, entry.lon);
-    const normalizedName = normalizeText(entry.name);
-    const normalizedLocality = normalizeText(entry.locality);
-    const normalizedAddress = normalizeText(entry.address);
-    const matchesText =
-      Boolean(normalizedQuery) &&
-      (normalizedName.includes(normalizedQuery) ||
-        normalizedLocality.includes(normalizedQuery) ||
-        normalizedAddress.includes(normalizedQuery));
-
-    if (distanceKm <= 45) {
-      return true;
-    }
-
-    return matchesText;
+    return distanceKm <= 60;
   });
 
-  const sortedResults = candidates.sort((left, right) => {
+  const adaptiveCandidates = selectAdaptiveRadiusCandidates(candidates, limit, { lat, lon });
+
+  const sortedResults = adaptiveCandidates.sort((left, right) => {
     const leftScore = scorePlaceResult(left, { lat, lon, query, categoryPriority, boundingBox });
     const rightScore = scorePlaceResult(right, { lat, lon, query, categoryPriority, boundingBox });
     return rightScore - leftScore;

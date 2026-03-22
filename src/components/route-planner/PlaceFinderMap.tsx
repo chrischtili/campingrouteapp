@@ -9,7 +9,7 @@ import type { PlaceCategory, PlaceSearchResult } from "@/types/placeFinder";
 
 interface PlaceFinderMapProps {
   places: PlaceSearchResult[];
-  selectedPlace: PlaceSearchResult | null;
+  highlightedPlace: PlaceSearchResult | null;
   onSelectPlace: (place: PlaceSearchResult) => void;
   standalone?: boolean;
 }
@@ -31,7 +31,7 @@ function invalidateMapSize(map: L.Map) {
 
 export function PlaceFinderMap({
   places,
-  selectedPlace,
+  highlightedPlace,
   onSelectPlace,
   standalone = false,
 }: PlaceFinderMapProps) {
@@ -40,6 +40,7 @@ export function PlaceFinderMap({
   const mapRef = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
+  const markersByIdRef = useRef<Map<string, L.CircleMarker>>(new Map());
   const lastBoundsKeyRef = useRef<string>("");
 
   useEffect(() => {
@@ -67,6 +68,7 @@ export function PlaceFinderMap({
     return () => {
       markerLayerRef.current?.clearLayers();
       markerLayerRef.current = null;
+      markersByIdRef.current.clear();
       tileLayerRef.current = null;
       map.remove();
       mapRef.current = null;
@@ -82,6 +84,7 @@ export function PlaceFinderMap({
     }
 
     markerLayer.clearLayers();
+    markersByIdRef.current.clear();
 
     const visiblePlaces = places.filter(hasCoordinates);
     if (visiblePlaces.length === 0) {
@@ -96,13 +99,13 @@ export function PlaceFinderMap({
       .join("|");
 
     visiblePlaces.forEach((place) => {
-      const isSelected = selectedPlace?.id === place.id;
+      const isHighlighted = highlightedPlace?.id === place.id;
       const marker = L.circleMarker([place.lat, place.lon], {
-        color: isSelected ? "#111827" : "#ffffff",
+        color: isHighlighted ? "#111827" : "#ffffff",
         fillColor: categoryColorMap[place.category],
-        fillOpacity: isSelected ? 0.96 : 0.84,
-        radius: isSelected ? 10 : 7,
-        weight: isSelected ? 3 : 2,
+        fillOpacity: isHighlighted ? 0.96 : 0.84,
+        radius: isHighlighted ? 10 : 7,
+        weight: isHighlighted ? 3 : 2,
       });
 
       marker.on("click", () => onSelectPlace(place));
@@ -112,6 +115,7 @@ export function PlaceFinderMap({
         opacity: 0.92,
       });
       marker.addTo(markerLayer);
+      markersByIdRef.current.set(place.id, marker);
     });
 
     invalidateMapSize(map);
@@ -129,7 +133,22 @@ export function PlaceFinderMap({
       maxZoom: 13,
       padding: [28, 28],
     });
-  }, [onSelectPlace, places, selectedPlace]);
+  }, [onSelectPlace, places]);
+
+  useEffect(() => {
+    const markersById = markersByIdRef.current;
+
+    markersById.forEach((marker, placeId) => {
+      const isHighlighted = highlightedPlace?.id === placeId;
+
+      marker.setStyle({
+        color: isHighlighted ? "#111827" : "#ffffff",
+        fillOpacity: isHighlighted ? 0.96 : 0.84,
+        radius: isHighlighted ? 10 : 7,
+        weight: isHighlighted ? 3 : 2,
+      });
+    });
+  }, [highlightedPlace]);
 
   if (places.filter(hasCoordinates).length === 0) {
     return null;

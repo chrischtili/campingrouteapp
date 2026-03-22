@@ -62,6 +62,7 @@ export function PlaceFinderSection({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [results, setResults] = useState<PlaceSearchResult[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<PlaceSearchResult | null>(null);
+  const [hoveredPlace, setHoveredPlace] = useState<PlaceSearchResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
@@ -96,6 +97,12 @@ export function PlaceFinderSection({
       setSelectedPlace(null);
     }
   }, [results, selectedPlace]);
+
+  useEffect(() => {
+    if (hoveredPlace && !results.some((entry) => entry.id === hoveredPlace.id)) {
+      setHoveredPlace(null);
+    }
+  }, [hoveredPlace, results]);
 
   const stageActions = useMemo(() => {
     if (standalone || !onChange) {
@@ -288,6 +295,7 @@ export function PlaceFinderSection({
     setShowSuggestions(false);
     setResults([]);
     setSelectedPlace(null);
+    setHoveredPlace(null);
     setError("");
     setHasSearched(false);
   };
@@ -652,7 +660,7 @@ export function PlaceFinderSection({
 
             <PlaceFinderMap
               places={mappedResults}
-              selectedPlace={selectedPlace}
+              highlightedPlace={hoveredPlace ?? selectedPlace}
               onSelectPlace={setSelectedPlace}
               standalone={standalone}
             />
@@ -667,6 +675,10 @@ export function PlaceFinderSection({
                     key={place.id}
                     type="button"
                     onClick={() => setSelectedPlace(place)}
+                    onMouseEnter={() => setHoveredPlace(place)}
+                    onMouseLeave={() => setHoveredPlace((current) => (current?.id === place.id ? null : current))}
+                    onFocus={() => setHoveredPlace(place)}
+                    onBlur={() => setHoveredPlace((current) => (current?.id === place.id ? null : current))}
                     className={`group overflow-hidden rounded-[1.5rem] text-left transition ${
                       standalone
                         ? isSelected

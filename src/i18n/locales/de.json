@@ -1281,7 +1281,7 @@
     "title": "Datenschutz",
     "general": {
       "title": "Grundsätzliches zur Datenverarbeitung",
-      "description": "Der Schutz deiner Daten ist uns ein wichtiges Anliegen. CampingRoute.app arbeitet überwiegend clientseitig und verzichtet auf Nutzerkonten sowie zentrale Planspeicherung. Für einzelne Funktionen können serverseitige Proxy-Anfragen an öffentliche Datendienste genutzt werden. Deine eingegebenen Planungsdaten verbleiben primär in deinem Browser."
+      "description": "Der Schutz deiner Daten ist uns ein wichtiges Anliegen. CampingRoute.app arbeitet überwiegend clientseitig und verzichtet auf Nutzerkonten sowie eine zentrale Planspeicherung. Verantwortlicher für die Datenverarbeitung ist der im Impressum genannte Betreiber von CampingRoute.app. Je nach Funktion verarbeiten wir Daten zur Vertragserfüllung bzw. zur Bereitstellung der angeforderten Funktion, auf Grundlage berechtigter Interessen am sicheren und stabilen Betrieb oder auf freiwilliger Basis, wenn du uns aktiv Feedback gibst."
     },
     "dataProcessing": {
       "title": "Datenverarbeitung & KI",
@@ -1291,15 +1291,15 @@
       },
       "ai": {
         "title": "KI-Integration",
-        "description": "CampingRoute erzeugt einen strukturierten Prompt, den du in deiner bevorzugten KI nutzt. Wir speichern dabei keine API-Schlüssel und keine zentralen Nutzerdaten."
+        "description": "CampingRoute erzeugt einen strukturierten Prompt, den du in deiner bevorzugten KI nutzt. Wenn du die direkte KI-Generierung verwendest, werden deine Eingaben direkt an den von dir ausgewählten KI-Anbieter übermittelt. Wir speichern dabei keine API-Schlüssel und keine zentralen Nutzungsprofile. Für die Verarbeitung durch den jeweils gewählten KI-Anbieter gelten ergänzend dessen eigene Datenschutzbestimmungen."
       },
       "places": {
         "title": "Platzsuche & OSM-Daten",
-        "description": "Wenn du den Platzfinder auf der Startseite bzw. im Routenplaner nutzt, werden dein Suchbegriff und technisch notwendige Verbindungsdaten serverseitig an Geoapify bzw. als Fallback an öffentliche Nominatim- und Overpass-Dienste auf Basis von OpenStreetMap weitergeleitet, um Orte sowie passende Camping- und Stellplätze zu ermitteln. Wir verwenden diese Suchanfragen nur zur direkten Beantwortung deiner Suche und legen dabei keinen dauerhaften Suchverlauf bei uns an. Wenn du zusätzlich die Kartenansicht nutzt, lädt dein Browser Kartenkacheln vom jeweils konfigurierten Kartenanbieter; dabei erhält dieser technisch notwendige Verbindungsdaten wie deine IP-Adresse."
+        "description": "Wenn du den Platzfinder auf der Startseite bzw. im Routenplaner nutzt, werden dein Suchbegriff und technisch notwendige Verbindungsdaten serverseitig an Geoapify für die Ortssuche und Geokodierung weitergeleitet. Für die eigentliche Suche nach Camping- und Stellplätzen nutzen wir primär unsere lokale Datenbasis auf Grundlage von OpenStreetMap-Daten; nur im Ausnahmefall greifen wir ergänzend auf öffentliche Nominatim- und Overpass-Dienste zurück. Wir verwenden diese Suchanfragen ausschließlich zur direkten Beantwortung deiner Suche und legen dabei keinen dauerhaften personenbezogenen Suchverlauf bei uns an. Wenn du zusätzlich die Kartenansicht nutzt, lädt dein Browser Kartenkacheln derzeit von OpenStreetMap; dabei erhält der Kartenanbieter technisch notwendige Verbindungsdaten wie deine IP-Adresse. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO."
       },
       "feedback": {
         "title": "Feedback nach Generierung",
-        "description": "Nach einer erfolgreich generierten Route oder Prompt-Ausgabe können wir dich freiwillig um kurzes Produktfeedback bitten. Gespeichert werden dabei nur deine Bewertung (z. B. hilfreich / nicht hilfreich), ein optionaler Freitext, technische Angaben wie Sprache, gewählter Modus, KI-Anbieter bzw. Modell sowie ein Zeitstempel. Bitte gib in Freitextfeldern keine personenbezogenen oder sensiblen Daten ein. Die Verarbeitung erfolgt ausschließlich zur Verbesserung von CampingRoute.app; eine Weitergabe an Dritte findet nicht statt."
+        "description": "Nach einer erfolgreich generierten Route oder Prompt-Ausgabe können wir dich freiwillig um kurzes Produktfeedback bitten. Gespeichert werden dabei nur deine Bewertung (z. B. hilfreich / nicht hilfreich), ein optionaler Freitext, technische Angaben wie Sprache, gewählter Modus, KI-Anbieter bzw. Modell sowie ein Zeitstempel. Bitte gib in Freitextfeldern keine personenbezogenen oder sensiblen Daten ein. Die Verarbeitung erfolgt ausschließlich zur Verbesserung von CampingRoute.app und stützt sich auf deine freiwillige Angabe bzw. unser berechtigtes Interesse an der Produktverbesserung. Eine Weitergabe an Dritte zu Werbezwecken findet nicht statt."
       }
     },
     "cookies": {
@@ -1313,11 +1313,11 @@
     },
     "rights": {
       "title": "Deine Rechte",
-      "description": "Da wir keine personenbezogenen Daten auf unseren Servern speichern, entfällt das klassische Recht auf Löschung oder Auskunft durch uns. Du hast jederzeit die volle Kontrolle über deine Daten: Um alle von CampingRoute.app gespeicherten Einstellungen zu entfernen, musst du lediglich die Browser-Daten (Local Storage) für diese Webseite in deinem Browser löschen."
+      "description": "Du hast im Rahmen der DSGVO insbesondere das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen bestimmte Verarbeitungen. Soweit eine Verarbeitung auf einer Einwilligung beruht, kannst du diese jederzeit mit Wirkung für die Zukunft widerrufen. Wenn du lokale Browserdaten entfernen möchtest, kannst du zusätzlich den Local Storage dieser Website in deinem Browser löschen. Außerdem hast du das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren."
     },
     "hosting": {
       "title": "Hosting",
-      "description": "Diese Webseite wird auf einem Cloud-Server der Hetzner Online GmbH betrieben. Der Hostinganbieter erhebt beim Zugriff auf diese Seite systembedingt Zugriffsdaten (Server-Logfiles) wie IP-Adresse, verwendeter Browser und Zeitpunkt des Aufrufs. Diese Daten werden nur für den sicheren Betrieb der Server verwendet und nicht mit anderen Datenquellen zusammengeführt."
+      "description": "Diese Webseite wird auf einem Cloud-Server der Hetzner Online GmbH betrieben. Der Hostinganbieter erhebt beim Zugriff auf diese Seite systembedingt Zugriffsdaten (Server-Logfiles) wie IP-Adresse, verwendeter Browser, Datum und Uhrzeit des Aufrufs sowie technische Request-Informationen. Diese Daten werden ausschließlich für den sicheren und stabilen Betrieb, zur Fehleranalyse und zur Abwehr von Missbrauch verarbeitet und nicht mit anderen Datenquellen zusammengeführt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen, werden solche Logdaten nur für einen begrenzten Zeitraum vorgehalten."
     },
     "backToHome": "Zurück zur Startseite"
   },

@@ -47,6 +47,7 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
   const config = pageConfig[variant];
   const Icon = config.icon;
   const categories = useMemo(() => getFinderPageCategories(variant), [variant]);
+  const pagePath = variant === "camping" ? "/campingplatz-finder" : "/stellplatz-finder";
   const [plannerDraftFormData, setPlannerDraftFormData] = useState<FormData>(initialFormData);
 
   useEffect(() => {
@@ -55,6 +56,93 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
       setPlannerDraftFormData({ ...initialFormData, ...draft.formData });
     }
   }, []);
+
+  useEffect(() => {
+    const pageUrl = new URL(pagePath, window.location.origin).toString();
+    const homeUrl = new URL("/", window.location.origin).toString();
+    const promptUrl = new URL(config.generatorHref, window.location.origin).toString();
+    const alternateUrl = new URL(config.alternateHref, window.location.origin).toString();
+    const language = i18n.language || "de";
+
+    const pageScriptId = `place-finder-page-schema-${variant}`;
+    const faqScriptId = `place-finder-faq-schema-${variant}`;
+
+    const upsertJsonLdScript = (id: string, payload: unknown) => {
+      let script = document.getElementById(id) as HTMLScriptElement | null;
+      if (!script) {
+        script = document.createElement("script");
+        script.type = "application/ld+json";
+        script.id = id;
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(payload);
+    };
+
+    upsertJsonLdScript(pageScriptId, {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          name: copy.seo.title,
+          description: copy.seo.description,
+          url: pageUrl,
+          inLanguage: language,
+          isPartOf: {
+            "@type": "WebSite",
+            name: "Camping Route",
+            url: homeUrl,
+          },
+          about: [
+            {
+              "@type": "Thing",
+              name: variant === "camping" ? "Campingplatzsuche" : "Stellplatzsuche",
+            },
+            {
+              "@type": "Thing",
+              name: "Europa",
+            },
+          ],
+          keywords: copy.seo.keywords,
+          relatedLink: [promptUrl, alternateUrl],
+        },
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Camping Route",
+              item: homeUrl,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: copy.navLabel,
+              item: pageUrl,
+            },
+          ],
+        },
+      ],
+    });
+
+    upsertJsonLdScript(faqScriptId, {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: copy.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    });
+
+    return () => {
+      document.getElementById(pageScriptId)?.remove();
+      document.getElementById(faqScriptId)?.remove();
+    };
+  }, [config.alternateHref, config.generatorHref, copy.faqs, copy.navLabel, copy.seo.description, copy.seo.keywords, copy.seo.title, i18n.language, pagePath, variant]);
 
   const handleTransferToPrompt = (
     place: PlaceSearchResult,
@@ -249,6 +337,42 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
                   <p className="mt-4 text-sm leading-7 text-foreground/64 dark:text-white/60">{faq.answer}</p>
                 </motion.article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-6 pt-2 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl rounded-[2rem] border border-border/70 bg-white/76 p-6 shadow-[0_20px_42px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/6 sm:p-8">
+            <div className="max-w-4xl space-y-4">
+              <h2 className="text-2xl font-black tracking-tight text-foreground dark:text-white sm:text-3xl">
+                {copy.relatedTitle}
+              </h2>
+              <p className="text-sm leading-7 text-foreground/68 dark:text-white/62 sm:text-base">
+                {copy.seo.description}
+              </p>
+              <p className="text-sm leading-7 text-foreground/68 dark:text-white/62 sm:text-base">
+                {copy.searchLead} {copy.plannerLead}
+              </p>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Link
+                  to={config.generatorHref}
+                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  {copy.plannerCta}
+                </Link>
+                <Link
+                  to={config.alternateHref}
+                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  {copy.alternateCta}
+                </Link>
+                <Link
+                  to="/"
+                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  {copy.homeCta}
+                </Link>
+              </div>
             </div>
           </div>
         </section>

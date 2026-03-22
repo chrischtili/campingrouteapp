@@ -19,6 +19,7 @@
     <link rel="alternate" hreflang="fr" href="https://campingroute.app/?lng=fr" />
     <link rel="alternate" hreflang="it" href="https://campingroute.app/?lng=it" />
     <link rel="alternate" hreflang="x-default" href="https://campingroute.app/" />
+    <link rel="canonical" href="https://campingroute.app/" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Camping Route - KI-Routenplaner mit Stellplatz- &amp; Campingplatzsuche" />
@@ -39,16 +40,6 @@
     <meta name="twitter:image" content="https://campingroute.app/favicon-original-final.svg" />
     <meta name="twitter:creator" content="@CampingRoute" />
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Camping Route",
-        "alternateName": "campingroute.app",
-        "url": "https://campingroute.app/"
-      }
-    </script>
-    
     <!-- Favicons - Optimiert für Google Suchergebnisse (https://developers.google.com/search/docs/appearance/favicon-in-search) -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -99,19 +90,44 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Camping Route",
-      "alternateName": ["CampingRoute", "CampingRoute.app"],
-      "url": "https://campingroute.app/",
-      "description": "KI-basierter Routenplaner mit Stellplatz- und Campingplatzsuche für Reisen mit Wohnmobil, Wohnwagen, Zelt oder Motorrad in Europa.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Camping Route",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://campingroute.app/favicon-original-final.svg"
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Camping Route",
+          "alternateName": ["CampingRoute", "CampingRoute.app"],
+          "url": "https://campingroute.app/",
+          "description": "KI-basierter Routenplaner mit Stellplatz- und Campingplatzsuche für Reisen mit Wohnmobil, Wohnwagen, Zelt oder Motorrad in Europa.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Camping Route",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://campingroute.app/favicon-original-final.svg"
+            }
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Camping Route",
+          "applicationCategory": "TravelApplication",
+          "operatingSystem": "Web",
+          "browserRequirements": "JavaScript required",
+          "url": "https://campingroute.app/",
+          "description": "KI-basierter Routenplaner mit Stellplatz- und Campingplatzsuche fuer Wohnmobil-, Wohnwagen-, Zelt- und Motorradreisen in Europa.",
+          "featureList": [
+            "KI-Prompt-Generator fuer Roadtrips",
+            "Campingplatz-Finder",
+            "Stellplatz-Finder",
+            "Etappenplanung",
+            "GPX-orientierte Routenplanung"
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+          }
         }
-      }
+      ]
     }
     </script>
 

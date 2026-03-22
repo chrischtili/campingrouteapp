@@ -26,6 +26,8 @@ type FinderPageCopy = {
   plannerCta: string;
   alternateLead: string;
   alternateCta: string;
+  relatedTitle: string;
+  homeCta: string;
   seo: {
     title: string;
     description: string;
@@ -108,6 +110,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Zum Prompt-Generator",
       alternateLead: "Du suchst eher flexible Wohnmobil-Übernachtungen für kurze Stopps?",
       alternateCta: "Zum Stellplatz-Finder",
+      relatedTitle: "Campingplatzsuche und Routenplanung sauber verbinden",
+      homeCta: "Camping Route Startseite",
       seo: {
         title: "Campingplatz Finder für Wohnmobil, Wohnwagen und Zelt | Camping Route",
         description:
@@ -187,6 +191,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Zum Prompt-Generator",
       alternateLead: "Du willst lieber klassische Campingplätze mit mehr Infrastruktur sehen?",
       alternateCta: "Zum Campingplatz-Finder",
+      relatedTitle: "Stellplatzsuche und Routenplanung sauber verbinden",
+      homeCta: "Camping Route Startseite",
       seo: {
         title: "Stellplatz Finder für Wohnmobil-Roadtrips | Camping Route",
         description:
@@ -268,6 +274,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Open route planner",
       alternateLead: "Looking for flexible motorhome stopovers instead of classic campsites?",
       alternateCta: "Open stopover finder",
+      relatedTitle: "Connect campsite search and route planning more cleanly",
+      homeCta: "Camping Route homepage",
       seo: {
         title: "Camping Finder for motorhome, caravan and tent trips | Camping Route",
         description:
@@ -347,6 +355,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Plan your route",
       alternateLead: "Prefer classic campsites with more infrastructure and a longer-stay feel?",
       alternateCta: "Open camping finder",
+      relatedTitle: "Connect stopover search and route planning more cleanly",
+      homeCta: "Camping Route homepage",
       seo: {
         title: "Stopover Finder for motorhome roadtrips | Camping Route",
         description:
@@ -428,6 +438,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Vers le générateur de prompts",
       alternateLead: "Tu cherches plutôt des aires flexibles pour des arrêts courts ?",
       alternateCta: "Vers la recherche d’aires",
+      relatedTitle: "Relier proprement la recherche de campings et la planification",
+      homeCta: "Page d’accueil Camping Route",
       seo: {
         title: "Recherche de campings pour camping-car, caravane et tente | Camping Route",
         description:
@@ -507,6 +519,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Vers le générateur de prompts",
       alternateLead: "Tu préfères des campings classiques avec plus d’infrastructure ?",
       alternateCta: "Vers la recherche de campings",
+      relatedTitle: "Relier proprement la recherche d’aires et la planification",
+      homeCta: "Page d’accueil Camping Route",
       seo: {
         title: "Recherche d’aires pour road trips en camping-car | Camping Route",
         description:
@@ -556,6 +570,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Naar de promptgenerator",
       alternateLead: "Zoek je liever flexibele camperovernachtingen voor korte stops?",
       alternateCta: "Naar de camperplaatszoeker",
+      relatedTitle: "Campingzoeker en routeplanning beter verbinden",
+      homeCta: "Camping Route startpagina",
       seo: {
         title: "Campingzoeker voor camper, caravan en tent | Camping Route",
         description: "Vind passende campings rond je bestemming met adres, website, voorzieningen en OSM-zoekfunctie.",
@@ -601,6 +617,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Naar de promptgenerator",
       alternateLead: "Wil je liever klassieke campings met meer voorzieningen zien?",
       alternateCta: "Naar de campingzoeker",
+      relatedTitle: "Camperplaatszoeker en routeplanning beter verbinden",
+      homeCta: "Camping Route startpagina",
       seo: {
         title: "Camperplaatszoeker voor roadtrips | Camping Route",
         description: "Vind camperplaatsen voor tussenstops en flexibele overnachtingen met adres, website, openingstijden en OSM-zoekfunctie.",
@@ -648,6 +666,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Vai al generatore di prompt",
       alternateLead: "Cerchi invece soste flessibili in camper per tappe brevi?",
       alternateCta: "Vai alla ricerca aree sosta",
+      relatedTitle: "Collegare meglio la ricerca campeggi e la pianificazione",
+      homeCta: "Homepage Camping Route",
       seo: {
         title: "Ricerca campeggi per camper, caravan e tenda | Camping Route",
         description: "Trova campeggi adatti vicino alla tua destinazione con indirizzo, sito web, servizi e ricerca OSM.",
@@ -693,6 +713,8 @@ const finderPageContent: Record<"de" | "en" | "fr" | "nl" | "it", FinderPageLoca
       plannerCta: "Vai al generatore di prompt",
       alternateLead: "Preferisci campeggi classici con più infrastruttura?",
       alternateCta: "Vai alla ricerca campeggi",
+      relatedTitle: "Collegare meglio la ricerca aree sosta e la pianificazione",
+      homeCta: "Homepage Camping Route",
       seo: {
         title: "Ricerca aree sosta per road trip in camper | Camping Route",
         description: "Trova aree sosta per camper per tappe e pernottamenti flessibili con indirizzo, sito web, orari e ricerca OSM.",

@@ -990,7 +990,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           className="planner-primary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-primary/30 bg-primary px-5 font-semibold transition-all active:scale-95 hover:bg-primary/90"
                         >
                           <Bot className="h-4 w-4" />
-                          <span>{aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}</span>
+                          <span>{aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.finishPrompt")}</span>
                         </Button>
                       </div>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -1478,7 +1478,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               </>
             ) : (
               <span style={{ color: "#fff", WebkitTextFillColor: "#fff" }}>
-                {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.generatePrompt")}
+                {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.finishPrompt")}
               </span>
             )}
           </Button>

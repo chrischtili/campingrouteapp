@@ -10,7 +10,7 @@
     "exampleRoute": "Example Route",
     "faq": "FAQ",
     "placeFinder": "Place Finder",
-    "planNow": "Generate Prompt",
+    "planNow": "Create Prompt",
     "subtitle": "Smart AI Prompts",
     "whatsNew": "What's new in {{version}}",
     "placeFinderDescriptions": {
@@ -30,7 +30,7 @@
     "badge": "AI Prompt Generator",
     "title": "Camping Route",
     "description": "Our AI prompt generator is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
-    "planNow": "Generate Prompt",
+    "planNow": "Create Prompt",
     "viewExample": "View Example",
     "stats": {
       "rating": {
@@ -515,7 +515,7 @@
   "planner": {
     "badge": "AI Prompt Generator",
     "title": "Everything for your prompt in one place",
-    "cta": "Generate Prompt",
+    "cta": "Create Prompt",
     "launcher": {
       "title": "The prompt generator for camping and road trips",
       "description": "Open the generator, search suitable places if needed and then complete your route details and AI prompt in one strong flow.",
@@ -532,7 +532,8 @@
       "back": "Back",
       "next": "Next",
       "generateRoute": "Generate Route",
-      "generatePrompt": "Generate Prompt",
+      "generatePrompt": "Create Prompt",
+      "finishPrompt": "Finish",
       "copyPrompt": "Copy Prompt"
     },
     "summary": {
@@ -635,7 +636,7 @@
       "description": "Generate a finished prompt for your preferred AI.",
       "mode": {
         "prompt": {
-          "title": "Generate Prompt",
+          "title": "Create Prompt",
           "desc": "Ready text for ChatGPT, etc."
         },
         "direct": {

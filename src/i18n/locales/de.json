@@ -10,7 +10,7 @@
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
     "placeFinder": "Platzfinder",
-    "planNow": "Prompt generieren",
+    "planNow": "Prompt erstellen",
     "subtitle": "Smarte KI-Prompts",
     "whatsNew": "Neu in {{version}}",
     "placeFinderDescriptions": {
@@ -30,7 +30,7 @@
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
     "description": "Unser KI-Prompt-Generator ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
-    "planNow": "Prompt generieren",
+    "planNow": "Prompt erstellen",
     "viewExample": "Beispielroute ansehen",
     "stats": {
       "rating": {
@@ -515,7 +515,7 @@
   "planner": {
     "badge": "KI-Prompt-Generator",
     "title": "Alles für deinen Prompt an einem Ort",
-    "cta": "Prompt generieren",
+    "cta": "Prompt erstellen",
     "launcher": {
       "title": "Der Prompt-Generator für Camping- und Roadtrips",
       "description": "Öffne den Generator, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen."
@@ -531,7 +531,8 @@
       "back": "Zurück",
       "next": "Weiter",
       "generateRoute": "Route Generieren",
-      "generatePrompt": "Prompt generieren",
+      "generatePrompt": "Prompt erstellen",
+      "finishPrompt": "Fertigstellen",
       "copyPrompt": "Prompt kopieren"
     },
     "summary": {
@@ -634,7 +635,7 @@
       "description": "Erzeuge einen fertigen Prompt für deine bevorzugte KI.",
       "mode": {
         "prompt": {
-          "title": "Prompt generieren",
+          "title": "Prompt erstellen",
           "desc": "Fertiger Text für ChatGPT & Co."
         },
         "direct": {

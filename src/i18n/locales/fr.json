@@ -532,7 +532,8 @@
       "back": "Retour",
       "next": "Suivant",
       "generateRoute": "Générer l’itinéraire",
-      "generatePrompt": "Générer le prompt",
+      "generatePrompt": "Créer le prompt",
+      "finishPrompt": "Finaliser",
       "copyPrompt": "Copier le prompt"
     },
     "summary": {

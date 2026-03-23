@@ -532,7 +532,8 @@
       "back": "Terug",
       "next": "Verder",
       "generateRoute": "Route genereren",
-      "generatePrompt": "Prompt genereren",
+      "generatePrompt": "Prompt maken",
+      "finishPrompt": "Voltooien",
       "copyPrompt": "Prompt kopieren"
     },
     "summary": {

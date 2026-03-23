@@ -532,7 +532,8 @@
       "back": "Indietro",
       "next": "Avanti",
       "generateRoute": "Genera itinerario",
-      "generatePrompt": "Genera prompt",
+      "generatePrompt": "Crea prompt",
+      "finishPrompt": "Completa",
       "copyPrompt": "Copia prompt"
     },
     "summary": {

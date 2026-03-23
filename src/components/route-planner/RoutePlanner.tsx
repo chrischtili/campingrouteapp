@@ -205,6 +205,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     DIRECT_AI_FEATURE_ENABLED &&
     !!aiSettings.apiKey?.trim() &&
     /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
+  const showAISettingsSection = false;
   const plannerSectionClass = `w-full min-w-0 px-0 sm:px-6 lg:px-8 ${isMobile ? "py-3" : "py-6 sm:py-7"}`;
   const plannerSummarySectionClass = "px-1 sm:px-6 lg:px-8 py-4 sm:py-7";
   const plannerAccordionItemClass = `w-full min-w-0 overflow-hidden bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))] ${
@@ -897,11 +898,19 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
       ref={workspaceRef}
       className={`theme-popup-shell theme-popup-vehicle relative overflow-hidden ${
         isMobile
-          ? "rounded-none border-0 shadow-none"
+          ? "rounded-none border-0 bg-transparent shadow-none dark:bg-transparent"
           : "rounded-[2.5rem] border-2 shadow-[0_32px_120px_rgba(0,0,0,0.18)]"
       }`}
     >
-      <section id="planner" className={`planner-scope relative text-foreground dark:text-white ${isMobile ? "px-3 pb-10 pt-8" : "px-4 pb-12 pt-12 sm:pb-16"} ${plannerPanelSurfaceClass}`}>
+      <section
+        id="planner"
+        className={`planner-scope relative text-foreground dark:text-white ${
+          isMobile
+            ? "bg-transparent px-3 pb-10 pt-8 dark:bg-transparent"
+            : `px-4 pb-12 pt-12 sm:pb-16 ${plannerPanelSurfaceClass}`
+        }`}
+        style={isMobile ? { background: "transparent" } : undefined}
+      >
         <div className={`relative z-10 mx-auto max-w-7xl text-foreground dark:text-white ${isMobile ? "px-0" : "px-4 sm:px-6 lg:px-8"}`}>
           <div className={`${isMobile ? "mb-10 text-center" : "mb-16 text-center"}`}>
             <motion.span
@@ -1191,20 +1200,22 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="ai" data-planner-section="ai" className={plannerAccordionItemClass}>
-              <AccordionTrigger className={plannerAccordionTriggerClass}>
-                {renderPlannerAccordionHeader(t("planner.ai.title"), aiModeSummary)}
-              </AccordionTrigger>
-              <AccordionContent className={plannerAccordionContentClass}>
-                <div className={plannerSectionClass}>
-                  <AISettingsSection
-                    aiSettings={aiSettings}
-                    onAISettingsChange={handleAISettingsChange}
-                    aiError={aiError}
-                  />
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+            {showAISettingsSection && (
+              <AccordionItem value="ai" data-planner-section="ai" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.ai.title"), aiModeSummary)}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={plannerSectionClass}>
+                    <AISettingsSection
+                      aiSettings={aiSettings}
+                      onAISettingsChange={handleAISettingsChange}
+                      aiError={aiError}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            )}
 
             <AccordionItem value="route" data-planner-section="route" className={plannerAccordionItemClass}>
               <AccordionTrigger className={plannerAccordionTriggerClass}>
@@ -1499,10 +1510,10 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className={`overflow-hidden bg-[linear-gradient(180deg,rgba(255,251,245,0.95),rgba(247,240,230,0.94))] dark:bg-[linear-gradient(180deg,rgba(48,55,45,0.94),rgba(31,38,33,0.97))] ${
+              className={`overflow-hidden ${
                 isMobile
-                  ? "rounded-none border-0 px-0 py-6 shadow-none"
-                  : "rounded-[2.75rem] border border-primary/20 px-6 py-8 shadow-[0_28px_90px_rgba(255,128,0,0.12)] sm:px-8 sm:py-10 lg:px-12 lg:py-14"
+                  ? "rounded-none border-0 bg-transparent px-0 py-6 shadow-none dark:bg-transparent"
+                  : "rounded-[2.75rem] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,251,245,0.95),rgba(247,240,230,0.94))] px-6 py-8 shadow-[0_28px_90px_rgba(255,128,0,0.12)] dark:bg-[linear-gradient(180deg,rgba(48,55,45,0.94),rgba(31,38,33,0.97))] sm:px-8 sm:py-10 lg:px-12 lg:py-14"
               }`}
             >
               <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
@@ -1560,7 +1571,11 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   initial={{ opacity: 0, x: 22 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
-                  className="rounded-[2.25rem] border border-white/60 bg-white/72 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6"
+                  className={
+                    isMobile
+                      ? "rounded-none border-0 bg-transparent p-0 shadow-none backdrop-blur-0"
+                      : "rounded-[2.25rem] border border-white/60 bg-white/72 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6"
+                  }
                 >
                   <div className="flex items-start gap-4">
                     <div className="rounded-2xl bg-primary/12 p-3 text-primary">
@@ -1628,8 +1643,14 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           </div>
         </section>
 
-        <section className={`pb-16 pt-8 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
-          <div className="mx-auto max-w-7xl">
+        <section
+          className={`pb-16 pt-8 ${
+            isMobile
+              ? "bg-[linear-gradient(180deg,rgba(238,242,249,0.985),rgba(231,236,245,0.985))] px-0 dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.985),rgba(44,53,70,0.985))]"
+              : "px-4 sm:px-6 lg:px-8"
+          }`}
+        >
+          <div className={`mx-auto ${isMobile ? "max-w-none" : "max-w-7xl"}`}>
             {plannerWorkspace}
           </div>
         </section>

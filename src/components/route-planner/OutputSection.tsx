@@ -5,6 +5,7 @@ import { Copy, Check, Printer, Sparkles, FileText, ChevronRight, ChevronDown, Al
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface OutputSectionProps {
   output: string;
@@ -58,6 +59,7 @@ export function OutputSection({
   onEngagement
 }: OutputSectionProps) {
   const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile();
   const [copied, setCopied] = useState(false);
   const [outputView, setOutputView] = useState<"formatted" | "raw">("formatted");
   const [checklistOpen, setChecklistOpen] = useState(false);
@@ -652,8 +654,14 @@ ${gpxOnly}`;
       className="output-scope space-y-6"
     >
       <div className="relative group">
-        <div className="output-shell relative rounded-[3rem] overflow-hidden backdrop-blur-[28px]">
-          <div className="output-header relative flex flex-col lg:flex-row items-stretch lg:items-center justify-between px-4 sm:px-6 py-4 sm:py-5 gap-3">
+        <div
+          className={`relative overflow-hidden ${
+            isMobile
+              ? "space-y-4"
+              : "space-y-5"
+          }`}
+        >
+          <div className="output-header relative flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 rounded-[2rem] px-4 sm:px-6 py-4 sm:py-5">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
               <div className="w-11 h-11 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-[0_12px_32px_rgba(255,128,0,0.16)]">
@@ -755,7 +763,7 @@ ${gpxOnly}`;
             {summary && (
               <div className="space-y-3 sm:space-y-4">
                 {useDirectAI && spotlightCards.length > 0 && (
-                  <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
+                  <div className={`p-4 sm:p-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
                     <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                       {t("planner.output.spotlight.title")}
                     </div>
@@ -782,7 +790,7 @@ ${gpxOnly}`;
                   </div>
                 )}
 
-                <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
+                <div className={`p-4 sm:p-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
                   <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                     {t("planner.output.overview.title")}
                   </div>
@@ -808,7 +816,7 @@ ${gpxOnly}`;
                   </div>
                 </div>
 
-                <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
+                <div className={`p-4 sm:p-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
                   <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                   {t("planner.output.summary.title")}
                   </div>
@@ -828,7 +836,7 @@ ${gpxOnly}`;
               </div>
             )}
             {useDirectAI && stageRiskItems.length > 0 && (
-              <div className="output-panel p-4 sm:p-5 rounded-[1.5rem]">
+              <div className={`p-4 sm:p-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
                 <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
                   {t("planner.output.risk.title")}
                 </div>
@@ -888,7 +896,7 @@ ${gpxOnly}`;
                 ))}
               </div>
             )}
-            <div className="output-togglebar flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-2xl p-2">
+            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-2xl p-2 ${isMobile ? "bg-transparent border-0" : "output-togglebar"}`}>
               <div className="text-[9px] font-semibold tracking-[0.05em] text-muted-foreground dark:text-white/45 px-3 py-1 sm:py-0">
                 {t("planner.output.view.label")}
               </div>
@@ -918,7 +926,7 @@ ${gpxOnly}`;
               </div>
             </div>
             {useDirectAI ? (
-            <div className="output-panel space-y-5 rounded-[1.5rem] px-4 sm:px-6 py-5">
+            <div className={`space-y-5 px-4 sm:px-6 py-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
                 <div className="flex items-center gap-3 pb-4 border-b border-border/80 dark:border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
                   <div className="text-[9px] font-semibold tracking-[0.06em] text-muted-foreground dark:text-white/45">
@@ -937,7 +945,7 @@ ${gpxOnly}`;
                 )}
               </div>
             ) : (
-            <div className="output-panel space-y-5 rounded-[1.5rem] px-4 sm:px-6 py-5">
+            <div className={`space-y-5 px-4 sm:px-6 py-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
                 <div className="flex items-center gap-3 pb-4 border-b border-border/80 dark:border-white/10">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_rgba(255,128,0,0.8)]" />
                   <div className="text-[9px] font-semibold tracking-[0.06em] text-muted-foreground dark:text-white/45">
@@ -957,7 +965,7 @@ ${gpxOnly}`;
               </div>
             )}
 
-            <div className="output-panel rounded-[1.5rem] overflow-hidden">
+            <div className={`${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"} overflow-hidden`}>
               <button
                 type="button"
                 onClick={() => setChecklistOpen((open) => !open)}

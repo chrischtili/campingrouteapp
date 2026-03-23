@@ -11,6 +11,53 @@ import { toast } from "sonner";
 import { getFinderSeo } from "@/lib/finderPageContent";
 import { getPromptGeneratorSeo } from "@/lib/promptGeneratorPageContent";
 
+const CHUNK_RELOAD_KEY = "cr_chunk_reload";
+const CHUNK_RELOAD_NOTICE_KEY = "cr_chunk_reload_notice";
+
+const shouldReloadForChunkError = (message?: string) => {
+  if (!message) return false;
+  const msg = message.toLowerCase();
+  return msg.includes("dynamically imported module") || msg.includes("importing a module script failed");
+};
+
+const triggerChunkReload = () => {
+  if (sessionStorage.getItem(CHUNK_RELOAD_KEY) === "1") {
+    return false;
+  }
+
+  sessionStorage.setItem(CHUNK_RELOAD_KEY, "1");
+  sessionStorage.setItem(CHUNK_RELOAD_NOTICE_KEY, "1");
+  window.location.reload();
+  return true;
+};
+
+const lazyWithReload = <T extends { default: React.ComponentType<any> }>(
+  factory: () => Promise<T>,
+) =>
+  lazy(async () => {
+    try {
+      return await factory();
+    } catch (error) {
+      const message =
+        typeof error === "string"
+          ? error
+          : error instanceof Error
+            ? error.message
+            : undefined;
+
+      if (typeof window !== "undefined" && shouldReloadForChunkError(message)) {
+        const reloading = triggerChunkReload();
+        if (reloading) {
+          return new Promise<T>(() => {
+            // Wait for the hard reload instead of surfacing the lazy-import error.
+          });
+        }
+      }
+
+      throw error;
+    }
+  });
+
 // ScrollToTop Component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -21,18 +68,22 @@ const ScrollToTop = () => {
 };
 
 // Dynamische Importe für nicht-kritische Seiten
-const Index = lazy(() => import("./pages/Index"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Impressum = lazy(() => import("./pages/Impressum"));
-const Datenschutz = lazy(() => import("./pages/Datenschutz"));
-const AdminStats = lazy(() => import("./pages/AdminStats"));
-const CampingplatzFinder = lazy(() => import("./pages/CampingplatzFinder"));
-const StellplatzFinder = lazy(() => import("./pages/StellplatzFinder"));
-const PromptGenerator = lazy(() => import("./pages/PromptGenerator"));
+const Index = lazyWithReload(() => import("./pages/Index"));
+const NotFound = lazyWithReload(() => import("./pages/NotFound"));
+const Impressum = lazyWithReload(() => import("./pages/Impressum"));
+const Datenschutz = lazyWithReload(() => import("./pages/Datenschutz"));
+const AdminStats = lazyWithReload(() => import("./pages/AdminStats"));
+const CampingplatzFinder = lazyWithReload(() => import("./pages/CampingplatzFinder"));
+const StellplatzFinder = lazyWithReload(() => import("./pages/StellplatzFinder"));
+const PromptGenerator = lazyWithReload(() => import("./pages/PromptGenerator"));
 
 // Dynamische Importe für UI-Komponenten
-const Toaster = lazy(() => import("@/components/ui/toaster").then((module) => ({ default: module.Toaster })));
-const Sonner = lazy(() => import("@/components/ui/sonner").then((module) => ({ default: module.Toaster })));
+const Toaster = lazyWithReload(() =>
+  import("@/components/ui/toaster").then((module) => ({ default: module.Toaster })),
+);
+const Sonner = lazyWithReload(() =>
+  import("@/components/ui/sonner").then((module) => ({ default: module.Toaster })),
+);
 
 const queryClient = new QueryClient();
 
@@ -68,40 +119,23 @@ const App = () => {
   }, [openWhatsNew]);
 
   React.useEffect(() => {
-    const key = "cr_chunk_reload";
-    const noticeKey = "cr_chunk_reload_notice";
-    const shouldReload = (message?: string) => {
-      if (!message) return false;
-      const msg = message.toLowerCase();
-      return msg.includes("dynamically imported module") || msg.includes("importing a module script failed");
-    };
-
-    if (sessionStorage.getItem(noticeKey) === "1") {
-      sessionStorage.removeItem(noticeKey);
+    if (sessionStorage.getItem(CHUNK_RELOAD_NOTICE_KEY) === "1") {
+      sessionStorage.removeItem(CHUNK_RELOAD_NOTICE_KEY);
+      sessionStorage.removeItem(CHUNK_RELOAD_KEY);
       toast.info(t("app.reloadNotice"));
     }
 
     const handleError = (event: ErrorEvent) => {
-      if (shouldReload(event.message)) {
-        const already = sessionStorage.getItem(key);
-        if (already !== "1") {
-          sessionStorage.setItem(key, "1");
-          sessionStorage.setItem(noticeKey, "1");
-          window.location.reload();
-        }
+      if (shouldReloadForChunkError(event.message)) {
+        triggerChunkReload();
       }
     };
 
     const handleRejection = (event: PromiseRejectionEvent) => {
       const reason = event?.reason;
       const message = typeof reason === "string" ? reason : reason?.message;
-      if (shouldReload(message)) {
-        const already = sessionStorage.getItem(key);
-        if (already !== "1") {
-          sessionStorage.setItem(key, "1");
-          sessionStorage.setItem(noticeKey, "1");
-          window.location.reload();
-        }
+      if (shouldReloadForChunkError(message)) {
+        triggerChunkReload();
       }
     };
 

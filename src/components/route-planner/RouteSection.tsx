@@ -190,6 +190,21 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const panelFrameClass = "space-y-6";
   const panelBoxClass = "planner-panel-surface rounded-3xl border";
   const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
+  const sectionShellClass = isMobile
+    ? "space-y-5"
+    : "p-6 sm:p-8 md:p-10 shadow-2xl space-y-6";
+  const tipCardClass = isMobile
+    ? "rounded-[0.95rem] border-l-2 border-primary/35 bg-transparent px-4 py-3"
+    : "rounded-2xl border border-slate-900/10 dark:border-white/8 bg-slate-900/[0.05] dark:bg-black/10 px-4 py-4 sm:px-5 sm:py-5";
+  const switchCardClass = isMobile
+    ? "flex items-center justify-between gap-4 rounded-[0.95rem] border-l-2 border-primary/30 bg-transparent px-4 py-3"
+    : "flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-slate-900/[0.05] dark:bg-black/10 border border-slate-900/10 dark:border-white/8 p-4 sm:p-5";
+  const routePanelTriggerClass = isMobile
+    ? "planner-panel-trigger rounded-[1rem] border border-primary/14 bg-white/[0.42] px-4 py-4 text-left transition-colors dark:bg-white/[0.03]"
+    : panelTriggerClass;
+  const gpxCardClass = isMobile
+    ? "rounded-[1.2rem] border border-slate-900/8 dark:border-white/8 bg-white/[0.42] dark:bg-white/[0.03] px-4 py-4"
+    : "rounded-3xl border border-white/8 bg-white/[0.05] px-6 py-6 shadow-[0_20px_60px_rgba(0,0,0,0.16)] sm:px-8";
 
   const openPanel = (panel: NonNullable<typeof activePanel>) => {
     snapshotRef.current = cloneFormDataSnapshot(formData);
@@ -711,7 +726,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
   return (
     <div className="space-y-8">
-      <div className="p-6 sm:p-8 md:p-10 shadow-2xl space-y-6" style={glassPanelStyle}>
+      <div className={sectionShellClass} style={glassPanelStyle}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <Label htmlFor="startPoint" className={fieldLabelClass}>
@@ -754,7 +769,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-900/10 dark:border-white/8 bg-slate-900/[0.05] dark:bg-black/10 px-4 py-4 sm:px-5 sm:py-5">
+        <div className={tipCardClass}>
           <div className="text-[10px] font-semibold tracking-[0.08em] text-primary mb-2">
             {t("planner.route.roundTripHint.badge")}
           </div>
@@ -780,7 +795,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           />
         </div>
 
-        <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-slate-900/[0.05] dark:bg-black/10 border border-slate-900/10 dark:border-white/8 p-4 sm:p-5">
+        <div className={switchCardClass}>
           <div className="space-y-1">
             <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
               {t("planner.route.preferScenicLongerStops.label")}
@@ -798,7 +813,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button type="button" className={panelTriggerClass} onClick={() => openPanel("times")}>
+          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("times")}>
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
                 <Calendar className="h-4 w-4" />
@@ -810,7 +825,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             </div>
           </button>
 
-          <button type="button" className={panelTriggerClass} onClick={() => openPanel("stages")}>
+          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("stages")}>
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
                 <Route className="h-4 w-4" />
@@ -822,7 +837,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             </div>
           </button>
 
-          <button type="button" className={panelTriggerClass} onClick={() => openPanel("limits")}>
+          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("limits")}>
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
                 <Sparkles className="h-4 w-4" />
@@ -834,7 +849,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             </div>
           </button>
 
-          <button type="button" className={panelTriggerClass} onClick={() => openPanel("notes")}>
+          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("notes")}>
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
                 <Info className="h-4 w-4" />
@@ -848,7 +863,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-white/8 bg-white/[0.05] px-6 py-6 shadow-[0_20px_60px_rgba(0,0,0,0.16)] sm:px-8">
+      <div className={gpxCardClass}>
         <div className="space-y-3 text-left">
           <Label className={fieldLabelClass}>
             <Info className="w-4 h-4 text-primary" /> {t("planner.route.gpx.label")}

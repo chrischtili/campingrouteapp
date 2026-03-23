@@ -205,11 +205,17 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     DIRECT_AI_FEATURE_ENABLED &&
     !!aiSettings.apiKey?.trim() &&
     /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
-  const plannerSectionClass = "w-full min-w-0 px-0 sm:px-6 lg:px-8 py-6 sm:py-7";
+  const plannerSectionClass = `w-full min-w-0 px-0 sm:px-6 lg:px-8 ${isMobile ? "py-3" : "py-6 sm:py-7"}`;
   const plannerSummarySectionClass = "px-1 sm:px-6 lg:px-8 py-4 sm:py-7";
-  const plannerAccordionItemClass = "w-full min-w-0 overflow-hidden rounded-[1.75rem] border-2 border-primary/20 bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] shadow-[0_12px_30px_rgba(15,23,42,0.06)] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))]";
-  const plannerAccordionTriggerClass = "px-4 sm:px-6 py-5 text-left hover:no-underline transition-colors hover:bg-black/[0.02] data-[state=open]:bg-black/[0.02] dark:hover:bg-white/[0.03] dark:data-[state=open]:bg-white/[0.03]";
-  const plannerAccordionContentClass = "w-full min-w-0 px-3 sm:px-6 pb-5 sm:pb-6 pt-0";
+  const plannerAccordionItemClass = `w-full min-w-0 overflow-hidden bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))] ${
+    isMobile
+      ? "rounded-[1.4rem] border border-primary/16 shadow-[0_8px_18px_rgba(15,23,42,0.04)]"
+      : "rounded-[1.75rem] border-2 border-primary/20 shadow-[0_12px_30px_rgba(15,23,42,0.06)]"
+  }`;
+  const plannerAccordionTriggerClass = `text-left hover:no-underline transition-colors hover:bg-black/[0.02] data-[state=open]:bg-black/[0.02] dark:hover:bg-white/[0.03] dark:data-[state=open]:bg-white/[0.03] ${
+    isMobile ? "px-4 py-4" : "px-4 sm:px-6 py-5"
+  }`;
+  const plannerAccordionContentClass = `w-full min-w-0 pt-0 ${isMobile ? "px-3 pb-4" : "px-3 sm:px-6 pb-5 sm:pb-6"}`;
   const plannerPanelSurfaceClass = "bg-[linear-gradient(180deg,rgba(238,242,249,0.985),rgba(231,236,245,0.985))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.985),rgba(44,53,70,0.985))]";
   const promptPageContent = getPromptGeneratorPageContent(i18n.language);
   const validActivityValues = new Set([
@@ -955,14 +961,14 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                 )}
               </AccordionTrigger>
               <AccordionContent className={plannerAccordionContentClass}>
-                <div className={`${plannerSectionClass} space-y-6 text-left`}>
-                  <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+                <div className={`${plannerSectionClass} ${isMobile ? "space-y-4" : "space-y-6"} text-left`}>
+                  <div className={`flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between ${isMobile ? "rounded-[1.2rem] bg-white/[0.18] px-1 py-1 dark:bg-white/[0.03]" : ""}`}>
                     <div className="space-y-2">
                       <div className="text-[13px] font-medium leading-relaxed text-foreground/82 dark:text-white/78">
                         {t("planner.summary.save.note")}
                       </div>
                     </div>
-                    <div className="w-full space-y-3 xl:max-w-[60rem]">
+                    <div className={`w-full xl:max-w-[60rem] ${isMobile ? "space-y-2.5" : "space-y-3"}`}>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <Button
                           type="button"
@@ -1037,11 +1043,11 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   )}
 
                   {savedPlans.length === 0 ? (
-                    <div className="rounded-2xl border border-primary/30 bg-white/60 px-4 py-5 text-sm text-foreground/60 shadow-sm dark:bg-white/[0.04] dark:text-white/50">
+                    <div className={`text-sm text-foreground/60 dark:text-white/50 ${isMobile ? "rounded-[1.1rem] bg-white/[0.18] px-4 py-4" : "rounded-2xl border border-primary/30 bg-white/60 px-4 py-5 shadow-sm dark:bg-white/[0.04]"}`}>
                       {t("planner.summary.savedPlans.empty")}
                     </div>
                   ) : (
-                    <div className="space-y-3">
+                    <div className={isMobile ? "space-y-2.5" : "space-y-3"}>
                       {savedPlans.map((plan) => {
                         const isActivePlan = activeSavedPlanId === plan.id;
                         const isLatestPlan = savedPlans[0]?.id === plan.id;
@@ -1049,10 +1055,18 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                         return (
                           <div
                             key={plan.id}
-                            className={`grid grid-cols-1 gap-4 rounded-2xl px-4 py-4 transition-all xl:grid-cols-[minmax(0,1fr)_21rem] ${
-                              isActivePlan
-                                ? "border-2 border-primary/55 bg-primary/[0.06] shadow-[0_12px_30px_rgba(0,0,0,0.10),0_0_0_1px_rgba(255,128,0,0.10)]"
-                                : "border border-primary/35 bg-white/[0.04] shadow-[inset_0_0_0_1px_rgba(255,128,0,0.08)]"
+                            className={`grid grid-cols-1 transition-all xl:grid-cols-[minmax(0,1fr)_21rem] ${
+                              isMobile
+                                ? `gap-3 rounded-[1.15rem] px-3.5 py-3.5 ${
+                                    isActivePlan
+                                      ? "border border-primary/40 bg-primary/[0.08]"
+                                      : "border border-white/10 bg-white/[0.14]"
+                                  }`
+                                : `gap-4 rounded-2xl px-4 py-4 ${
+                                    isActivePlan
+                                      ? "border-2 border-primary/55 bg-primary/[0.06] shadow-[0_12px_30px_rgba(0,0,0,0.10),0_0_0_1px_rgba(255,128,0,0.10)]"
+                                      : "border border-primary/35 bg-white/[0.04] shadow-[inset_0_0_0_1px_rgba(255,128,0,0.08)]"
+                                  }`
                             }`}
                           >
                             <div className="min-w-0 space-y-3">
@@ -1071,7 +1085,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                               <div className="text-[11px] text-white/38">
                                 {new Date(plan.savedAt).toLocaleString(locale)}
                               </div>
-                              <div className="space-y-2 text-sm leading-relaxed text-white/76">
+                              <div className={`space-y-2 leading-relaxed text-white/76 ${isMobile ? "text-[0.96rem]" : "text-sm"}`}>
                                 <div className="break-words font-semibold leading-snug text-white">
                                   {plan.formData.startPoint || t("planner.summary.notSpecified")} → {plan.formData.destination || t("planner.summary.notSpecified")}
                                 </div>
@@ -1102,13 +1116,15 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 </div>
                               </div>
                             </div>
-                            <div className="grid w-full min-w-0 grid-cols-2 gap-2 self-start xl:self-center">
+                            <div className={`grid w-full min-w-0 grid-cols-2 self-start xl:self-center ${isMobile ? "gap-2.5" : "gap-2"}`}>
                               <Button
                                 type="button"
                                 variant="outline"
                                 onClick={() => loadSavedPlan(plan)}
                                 disabled={isActivePlan}
-                                className={`inline-flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl border-2 px-3 font-semibold transition-all active:scale-95 ${
+                                className={`inline-flex w-full items-center justify-center gap-2 border-2 px-3 font-semibold transition-all active:scale-95 ${
+                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "min-h-[42px] rounded-xl"
+                                } ${
                                   isActivePlan ? "cursor-default border-primary/20 bg-primary/10 text-white/60" : "border-white/10 bg-white/5 text-white hover:bg-white/10"
                                 }`}
                               >
@@ -1119,7 +1135,9 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() => duplicateSavedPlan(plan)}
-                                className="inline-flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl border-2 border-primary/20 bg-primary/10 px-3 font-semibold text-white transition-all active:scale-95 hover:bg-primary/15"
+                                className={`inline-flex w-full items-center justify-center gap-2 border-2 border-primary/20 bg-primary/10 px-3 font-semibold text-white transition-all active:scale-95 hover:bg-primary/15 ${
+                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "min-h-[42px] rounded-xl"
+                                }`}
                               >
                                 <Sparkles className="h-4 w-4" />
                                 {t("planner.summary.savedPlans.duplicate")}
@@ -1129,7 +1147,9 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 variant="outline"
                                 onClick={() => saveCurrentPlan(plan.id)}
                                 disabled={!formData.startPoint || !formData.destination}
-                                className={`w-full justify-center rounded-xl border-2 px-3 font-semibold transition-all active:scale-95 ${
+                                className={`w-full justify-center border-2 px-3 font-semibold transition-all active:scale-95 ${
+                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "rounded-xl"
+                                } ${
                                   isActivePlan ? "border-primary/30 bg-primary/15 text-white hover:bg-primary/20" : "border-primary/16 bg-primary/8 text-white/85 hover:bg-primary/12"
                                 }`}
                               >
@@ -1139,7 +1159,9 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() => deleteSavedPlan(plan.id)}
-                                className="inline-flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl border-2 border-white/10 bg-white/5 px-3 font-semibold text-white/85 transition-all active:scale-95 hover:bg-white/10"
+                                className={`inline-flex w-full items-center justify-center gap-2 border-2 border-white/10 bg-white/5 px-3 font-semibold text-white/85 transition-all active:scale-95 hover:bg-white/10 ${
+                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "min-h-[42px] rounded-xl"
+                                }`}
                               >
                                 <Trash2 className="h-4 w-4" />
                                 {t("planner.summary.savedPlans.delete")}

@@ -895,11 +895,15 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     <div
       id="prompt-generator-workspace"
       ref={workspaceRef}
-      className="theme-popup-shell theme-popup-vehicle relative overflow-hidden rounded-[2.5rem] border-2 shadow-[0_32px_120px_rgba(0,0,0,0.18)]"
+      className={`theme-popup-shell theme-popup-vehicle relative overflow-hidden ${
+        isMobile
+          ? "rounded-none border-0 shadow-none"
+          : "rounded-[2.5rem] border-2 shadow-[0_32px_120px_rgba(0,0,0,0.18)]"
+      }`}
     >
-      <section id="planner" className={`planner-scope relative px-4 pb-12 pt-12 text-foreground dark:text-white sm:pb-16 ${plannerPanelSurfaceClass}`}>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 text-foreground dark:text-white sm:px-6 lg:px-8">
-          <div className="mb-16 text-center">
+      <section id="planner" className={`planner-scope relative text-foreground dark:text-white ${isMobile ? "px-3 pb-10 pt-8" : "px-4 pb-12 pt-12 sm:pb-16"} ${plannerPanelSurfaceClass}`}>
+        <div className={`relative z-10 mx-auto max-w-7xl text-foreground dark:text-white ${isMobile ? "px-0" : "px-4 sm:px-6 lg:px-8"}`}>
+          <div className={`${isMobile ? "mb-10 text-center" : "mb-16 text-center"}`}>
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -962,7 +966,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               </AccordionTrigger>
               <AccordionContent className={plannerAccordionContentClass}>
                 <div className={`${plannerSectionClass} ${isMobile ? "space-y-4" : "space-y-6"} text-left`}>
-                  <div className={`flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between ${isMobile ? "rounded-[1.2rem] bg-white/[0.18] px-1 py-1 dark:bg-white/[0.03]" : ""}`}>
+                  <div className={`flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between ${isMobile ? "" : ""}`}>
                     <div className="space-y-2">
                       <div className="text-[13px] font-medium leading-relaxed text-foreground/82 dark:text-white/78">
                         {t("planner.summary.save.note")}
@@ -1043,7 +1047,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   )}
 
                   {savedPlans.length === 0 ? (
-                    <div className={`text-sm text-foreground/60 dark:text-white/50 ${isMobile ? "rounded-[1.1rem] bg-white/[0.18] px-4 py-4" : "rounded-2xl border border-primary/30 bg-white/60 px-4 py-5 shadow-sm dark:bg-white/[0.04]"}`}>
+                    <div className={`text-sm text-foreground/60 dark:text-white/50 ${isMobile ? "rounded-[0.95rem] border-l-2 border-primary/28 bg-transparent px-3 py-3" : "rounded-2xl border border-primary/30 bg-white/60 px-4 py-5 shadow-sm dark:bg-white/[0.04]"}`}>
                       {t("planner.summary.savedPlans.empty")}
                     </div>
                   ) : (
@@ -1057,10 +1061,10 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                             key={plan.id}
                             className={`grid grid-cols-1 transition-all xl:grid-cols-[minmax(0,1fr)_21rem] ${
                               isMobile
-                                ? `gap-3 rounded-[1.15rem] px-3.5 py-3.5 ${
+                                ? `gap-3 rounded-[0.95rem] px-2.5 py-2.5 ${
                                     isActivePlan
-                                      ? "border border-primary/40 bg-primary/[0.08]"
-                                      : "border border-white/10 bg-white/[0.14]"
+                                      ? "border-l-2 border-primary/45 bg-transparent"
+                                      : "border-l-2 border-primary/18 bg-transparent"
                                   }`
                                 : `gap-4 rounded-2xl px-4 py-4 ${
                                     isActivePlan
@@ -1488,14 +1492,18 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
       <main className="min-h-screen bg-background" id="main-content">
         <Navbar onStartPlanning={revealPlanner} />
 
-        <section className="relative overflow-hidden px-4 pb-12 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+        <section className={`relative overflow-hidden pb-12 pt-28 sm:pt-32 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_top,rgba(255,147,41,0.16),transparent_56%)] blur-3xl" />
           <div className="relative mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="overflow-hidden rounded-[2.75rem] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,251,245,0.95),rgba(247,240,230,0.94))] px-6 py-8 shadow-[0_28px_90px_rgba(255,128,0,0.12)] dark:bg-[linear-gradient(180deg,rgba(48,55,45,0.94),rgba(31,38,33,0.97))] sm:px-8 sm:py-10 lg:px-12 lg:py-14"
+              className={`overflow-hidden bg-[linear-gradient(180deg,rgba(255,251,245,0.95),rgba(247,240,230,0.94))] dark:bg-[linear-gradient(180deg,rgba(48,55,45,0.94),rgba(31,38,33,0.97))] ${
+                isMobile
+                  ? "rounded-none border-0 px-0 py-6 shadow-none"
+                  : "rounded-[2.75rem] border border-primary/20 px-6 py-8 shadow-[0_28px_90px_rgba(255,128,0,0.12)] sm:px-8 sm:py-10 lg:px-12 lg:py-14"
+              }`}
             >
               <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
                 <div className="space-y-7">
@@ -1588,7 +1596,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           </div>
         </section>
 
-        <section className="px-4 py-8 sm:px-6 lg:px-8">
+        <section className={`py-8 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
           <div className="mx-auto max-w-7xl">
             <div className="mb-6 space-y-3">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-primary">
@@ -1620,7 +1628,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           </div>
         </section>
 
-        <section className="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+        <section className={`pb-16 pt-8 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
           <div className="mx-auto max-w-7xl">
             {plannerWorkspace}
           </div>

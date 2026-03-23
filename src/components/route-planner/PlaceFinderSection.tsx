@@ -70,7 +70,9 @@ export function PlaceFinderSection({
   const searchDisabled = query.trim().length < 2 || selectedCategories.length === 0 || isLoading;
   const panelClass = standalone
     ? "w-full min-w-0 rounded-[1.75rem] border border-border/70 bg-background/85 p-4 sm:p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/[0.04]"
-    : "w-full min-w-0 rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-4 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
+    : isMobile
+      ? "w-full min-w-0 p-0"
+      : "w-full min-w-0 rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-4 sm:p-6 shadow-[0_18px_50px_rgba(0,0,0,0.12)]";
   const inputClass = standalone
     ? "w-full rounded-2xl border border-border/70 bg-background px-4 py-3 text-base font-medium text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15 sm:text-sm dark:border-white/12 dark:bg-white/8 dark:text-white dark:placeholder:text-white/38"
     : "w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-sm font-medium text-white placeholder:text-white/38 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
@@ -597,14 +599,18 @@ export function PlaceFinderSection({
                       toggleCategory(category);
                     }
                   }}
-                  className={`flex w-full min-w-0 flex-col items-stretch gap-3 rounded-[1.35rem] border px-4 py-3 text-left transition sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
+                  className={`flex w-full min-w-0 flex-col items-stretch gap-3 px-4 py-3 text-left transition sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
                     standalone
                       ? active
                         ? "border-primary/35 bg-primary/[0.08] shadow-[0_14px_28px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
                         : "border-border/80 bg-background/92 hover:bg-muted/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
                       : active
-                        ? "border-primary/35 bg-primary/[0.12] shadow-[0_14px_28px_rgba(255,138,0,0.14)]"
-                        : "border-white/10 bg-white/[0.05] hover:bg-white/[0.08]"
+                        ? isMobile
+                          ? "rounded-[0.95rem] border-l-2 border-primary/40 bg-transparent"
+                          : "rounded-[1.35rem] border-primary/35 bg-primary/[0.12] shadow-[0_14px_28px_rgba(255,138,0,0.14)]"
+                        : isMobile
+                          ? "rounded-[0.95rem] border-l-2 border-primary/18 bg-transparent"
+                          : "rounded-[1.35rem] border-white/10 bg-white/[0.05] hover:bg-white/[0.08]"
                   }`}
                 >
                   <span className="flex min-w-0 flex-1 items-start gap-3">

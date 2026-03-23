@@ -44,6 +44,12 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const glassPanelStyle = undefined;
 
   const detailTriggerClass = "planner-panel-trigger rounded-2xl border-2 px-5 py-4 text-left transition-colors";
+  const vehiclePanelClass = isMobile
+    ? "planner-panel-surface p-4 border-l-2 border-primary/24 shadow-none space-y-5 flex flex-col items-start text-left rounded-[0.95rem]"
+    : "planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left";
+  const mobileDetailTriggerClass = isMobile
+    ? "planner-panel-trigger rounded-[0.95rem] border-l-2 border-primary/24 px-4 py-4 text-left transition-colors"
+    : detailTriggerClass;
   const detailSummaryParts = [
     !isLightweightVehicle && Number(formData.solarPower || 0) > 0 ? `${formData.solarPower}W` : "",
     !isLightweightVehicle && Number(formData.batteryCapacity || 0) > 0 ? `${formData.batteryCapacity}Ah` : "",
@@ -130,7 +136,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
+        className={`${vehiclePanelClass} ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
         style={glassPanelStyle}
       >
         <div className="flex items-center gap-3">
@@ -150,7 +156,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
+        className={`${vehiclePanelClass} ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
         style={glassPanelStyle}
       >
         <div className="flex items-center gap-3">
@@ -239,7 +245,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
+          className={`${vehiclePanelClass} ${isLightweightVehicle ? "opacity-40 pointer-events-none" : ""}`}
           style={glassPanelStyle}
         >
           <div className="flex items-center gap-3">
@@ -262,7 +268,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="planner-panel-surface p-4 sm:p-5 border shadow-lg space-y-5 flex flex-col items-start text-left" 
+          className={vehiclePanelClass}
           style={glassPanelStyle}
         >
           <div className="flex items-center gap-3">
@@ -338,7 +344,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
       <button
         type="button"
-        className={`${detailTriggerClass} ${isLightweightVehicle ? "cursor-not-allowed opacity-55" : ""}`}
+        className={`${mobileDetailTriggerClass} ${isLightweightVehicle ? "cursor-not-allowed opacity-55" : ""}`}
         onClick={openDetails}
         disabled={isLightweightVehicle}
       >

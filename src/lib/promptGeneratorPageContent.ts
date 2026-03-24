@@ -70,7 +70,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerBadge: "Assistent",
     plannerTitle: "Erstelle jetzt deinen Prompt",
     plannerLead:
-      "Du nutzt weiterhin alle wichtigen Funktionen an einem Ort: gespeicherte Planungen, Platzfinder, Etappen, Fahrzeugdaten und den fertigen Prompt.",
+      "Mit dem Prompt-Assistenten gibst du deiner KI genau die richtigen Infos. So entstehen deutlich stärkere, passendere und besser nutzbare Routenvorschläge für deinen Trip.",
     seo: {
       title: "KI-Prompt-Assistent für Camping- und Roadtrips | Camping Route",
       description:
@@ -125,7 +125,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerBadge: "Assistant",
     plannerTitle: "Create your prompt now",
     plannerLead:
-      "All existing functionality stays intact: saved plans, place finder, stages, vehicle data, optimization and output.",
+      "The prompt assistant gives your AI the right context from the start, so it can create stronger, more relevant and more usable route suggestions for your trip.",
     seo: {
       title: "AI Prompt Assistant for Camping and Road Trips | Camping Route",
       description:
@@ -180,7 +180,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerBadge: "Assistant",
     plannerTitle: "Crée maintenant ton prompt",
     plannerLead:
-      "Toutes les fonctions existantes restent disponibles : plans enregistrés, recherche de places, étapes, données véhicule, optimisation et sortie.",
+      "L’assistant de prompt donne à ton IA les bonnes informations dès le départ, pour obtenir des suggestions d’itinéraire plus fortes, plus pertinentes et plus utiles.",
     seo: {
       title: "Assistant de prompt IA pour camping et road trips | Camping Route",
       description:
@@ -235,7 +235,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerBadge: "Assistent",
     plannerTitle: "Maak nu je prompt",
     plannerLead:
-      "Alle bestaande functies blijven behouden: opgeslagen plannen, plaatszoeker, etappes, voertuiggegevens, optimalisatie en output.",
+      "Met de prompt-assistent geef je je AI meteen de juiste context, zodat die sterkere, relevantere en beter bruikbare routesuggesties kan maken.",
     seo: {
       title: "AI-prompt-assistent voor camping- en roadtrips | Camping Route",
       description:
@@ -290,7 +290,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerBadge: "Assistente",
     plannerTitle: "Crea ora il tuo prompt",
     plannerLead:
-      "Tutte le funzioni esistenti restano disponibili: piani salvati, ricerca aree, tappe, dati del veicolo, ottimizzazione e output.",
+      "Con l’assistente prompt dai subito alla tua IA le informazioni giuste, così ottieni suggerimenti di itinerario più forti, più pertinenti e più utili.",
     seo: {
       title: "Assistente prompt IA per camping e road trip | Camping Route",
       description:

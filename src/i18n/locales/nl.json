@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Promptgenerator & camperplaatszoeker Europa",
-    "description": "Maak sterke prompts voor campingroutes in Europa met camperplaatszoeker, campingzoeker, etappeplanning en GPX-export.",
+    "title": "Camping Route - Prompt-assistent & camperplaatszoeker Europa",
+    "description": "Maak sterke prompts voor campingroutes in Europa met prompt-assistent, camperplaatszoeker, campingzoeker, etappeplanning en GPX-export.",
     "keywords": "camping routeplanner, camping finder, camperplaats zoeker, campingzoeker, camper routeplanner, caravan routeplanner, tent roadtrip plannen, motor routeplanner, GPX routeplanner, campingroute, Camping Route, CampingRoute, campingroutes"
   },
   "navbar": {
@@ -11,7 +11,7 @@
     "faq": "FAQ",
     "placeFinder": "Plaatszoeker",
     "subtitle": "Slimme AI‑prompts",
-    "planNow": "Prompt genereren",
+    "planNow": "Prompt-assistent",
     "whatsNew": "Nieuw in {{version}}",
     "placeFinderDescriptions": {
       "camping": "Aparte zoekpagina voor klassieke campings.",
@@ -27,15 +27,15 @@
     }
   },
   "hero": {
-    "badge": "AI-Promptgenerator",
+    "badge": "AI-prompt-assistent",
     "title": "Plan je perfecte camperroute",
     "headline": {
       "line1": "Plan betere",
       "line2": "campingroutes",
       "line3": "met een sterke prompt"
     },
-    "description": "Onze AI-promptgenerator is je praktische begeleider om de perfecte prompts voor je favoriete AI te vinden. Daarmee plan je je reizen met camper, caravan, tent of motor een stuk makkelijker, inclusief camping- en camperplaatszoekfunctie, etappeplanning en GPX-export.",
-    "planNow": "Prompt genereren",
+    "description": "Onze AI-prompt-assistent is je praktische begeleider om de perfecte prompts voor je favoriete AI te vinden. Daarmee plan je je reizen met camper, caravan, tent of motor een stuk makkelijker, inclusief camping- en camperplaatszoekfunctie, etappeplanning en GPX-export.",
+    "planNow": "Prompt-assistent",
     "viewExample": "Bekijk voorbeeld",
     "chips": {
       "chatgpt": "ChatGPT",
@@ -51,7 +51,8 @@
       "label": "Voer een bestemming of regio in",
       "placeholder": "bijv. Gardameer of Bretagne",
       "cta": "Start met bestemming",
-      "hint": "Je bestemming wordt direct meegenomen naar de promptgenerator.",
+      "hint": "Je bestemming wordt direct meegenomen naar de prompt-assistent.",
+      "loading": "Plaatsen laden…",
       "proof": "Veel gebruikers merken dat de uiteindelijke prompt veel betere routes oplevert dan een losse AI-vraag."
     },
     "finders": {
@@ -66,10 +67,10 @@
       "title": "Van bestemmingsidee naar een prompt die je zo kunt kopiëren",
       "outputLabel": "Output",
       "outputValue": "ChatGPT, Gemini, Mistral",
-      "step1Label": "1 Bestemming",
+      "step1Label": "1. Bestemming",
       "step1Value": "Gardameer in oktober",
       "step1Description": "Campings, camperplaatsen, etappes en voertuiggegevens komen direct in een sterke, direct bruikbare prompt terecht.",
-      "step2Label": "2 Prompt",
+      "step2Label": "2. Prompt",
       "step2Bullet1": "• helder gestructureerd voor je AI",
       "step2Bullet2": "• met passende plekken en etappewensen",
       "step2Bullet3": "• klaar om te plakken in ChatGPT, Gemini of Mistral"
@@ -94,7 +95,7 @@
     "title": "Waarom CampingRoute",
     "intro": "Je krijgt hier geen algemene reishelper, maar een gerichte flow voor sterke AI-prompts, passende plekken en veel minder planningschaos. Alles grijpt in elkaar zodat een bestemmingsidee sneller verandert in een echt bruikbare reisprompt.",
     "promptGen": {
-      "title": "Slimme routeprompt",
+      "title": "AI-prompt-assistent",
       "description": "Jouw wensen worden omgezet in een gestructureerde AI‑prompt."
     },
     "smartFilters": {
@@ -479,7 +480,7 @@
     "items": {
       "whatIs": {
         "q": "Wat is Camping Route?",
-        "title": "De promptgenerator voor camping- en roadtriproutes.",
+        "title": "De prompt-assistent voor camping- en roadtriproutes.",
         "prec": "Wat Camping Route voor je doet",
         "prec1": "Je vult start, bestemming, reisdata, voertuig en voorkeuren één keer netjes in.",
         "prec2": "Camping Route bouwt daaruit een gestructureerde prompt voor ChatGPT, Claude of andere AI-tools.",
@@ -517,21 +518,21 @@
         "title": "Een concreet voorbeeld met etappes, stops en overnachtingen."
       },
       "aiModel": {
-        "q": "Hoe werken plaatszoeker en promptgenerator samen?",
+        "q": "Hoe werken plaatszoeker en prompt-assistent samen?",
         "title": "Gevonden plaatsen kun je direct in je planning opnemen.",
-        "gpt": "In de promptgenerator",
+        "gpt": "In de prompt-assistent",
         "gpt1": "In de ingebouwde plaatszoeker kun je resultaten direct als bestemming of tussenstop zetten.",
         "gpt2": "Bestaande stops worden herkend, zodat je gericht kunt vervangen of aanvullen.",
         "prompt": "In de losse zoekers",
-        "prompt1": "Ook de campingzoeker en stellplaatszoeker kunnen resultaten direct naar je huidige generatorconcept sturen.",
-        "recDesc": "Je huidige concept blijft in hetzelfde browsertabblad staan wanneer je wisselt tussen zoeker en generator."
+        "prompt1": "Ook de campingzoeker en stellplaatszoeker kunnen resultaten direct naar je huidige assistentconcept sturen.",
+        "recDesc": "Je huidige concept blijft in hetzelfde browsertabblad staan wanneer je wisselt tussen zoeker en assistent."
       },
       "cost": {
         "q": "Wat kost Camping Route mij echt?",
         "title": "Camping Route zelf is gratis.",
         "free": "De app",
         "free1": "Formulier en promptgeneratie zijn 100% gratis.",
-        "free2": "Geen registratie nodig. Je gebruikt de promptgenerator direct in je browser.",
+        "free2": "Geen registratie nodig. Je gebruikt de prompt-assistent direct in je browser.",
         "opt": "Externe AI-kosten",
         "transDesc": "Kosten ontstaan alleen als je de gegenereerde prompt gebruikt in een betaalde AI-dienst. Die kosten lopen uitsluitend via de door jou gekozen aanbieder, niet via Camping Route."
       },
@@ -558,11 +559,11 @@
   "planner": {
     "badge": "Routeplanner",
     "title": "Alles voor je route op één plek",
-    "cta": "Prompt genereren",
+    "cta": "Prompt-assistent",
     "launcher": {
-      "title": "Promptopbouw, plaatszoeker en routeplanning op één plek",
-      "description": "Open de planner, zoek geschikte plekken en rond daarna je routedetails en AI-prompt in één flow af.",
-      "hint": "De plaatszoeker opent direct in het plannerpaneel."
+      "title": "Prompt-assistent, plaatszoeker en routeplanning op één plek",
+      "description": "Open de assistent, zoek geschikte plekken en rond daarna je routedetails en AI-prompt in één flow af.",
+      "hint": "De plaatszoeker opent direct in het assistentpaneel."
     },
     "loading": {
       "ai": "🤖 Route genereren...",
@@ -602,10 +603,10 @@
         "title": "Invoer lokaal opslaan",
         "desc": "Slaat je formuliergegevens 30 dagen lokaal op dit apparaat op. Met “Gegevens wissen” verwijder je opgeslagen data van dit apparaat.",
         "note": "Planningen kunnen ook lokaal als bestand worden geëxporteerd en later opnieuw worden geïmporteerd.",
-        "coffeeBadge": "Steunen",
-        "coffee": "Steun CampingRoute",
-        "coffeeTagline": "Open source en reclamevrij",
-        "coffeeHint": "CampingRoute.app is open‑source en reclamevrij — je steun helpt met server- en ontwikkelkosten. Dank je!",
+        "coffeeBadge": "Heeft deze prompt je geholpen?",
+        "coffee": "Trakteer op koffie",
+        "coffeeTagline": "Help Camping Route advertentievrij te houden.",
+        "coffeeHint": "Als deze prompt je tijd heeft bespaard, helpt een kleine koffie mee aan server- en ontwikkelkosten. Dank je wel!",
         "clear": "Gegevens wissen"
       },
       "savedPlans": {
@@ -921,8 +922,8 @@
         "openWebsite": "Website openen"
       },
       "transfer": {
-        "successDestination": "{{place}} is als bestemming in de promptgenerator overgenomen.",
-        "successStage": "{{place}} is als tussenstop in de promptgenerator overgenomen."
+        "successDestination": "{{place}} is als bestemming in de prompt-assistent overgenomen.",
+        "successStage": "{{place}} is als tussenstop in de prompt-assistent overgenomen."
       },
       "errors": {
         "region_not_supported": "Voer een concrete plaats of stad in. Zoekopdrachten op regio worden hier nog niet ondersteund.",

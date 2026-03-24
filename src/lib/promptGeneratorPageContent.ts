@@ -25,7 +25,7 @@ type PromptGeneratorPageCopy = {
 
 const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", PromptGeneratorPageCopy> = {
   de: {
-    badge: "KI-Prompt-Generator",
+    badge: "KI-Prompt-Assistent",
     title: "Plane deine Route",
     accent: "mit einem Prompt, der wirklich hilft",
     lead:
@@ -44,14 +44,14 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       },
       {
         title: "Platzsuche direkt dabei",
-        description: "Suche passende Camping- oder Stellplätze, ohne den Generator zu verlassen.",
+        description: "Suche passende Camping- oder Stellplätze, ohne den Assistenten zu verlassen.",
       },
       {
         title: "Direkt nutzbar",
         description: "Am Ende erhältst du einen klaren Prompt zum Kopieren und Weiterverwenden in deiner bevorzugten KI.",
       },
     ],
-    stepsTitle: "So funktioniert der Generator",
+    stepsTitle: "So funktioniert der Assistent",
     stepsLead: "Klar, schnell und ohne unnötigen Ballast.",
     steps: [
       {
@@ -67,20 +67,20 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
         description: "Den fertigen Prompt kopieren und direkt in deiner bevorzugten KI verwenden.",
       },
     ],
-    plannerBadge: "Generator",
+    plannerBadge: "Assistent",
     plannerTitle: "Erstelle jetzt deinen Prompt",
     plannerLead:
       "Du nutzt weiterhin alle wichtigen Funktionen an einem Ort: gespeicherte Planungen, Platzfinder, Etappen, Fahrzeugdaten und den fertigen Prompt.",
     seo: {
-      title: "KI-Prompt-Generator für Camping- und Roadtrips | Camping Route",
+      title: "KI-Prompt-Assistent für Camping- und Roadtrips | Camping Route",
       description:
-        "Erstelle starke Prompts für Camping- und Roadtrip-Routen mit Wohnmobil, Wohnwagen, Zelt oder Motorrad. Inklusive Platzsuche, Etappenplanung und GPX-Wunsch.",
+        "Erstelle starke Prompts für Camping- und Roadtrip-Routen mit dem KI-Prompt-Assistenten für Wohnmobil, Wohnwagen, Zelt oder Motorrad. Inklusive Platzsuche, Etappenplanung und GPX-Wunsch.",
       keywords:
-        "Prompt Generator Camping, KI Prompt Generator Roadtrip, Camping Route Prompt, Wohnmobil Prompt, Camping Route Generator, KI Camping Planung",
+        "Prompt Assistent Camping, KI Prompt Assistent Roadtrip, Camping Route Prompt, Wohnmobil Prompt, Camping Route Assistent, KI Camping Planung",
     },
   },
   en: {
-    badge: "AI Prompt Generator",
+    badge: "AI Prompt Assistant",
     title: "Plan your route",
     accent: "with a prompt that actually helps",
     lead:
@@ -99,14 +99,14 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       },
       {
         title: "Built-in place search",
-        description: "Search campsites or stopovers without leaving the generator.",
+        description: "Search campsites or stopovers without leaving the assistant.",
       },
       {
         title: "Ready to use",
         description: "End with a clear prompt you can copy and use in your preferred AI.",
       },
     ],
-    stepsTitle: "How the generator works",
+    stepsTitle: "How the assistant works",
     stepsLead: "Straightforward, fast and focused.",
     steps: [
       {
@@ -122,20 +122,20 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
         description: "Copy the finished prompt and use it directly in your preferred AI.",
       },
     ],
-    plannerBadge: "Generator",
+    plannerBadge: "Assistant",
     plannerTitle: "Create your prompt now",
     plannerLead:
       "All existing functionality stays intact: saved plans, place finder, stages, vehicle data, optimization and output.",
     seo: {
-      title: "AI Prompt Generator for Camping and Road Trips | Camping Route",
+      title: "AI Prompt Assistant for Camping and Road Trips | Camping Route",
       description:
-        "Create stronger AI prompts for camping and road-trip routes with motorhome, caravan, tent or motorcycle. Includes place search, stages and GPX preferences.",
+        "Create stronger AI prompts for camping and road-trip routes with the AI prompt assistant for motorhome, caravan, tent or motorcycle. Includes place search, stages and GPX preferences.",
       keywords:
-        "AI prompt generator camping, road trip prompt generator, camping route prompt, motorhome prompt, camping route generator",
+        "AI prompt assistant camping, road trip prompt assistant, camping route prompt, motorhome prompt, camping route assistant",
     },
   },
   fr: {
-    badge: "Générateur de prompts IA",
+    badge: "Assistant de prompt IA",
     title: "Planifie ton itinéraire",
     accent: "avec un prompt vraiment utile",
     lead:
@@ -154,14 +154,14 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       },
       {
         title: "Recherche de places intégrée",
-        description: "Cherche des campings ou des aires sans quitter le générateur.",
+        description: "Cherche des campings ou des aires sans quitter l’assistant.",
       },
       {
         title: "Prêt à l’emploi",
         description: "À la fin, tu obtiens un prompt clair à copier et à utiliser dans l’IA de ton choix.",
       },
     ],
-    stepsTitle: "Comment fonctionne le générateur",
+    stepsTitle: "Comment fonctionne l’assistant",
     stepsLead: "Clair, rapide et sans surcharge inutile.",
     steps: [
       {
@@ -177,20 +177,20 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
         description: "Copie le prompt final et utilise-le directement dans l’IA de ton choix.",
       },
     ],
-    plannerBadge: "Générateur",
+    plannerBadge: "Assistant",
     plannerTitle: "Crée maintenant ton prompt",
     plannerLead:
       "Toutes les fonctions existantes restent disponibles : plans enregistrés, recherche de places, étapes, données véhicule, optimisation et sortie.",
     seo: {
-      title: "Générateur de prompts IA pour camping et road trips | Camping Route",
+      title: "Assistant de prompt IA pour camping et road trips | Camping Route",
       description:
-        "Crée des prompts puissants pour des itinéraires en camping-car, caravane, tente ou moto. Avec recherche de places, planification des étapes et préférence GPX.",
+        "Crée des prompts puissants pour des itinéraires en camping-car, caravane, tente ou moto avec l’assistant de prompt IA. Avec recherche de places, planification des étapes et préférence GPX.",
       keywords:
-        "générateur de prompts camping, générateur de prompts road trip, prompt camping-car, prompt itinéraire camping, Camping Route",
+        "assistant de prompt camping, assistant de prompt road trip, prompt camping-car, prompt itinéraire camping, Camping Route",
     },
   },
   nl: {
-    badge: "AI-promptgenerator",
+    badge: "AI-prompt-assistent",
     title: "Plan je route",
     accent: "met een prompt die echt helpt",
     lead:
@@ -209,14 +209,14 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       },
       {
         title: "Plaatszoeker inbegrepen",
-        description: "Zoek campings of camperplaatsen zonder de generator te verlaten.",
+        description: "Zoek campings of camperplaatsen zonder de assistent te verlaten.",
       },
       {
         title: "Direct bruikbaar",
         description: "Aan het einde krijg je een duidelijke prompt om te kopiëren en te gebruiken in je favoriete AI.",
       },
     ],
-    stepsTitle: "Zo werkt de generator",
+    stepsTitle: "Zo werkt de assistent",
     stepsLead: "Duidelijk, snel en zonder overbodige ballast.",
     steps: [
       {
@@ -232,20 +232,20 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
         description: "Kopieer de uiteindelijke prompt en gebruik die direct in je favoriete AI.",
       },
     ],
-    plannerBadge: "Generator",
+    plannerBadge: "Assistent",
     plannerTitle: "Maak nu je prompt",
     plannerLead:
       "Alle bestaande functies blijven behouden: opgeslagen plannen, plaatszoeker, etappes, voertuiggegevens, optimalisatie en output.",
     seo: {
-      title: "AI-promptgenerator voor camping- en roadtrips | Camping Route",
+      title: "AI-prompt-assistent voor camping- en roadtrips | Camping Route",
       description:
-        "Maak sterke prompts voor routes met camper, caravan, tent of motor. Inclusief plaatszoeker, etappeplanning en GPX-voorkeur.",
+        "Maak sterke prompts voor routes met camper, caravan, tent of motor met de AI-prompt-assistent. Inclusief plaatszoeker, etappeplanning en GPX-voorkeur.",
       keywords:
-        "ai promptgenerator camping, promptgenerator roadtrip, camper prompt, camping route prompt, Camping Route",
+        "ai prompt-assistent camping, prompt-assistent roadtrip, camper prompt, camping route prompt, Camping Route",
     },
   },
   it: {
-    badge: "Generatore di prompt IA",
+    badge: "Assistente prompt IA",
     title: "Pianifica il tuo itinerario",
     accent: "con un prompt che aiuta davvero",
     lead:
@@ -264,14 +264,14 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       },
       {
         title: "Ricerca aree integrata",
-        description: "Cerca campeggi o aree sosta senza uscire dal generatore.",
+        description: "Cerca campeggi o aree sosta senza uscire dall’assistente.",
       },
       {
         title: "Pronto all’uso",
         description: "Alla fine ottieni un prompt chiaro da copiare e usare nella tua IA preferita.",
       },
     ],
-    stepsTitle: "Come funziona il generatore",
+    stepsTitle: "Come funziona l’assistente",
     stepsLead: "Chiaro, rapido e senza zavorra inutile.",
     steps: [
       {
@@ -287,16 +287,16 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
         description: "Copia il prompt finale e usalo direttamente nella tua IA preferita.",
       },
     ],
-    plannerBadge: "Generatore",
+    plannerBadge: "Assistente",
     plannerTitle: "Crea ora il tuo prompt",
     plannerLead:
       "Tutte le funzioni esistenti restano disponibili: piani salvati, ricerca aree, tappe, dati del veicolo, ottimizzazione e output.",
     seo: {
-      title: "Generatore di prompt IA per camping e road trip | Camping Route",
+      title: "Assistente prompt IA per camping e road trip | Camping Route",
       description:
-        "Crea prompt efficaci per itinerari in camper, caravan, tenda o moto. Con ricerca aree, pianificazione delle tappe e preferenze GPX.",
+        "Crea prompt efficaci per itinerari in camper, caravan, tenda o moto con l’assistente prompt IA. Con ricerca aree, pianificazione delle tappe e preferenze GPX.",
       keywords:
-        "generatore prompt camping, generatore prompt road trip, prompt camper, prompt itinerario camping, Camping Route",
+        "assistente prompt camping, assistente prompt road trip, prompt camper, prompt itinerario camping, Camping Route",
     },
   },
 };

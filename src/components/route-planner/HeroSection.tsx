@@ -1,9 +1,11 @@
 import { BusFront, Caravan, CheckCircle2, ChevronRight, MapPin, Search, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { searchPlaceSuggestions } from "@/lib/placeFinder";
+import type { PlaceSuggestion } from "@/types/placeFinder";
 
 interface HeroSectionProps {
   onStartPlanning?: (destination?: string) => void;
@@ -12,10 +14,55 @@ interface HeroSectionProps {
 export function HeroSection({ onStartPlanning }: HeroSectionProps) {
   const { t } = useTranslation();
   const [destinationQuery, setDestinationQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
+  const [selectedSuggestion, setSelectedSuggestion] = useState<PlaceSuggestion | null>(null);
+  const [isSuggesting, setIsSuggesting] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  useEffect(() => {
+    const trimmedQuery = destinationQuery.trim();
+
+    if (trimmedQuery.length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setIsSuggesting(false);
+      return;
+    }
+
+    if (selectedSuggestion && trimmedQuery === selectedSuggestion.label) {
+      setShowSuggestions(false);
+      setIsSuggesting(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(async () => {
+      setIsSuggesting(true);
+      try {
+        const nextSuggestions = await searchPlaceSuggestions({ query: trimmedQuery, limit: 5 });
+        setSuggestions(nextSuggestions);
+        setShowSuggestions(nextSuggestions.length > 0);
+      } catch {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      } finally {
+        setIsSuggesting(false);
+      }
+    }, 220);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [destinationQuery, selectedSuggestion]);
 
   const handleStart = () => {
     const trimmed = destinationQuery.trim();
-    onStartPlanning?.(trimmed || undefined);
+    const effectiveDestination = selectedSuggestion?.label || trimmed;
+    onStartPlanning?.(effectiveDestination || undefined);
+  };
+
+  const handleSelectSuggestion = (suggestion: PlaceSuggestion) => {
+    setSelectedSuggestion(suggestion);
+    setDestinationQuery(suggestion.label);
+    setSuggestions([]);
+    setShowSuggestions(false);
   };
 
   const stats = [
@@ -75,17 +122,61 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                   <Input
                     type="text"
                     value={destinationQuery}
-                    onChange={(event) => setDestinationQuery(event.target.value)}
+                    onChange={(event) => {
+                      setDestinationQuery(event.target.value);
+                      setSelectedSuggestion(null);
+                    }}
                     onKeyDown={(event) => {
                       if (event.key === "Enter") {
                         event.preventDefault();
+                        if (!selectedSuggestion && suggestions.length > 0) {
+                          handleSelectSuggestion(suggestions[0]);
+                          return;
+                        }
                         handleStart();
                       }
+                    }}
+                    onFocus={() => {
+                      if (suggestions.length > 0) {
+                        setShowSuggestions(true);
+                      }
+                    }}
+                    onBlur={() => {
+                      window.setTimeout(() => setShowSuggestions(false), 140);
                     }}
                     placeholder={t("hero.directEntry.placeholder")}
                     aria-label={t("hero.directEntry.label")}
                     className="h-12 sm:h-14 rounded-2xl border-primary/12 bg-white/90 pl-14 sm:pl-14 text-sm sm:text-base text-foreground shadow-[0_12px_28px_rgba(15,23,42,0.08)] placeholder:text-foreground/45 dark:border-white/10 dark:bg-white/[0.08]"
                   />
+                  {showSuggestions && (
+                    <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-white/70 bg-white/95 shadow-[0_20px_50px_rgba(15,23,42,0.14)] backdrop-blur-xl dark:border-white/10 dark:bg-[#1b231f]/95">
+                      {isSuggesting ? (
+                        <div className="px-4 py-3 text-sm text-foreground/60 dark:text-white/60">
+                          {t("hero.directEntry.loading")}
+                        </div>
+                      ) : (
+                        suggestions.map((suggestion) => (
+                          <button
+                            key={suggestion.id}
+                            type="button"
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => handleSelectSuggestion(suggestion)}
+                            className="flex w-full items-start justify-between gap-3 border-b border-border/50 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-primary/6 dark:border-white/10 dark:hover:bg-white/[0.05]"
+                          >
+                            <div className="min-w-0">
+                              <div className="truncate text-sm font-semibold text-foreground dark:text-white">
+                                {suggestion.name}
+                              </div>
+                              <div className="truncate text-xs text-foreground/58 dark:text-white/56">
+                                {suggestion.label}
+                              </div>
+                            </div>
+                            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                          </button>
+                        ))
+                      )}
+                    </div>
+                  )}
                 </div>
                 <Button
                   size="sm"
@@ -141,9 +232,12 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-12 rounded-2xl border border-border/80 bg-white/75 px-5 font-semibold text-foreground hover:border-primary/35 hover:bg-white dark:border-white/12 dark:bg-white/[0.05] dark:text-white dark:hover:bg-white/[0.08]"
+                  className="h-12 rounded-2xl border border-primary/20 bg-white/92 px-5 font-semibold text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.08)] hover:border-primary/45 hover:bg-white dark:border-white/12 dark:bg-white/95 dark:text-slate-950 dark:hover:border-primary/40 dark:hover:bg-white"
                 >
-                  <Link to="/stellplatz-finder" className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                  <Link
+                    to="/stellplatz-finder"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-slate-950"
+                  >
                     <BusFront className="h-4 w-4 shrink-0 text-primary" />
                     {t("hero.finders.stopoverCta")}
                   </Link>
@@ -151,9 +245,12 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-12 rounded-2xl border border-border/80 bg-white/75 px-5 font-semibold text-foreground hover:border-primary/35 hover:bg-white dark:border-white/12 dark:bg-white/[0.05] dark:text-white dark:hover:bg-white/[0.08]"
+                  className="h-12 rounded-2xl border border-primary/20 bg-white/92 px-5 font-semibold text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.08)] hover:border-primary/45 hover:bg-white dark:border-white/12 dark:bg-white/95 dark:text-slate-950 dark:hover:border-primary/40 dark:hover:bg-white"
                 >
-                  <Link to="/campingplatz-finder" className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                  <Link
+                    to="/campingplatz-finder"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-slate-950"
+                  >
                     <Caravan className="h-4 w-4 shrink-0 text-primary" />
                     {t("hero.finders.campingCta")}
                   </Link>

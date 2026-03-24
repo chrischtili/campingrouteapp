@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Prompt-Generator & Stellplatzsuche Europa",
-    "description": "Erstelle starke Prompts für Campingrouten in Europa mit Stellplatzsuche, Campingplatzsuche, Etappenplanung und GPX-Export.",
+    "title": "Camping Route - Prompt-Assistent & Stellplatzsuche Europa",
+    "description": "Erstelle starke Prompts für Campingrouten in Europa mit Prompt-Assistent, Stellplatzsuche, Campingplatzsuche, Etappenplanung und GPX-Export.",
     "keywords": "Camping Routenplaner, Stellplatz Finder, Campingplatz Finder, Campingfinder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Stellplatzsuche, Campingplatzsuche, Camping Route, CampingRoute, Campingrouten"
   },
   "navbar": {
@@ -10,7 +10,7 @@
     "exampleRoute": "Beispielroute",
     "faq": "FAQ",
     "placeFinder": "Platzfinder",
-    "planNow": "Prompt erstellen",
+    "planNow": "Prompt-Assistent",
     "subtitle": "Smarte KI-Prompts",
     "whatsNew": "Neu in {{version}}",
     "placeFinderDescriptions": {
@@ -27,15 +27,15 @@
     }
   },
   "hero": {
-    "badge": "KI-Prompt-Generator",
+    "badge": "KI-Prompt-Assistent",
     "title": "Camping Route",
     "headline": {
       "line1": "Plane bessere",
       "line2": "Campingrouten",
       "line3": "mit einem starken Prompt"
     },
-    "description": "Unser KI-Prompt-Generator ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
-    "planNow": "Prompt erstellen",
+    "description": "Unser KI-Prompt-Assistent ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
+    "planNow": "Prompt-Assistent",
     "viewExample": "Beispielroute ansehen",
     "chips": {
       "chatgpt": "ChatGPT",
@@ -51,7 +51,8 @@
       "label": "Ziel oder Region eingeben",
       "placeholder": "z. B. Gardasee oder Bretagne",
       "cta": "Mit Ziel starten",
-      "hint": "Dein Ziel wird direkt in den Prompt-Generator übernommen.",
+      "hint": "Dein Ziel wird direkt in den Prompt-Assistenten übernommen.",
+      "loading": "Orte werden geladen …",
       "proof": "Viele Nutzer berichten: Mit dem fertigen Prompt entstehen deutlich bessere Routen als mit einer freien KI-Anfrage."
     },
     "finders": {
@@ -66,10 +67,10 @@
       "title": "Von Zielidee zu kopierfertigem Prompt",
       "outputLabel": "Output",
       "outputValue": "ChatGPT, Gemini, Mistral",
-      "step1Label": "1 Ziel",
+      "step1Label": "1. Ziel",
       "step1Value": "Gardasee im Oktober",
       "step1Description": "Campingplätze, Stellplätze, Etappen und Fahrzeugdaten landen direkt in einem starken, sofort nutzbaren Prompt.",
-      "step2Label": "2 Prompt",
+      "step2Label": "2. Prompt",
       "step2Bullet1": "• klar strukturiert für deine KI",
       "step2Bullet2": "• mit passenden Plätzen und Etappenwünschen",
       "step2Bullet3": "• kopierfertig für ChatGPT, Gemini oder Mistral"
@@ -94,7 +95,7 @@
     "title": "Warum Camping Route?",
     "intro": "Du bekommst keinen generischen Reisehelfer, sondern einen klaren Flow für starke KI-Prompts, passende Plätze und deutlich weniger Planungschaos. Alles greift ineinander, damit aus einer Zielidee schneller ein wirklich nutzbarer Reise-Prompt wird.",
     "promptGen": {
-      "title": "KI-Prompt-Generierung",
+      "title": "KI-Prompt-Assistent",
       "description": "Erstellt strukturierte KI-Prompts für deine bevorzugte KI, damit du Routen mit passenden Stellplätzen, Campingplätzen, Etappen und GPX-Ausgabe gezielt planen kannst."
     },
     "smartFilters": {
@@ -479,7 +480,7 @@
     "items": {
       "whatIs": {
         "q": "Was ist Camping Route?",
-        "title": "Der Prompt-Generator für Camping- und Roadtrip-Routen.",
+        "title": "Der Prompt-Assistent für Camping- und Roadtrip-Routen.",
         "prec": "Was Camping Route für dich übernimmt",
         "prec1": "Du gibst Start, Ziel, Reisedaten, Fahrzeug und Vorlieben einmal sauber ein.",
         "prec2": "Camping Route baut daraus einen strukturierten Prompt für ChatGPT, Claude oder andere KI-Tools.",
@@ -517,21 +518,21 @@
         "title": "Ein konkretes Beispiel mit Etappen, Stopps und Übernachtungen."
       },
       "aiModel": {
-        "q": "Wie arbeiten Platzfinder und Prompt-Generator zusammen?",
+        "q": "Wie arbeiten Platzfinder und Prompt-Assistent zusammen?",
         "title": "Gefundene Plätze lassen sich direkt in deine Planung übernehmen.",
-        "gpt": "Im Prompt-Generator",
+        "gpt": "Im Prompt-Assistenten",
         "gpt1": "Im eingebetteten Platzfinder kannst du Treffer direkt als Ziel oder Zwischenziel setzen.",
         "gpt2": "Bereits vorhandene Stopps werden erkannt, damit du passend ersetzen oder ergänzen kannst.",
         "prompt": "In den Solo-Findern",
-        "prompt1": "Auch Campingplatz-Finder und Stellplatz-Finder können Treffer direkt in deinen Generator-Entwurf übertragen.",
-        "recDesc": "Dein aktueller Entwurf bleibt im selben Browser-Tab erhalten, wenn du zwischen Finder und Generator wechselst."
+        "prompt1": "Auch Campingplatz-Finder und Stellplatz-Finder können Treffer direkt in deinen Assistenten-Entwurf übertragen.",
+        "recDesc": "Dein aktueller Entwurf bleibt im selben Browser-Tab erhalten, wenn du zwischen Finder und Assistent wechselst."
       },
       "cost": {
         "q": "Was kostet mich Camping Route wirklich?",
         "title": "Camping Route selbst ist kostenlos.",
         "free": "Die App",
         "free1": "Formular und Prompt-Erstellung sind 100% kostenlos.",
-        "free2": "Keine Anmeldung nötig. Du kannst den Prompt-Generator direkt im Browser nutzen.",
+        "free2": "Keine Anmeldung nötig. Du kannst den Prompt-Assistenten direkt im Browser nutzen.",
         "opt": "Externe KI-Kosten",
         "transDesc": "Kosten entstehen nur dann, wenn du den generierten Prompt in einem kostenpflichtigen KI-Dienst nutzt. Diese Kosten laufen ausschließlich über deinen gewählten Anbieter, nicht über Camping Route."
       },
@@ -556,12 +557,12 @@
     }
   },
   "planner": {
-    "badge": "KI-Prompt-Generator",
+    "badge": "KI-Prompt-Assistent",
     "title": "Alles für deinen Prompt an einem Ort",
-    "cta": "Prompt erstellen",
+    "cta": "Prompt-Assistent",
     "launcher": {
-      "title": "Der Prompt-Generator für Camping- und Roadtrips",
-      "description": "Öffne den Generator, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen."
+      "title": "Der Prompt-Assistent für Camping- und Roadtrips",
+      "description": "Öffne den Assistenten, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen."
     },
     "loading": {
       "ai": "🤖 Generiere Route...",
@@ -602,10 +603,10 @@
         "title": "Eingaben lokal speichern",
         "desc": "Speichert deine Formulareingaben für 30 Tage lokal auf diesem Gerät. Mit „Daten löschen“ entfernst du die gespeicherten Daten von diesem Gerät.",
         "note": "Planungen kannst du zusätzlich lokal als Datei exportieren und später wieder importieren.",
-        "coffeeBadge": "Unterstützen",
-        "coffee": "Support CampingRoute",
-        "coffeeTagline": "Open Source & werbefrei",
-        "coffeeHint": "CampingRoute.app ist Open Source & werbefrei – dein Support hilft bei Serverkosten + Entwicklungskosten. Danke!",
+        "coffeeBadge": "Hat dir der Prompt geholfen?",
+        "coffee": "Kaffee spendieren",
+        "coffeeTagline": "Hilf, Camping Route werbefrei zu halten.",
+        "coffeeHint": "Wenn dir dieser Prompt Zeit gespart hat, unterstützt ein Kaffee Server- und Entwicklungskosten. Danke dir!",
         "clear": "Daten löschen"
       },
       "savedPlans": {
@@ -920,8 +921,8 @@
         "openWebsite": "Website öffnen"
       },
       "transfer": {
-        "successDestination": "{{place}} wurde als Ziel in den Prompt-Generator übernommen.",
-        "successStage": "{{place}} wurde als Zwischenziel in den Prompt-Generator übernommen."
+        "successDestination": "{{place}} wurde als Ziel in den Prompt-Assistenten übernommen.",
+        "successStage": "{{place}} wurde als Zwischenziel in den Prompt-Assistenten übernommen."
       },
       "errors": {
         "region_not_supported": "Bitte gib einen konkreten Ort oder eine Stadt ein. Regionssuchen unterstützen wir hier aktuell noch nicht.",

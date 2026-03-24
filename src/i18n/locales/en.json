@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Prompt Generator & Pitch Search Europe",
-    "description": "Create strong prompts for camping routes in Europe with pitch search, campsite search, stage planning, and GPX export.",
+    "title": "Camping Route - Prompt Assistant & Pitch Search Europe",
+    "description": "Create strong prompts for camping routes in Europe with the prompt assistant, pitch search, campsite search, stage planning, and GPX export.",
     "keywords": "AI camping route planner, campsite finder, motorhome pitch finder, camping finder, RV route planner, caravan route planner, tent road trip planner, motorcycle route planner, GPX route planner, campsite route planner, Camping Route, CampingRoute, camping routes"
   },
   "navbar": {
@@ -10,7 +10,7 @@
     "exampleRoute": "Example Route",
     "faq": "FAQ",
     "placeFinder": "Place Finder",
-    "planNow": "Create Prompt",
+    "planNow": "Prompt Assistant",
     "subtitle": "Smart AI Prompts",
     "whatsNew": "What's new in {{version}}",
     "placeFinderDescriptions": {
@@ -27,15 +27,15 @@
     }
   },
   "hero": {
-    "badge": "AI Prompt Generator",
+    "badge": "AI Prompt Assistant",
     "title": "Camping Route",
     "headline": {
       "line1": "Plan better",
       "line2": "camping routes",
       "line3": "with a strong prompt"
     },
-    "description": "Our AI prompt generator is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
-    "planNow": "Create Prompt",
+    "description": "Our AI prompt assistant is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
+    "planNow": "Prompt Assistant",
     "viewExample": "View Example",
     "chips": {
       "chatgpt": "ChatGPT",
@@ -51,7 +51,8 @@
       "label": "Enter a destination or region",
       "placeholder": "e.g. Lake Garda or Brittany",
       "cta": "Start with destination",
-      "hint": "Your destination will be carried straight into the prompt generator.",
+      "hint": "Your destination will be carried straight into the prompt assistant.",
+      "loading": "Loading places…",
       "proof": "Many users report that the finished prompt produces much better routes than a generic AI request."
     },
     "finders": {
@@ -66,10 +67,10 @@
       "title": "From destination idea to a copy-ready prompt",
       "outputLabel": "Output",
       "outputValue": "ChatGPT, Gemini, Mistral",
-      "step1Label": "1 Destination",
+      "step1Label": "1. Destination",
       "step1Value": "Lake Garda in October",
       "step1Description": "Campsites, stopovers, stages, and vehicle data flow directly into a strong, ready-to-use prompt.",
-      "step2Label": "2 Prompt",
+      "step2Label": "2. Prompt",
       "step2Bullet1": "• clearly structured for your AI",
       "step2Bullet2": "• with matching places and stage preferences",
       "step2Bullet3": "• copy-ready for ChatGPT, Gemini, or Mistral"
@@ -94,7 +95,7 @@
     "title": "Why Camping Route?",
     "intro": "This is not a generic trip helper. It is a focused flow for strong AI prompts, matching places, and far less planning chaos. Each part supports the next so a destination idea turns into a genuinely useful travel prompt faster.",
     "promptGen": {
-      "title": "AI Prompt Generation",
+      "title": "AI Prompt Assistant",
       "description": "Creates optimized prompts for your AI-supported route planning with motorhome-specific parameters."
     },
     "smartFilters": {
@@ -479,7 +480,7 @@
     "items": {
       "whatIs": {
         "q": "What is Camping Route?",
-        "title": "The prompt generator for camping and road-trip routes.",
+        "title": "The prompt assistant for camping and road-trip routes.",
         "prec": "What Camping Route does for you",
         "prec1": "You enter your start, destination, travel dates, vehicle, and preferences once in a clean structure.",
         "prec2": "Camping Route turns that into a well-structured prompt for ChatGPT, Claude, or other AI tools.",
@@ -517,21 +518,21 @@
         "title": "A concrete example with stages, stops, and overnight suggestions."
       },
       "aiModel": {
-        "q": "How do the place finder and prompt generator work together?",
+        "q": "How do the place finder and prompt assistant work together?",
         "title": "Places you find can go straight into your planning flow.",
-        "gpt": "Inside the Prompt Generator",
+        "gpt": "Inside the Prompt Assistant",
         "gpt1": "In the embedded place finder, you can set results directly as destination or stopover.",
         "gpt2": "Existing stops are recognized so you can replace or extend them without guesswork.",
         "prompt": "Inside the standalone finders",
-        "prompt1": "The campsite finder and stopover finder can also transfer results straight into your current generator draft.",
-        "recDesc": "Your current draft stays in the same browser tab when you switch between finder and generator."
+        "prompt1": "The campsite finder and stopover finder can also transfer results straight into your current assistant draft.",
+        "recDesc": "Your current draft stays in the same browser tab when you switch between finder and assistant."
       },
       "cost": {
         "q": "What does Camping Route actually cost me?",
         "title": "Camping Route itself is free.",
         "free": "The App",
         "free1": "The form and prompt generation are 100% free.",
-        "free2": "No sign-up required. You can use the prompt generator directly in your browser.",
+        "free2": "No sign-up required. You can use the prompt assistant directly in your browser.",
         "opt": "External AI Costs",
         "transDesc": "Costs only arise if you use the generated prompt in a paid AI service. Those costs are charged solely by your chosen provider, not by Camping Route."
       },
@@ -556,13 +557,13 @@
     }
   },
   "planner": {
-    "badge": "AI Prompt Generator",
+    "badge": "AI Prompt Assistant",
     "title": "Everything for your prompt in one place",
-    "cta": "Create Prompt",
+    "cta": "Prompt Assistant",
     "launcher": {
-      "title": "The prompt generator for camping and road trips",
-      "description": "Open the generator, search suitable places if needed and then complete your route details and AI prompt in one strong flow.",
-      "hint": "Place search is available directly inside the generator."
+      "title": "The prompt assistant for camping and road trips",
+      "description": "Open the assistant, search suitable places if needed and then complete your route details and AI prompt in one strong flow.",
+      "hint": "Place search is available directly inside the assistant."
     },
     "loading": {
       "ai": "🤖 Generating route...",
@@ -602,10 +603,10 @@
         "title": "Save inputs locally",
         "desc": "Stores your form inputs on this device for 30 days. Use “Clear data” to remove the saved data from this device.",
         "note": "Plans can also be exported locally as a file and imported again later.",
-        "coffeeBadge": "Support",
-        "coffee": "Support CampingRoute",
-        "coffeeTagline": "Open-source and ad-free",
-        "coffeeHint": "CampingRoute.app is open-source and ad-free — your support helps with server and development costs. Thank you!",
+        "coffeeBadge": "Did this prompt help you?",
+        "coffee": "Buy a coffee",
+        "coffeeTagline": "Help keep Camping Route ad-free.",
+        "coffeeHint": "If this prompt saved you time, a small coffee helps cover server and development costs. Thank you!",
         "clear": "Clear data"
       },
       "savedPlans": {
@@ -921,8 +922,8 @@
         "openWebsite": "Open website"
       },
       "transfer": {
-        "successDestination": "{{place}} was added to the prompt generator as destination.",
-        "successStage": "{{place}} was added to the prompt generator as a stop."
+        "successDestination": "{{place}} was added to the prompt assistant as destination.",
+        "successStage": "{{place}} was added to the prompt assistant as a stop."
       },
       "errors": {
         "region_not_supported": "Please enter a specific place or city. Regional searches are not supported here yet.",

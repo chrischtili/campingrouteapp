@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [releaseVersion, setReleaseVersion] = useState("0.5.3");
+  const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);
   const { setTheme, resolvedTheme } = useTheme();
@@ -76,6 +77,15 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      const timeoutId = window.setTimeout(() => {
+        mobileMenuButtonRef.current?.blur();
+      }, 0);
+      return () => window.clearTimeout(timeoutId);
+    }
+  }, [mobileMenuOpen]);
+
   const handleNavClick = (anchor: string) => {
     if (!isHomePage) {
       navigate(`/${anchor}`);
@@ -122,6 +132,13 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const openWhatsNew = () => {
     window.dispatchEvent(new Event("open-whats-new"));
     setMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((open) => !open);
+    requestAnimationFrame(() => {
+      mobileMenuButtonRef.current?.blur();
+    });
   };
 
   const navLinks = [
@@ -297,8 +314,19 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
         {/* Mobile Toggle */}
         <button 
-          className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/70 dark:bg-black/45 flex items-center justify-center text-foreground dark:text-white border border-foreground/12 dark:border-white/18 shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_18px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          type="button"
+          ref={mobileMenuButtonRef}
+          aria-expanded={mobileMenuOpen}
+          className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/70 dark:bg-black/45 flex items-center justify-center text-foreground dark:text-white border border-foreground/12 dark:border-white/18 shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_18px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl outline-none ring-0 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
+          onClick={toggleMobileMenu}
+          onMouseUp={(event) => event.currentTarget.blur()}
+          onTouchEnd={(event) => event.currentTarget.blur()}
+          style={{
+            WebkitTapHighlightColor: "transparent",
+            WebkitAppearance: "none",
+            appearance: "none",
+            outline: "none",
+          }}
         >
           {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
         </button>

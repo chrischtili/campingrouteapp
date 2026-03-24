@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Generatore di prompt & aree sosta Europa",
-    "description": "Crea prompt migliori per itinerari camping in Europa con ricerca di aree sosta, ricerca campeggi, tappe ed export GPX.",
+    "title": "Camping Route - Assistente prompt & aree sosta Europa",
+    "description": "Crea prompt migliori per itinerari camping in Europa con assistente prompt, ricerca di aree sosta, ricerca campeggi, tappe ed export GPX.",
     "keywords": "pianificatore itinerari campeggio, cerca campeggi, cerca aree sosta, trova campeggi, pianificatore camper, pianificatore caravan, viaggio in tenda, pianificatore moto, export GPX campeggio, Camping Route, CampingRoute, itinerari campeggio"
   },
   "navbar": {
@@ -10,7 +10,7 @@
     "exampleRoute": "Itinerario d'esempio",
     "faq": "FAQ",
     "placeFinder": "Ricerca aree",
-    "planNow": "Genera prompt",
+    "planNow": "Assistente prompt",
     "subtitle": "Prompt IA smart",
     "whatsNew": "Novità della {{version}}",
     "placeFinderDescriptions": {
@@ -27,15 +27,15 @@
     }
   },
   "hero": {
-    "badge": "Generatore di prompt IA",
+    "badge": "Assistente prompt IA",
     "title": "Camping Route",
     "headline": {
       "line1": "Pianifica itinerari",
       "line2": "camping migliori",
       "line3": "con un prompt forte"
     },
-    "description": "Il nostro generatore di prompt IA è il tuo compagno pratico per trovare i prompt perfetti per la tua IA preferita. Ti aiuta a pianificare con più tranquillità i tuoi viaggi in camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, pianificazione delle tappe ed export GPX.",
-    "planNow": "Genera prompt",
+    "description": "Il nostro assistente prompt IA è il tuo compagno pratico per trovare i prompt perfetti per la tua IA preferita. Ti aiuta a pianificare con più tranquillità i tuoi viaggi in camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, pianificazione delle tappe ed export GPX.",
+    "planNow": "Assistente prompt",
     "viewExample": "Guarda l'itinerario d'esempio",
     "chips": {
       "chatgpt": "ChatGPT",
@@ -51,7 +51,8 @@
       "label": "Inserisci una destinazione o una regione",
       "placeholder": "es. Lago di Garda o Bretagna",
       "cta": "Inizia con la destinazione",
-      "hint": "La destinazione viene trasferita direttamente nel generatore di prompt.",
+      "hint": "La destinazione viene trasferita direttamente nell’assistente prompt.",
+      "loading": "Caricamento dei luoghi…",
       "proof": "Molti utenti raccontano che il prompt finale produce itinerari molto migliori rispetto a una richiesta IA generica."
     },
     "finders": {
@@ -66,10 +67,10 @@
       "title": "Dall’idea della meta al prompt pronto da copiare",
       "outputLabel": "Output",
       "outputValue": "ChatGPT, Gemini, Mistral",
-      "step1Label": "1 Meta",
+      "step1Label": "1. Meta",
       "step1Value": "Lago di Garda a ottobre",
       "step1Description": "Campeggi, aree di sosta, tappe e dati del veicolo confluiscono direttamente in un prompt forte e subito utilizzabile.",
-      "step2Label": "2 Prompt",
+      "step2Label": "2. Prompt",
       "step2Bullet1": "• strutturato con chiarezza per la tua IA",
       "step2Bullet2": "• con luoghi adatti e preferenze di tappa",
       "step2Bullet3": "• pronto da copiare in ChatGPT, Gemini o Mistral"
@@ -94,7 +95,7 @@
     "title": "Perché Camping Route?",
     "intro": "Qui non trovi un assistente di viaggio generico, ma un flusso chiaro per creare prompt IA forti, trovare i posti giusti e ridurre il caos della pianificazione. Ogni parte sostiene la successiva, così un’idea di viaggio diventa più rapidamente un prompt davvero utile.",
     "promptGen": {
-      "title": "Generazione di prompt IA",
+      "title": "Assistente prompt IA",
       "description": "Crea prompt ottimizzati per la tua pianificazione itinerari assistita dall'IA con parametri specifici per camper."
     },
     "smartFilters": {
@@ -479,7 +480,7 @@
     "items": {
       "whatIs": {
         "q": "Che cos'è Camping Route?",
-        "title": "Il generatore di prompt per viaggi camping e road trip.",
+        "title": "L’assistente prompt per viaggi camping e road trip.",
         "prec": "Che cosa fa Camping Route per te",
         "prec1": "Inserisci una volta sola partenza, destinazione, date, veicolo e preferenze in modo ordinato.",
         "prec2": "Camping Route trasforma tutto in un prompt strutturato per ChatGPT, Claude o altri strumenti AI.",
@@ -517,21 +518,21 @@
         "title": "Un esempio concreto con tappe, soste e pernottamenti."
       },
       "aiModel": {
-        "q": "Come lavorano insieme cercatore di aree e generatore di prompt?",
+        "q": "Come lavorano insieme cercatore di aree e assistente prompt?",
         "title": "I luoghi trovati possono entrare direttamente nel tuo flusso di pianificazione.",
-        "gpt": "Nel Prompt Generator",
+        "gpt": "Nell’assistente prompt",
         "gpt1": "Nel cercatore integrato puoi impostare i risultati direttamente come destinazione o tappa intermedia.",
         "gpt2": "Le tappe già presenti vengono riconosciute, così puoi sostituire o aggiungere nel punto giusto.",
         "prompt": "Nei cercatori autonomi",
         "prompt1": "Anche il cercatore campeggi e il cercatore aree sosta possono trasferire i risultati direttamente nella bozza attuale.",
-        "recDesc": "La tua bozza attuale resta nello stesso tab del browser quando passi dal cercatore al generatore."
+        "recDesc": "La tua bozza attuale resta nello stesso tab del browser quando passi dal cercatore all’assistente."
       },
       "cost": {
         "q": "Quanto mi costa davvero Camping Route?",
         "title": "Camping Route di per sé è gratuito.",
         "free": "L'app",
         "free1": "Modulo e creazione del prompt sono 100% gratuiti.",
-        "free2": "Nessuna registrazione necessaria. Usi il generatore di prompt direttamente nel browser.",
+        "free2": "Nessuna registrazione necessaria. Usi l’assistente prompt direttamente nel browser.",
         "opt": "Costi IA esterni",
         "transDesc": "I costi nascono solo se usi il prompt generato in un servizio IA a pagamento. Questi costi dipendono esclusivamente dal fornitore scelto, non da Camping Route."
       },
@@ -558,11 +559,11 @@
   "planner": {
     "badge": "Pianificatore itinerari",
     "title": "Tutto per il tuo itinerario in un unico posto",
-    "cta": "Genera prompt",
+    "cta": "Assistente prompt",
     "launcher": {
-      "title": "Creazione prompt, ricerca aree e pianificazione in un unico posto",
-      "description": "Apri il pianificatore, cerca aree adatte e completa poi dettagli del percorso e prompt IA nello stesso flusso.",
-      "hint": "Il cercaposti si apre direttamente nel pannello del pianificatore."
+      "title": "Assistente prompt, ricerca aree e pianificazione in un unico posto",
+      "description": "Apri l’assistente, cerca aree adatte e completa poi dettagli del percorso e prompt IA nello stesso flusso.",
+      "hint": "Il cercaposti si apre direttamente nel pannello dell’assistente."
     },
     "loading": {
       "ai": "🤖 Genero itinerario...",
@@ -602,10 +603,10 @@
         "title": "Salva input localmente",
         "desc": "Salva i tuoi input del modulo localmente su questo dispositivo per 30 giorni. Con „Elimina dati“ rimuovi i dati salvati da questo dispositivo.",
         "note": "I piani possono anche essere esportati localmente come file e importati di nuovo in seguito.",
-        "coffeeBadge": "Supporta",
-        "coffee": "Supporta CampingRoute",
-        "coffeeTagline": "Open source e senza pubblicità",
-        "coffeeHint": "CampingRoute.app è open‑source & senza pubblicità – il tuo supporto aiuta a coprire i costi server + sviluppo. Grazie!",
+        "coffeeBadge": "Questo prompt ti ha aiutato?",
+        "coffee": "Offri un caffè",
+        "coffeeTagline": "Aiuta Camping Route a restare senza pubblicità.",
+        "coffeeHint": "Se questo prompt ti ha fatto risparmiare tempo, un piccolo caffè aiuta a coprire costi di server e sviluppo. Grazie!",
         "clear": "Elimina dati"
       },
       "savedPlans": {
@@ -921,8 +922,8 @@
         "openWebsite": "Apri sito web"
       },
       "transfer": {
-        "successDestination": "{{place}} è stato trasferito come destinazione nel generatore di prompt.",
-        "successStage": "{{place}} è stato trasferito come tappa nel generatore di prompt."
+        "successDestination": "{{place}} è stato trasferito come destinazione nell’assistente prompt.",
+        "successStage": "{{place}} è stato trasferito come tappa nell’assistente prompt."
       },
       "errors": {
         "region_not_supported": "Inserisci un luogo o una città specifica. Le ricerche per regione qui non sono ancora supportate.",

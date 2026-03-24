@@ -166,10 +166,11 @@ export function Footer() {
             href="https://www.buymeacoffee.com/campingroute"
             target="_blank"
             rel="noopener noreferrer"
-            className="justify-self-center inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-3.5 py-2 text-[11px] font-medium tracking-[0.03em] text-foreground/60 shadow-inner transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:text-primary dark:bg-white/5 dark:border-white/10 dark:text-white/60 dark:hover:text-white"
+            className="justify-self-center group inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-4 py-3 text-[11px] font-semibold tracking-[0.03em] text-foreground/82 shadow-[0_10px_24px_rgba(201,123,0,0.10)] transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:bg-primary/12 hover:text-foreground dark:border-primary/30 dark:bg-primary/12 dark:text-white/82 dark:hover:bg-primary/18 dark:hover:text-white"
           >
             <Coffee className="h-3.5 w-3.5 text-primary" />
-            {t("footer.support")}
+            {t("planner.summary.save.coffee")}
+            <ArrowUp className="h-3.5 w-3.5 rotate-45 text-foreground/48 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary dark:text-white/45" />
           </a>
           <div className="justify-self-end flex items-center gap-3 px-6 py-3 rounded-full bg-white/70 border border-border shadow-inner dark:bg-white/5 dark:border-white/10">
             <span className="text-[11px] font-medium tracking-[0.03em] text-foreground/60 dark:text-white/60">{t("footer.madeWith")}</span>

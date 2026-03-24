@@ -137,9 +137,27 @@ interface RoutePlannerProps {
 }
 
 interface PromptGeneratorEntryState {
-  prefillDestination?: string;
+  prefillDestination?: string | { label?: string; name?: string };
   focusSection?: string;
 }
+
+const normalizePrefillDestination = (value: unknown): string => {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (value && typeof value === "object") {
+    if ("label" in value && typeof value.label === "string") {
+      return value.label.trim();
+    }
+
+    if ("name" in value && typeof value.name === "string") {
+      return value.name.trim();
+    }
+  }
+
+  return "";
+};
 
 export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   const { t, i18n } = useTranslation();
@@ -608,7 +626,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     if (!standalonePage) return;
 
     const navigationState = (location.state as PromptGeneratorEntryState | null) || null;
-    const prefillDestination = navigationState?.prefillDestination?.trim() || "";
+    const prefillDestination = normalizePrefillDestination(navigationState?.prefillDestination);
     const focusSection = navigationState?.focusSection || "";
 
     if (!prefillDestination && !focusSection) return;
@@ -707,8 +725,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     }, 50);
   };
 
-  const revealPlanner = (destinationPrefill?: string) => {
-    const trimmedDestination = destinationPrefill?.trim() || "";
+  const revealPlanner = (destinationPrefill?: unknown) => {
+    const trimmedDestination = normalizePrefillDestination(destinationPrefill);
 
     if (standalonePage) {
       if (trimmedDestination) {
@@ -1693,7 +1711,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   className="rounded-[2rem] border border-border/70 bg-white/76 p-6 shadow-[0_20px_42px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/6"
                 >
                   <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/12 text-base font-black text-primary">
-                    {index + 1}
+                    {index + 1}.
                   </div>
                   <h3 className="text-xl font-black tracking-tight text-foreground dark:text-white">{step.title}</h3>
                   <p className="mt-4 text-sm leading-7 text-foreground/64 dark:text-white/60">{step.description}</p>

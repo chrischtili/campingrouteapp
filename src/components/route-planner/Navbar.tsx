@@ -184,17 +184,17 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72 rounded-2xl border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
-              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
-                <Link to="/campingplatz-finder" className="flex w-full flex-col items-start gap-1">
-                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.camping}</span>
+              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 hover:bg-muted/80 focus:bg-muted/80 dark:hover:bg-white/8 dark:focus:bg-white/8">
+                <Link to="/campingplatz-finder" className="group flex w-full flex-col items-start gap-1 rounded-xl transition-colors">
+                  <span className="text-sm font-black text-foreground transition-colors group-hover:text-primary dark:text-white dark:group-hover:text-primary">{finderLabels.camping}</span>
                   <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
                     {t("navbar.placeFinderDescriptions.camping")}
                   </span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8">
-                <Link to="/stellplatz-finder" className="flex w-full flex-col items-start gap-1">
-                  <span className="text-sm font-black text-foreground dark:text-white">{finderLabels.stopover}</span>
+              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 hover:bg-muted/80 focus:bg-muted/80 dark:hover:bg-white/8 dark:focus:bg-white/8">
+                <Link to="/stellplatz-finder" className="group flex w-full flex-col items-start gap-1 rounded-xl transition-colors">
+                  <span className="text-sm font-black text-foreground transition-colors group-hover:text-primary dark:text-white dark:group-hover:text-primary">{finderLabels.stopover}</span>
                   <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
                     {t("navbar.placeFinderDescriptions.stopover")}
                   </span>
@@ -328,7 +328,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <button
               type="button"
               onClick={() => handleOpenPlaceFinder("/campingplatz-finder")}
-              className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
+              className="flex items-center justify-between rounded-2xl px-3 py-3 text-xl font-black tracking-tighter text-foreground transition-colors hover:bg-muted/70 hover:text-primary dark:text-white dark:hover:bg-white/10 dark:hover:text-primary sm:text-2xl group"
             >
               {finderLabels.camping}
               <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
@@ -336,7 +336,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <button
               type="button"
               onClick={() => handleOpenPlaceFinder("/stellplatz-finder")}
-              className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
+              className="flex items-center justify-between rounded-2xl px-3 py-3 text-xl font-black tracking-tighter text-foreground transition-colors hover:bg-muted/70 hover:text-primary dark:text-white dark:hover:bg-white/10 dark:hover:text-primary sm:text-2xl group"
             >
               {finderLabels.stopover}
               <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />

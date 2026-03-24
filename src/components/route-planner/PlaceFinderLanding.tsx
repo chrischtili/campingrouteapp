@@ -216,9 +216,12 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
                         {copy.plannerCta}
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-white/70 px-6 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
-                      <Link to={config.alternateHref}>
-                        <Compass className="mr-2 h-4 w-4 text-primary" />
+                    <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-background/92 px-6 font-semibold text-foreground hover:border-primary/35 hover:bg-background hover:text-foreground dark:border-white/12 dark:bg-[#27332b] dark:text-white dark:hover:border-primary/35 dark:hover:bg-[#2e3b32] dark:hover:text-white">
+                      <Link
+                        to={config.alternateHref}
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-white"
+                      >
+                        <Compass className="h-4 w-4 shrink-0 text-primary" />
                         {copy.alternateCta}
                       </Link>
                     </Button>
@@ -398,10 +401,13 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
                       {copy.plannerCta}
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-white/75 px-6 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
-                    <Link to={config.alternateHref}>
+                  <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-background/92 px-6 font-semibold text-foreground hover:border-primary/35 hover:bg-background hover:text-foreground dark:border-white/12 dark:bg-[#27332b] dark:text-white dark:hover:border-primary/35 dark:hover:bg-[#2e3b32] dark:hover:text-white">
+                    <Link
+                      to={config.alternateHref}
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-white"
+                    >
                       {copy.alternateCta}
-                      <ArrowRight className="ml-2 h-4 w-4 text-primary" />
+                      <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
                     </Link>
                   </Button>
                 </div>

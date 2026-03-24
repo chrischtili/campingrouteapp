@@ -29,9 +29,51 @@
   "hero": {
     "badge": "AI-Promptgenerator",
     "title": "Plan je perfecte camperroute",
+    "headline": {
+      "line1": "Plan betere",
+      "line2": "campingroutes",
+      "line3": "met een sterke prompt"
+    },
     "description": "Onze AI-promptgenerator is je praktische begeleider om de perfecte prompts voor je favoriete AI te vinden. Daarmee plan je je reizen met camper, caravan, tent of motor een stuk makkelijker, inclusief camping- en camperplaatszoekfunctie, etappeplanning en GPX-export.",
     "planNow": "Prompt genereren",
     "viewExample": "Bekijk voorbeeld",
+    "chips": {
+      "chatgpt": "ChatGPT",
+      "gemini": "Gemini",
+      "mistral": "Mistral",
+      "stopovers": "Camperplaatsen direct erbij",
+      "campsites": "Campings direct erbij",
+      "gpx": "GPX-wens inbegrepen"
+    },
+    "directEntry": {
+      "badge": "Snelle start",
+      "title": "Waar moet je route naartoe gaan?",
+      "label": "Voer een bestemming of regio in",
+      "placeholder": "bijv. Gardameer of Bretagne",
+      "cta": "Start met bestemming",
+      "hint": "Je bestemming wordt direct meegenomen naar de promptgenerator.",
+      "proof": "Veel gebruikers merken dat de uiteindelijke prompt veel betere routes oplevert dan een losse AI-vraag."
+    },
+    "finders": {
+      "badge": "Direct zoeken",
+      "title": "Liever direct naar plekken zoeken?",
+      "description": "Als je geen prompt nodig hebt, spring je meteen naar de gerichte zoekpagina voor camperplaatsen of campings.",
+      "stopoverCta": "Naar de camperplaatszoeker",
+      "campingCta": "Naar de campingzoeker"
+    },
+    "visual": {
+      "badge": "Persoonlijke routeprompt",
+      "title": "Van bestemmingsidee naar een prompt die je zo kunt kopiëren",
+      "outputLabel": "Output",
+      "outputValue": "ChatGPT, Gemini, Mistral",
+      "step1Label": "1 Bestemming",
+      "step1Value": "Gardameer in oktober",
+      "step1Description": "Campings, camperplaatsen, etappes en voertuiggegevens komen direct in een sterke, direct bruikbare prompt terecht.",
+      "step2Label": "2 Prompt",
+      "step2Bullet1": "• helder gestructureerd voor je AI",
+      "step2Bullet2": "• met passende plekken en etappewensen",
+      "step2Bullet3": "• klaar om te plakken in ChatGPT, Gemini of Mistral"
+    },
     "stats": {
       "rating": {
         "value": "5,0",
@@ -50,6 +92,7 @@
   "features": {
     "badge": "Features",
     "title": "Waarom CampingRoute",
+    "intro": "Je krijgt hier geen algemene reishelper, maar een gerichte flow voor sterke AI-prompts, passende plekken en veel minder planningschaos. Alles grijpt in elkaar zodat een bestemmingsidee sneller verandert in een echt bruikbare reisprompt.",
     "promptGen": {
       "title": "Slimme routeprompt",
       "description": "Jouw wensen worden omgezet in een gestructureerde AI‑prompt."

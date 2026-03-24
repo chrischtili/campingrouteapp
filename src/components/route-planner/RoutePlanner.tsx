@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { DEFAULT_OPENAI_MODEL, DIRECT_AI_FEATURE_ENABLED } from "@/config/ai";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getPromptGeneratorPageContent } from "@/lib/promptGeneratorPageContent";
 import { PLANNER_DRAFT_KEY, clearPlannerDraft, consumePlaceFinderTransfer, writePlannerDraft, readPlannerDraft } from "@/lib/placeFinderTransfer";
 
@@ -136,10 +136,16 @@ interface RoutePlannerProps {
   standalonePage?: boolean;
 }
 
+interface PromptGeneratorEntryState {
+  prefillDestination?: string;
+  focusSection?: string;
+}
+
 export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation();
   const SAVED_PLANS_KEY = "cr_saved_plans_v1";
   const FEEDBACK_LATER_KEY = "cr_feedback_prompt_later_until";
   const FEEDBACK_DONE_KEY = "cr_feedback_submitted_at";
@@ -599,6 +605,42 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   }, [standalonePage, t]);
 
   useEffect(() => {
+    if (!standalonePage) return;
+
+    const navigationState = (location.state as PromptGeneratorEntryState | null) || null;
+    const prefillDestination = navigationState?.prefillDestination?.trim() || "";
+    const focusSection = navigationState?.focusSection || "";
+
+    if (!prefillDestination && !focusSection) return;
+
+    setPromptReadyToCopy(false);
+    setOutput("");
+    setAIError("");
+    setActiveSavedPlanId(null);
+
+    if (prefillDestination) {
+      setFormData((prev) => {
+        const nextFormData = { ...prev, destination: prefillDestination };
+        return normalizePlannerDates(nextFormData, { destination: prefillDestination }, { didStartDateChange: false });
+      });
+    }
+
+    if (focusSection) {
+      setActivePlannerSection(focusSection);
+    }
+
+    requestAnimationFrame(() => scrollToPlannerContent());
+
+    navigate(
+      {
+        pathname: location.pathname,
+        search: location.search,
+      },
+      { replace: true, state: null },
+    );
+  }, [location.pathname, location.search, location.state, navigate, standalonePage]);
+
+  useEffect(() => {
     if (!hasHydratedDraftRef.current) return;
     persistPlannerDraft(formData, aiSettings);
   }, [aiSettings, formData]);
@@ -665,14 +707,32 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     }, 50);
   };
 
-  const revealPlanner = () => {
+  const revealPlanner = (destinationPrefill?: string) => {
+    const trimmedDestination = destinationPrefill?.trim() || "";
+
     if (standalonePage) {
-      setActivePlannerSection("");
+      if (trimmedDestination) {
+        setPromptReadyToCopy(false);
+        setOutput("");
+        setAIError("");
+        setActiveSavedPlanId(null);
+        setFormData((prev) => {
+          const nextFormData = { ...prev, destination: trimmedDestination };
+          return normalizePlannerDates(nextFormData, { destination: trimmedDestination }, { didStartDateChange: false });
+        });
+        setActivePlannerSection("route");
+      } else {
+        setActivePlannerSection("");
+      }
       scrollToPlannerContent();
       return;
     }
 
-    navigate("/prompt-generator");
+    navigate("/prompt-generator", {
+      state: trimmedDestination
+        ? { prefillDestination: trimmedDestination, focusSection: "route" }
+        : undefined,
+    });
   };
 
   const handlePlaceFinderChange = (data: Partial<FormData>) => {

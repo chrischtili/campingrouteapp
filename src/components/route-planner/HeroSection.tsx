@@ -1,81 +1,224 @@
-import { MapPin, ChevronRight } from "lucide-react";
+import { BusFront, Caravan, CheckCircle2, ChevronRight, MapPin, Search, Sparkles } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface HeroSectionProps {
-  onStartPlanning?: () => void;
+  onStartPlanning?: (destination?: string) => void;
 }
 
 export function HeroSection({ onStartPlanning }: HeroSectionProps) {
   const { t } = useTranslation();
+  const [destinationQuery, setDestinationQuery] = useState("");
+
+  const handleStart = () => {
+    const trimmed = destinationQuery.trim();
+    onStartPlanning?.(trimmed || undefined);
+  };
+
+  const stats = [
+    { value: t("hero.stats.rating.value"), label: t("hero.stats.rating.label") },
+    { value: t("hero.stats.routes.value"), label: t("hero.stats.routes.label") },
+    { value: t("hero.stats.price.value"), label: t("hero.stats.price.label") },
+  ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background" id="home">
-      {/* Background Image with Ken Burns Effect */}
+    <section className="relative min-h-screen overflow-hidden bg-background" id="home">
       <div className="absolute inset-0 overflow-hidden">
-        <img
-          src="/campingroute.webp"
-          alt={t("hero.title")}
-          className="hero-image w-full h-full object-cover"
-        />
-        <div className="hero-overlay absolute inset-0" />
-        <div className="absolute inset-x-0 top-0 h-[58%] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.28),_rgba(255,255,255,0.08)_36%,_rgba(10,18,23,0.22)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#fbf7f0_0%,#eef4fb_45%,#f7f1e7_100%)] dark:bg-[linear-gradient(180deg,#111714_0%,#18211d_45%,#121814_100%)]" />
+        <div className="absolute left-[-8%] top-[9%] h-72 w-72 rounded-full bg-primary/14 blur-3xl sm:h-96 sm:w-96" />
+        <div className="absolute right-[-10%] top-[18%] h-80 w-80 rounded-full bg-sky-200/45 blur-3xl dark:bg-sky-900/20 sm:h-[28rem] sm:w-[28rem]" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(255,248,239,0.85))] dark:bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(9,13,11,0.78))]" />
+        <div className="absolute left-[8%] top-[22%] hidden h-24 w-24 rounded-[2rem] border border-primary/18 bg-white/35 rotate-12 shadow-[0_22px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:block dark:border-white/10 dark:bg-white/[0.04]" />
+        <div className="absolute right-[12%] top-[62%] hidden h-20 w-20 rounded-full border border-primary/18 bg-white/30 shadow-[0_20px_52px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:block dark:border-white/10 dark:bg-white/[0.04]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 pb-10 md:pt-24 md:pb-14 min-h-screen flex flex-col">
-        <div className="flex justify-center mt-4 md:mt-6 lg:mt-8">
-        <div className="hero-mobile-copy w-full max-w-3xl md:max-w-4xl px-5 py-3 sm:px-8 sm:py-4 md:px-12 md:py-5 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8 reveal-once">
-            <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
-              {t("hero.badge")}
-            </span>
-          </div>
-
-          <h1 className="hero-title text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-[3.75rem] 2xl:text-[5.5rem] font-black text-white mb-6 md:mb-8 lg:mb-10 tracking-[0.04em] leading-[0.9] w-full drop-shadow-[0_12px_30px_rgba(15,23,42,0.32)] reveal-once delay-1">
-            Camping<span className="text-primary drop-shadow-[0_10px_24px_rgba(255,128,0,0.3)]">Route</span>
-          </h1>
-        </div>
-        </div>
-
-        <div className="w-full flex flex-col items-center gap-4 md:gap-6 mt-auto pt-8 md:pt-12 lg:pt-16 pb-10 md:pb-12 lg:pb-14">
-        <div className="inline-block mx-auto w-full max-w-md sm:max-w-xl md:max-w-2xl reveal-once delay-4">
-          <div className="hero-stats-card px-4 py-4 sm:px-6 sm:py-6 md:px-12 md:py-8 lg:px-16 lg:py-10 rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] border-2 flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-16 shadow-xl sm:shadow-2xl">
-            {[
-              { value: t("hero.stats.rating.value"), label: t("hero.stats.rating.label") },
-              { value: t("hero.stats.routes.value"), label: t("hero.stats.routes.label") },
-              { value: t("hero.stats.price.value"), label: t("hero.stats.price.label") }
-            ].map((stat, i) => (
-              <div key={i} className="flex flex-col items-center w-1/3 sm:w-auto">
-                <span className="text-foreground dark:text-white font-black text-base sm:text-lg md:text-xl lg:text-3xl xl:text-4xl tracking-tighter drop-shadow-md leading-none mb-1 md:mb-2">{stat.value}</span>
-                <span className="text-foreground/60 dark:text-white/70 text-[6px] sm:text-[8px] md:text-[10px] lg:text-[11px] tracking-[0.3em] font-black drop-shadow-sm text-center">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-          <div className="flex justify-center items-center reveal-once delay-3 w-full">
-            <Button
-              size="sm"
-              onClick={() => onStartPlanning?.()}
-              className="group relative w-full sm:w-auto px-8 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-4 md:py-6 lg:py-8 rounded-xl sm:rounded-2xl text-white font-black text-base sm:text-sm md:text-base lg:text-lg shadow-xl sm:shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 border-2 border-primary/50"
-              style={{
-                background: "rgba(255, 128, 0, 0.78)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
-            >
-              <span className="relative z-10 flex items-center gap-2 sm:gap-2 md:gap-2 lg:gap-3">
-                <MapPin className="w-5 h-5 sm:w-4 sm:h-4 md:w-5 lg:w-6 lg:h-6 group-hover:rotate-12 transition-transform" />
-                {t("hero.planNow")}
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-10 pt-28 md:pb-14 md:pt-32">
+        <div className="grid flex-1 items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/18 bg-white/68 px-4 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05]">
+              <span className="flex h-2 w-2 rounded-full bg-primary" />
+              <span className="text-primary font-black text-[10px] tracking-[0.3em]">
+                {t("hero.badge")}
               </span>
-            </Button>
+            </div>
+
+            <div className="space-y-5">
+              <h1 className="max-w-4xl text-[2.7rem] font-black tracking-[-0.045em] text-foreground sm:text-6xl sm:tracking-[-0.04em] lg:text-7xl xl:text-[5.5rem] dark:text-white">
+                <span className="flex flex-col gap-1 leading-[0.9] sm:gap-2 sm:leading-[0.92]">
+                  <span className="block">{t("hero.headline.line1")}</span>
+                  <span className="block">{t("hero.headline.line2")}</span>
+                  <span className="block text-primary">{t("hero.headline.line3")}</span>
+                </span>
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-foreground/76 dark:text-white/74 sm:text-xl">
+                {t("hero.description")}
+              </p>
+              <p className="max-w-2xl text-sm leading-7 text-foreground/62 dark:text-white/60 sm:text-base">
+                {t("hero.directEntry.proof")}
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-white/70 bg-white/78 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05] sm:p-5">
+              <div className="mb-3 flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-[0.28em]">
+                <Sparkles className="h-3.5 w-3.5" />
+                {t("hero.directEntry.badge")}
+              </div>
+              <div className="mb-5 text-2xl font-black tracking-tight text-foreground dark:text-white">
+                {t("hero.directEntry.title")}
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="relative flex-1">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-primary dark:text-primary/90" />
+                  <Input
+                    type="text"
+                    value={destinationQuery}
+                    onChange={(event) => setDestinationQuery(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        handleStart();
+                      }
+                    }}
+                    placeholder={t("hero.directEntry.placeholder")}
+                    aria-label={t("hero.directEntry.label")}
+                    className="h-12 sm:h-14 rounded-2xl border-primary/12 bg-white/90 pl-14 sm:pl-14 text-sm sm:text-base text-foreground shadow-[0_12px_28px_rgba(15,23,42,0.08)] placeholder:text-foreground/45 dark:border-white/10 dark:bg-white/[0.08]"
+                  />
+                </div>
+                <Button
+                  size="sm"
+                  onClick={handleStart}
+                  className="group h-12 rounded-2xl border-2 border-primary/45 px-6 text-sm font-black text-white shadow-xl shadow-primary/30 transition-all hover:scale-[1.01] sm:h-14 sm:px-8 sm:text-base"
+                  style={{
+                    background: "rgba(255, 128, 0, 0.92)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                  }}
+                >
+                  <span className="relative z-10 flex items-center gap-2.5">
+                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform" />
+                    {t("hero.directEntry.cta")}
+                  </span>
+                </Button>
+              </div>
+              <div className="mt-3 text-xs text-foreground/58 dark:text-white/56 sm:text-sm">
+                {t("hero.directEntry.hint")}
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                {[
+                  t("hero.chips.chatgpt"),
+                  t("hero.chips.gemini"),
+                  t("hero.chips.mistral"),
+                  t("hero.chips.stopovers"),
+                  t("hero.chips.campsites"),
+                  t("hero.chips.gpx"),
+                ].map((chip) => (
+                  <span
+                    key={chip}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/72 px-4 py-2 text-xs font-semibold text-foreground/76 shadow-[0_10px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05] dark:text-white/78"
+                  >
+                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[1.75rem] border border-white/70 bg-white/62 p-4 shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04]">
+              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary">
+                {t("hero.finders.badge")}
+              </div>
+              <div className="mt-2 text-xl font-black tracking-tight text-foreground dark:text-white">
+                {t("hero.finders.title")}
+              </div>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground/66 dark:text-white/62">
+                {t("hero.finders.description")}
+              </p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-12 rounded-2xl border border-border/80 bg-white/75 px-5 font-semibold text-foreground hover:border-primary/35 hover:bg-white dark:border-white/12 dark:bg-white/[0.05] dark:text-white dark:hover:bg-white/[0.08]"
+                >
+                  <Link to="/stellplatz-finder" className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                    <BusFront className="h-4 w-4 shrink-0 text-primary" />
+                    {t("hero.finders.stopoverCta")}
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-12 rounded-2xl border border-border/80 bg-white/75 px-5 font-semibold text-foreground hover:border-primary/35 hover:bg-white dark:border-white/12 dark:bg-white/[0.05] dark:text-white dark:hover:bg-white/[0.08]"
+                >
+                  <Link to="/campingplatz-finder" className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                    <Caravan className="h-4 w-4 shrink-0 text-primary" />
+                    {t("hero.finders.campingCta")}
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-[2.5rem] bg-primary/10 blur-2xl" />
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(245,242,235,0.94))] p-5 shadow-[0_30px_90px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))]">
+              <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+              <div className="relative space-y-5">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary">
+                      {t("hero.visual.badge")}
+                    </div>
+                    <div className="mt-2 text-3xl font-black tracking-tight text-foreground dark:text-white">
+                      {t("hero.visual.title")}
+                    </div>
+                  </div>
+                  <div className="hidden rounded-2xl border border-primary/18 bg-primary/10 px-4 py-3 text-right lg:block">
+                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">{t("hero.visual.outputLabel")}</div>
+                    <div className="mt-1 text-sm font-semibold text-foreground dark:text-white">{t("hero.visual.outputValue")}</div>
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-[1.6rem] border border-border/70 bg-white/76 p-4 shadow-[0_14px_34px_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-white/[0.04]">
+                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">{t("hero.visual.step1Label")}</div>
+                    <div className="mt-3 text-2xl font-black tracking-tight text-foreground dark:text-white">{t("hero.visual.step1Value")}</div>
+                    <div className="mt-2 text-sm leading-6 text-foreground/62 dark:text-white/60">
+                      {t("hero.visual.step1Description")}
+                    </div>
+                  </div>
+                  <div className="rounded-[1.6rem] border border-border/70 bg-white/76 p-4 shadow-[0_14px_34px_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-white/[0.04]">
+                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">{t("hero.visual.step2Label")}</div>
+                    <div className="mt-3 space-y-2 text-sm leading-6 text-foreground/70 dark:text-white/66">
+                      <div>{t("hero.visual.step2Bullet1")}</div>
+                      <div>{t("hero.visual.step2Bullet2")}</div>
+                      <div>{t("hero.visual.step2Bullet3")}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-[1.75rem] border border-primary/14 bg-[linear-gradient(180deg,rgba(238,242,249,0.9),rgba(231,236,245,0.9))] p-4 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.56),rgba(44,53,70,0.62))]">
+                  <div className="flex flex-wrap gap-3">
+                    {stats.map((stat) => (
+                      <div key={stat.label} className="min-w-[7.5rem] flex-1 rounded-2xl border border-white/65 bg-white/72 px-4 py-3 dark:border-white/10 dark:bg-white/[0.04]">
+                        <div className="text-2xl font-black tracking-tight text-foreground dark:text-white">{stat.value}</div>
+                        <div className="mt-1 text-[10px] font-black uppercase tracking-[0.18em] text-foreground/52 dark:text-white/45">
+                          {stat.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-foreground/30 dark:text-white/30">
         <ChevronRight className="w-6 h-6 rotate-90" />
       </div>

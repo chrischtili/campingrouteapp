@@ -29,9 +29,51 @@
   "hero": {
     "badge": "AI Prompt Generator",
     "title": "Camping Route",
+    "headline": {
+      "line1": "Plan better",
+      "line2": "camping routes",
+      "line3": "with a strong prompt"
+    },
     "description": "Our AI prompt generator is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
     "planNow": "Create Prompt",
     "viewExample": "View Example",
+    "chips": {
+      "chatgpt": "ChatGPT",
+      "gemini": "Gemini",
+      "mistral": "Mistral",
+      "stopovers": "Stopovers included",
+      "campsites": "Campsites included",
+      "gpx": "GPX request included"
+    },
+    "directEntry": {
+      "badge": "Quick start",
+      "title": "Where should your route go?",
+      "label": "Enter a destination or region",
+      "placeholder": "e.g. Lake Garda or Brittany",
+      "cta": "Start with destination",
+      "hint": "Your destination will be carried straight into the prompt generator.",
+      "proof": "Many users report that the finished prompt produces much better routes than a generic AI request."
+    },
+    "finders": {
+      "badge": "Direct search",
+      "title": "Prefer searching places directly?",
+      "description": "If you do not need a prompt, jump straight into the focused search for stopovers or campsites.",
+      "stopoverCta": "Open stopover finder",
+      "campingCta": "Open campsite finder"
+    },
+    "visual": {
+      "badge": "Custom route prompt",
+      "title": "From destination idea to a copy-ready prompt",
+      "outputLabel": "Output",
+      "outputValue": "ChatGPT, Gemini, Mistral",
+      "step1Label": "1 Destination",
+      "step1Value": "Lake Garda in October",
+      "step1Description": "Campsites, stopovers, stages, and vehicle data flow directly into a strong, ready-to-use prompt.",
+      "step2Label": "2 Prompt",
+      "step2Bullet1": "• clearly structured for your AI",
+      "step2Bullet2": "• with matching places and stage preferences",
+      "step2Bullet3": "• copy-ready for ChatGPT, Gemini, or Mistral"
+    },
     "stats": {
       "rating": {
         "value": "4.9/5",
@@ -50,6 +92,7 @@
   "features": {
     "badge": "Features",
     "title": "Why Camping Route?",
+    "intro": "This is not a generic trip helper. It is a focused flow for strong AI prompts, matching places, and far less planning chaos. Each part supports the next so a destination idea turns into a genuinely useful travel prompt faster.",
     "promptGen": {
       "title": "AI Prompt Generation",
       "description": "Creates optimized prompts for your AI-supported route planning with motorhome-specific parameters."

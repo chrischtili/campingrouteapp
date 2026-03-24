@@ -29,9 +29,51 @@
   "hero": {
     "badge": "KI-Prompt-Generator",
     "title": "Camping Route",
+    "headline": {
+      "line1": "Plane bessere",
+      "line2": "Campingrouten",
+      "line3": "mit einem starken Prompt"
+    },
     "description": "Unser KI-Prompt-Generator ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
     "planNow": "Prompt erstellen",
     "viewExample": "Beispielroute ansehen",
+    "chips": {
+      "chatgpt": "ChatGPT",
+      "gemini": "Gemini",
+      "mistral": "Mistral",
+      "stopovers": "Stellplätze direkt dabei",
+      "campsites": "Campingplätze direkt dabei",
+      "gpx": "GPX-Wunsch inklusive"
+    },
+    "directEntry": {
+      "badge": "Schnellstart",
+      "title": "Wohin soll deine Route gehen?",
+      "label": "Ziel oder Region eingeben",
+      "placeholder": "z. B. Gardasee oder Bretagne",
+      "cta": "Mit Ziel starten",
+      "hint": "Dein Ziel wird direkt in den Prompt-Generator übernommen.",
+      "proof": "Viele Nutzer berichten: Mit dem fertigen Prompt entstehen deutlich bessere Routen als mit einer freien KI-Anfrage."
+    },
+    "finders": {
+      "badge": "Direktsuche",
+      "title": "Lieber direkt nach Plätzen suchen?",
+      "description": "Wenn du keinen Prompt brauchst, kannst du sofort in die spezialisierte Suche für Stellplätze oder Campingplätze springen.",
+      "stopoverCta": "Zum Stellplatz-Finder",
+      "campingCta": "Zum Campingplatz-Finder"
+    },
+    "visual": {
+      "badge": "Individueller Routen-Prompt",
+      "title": "Von Zielidee zu kopierfertigem Prompt",
+      "outputLabel": "Output",
+      "outputValue": "ChatGPT, Gemini, Mistral",
+      "step1Label": "1 Ziel",
+      "step1Value": "Gardasee im Oktober",
+      "step1Description": "Campingplätze, Stellplätze, Etappen und Fahrzeugdaten landen direkt in einem starken, sofort nutzbaren Prompt.",
+      "step2Label": "2 Prompt",
+      "step2Bullet1": "• klar strukturiert für deine KI",
+      "step2Bullet2": "• mit passenden Plätzen und Etappenwünschen",
+      "step2Bullet3": "• kopierfertig für ChatGPT, Gemini oder Mistral"
+    },
     "stats": {
       "rating": {
         "value": "4.9/5",
@@ -50,6 +92,7 @@
   "features": {
     "badge": "Features",
     "title": "Warum Camping Route?",
+    "intro": "Du bekommst keinen generischen Reisehelfer, sondern einen klaren Flow für starke KI-Prompts, passende Plätze und deutlich weniger Planungschaos. Alles greift ineinander, damit aus einer Zielidee schneller ein wirklich nutzbarer Reise-Prompt wird.",
     "promptGen": {
       "title": "KI-Prompt-Generierung",
       "description": "Erstellt strukturierte KI-Prompts für deine bevorzugte KI, damit du Routen mit passenden Stellplätzen, Campingplätzen, Etappen und GPX-Ausgabe gezielt planen kannst."

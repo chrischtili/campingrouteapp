@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export function FeaturesSection() {
   const { t } = useTranslation();
-  const featureIntro = t("hero.description");
+  const featureIntro = t("features.intro");
   const introSentenceMatch = featureIntro.match(/^(.+?[.!?])\s+(.+)$/s);
 
   const features = [

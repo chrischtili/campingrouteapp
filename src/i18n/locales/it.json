@@ -29,9 +29,51 @@
   "hero": {
     "badge": "Generatore di prompt IA",
     "title": "Camping Route",
+    "headline": {
+      "line1": "Pianifica itinerari",
+      "line2": "camping migliori",
+      "line3": "con un prompt forte"
+    },
     "description": "Il nostro generatore di prompt IA è il tuo compagno pratico per trovare i prompt perfetti per la tua IA preferita. Ti aiuta a pianificare con più tranquillità i tuoi viaggi in camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, pianificazione delle tappe ed export GPX.",
     "planNow": "Genera prompt",
     "viewExample": "Guarda l'itinerario d'esempio",
+    "chips": {
+      "chatgpt": "ChatGPT",
+      "gemini": "Gemini",
+      "mistral": "Mistral",
+      "stopovers": "Aree di sosta incluse",
+      "campsites": "Campeggi inclusi",
+      "gpx": "Richiesta GPX inclusa"
+    },
+    "directEntry": {
+      "badge": "Avvio rapido",
+      "title": "Dove deve andare il tuo itinerario?",
+      "label": "Inserisci una destinazione o una regione",
+      "placeholder": "es. Lago di Garda o Bretagna",
+      "cta": "Inizia con la destinazione",
+      "hint": "La destinazione viene trasferita direttamente nel generatore di prompt.",
+      "proof": "Molti utenti raccontano che il prompt finale produce itinerari molto migliori rispetto a una richiesta IA generica."
+    },
+    "finders": {
+      "badge": "Ricerca diretta",
+      "title": "Preferisci cercare i posti direttamente?",
+      "description": "Se non ti serve un prompt, puoi aprire subito la ricerca dedicata per aree di sosta o campeggi.",
+      "stopoverCta": "Vai alla ricerca aree sosta",
+      "campingCta": "Vai alla ricerca campeggi"
+    },
+    "visual": {
+      "badge": "Prompt itinerario personalizzato",
+      "title": "Dall’idea della meta al prompt pronto da copiare",
+      "outputLabel": "Output",
+      "outputValue": "ChatGPT, Gemini, Mistral",
+      "step1Label": "1 Meta",
+      "step1Value": "Lago di Garda a ottobre",
+      "step1Description": "Campeggi, aree di sosta, tappe e dati del veicolo confluiscono direttamente in un prompt forte e subito utilizzabile.",
+      "step2Label": "2 Prompt",
+      "step2Bullet1": "• strutturato con chiarezza per la tua IA",
+      "step2Bullet2": "• con luoghi adatti e preferenze di tappa",
+      "step2Bullet3": "• pronto da copiare in ChatGPT, Gemini o Mistral"
+    },
     "stats": {
       "rating": {
         "value": "4.9/5",
@@ -50,6 +92,7 @@
   "features": {
     "badge": "Funzionalità",
     "title": "Perché Camping Route?",
+    "intro": "Qui non trovi un assistente di viaggio generico, ma un flusso chiaro per creare prompt IA forti, trovare i posti giusti e ridurre il caos della pianificazione. Ogni parte sostiene la successiva, così un’idea di viaggio diventa più rapidamente un prompt davvero utile.",
     "promptGen": {
       "title": "Generazione di prompt IA",
       "description": "Crea prompt ottimizzati per la tua pianificazione itinerari assistita dall'IA con parametri specifici per camper."

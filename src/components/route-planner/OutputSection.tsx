@@ -757,7 +757,7 @@ ${gpxOnly}`;
                   {t("planner.summary.save.coffee")}
                   <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </a>
-                <p className="max-w-2xl text-xs sm:text-sm leading-relaxed text-muted-foreground dark:text-white/68">
+                <p className="max-w-3xl text-xs sm:text-sm leading-relaxed text-muted-foreground dark:text-white/68 md:whitespace-nowrap">
                   {t("planner.summary.save.coffeeHint")}
                 </p>
               </div>

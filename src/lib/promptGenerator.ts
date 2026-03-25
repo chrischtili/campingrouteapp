@@ -12,6 +12,91 @@ function formatDate(dateString: string): string {
 
 type GpxFormat = 'codeblock' | 'plain';
 
+function roundDownToStep(value: number, step: number): number {
+  return Math.max(step, Math.floor(value / step) * step);
+}
+
+function formatDurationHours(hours: number): string {
+  const totalMinutes = Math.max(5, Math.floor(hours * 60 / 5) * 5);
+  const fullHours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${fullHours}:${minutes.toString().padStart(2, '0')} h`;
+}
+
+function buildDailyLimitBufferInstruction(
+  lang: string,
+  maxDailyDistance: number,
+  maxDailyDriveHours: number
+): string {
+  const hasDistanceLimit = maxDailyDistance > 0;
+  const hasDriveTimeLimit = maxDailyDriveHours > 0;
+
+  if (!hasDistanceLimit && !hasDriveTimeLimit) return '';
+
+  const distanceLower = hasDistanceLimit ? roundDownToStep(maxDailyDistance * 0.84, 5) : 0;
+  const distanceUpper = hasDistanceLimit ? roundDownToStep(maxDailyDistance * 0.92, 5) : 0;
+  const driveTimeLower = hasDriveTimeLimit ? formatDurationHours(maxDailyDriveHours * 0.84) : '';
+  const driveTimeUpper = hasDriveTimeLimit ? formatDurationHours(maxDailyDriveHours * 0.92) : '';
+
+  if (lang.startsWith('de')) {
+    if (hasDistanceLimit && hasDriveTimeLimit) {
+      return `\n\nWichtig: Behandle die eingegebenen Tageslimits nicht als Zielwert zum Ausreizen, sondern als Obergrenze mit Sicherheitsabstand, weil Entfernungen und Fahrzeiten nur grob geschätzt sind. Plane pro Etappe nach Möglichkeit eher mit ca. ${distanceLower}-${distanceUpper} km und ca. ${driveTimeLower}-${driveTimeUpper} statt genau auf ${maxDailyDistance} km oder ${maxDailyDriveHours} h zu zielen. Wenn es zeitlich sonst zu knapp wird, schlage lieber eine zusätzliche Etappe oder Zwischenübernachtung vor.`;
+    }
+
+    if (hasDistanceLimit) {
+      return `\n\nWichtig: Behandle das eingegebene km-Limit nicht als Zielwert zum Ausreizen, sondern als Obergrenze mit Sicherheitsabstand, weil Entfernungen nur grob geschätzt sind. Plane pro Etappe nach Möglichkeit eher mit ca. ${distanceLower}-${distanceUpper} km statt genau auf ${maxDailyDistance} km zu zielen. Wenn es sonst zu knapp wird, schlage lieber eine zusätzliche Etappe oder Zwischenübernachtung vor.`;
+    }
+
+    return `\n\nWichtig: Behandle das eingegebene Fahrzeit-Limit nicht als Zielwert zum Ausreizen, sondern als Obergrenze mit Sicherheitsabstand, weil Fahrzeiten nur grob geschätzt sind. Plane pro Etappe nach Möglichkeit eher mit ca. ${driveTimeLower}-${driveTimeUpper} statt genau auf ${maxDailyDriveHours} h zu zielen. Wenn es sonst zu knapp wird, schlage lieber eine zusätzliche Etappe oder Zwischenübernachtung vor.`;
+  }
+
+  if (lang.startsWith('nl')) {
+    if (hasDistanceLimit && hasDriveTimeLimit) {
+      return `\n\nBelangrijk: behandel de ingevoerde daglimieten niet als streefwaarde om volledig te benutten, maar als bovengrens met veiligheidsmarge, omdat afstanden en reistijden slechts grof worden geschat. Plan per etappe indien mogelijk eerder rond ${distanceLower}-${distanceUpper} km en ${driveTimeLower}-${driveTimeUpper} in plaats van precies op ${maxDailyDistance} km of ${maxDailyDriveHours} h te mikken. Als het anders te krap wordt, stel dan liever een extra etappe of overnachting voor.`;
+    }
+
+    if (hasDistanceLimit) {
+      return `\n\nBelangrijk: behandel de ingevoerde km-limiet niet als streefwaarde om volledig te benutten, maar als bovengrens met veiligheidsmarge, omdat afstanden slechts grof worden geschat. Plan per etappe indien mogelijk eerder rond ${distanceLower}-${distanceUpper} km in plaats van precies op ${maxDailyDistance} km te mikken. Als het anders te krap wordt, stel dan liever een extra etappe of overnachting voor.`;
+    }
+
+    return `\n\nBelangrijk: behandel de ingevoerde rijtijdlimiet niet als streefwaarde om volledig te benutten, maar als bovengrens met veiligheidsmarge, omdat reistijden slechts grof worden geschat. Plan per etappe indien mogelijk eerder rond ${driveTimeLower}-${driveTimeUpper} in plaats van precies op ${maxDailyDriveHours} h te mikken. Als het anders te krap wordt, stel dan liever een extra etappe of overnachting voor.`;
+  }
+
+  if (lang.startsWith('fr')) {
+    if (hasDistanceLimit && hasDriveTimeLimit) {
+      return `\n\nImportant : ne traite pas les limites journalières saisies comme une cible à exploiter au maximum, mais comme une limite haute avec marge de sécurité, car les distances et temps de trajet ne sont que des estimations grossières. Essaie de planifier chaque étape plutôt autour de ${distanceLower}-${distanceUpper} km et de ${driveTimeLower}-${driveTimeUpper} au lieu de viser exactement ${maxDailyDistance} km ou ${maxDailyDriveHours} h. Si cela devient trop serré, propose plutôt une étape ou une nuit supplémentaire.`;
+    }
+
+    if (hasDistanceLimit) {
+      return `\n\nImportant : ne traite pas la limite de kilomètres saisie comme une cible à exploiter au maximum, mais comme une limite haute avec marge de sécurité, car les distances ne sont qu’estimées grossièrement. Essaie de planifier chaque étape plutôt autour de ${distanceLower}-${distanceUpper} km au lieu de viser exactement ${maxDailyDistance} km. Si cela devient trop serré, propose plutôt une étape ou une nuit supplémentaire.`;
+    }
+
+    return `\n\nImportant : ne traite pas la limite de temps de conduite saisie comme une cible à exploiter au maximum, mais comme une limite haute avec marge de sécurité, car les temps de trajet ne sont qu’estimés grossièrement. Essaie de planifier chaque étape plutôt autour de ${driveTimeLower}-${driveTimeUpper} au lieu de viser exactement ${maxDailyDriveHours} h. Si cela devient trop serré, propose plutôt une étape ou une nuit supplémentaire.`;
+  }
+
+  if (lang.startsWith('it')) {
+    if (hasDistanceLimit && hasDriveTimeLimit) {
+      return `\n\nImportante: non trattare i limiti giornalieri inseriti come un valore da sfruttare al massimo, ma come un limite superiore con margine di sicurezza, perché distanze e tempi di guida sono solo stime approssimative. Per ogni tappa cerca di pianificare piuttosto intorno a ${distanceLower}-${distanceUpper} km e ${driveTimeLower}-${driveTimeUpper} invece di puntare esattamente a ${maxDailyDistance} km o ${maxDailyDriveHours} h. Se altrimenti diventa troppo stretto, proponi piuttosto una tappa o un pernottamento aggiuntivo.`;
+    }
+
+    if (hasDistanceLimit) {
+      return `\n\nImportante: non trattare il limite km inserito come un valore da sfruttare al massimo, ma come un limite superiore con margine di sicurezza, perché le distanze sono solo stime approssimative. Per ogni tappa cerca di pianificare piuttosto intorno a ${distanceLower}-${distanceUpper} km invece di puntare esattamente a ${maxDailyDistance} km. Se altrimenti diventa troppo stretto, proponi piuttosto una tappa o un pernottamento aggiuntivo.`;
+    }
+
+    return `\n\nImportante: non trattare il limite di guida giornaliero inserito come un valore da sfruttare al massimo, ma come un limite superiore con margine di sicurezza, perché i tempi di guida sono solo stime approssimative. Per ogni tappa cerca di pianificare piuttosto intorno a ${driveTimeLower}-${driveTimeUpper} invece di puntare esattamente a ${maxDailyDriveHours} h. Se altrimenti diventa troppo stretto, proponi piuttosto una tappa o un pernottamento aggiuntivo.`;
+  }
+
+  if (hasDistanceLimit && hasDriveTimeLimit) {
+    return `\n\nImportant: Treat the entered daily limits as an upper bound with safety margin, not as a target to fully use, because distances and driving times are only rough estimates. For each leg, aim more for about ${distanceLower}-${distanceUpper} km and ${driveTimeLower}-${driveTimeUpper} instead of pushing right up to ${maxDailyDistance} km or ${maxDailyDriveHours} h. If that still makes the plan too tight, propose an extra leg or overnight stop instead.`;
+  }
+
+  if (hasDistanceLimit) {
+    return `\n\nImportant: Treat the entered km limit as an upper bound with safety margin, not as a target to fully use, because distances are only rough estimates. For each leg, aim more for about ${distanceLower}-${distanceUpper} km instead of pushing right up to ${maxDailyDistance} km. If that still makes the plan too tight, propose an extra leg or overnight stop instead.`;
+  }
+
+  return `\n\nImportant: Treat the entered daily driving-time limit as an upper bound with safety margin, not as a target to fully use, because driving times are only rough estimates. For each leg, aim more for about ${driveTimeLower}-${driveTimeUpper} instead of pushing right up to ${maxDailyDriveHours} h. If that still makes the plan too tight, propose an extra leg or overnight stop instead.`;
+}
+
 function buildGpxInstructions(
   data: FormData,
   t: (key: string, options?: any) => string,
@@ -86,6 +171,8 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const accommodationTypePriorityLine = noAccommodationPreference
     ? '• ' + t('prompt.labels.accommodationTypePriorityNote') + '\n'
     : '';
+  const verificationInstruction = t('prompt.verificationInstruction');
+  const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')
     ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und den Routeninfos und biete sie zum Download an. Die PDF darf keine Kurzfassung oder kompakte Zusammenfassung sein, sondern soll die normale Antwort inhaltlich so vollständig wie möglich spiegeln. Übernimm alle Hauptabschnitte 1 bis 9, alle Etappen mit Zeiten, Bewertungen und Pausenlogik, alle Übernachtungen mit Hauptplatz und Alternativen sowie die dazugehörigen OpenCampingMap-Links, offiziellen Platz-Links und wichtigen Restaurant-, Aktivitäts- oder Zusatzlinks. Lasse keine Links, Alternativen, Warnhinweise oder Serviceinfos weg, nur um die PDF kürzer zu halten. Verwende in der PDF vollständige, anklickbare URLs statt bloßer Link-Platzhalter, Referenznummern oder Fußnotenmarker. Wenn die PDF dadurch länger wird, nutze lieber zusätzliche Seiten statt Inhalte zu verdichten oder zusammenzufassen. Falls zusätzlich eine GPX-Datei ausgegeben wird, muss der vollständige GPX-XML-Block nicht in die PDF kopiert werden; erwähne die GPX-Datei dann kurz als separaten Download. Verwende für die PDF einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
     : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and the route details and offer it as a download. The PDF must not be a short version or compact summary; it should mirror the normal answer as completely as possible. Include all main sections 1 to 9, all legs with times, ratings, and break logic, all overnight stays with primary place and alternatives, plus the related OpenCampingMap links, official place links, and important restaurant, activity, or supporting links. Do not drop links, alternatives, warnings, or service notes just to make the PDF shorter. In the PDF, use full clickable URLs instead of bare link placeholders, reference numbers, or footnote markers. If that makes the PDF longer, prefer extra pages over compressing or summarizing the content. If a GPX file is also generated, the full GPX XML block does not need to be copied into the PDF; briefly mention the GPX file as a separate download instead. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
@@ -210,6 +297,8 @@ ${data.additionalInfo}
 
 ${t('prompt.instructions')}
 ${t('prompt.instructionsCamperPlanning')}
+${verificationInstruction}
+${dailyLimitBufferInstruction}
 ${pdfDownloadInstruction}
 ${largeVehicleStopInstruction}
 ${environmentalZoneInstruction}

@@ -41,6 +41,14 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const maxDailyDriveHours = Number(data.maxDailyDriveHours || 0);
   const hasDailyLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0 && !!data.dailyLimitPriority;
   const wantsRestaurantLinks = (data.facilities || []).some((facility) => facility === 'restaurant' || facility === 'restaurantNearby');
+  const vehicleLength = Number(data.vehicleLength || 0);
+  const wantsEnvironmentalZoneAvoidance = (data.routePreferences || []).includes('environmentalZones');
+  const shouldUseLargeVehicleStopLogic = !isLightweightVehicle && (
+    vehicleLength >= 8 ||
+    data.vehicleType === 'caravan' ||
+    data.vehicleType === 'expedition' ||
+    data.weightClass === 'gt75'
+  );
   const vehicleDimensionLines = !isLightweightVehicle
     ? [
         data.vehicleLength ? `• ${t('prompt.labels.length')}: ${data.vehicleLength} m` : '',
@@ -79,8 +87,30 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     ? '• ' + t('prompt.labels.accommodationTypePriorityNote') + '\n'
     : '';
   const pdfDownloadInstruction = lang.startsWith('de')
-    ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und biete sie zum Download an. Verwende dafür einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
-    : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and offer it as a download. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
+    ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und den Routeninfos und biete sie zum Download an. Verwende dafür einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
+    : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and the route details and offer it as a download. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
+  const largeVehicleStopInstruction = shouldUseLargeVehicleStopLogic
+    ? lang.startsWith('de')
+      ? '\n\nWichtig: Bevorzuge für dieses größere Fahrzeug bzw. Gespann gut zugängliche Tankstellen, Autohof- und Rastanlagen mit ausreichend Platz zum An- und Abfahren. Meide kleine Tankstellen, enge Rastplätze oder Stopps ohne vernünftige Zufahrt für große Fahrzeuge bzw. ohne geeignete Lkw-/Langfahrzeug-Zufahrt. Wenn ein geplanter Service-Stopp problematisch wirkt, nenne stattdessen eine besser geeignete Alternative.'
+      : lang.startsWith('nl')
+        ? '\n\nBelangrijk: geef voor dit grotere voertuig of deze combinatie de voorkeur aan goed toegankelijke tankstations, truckstops en rustplaatsen met genoeg ruimte om in en uit te rijden. Vermijd kleine tankstations, krappe rustplaatsen of stops zonder goede toegang voor grote voertuigen of zonder geschikte truck-/langevoertuigtoegang. Als een geplande servicestop lastig lijkt, noem dan een beter passend alternatief.'
+        : lang.startsWith('fr')
+          ? '\n\nImportant : pour ce vehicule plus grand ou cet ensemble, privilegie les stations-service, aires de repos et truck-stops bien accessibles avec suffisamment de place pour entrer et sortir. Evite les petites stations-service, les aires etroites ou les arrets sans acces correct pour les grands vehicules ou sans acces adaptes aux poids lourds / ensembles longs. Si un arret de service semble delicat, propose plutot une alternative mieux adaptee.'
+          : lang.startsWith('it')
+            ? '\n\nImportante: per questo veicolo piu grande o questo convoglio privilegia stazioni di servizio, aree di sosta e truck stop facilmente accessibili con spazio sufficiente per entrare e uscire. Evita piccole stazioni di servizio, aree strette o soste senza accesso adeguato per veicoli grandi o senza accesso adatto a camion / mezzi lunghi. Se una sosta di servizio prevista sembra problematica, indica invece un’alternativa piu adatta.'
+            : '\n\nImportant: For this larger vehicle or combination, prefer fuel stations, truck stops, and rest areas with easy access and enough room to enter and leave. Avoid small fuel stations, tight rest areas, or stops without sensible access for large vehicles or without suitable truck/long-vehicle access. If a planned service stop looks problematic, name a better suited alternative instead.'
+    : '';
+  const environmentalZoneInstruction = wantsEnvironmentalZoneAvoidance
+    ? lang.startsWith('de')
+      ? '\n\nWichtig: Meide auf der Route nach Möglichkeit Umweltzonen, Low-Emission-Zones oder ähnliche Zufahrtsbeschränkungen. Wenn das nicht sinnvoll möglich ist, nenne die betroffenen Abschnitte klar und schlage eine geeignete Umfahrung oder praktikable Alternative vor.'
+      : lang.startsWith('nl')
+        ? '\n\nBelangrijk: vermijd op de route waar mogelijk milieuzones, low-emission zones of vergelijkbare toegangsbeperkingen. Als dat niet zinvol mogelijk is, benoem de betreffende trajecten duidelijk en stel een geschikte omleiding of praktisch alternatief voor.'
+        : lang.startsWith('fr')
+          ? '\n\nImportant : evite si possible sur l’itineraire les zones environnementales, low-emission zones ou restrictions d’acces similaires. Si ce n’est pas raisonnablement possible, indique clairement les troncons concernes et propose un contournement adapte ou une alternative praticable.'
+          : lang.startsWith('it')
+            ? '\n\nImportante: evita lungo il percorso, se possibile, zone ambientali, low-emission zones o restrizioni di accesso simili. Se non e ragionevolmente possibile, indica chiaramente i tratti interessati e proponi una deviazione adatta oppure un’alternativa praticabile.'
+            : '\n\nImportant: Avoid environmental zones, low-emission zones, or similar access restrictions along the route where possible. If that is not reasonably possible, clearly name the affected sections and propose a suitable bypass or practical alternative.'
+    : '';
   const restaurantLinkInstruction = wantsRestaurantLinks
     ? lang.startsWith('de')
       ? '\n\nWichtig: Wenn bei einem vorgeschlagenen Platz ein Restaurant am Platz oder ein gutes Restaurant in fußläufiger Entfernung auffindbar ist, nenne 1 bis 3 konkrete Restaurants mit direktem Link. Erfinde keine Restaurants oder URLs. Wenn kein verlässlicher Restaurant-Link auffindbar ist, sage das knapp.'
@@ -181,6 +211,8 @@ ${data.additionalInfo}
 ${t('prompt.instructions')}
 ${t('prompt.instructionsCamperPlanning')}
 ${pdfDownloadInstruction}
+${largeVehicleStopInstruction}
+${environmentalZoneInstruction}
 ${restaurantLinkInstruction}
 ${gpxInstructions ? `\n\n${gpxInstructions}` : ''}
 `;

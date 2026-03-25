@@ -983,6 +983,7 @@
           "label": "Straßen & Bereiche meiden",
           "options": {
             "innerCities": "Innenstädte meiden",
+            "environmentalZones": "Umweltzonen meiden",
             "oldTowns": "Altstädte meiden",
             "narrowRoads": "Schmale Straßen meiden",
             "unpavedRoads": "Unbefestigte Straßen meiden",

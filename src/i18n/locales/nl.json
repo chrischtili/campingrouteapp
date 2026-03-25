@@ -984,6 +984,7 @@
           "label": "Wegen en zones vermijden",
           "options": {
             "innerCities": "Binnensteden vermijden",
+            "environmentalZones": "Milieuzones vermijden",
             "oldTowns": "Oude stadscentra vermijden",
             "narrowRoads": "Smalle wegen vermijden",
             "unpavedRoads": "Onverharde wegen vermijden",

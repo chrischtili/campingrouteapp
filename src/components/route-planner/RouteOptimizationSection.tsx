@@ -43,6 +43,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
         { value: "construction", label: t("planner.optimization.categories.avoidances.options.construction") },
         { value: "night", label: t("planner.optimization.categories.avoidances.options.night") },
         { value: "innerCities", label: t("planner.optimization.categories.restrictions.options.innerCities") },
+        { value: "environmentalZones", label: t("planner.optimization.categories.restrictions.options.environmentalZones") },
         { value: "narrowRoads", label: t("planner.optimization.categories.restrictions.options.narrowRoads") },
         { value: "unpavedRoads", label: t("planner.optimization.categories.restrictions.options.unpavedRoads") },
       ],

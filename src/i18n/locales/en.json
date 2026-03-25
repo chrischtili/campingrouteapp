@@ -984,6 +984,7 @@
           "label": "Roads & areas to avoid",
           "options": {
             "innerCities": "Avoid city centers",
+            "environmentalZones": "Avoid environmental zones",
             "oldTowns": "Avoid historic old towns",
             "narrowRoads": "Avoid narrow roads",
             "unpavedRoads": "Avoid unpaved roads",

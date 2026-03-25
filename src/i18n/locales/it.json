@@ -984,6 +984,7 @@
           "label": "Strade e zone da evitare",
           "options": {
             "innerCities": "Evitare i centri città",
+            "environmentalZones": "Evitare le zone ambientali",
             "oldTowns": "Evitare i centri storici",
             "narrowRoads": "Evitare le strade strette",
             "unpavedRoads": "Evitare le strade non asfaltate",

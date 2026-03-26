@@ -97,6 +97,44 @@ function buildDailyLimitBufferInstruction(
   return `\n\nImportant: Treat the entered daily driving-time limit as an upper bound with safety margin, not as a target to fully use, because driving times are only rough estimates. For each leg, aim more for about ${driveTimeLower}-${driveTimeUpper} instead of pushing right up to ${maxDailyDriveHours} h. If that still makes the plan too tight, propose an extra leg or overnight stop instead.`;
 }
 
+function buildLogicalScheduleInstruction(
+  lang: string,
+  data: FormData,
+  maxDailyDistance: number,
+  maxDailyDriveHours: number
+): string {
+  const hasStart = !!data.startDate;
+  const hasAnyArrival = !!data.endDate || (data.stages || []).some(s => s.arrivalDate);
+  const hasLimits = maxDailyDistance > 0 || maxDailyDriveHours > 0;
+
+  if (hasStart || !hasAnyArrival || !hasLimits) return '';
+
+  const limitText = maxDailyDistance > 0 
+    ? `${maxDailyDistance} km` 
+    : `${maxDailyDriveHours} h`;
+  const bothLimitsText = maxDailyDistance > 0 && maxDailyDriveHours > 0 
+    ? `${maxDailyDistance} km und ${maxDailyDriveHours} h` 
+    : limitText;
+
+  if (lang.startsWith('de')) {
+    return `\n\nZENTRALE PLANUNGSANWEISUNG: Da kein explizites Abfahrtsdatum am Startpunkt vorgegeben wurde, aber Ankunftsziele mit festen Terminen und Tageslimits (${bothLimitsText}) existieren, musst du zwingend rückwärts rechnen. Berechne den optimalen Abreisezeitpunkt am Startpunkt so, dass alle Tageslimits und Zwischenziele unter Einhaltung der maximalen ${bothLimitsText} pro Tag realistisch erreichbar sind. Wenn die Strecke zum ersten Ziel mehr als ein Tageslimit beansprucht (z.B. 600km bei 250km Limit), verschiebe das Startdatum am Startpunkt logisch um die entsprechende Anzahl an Tagen (z.B. 3 Tage) nach vorne. Gib dieses berechnete Startdatum explizit in deiner Antwort an.`;
+  }
+  
+  if (lang.startsWith('nl')) {
+    return `\n\nCENTRALE PLANINSTRUCTIE: Omdat er geen expliciete vertrekdatum vanaf het startpunt is opgegeven, maar er wel aankomstdoelen met vaste data en daglimieten (${bothLimitsText}) zijn, moet je dwingend terugrekenen. Bereken het optimale vertrekmoment vanaf het startpunt zodat alle daglimieten en tussenstops realistisch haalbaar zijn binnen de maximale ${bothLimitsText} per dag. Als de afstand naar de eerste bestemming meer dan één daglimiet vereist, verschuif dan de startdatum logisch met het juiste aantal dagen naar voren. Vermeld deze berekende startdatum expliciet in je antwoord.`;
+  }
+
+  if (lang.startsWith('fr')) {
+    return `\n\nINSTRUCTION DE PLANIFICATION CENTRALE : Étant donné qu’aucune date de départ explicite n’a été fournie pour le point de départ, mais qu’il existe des objectifs d’arrivée avec des dates fixes et des limites journalières (${bothLimitsText}), tu dois impérativement calculer à l’envers. Détermine le moment de départ optimal au point de départ de sorte que toutes les limites journalières et étapes intermédiaires soient réalistement atteignables en respectant le maximum de ${bothLimitsText} par jour. Si la distance jusqu’à la première destination dépasse une limite journalière, décale logiquement la date de départ du nombre de jours nécessaire. Indique explicitement cette date de départ calculée dans ta réponse.`;
+  }
+
+  if (lang.startsWith('it')) {
+    return `\n\nISTRUZIONE CENTRALE DI PIANIFICAZIONE: Poiché non è stata fornita una data di partenza esplicita dal punto di partenza, ma esistono obiettivi di arrivo con date fisse e limiti giornalieri (${bothLimitsText}), devi obbligatoriamente calcolare a ritroso. Calcola il momento ottimale di partenza in modo che tutti i limiti giornalieri e le tappe intermedie siano realisticamente raggiungibili rispettando il massimo di ${bothLimitsText} al giorno. Se la distanza verso la prima destinazione richiede più di un limite giornaliero, sposta logicamente in avanti la data di inizio del numero di giorni necessario. Indica esplicitamente questa data di partenza calcolata nella tua risposta.`;
+  }
+
+  return `\n\nCENTRAL PLANNING INSTRUCTION: Since no explicit departure date at the starting point was provided, but arrival goals with fixed dates and daily limits (${bothLimitsText}) exist, you MUST calculate backwards. Determine the optimal departure time at the starting point so that all daily limits and intermediate goals are realistically achievable while staying within the maximum ${bothLimitsText} per day. If the distance to the first destination requires more than one daily limit (e.g., 600km with a 250km limit), logically shift the start date forward by the required number of days (e.g., 3 days). Clearly state this calculated start date in your response.`;
+}
+
 function buildGpxInstructions(
   data: FormData,
   t: (key: string, options?: any) => string,
@@ -149,19 +187,64 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
         '- Bevorzuge fuer jeden Uebernachtungsort zuerst einen konkreten OpenCampingMap-Eintrag oder einen stabilen OpenCampingMap-Kartenlink.',
         '- Suche pro Ort nicht nur einmal, sondern gezielt mit Ortsname, Regionsname, Platztyp und ggf. bekanntem Platznamen.',
         '- Wenn mehrere OpenCampingMap-Treffer moeglich sind, bevorzuge den klarsten Namensbezug zum Zielort, die passendste Uebernachtungsart und den kleinsten Umweg zur Route.',
-        '- Verwende einen OpenCampingMap-Objektlink nur, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit nutze stattdessen einen Kartenlink.',
+        '- Link-Formate: Nutze entweder Objekt-Links (`https://opencampingmap.org/de/node/ID` oder `https://opencampingmap.org/de/way/ID`) oder Karten-Links (`https://opencampingmap.org/#18/lat/lon`).',
+        '- Nutze bei Koordinaten-Links zwingend das Format `#zoom/lat/lon` (z.B. `#18/48.13/11.57`). Vermeide Links ohne `#`.',
+        '- Link-Extraktion: Wenn du die Websuche nutzt, extrahiere IMMER die direkten URLs aus den Suchergebnissen. Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
+        '- Verwende einen OpenCampingMap-Objektlink nur, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit nutze STATTDESSEN IMMER einen Karten-Link mit den passenden Koordinaten.',
         '- Wenn nach mehreren gezielten Suchen kein sicherer OpenCampingMap-Treffer auffindbar ist, sage das knapp und gehe direkt zum naechsten Ort weiter.',
         '- Erfinde niemals OpenCampingMap-Objekte, IDs, Platznamen, Adressen, Telefonnummern oder Ausstattungen.'
       ].join('\n')
-    : [
-        'OpenCampingMap rules:',
-        '- Prefer a concrete OpenCampingMap entry or a stable OpenCampingMap map link for each overnight stop.',
-        '- Search each place repeatedly using place name, region, accommodation type and known campsite name if available.',
-        '- If several OpenCampingMap candidates exist, prefer the clearest name match to the target area, the best fitting accommodation type and the smallest detour from the route.',
-        '- Only use a direct OpenCampingMap object link if place and campsite clearly match. If uncertain, use a map link instead.',
-        '- If no reliable OpenCampingMap result can be found after several targeted searches, say so briefly and continue with the next place.',
-        '- Never invent OpenCampingMap objects, IDs, campsite names, addresses, phone numbers or facilities.'
-      ].join('\n');
+    : lang.startsWith('nl')
+      ? [
+          'OpenCampingMap-regels:',
+          '- Geef voor elke overnachtingsplaats de voorkeur aan een concreet OpenCampingMap-item of een stabiele OpenCampingMap-kaartlink.',
+          '- Zoek per plaats herhaaldelijk met plaatsnaam, regionaam, accommodatietype en indien bekend de naam van de camping.',
+          '- Als er meerdere OpenCampingMap-kandidaten zijn, geef dan de voorkeur aan de duidelijkste naamovereenkomst met de bestemming, het best passende accommodatietype en de kleinste omweg.',
+          '- Link-formaten: Gebruik object-links (`https://opencampingmap.org/nl/node/ID` of `https://opencampingmap.org/nl/way/ID`) of kaartlinks (`https://opencampingmap.org/#18/lat/lon`).',
+          '- Gebruik voor coördinaatlinks altijd het formaat `#zoom/lat/lon` (bijv. `#18/48.13/11.57`). Vermijd links zonder `#`.',
+          '- Linkextractie: Als je web search gebruikt, extraheer dan ALTIJD de directe URL\'s uit de zoekresultaten. Geef geen links die eerst naar een Google-zoekopdracht leiden.',
+          '- Gebruik alleen een directe OpenCampingMap-objectlink als de plaats en camping echt bij elkaar passen. Gebruik bij twijfel ALTIJD een kaartlink met de juiste coördinaten.',
+          '- Als er na meerdere gerichte zoekopdrachten geen betrouwbaar OpenCampingMap-resultaat wordt gevonden, zeg dit dan kort en ga door naar de volgende plaats.',
+          '- Verzin nooit OpenCampingMap-objecten, ID\'s, campingnamen, adressen, telefoonnummers of voorzieningen.'
+        ].join('\n')
+      : lang.startsWith('fr')
+        ? [
+            'Règles OpenCampingMap :',
+            '- Préfère pour chaque lieu d’hébergement une entrée concrète OpenCampingMap ou un lien de carte OpenCampingMap stable.',
+            '- Recherche chaque lieu à plusieurs reprises en utilisant le nom du lieu, la région, le type d’hébergement et, si possible, le nom du camping.',
+            '- Si plusieurs candidats OpenCampingMap existent, privilégie la correspondance de nom la plus claire, le type d’hébergement le plus adapté et le plus petit détour.',
+            '- Formats de liens : utilise soit des liens d’objet (`https://opencampingmap.org/fr/node/ID` ou `https://opencampingmap.org/fr/way/ID`), soit des liens de carte (`https://opencampingmap.org/#18/lat/lon`).',
+            '- Pour les liens de coordonnées, utilise impérativement le format `#zoom/lat/lon` (ex: `#18/48.13/11.57`). Évite les liens sans `#`.',
+            '- Extraction de liens : si tu utilises la recherche web, extrais TOUJOURS les URL directes des résultats. Ne donne pas de liens menant d’abord à une recherche Google.',
+            '- N’utilise un lien d’objet OpenCampingMap que si le lieu et le terrain correspondent vraiment. En cas d’incertitude, utilise TOUJOURS un lien de carte avec les coordonnées appropriées.',
+            '- Si aucun résultat OpenCampingMap fiable n’est trouvé après plusieurs recherches, dis-le brièvement et passe au lieu suivant.',
+            '- N’invente jamais d’objets OpenCampingMap, d’ID, de noms de campings, d’adresses, de numéros de téléphone ou d’équipements.'
+          ].join('\n')
+        : lang.startsWith('it')
+          ? [
+              'Regole OpenCampingMap:',
+              '- Preferisci per ogni luogo di pernottamento una voce concreta di OpenCampingMap o un link alla mappa stabile.',
+              '- Cerca ogni luogo ripetutamente usando il nome della località, la regione, il tipo di alloggio e, se noto, il nome del campeggio.',
+              '- Se esistono più candidati OpenCampingMap, preferisci quello con il nome più corrispondente, il tipo di alloggio più adatto e la deviazione minore.',
+              '- Formati dei link: usa link all’oggetto (`https://opencampingmap.org/it/node/ID` o `https://opencampingmap.org/it/way/ID`) oppure link alla mappa (`https://opencampingmap.org/#18/lat/lon`).',
+              '- Per i link con coordinate, usa obbligatoriamente il formato `#zoom/lat/lon` (es. `#18/48.13/11.57`). Evita link senza `#`.',
+              '- Estrazione link: se usi la ricerca web, estrai SEMPRE gli URL diretti dai risultati. Non fornire link che portano prima a una ricerca su Google.',
+              '- Usa un link all’oggetto OpenCampingMap solo se località e campeggio corrispondono davvero. In caso di incertezza, usa SEMPRE un link alla mappa con le coordinate appropriate.',
+              '- Se dopo diverse ricerche non trovi un risultato affidabile, dillo brevemente e passa al luogo successivo.',
+              '- Non inventare mai oggetti OpenCampingMap, ID, nomi di campeggi, indirizzi, numeri di telefono o dotazioni.'
+            ].join('\n')
+          : [
+              'OpenCampingMap rules:',
+              '- Prefer a concrete OpenCampingMap entry or a stable OpenCampingMap map link for each overnight stop.',
+              '- Search each place repeatedly using place name, region, accommodation type and known campsite name if available.',
+              '- If several OpenCampingMap candidates exist, prefer the clearest name match to the target area, the best fitting accommodation type and the smallest detour from the route.',
+              '- Link formats: Use either object links (`https://opencampingmap.org/en/node/ID` or `https://opencampingmap.org/en/way/ID`) or map links (`https://opencampingmap.org/#18/lat/lon`).',
+              '- For coordinate links, always use the format `#zoom/lat/lon` (e.g., `#18/48.13/11.57`). Avoid links without `#`.',
+              '- Link extraction: If you use web search, ALWAYS extract direct URLs from search results. Do not provide links that lead to a Google search or another search engine first.',
+              '- Only use a direct OpenCampingMap object link if place and campsite clearly match. If uncertain, ALWAYS USE a map link with appropriate coordinates instead.',
+              '- If no reliable OpenCampingMap result can be found after several targeted searches, say so briefly and continue with the next place.',
+              '- Never invent OpenCampingMap objects, IDs, campsite names, addresses, phone numbers or facilities.'
+            ].join('\n');
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
   const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
   const noAccommodationPreference = hasBaseAccommodationType && hasSpecificAccommodationType;
@@ -173,6 +256,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const verificationInstruction = t('prompt.verificationInstruction');
   const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
+  const logicalScheduleInstruction = buildLogicalScheduleInstruction(lang, data, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')
     ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und den Routeninfos und biete sie zum Download an. Die PDF darf keine Kurzfassung oder kompakte Zusammenfassung sein, sondern soll die normale Antwort inhaltlich so vollständig wie möglich spiegeln. Übernimm alle Hauptabschnitte 1 bis 9, alle Etappen mit Zeiten, Bewertungen und Pausenlogik, alle Übernachtungen mit Hauptplatz und Alternativen sowie die dazugehörigen OpenCampingMap-Links, offiziellen Platz-Links und wichtigen Restaurant-, Aktivitäts- oder Zusatzlinks. Lasse keine Links, Alternativen, Warnhinweise oder Serviceinfos weg, nur um die PDF kürzer zu halten. Verwende in der PDF vollständige, anklickbare URLs statt bloßer Link-Platzhalter, Referenznummern oder Fußnotenmarker. Wenn die PDF dadurch länger wird, nutze lieber zusätzliche Seiten statt Inhalte zu verdichten oder zusammenzufassen. Falls zusätzlich eine GPX-Datei ausgegeben wird, muss der vollständige GPX-XML-Block nicht in die PDF kopiert werden; erwähne die GPX-Datei dann kurz als separaten Download. Verwende für die PDF einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
     : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and the route details and offer it as a download. The PDF must not be a short version or compact summary; it should mirror the normal answer as completely as possible. Include all main sections 1 to 9, all legs with times, ratings, and break logic, all overnight stays with primary place and alternatives, plus the related OpenCampingMap links, official place links, and important restaurant, activity, or supporting links. Do not drop links, alternatives, warnings, or service notes just to make the PDF shorter. In the PDF, use full clickable URLs instead of bare link placeholders, reference numbers, or footnote markers. If that makes the PDF longer, prefer extra pages over compressing or summarizing the content. If a GPX file is also generated, the full GPX XML block does not need to be copied into the PDF; briefly mention the GPX file as a separate download instead. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
@@ -299,6 +383,7 @@ ${t('prompt.instructions')}
 ${t('prompt.instructionsCamperPlanning')}
 ${verificationInstruction}
 ${dailyLimitBufferInstruction}
+${logicalScheduleInstruction}
 ${pdfDownloadInstruction}
 ${largeVehicleStopInstruction}
 ${environmentalZoneInstruction}
@@ -332,7 +417,8 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         '- Suche OpenCampingMap gezielt mit Ortsname, Region, Platztyp und ggf. bekanntem Platznamen statt nur mit einer einzelnen Kurzsuche.',
         '- Wenn mehrere OpenCampingMap-Kandidaten auftauchen, waehle den mit dem klarsten Ortsbezug, der passendsten Uebernachtungsart und dem kleinsten Umweg.',
         '- Verwende keine Meta-Antworten wie "wenn du moechtest, kann ich ..." oder "ich kann im naechsten Schritt ...". Liefere die bestmoeglichen Ergebnisse direkt.',
-        '- Wenn kein sicherer direkter OpenCampingMap-Objektlink auffindbar ist, nutze stattdessen einen funktionierenden OpenCampingMap-Kartenlink mit passendem Zoom und korrekter Position.',
+        '- Link-Extraktion: Extrahiere IMMER die direkten URLs aus den Suchergebnissen. Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
+        '- Wenn kein sicherer direkter OpenCampingMap-Objektlink auffindbar ist, nutze stattdessen einen funktionierenden OpenCampingMap-Kartenlink mit passendem Zoom und korrekter Position (Format: `https://opencampingmap.org/de/#zoom/lat/lon`).',
         '- Verwende einen OpenCampingMap-Objektlink nur dann, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit ist ein Kartenlink Pflicht.',
         '- Erfinde keine Plaetze, Links, Adressen oder Telefonnummern. Wenn nach mehreren gezielten Suchen nichts Sicheres auffindbar ist, sage das knapp und mache mit dem naechsten Ort weiter.'
       ].join('\n')
@@ -343,7 +429,8 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         '- Search OpenCampingMap using place name, region, accommodation type and known campsite name if available, not just a single short query.',
         '- If several OpenCampingMap candidates appear, choose the one with the clearest location match, the best fitting accommodation type and the smallest detour.',
         '- Do not produce meta answers like "if you want, I can..." or "in the next step I can...". Deliver the best possible result directly.',
-        '- If no reliable direct OpenCampingMap object link can be found, use a working OpenCampingMap map link with appropriate zoom and correct position instead.',
+        '- Link extraction: ALWAYS extract direct URLs from search results. Do not provide links that lead to a Google search or another search engine first.',
+        '- If no reliable direct OpenCampingMap object link can be found, use a working OpenCampingMap map link with appropriate zoom and correct position instead (Format: `https://opencampingmap.org/en/#zoom/lat/lon`).',
         '- Only use a direct OpenCampingMap object link when place and campsite clearly match. If uncertain, a map link is required instead.',
         '- Do not invent places, links, addresses, or phone numbers. After several targeted searches, if nothing reliable is found, say so briefly and continue with the next place.'
       ].join('\n');

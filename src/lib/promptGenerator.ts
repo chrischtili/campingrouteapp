@@ -184,66 +184,51 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const openCampingMapPolicy = lang.startsWith('de')
     ? [
         'OpenCampingMap-Regeln:',
-        '- Bevorzuge fuer jeden Uebernachtungsort zuerst einen konkreten OpenCampingMap-Eintrag oder einen stabilen OpenCampingMap-Kartenlink.',
-        '- Suche pro Ort nicht nur einmal, sondern gezielt mit Ortsname, Regionsname, Platztyp und ggf. bekanntem Platznamen.',
-        '- Wenn mehrere OpenCampingMap-Treffer moeglich sind, bevorzuge den klarsten Namensbezug zum Zielort, die passendste Uebernachtungsart und den kleinsten Umweg zur Route.',
-        '- Link-Formate: Nutze entweder Objekt-Links (`https://opencampingmap.org/de/node/ID` oder `https://opencampingmap.org/de/way/ID`) oder Karten-Links (`https://opencampingmap.org/#18/lat/lon`).',
-        '- Nutze bei Koordinaten-Links zwingend das Format `#zoom/lat/lon` (z.B. `#18/48.13/11.57`). Vermeide Links ohne `#`.',
+        '- Bevorzuge IMMER Karten-Links mit Koordinaten im Format `https://opencampingmap.org/#18/lat/lon`. Diese sind am stabilsten.',
+        '- Nutze Objekt-Links (`/de/node/ID` oder `/de/way/ID`) NUR dann, wenn du die ID absolut sicher aus einer Websuche verifiziert hast. Erfinde niemals IDs.',
+        '- Goldene Regel: Jeder OpenCampingMap-Link MUSS einen Koordinaten-Hash (`#18/...`) enthalten, damit der Nutzer immer an der richtigen Stelle auf der Karte landet, selbst wenn die ID falsch waere.',
         '- Link-Extraktion: Wenn du die Websuche nutzt, extrahiere IMMER die direkten URLs aus den Suchergebnissen. Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
-        '- Verwende einen OpenCampingMap-Objektlink nur, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit nutze STATTDESSEN IMMER einen Karten-Link mit den passenden Koordinaten.',
-        '- Wenn nach mehreren gezielten Suchen kein sicherer OpenCampingMap-Treffer auffindbar ist, sage das knapp und gehe direkt zum naechsten Ort weiter.',
-        '- Erfinde niemals OpenCampingMap-Objekte, IDs, Platznamen, Adressen, Telefonnummern oder Ausstattungen.'
+        '- Wenn kein sicherer Treffer gefunden wird, nutze einen Karten-Link basierend auf den geografischen Koordinaten des Ortes.',
+        '- Erfinde niemals OpenCampingMap-Objekte, IDs, Platznamen, Adressen oder Telefonnummern.'
       ].join('\n')
     : lang.startsWith('nl')
       ? [
           'OpenCampingMap-regels:',
-          '- Geef voor elke overnachtingsplaats de voorkeur aan een concreet OpenCampingMap-item of een stabiele OpenCampingMap-kaartlink.',
-          '- Zoek per plaats herhaaldelijk met plaatsnaam, regionaam, accommodatietype en indien bekend de naam van de camping.',
-          '- Als er meerdere OpenCampingMap-kandidaten zijn, geef dan de voorkeur aan de duidelijkste naamovereenkomst met de bestemming, het best passende accommodatietype en de kleinste omweg.',
-          '- Link-formaten: Gebruik object-links (`https://opencampingmap.org/nl/node/ID` of `https://opencampingmap.org/nl/way/ID`) of kaartlinks (`https://opencampingmap.org/#18/lat/lon`).',
-          '- Gebruik voor coördinaatlinks altijd het formaat `#zoom/lat/lon` (bijv. `#18/48.13/11.57`). Vermijd links zonder `#`.',
+          '- Geef ALTIJD de voorkeur aan kaartlinks met coördinaten in het formaat `https://opencampingmap.org/#18/lat/lon`. Deze zijn het meest stabiel.',
+          '- Gebruik object-links (/nl/node/ID of /nl/way/ID) ALLEEN als je de ID absoluut zeker hebt geverifieerd via een zoekopdracht op het web. Verzin nooit ID\'s.',
+          '- Gouden regel: Elke OpenCampingMap-link MOET een coördinaten-hash (#18/...) bevatten, zodat de gebruiker altijd op de juiste plek op de kaart terechtkomt, zelfs als de ID onjuist zou zijn.',
           '- Linkextractie: Als je web search gebruikt, extraheer dan ALTIJD de directe URL\'s uit de zoekresultaten. Geef geen links die eerst naar een Google-zoekopdracht leiden.',
-          '- Gebruik alleen een directe OpenCampingMap-objectlink als de plaats en camping echt bij elkaar passen. Gebruik bij twijfel ALTIJD een kaartlink met de juiste coördinaten.',
-          '- Als er na meerdere gerichte zoekopdrachten geen betrouwbaar OpenCampingMap-resultaat wordt gevonden, zeg dit dan kort en ga door naar de volgende plaats.',
-          '- Verzin nooit OpenCampingMap-objecten, ID\'s, campingnamen, adressen, telefoonnummers of voorzieningen.'
+          '- Als er geen betrouwbaar resultaat wordt gevonden, gebruik dan een kaartlink op basis van de geografische coördinaten van de locatie.',
+          '- Verzin nooit OpenCampingMap-objecten, ID\'s, campingnamen, adressen of telefoonnummers.'
         ].join('\n')
       : lang.startsWith('fr')
         ? [
             'Règles OpenCampingMap :',
-            '- Préfère pour chaque lieu d’hébergement une entrée concrète OpenCampingMap ou un lien de carte OpenCampingMap stable.',
-            '- Recherche chaque lieu à plusieurs reprises en utilisant le nom du lieu, la région, le type d’hébergement et, si possible, le nom du camping.',
-            '- Si plusieurs candidats OpenCampingMap existent, privilégie la correspondance de nom la plus claire, le type d’hébergement le plus adapté et le plus petit détour.',
-            '- Formats de liens : utilise soit des liens d’objet (`https://opencampingmap.org/fr/node/ID` ou `https://opencampingmap.org/fr/way/ID`), soit des liens de carte (`https://opencampingmap.org/#18/lat/lon`).',
-            '- Pour les liens de coordonnées, utilise impérativement le format `#zoom/lat/lon` (ex: `#18/48.13/11.57`). Évite les liens sans `#`.',
-            '- Extraction de liens : si tu utilises la recherche web, extrais TOUJOURS les URL directes des résultats. Ne donne pas de liens menant d’abord à une recherche Google.',
-            '- N’utilise un lien d’objet OpenCampingMap que si le lieu et le terrain correspondent vraiment. En cas d’incertitude, utilise TOUJOURS un lien de carte avec les coordonnées appropriées.',
-            '- Si aucun résultat OpenCampingMap fiable n’est trouvé après plusieurs recherches, dis-le brièvement et passe au lieu suivant.',
-            '- N’invente jamais d’objets OpenCampingMap, d’ID, de noms de campings, d’adresses, de numéros de téléphone ou d’équipements.'
+            '- Privilégie TOUJOURS les liens de carte avec coordonnées au format `https://opencampingmap.org/#18/lat/lon`. Ce sont les plus stables.',
+            '- N’utilise les liens d’objet (/fr/node/ID ou /fr/way/ID) QUE si tu as vérifié l’ID de manière absolue via une recherche web. N’invente jamais d’ID.',
+            '- Règle d’or : chaque lien OpenCampingMap DOIT contenir un hash de coordonnées (#18/...) afin que l’utilisateur arrive toujours au bon endroit sur la carte, même si l’ID était erroné.',
+            '- Extraction de liens : lors de la recherche web, extrais TOUJOURS les URL directes des résultats. Ne donne pas de liens menant d’abord à une recherche Google.',
+            '- Si aucun résultat fiable n’est trouvé, utilise un lien de carte basé sur les coordonnées géographiques du lieu.',
+            '- N’invente jamais d’objets OpenCampingMap, d’ID, de noms de campings, d’adresses ou de numéros de téléphone.'
           ].join('\n')
         : lang.startsWith('it')
           ? [
               'Regole OpenCampingMap:',
-              '- Preferisci per ogni luogo di pernottamento una voce concreta di OpenCampingMap o un link alla mappa stabile.',
-              '- Cerca ogni luogo ripetutamente usando il nome della località, la regione, il tipo di alloggio e, se noto, il nome del campeggio.',
-              '- Se esistono più candidati OpenCampingMap, preferisci quello con il nome più corrispondente, il tipo di alloggio più adatto e la deviazione minore.',
-              '- Formati dei link: usa link all’oggetto (`https://opencampingmap.org/it/node/ID` o `https://opencampingmap.org/it/way/ID`) oppure link alla mappa (`https://opencampingmap.org/#18/lat/lon`).',
-              '- Per i link con coordinate, usa obbligatoriamente il formato `#zoom/lat/lon` (es. `#18/48.13/11.57`). Evita link senza `#`.',
-              '- Estrazione link: se usi la ricerca web, estrai SEMPRE gli URL diretti dai risultati. Non fornire link che portano prima a una ricerca su Google.',
-              '- Usa un link all’oggetto OpenCampingMap solo se località e campeggio corrispondono davvero. In caso di incertezza, usa SEMPRE un link alla mappa con le coordinate appropriate.',
-              '- Se dopo diverse ricerche non trovi un risultato affidabile, dillo brevemente e passa al luogo successivo.',
-              '- Non inventare mai oggetti OpenCampingMap, ID, nomi di campeggi, indirizzi, numeri di telefono o dotazioni.'
+              '- Preferisci SEMPRE i link alla mappa con coordinate nel formato `https://opencampingmap.org/#18/lat/lon`. Sono i più stabili.',
+              '- Usa i link all’oggetto (/it/node/ID oder /it/way/ID) SOLO se hai verificato l’ID in modo assoluto tramite una ricerca web. Non inventare mai ID.',
+              '- Regola d’oro: ogni link di OpenCampingMap DEVE contenere un hash di coordinate (#18/...), in modo che l’utente arrivi sempre nel punto giusto sulla mappa, anche se l’ID fosse errato.',
+              '- Estrazione link: durante la ricerca web, estrai SEMPRE gli URL diretti dai risultati. Non fornire link che portano prima a una ricerca su Google.',
+              '- Se non viene trovato alcun risultato affidabile, usa un link alla mappa basato sulle coordinate geografiche della località.',
+              '- Non inventare mai oggetti OpenCampingMap, ID, nomi di campeggi, indirizzi o numeri di telefono.'
             ].join('\n')
           : [
               'OpenCampingMap rules:',
-              '- Prefer a concrete OpenCampingMap entry or a stable OpenCampingMap map link for each overnight stop.',
-              '- Search each place repeatedly using place name, region, accommodation type and known campsite name if available.',
-              '- If several OpenCampingMap candidates exist, prefer the clearest name match to the target area, the best fitting accommodation type and the smallest detour from the route.',
-              '- Link formats: Use either object links (`https://opencampingmap.org/en/node/ID` or `https://opencampingmap.org/en/way/ID`) or map links (`https://opencampingmap.org/#18/lat/lon`).',
-              '- For coordinate links, always use the format `#zoom/lat/lon` (e.g., `#18/48.13/11.57`). Avoid links without `#`.',
-              '- Link extraction: If you use web search, ALWAYS extract direct URLs from search results. Do not provide links that lead to a Google search or another search engine first.',
-              '- Only use a direct OpenCampingMap object link if place and campsite clearly match. If uncertain, ALWAYS USE a map link with appropriate coordinates instead.',
-              '- If no reliable OpenCampingMap result can be found after several targeted searches, say so briefly and continue with the next place.',
-              '- Never invent OpenCampingMap objects, IDs, campsite names, addresses, phone numbers or facilities.'
+              '- ALWAYS prefer map links with coordinates in the format `https://opencampingmap.org/#18/lat/lon`. These are the most stable.',
+              '- Use object links (/en/node/ID or /en/way/ID) ONLY if you have absolutely verified the ID via web search. Never invent IDs.',
+              '- Golden Rule: Every OpenCampingMap link MUST contain a coordinate hash (#18/...) so that the user always lands in the right place on the map, even if the ID were wrong.',
+              '- Link extraction: When searching the web, extract the full URL including the part after the `#`. Do not provide shortened links.',
+              '- If no reliable result is found, use a map link based on the geographical coordinates of the location.',
+              '- Never invent OpenCampingMap objects, IDs, campsite names, addresses or phone numbers.'
             ].join('\n');
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
   const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
@@ -264,7 +249,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     ? lang.startsWith('de')
       ? '\n\nWichtig: Bevorzuge für dieses größere Fahrzeug bzw. Gespann gut zugängliche Tankstellen, Autohof- und Rastanlagen mit ausreichend Platz zum An- und Abfahren. Meide kleine Tankstellen, enge Rastplätze oder Stopps ohne vernünftige Zufahrt für große Fahrzeuge bzw. ohne geeignete Lkw-/Langfahrzeug-Zufahrt. Wenn ein geplanter Service-Stopp problematisch wirkt, nenne stattdessen eine besser geeignete Alternative.'
       : lang.startsWith('nl')
-        ? '\n\nBelangrijk: geef voor dit grotere voertuig of deze combinatie de voorkeur aan goed toegankelijke tankstations, truckstops en rustplaatsen met genoeg ruimte om in en uit te rijden. Vermijd kleine tankstations, krappe rustplaatsen of stops zonder goede toegang voor grote voertuigen of zonder geschikte truck-/langevoertuigtoegang. Als een geplande servicestop lastig lijkt, noem dan een beter passend alternatief.'
+        ? '\n\nBelangrijk: geef voor dit grotere voertuig of deze combinatie de voorkeur aan goed toegankelijke tankstations, truckstops en rustplaatsen mit genoeg ruimte om in en uit te rijden. Vermijd kleine tankstations, krappe rustplaatsen of stops zonder goede toegang voor grote voertuigen of zonder geschikte truck-/langevoertuigtoegang. Als een geplande servicestop lastig lijkt, noem dan een beter passend alternatief.'
         : lang.startsWith('fr')
           ? '\n\nImportant : pour ce vehicule plus grand ou cet ensemble, privilegie les stations-service, aires de repos et truck-stops bien accessibles avec suffisamment de place pour entrer et sortir. Evite les petites stations-service, les aires etroites ou les arrets sans acces correct pour les grands vehicules ou sans acces adaptes aux poids lourds / ensembles longs. Si un arret de service semble delicat, propose plutot une alternative mieux adaptee.'
           : lang.startsWith('it')

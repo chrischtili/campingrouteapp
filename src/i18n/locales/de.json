@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Prompt-Assistent & Stellplatzsuche Europa",
-    "description": "Erstelle starke Prompts für Campingrouten in Europa mit Prompt-Assistent, Stellplatzsuche, Campingplatzsuche, Etappenplanung und GPX-Export.",
+    "title": "CampingRoute: Der KI-Prompt-Assistent für deine perfekte Wohnmobil-Tour",
+    "description": "Plane deine perfekte Campingroute mit KI. Erstelle mit unserem Prompt-Assistenten maßgeschneiderte Touren für Wohnmobil & Wohnwagen – inkl. Stellplätzen und GPX-Export. Jetzt kostenlos starten.",
     "keywords": "Camping Routenplaner, Stellplatz Finder, Campingplatz Finder, Campingfinder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Stellplatzsuche, Campingplatzsuche, Camping Route, CampingRoute, Campingrouten"
   },
   "navbar": {
@@ -32,7 +32,7 @@
     "headline": {
       "line1": "Plane bessere",
       "line2": "Campingrouten",
-      "line3": "mit einem starken Prompt"
+      "line3": "mit einem starken KI-Prompt"
     },
     "description": "Unser KI-Prompt-Assistent ist dein praktischer Begleiter, um die perfekten Prompts für deine Lieblings-KI zu finden. Damit planst du deine Touren mit Wohnmobil, Wohnwagen, Zelt oder Motorrad noch entspannter – inklusive Stellplatz- und Campingplatzsuche, Etappenplanung und GPX-Ausgabe.",
     "planNow": "Prompt-Assistent",
@@ -52,6 +52,7 @@
       "placeholder": "z. B. Gardasee oder Bretagne",
       "cta": "Mit Ziel starten",
       "hint": "Dein Ziel wird direkt in den Prompt-Assistenten übernommen.",
+      "popularPrefix": "Beliebt",
       "loading": "Orte werden geladen …",
       "proof": "Viele Nutzer berichten: Mit dem fertigen Prompt entstehen deutlich bessere Routen als mit einer freien KI-Anfrage."
     },
@@ -124,18 +125,18 @@
     "title": "Von der Community geliebt",
     "julia": {
       "name": "Julia",
-      "text": "Perfekt für spontane Trips! Innerhalb von Minuten hatte ich eine detaillierte Route mit allen wichtigen Infos.",
-      "role": "Wochenend-Reisende"
+      "text": "Spontan am Freitagabend eine Route nach Slowenien geplant. Der Prompt hat mir in ChatGPT sofort drei traumhafte Stellplätze ausgespuckt, die ich sonst nie gefunden hätte.",
+      "role": "Leidenschaftliche Camperin"
     },
     "markus": {
       "name": "Markus",
-      "text": "Endlich ein Routenplaner, der wirklich auf meine Bedürfnisse eingeht! Die KI hat mir eine perfekte Route vorgeschlagen.",
-      "role": "Reisender"
+      "text": "Die Detailtiefe bei der Fahrzeugkonfiguration ist beeindruckend. Mein 7,5-Tonner wurde bei den Routenvorschlägen perfekt berücksichtigt – keine engen Altstadtgassen mehr!",
+      "role": "Vanlifer & Digital Nomad"
     },
     "sarah": {
       "name": "Sarah",
-      "text": "Die Filteroptionen sind genial! Ich kann nach Budget und Fahrzeuggröße filtern – das spart so viel Zeit!",
-      "role": "Camperin"
+      "text": "Für mich als Reisebloggerin ist CampingRoute das Tool der Wahl. Es spart Stunden bei der Recherche von GPX-Tracks und Etappenplanung. Ein echter Gamechanger.",
+      "role": "Camping-Expertin"
     }
   },
   "exampleRoute": {

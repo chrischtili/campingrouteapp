@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Prompt-assistent & camperplaatszoeker Europa",
-    "description": "Maak sterke prompts voor campingroutes in Europa met prompt-assistent, camperplaatszoeker, campingzoeker, etappeplanning en GPX-export.",
+    "title": "CampingRoute: De AI-prompt-assistent voor je perfecte camperroute",
+    "description": "Plan je perfecte campingroute met AI. Maak op maat gemaakte tours voor campers & caravans met onze prompt-assistent – incl. camperplaatsen en GPX-export. Start nu gratis.",
     "keywords": "camping routeplanner, camping finder, camperplaats zoeker, campingzoeker, camper routeplanner, caravan routeplanner, tent roadtrip plannen, motor routeplanner, GPX routeplanner, campingroute, Camping Route, CampingRoute, campingroutes"
   },
   "navbar": {
@@ -32,7 +32,7 @@
     "headline": {
       "line1": "Plan betere",
       "line2": "campingroutes",
-      "line3": "met een sterke prompt"
+      "line3": "met een sterke AI-prompt"
     },
     "description": "Onze AI-prompt-assistent is je praktische begeleider om de perfecte prompts voor je favoriete AI te vinden. Daarmee plan je je reizen met camper, caravan, tent of motor een stuk makkelijker, inclusief camping- en camperplaatszoekfunctie, etappeplanning en GPX-export.",
     "planNow": "Prompt-assistent",
@@ -52,6 +52,7 @@
       "placeholder": "bijv. Gardameer of Bretagne",
       "cta": "Start met bestemming",
       "hint": "Je bestemming wordt direct meegenomen naar de prompt-assistent.",
+      "popularPrefix": "Populair",
       "loading": "Plaatsen laden…",
       "proof": "Veel gebruikers merken dat de uiteindelijke prompt veel betere routes oplevert dan een losse AI-vraag."
     },
@@ -121,21 +122,21 @@
   },
   "testimonials": {
     "badge": "Ervaringen",
-    "title": "Wat gebruikers zeggen",
+    "title": "Geliefd bij de community",
     "julia": {
       "name": "Julia",
-      "text": "Perfect voor spontane trips! In enkele minuten had ik een gedetailleerde route met alle belangrijke info.",
-      "role": "Weekendreiziger"
+      "text": "Spontaan op vrijdagavond een route naar Slovenië gepland. De prompt in ChatGPT gaf me meteen drie fantastische camperplaatsen die ik anders nooit had gevonden.",
+      "role": "Gepassioneerde kampeerder"
     },
     "markus": {
       "name": "Markus",
-      "text": "Eindelijk een routeplanner die echt op mijn wensen ingaat! De AI stelde een perfecte route voor.",
-      "role": "Reiziger"
+      "text": "Het detailniveau in de voertuigconfiguratie is indrukwekkend. Mijn 7,5-tonner werd perfect meegenomen in de routes – geen krappe straatjes in oude steden meer!",
+      "role": "Vanlifer & Digital Nomad"
     },
     "sarah": {
       "name": "Sarah",
-      "text": "De filteropties zijn briljant! Ik kan filteren op budget en voertuigsize – dat bespaart enorm veel tijd!",
-      "role": "Camper"
+      "text": "Voor mij als reisblogger is CampingRoute de ideale tool. Het bespaart uren aan onderzoek naar GPX-tracks en etappeplanning. Een echte gamechanger.",
+      "role": "Kampeer-expert"
     }
   },
   "exampleRoute": {

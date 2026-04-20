@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Prompt Assistant & Pitch Search Europe",
-    "description": "Create strong prompts for camping routes in Europe with the prompt assistant, pitch search, campsite search, stage planning, and GPX export.",
+    "title": "CampingRoute: The AI Prompt Assistant for your perfect motorhome tour",
+    "description": "Plan your perfect camping route with AI. Create custom tours for motorhomes & caravans with our prompt assistant – including stopovers and GPX export. Start for free now.",
     "keywords": "AI camping route planner, campsite finder, motorhome pitch finder, camping finder, RV route planner, caravan route planner, tent road trip planner, motorcycle route planner, GPX route planner, campsite route planner, Camping Route, CampingRoute, camping routes"
   },
   "navbar": {
@@ -32,7 +32,7 @@
     "headline": {
       "line1": "Plan better",
       "line2": "camping routes",
-      "line3": "with a strong prompt"
+      "line3": "with a strong AI prompt"
     },
     "description": "Our AI prompt assistant is your practical companion for finding the perfect prompts for your favorite AI. It helps you plan your tours with an RV, caravan, tent, or motorcycle more easily, including campsite and pitch search, stage planning, and GPX export.",
     "planNow": "Prompt Assistant",
@@ -52,6 +52,7 @@
       "placeholder": "e.g. Lake Garda or Brittany",
       "cta": "Start with destination",
       "hint": "Your destination will be carried straight into the prompt assistant.",
+      "popularPrefix": "Popular",
       "loading": "Loading places…",
       "proof": "Many users report that the finished prompt produces much better routes than a generic AI request."
     },
@@ -124,18 +125,18 @@
     "title": "Loved by the Community",
     "julia": {
       "name": "Julia",
-      "text": "Perfect for spontaneous trips! Within minutes I had a detailed route with all the important info.",
-      "role": "Weekend traveler"
+      "text": "Spontaneously planned a route to Slovenia on Friday evening. The prompt in ChatGPT immediately gave me three fantastic campsites that I would never have found otherwise.",
+      "role": "Passionate Camper"
     },
     "markus": {
       "name": "Markus",
-      "text": "Finally a route planner that really caters to my needs! The AI suggested a perfect route for me.",
-      "role": "Traveler"
+      "text": "The level of detail in the vehicle configuration is impressive. My 7.5-tonner was perfectly taken into account in the route suggestions – no more narrow old town streets!",
+      "role": "Vanlifer & Digital Nomad"
     },
     "sarah": {
       "name": "Sarah",
-      "text": "The filter options are brilliant! I can filter by budget and vehicle size – that saves so much time!",
-      "role": "Camper"
+      "text": "For me as a travel blogger, CampingRoute is the tool of choice. It saves hours of researching GPX tracks and stage planning. A real game changer.",
+      "role": "Camping Expert"
     }
   },
   "exampleRoute": {

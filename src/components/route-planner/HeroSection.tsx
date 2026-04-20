@@ -198,7 +198,29 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                 {t("hero.directEntry.hint")}
               </div>
 
-              <div className="mt-4 flex flex-wrap gap-2.5">
+              <div className="mt-6 flex flex-wrap items-center gap-2">
+                <span className="mr-2 text-xs font-bold uppercase tracking-wider text-foreground/40 dark:text-white/30">
+                  {t("hero.directEntry.popularPrefix")}:
+                </span>
+                {[
+                  { label: "Gardasee", value: "Gardasee" },
+                  { label: "Bretagne", value: "Bretagne" },
+                  { label: "Toskana", value: "Toskana" },
+                  { label: "Schottland", value: "Schottland" },
+                  { label: "Norwegen", value: "Norwegen" },
+                ].map((dest) => (
+                  <button
+                    key={dest.value}
+                    type="button"
+                    onClick={() => onStartPlanning?.(dest.value)}
+                    className="rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 text-xs font-bold text-primary transition-all hover:bg-primary/10 active:scale-95"
+                  >
+                    {dest.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-2.5">
                 {[
                   t("hero.chips.chatgpt"),
                   t("hero.chips.gemini"),

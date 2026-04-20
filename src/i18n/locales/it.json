@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Camping Route - Assistente prompt & aree sosta Europa",
-    "description": "Crea prompt migliori per itinerari camping in Europa con assistente prompt, ricerca di aree sosta, ricerca campeggi, tappe ed export GPX.",
+    "title": "CampingRoute: L'assistente prompt IA per il tuo itinerario perfetto in camper",
+    "description": "Pianifica il tuo itinerario camping con l'IA. Crea tour su misura per camper e caravan con il nostro assistente prompt – inclusi punti sosta ed export GPX. Inizia gratis.",
     "keywords": "pianificatore itinerari campeggio, cerca campeggi, cerca aree sosta, trova campeggi, pianificatore camper, pianificatore caravan, viaggio in tenda, pianificatore moto, export GPX campeggio, Camping Route, CampingRoute, itinerari campeggio"
   },
   "navbar": {
@@ -32,7 +32,7 @@
     "headline": {
       "line1": "Pianifica itinerari",
       "line2": "camping migliori",
-      "line3": "con un prompt forte"
+      "line3": "con un forte prompt IA"
     },
     "description": "Il nostro assistente prompt IA è il tuo compagno pratico per trovare i prompt perfetti per la tua IA preferita. Ti aiuta a pianificare con più tranquillità i tuoi viaggi in camper, caravan, tenda o moto, con ricerca di aree sosta e campeggi, pianificazione delle tappe ed export GPX.",
     "planNow": "Assistente prompt",
@@ -52,6 +52,7 @@
       "placeholder": "es. Lago di Garda o Bretagna",
       "cta": "Inizia con la destinazione",
       "hint": "La destinazione viene trasferita direttamente nell’assistente prompt.",
+      "popularPrefix": "Popolare",
       "loading": "Caricamento dei luoghi…",
       "proof": "Molti utenti raccontano che il prompt finale produce itinerari molto migliori rispetto a una richiesta IA generica."
     },
@@ -124,18 +125,18 @@
     "title": "Amata dalla community",
     "julia": {
       "name": "Julia",
-      "text": "Perfetto per viaggi spontanei! In pochi minuti avevo un itinerario dettagliato con tutte le informazioni importanti.",
-      "role": "Viaggiatrice del weekend"
+      "text": "Ho pianificato spontaneamente un itinerario per la Slovenia un venerdì sera. Il prompt in ChatGPT mi ha dato subito tre aree sosta fantastiche che non avrei mai trovato altrimenti.",
+      "role": "Campeggiatrice appassionata"
     },
     "markus": {
       "name": "Markus",
-      "text": "Finalmente un pianificatore che risponde davvero alle mie esigenze! L'IA mi ha proposto un itinerario perfetto.",
-      "role": "Viaggiatore"
+      "text": "Il livello di dettaglio nella configurazione del veicolo è impressionante. Il mio 7,5 tonnellate è stato considerato perfettamente – niente più strette vie del centro storico!",
+      "role": "Vanlifer & Nomade digitale"
     },
     "sarah": {
       "name": "Sarah",
-      "text": "Le opzioni di filtro sono geniali! Posso filtrare per budget e dimensioni del veicolo – fa risparmiare un sacco di tempo!",
-      "role": "Camperista"
+      "text": "Come travel blogger, CampingRoute è lo strumento ideale. Fa risparmiare ore di ricerca di tracce GPX e pianificazione delle tappe. Una vera svolta.",
+      "role": "Esperta di camping"
     }
   },
   "exampleRoute": {

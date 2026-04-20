@@ -83,31 +83,33 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-10 pt-28 md:pb-14 md:pt-32">
-        <div className="grid flex-1 items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/18 bg-white/68 px-4 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05]">
-              <span className="flex h-2 w-2 rounded-full bg-primary" />
-              <span className="text-primary font-black text-[10px] tracking-[0.3em]">
-                {t("hero.badge")}
+        <div className="flex flex-col items-center text-center space-y-8 mb-12 lg:mb-16">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/18 bg-white/68 px-4 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05]">
+            <span className="flex h-2 w-2 rounded-full bg-primary" />
+            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
+              {t("hero.badge")}
+            </span>
+          </div>
+
+          <div className="space-y-5">
+            <h1 className="text-[2.7rem] font-black tracking-[-0.045em] text-foreground sm:text-6xl sm:tracking-[-0.04em] lg:text-7xl xl:text-[5.5rem] dark:text-white">
+              <span className="flex flex-col gap-1 leading-[0.9] sm:gap-2 sm:leading-[0.92]">
+                <span className="block">{t("hero.headline.line1")}</span>
+                <span className="block">{t("hero.headline.line2")}</span>
+                <span className="block text-primary">{t("hero.headline.line3")}</span>
               </span>
-            </div>
+            </h1>
+            <p className="max-w-3xl mx-auto text-lg leading-8 text-foreground/76 dark:text-white/74 sm:text-xl">
+              {t("hero.description")}
+            </p>
+            <p className="max-w-2xl mx-auto text-sm leading-7 text-foreground/62 dark:text-white/60 sm:text-base">
+              {t("hero.directEntry.proof")}
+            </p>
+          </div>
+        </div>
 
-            <div className="space-y-5">
-              <h1 className="max-w-4xl text-[2.7rem] font-black tracking-[-0.045em] text-foreground sm:text-6xl sm:tracking-[-0.04em] lg:text-7xl xl:text-[5.5rem] dark:text-white">
-                <span className="flex flex-col gap-1 leading-[0.9] sm:gap-2 sm:leading-[0.92]">
-                  <span className="block">{t("hero.headline.line1")}</span>
-                  <span className="block">{t("hero.headline.line2")}</span>
-                  <span className="block text-primary">{t("hero.headline.line3")}</span>
-                </span>
-              </h1>
-              <p className="max-w-2xl text-lg leading-8 text-foreground/76 dark:text-white/74 sm:text-xl">
-                {t("hero.description")}
-              </p>
-              <p className="max-w-2xl text-sm leading-7 text-foreground/62 dark:text-white/60 sm:text-base">
-                {t("hero.directEntry.proof")}
-              </p>
-            </div>
-
+        <div className="grid flex-1 items-start gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
+          <div className="space-y-8">
             <div className="rounded-[2rem] border border-white/70 bg-white/78 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05] sm:p-5">
               <div className="mb-3 flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-[0.28em]">
                 <Sparkles className="h-3.5 w-3.5" />

@@ -1381,9 +1381,10 @@
     "license": "MIT License",
     "sourceCode": "GitHub Project",
     "whatsNew": "What's new in {{version}}",
-    "feedback": "Give feedback",
-    "support": "Support CampingRoute"
-  },
+    "feedback": "Give Feedback",
+    "support": "Support CampingRoute",
+    "scrollToTop": "Scroll to top"
+    },
   "prompt": {
     "systemRole": "You are a professional route planner for camping and road-trip travel with specialized knowledge of Europe and international destinations. Create a practical, well-structured route based on my specifications that fits the selected vehicle type. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
     "dataSourcePolicy": "Overnight place lookup must be primarily sourced from OpenCampingMap. OpenStreetMap is used only as an enrichment source for category hints (for example `caravan_site:type=farm|winery`) and is not preferred over OpenCampingMap.",

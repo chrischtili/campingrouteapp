@@ -1381,7 +1381,8 @@
     "sourceCode": "Quellcode auf GitHub",
     "whatsNew": "Neu in {{version}}",
     "feedback": "Feedback geben",
-    "support": "CampingRoute unterstützen"
+    "support": "CampingRoute unterstützen",
+    "scrollToTop": "Nach oben scrollen"
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",

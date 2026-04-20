@@ -17,6 +17,7 @@ import { PLANNER_DRAFT_KEY, clearPlannerDraft, consumePlaceFinderTransfer, write
 import { HeroSection } from "./HeroSection";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
+import { FinderToolsSection } from "./FinderToolsSection";
 import { RouteSection } from "./RouteSection";
 import { PlaceFinderSection } from "./PlaceFinderSection";
 import { RouteOptimizationSection } from "./RouteOptimizationSection";
@@ -1753,6 +1754,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
 
       <Suspense fallback={<div className="h-96" />}>
         <FeaturesSection />
+        <FinderToolsSection />
         <TestimonialsSection />
       </Suspense>
 

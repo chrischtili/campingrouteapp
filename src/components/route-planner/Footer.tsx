@@ -149,6 +149,7 @@ export function Footer() {
                 variant="outline" 
                 size="icon" 
                 onClick={scrollToTop}
+                aria-label={t("footer.scrollToTop") || "Scroll to top"}
                 className="w-14 h-14 rounded-2xl border-2 border-border bg-white/70 text-foreground hover:bg-primary hover:border-primary hover:text-white transition-all duration-500 shadow-2xl dark:border-white/20 dark:bg-white/5 dark:text-white"
               >
                 <ArrowUp className="w-6 h-6" />

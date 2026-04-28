@@ -20,7 +20,7 @@ interface NavbarProps {
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.3");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.5");
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);

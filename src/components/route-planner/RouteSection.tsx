@@ -1,25 +1,22 @@
 import { FormData, RouteStage } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
-import { ToggleGroup } from "./ToggleGroup";
+import { BadgeToggleGroup } from "./BadgeToggleGroup";
 import { Switch } from "@/components/ui/switch";
 import { FormSlider } from "./FormSlider";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
-import { Map as MapIcon, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, X } from "lucide-react";
+import { Map as MapIcon, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, X, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRef, useState, type ReactNode } from "react";
-import { cloneFormDataSnapshot } from "@/lib/formDataSnapshot";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 interface RouteSectionProps {
   formData: FormData;
   onChange: (data: Partial<FormData>) => void;
 }
 
-const createEmptyStage = (): RouteStage => ({
-  destination: "",
+const createEmptyStage = (destination = ""): RouteStage => ({
+  destination,
   booked: false,
   detailsEnabled: false,
   arrivalDate: "",
@@ -61,32 +58,19 @@ const normalizeStageDates = (stages: RouteStage[], startDate: string) => {
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const { t } = useTranslation();
-  const isMobile = useIsMobile();
-  const [activePanel, setActivePanel] = useState<null | "times" | "stages" | "limits" | "notes">(null);
-  const snapshotRef = useRef<FormData | null>(null);
   const locale = (typeof navigator !== "undefined" && navigator.language) || "de-DE";
 
-  const glassPanelStyle = undefined;
-
-  const inputClass = "popup-input w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-foreground dark:text-white placeholder:font-normal text-left";
-  const timeInputClass = `${inputClass} pr-12 min-h-[56px]`;
-  const fieldLabelClass = "text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2";
-  const fieldLabelIconSlotClass = "inline-flex w-4 h-4 items-center justify-center shrink-0";
-  const requiredError = "text-[10px] font-semibold tracking-[0.04em] text-red-400";
+  const inputClass = "w-full h-11 sm:h-12 px-4 rounded-xl transition-all outline-none font-bold text-sm text-foreground dark:text-white placeholder:font-normal text-left bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10";
+  const timeInputClass = `${inputClass} pr-10`;
+  const fieldLabelClass = "text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50 flex items-center gap-2 mb-2";
+  const requiredError = "text-[10px] font-semibold tracking-[0.04em] text-red-400 mt-1";
   const clearValueClass = "mt-2 inline-flex items-center gap-1 text-[10px] font-semibold tracking-[0.04em] text-foreground/55 hover:text-foreground transition-colors dark:text-white/60 dark:hover:text-white";
-  const emptyFieldPlaceholderClass = "pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 font-bold text-foreground/42 dark:text-white/55 peer-focus:hidden";
   const switchClass = "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
-  const optionalPlaceholder = t("planner.route.optionalPlaceholder");
+  const glassPanelStyle = undefined;
 
   const maxDailyDistance = Number(formData.maxDailyDistance || 0);
   const maxDailyDriveHours = Number(formData.maxDailyDriveHours || 0);
   const showLimitPriority = maxDailyDistance > 0 && maxDailyDriveHours > 0;
-  const isStartMissing = !formData.startPoint?.trim();
-  const isDestinationMissing = !formData.destination?.trim();
-  const hasStages = formData.stages.length > 0;
-  const selectedStageNames = formData.stages
-    .map((stage) => stage.destination.trim())
-    .filter(Boolean);
 
   const formatDriveHours = (hours: number) => {
     const totalMinutes = Math.round(hours * 60);
@@ -94,33 +78,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     const minutes = totalMinutes % 60;
     return `${displayHours}:${String(minutes).padStart(2, "0")}`;
   };
-
-  const formatSummaryDate = (value: string) => {
-    if (!value) return "";
-    const date = new Date(`${value}T00:00:00`);
-    if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleDateString(locale);
-  };
-
-  const timesSummary = [
-    formData.startDate ? `${t("planner.route.departure")}: ${formatSummaryDate(formData.startDate)}` : "",
-    formData.endDate ? `${t("planner.route.arrival")}: ${formatSummaryDate(formData.endDate)}` : "",
-    formData.startTime ? `${t("planner.route.departureTime")}: ${formData.startTime}` : "",
-    formData.endTime ? `${t("planner.route.arrivalTime")}: ${formData.endTime}` : "",
-  ].filter(Boolean).join(" · ") || `${t("planner.route.departureTime")} · ${t("planner.route.arrivalTime")}`;
-
-  const stagesSummary = selectedStageNames.length
-    ? selectedStageNames.slice(0, 3).join(" · ")
-    : t("planner.route.stages.empty");
-
-  const limitsSummaryParts = [
-    maxDailyDistance > 0 ? `${formData.maxDailyDistance} km` : "",
-    maxDailyDriveHours > 0 ? `${formatDriveHours(maxDailyDriveHours)} h` : "",
-    formData.travelPace ? t("planner.route.travelPace.options." + formData.travelPace) : "",
-  ].filter(Boolean);
-  const limitsSummary = limitsSummaryParts.join(" · ") || t("planner.route.travelPace.label");
-
-  const notesSummary = formData.routeAdditionalInfo.trim() || t("planner.route.additional.placeholder");
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = e.target.value;
@@ -138,10 +95,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     const current = formData.gpxOutputMode || [];
     const next = checked ? [...current, value] : current.filter((v) => v !== value);
     onChange({ gpxOutputMode: next });
-  };
-
-  const handlePaceChange = (_name: string, value: string, checked: boolean) => {
-    onChange({ travelPace: checked ? value : "" });
   };
 
   const updateStage = (index: number, patch: Partial<RouteStage>) => {
@@ -186,603 +139,405 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     return trimmed ? `${baseLabel} (${trimmed})` : baseLabel;
   };
 
-  const panelTriggerClass = "planner-panel-trigger rounded-2xl border-2 px-5 py-4 text-left transition-colors";
-  const panelFrameClass = "space-y-6";
-  const panelBoxClass = "planner-panel-surface rounded-3xl border";
-  const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
-  const sectionShellClass = isMobile
-    ? "space-y-5"
-    : "p-6 sm:p-8 md:p-10 shadow-2xl space-y-6";
-  const tipCardClass = isMobile
-    ? "rounded-[0.95rem] border-l-2 border-primary/35 bg-transparent px-4 py-3"
-    : "rounded-2xl border border-slate-900/10 dark:border-white/8 bg-slate-900/[0.05] dark:bg-black/10 px-4 py-4 sm:px-5 sm:py-5";
-  const switchCardClass = isMobile
-    ? "flex items-center justify-between gap-4 rounded-[0.95rem] border-l-2 border-primary/30 bg-transparent px-4 py-3"
-    : "flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-slate-900/[0.05] dark:bg-black/10 border border-slate-900/10 dark:border-white/8 p-4 sm:p-5";
-  const routePanelTriggerClass = isMobile
-    ? "planner-panel-trigger rounded-[1rem] border border-primary/14 bg-white/[0.42] px-4 py-4 text-left transition-colors dark:bg-white/[0.03]"
-    : panelTriggerClass;
-  const gpxCardClass = isMobile
-    ? "rounded-[1.2rem] border border-slate-900/8 dark:border-white/8 bg-white/[0.42] dark:bg-white/[0.03] px-4 py-4"
-    : "rounded-3xl border border-white/8 bg-white/[0.05] px-6 py-6 shadow-[0_20px_60px_rgba(0,0,0,0.16)] sm:px-8";
-
-  const openPanel = (panel: NonNullable<typeof activePanel>) => {
-    snapshotRef.current = cloneFormDataSnapshot(formData);
-    setActivePanel(panel);
-  };
-
-  const closePanel = () => {
-    snapshotRef.current = null;
-    setActivePanel(null);
-  };
-
-  const cancelPanel = () => {
-    if (snapshotRef.current) {
-      onChange(snapshotRef.current);
-    }
-    closePanel();
-  };
-
-  const renderPopupActions = () => (
-    <div className={popupActionsClass}>
-      <Button
-        type="button"
-        variant="outline"
-        className="h-11 rounded-xl border-slate-900/12 bg-white/70 px-5 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
-        onClick={cancelPanel}
-      >
-        {t("buttons.cancel")}
-      </Button>
-      <Button type="button" className="h-11 rounded-xl px-5 font-semibold" onClick={closePanel}>
-        {t("buttons.ok")}
-      </Button>
-    </div>
-  );
-
-  const renderPanelShell = (title: string, description: string, content: ReactNode) => {
-    if (isMobile) {
-      return (
-        <Sheet open={!!activePanel} onOpenChange={(open) => !open && cancelPanel()}>
-          <SheetContent hideCloseButton side="bottom" className="theme-popup-shell theme-popup-route max-h-[88vh] overflow-y-auto border-2 px-0 pb-6 pt-0 shadow-[0_-32px_120px_rgba(0,0,0,0.72)] ring-2 ring-primary/35 backdrop-blur-xl">
-            <SheetHeader className="theme-popup-divider border-b px-6 py-5 text-left">
-              <SheetTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</SheetTitle>
-              <SheetDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</SheetDescription>
-            </SheetHeader>
-            <div className="px-6 pt-6">{content}</div>
-            {renderPopupActions()}
-          </SheetContent>
-        </Sheet>
-      );
-    }
-
-    return (
-      <Dialog open={!!activePanel} onOpenChange={(open) => !open && cancelPanel()}>
-        <DialogContent hideCloseButton className="theme-popup-shell theme-popup-route max-h-[90vh] max-w-5xl overflow-y-auto border-2 p-0 shadow-[0_36px_140px_rgba(0,0,0,0.74)] ring-2 ring-primary/35 backdrop-blur-xl">
-          <DialogHeader className="theme-popup-divider border-b px-6 py-5 text-left">
-            <DialogTitle className="text-left text-xl font-bold text-foreground dark:text-white">{title}</DialogTitle>
-            <DialogDescription className="text-left text-sm text-foreground/60 dark:text-white/58">{description}</DialogDescription>
-          </DialogHeader>
-          <div className="px-6 pt-6">{content}</div>
-          <div className="pb-6">
-            {renderPopupActions()}
+  return (
+    <div className="space-y-8">
+      {/* Start & Destination */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <Label htmlFor="startPoint" className={fieldLabelClass}>
+            <MapPin className="w-4 h-4 text-primary" />
+            {t("planner.route.start.label")}
+            <span className="text-primary font-black">*</span>
+          </Label>
+          <div className="relative w-full">
+            <input
+              id="startPoint"
+              placeholder={t("planner.route.start.placeholder")}
+              value={formData.startPoint}
+              onChange={(e) => onChange({ startPoint: e.target.value })}
+              className={cn(inputClass, "pl-10", !formData.startPoint && "border-red-400/40")}
+              required
+            />
+            <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
           </div>
-        </DialogContent>
-      </Dialog>
-    );
-  };
+          {!formData.startPoint && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
+        </div>
 
-  const timesContent = (
-    <div className={panelFrameClass}>
-      <div className="space-y-8">
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <Label className={fieldLabelClass}>
-                <span className={fieldLabelIconSlotClass}>
-                  <Calendar className="w-4 h-4 text-primary" />
-                </span>
-                {t("planner.route.departure")} {formData.startPoint?.trim() ? `(${formData.startPoint.trim()})` : ""}
-              </Label>
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <Label htmlFor="destination" className={fieldLabelClass}>
+            <Home className="w-4 h-4 text-primary" />
+            {t("planner.route.destination.label")}
+            <span className="text-primary font-black">*</span>
+          </Label>
+          <div className="relative w-full">
+            <input
+              id="destination"
+              placeholder={t("planner.route.destination.placeholder")}
+              value={formData.destination}
+              onChange={(e) => onChange({ destination: e.target.value })}
+              className={cn(inputClass, "pl-10", !formData.destination && "border-red-400/40")}
+              required
+            />
+            <Home className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
+          </div>
+          {!formData.destination && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
+        </div>
+      </div>
+
+      {/* Dates & Times */}
+      <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+        <div className="flex items-center gap-3 mb-6">
+          <Calendar className="w-5 h-5 text-primary" />
+          <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.route.departure")} · {t("planner.route.arrival")}</span>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label className={fieldLabelClass}>{t("planner.route.departure")}</Label>
               <div className="relative">
                 <input
                   type="date"
                   value={formData.startDate || ""}
                   onChange={handleStartDateChange}
-                  className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                 
+                  className={cn(inputClass, "pr-10")}
                 />
-                <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-foreground/35 dark:text-white/40 pointer-events-none" />
+                <Calendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
               </div>
               {formData.startDate && (
                 <button type="button" className={clearValueClass} onClick={() => onChange({ startDate: "" })}>
-                  <X className="w-3 h-3" />
-                  {t("planner.summary.save.clear")}
+                  <X className="w-3 h-3" /> {t("planner.summary.save.clear")}
                 </button>
               )}
             </div>
-
-            <div className="space-y-4">
-              <Label className={fieldLabelClass}>
-                <span className={fieldLabelIconSlotClass}>
-                  <Calendar className="w-4 h-4 text-primary" />
-                </span>
-                {t("planner.route.arrival")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
-              </Label>
+            
+            <div className="space-y-2">
+              <Label className={fieldLabelClass}>{t("planner.route.arrival")}</Label>
               <div className="relative">
                 <input
                   type="date"
                   value={formData.endDate || ""}
                   onChange={(e) => onChange({ endDate: e.target.value })}
-                  className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                 
+                  className={cn(inputClass, "pr-10")}
                   min={formData.startDate || undefined}
                 />
-                <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-foreground/35 dark:text-white/40 pointer-events-none" />
+                <Calendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
               </div>
               {formData.endDate && (
                 <button type="button" className={clearValueClass} onClick={() => onChange({ endDate: "" })}>
-                  <X className="w-3 h-3" />
-                  {t("planner.summary.save.clear")}
+                  <X className="w-3 h-3" /> {t("planner.summary.save.clear")}
                 </button>
               )}
             </div>
           </div>
-        </div>
 
-        <div className="space-y-6 pt-6 border-t border-white/10">
-          <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/55 dark:bg-white/8 border-2 border-slate-900/12 dark:border-white/10 p-4 sm:p-5">
-            <div className="space-y-1">
-              <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
-                {t("planner.route.destinationDetails.label")}
+          <div className="space-y-4 pt-4 md:pt-0 border-t md:border-t-0 md:border-l border-slate-200 dark:border-white/10 md:pl-6">
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <div className="space-y-1">
+                <div className="text-xs font-semibold text-foreground dark:text-white">{t("planner.route.destinationDetails.label")}</div>
+                <div className="text-[11px] text-foreground/60 dark:text-white/50">{t("planner.route.destinationDetails.description")}</div>
               </div>
-              <div className="text-foreground/62 dark:text-white/60 text-sm">
-                {t("planner.route.destinationDetails.description")}
-              </div>
+              <Switch
+                checked={formData.destinationDetailsEnabled}
+                onCheckedChange={(checked) => onChange({ destinationDetailsEnabled: checked })}
+                className={switchClass}
+              />
             </div>
-            <Switch
-              checked={formData.destinationDetailsEnabled}
-              onCheckedChange={(checked) => onChange({
-                destinationDetailsEnabled: checked,
-                startTime: checked ? formData.startTime : "",
-                endTime: checked ? formData.endTime : "",
-              })}
-              aria-label={t("planner.route.destinationDetails.label")}
-              className={switchClass}
-            />
-          </div>
 
-          {formData.destinationDetailsEnabled && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <Label className={fieldLabelClass}>
-                  <span className={fieldLabelIconSlotClass} aria-hidden="true" />
-                  {t("planner.route.departureTime")} {formData.startPoint?.trim() ? `(${formData.startPoint.trim()})` : ""}
-                </Label>
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+            {formData.destinationDetailsEnabled && (
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                <Label className={cn(fieldLabelClass, "mb-0")}>{t("planner.route.departureTime")}</Label>
+                <Label className={cn(fieldLabelClass, "mb-0")}>{t("planner.route.arrivalTime")}</Label>
+                
+                <div className="relative">
                   <input
-                    id="startTime"
                     type="time"
                     value={formData.startTime || ""}
                     onChange={(e) => onChange({ startTime: e.target.value })}
-                    className={`peer ${timeInputClass} ${!formData.startTime ? "time-empty" : ""}`}
-                   
+                    className={timeInputClass}
                     step={300}
                   />
-                  {!formData.startTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
-                  <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-foreground/35 dark:text-white/40 pointer-events-none" />
+                  <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
                 </div>
-                {formData.startTime && (
-                  <button type="button" className={clearValueClass} onClick={() => onChange({ startTime: "" })}>
-                    <X className="w-3 h-3" />
-                    {t("planner.summary.save.clear")}
-                  </button>
-                )}
-              </div>
-
-              <div className="space-y-4">
-                <Label className={fieldLabelClass}>
-                  <span className={fieldLabelIconSlotClass} aria-hidden="true" />
-                  {t("planner.route.arrivalTime")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
-                </Label>
-                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+                
+                <div className="relative">
                   <input
-                    id="endTime"
                     type="time"
                     value={formData.endTime || ""}
                     onChange={(e) => onChange({ endTime: e.target.value })}
-                    className={`peer ${timeInputClass} ${!formData.endTime ? "time-empty" : ""}`}
-                   
+                    className={timeInputClass}
                     step={300}
                   />
-                  {!formData.endTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
-                  <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-foreground/35 dark:text-white/40 pointer-events-none" />
+                  <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
                 </div>
-                {formData.endTime && (
-                  <button type="button" className={clearValueClass} onClick={() => onChange({ endTime: "" })}>
-                    <X className="w-3 h-3" />
-                    {t("planner.summary.save.clear")}
-                  </button>
-                )}
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/55 dark:bg-white/8 border-2 border-slate-900/12 dark:border-white/10 p-4 sm:p-5">
-            <div className="space-y-1">
-              <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
-                {t("planner.route.destinationBooked.label")} {formData.destination?.trim() ? `(${formData.destination.trim()})` : ""}
+            <div className="flex items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="text-xs font-semibold text-foreground dark:text-white">{t("planner.route.destinationBooked.label")}</div>
+                <div className="text-[11px] text-foreground/60 dark:text-white/50">{t("planner.route.destinationBooked.description")}</div>
               </div>
-              <div className="text-foreground/62 dark:text-white/60 text-sm">
-                {t("planner.route.destinationBooked.description")}
-              </div>
+              <Switch
+                checked={!!formData.destinationBooked}
+                onCheckedChange={(checked) => onChange({ destinationBooked: checked })}
+                className={switchClass}
+              />
             </div>
-            <Switch
-              checked={!!formData.destinationBooked}
-              onCheckedChange={(checked) => onChange({ destinationBooked: checked })}
-              aria-label={t("planner.route.destinationBooked.label")}
-              className={switchClass}
-            />
           </div>
         </div>
       </div>
-    </div>
-  );
 
-  const stagesContent = (
-    <div className={panelFrameClass}>
-      <div className="space-y-6">
-        <AnimatePresence>
-          {formData.stages.map((stage, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              className="p-6 sm:p-8 rounded-3xl bg-white/9 border border-white/8 space-y-6"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
-                  {t("planner.route.stage.label", { num: index + 1 })}
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => removeStage(index)}
-                  className="self-start sm:self-auto rounded-xl text-foreground/70 dark:text-white/70 hover:text-foreground dark:text-white hover:bg-white/10"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  {t("planner.route.stages.remove")}
-                </Button>
-              </div>
+      {/* Limits, Travel Type & GPX */}
+      <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+        <div className="flex items-center gap-3 mb-8">
+          <Sparkles className="w-5 h-5 text-primary" />
+          <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.route.maxDistance")} · {t("planner.route.travelPace.label")}</span>
+        </div>
 
-              <div className="space-y-4">
-                {!stage.destination?.trim() && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
-                <div className="relative">
-                  <input
-                    id={`stageDestination-${index}`}
-                    placeholder={t("planner.route.stage.placeholder")}
-                    value={stage.destination}
-                    onChange={(e) => updateStage(index, { destination: e.target.value })}
-                    className={`${inputClass} pl-12 sm:pl-14 ${!stage.destination?.trim() ? "border-red-400/40 focus:border-red-400" : ""}`}
-                  />
-                  <Route className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-primary/30" />
-                </div>
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+          <div className="space-y-8">
+            <FormSlider
+              id="maxDailyDistance"
+              label={t("planner.route.maxDistance")}
+              value={maxDailyDistance}
+              min={0}
+              max={1000}
+              step={50}
+              unit="km"
+              onChange={(value) => onChange({ maxDailyDistance: value.toString() })}
+              compact
+            />
 
-              <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/55 dark:bg-white/8 border-2 border-slate-900/12 dark:border-white/10 p-4 sm:p-5">
-                <div className="space-y-1">
-                  <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
-                    {buildStopLabel("planner.route.stage.detailsLabel", index, stage.destination)}
-                  </div>
-                  <div className="text-foreground/62 dark:text-white/60 text-sm">
-                    {t("planner.route.stage.detailsDescription")}
-                  </div>
-                </div>
-                <Switch
-                  checked={!!stage.detailsEnabled}
-                  onCheckedChange={(checked) => updateStage(index, { detailsEnabled: checked })}
-                  aria-label={buildStopLabel("planner.route.stage.detailsLabel", index, stage.destination)}
-                  className={switchClass}
+            <FormSlider
+              id="maxDailyDriveHours"
+              label={t("planner.route.maxDriveTime")}
+              value={maxDailyDriveHours}
+              min={0}
+              max={8}
+              step={0.5}
+              unit="h"
+              formatValue={formatDriveHours}
+              formatBound={formatDriveHours}
+              onChange={(value) => onChange({ maxDailyDriveHours: value.toString() })}
+              compact
+            />
+
+            {showLimitPriority && (
+              <div className="space-y-3">
+                <Label className={fieldLabelClass}>
+                  <Info className="w-3.5 h-3.5 text-primary" /> {t("planner.route.limitPriority.label")}
+                </Label>
+                <BadgeToggleGroup
+                  name="dailyLimitPriority"
+                  options={[
+                    { value: "distance", label: t("planner.route.limitPriority.options.distance") },
+                    { value: "time", label: t("planner.route.limitPriority.options.time") },
+                  ]}
+                  selectedValues={formData.dailyLimitPriority ? [formData.dailyLimitPriority] : []}
+                  onChange={(_name, value, checked) => onChange({ dailyLimitPriority: checked ? value : "" })}
                 />
               </div>
+            )}
+          </div>
 
-              <div className="flex items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-white/55 dark:bg-white/8 border-2 border-slate-900/12 dark:border-white/10 p-4 sm:p-5">
-                <div className="space-y-1">
-                  <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
-                    {buildStopLabel("planner.route.stage.bookedLabel", index, stage.destination)}
-                  </div>
-                  <div className="text-foreground/62 dark:text-white/60 text-sm">
-                    {t("planner.route.stage.bookedDescription")}
-                  </div>
-                </div>
-                <Switch
-                  checked={!!stage.booked}
-                  onCheckedChange={(checked) => updateStage(index, { booked: checked })}
-                  aria-label={buildStopLabel("planner.route.stage.bookedLabel", index, stage.destination)}
-                  className={switchClass}
-                />
-              </div>
+          <div className="space-y-8 pt-6 lg:pt-0 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/10 lg:pl-8">
+            <div className="space-y-4">
+              <Label className={fieldLabelClass}>
+                <Sparkles className="w-3.5 h-3.5 text-primary" /> {t("planner.route.travelPace.label")}
+              </Label>
+              <BadgeToggleGroup
+                name="travelPace"
+                options={[
+                  { value: "short", label: t("planner.route.travelPace.options.short") },
+                  { value: "balanced", label: t("planner.route.travelPace.options.balanced") },
+                  { value: "long", label: t("planner.route.travelPace.options.long") },
+                ]}
+                selectedValues={formData.travelPace ? [formData.travelPace] : []}
+                onChange={(_name, value, checked) => onChange({ travelPace: checked ? value : "" })}
+              />
+              <p className="text-[10px] text-foreground/50 dark:text-white/40 italic">
+                {t("planner.route.travelPace.note")}
+              </p>
+            </div>
 
-              {stage.detailsEnabled && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <Label htmlFor={`stageArrivalDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-foreground/70 dark:text-white/70">
-                      {buildStopLabel("planner.route.stage.arrivalDate", index, stage.destination)}
-                    </Label>
-                    <div className="relative">
-                      <input
-                        id={`stageArrivalDate-${index}`}
-                        type="date"
-                        value={stage.arrivalDate || ""}
-                        onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
-                        className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                       
-                        min={
-                          index === 0
-                            ? (formData.startDate || undefined)
-                            : (formData.stages[index - 1]?.departureDate || formData.stages[index - 1]?.arrivalDate || formData.startDate || undefined)
-                        }
-                      />
-                      <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-foreground/30 dark:text-white/30" />
-                    </div>
-                    {stage.arrivalDate && (
-                      <button type="button" className={clearValueClass} onClick={() => updateStage(index, { arrivalDate: "" })}>
-                        <X className="w-3 h-3" />
-                        {t("planner.summary.save.clear")}
-                      </button>
-                    )}
-                  </div>
+            <div className="space-y-4 pt-6 border-t border-slate-200 dark:border-white/10">
+              <Label className={fieldLabelClass}>
+                <Info className="w-3.5 h-3.5 text-primary" /> {t("planner.route.gpx.label")}
+              </Label>
+              <BadgeToggleGroup
+                name="gpxOutputMode"
+                options={[
+                  { value: "garmin", label: t("planner.route.gpx.options.garmin") },
+                  { value: "routeTrack", label: t("planner.route.gpx.options.routeTrack") },
+                ]}
+                selectedValues={formData.gpxOutputMode || []}
+                onChange={handleGpxToggle}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
-                  <div className="space-y-3">
-                    <Label htmlFor={`stageArrivalTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-foreground/70 dark:text-white/70">
-                      {buildStopLabel("planner.route.stage.arrivalTime", index, stage.destination)}
-                    </Label>
-                    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
-                      <input
-                        id={`stageArrivalTime-${index}`}
-                        type="time"
-                        value={stage.arrivalTime || ""}
-                        onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
-                        className={`peer ${timeInputClass} ${!stage.arrivalTime ? "time-empty" : ""}`}
-                       
-                        step={300}
-                      />
-                      {!stage.arrivalTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
-                      <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-foreground/30 dark:text-white/30" />
-                    </div>
-                    {stage.arrivalTime && (
-                      <button type="button" className={clearValueClass} onClick={() => updateStage(index, { arrivalTime: "" })}>
-                        <X className="w-3 h-3" />
-                        {t("planner.summary.save.clear")}
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor={`stageDepartureDate-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-foreground/70 dark:text-white/70">
-                      {buildStopLabel("planner.route.stage.departureDate", index, stage.destination)}
-                    </Label>
-                    <div className="relative">
-                      <input
-                        id={`stageDepartureDate-${index}`}
-                        type="date"
-                        value={stage.departureDate || ""}
-                        onChange={(e) => updateStage(index, { departureDate: e.target.value })}
-                        className={`${inputClass} pr-10 appearance-none min-h-[56px]`}
-                       
-                        min={
-                          stage.arrivalDate ||
-                          (index === 0
-                            ? (formData.startDate || undefined)
-                            : (formData.stages[index - 1]?.departureDate || formData.stages[index - 1]?.arrivalDate || formData.startDate || undefined))
-                        }
-                      />
-                      <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-foreground/30 dark:text-white/30" />
-                    </div>
-                    {stage.departureDate && (
-                      <button type="button" className={clearValueClass} onClick={() => updateStage(index, { departureDate: "" })}>
-                        <X className="w-3 h-3" />
-                        {t("planner.summary.save.clear")}
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor={`stageDepartureTime-${index}`} className="text-[10px] md:text-xs font-semibold tracking-[0.04em] text-foreground/70 dark:text-white/70">
-                      {buildStopLabel("planner.route.stage.departureTime", index, stage.destination)}
-                    </Label>
-                    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
-                      <input
-                        id={`stageDepartureTime-${index}`}
-                        type="time"
-                        value={stage.departureTime || ""}
-                        onChange={(e) => updateStage(index, { departureTime: e.target.value })}
-                        className={`peer ${timeInputClass} ${!stage.departureTime ? "time-empty" : ""}`}
-                       
-                        step={300}
-                      />
-                      {!stage.departureTime && <span className={emptyFieldPlaceholderClass}>{optionalPlaceholder}</span>}
-                      <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 pointer-events-none text-foreground/30 dark:text-white/30" />
-                    </div>
-                    {stage.departureTime && (
-                      <button type="button" className={clearValueClass} onClick={() => updateStage(index, { departureTime: "" })}>
-                        <X className="w-3 h-3" />
-                        {t("planner.summary.save.clear")}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          ))}
-        </AnimatePresence>
-
-        <div className="flex justify-center pt-2">
+      {/* Stages */}
+      <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+        <div className="flex items-center justify-between w-full mb-6">
+          <div className="flex items-center gap-3">
+            <Route className="w-5 h-5 text-primary" />
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.route.stages.title")}</span>
+          </div>
           <Button
             type="button"
             variant="outline"
             onClick={addStage}
-            className="w-full sm:w-auto justify-center rounded-xl sm:rounded-2xl border-2 border-primary/60 bg-white/8 hover:bg-primary/10 hover:border-primary text-foreground dark:text-white font-black text-sm sm:text-base shadow-[0_0_0_1px_rgba(255,128,0,0.22)]"
+            size="sm"
+            className="rounded-full border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold h-8 px-3"
           >
-            <Plus className="w-4 h-4 mr-2" />
-            {t("planner.route.stages.addSimple")}
+            <Plus className="w-3 h-3 mr-1" /> {t("planner.route.stages.addSimple")}
           </Button>
         </div>
-      </div>
-    </div>
-  );
 
-  const limitsContent = (
-    <div className={panelFrameClass}>
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          <FormSlider
-            id="maxDailyDistance"
-            label={t("planner.route.maxDistance")}
-            value={maxDailyDistance}
-            min={0}
-            max={1000}
-            step={50}
-            unit="km"
-            onChange={(value) => onChange({ maxDailyDistance: value.toString() })}
-          />
-
-          <FormSlider
-            id="maxDailyDriveHours"
-            label={t("planner.route.maxDriveTime")}
-            value={maxDailyDriveHours}
-            min={0}
-            max={8}
-            step={0.5}
-            unit="h"
-            formatValue={formatDriveHours}
-            formatBound={formatDriveHours}
-            onChange={(value) => onChange({ maxDailyDriveHours: value.toString() })}
-          />
-        </div>
-
-        {showLimitPriority && (
-          <div className="space-y-3">
-            <Label className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
-              <Info className="w-4 h-4 text-primary" />
-              {t("planner.route.limitPriority.label")}
-            </Label>
-            <div className="text-foreground/62 dark:text-white/60 text-sm">
-              {t("planner.route.limitPriority.description")}
-            </div>
-            <ToggleGroup
-              name="dailyLimitPriority"
-              options={[
-                { value: "distance", label: t("planner.route.limitPriority.options.distance") },
-                { value: "time", label: t("planner.route.limitPriority.options.time") },
-              ]}
-              selectedValues={formData.dailyLimitPriority ? [formData.dailyLimitPriority] : []}
-              onChange={(_name, value, checked) => onChange({ dailyLimitPriority: checked ? value : "" })}
-              className="grid-cols-1 md:grid-cols-2"
-            />
+        {formData.stages.length === 0 ? (
+          <div className="w-full py-8 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl text-xs text-foreground/40 dark:text-white/30">
+            {t("planner.route.stages.empty")}
           </div>
+        ) : (
+          <Accordion type="multiple" className="w-full space-y-3">
+            {formData.stages.map((stage, index) => (
+              <AccordionItem 
+                key={index} 
+                value={`stage-${index}`}
+                className="border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden px-4 py-0 bg-white/30 dark:bg-white/5"
+              >
+                <div className="flex items-center gap-3">
+                   <AccordionTrigger className="flex-1 hover:no-underline py-4">
+                    <div className="flex items-center gap-3 text-left">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-black text-primary border border-primary/20 shrink-0">
+                        {index + 1}
+                      </div>
+                      <span className={cn(
+                        "text-sm font-bold truncate max-w-[120px] sm:max-w-[200px]",
+                        !stage.destination?.trim() ? "text-red-400" : "text-foreground dark:text-white"
+                      )}>
+                        {stage.destination?.trim() || t("planner.route.stage.placeholder")}
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeStage(index);
+                    }}
+                    className="h-8 w-8 text-foreground/40 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 shrink-0"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+                <AccordionContent className="pt-0 pb-5 space-y-6">
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <input
+                        placeholder={t("planner.route.stage.placeholder")}
+                        value={stage.destination}
+                        onChange={(e) => updateStage(index, { destination: e.target.value })}
+                        className={cn(inputClass, "pl-10", !stage.destination?.trim() && "border-red-400/40")}
+                      />
+                      <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/30" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/40 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+                      <div className="space-y-0.5">
+                        <div className="text-[11px] font-bold text-foreground dark:text-white">{t("planner.route.stage.detailsLabel", { num: index + 1 })}</div>
+                        <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.stage.detailsDescription")}</div>
+                      </div>
+                      <Switch
+                        checked={!!stage.detailsEnabled}
+                        onCheckedChange={(checked) => updateStage(index, { detailsEnabled: checked })}
+                        className={switchClass}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/40 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+                      <div className="space-y-0.5">
+                        <div className="text-[11px] font-bold text-foreground dark:text-white">{t("planner.route.stage.bookedLabel", { num: index + 1 })}</div>
+                        <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.stage.bookedDescription")}</div>
+                      </div>
+                      <Switch
+                        checked={!!stage.booked}
+                        onCheckedChange={(checked) => updateStage(index, { booked: checked })}
+                        className={switchClass}
+                      />
+                    </div>
+                  </div>
+
+                  {stage.detailsEnabled && (
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 pt-2">
+                      <Label className={cn(fieldLabelClass, "mb-0")}>{t("planner.route.stage.arrivalDate", { num: index + 1 })}</Label>
+                      <Label className={cn(fieldLabelClass, "mb-0")}>{t("planner.route.stage.arrivalTime", { num: index + 1 })}</Label>
+                      
+                      <div className="relative">
+                        <input
+                          type="date"
+                          value={stage.arrivalDate || ""}
+                          onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
+                          className={cn(inputClass, "pr-8")}
+                          min={index === 0 ? formData.startDate : (formData.stages[index-1]?.departureDate || formData.stages[index-1]?.arrivalDate || formData.startDate)}
+                        />
+                      </div>
+                      
+                      <div className="relative">
+                        <input
+                          type="time"
+                          value={stage.arrivalTime || ""}
+                          onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
+                          className={timeInputClass}
+                        />
+                      </div>
+
+                      <div className="col-span-2 mt-2"></div>
+
+                      <Label className={cn(fieldLabelClass, "mb-0")}>{t("planner.route.stage.departureDate", { num: index + 1 })}</Label>
+                      <Label className={cn(fieldLabelClass, "mb-0")}>{t("planner.route.stage.departureTime", { num: index + 1 })}</Label>
+                      
+                      <div className="relative">
+                        <input
+                          type="date"
+                          value={stage.departureDate || ""}
+                          onChange={(e) => updateStage(index, { departureDate: e.target.value })}
+                          className={cn(inputClass, "pr-8")}
+                          min={stage.arrivalDate || (index === 0 ? formData.startDate : (formData.stages[index-1]?.departureDate || formData.stages[index-1]?.arrivalDate || formData.startDate))}
+                        />
+                      </div>
+                      
+                      <div className="relative">
+                        <input
+                          type="time"
+                          value={stage.departureTime || ""}
+                          onChange={(e) => updateStage(index, { departureTime: e.target.value })}
+                          className={timeInputClass}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         )}
-
-        <div className="space-y-3">
-          <Label className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" /> {t("planner.route.travelPace.label")}
-          </Label>
-          <div className="text-foreground/62 dark:text-white/60 text-xs font-semibold">
-            {t("planner.route.travelPace.note")}
-          </div>
-          <ToggleGroup
-            name="travelPace"
-            options={[
-              { value: "short", label: t("planner.route.travelPace.options.short") },
-              { value: "balanced", label: t("planner.route.travelPace.options.balanced") },
-              { value: "long", label: t("planner.route.travelPace.options.long") },
-            ]}
-            selectedValues={formData.travelPace ? [formData.travelPace] : []}
-            onChange={handlePaceChange}
-            className="grid-cols-1 md:grid-cols-3"
-          />
-        </div>
       </div>
-    </div>
-  );
 
-  const notesContent = (
-    <div className={panelFrameClass}>
-      <div className="space-y-4 text-left">
-        <Label htmlFor="routeAdditionalInfo" className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
-          <Info className="w-4 h-4 text-primary" /> {t("planner.route.additional.label")}
-        </Label>
-        <textarea
-          id="routeAdditionalInfo"
-          placeholder={t("planner.route.additional.placeholder")}
-          value={formData.routeAdditionalInfo}
-          onChange={(e) => onChange({ routeAdditionalInfo: e.target.value })}
-          rows={4}
-          className={`${inputClass} min-h-[130px] sm:min-h-[150px] p-4 sm:p-8 resize-none`}
-        />
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="space-y-8">
-      <div className={sectionShellClass} style={glassPanelStyle}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <Label htmlFor="startPoint" className={fieldLabelClass}>
-              <MapPin className="w-4 h-4 text-primary" />
-              {t("planner.route.start.label")}
-              <span className="text-primary font-black">*</span>
-            </Label>
-            <div className="relative">
-              <input
-                id="startPoint"
-                placeholder={t("planner.route.start.placeholder")}
-                value={formData.startPoint}
-                onChange={(e) => onChange({ startPoint: e.target.value })}
-                className={`${inputClass} pl-12 sm:pl-14 ${isStartMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
-                required
-              />
-              <MapPin className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-primary/40" />
-            </div>
-            {isStartMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
+      {/* Target Regions, Scenic Preference & Notes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div className="flex items-center gap-3 mb-4">
+            <MapIcon className="w-5 h-5 text-primary" />
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.route.targetRegions.label")}</span>
           </div>
-
-          <div className="space-y-4">
-            <Label htmlFor="destination" className={fieldLabelClass}>
-              <Home className="w-4 h-4 text-primary" />
-              {t("planner.route.destination.label")}
-              <span className="text-primary font-black">*</span>
-            </Label>
-            <div className="relative">
-              <input
-                id="destination"
-                placeholder={t("planner.route.destination.placeholder")}
-                value={formData.destination}
-                onChange={(e) => onChange({ destination: e.target.value })}
-                className={`${inputClass} pl-12 sm:pl-14 border-primary/20 ${isDestinationMissing ? "border-red-400/40 focus:border-red-400" : ""}`}
-                required
-              />
-              <Home className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-primary/40" />
-            </div>
-            {isDestinationMissing && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
-          </div>
-        </div>
-
-        <div className={tipCardClass}>
-          <div className="text-[10px] font-semibold tracking-[0.08em] text-primary mb-2">
-            {t("planner.route.roundTripHint.badge")}
-          </div>
-          <div className="text-sm text-foreground/85 dark:text-white/85 leading-relaxed">
-            {t("planner.route.roundTripHint.text")}
-          </div>
-        </div>
-
-        <div className="space-y-3 pt-2">
-          <Label htmlFor="targetRegions" className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white flex items-center gap-2">
-            <MapIcon className="w-4 h-4 text-primary" /> {t("planner.route.targetRegions.label")}
-          </Label>
-          <p className="text-foreground/52 dark:text-white/50 text-sm leading-relaxed">
+          <p className="text-[11px] text-foreground/50 dark:text-white/40 mb-3 leading-relaxed">
             {t("planner.route.targetRegions.hint")}
           </p>
           <textarea
@@ -790,120 +545,38 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             placeholder={t("planner.route.targetRegions.placeholder")}
             value={formData.targetRegions}
             onChange={(e) => onChange({ targetRegions: e.target.value })}
-            rows={2}
-            className={`${inputClass} min-h-[84px] sm:min-h-[96px] p-4 sm:p-6 resize-none`}
+            className="w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-foreground dark:text-white placeholder:font-normal text-left resize-none bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10"
           />
         </div>
 
-        <div className={switchCardClass}>
-          <div className="space-y-1">
-            <div className="text-xs md:text-sm font-semibold tracking-[0.02em] text-foreground dark:text-white">
-              {t("planner.route.preferScenicLongerStops.label")}
+        <div className="flex flex-col gap-4">
+          <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left flex-1" style={glassPanelStyle}>
+            <div className="flex items-center gap-3 mb-4">
+              <Info className="w-5 h-5 text-primary" />
+              <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.route.additional.label")}</span>
             </div>
-            <div className="text-foreground/62 dark:text-white/60 text-sm">
-              {t("planner.route.preferScenicLongerStops.description")}
-            </div>
+            <textarea
+              id="routeAdditionalInfo"
+              placeholder={t("planner.route.additional.placeholder")}
+              value={formData.routeAdditionalInfo}
+              onChange={(e) => onChange({ routeAdditionalInfo: e.target.value })}
+              className="w-full h-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-foreground dark:text-white placeholder:font-normal text-left resize-none bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10"
+            />
           </div>
-          <Switch
-            checked={formData.preferScenicLongerStops}
-            onCheckedChange={(checked) => onChange({ preferScenicLongerStops: checked })}
-            aria-label={t("planner.route.preferScenicLongerStops.label")}
-            className={switchClass}
-          />
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("times")}>
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-                <Calendar className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.departure")} · {t("planner.route.arrival")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{timesSummary}</div>
-              </div>
+          <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex items-center justify-between gap-4 text-left" style={glassPanelStyle}>
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-foreground dark:text-white">{t("planner.route.preferScenicLongerStops.label")}</div>
+              <div className="text-[11px] text-foreground/60 dark:text-white/50">{t("planner.route.preferScenicLongerStops.description")}</div>
             </div>
-          </button>
-
-          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("stages")}>
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-                <Route className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.stages.title")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{stagesSummary}</div>
-              </div>
-            </div>
-          </button>
-
-          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("limits")}>
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.maxDistance")} · {t("planner.route.maxDriveTime")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{limitsSummary}</div>
-              </div>
-            </div>
-          </button>
-
-          <button type="button" className={routePanelTriggerClass} onClick={() => openPanel("notes")}>
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-                <Info className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.route.additional.label")}</div>
-                <div className="mt-1 text-sm text-foreground/58 dark:text-white/55 line-clamp-2 break-words">{notesSummary}</div>
-              </div>
-            </div>
-          </button>
+            <Switch
+              checked={formData.preferScenicLongerStops}
+              onCheckedChange={(checked) => onChange({ preferScenicLongerStops: checked })}
+              className={switchClass}
+            />
+          </div>
         </div>
       </div>
-
-      <div className={gpxCardClass}>
-        <div className="space-y-3 text-left">
-          <Label className={fieldLabelClass}>
-            <Info className="w-4 h-4 text-primary" /> {t("planner.route.gpx.label")}
-          </Label>
-          <p className="text-foreground/52 dark:text-white/50 text-sm leading-relaxed">
-            {t("planner.route.gpx.description")} {t("planner.route.gpx.multiple")}
-          </p>
-          <ToggleGroup
-            name="gpxOutputMode"
-            options={[
-              { value: "garmin", label: t("planner.route.gpx.options.garmin") },
-              { value: "routeTrack", label: t("planner.route.gpx.options.routeTrack") },
-            ]}
-            selectedValues={formData.gpxOutputMode || []}
-            onChange={handleGpxToggle}
-            className="grid-cols-1 md:grid-cols-2"
-          />
-        </div>
-      </div>
-
-      {activePanel === "times" && renderPanelShell(
-        `${t("planner.route.departure")} · ${t("planner.route.arrival")}`,
-        `${t("planner.route.departureTime")} · ${t("planner.route.arrivalTime")}`,
-        timesContent,
-      )}
-      {activePanel === "stages" && renderPanelShell(
-        t("planner.route.stages.title"),
-        hasStages ? `${formData.stages.length} ${t("planner.route.stages.title")}` : t("planner.route.stages.empty"),
-        stagesContent,
-      )}
-      {activePanel === "limits" && renderPanelShell(
-        `${t("planner.route.maxDistance")} · ${t("planner.route.maxDriveTime")}`,
-        t("planner.route.travelPace.label"),
-        limitsContent,
-      )}
-      {activePanel === "notes" && renderPanelShell(
-        t("planner.route.additional.label"),
-        t("planner.route.additional.placeholder"),
-        notesContent,
-      )}
     </div>
   );
 }

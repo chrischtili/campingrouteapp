@@ -754,11 +754,11 @@
       "stage": {
         "label": "Zwischenziel {{num}}",
         "placeholder": "z. B. Speyer oder Köln",
-        "arrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
+        "arrivalTime": "Ankunftszeit",
         "destinationLabel": "Zwischenziel {{num}}",
-        "arrivalDate": "Ankunft am Zwischenziel {{num}}",
-        "departureDate": "Abfahrt vom Zwischenziel {{num}}",
-        "departureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+        "arrivalDate": "Ankunft am",
+        "departureDate": "Abfahrt vom",
+        "departureTime": "Abfahrtszeit",
         "bookedLabel": "Platz am Zwischenziel {{num}} schon gebucht",
         "bookedDescription": "Wenn aktiviert, soll die KI an diesem Zwischenziel keinen Übernachtungsplatz suchen.",
         "detailsLabel": "Zwischenziel {{num}} genauer planen",
@@ -818,11 +818,11 @@
         }
       },
       "travelPace": {
-        "label": "Etappenstil (Schnellwahl)",
+        "label": "Reisetyp",
         "options": {
-          "short": "Kurze Etappen",
-          "balanced": "Ausgewogen",
-          "long": "Lange Etappen"
+          "short": "Gemütlich (Kurze Strecken)",
+          "balanced": "Ausgewogen (Mittlere Strecken)",
+          "long": "Meilensammler (Viel Strecke)"
         },
         "note": "Max. km/Tag und Fahrzeit/Tag haben Vorrang; der Etappenstil ist eine weiche Präferenz."
       },
@@ -973,11 +973,16 @@
         "experiences": {
           "label": "Stopps & Erlebnisse einbeziehen",
           "options": {
-            "cities": "Städte & Kultur",
-            "rural": "Ländliche Umgebung",
             "unesco": "UNESCO Welterbe",
+            "castles": "Burgen & Schlösser",
+            "nationalParks": "Nationalparks",
+            "viewpoints": "Aussichtspunkte",
             "farm": "Bauernhöfe & Hofläden",
-            "markets": "Lokale Märkte"
+            "markets": "Lokale Märkte",
+            "vineyards": "Weingüter & Tastings",
+            "wellness": "Thermen & Wellness",
+            "oldTowns": "Historische Altstädte",
+            "beaches": "Strände & Seen"
           }
         },
         "restrictions": {
@@ -1506,10 +1511,10 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "plannerPanel": "Campingplatz- und Stellplatz-Finder zeigen Treffer jetzt direkt auf einer Karte mit verknüpfter Liste und Platzdetails.",
-        "placeFinder": "Die Ortssuche läuft jetzt über Geoapify und liefert deutlich stabilere Vorschläge als der alte Nominatim-Weg.",
-        "savedPlans": "Ein lokaler Place-Index kann häufig gesuchte Regionen vorab bereitstellen und die Platzsuche spürbar beschleunigen.",
-        "exampleRoute": "Für Europa stehen vorbereitete Regionsdateien und ein robusterer Refresh-Workflow zum Aufbau des lokalen Schnellindex bereit."
+        "mobileLayout": "Optimiertes Layout für Zwischenziele auf dem Handy – Ankunfts- und Abfahrtszeiten sind jetzt perfekt bündig ausgerichtet.",
+        "labels": "Kürzere und präzisere Beschriftungen im Routenplaner für eine bessere Übersicht auf kleinen Bildschirmen.",
+        "consistency": "Verbesserte Konsistenz bei den Zeitangaben für Start, Ziel und alle Etappen.",
+        "ux": "Allgemeine Performance- und Stabilitätsverbesserungen für die mobile Nutzung."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

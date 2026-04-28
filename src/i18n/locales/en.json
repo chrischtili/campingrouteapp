@@ -755,11 +755,11 @@
       "stage": {
         "label": "Stop {{num}}",
         "placeholder": "e.g. Speyer or Cologne",
-        "arrivalTime": "Arrival time at stop {{num}}",
+        "arrivalTime": "Arrival time",
         "destinationLabel": "Stop {{num}}",
-        "arrivalDate": "Arrival at stop {{num}}",
-        "departureDate": "Departure from stop {{num}}",
-        "departureTime": "Departure time from stop {{num}}",
+        "arrivalDate": "Arrival",
+        "departureDate": "Departure",
+        "departureTime": "Departure time",
         "bookedLabel": "Place at stop {{num}} already booked",
         "bookedDescription": "If enabled, AI should not search for an overnight place at this stop.",
         "detailsLabel": "Plan stop {{num}} in more detail",
@@ -819,11 +819,11 @@
         }
       },
       "travelPace": {
-        "label": "Travel pace (quick pick)",
+        "label": "Travel Type",
         "options": {
-          "short": "Short stages",
-          "balanced": "Balanced",
-          "long": "Long stages"
+          "short": "Relaxed (Short distances)",
+          "balanced": "Balanced (Medium distances)",
+          "long": "Road Warrior (Long distances)"
         },
         "note": "Max km/day and drive time/day take priority; stage style is a soft preference."
       },
@@ -974,11 +974,16 @@
         "experiences": {
           "label": "Include stops & highlights",
           "options": {
-            "cities": "Cities & Culture",
-            "rural": "Rural surroundings",
             "unesco": "UNESCO Heritage",
+            "castles": "Castles & Palaces",
+            "nationalParks": "National Parks",
+            "viewpoints": "Viewpoints",
             "farm": "Farms & Farm Shops",
-            "markets": "Local Markets"
+            "markets": "Local Markets",
+            "vineyards": "Vineyards & Tastings",
+            "wellness": "Spas & Wellness",
+            "oldTowns": "Historic Old Towns",
+            "beaches": "Beaches & Lakes"
           }
         },
         "restrictions": {
@@ -1507,10 +1512,10 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "plannerPanel": "Campsite and stopover finders now show results directly on a map with linked list and place details.",
-        "placeFinder": "Place autocomplete now runs through Geoapify and gives much steadier suggestions than the old Nominatim path.",
-        "savedPlans": "A local place index can prefill frequently used regions and noticeably speed up campsite and stopover search.",
-        "exampleRoute": "Prepared Europe region files and a tougher refresh workflow now help build the local fast-search index."
+        "mobileLayout": "Optimized mobile layout for stops – arrival and departure times are now perfectly aligned.",
+        "labels": "Shorter and more precise labels in the route planner for a better overview on small screens.",
+        "consistency": "Improved consistency for time entries for start, destination, and all stages.",
+        "ux": "General performance and stability improvements for mobile use."
       },
       "dismiss": "Got it",
       "release": "View release"

@@ -1,6 +1,7 @@
 import { FormData } from "@/types/routePlanner";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup } from "./ToggleGroup";
+import { BadgeToggleGroup } from "./BadgeToggleGroup";
 import { FormSlider } from "./FormSlider";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -78,11 +79,9 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
   const glassPanelStyle = undefined;
 
   const inputClass =
-    "popup-input w-full min-h-[110px] sm:min-h-[120px] p-4 sm:p-8 rounded-3xl transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-foreground dark:text-white placeholder:font-normal text-left resize-none";
+    "w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-foreground dark:text-white placeholder:font-normal text-left resize-none bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10";
   const panelTriggerClass =
     "planner-panel-trigger rounded-3xl border px-5 py-4 text-left transition-colors";
-  const switchClass =
-    "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
   const popupActionsClass = "flex flex-col-reverse gap-3 border-t border-slate-900/10 px-6 pt-5 dark:border-white/10 sm:flex-row sm:justify-end";
 
   const openPanel = (panel: AccommodationPanel) => {
@@ -119,11 +118,6 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
     </div>
   );
 
-  const getSelectedLabels = (options: { value: string; label: string }[], selected: string[]) => {
-    const labels = options.filter((option) => selected.includes(option.value)).map((option) => option.label);
-    return labels.length > 0 ? labels.slice(0, 3).join(", ") : t("planner.summary.notSpecified");
-  };
-
   const renderPanelShell = (title: string, description: string, content: ReactNode) => {
     if (isMobile) {
       return (
@@ -155,47 +149,6 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
       </Dialog>
     );
   };
-
-  const selectedAccommodationSummary = getSelectedLabels(categories[0].options, formData.accommodationType);
-  const selectedFacilitiesSummary = getSelectedLabels(categories[1].options, formData.facilities);
-  const selectedInterestsSummary = getSelectedLabels(interestOptions, formData.activities);
-
-  const accommodationTypeContent = (
-    <ToggleGroup
-      name="accommodationType"
-      options={categories[0].options}
-      selectedValues={formData.accommodationType}
-      onChange={onCheckboxChange}
-    />
-  );
-
-  const facilitiesContent = (
-    <ToggleGroup
-      name="facilities"
-      options={categories[1].options}
-      selectedValues={formData.facilities}
-      onChange={onCheckboxChange}
-    />
-  );
-
-  const interestsContent = (
-    <ToggleGroup
-      name="activities"
-      options={interestOptions}
-      selectedValues={formData.activities}
-      onChange={onCheckboxChange}
-    />
-  );
-
-  const additionalContent = (
-    <textarea
-      id="additionalInfo"
-      placeholder={t("planner.interests.additional.placeholder")}
-      value={formData.additionalInfo}
-      onChange={(e) => onChange({ additionalInfo: (e.target as HTMLTextAreaElement).value })}
-      className={inputClass}
-    />
-  );
 
   return (
     <div className="space-y-8">
@@ -232,97 +185,78 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
             unit="€"
             onChange={(v) => onChange({ avgCampsitePriceMax: v.toString() })}
           />
-          <div className="w-full mt-6 pt-6 border-t border-slate-900/10 dark:border-white/10 min-h-[106px]">
-            <div className="flex h-full items-center justify-between gap-6 rounded-xl sm:rounded-2xl bg-slate-900/[0.05] dark:bg-black/10 border border-slate-900/10 dark:border-white/8 p-4 sm:p-5">
-              <div className="space-y-1">
-                <div className="text-xs md:text-sm font-medium tracking-[0.01em] text-foreground dark:text-white">{t("planner.accommodation.quietPlaces.label")}</div>
-                <div className="text-foreground/62 dark:text-white/60 text-sm">{t("planner.accommodation.quietPlaces.description")}</div>
-              </div>
-              <Switch
-                checked={formData.quietPlaces}
-                onCheckedChange={(checked) => onChange({ quietPlaces: checked })}
-                aria-label={t("planner.accommodation.quietPlaces.label")}
-                className={switchClass}
-              />
-            </div>
-          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("type")}>
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-              <Home className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.accommodation.categories.type.label")}</div>
-              <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{selectedAccommodationSummary}</div>
-            </div>
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div className="flex items-center gap-3 mb-4">
+            <Home className="w-5 h-5 text-primary" />
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.accommodation.categories.type.label")}</span>
           </div>
-        </button>
+          <div className="flex flex-wrap gap-2 w-full">
+            <BadgeToggleGroup
+              name="accommodationType"
+              options={categories[0].options}
+              selectedValues={formData.accommodationType}
+              onChange={onCheckboxChange}
+            />
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onChange({ quietPlaces: !formData.quietPlaces })}
+              className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 border-2 ${
+                formData.quietPlaces
+                  ? "bg-primary border-primary text-white shadow-sm"
+                  : "bg-white/40 border-slate-200 text-slate-600 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-white/70 dark:hover:bg-white/10"
+              }`}
+            >
+              {t("planner.accommodation.quietPlaces.label")}
+            </motion.button>
+          </div>
+        </div>
 
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("facilities")}>
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-              <Settings className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.accommodation.categories.facilities.label")}</div>
-              <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{selectedFacilitiesSummary}</div>
-            </div>
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div className="flex items-center gap-3 mb-4">
+            <Settings className="w-5 h-5 text-primary" />
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.accommodation.categories.facilities.label")}</span>
           </div>
-        </button>
+          <BadgeToggleGroup
+            name="facilities"
+            options={categories[1].options}
+            selectedValues={formData.facilities}
+            onChange={onCheckboxChange}
+          />
+        </div>
 
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("interests")}>
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-              <Heart className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.interests.title")}</div>
-              <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{selectedInterestsSummary}</div>
-            </div>
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div className="flex items-center gap-3 mb-4">
+            <Heart className="w-5 h-5 text-primary" />
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.interests.title")}</span>
           </div>
-        </button>
+          <BadgeToggleGroup
+            name="activities"
+            options={interestOptions}
+            selectedValues={formData.activities}
+            onChange={onCheckboxChange}
+          />
+        </div>
 
-        <button type="button" className={panelTriggerClass} style={glassPanelStyle} onClick={() => openPanel("additional")}>
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-xl border border-slate-900/10 bg-white/55 p-2 text-primary dark:border-white/10 dark:bg-white/8">
-              <MessageSquare className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-foreground dark:text-white">{t("planner.interests.additional.label")}</div>
-              <div className="mt-1 text-sm text-foreground/58 dark:text-white/55">{formData.additionalInfo?.trim() || t("planner.interests.additional.placeholder")}</div>
-            </div>
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <div className="flex items-center gap-3 mb-4">
+            <MessageSquare className="w-5 h-5 text-primary" />
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.interests.additional.label")}</span>
           </div>
-        </button>
+          <textarea
+            id="additionalInfo"
+            placeholder={t("planner.interests.additional.placeholder")}
+            value={formData.additionalInfo}
+            onChange={(e) => onChange({ additionalInfo: (e.target as HTMLTextAreaElement).value })}
+            className={inputClass}
+          />
+        </div>
       </div>
-
-      {activePanel === "type" &&
-        renderPanelShell(
-          t("planner.accommodation.categories.type.label"),
-          t("planner.accommodation.subtitle"),
-          accommodationTypeContent,
-        )}
-      {activePanel === "facilities" &&
-        renderPanelShell(
-          t("planner.accommodation.categories.facilities.label"),
-          t("planner.accommodation.quietPlaces.description"),
-          facilitiesContent,
-        )}
-      {activePanel === "interests" &&
-        renderPanelShell(
-          t("planner.interests.title"),
-          t("planner.interests.subtitle"),
-          interestsContent,
-        )}
-      {activePanel === "additional" &&
-        renderPanelShell(
-          t("planner.interests.additional.label"),
-          t("planner.interests.additional.placeholder"),
-          additionalContent,
-        )}
     </div>
   );
 }

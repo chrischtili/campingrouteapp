@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Mobile Layout**: Bessere Ausrichtung der Ankunfts- und Abfahrtsfelder bei Zwischenzielen.
 - **UI**: Kürzere und präzisere Labels im Routenplaner für bessere Übersicht auf mobilen Geräten.
 - **Consistency**: Vereinheitlichung der Zeitangaben für alle Etappen.
+- **Security**: Behebung einer moderaten Schwachstelle in `postcss` (npm audit fix).
 
 ## [0.5.3] - 2026-04-20
 

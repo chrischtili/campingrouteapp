@@ -127,6 +127,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    setMobileMenuOpen(false);
   };
 
   const openWhatsNew = () => {
@@ -391,11 +392,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <div className="space-y-4 pt-2">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex gap-3 sm:gap-4">
-                  <button onClick={() => { changeLanguage('de'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>DE</button>
-                  <button onClick={() => { changeLanguage('en'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>EN</button>
-                  <button onClick={() => { changeLanguage('nl'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'nl' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>NL</button>
-                  <button onClick={() => { changeLanguage('fr'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>FR</button>
-                  <button onClick={() => { changeLanguage('it'); setMobileMenuOpen(false); }} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>IT</button>
+                  <button onClick={() => changeLanguage('de')} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>DE</button>
+                  <button onClick={() => changeLanguage('en')} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>EN</button>
+                  <button onClick={() => changeLanguage('nl')} className={`text-xs sm:text-sm font-black ${i18n.language === 'nl' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>NL</button>
+                  <button onClick={() => changeLanguage('fr')} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>FR</button>
+                  <button onClick={() => changeLanguage('it')} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>IT</button>
                 </div>
               </div>
               <Button

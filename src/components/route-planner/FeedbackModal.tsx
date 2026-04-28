@@ -26,8 +26,10 @@ export function FeedbackModal({ open, mode, onClose, onSubmit }: FeedbackModalPr
     }
   };
 
+  const isFormValid = rating === "helpful" || (rating === "not_helpful" && message.trim().length > 0);
+
   const handleSubmit = async () => {
-    if (!rating) return;
+    if (!isFormValid) return;
     setIsSubmitting(true);
     try {
       await onSubmit({ rating, message: message.trim() });
@@ -123,7 +125,7 @@ export function FeedbackModal({ open, mode, onClose, onSubmit }: FeedbackModalPr
             <Button
               type="button"
               onClick={handleSubmit}
-              disabled={!rating || isSubmitting}
+              disabled={!isFormValid || isSubmitting}
               className="rounded-2xl bg-primary px-6 text-primary-foreground hover:bg-primary/90"
             >
               <Send className="mr-2 h-4 w-4" />

@@ -1291,8 +1291,7 @@
         "notHelpful": "Poco utile",
         "notHelpfulHint": "Qualcosa era poco chiaro, non adatto o mancante."
       },
-      "messageLabel": "Facoltativo: cosa dovrei migliorare?",
-      "messagePlaceholder": "Per esempio: prompt più chiari, migliore logica delle tappe, indicazioni più utili o utilizzo più semplice ...",
+      "messageLabel": "Cosa dovrei migliorare? *",      "messagePlaceholder": "Per esempio: prompt più chiari, migliore logica delle tappe, indicazioni più utili o utilizzo più semplice ...",
       "privacy": "Non inserire dati personali. Il feedback viene salvato solo per migliorare il prodotto.",
       "thanks": "Grazie per il tuo feedback.",
       "actions": {
@@ -1505,10 +1504,9 @@
       "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
-        "mobileLayout": "Layout mobile ottimizzato per le tappe: gli orari di arrivo e partenza sono ora perfettamente allineati.",
-        "labels": "Etichette più brevi e precise nel pianificatore di itinerari per una migliore panoramica sui piccoli schermi.",
-        "consistency": "Migliore coerenza per l'inserimento degli orari per la partenza, la destinazione e tutte le tappe.",
-        "ux": "Miglioramenti generali delle prestazioni e della stabilità per l'uso mobile."
+        "feedback": "Modulo di feedback migliorato: in caso di valutazione negativa, è ora richiesta una breve spiegazione per aiutarci a migliorare in modo mirato.",
+        "menu": "Il menu mobile ora si chiude in modo affidabile dopo aver selezionato una nuova lingua.",
+        "mobileLayout": "Layout mobile ottimizzato per le tappe: gli orari di arrivo e partenza sono perfettamente allineati."
       },
       "dismiss": "Capito",
       "release": "Vedi release"

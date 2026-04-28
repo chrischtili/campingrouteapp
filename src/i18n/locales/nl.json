@@ -1291,8 +1291,7 @@
         "notHelpful": "Niet nuttig",
         "notHelpfulHint": "Iets was onduidelijk, niet passend of ontbrak."
       },
-      "messageLabel": "Optioneel: wat kan beter?",
-      "messagePlaceholder": "Bijvoorbeeld: duidelijkere prompts, betere etappelogica, nuttigere aanwijzingen of eenvoudigere bediening ...",
+      "messageLabel": "Wat kan beter? *",      "messagePlaceholder": "Bijvoorbeeld: duidelijkere prompts, betere etappelogica, nuttigere aanwijzingen of eenvoudigere bediening ...",
       "privacy": "Voer geen persoonsgegevens in. Feedback wordt alleen opgeslagen voor productverbetering.",
       "thanks": "Bedankt voor je feedback.",
       "actions": {
@@ -1505,10 +1504,9 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "mobileLayout": "Geoptimaliseerde mobiele lay-out voor tussenstops – aankomst- en vertrektijden zijn nu perfect uitgelijnd.",
-        "labels": "Kortere en preciezere labels in de routeplanner voor een beter overzicht op kleine schermen.",
-        "consistency": "Verbeterde consistentie voor tijdinvoer bij start, bestemming en alle etappes.",
-        "ux": "Algemene prestatie- en stabiliteitsverbeteringen voor mobiel gebruik."
+        "feedback": "Verbeterd feedbackformulier: bij een negatieve beoordeling is nu een korte uitleg vereist, zodat we gericht kunnen verbeteren.",
+        "menu": "Het mobiele menu sluit nu betrouwbaar na het selecteren van een nieuwe taal.",
+        "mobileLayout": "Geoptimaliseerde mobiele lay-out voor tussenstops – aankomst- en vertrektijden zijn perfect uitgelijnd."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

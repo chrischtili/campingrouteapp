@@ -1291,7 +1291,7 @@
         "notHelpful": "Peu utile",
         "notHelpfulHint": "Quelque chose manquait, était flou ou inadapté."
       },
-      "messageLabel": "Optionnel : que dois-je améliorer ?",
+      "messageLabel": "Que devrais-je améliorer ? *",
       "messagePlaceholder": "Par exemple : des prompts plus clairs, une meilleure logique d’étapes, des conseils plus utiles ou une utilisation plus simple ...",
       "privacy": "Merci de ne pas saisir de données personnelles. Le retour est conservé uniquement pour améliorer le produit.",
       "thanks": "Merci pour ton retour.",
@@ -1505,10 +1505,9 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "mobileLayout": "Mise en page mobile optimisée pour les étapes – les heures d’arrivée et de départ sont désormais parfaitement alignées.",
-        "labels": "Libellés plus courts et plus précis dans le planificateur d’itinéraire pour une meilleure vue d’ensemble sur les petits écrans.",
-        "consistency": "Cohérence améliorée des saisies d’heures pour le départ, la destination et toutes les étapes.",
-        "ux": "Améliorations générales de performance et de stabilité pour l’utilisation mobile."
+        "feedback": "Formulaire de feedback amélioré : une courte explication est désormais requise en cas d’avis négatif pour nous permettre de nous améliorer.",
+        "menu": "Le menu mobile se ferme désormais de manière fiable après la sélection d’une nouvelle langue.",
+        "mobileLayout": "Mise en page mobile optimisée pour les étapes – les heures d’arrivée et de départ sont parfaitement alignées."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

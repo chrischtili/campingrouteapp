@@ -1295,8 +1295,7 @@
         "notHelpful": "Nicht hilfreich",
         "notHelpfulHint": "Etwas war unklar, unpassend oder hat gefehlt."
       },
-      "messageLabel": "Optional: Was sollte ich verbessern?",
-      "messagePlaceholder": "Zum Beispiel: klarere Prompts, bessere Etappenlogik, hilfreichere Hinweise oder einfachere Bedienung ...",
+      "messageLabel": "Was sollte ich verbessern? *",      "messagePlaceholder": "Zum Beispiel: klarere Prompts, bessere Etappenlogik, hilfreichere Hinweise oder einfachere Bedienung ...",
       "privacy": "Bitte keine personenbezogenen Daten eingeben. Das Feedback wird nur zur Produktverbesserung gespeichert.",
       "thanks": "Danke für dein Feedback.",
       "actions": {
@@ -1511,10 +1510,9 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "mobileLayout": "Optimiertes Layout für Zwischenziele auf dem Handy – Ankunfts- und Abfahrtszeiten sind jetzt perfekt bündig ausgerichtet.",
-        "labels": "Kürzere und präzisere Beschriftungen im Routenplaner für eine bessere Übersicht auf kleinen Bildschirmen.",
-        "consistency": "Verbesserte Konsistenz bei den Zeitangaben für Start, Ziel und alle Etappen.",
-        "ux": "Allgemeine Performance- und Stabilitätsverbesserungen für die mobile Nutzung."
+        "feedback": "Verbessertes Feedback-Formular: Bei negativer Bewertung ist nun eine kurze Begründung erforderlich, um gezielter nachbessern zu können.",
+        "menu": "Das Mobile-Menü schließt sich nun zuverlässig nach der Auswahl einer neuen Sprache.",
+        "mobileLayout": "Optimiertes Layout für Zwischenziele auf dem Handy – Ankunfts- und Abfahrtszeiten sind perfekt bündig ausgerichtet."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

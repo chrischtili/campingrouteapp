@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner
 
-[![Version](https://img.shields.io/badge/version-v0.5.4-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.5-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 🌟 Highlights (v0.5.4)
+## 🌟 Highlights (v0.5.5)
 
 - **Optimiertes Mobile Layout**: Perfekte Ausrichtung der Ankunfts- und Abfahrtszeiten für Zwischenziele auf dem Handy.
 - **Bessere Übersicht**: Kürzere, präzisere Labels für eine optimale Darstellung auf kleinen Bildschirmen.

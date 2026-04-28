@@ -1296,7 +1296,7 @@
         "notHelpful": "Not helpful",
         "notHelpfulHint": "Something was unclear, off, or missing."
       },
-      "messageLabel": "Optional: What should be improved?",
+      "messageLabel": "What should I improve? *",
       "messagePlaceholder": "For example: clearer prompts, better stage logic, more helpful guidance, or easier handling ...",
       "privacy": "Please do not enter personal data. Feedback is stored only for product improvement.",
       "thanks": "Thanks for your feedback.",
@@ -1512,10 +1512,9 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "mobileLayout": "Optimized mobile layout for stops – arrival and departure times are now perfectly aligned.",
-        "labels": "Shorter and more precise labels in the route planner for a better overview on small screens.",
-        "consistency": "Improved consistency for time entries for start, destination, and all stages.",
-        "ux": "General performance and stability improvements for mobile use."
+        "feedback": "Improved feedback form: A short reason is now required for negative ratings to help us make targeted improvements.",
+        "menu": "The mobile menu now reliably closes after selecting a new language.",
+        "mobileLayout": "Optimized mobile layout for stops – arrival and departure times are perfectly aligned."
       },
       "dismiss": "Got it",
       "release": "View release"

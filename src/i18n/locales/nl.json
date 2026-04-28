@@ -1505,10 +1505,10 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "plannerPanel": "Camping- en stellplaatszoekers tonen resultaten nu direct op een kaart met gekoppelde lijst en plaatsdetails.",
-        "placeFinder": "Plaats-autocomplete loopt nu via Geoapify en geeft veel stabielere suggesties dan de oude Nominatim-route.",
-        "savedPlans": "Een lokale plaatsindex kan veelgebruikte regio’s vooraf laden en de zoektocht merkbaar versnellen.",
-        "exampleRoute": "Er staan nu Europa-regiobestanden en een robuustere refresh-workflow klaar om de lokale snelle index op te bouwen."
+        "mobileLayout": "Geoptimaliseerde mobiele lay-out voor tussenstops – aankomst- en vertrektijden zijn nu perfect uitgelijnd.",
+        "labels": "Kortere en preciezere labels in de routeplanner voor een beter overzicht op kleine schermen.",
+        "consistency": "Verbeterde consistentie voor tijdinvoer bij start, bestemming en alle etappes.",
+        "ux": "Algemene prestatie- en stabiliteitsverbeteringen voor mobiel gebruik."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

@@ -348,18 +348,15 @@ const App = () => {
                 </DialogHeader>
 
                 <div className="mt-6 space-y-3">
-                  {[
-                    t("app.whatsNew.items.plannerPanel"),
-                    t("app.whatsNew.items.placeFinder"),
-                    t("app.whatsNew.items.savedPlans"),
-                    t("app.whatsNew.items.exampleRoute"),
-                  ]
-                    .filter(Boolean)
-                    .map((item) => (
-                    <div key={item} className="rounded-2xl border border-border bg-white/70 px-4 py-3 text-sm text-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/85">
-                      {item}
-                    </div>
-                    ))}
+                  {Object.keys(t("app.whatsNew.items", { returnObjects: true }) || {})
+                    .map((key) => {
+                      const item = t(`app.whatsNew.items.${key}`);
+                      return (
+                        <div key={key} className="rounded-2xl border border-border bg-white/70 px-4 py-3 text-sm text-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/85">
+                          {item}
+                        </div>
+                      );
+                    })}
                 </div>
 
                 <DialogFooter className="mt-6 flex-col gap-3 sm:flex-row sm:justify-end">

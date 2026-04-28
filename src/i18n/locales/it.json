@@ -1505,10 +1505,10 @@
       "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
-        "plannerPanel": "I cercatori di campeggi e aree di sosta mostrano ora i risultati direttamente su una mappa collegata alla lista e ai dettagli.",
-        "placeFinder": "L’autocompletamento dei luoghi passa ora da Geoapify e offre suggerimenti molto più stabili rispetto al vecchio flusso Nominatim.",
-        "savedPlans": "Un indice locale dei luoghi può preparare in anticipo le regioni più usate e velocizzare sensibilmente la ricerca.",
-        "exampleRoute": "Sono pronti file regionali per l’Europa e un workflow di aggiornamento più robusto per costruire l’indice veloce locale."
+        "mobileLayout": "Layout mobile ottimizzato per le tappe: gli orari di arrivo e partenza sono ora perfettamente allineati.",
+        "labels": "Etichette più brevi e precise nel pianificatore di itinerari per una migliore panoramica sui piccoli schermi.",
+        "consistency": "Migliore coerenza per l'inserimento degli orari per la partenza, la destinazione e tutte le tappe.",
+        "ux": "Miglioramenti generali delle prestazioni e della stabilità per l'uso mobile."
       },
       "dismiss": "Capito",
       "release": "Vedi release"

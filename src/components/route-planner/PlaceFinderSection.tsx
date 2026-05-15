@@ -23,6 +23,7 @@ interface PlaceFinderSectionProps {
   initialCategories?: PlaceCategory[];
   hideCategoryFilters?: boolean;
   onTransferToPrompt?: (place: PlaceSearchResult, target: PlaceTransferTarget, stageIndex?: number) => void;
+  aiMarkers?: any[];
 }
 
 const createEmptyStage = (destination = ""): RouteStage => ({
@@ -47,6 +48,7 @@ export function PlaceFinderSection({
   initialCategories,
   hideCategoryFilters = false,
   onTransferToPrompt,
+  aiMarkers = [],
 }: PlaceFinderSectionProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -669,6 +671,7 @@ export function PlaceFinderSection({
               highlightedPlace={hoveredPlace ?? selectedPlace}
               onSelectPlace={setSelectedPlace}
               standalone={standalone}
+              aiMarkers={aiMarkers}
             />
 
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">

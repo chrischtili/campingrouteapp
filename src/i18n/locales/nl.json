@@ -528,6 +528,14 @@
         "prompt1": "Ook de campingzoeker en stellplaatszoeker kunnen resultaten direct naar je huidige assistentconcept sturen.",
         "recDesc": "Je huidige concept blijft in hetzelfde browsertabblad staan wanneer je wisselt tussen zoeker en assistent."
       },
+      "directAI": {
+        "q": "Wat gebeurt er bij 'Directe AI' (routeforstellen)?",
+        "title": "Genereer drie routeforstellen direct in de tool.",
+        "content": "Hoe directe generatie werkt",
+        "content1": "Met de optie 'Directe AI' vraagt Camping Route het AI‑model (bv. Gemini) direct op de achtergrond aan.",
+        "content2": "Je krijgt vervolgens drie verschillende opties voor je reis (bv. snelste, meest schilderachtige).",
+        "content3": "Met de knop 'Deze route kiezen' kun je je voorkeursoptie direct toepassen op je planning en definitieve prompt."
+      },
       "cost": {
         "q": "Wat kost Camping Route mij echt?",
         "title": "Camping Route zelf is gratis.",
@@ -554,6 +562,14 @@
         "content3": "Wil je technisch bijdragen, dan vind je de broncode op GitHub.",
         "action": "Feedback openen",
         "github": "Open GitHub"
+      },
+      "directAI": {
+        "q": "Wat gebeurt er bij het gebruik van 'Directe AI' (Routevoorstellen)?",
+        "title": "Genereer drie routevoorstellen rechtstreeks in de tool.",
+        "content": "Hoe directe generatie werkt",
+        "content1": "Met de optie 'Directe AI' bevraagt Camping Route het AI-model (bijv. Gemini) direct op de achtergrond.",
+        "content2": "Je ontvangt dan drie verschillende opties voor je reis (bijv. snelste, mooiste route).",
+        "content3": "Met de knop 'Kies deze route' kun je de gewenste optie direct overnemen in je verdere planning en de uiteindelijke prompt."
       }
     }
   },
@@ -568,8 +584,9 @@
     },
     "loading": {
       "ai": "🤖 Route genereren...",
+      "concepts": "✨ Routevoorstellen worden gegenereerd...",
       "prompt": "📝 Prompt maken...",
-      "error": "AI‑fout opgetreden.",
+      "error": "AI-fout opgetreden.",
       "invalidKey": "Ongeldige API‑key.",
       "googleUnavailable": "Gemini heeft momenteel te veel verkeer. Probeer het zo opnieuw of kies tijdelijk een andere aanbieder."
     },
@@ -578,8 +595,19 @@
       "next": "Verder",
       "generateRoute": "Route genereren",
       "generatePrompt": "Prompt maken",
+      "generateConcepts": "Routevoorstellen genereren",
+      "generateWithoutConcept": "Eigen route (zonder voorstel) genereren",
+      "chooseRoute": "Deze route kiezen",
       "finishPrompt": "Voltooien",
       "copyPrompt": "Prompt kopieren"
+    },
+    "alternatives": {
+      "badge": "Routevoorstellen",
+      "title": "Kies je avontuur",
+      "lead": "Op basis van je wensen heeft de AI drie verschillende concepten gemaakt. Welke spreekt je het meeste aan?",
+      "loadingTitle": "Ideeën worden gesmeed...",
+      "loadingLead": "De AI ontwerpt momenteel 3 spannende routeconcepten voor je.",
+      "highlightsTitle": "Hoogtepunten van de route"
     },
     "summary": {
       "title": "Samenvatting",
@@ -697,7 +725,7 @@
       "provider": {
         "label": "Provider & model",
         "help": "Welk model kiezen?",
-        "openaiModelLabel": "OpenAI-model"
+        "modelLabel": "AI-model"
       },
       "apiKey": {
         "hint": "Je key wordt niet opgeslagen en alleen voor deze sessie gebruikt.",
@@ -978,7 +1006,14 @@
             "rural": "Landelijke omgeving",
             "unesco": "UNESCO‑erfgoed",
             "farm": "Boerderijen & hoevewinkels",
-            "markets": "Lokale markten"
+            "markets": "Lokale markten",
+            "castles": "Kastelen & paleizen",
+            "nationalParks": "Nationale parken",
+            "viewpoints": "Uitzichtpunten",
+            "vineyards": "Wijngaarden & proeverijen",
+            "wellness": "Spa & wellness",
+            "oldTowns": "Historische binnensteden",
+            "beaches": "Stranden & meren"
           }
         },
         "restrictions": {
@@ -1269,6 +1304,9 @@
         "caution": "Met voorzichtigheid",
         "critical": "Eerder ongeschikt"
       },
+      "mapPreview": {
+        "title": "Routevoorvertoning"
+      },
       "spotlight": {
         "title": "Snelle beoordeling",
         "topRecommendation": "Topaanbeveling",
@@ -1313,13 +1351,15 @@
     "sourceCode": "GitHub‑project",
     "whatsNew": "Nieuw in {{version}}",
     "feedback": "Feedback geven",
-    "support": "Steun CampingRoute"
+    "support": "Steun CampingRoute",
+    "scrollToTop": "Naar boven"
   },
   "buttons": {
     "ok": "OK",
     "cancel": "Annuleren",
     "copy": "Kopieren",
-    "print": "Afdrukken"
+    "print": "Afdrukken",
+    "close": "Sluiten"
   },
   "imprint": {
     "badge": "Imprint",
@@ -1504,9 +1544,11 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "feedback": "Verbeterd feedbackformulier: bij een negatieve beoordeling is nu een korte uitleg vereist, zodat we gericht kunnen verbeteren.",
-        "menu": "Het mobiele menu sluit nu betrouwbaar na het selecteren van een nieuwe taal.",
-        "mobileLayout": "Geoptimaliseerde mobiele lay-out voor tussenstops – aankomst- en vertrektijden zijn perfect uitgelijnd."
+        "uiReorder": "Beter overzicht: De camping-editor is logisch opnieuw gesorteerd – „Laatste planningen” staan nu bovenaan voor snelle toegang.",
+        "readability": "Hoger contrast: Labels in de editor zijn nu veel beter leesbaar.",
+        "uiButtons": "UI-verfijning: De routekeuze-knoppen zijn niet meer in hoofdletters en zijn nu gelokaliseerd voor alle talen.",
+        "mapFix": "Kaartfix: De kaartweergave voor AI-routesuggesties is gestabiliseerd en centreert nu correct.",
+        "faq": "Nieuwe FAQ: Een nieuwe entry legt in detail uit hoe je AI direct binnen de tool kunt gebruiken."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

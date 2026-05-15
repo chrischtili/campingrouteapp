@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6] - 2026-05-15
+
+### Changed
+- **UI**: Logische Neu-Sortierung der Editor-Bereiche für einen intuitiveren Planungs-Flow: „Letzte Planungen“ steht nun für schnellen Zugriff ganz oben.
+- **UI**: Erhöhter Kontrast der Feld-Beschriftungen für deutlich bessere Lesbarkeit.
+- **UI**: Buttons zur Routen-Auswahl sind nun in allen Sprachen lokalisiert und nicht mehr in Großbuchstaben.
+- **UX**: Clarified button labels for "Generate without suggestion" fallback.
+
+### Fixed
+- **Maps**: Stabilisierte Kartendarstellung und Zentrierung für die KI-Routenvorschläge.
+- **I18n**: Fehlende Übersetzungen für den Bereich der Routenvorschläge in allen 5 Sprachen ergänzt.
+
 ## [0.5.5] - 2026-04-28
 
 ### Changed

@@ -12,6 +12,7 @@ interface PlaceFinderMapProps {
   highlightedPlace: PlaceSearchResult | null;
   onSelectPlace: (place: PlaceSearchResult) => void;
   standalone?: boolean;
+  aiMarkers?: any[];
 }
 
 const categoryColorMap: Record<PlaceCategory, string> = {
@@ -34,13 +35,16 @@ export function PlaceFinderMap({
   highlightedPlace,
   onSelectPlace,
   standalone = false,
+  aiMarkers = [],
 }: PlaceFinderMapProps) {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
+  const aiMarkerLayerRef = useRef<L.LayerGroup | null>(null);
   const markersByIdRef = useRef<Map<string, L.CircleMarker>>(new Map());
+  const aiMarkersByIdRef = useRef<Map<string, L.Marker>>(new Map());
   const lastBoundsKeyRef = useRef<string>("");
 
   useEffect(() => {
@@ -61,6 +65,7 @@ export function PlaceFinderMap({
       maxZoom: 19,
     }).addTo(map);
     markerLayerRef.current = L.layerGroup().addTo(map);
+    aiMarkerLayerRef.current = L.layerGroup().addTo(map);
     L.control.zoom({ position: "topright" }).addTo(map);
     map.setView([51.1657, 10.4515], 6);
     invalidateMapSize(map);
@@ -68,7 +73,10 @@ export function PlaceFinderMap({
     return () => {
       markerLayerRef.current?.clearLayers();
       markerLayerRef.current = null;
+      aiMarkerLayerRef.current?.clearLayers();
+      aiMarkerLayerRef.current = null;
       markersByIdRef.current.clear();
+      aiMarkersByIdRef.current.clear();
       tileLayerRef.current = null;
       map.remove();
       mapRef.current = null;
@@ -150,7 +158,55 @@ export function PlaceFinderMap({
     });
   }, [highlightedPlace]);
 
-  if (places.filter(hasCoordinates).length === 0) {
+  useEffect(() => {
+    const map = mapRef.current;
+    const aiMarkerLayer = aiMarkerLayerRef.current;
+    if (!map || !aiMarkerLayer) return;
+
+    aiMarkerLayer.clearLayers();
+    aiMarkersByIdRef.current.clear();
+
+    if (aiMarkers.length === 0) return;
+
+    const aiIcon = L.divIcon({
+      html: `<div class="flex items-center justify-center w-8 h-8 rounded-full bg-[#EAB308] shadow-lg ring-2 ring-white text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      </div>`,
+      className: "ai-suggested-marker",
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],
+    });
+
+    const latLngs: L.LatLng[] = [];
+
+    aiMarkers.forEach((marker) => {
+      if (!marker.lat || !marker.lon) return;
+
+      const latLng = L.latLng(marker.lat, marker.lon);
+      latLngs.push(latLng);
+
+      const leafletMarker = L.marker(latLng, {
+        icon: aiIcon,
+        zIndexOffset: 1000,
+      })
+        .addTo(aiMarkerLayer)
+        .bindPopup(`
+          <div class="p-1 font-sans">
+            <div class="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">KI-Highlight</div>
+            <div class="font-bold text-sm text-slate-900">${marker.label || marker.name}</div>
+          </div>
+        `);
+
+      aiMarkersByIdRef.current.set(marker.id || marker.label, leafletMarker);
+    });
+
+    if (latLngs.length > 0) {
+      const bounds = L.latLngBounds(latLngs);
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+    }
+  }, [aiMarkers]);
+
+  if (places.filter(hasCoordinates).length === 0 && aiMarkers.length === 0) {
     return null;
   }
 

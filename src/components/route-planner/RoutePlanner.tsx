@@ -3,10 +3,13 @@ import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet,
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
+import { generateRouteConcepts, geocodeHighlights } from "@/lib/ai/routeConcepts";
+import { RouteAlternatives } from "./RouteAlternatives";
+import { RouteOption } from "@/types/routePlanner";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { DEFAULT_OPENAI_MODEL, DIRECT_AI_FEATURE_ENABLED } from "@/config/ai";
+import { DEFAULT_OPENAI_MODEL, DEFAULT_GEMINI_MODEL, DIRECT_AI_FEATURE_ENABLED, AI_MODELS } from "@/config/ai";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -81,10 +84,7 @@ const normalizeStoredDateValue = (value: string | undefined) => {
 const normalizeStoredAISettings = (settings?: Partial<AISettings>): AISettings => ({
   ...initialAISettings,
   ...settings,
-  aiProvider: "openai",
-  apiKey: "",
   useDirectAI: DIRECT_AI_FEATURE_ENABLED ? !!settings?.useDirectAI : false,
-  openaiModel: DEFAULT_OPENAI_MODEL,
 });
 
 const normalizePlannerDates = (
@@ -194,7 +194,18 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   const [feedbackEligible, setFeedbackEligible] = useState<boolean>(false);
   const [releaseVersion, setReleaseVersion] = useState<string>("");
   const [promptReadyToCopy, setPromptReadyToCopy] = useState<boolean>(false);
+  const [routeConcepts, setRouteConcepts] = useState<RouteOption[]>([]);
+  const [selectedRouteConcept, setSelectedRouteConcept] = useState<RouteOption | null>(null);
+  const [isConceptSelectionMode, setIsConceptSelectionMode] = useState<boolean>(false);
+  const [aiSuggestedMarkers, setAiSuggestedMarkers] = useState<any[]>([]);
   
+  useEffect(() => {
+    // Reset Selection-Mode wenn sich Kerndaten ändern
+    setIsConceptSelectionMode(false);
+    setAiSuggestedMarkers([]);
+    setSelectedRouteConcept(null);
+  }, [formData.startPoint, formData.destination, formData.startDate, formData.endDate]);
+
   const outputSectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -230,7 +241,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     DIRECT_AI_FEATURE_ENABLED &&
     !!aiSettings.apiKey?.trim() &&
     /^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey);
-  const showAISettingsSection = false;
+
+  const showAISettingsSection = DIRECT_AI_FEATURE_ENABLED;
   const plannerSectionClass = `w-full min-w-0 px-0 sm:px-6 lg:px-8 ${isMobile ? "py-3" : "py-6 sm:py-7"}`;
   const plannerSummarySectionClass = "px-1 sm:px-6 lg:px-8 py-4 sm:py-7";
   const plannerAccordionItemClass = `w-full min-w-0 overflow-hidden bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))] ${
@@ -384,13 +396,21 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     return suffix ? `${start} → ${destination} · ${suffix}` : `${start} → ${destination}`;
   };
 
-  const getOpenAIModelLabel = (model: string) => {
-    return "ChatGPT 5.4";
+  const getAIModelLabel = (provider: string, model: string) => {
+    if (provider === 'openai') {
+      return AI_MODELS.openai.find(m => m.value === model)?.label || model;
+    }
+    if (provider === 'google') {
+      return AI_MODELS.google.find(m => m.value === model)?.label || model;
+    }
+    return model;
   };
 
   const getSummaryModelLabel = () => {
     if (!DIRECT_AI_FEATURE_ENABLED || !aiSettings.useDirectAI) return "—";
-    return `OpenAI ${getOpenAIModelLabel(aiSettings.openaiModel)}`;
+    const provider = aiSettings.aiProvider || 'openai';
+    const model = provider === 'openai' ? aiSettings.openaiModel : aiSettings.googleModel;
+    return `${provider === 'openai' ? 'OpenAI' : 'Google'} ${getAIModelLabel(provider, model)}`;
   };
 
   const saveCurrentPlan = (overrideId?: string) => {
@@ -700,7 +720,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
 
   const handleAISettingsChange = (settings: Partial<AISettings>) => {
     setPromptReadyToCopy(false);
-    setAISettings(prev => ({ ...prev, ...settings, aiProvider: "openai" }));
+    setAISettings(prev => ({ ...prev, ...settings }));
   };
 
   const handleCheckboxChange = (name: string, value: string, checked: boolean) => {
@@ -921,12 +941,62 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     }
   };
 
-  const runGeneration = async () => {
+  const handleGenerateConcepts = async () => {
+    setIsLoading(true);
+    setAIError('');
+    setIsConceptSelectionMode(false);
+    setAiSuggestedMarkers([]);
+    setLoadingMessage(t("planner.loading.concepts"));
+
+    try {
+      if (!aiSettings.apiKey?.trim() || !/^[A-Za-z0-9-_]{20,}$/.test(aiSettings.apiKey)) {
+        setAIError(t("planner.loading.invalidKey"));
+        setIsLoading(false);
+        return;
+      }
+
+      const concepts = await generateRouteConcepts(formData, aiSettings);
+      setRouteConcepts(concepts);
+      setIsConceptSelectionMode(true);
+      
+      // Highlights säubern (KI liefert manchmal Bullet-Points oder Nummern mit)
+      const cleanHighlights = concepts.flatMap(c => 
+        c.highlights.map(h => h.replace(/^[-•*]|\d+\.\s*/g, "").trim())
+      );
+      
+      // Highlights UND Start/Ziel UND Zwischenziele geocoden für die Karte
+      const pointsToGeocode = Array.from(new Set([
+        formData.startPoint,
+        ...formData.stages.map(s => s.destination).filter(Boolean),
+        ...cleanHighlights,
+        formData.destination
+      ])).filter(Boolean) as string[];
+      
+      const markers = await geocodeHighlights(pointsToGeocode);
+      setAiSuggestedMarkers(markers);
+
+    } catch (error) {
+      setAIError(t("planner.loading.error"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleConceptSelect = async (concept: RouteOption) => {
+    setSelectedRouteConcept(concept);
+    setIsConceptSelectionMode(false);
+    // Jetzt die eigentliche Generierung mit dem Konzept starten
+    await runGeneration(concept);
+  };
+
+  const runGeneration = async (selectedConcept?: RouteOption) => {
     setIsLoading(true);
     setAIError('');
     setOutput('');
     setFeedbackEligible(false);
     setPromptReadyToCopy(false);
+    
+    // Smooth scroll to output section immediately
     setTimeout(() => {
       outputSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
@@ -939,9 +1009,22 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           setIsLoading(false);
           return;
         }
-        const aiResponse = await callAIAPI(formData, { ...aiSettings, aiProvider: "openai" });
-        setOutput(normalizeAIOutput(aiResponse));
-        setAiModel(getOpenAIModelLabel(aiSettings.openaiModel));
+
+        // Falls ein Konzept gewählt wurde, modifizieren wir die formData temporär
+        const effectiveFormData = selectedConcept ? {
+          ...formData,
+          additionalInfo: `${formData.additionalInfo}\n\nSTRATEGIE-VORGABE: Nutze das Konzept "${selectedConcept.title}" (${selectedConcept.theme}). Highlights: ${selectedConcept.highlights.join(", ")}. ${selectedConcept.shortDescription}`
+        } : formData;
+
+        const aiResponse = await callAIAPI(effectiveFormData, aiSettings);
+        
+        setOutput(aiResponse);
+        const provider = aiSettings.aiProvider || 'openai';
+        const model = provider === 'openai' 
+          ? (aiSettings.openaiModel || DEFAULT_OPENAI_MODEL) 
+          : (aiSettings.googleModel || DEFAULT_GEMINI_MODEL);
+          
+        setAiModel(getAIModelLabel(provider, model));
         setFeedbackEligible(true);
         setPromptReadyToCopy(false);
         void trackGeneration("route");
@@ -1268,34 +1351,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="placeFinder" data-planner-section="placeFinder" className={plannerAccordionItemClass}>
-              <AccordionTrigger className={plannerAccordionTriggerClass}>
-                {renderPlannerAccordionHeader(t("planner.placeFinder.title"), t("planner.placeFinder.description"))}
-              </AccordionTrigger>
-              <AccordionContent className={plannerAccordionContentClass}>
-                <div className={plannerSectionClass}>
-                  <PlaceFinderSection formData={formData} onChange={handlePlaceFinderChange} />
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            {showAISettingsSection && (
-              <AccordionItem value="ai" data-planner-section="ai" className={plannerAccordionItemClass}>
-                <AccordionTrigger className={plannerAccordionTriggerClass}>
-                  {renderPlannerAccordionHeader(t("planner.ai.title"), aiModeSummary)}
-                </AccordionTrigger>
-                <AccordionContent className={plannerAccordionContentClass}>
-                  <div className={plannerSectionClass}>
-                    <AISettingsSection
-                      aiSettings={aiSettings}
-                      onAISettingsChange={handleAISettingsChange}
-                      aiError={aiError}
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            )}
-
             <AccordionItem value="route" data-planner-section="route" className={plannerAccordionItemClass}>
               <AccordionTrigger className={plannerAccordionTriggerClass}>
                 {renderPlannerAccordionHeader(t("planner.route.title"), routeSummary)}
@@ -1342,6 +1397,38 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                 </div>
               </AccordionContent>
             </AccordionItem>
+
+            <AccordionItem value="placeFinder" data-planner-section="placeFinder" className={plannerAccordionItemClass}>
+              <AccordionTrigger className={plannerAccordionTriggerClass}>
+                {renderPlannerAccordionHeader(t("planner.placeFinder.title"), t("planner.placeFinder.description"))}
+              </AccordionTrigger>
+              <AccordionContent className={plannerAccordionContentClass}>
+                <div className={plannerSectionClass}>
+                  <PlaceFinderSection 
+                    formData={formData} 
+                    onChange={handlePlaceFinderChange} 
+                    aiMarkers={aiSuggestedMarkers}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {showAISettingsSection && (
+              <AccordionItem value="ai" data-planner-section="ai" className={plannerAccordionItemClass}>
+                <AccordionTrigger className={plannerAccordionTriggerClass}>
+                  {renderPlannerAccordionHeader(t("planner.ai.title"), aiModeSummary)}
+                </AccordionTrigger>
+                <AccordionContent className={plannerAccordionContentClass}>
+                  <div className={plannerSectionClass}>
+                    <AISettingsSection
+                      aiSettings={aiSettings}
+                      onAISettingsChange={handleAISettingsChange}
+                      aiError={aiError}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            )}
 
             <AccordionItem value="summary" data-planner-section="summary" className={plannerAccordionItemClass}>
               <AccordionTrigger className={plannerAccordionTriggerClass}>
@@ -1499,7 +1586,21 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
             className="relative overflow-visible pb-12"
             ref={formRef}
           >
-            {(output || isLoading || aiError) && (
+            {isConceptSelectionMode && (
+              <div className="mx-auto mt-16 max-w-[calc(100%-1rem)] sm:max-w-[calc(100%-3rem)] px-3 sm:px-4">
+                <RouteAlternatives 
+                  options={routeConcepts} 
+                  onSelect={handleConceptSelect}
+                  isLoading={isLoading} 
+                  aiMarkers={aiSuggestedMarkers}
+                  startPoint={formData.startPoint}
+                  destination={formData.destination}
+                  stages={formData.stages}
+                />
+              </div>
+            )}
+
+            {(output || (isLoading && !isConceptSelectionMode) || aiError) && (
               <div
                 className="theme-surface mx-auto mt-16 max-w-[calc(100%-1rem)] scroll-mt-24 rounded-[1.5rem] px-3 py-3 sm:max-w-[calc(100%-3rem)] sm:px-4 sm:py-4"
                 ref={outputSectionRef}
@@ -1552,14 +1653,16 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           )}
           <Button
             type="button"
-            onClick={isStickyPromptCopyMode ? copyPromptOutput : runGeneration}
+            onClick={isStickyPromptCopyMode ? copyPromptOutput : (aiSettings.useDirectAI && !isConceptSelectionMode && !output ? handleGenerateConcepts : () => runGeneration())}
             disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-            className={`h-11 w-auto max-w-full rounded-[1.25rem] border px-4 text-sm font-semibold backdrop-blur-2xl ${
+            className={`h-11 w-auto max-w-full rounded-[1.25rem] border px-4 text-sm font-semibold backdrop-blur-2xl transition-all ${
               isStickyPromptCopyMode
                 ? "border-emerald-700/40 bg-emerald-600 text-white shadow-[0_18px_42px_rgba(5,150,105,0.28)] hover:bg-emerald-500"
-                : "planner-primary-button border-primary/35"
+                : isConceptSelectionMode 
+                  ? "border-slate-400 bg-white !text-slate-950 shadow-md hover:border-primary/50 hover:bg-slate-50 !hover:text-black dark:border-white/15 dark:bg-white/5 dark:!text-white/70 dark:hover:bg-white/10 dark:!hover:text-white" 
+                  : "planner-primary-button border-primary/35 shadow-[0_12px_24px_rgba(201,123,0,0.2)]"
             }`}
-            style={{ color: "#fff" }}
+            style={!isStickyPromptCopyMode && !isConceptSelectionMode ? { color: "#fff" } : undefined}
           >
             {isStickyPromptCopyMode ? (
               <>
@@ -1567,8 +1670,12 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                 <span style={{ color: "#fff", WebkitTextFillColor: "#fff" }}>{t("planner.nav.copyPrompt")}</span>
               </>
             ) : (
-              <span style={{ color: "#fff", WebkitTextFillColor: "#fff" }}>
-                {aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.finishPrompt")}
+              <span style={!isConceptSelectionMode ? { color: "#fff", WebkitTextFillColor: "#fff" } : undefined}>
+                {aiSettings.useDirectAI 
+                  ? (isConceptSelectionMode 
+                      ? t("planner.nav.generateWithoutConcept") 
+                      : (output ? t("planner.nav.generateRoute") : t("planner.nav.generateConcepts"))) 
+                  : t("planner.nav.finishPrompt")}
               </span>
             )}
           </Button>

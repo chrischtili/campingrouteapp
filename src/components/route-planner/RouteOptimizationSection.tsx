@@ -79,7 +79,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
           <div key={cat.id} className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
             <div className="flex items-center gap-3 mb-4">
               <cat.icon className="w-5 h-5 text-primary" />
-              <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{cat.label}</span>
+              <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{cat.label}</span>
             </div>
             <BadgeToggleGroup
               name="routePreferences"
@@ -93,7 +93,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <ShieldAlert className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.optimization.avoidRegions.label")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.optimization.avoidRegions.label")}</span>
           </div>
           <textarea
             id="avoidRegions"

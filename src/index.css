@@ -399,6 +399,31 @@
     color: rgb(229, 126, 24) !important;
   }
 
+  .concept-marker-tooltip {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #f97316;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .concept-marker-tooltip {
+    background-color: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(249, 115, 22, 0.5);
+    color: #fdba74;
+  }
+
+  .leaflet-tooltip-top:before {
+    border-top-color: rgba(249, 115, 22, 0.3);
+  }
+
+  .dark .leaflet-tooltip-top:before {
+    border-top-color: rgba(249, 115, 22, 0.5);
+  }
+
   .light .site-nav {
     background: rgba(250, 246, 239, 0.82);
     border-color: rgba(85, 92, 78, 0.08);

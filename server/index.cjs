@@ -92,7 +92,7 @@ const REGION_ADDRESS_TYPES = new Set([
   'administrative'
 ]);
 const REQUEST_HEADERS = {
-  'User-Agent': 'CampingRoute/0.5.13 (+https://campingroute.app)',
+  'User-Agent': 'CampingRoute/0.5.6 (+https://campingroute.app)',
   Accept: 'application/json'
 };
 const OVERPASS_ENDPOINTS = [

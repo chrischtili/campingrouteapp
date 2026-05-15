@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner
 
-[![Version](https://img.shields.io/badge/version-v0.5.5-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.6-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -12,14 +12,13 @@
 
 ---
 
-## 🌟 Highlights (v0.5.5)
+## 🌟 Highlights (v0.5.6)
 
-- **Optimiertes Mobile Layout**: Perfekte Ausrichtung der Ankunfts- und Abfahrtszeiten für Zwischenziele auf dem Handy.
-- **Bessere Übersicht**: Kürzere, präzisere Labels für eine optimale Darstellung auf kleinen Bildschirmen.
-- **Finder-Pages**: Eigenständige Seiten für `Campingplatz-Finder` und `Stellplatz-Finder`.
-- **Nahtloser Workflow**: Plätze aus den Findern direkt als Ziel oder Zwischenziel in den Planer übernehmen.
-- **Volle Kontrolle**: Dein Entwurf bleibt erhalten, auch wenn du zwischen Finder und Assistent wechselst.
-- **Mehrsprachig**: Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
+- **Optimierter Workflow**: Logische Neu-Sortierung der Editor-Bereiche für einen intuitiveren Planungs-Flow.
+- **Schneller Zugriff**: „Letzte Planungen“ stehen nun für schnellen Zugriff auf Entwürfe ganz oben.
+- **Bessere Lesbarkeit**: Erhöhter Kontrast der Feld-Beschriftungen und UI-Feinschliff für alle Buttons.
+- **Präzise Karten**: Stabilisierte Kartendarstellung und korrekte Zentrierung für KI-Routenvorschläge inklusive Tooltips.
+- **Mehrsprachig**: Volle Unterstützung für Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
 - **KI-gestützte Planung**: Erstellt strukturierte Prompts für ChatGPT, Claude & Co. inklusive GPX-Export-Befehlen.
 
 ## 📦 Features
@@ -52,14 +51,13 @@
 
 **The AI Route Planner specifically for RVs & Campers!**
 
-### 🌟 Highlights (v0.5.4)
+### 🌟 Highlights (v0.5.6)
 
-- **Optimized Mobile Layout**: Perfect alignment of arrival and departure times for stops on mobile devices.
-- **Better Overview**: Shorter, more precise labels for an optimal display on small screens.
-- **Finder Pages**: Dedicated pages for `Campsite Finder` and `Stopover Finder`.
-- **Seamless Workflow**: Transfer places directly from finders as destinations or stops into the planner.
-- **Full Control**: Your draft is preserved even when switching between finders and the assistant.
-- **Multilingual**: German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
+- **Optimized Workflow**: Logical reordering of editor sections for a more intuitive planning flow.
+- **Quick Access**: 'Saved Plans' are now at the top for fast access to your drafts.
+- **Better Readability**: Increased contrast for labels and UI polish for all buttons.
+- **Precise Maps**: Stabilized map display and correct centering for AI route suggestions, including tooltips.
+- **Multilingual**: Full support for German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
 - **AI-Powered Planning**: Creates structured prompts for ChatGPT, Claude & others, including GPX export commands.
 
 ### 📦 Features

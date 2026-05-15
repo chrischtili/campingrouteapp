@@ -554,6 +554,14 @@
         "content3": "If you want to contribute technically, you can find the source code on GitHub.",
         "action": "Open feedback",
         "github": "Open GitHub"
+      },
+      "directAI": {
+        "q": "What happens when using 'Direct AI' (Route Suggestions)?",
+        "title": "Generate three route suggestions directly in the tool.",
+        "content": "How direct generation works",
+        "content1": "With the 'Direct AI' option, Camping Route queries the AI model (e.g. Gemini) directly in the background.",
+        "content2": "You will then receive three different options for your trip (e.g. fastest, most scenic).",
+        "content3": "Using the 'Choose this route' button, you can apply your preferred option directly to your planning and final prompt."
       }
     }
   },
@@ -568,6 +576,7 @@
     },
     "loading": {
       "ai": "🤖 Generating route...",
+      "concepts": "✨ Generating route suggestions...",
       "prompt": "📝 Creating prompt...",
       "error": "AI Error.",
       "invalidKey": "Invalid Key.",
@@ -577,9 +586,20 @@
       "back": "Back",
       "next": "Next",
       "generateRoute": "Generate Route",
+      "generateConcepts": "Generate Route Suggestions",
+      "generateWithoutConcept": "Generate own route (without suggestion)",
+      "chooseRoute": "Choose this route",
       "generatePrompt": "Create Prompt",
       "finishPrompt": "Finish",
       "copyPrompt": "Copy Prompt"
+    },
+    "alternatives": {
+      "badge": "Route Suggestions",
+      "title": "Choose your adventure",
+      "lead": "Based on your preferences, the AI has created three different concepts. Which one appeals to you most?",
+      "loadingTitle": "Forging ideas...",
+      "loadingLead": "The AI is currently designing 3 exciting route concepts for you.",
+      "highlightsTitle": "Route Highlights"
     },
     "summary": {
       "title": "Summary",
@@ -697,7 +717,7 @@
       "provider": {
         "label": "Provider & Model",
         "help": "Which model to choose?",
-        "openaiModelLabel": "OpenAI model"
+        "modelLabel": "AI Model"
       },
       "apiKey": {
         "hint": "Your key is not stored and is used only for this session.",
@@ -983,7 +1003,9 @@
             "vineyards": "Vineyards & Tastings",
             "wellness": "Spas & Wellness",
             "oldTowns": "Historic Old Towns",
-            "beaches": "Beaches & Lakes"
+            "beaches": "Beaches & Lakes",
+            "cities": "Cities & Culture",
+            "rural": "Rural Environment"
           }
         },
         "restrictions": {
@@ -1274,6 +1296,9 @@
         "caution": "Use Caution",
         "critical": "Rather Unsuitable"
       },
+      "mapPreview": {
+        "title": "Route Preview"
+      },
       "spotlight": {
         "title": "Quick assessment",
         "topRecommendation": "Top recommendation",
@@ -1392,7 +1417,7 @@
     },
   "prompt": {
     "systemRole": "You are a professional route planner for camping and road-trip travel with specialized knowledge of Europe and international destinations. Create a practical, well-structured route based on my specifications that fits the selected vehicle type. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
-    "dataSourcePolicy": "Overnight place lookup must be primarily sourced from OpenCampingMap. OpenStreetMap is used only as an enrichment source for category hints (for example `caravan_site:type=farm|winery`) and is not preferred over OpenCampingMap.",
+    "dataSourcePolicy": "Overnight place lookup must be primarily sourced from OpenCampingMap. You MUST also use other high-quality and official sources such as ACSI (Eurocampings), Camping.info, PiNCAMP (ADAC), or Park4Night to guarantee the best possible selection and verified links. OpenStreetMap is used as an enrichment source.",
     "accommodationTypeTagPolicy": "Use OSM tags as a soft filter within OpenCampingMap hits for accommodation types: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> prefer `caravan_site:type=farm|winery`; for `small`, `wild`, and `premium`, use available tags plus name/description/website heuristics. If tags are missing or inconsistent, do not automatically exclude the place; mark the classification as an estimate.",
     "sections": {
       "route": "ITINERARY",
@@ -1512,9 +1537,11 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "feedback": "Improved feedback form: A short reason is now required for negative ratings to help us make targeted improvements.",
-        "menu": "The mobile menu now reliably closes after selecting a new language.",
-        "mobileLayout": "Optimized mobile layout for stops – arrival and departure times are perfectly aligned."
+        "uiReorder": "Better overview: The camping editor has been logically reordered – 'Saved Plans' are now at the top for quick access.",
+        "readability": "Higher contrast: Labels in the editor are now much easier to read.",
+        "uiButtons": "UI Polish: Route selection buttons are no longer uppercase and are localized for all languages.",
+        "mapFix": "Map Fix: Map display for AI route suggestions has been stabilized and now centers correctly.",
+        "faq": "New FAQ: A new entry explains in detail how you can use AI directly within the tool."
       },
       "dismiss": "Got it",
       "release": "View release"

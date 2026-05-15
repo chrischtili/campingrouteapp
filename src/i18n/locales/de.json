@@ -554,6 +554,14 @@
         "content3": "Wenn du technisch mithelfen möchtest, findest du den Quellcode auf GitHub.",
         "action": "Feedback öffnen",
         "github": "Zum GitHub"
+      },
+      "directAI": {
+        "q": "Was passiert bei 'KI direkt nutzen' (Routen-Vorschläge)?",
+        "title": "Drei Routen-Vorschläge direkt im Tool generieren.",
+        "content": "So funktioniert die direkte Generierung",
+        "content1": "Mit der Option 'KI direkt nutzen' fragt Camping Route im Hintergrund das KI-Modell (z.B. Gemini) direkt an.",
+        "content2": "Du erhältst dann drei unterschiedliche Varianten für deine Reise (z.B. schnellste, landschaftlich schönste).",
+        "content3": "Über den Button 'Diese Route wählen' kannst du die gewünschte Variante direkt in deine weitere Planung und den finalen Prompt übernehmen."
       }
     }
   },
@@ -563,10 +571,12 @@
     "cta": "Prompt-Assistent",
     "launcher": {
       "title": "Der Prompt-Assistent für Camping- und Roadtrips",
-      "description": "Öffne den Assistenten, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen."
+      "description": "Öffne den Assistenten, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen.",
+      "hint": "Die Platzsuche ist direkt im Assistenten verfügbar."
     },
     "loading": {
       "ai": "🤖 Generiere Route...",
+      "concepts": "✨ Routenvorschläge werden generiert...",
       "prompt": "📝 Erstelle Prompt...",
       "error": "KI-Fehler aufgetreten.",
       "invalidKey": "API-Key ungültig.",
@@ -576,9 +586,20 @@
       "back": "Zurück",
       "next": "Weiter",
       "generateRoute": "Route Generieren",
+      "generateConcepts": "Routenvorschläge erstellen",
+      "generateWithoutConcept": "Eigene Route (ohne Vorschlag) generieren",
+      "chooseRoute": "Diese Route wählen",
       "generatePrompt": "Prompt erstellen",
       "finishPrompt": "Fertigstellen",
       "copyPrompt": "Prompt kopieren"
+    },
+    "alternatives": {
+      "badge": "Routenvorschläge",
+      "title": "Wähle dein Abenteuer",
+      "lead": "Basierend auf deinen Wünschen hat die KI drei unterschiedliche Konzepte erstellt. Welches spricht dich am meisten an?",
+      "loadingTitle": "Ideen werden geschmiedet...",
+      "loadingLead": "Die KI entwirft gerade 3 spannende Routen-Konzepte für dich.",
+      "highlightsTitle": "Highlights der Route"
     },
     "summary": {
       "title": "Zusammenfassung",
@@ -696,7 +717,7 @@
       "provider": {
         "label": "Modell",
         "help": "Welches Modell wählen?",
-        "openaiModelLabel": "OpenAI-Modell"
+        "modelLabel": "KI-Modell"
       },
       "apiKey": {
         "hint": "Dein Key wird nicht gespeichert und nur für diese Sitzung genutzt.",
@@ -982,7 +1003,9 @@
             "vineyards": "Weingüter & Tastings",
             "wellness": "Thermen & Wellness",
             "oldTowns": "Historische Altstädte",
-            "beaches": "Strände & Seen"
+            "beaches": "Strände & Seen",
+            "cities": "Städte & Kultur",
+            "rural": "Ländliche Umgebung"
           }
         },
         "restrictions": {
@@ -1215,7 +1238,7 @@
         "prompt": "Dein KI-Prompt"
       },
       "loading": {
-        "wait": "Bitte warten... Das Ergebnis kann je nach Anbieter und Route etwas dauern."
+        "wait": "Bitte warten... Das Ergebnis kann je nach Anbieter und Modell etwas dauern. Zeit für einen kurzen Kaffee?"
       },
       "actions": {
         "copied": "Kopiert!",
@@ -1272,6 +1295,9 @@
         "safe": "Unkritisch",
         "caution": "Mit Vorsicht",
         "critical": "Eher ungeeignet"
+      },
+      "mapPreview": {
+        "title": "Routenvorschau"
       },
       "spotlight": {
         "title": "Schnellbewertung",
@@ -1390,7 +1416,7 @@
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",
-    "dataSourcePolicy": "Abfragen zu Übernachtungsplätzen erfolgen primär über OpenCampingMap. OpenStreetMap wird ausschließlich zur Ergänzung in der Kategorieschärfung (z. B. `caravan_site:type=farm|winery`) genutzt und nicht als Ersatzquelle vorgezogen.",
+    "dataSourcePolicy": "Abfragen zu Übernachtungsplätzen erfolgen primär über OpenCampingMap. Nutze zwingend auch weitere hochwertige und offizielle Quellen wie ACSI (Eurocampings), Camping.info, PiNCAMP (ADAC) oder Park4Night, um die bestmögliche Auswahl und verifizierte Links zu garantieren. OpenStreetMap dient zur Ergänzung (z. B. `caravan_site:type=farm|winery`).",
     "accommodationTypeTagPolicy": "Nutze für Unterkunftstypen OSM-Tags als weichen Filter innerhalb der OpenCampingMap-Treffer: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> bevorzugt `caravan_site:type=farm|winery`; für `small`, `wild` und `premium` nutze verfügbare Tags plus Name/Beschreibung/Website-Heuristiken. Wenn Tags fehlen oder uneinheitlich sind, verwerfe den Platz nicht automatisch, sondern kennzeichne die Einordnung als Schätzung.",
     "sections": {
       "route": "REISEROUTE",
@@ -1510,9 +1536,11 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "feedback": "Verbessertes Feedback-Formular: Bei negativer Bewertung ist nun eine kurze Begründung erforderlich, um gezielter nachbessern zu können.",
-        "menu": "Das Mobile-Menü schließt sich nun zuverlässig nach der Auswahl einer neuen Sprache.",
-        "mobileLayout": "Optimiertes Layout für Zwischenziele auf dem Handy – Ankunfts- und Abfahrtszeiten sind perfekt bündig ausgerichtet."
+        "uiReorder": "Bessere Übersicht: Der Camping-Editor wurde logisch neu sortiert – „Letzte Planungen“ stehen für schnellen Zugriff nun ganz oben.",
+        "readability": "Höherer Kontrast: Die Beschriftungen im Editor sind nun deutlich besser lesbar.",
+        "uiButtons": "UI-Feinschliff: Die Buttons zur Routenauswahl wurden von Großbuchstaben befreit und sind nun in allen Sprachen lokalisiert.",
+        "mapFix": "Karten-Fix: Die Kartendarstellung bei den KI-Routenvorschlägen wurde stabilisiert und zentriert nun korrekt.",
+        "faq": "Neue FAQ: Ein neuer Eintrag erklärt im Detail, wie du die KI direkt im Tool nutzen kannst."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

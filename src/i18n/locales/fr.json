@@ -554,6 +554,14 @@
         "content3": "Si tu veux contribuer techniquement, le code source est disponible sur GitHub.",
         "action": "Ouvrir le feedback",
         "github": "Ouvrir GitHub"
+      },
+      "directAI": {
+        "q": "Que se passe-t-il lors de l'utilisation de 'IA Directe' (Suggestions d'itinéraires) ?",
+        "title": "Générez trois suggestions d'itinéraires directement dans l'outil.",
+        "content": "Comment fonctionne la génération directe",
+        "content1": "Avec l'option 'IA Directe', Camping Route interroge directement le modèle d'IA (ex. Gemini) en arrière-plan.",
+        "content2": "Vous recevrez ensuite trois options différentes pour votre voyage (ex. la plus rapide, la plus pittoresque).",
+        "content3": "En utilisant le bouton 'Choisir cet itinéraire', vous pouvez appliquer l'option souhaitée directement à votre planification et au prompt final."
       }
     }
   },
@@ -568,6 +576,7 @@
     },
     "loading": {
       "ai": "🤖 Génération de l’itinéraire...",
+      "concepts": "✨ Génération des suggestions d’itinéraires...",
       "prompt": "📝 Création du prompt...",
       "error": "Erreur IA.",
       "invalidKey": "Clé invalide.",
@@ -576,10 +585,21 @@
     "nav": {
       "back": "Retour",
       "next": "Suivant",
-      "generateRoute": "Générer l’itinéraire",
+      "generateRoute": "Générer l'itinéraire",
+      "generateConcepts": "Générer des suggestions d'itinéraires",
+      "generateWithoutConcept": "Générer mon propre itinéraire (sans suggestion)",
+      "chooseRoute": "Choisir cet itinéraire",
       "generatePrompt": "Créer le prompt",
-      "finishPrompt": "Finaliser",
+      "finishPrompt": "Terminer",
       "copyPrompt": "Copier le prompt"
+    },
+    "alternatives": {
+      "badge": "Suggestions d'itinéraires",
+      "title": "Choisissez votre aventure",
+      "lead": "Sur la base de vos préférences, l'IA a créé trois concepts différents. Lequel vous attire le plus ?",
+      "loadingTitle": "Forger des idées...",
+      "loadingLead": "L'IA conçoit actuellement 3 concepts d'itinéraires passionnants pour vous.",
+      "highlightsTitle": "Points forts de l'itinéraire"
     },
     "summary": {
       "title": "Résumé",
@@ -697,7 +717,7 @@
       "provider": {
         "label": "Fournisseur & modèle",
         "help": "Quel modèle choisir ?",
-        "openaiModelLabel": "Modèle OpenAI"
+        "modelLabel": "Modèle d’IA"
       },
       "apiKey": {
         "hint": "Votre clé n’est pas stockée et n’est utilisée que pour cette session.",
@@ -978,7 +998,14 @@
             "rural": "Environnement rural",
             "unesco": "Patrimoine UNESCO",
             "farm": "Fermes & boutiques",
-            "markets": "Marchés locaux"
+            "markets": "Marchés locaux",
+            "castles": "Châteaux & palais",
+            "nationalParks": "Parcs nationaux",
+            "viewpoints": "Points de vue",
+            "vineyards": "Vignobles & dégustations",
+            "wellness": "Centres thermaux & bien-être",
+            "oldTowns": "Vieilles villes historiques",
+            "beaches": "Plages & lacs"
           }
         },
         "restrictions": {
@@ -1269,6 +1296,9 @@
         "caution": "Avec prudence",
         "critical": "Plutôt inadaptée"
       },
+      "mapPreview": {
+        "title": "Aperçu de l'itinéraire"
+      },
       "spotlight": {
         "title": "Évaluation rapide",
         "topRecommendation": "Meilleure recommandation",
@@ -1382,7 +1412,8 @@
     "sourceCode": "Projet GitHub",
     "whatsNew": "Nouveautés de {{version}}",
     "feedback": "Donner un avis",
-    "support": "Soutenir CampingRoute"
+    "support": "Soutenir CampingRoute",
+    "scrollToTop": "Retour en haut"
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires pour le camping et les road trips, avec une connaissance spécialisée de l’Europe et des destinations internationales. Créez un itinéraire pratique et bien structuré, adapté au type de véhicule sélectionné, selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",
@@ -1495,7 +1526,8 @@
     "ok": "OK",
     "cancel": "Annuler",
     "copy": "Copier",
-    "print": "Imprimer"
+    "print": "Imprimer",
+    "close": "Fermer"
   },
   "app": {
     "reloadNotice": "La page a été rechargée automatiquement après une mise à jour.",
@@ -1505,9 +1537,11 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "feedback": "Formulaire de feedback amélioré : une courte explication est désormais requise en cas d’avis négatif pour nous permettre de nous améliorer.",
-        "menu": "Le menu mobile se ferme désormais de manière fiable après la sélection d’une nouvelle langue.",
-        "mobileLayout": "Mise en page mobile optimisée pour les étapes – les heures d’arrivée et de départ sont parfaitement alignées."
+        "uiReorder": "Meilleure vue d'ensemble : L'éditeur de camping a été logiquement réorganisé, en commençant par l'itinéraire et le véhicule.",
+        "readability": "Contraste plus élevé : Les étiquettes dans l'éditeur sont désormais beaucoup plus faciles à lire.",
+        "uiButtons": "Peaufinage UI : Les boutons de sélection d'itinéraire ne sont plus en majuscules et sont localisés dans toutes les langues.",
+        "mapFix": "Correction de la carte : L'affichage de la carte pour les suggestions d'itinéraires IA a été stabilisé et se centre désormais correctement.",
+        "faq": "Nouvelle FAQ : Une nouvelle entrée explique en détail comment utiliser l'IA directement dans l'outil."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

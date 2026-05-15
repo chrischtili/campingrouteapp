@@ -1,4 +1,4 @@
-import { DEFAULT_OPENAI_MODEL } from "@/config/ai";
+import { DEFAULT_OPENAI_MODEL, DEFAULT_GEMINI_MODEL } from "@/config/ai";
 
 export interface RouteStage {
   destination: string;
@@ -8,6 +8,19 @@ export interface RouteStage {
   arrivalTime: string;
   departureDate: string;
   departureTime: string;
+}
+
+export interface RouteOption {
+  id: string;
+  title: string;
+  theme: string;
+  estimatedDistance: string;
+  highlights: string[];
+  shortDescription: string;
+}
+
+export interface RouteConceptResponse {
+  options: RouteOption[];
 }
 
 export interface FormData {
@@ -129,5 +142,5 @@ export const initialAISettings: AISettings = {
   useDirectAI: false,
   openaiModel: DEFAULT_OPENAI_MODEL,
   mistralModel: 'mistral-large-latest',
-  googleModel: 'gemini-3.1-pro-preview'
+  googleModel: DEFAULT_GEMINI_MODEL
 };

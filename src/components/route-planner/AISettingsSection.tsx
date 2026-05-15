@@ -6,7 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { DEFAULT_OPENAI_MODEL, DIRECT_AI_FEATURE_ENABLED, TOKEN_MODE_PREVIEW_ENABLED } from "@/config/ai";
+import { 
+  DEFAULT_OPENAI_MODEL, 
+  DEFAULT_GEMINI_MODEL,
+  DIRECT_AI_FEATURE_ENABLED, 
+  TOKEN_MODE_PREVIEW_ENABLED,
+  AI_MODELS
+} from "@/config/ai";
 
 interface AISettingsSectionProps {
   aiSettings: AISettings;
@@ -14,7 +20,10 @@ interface AISettingsSectionProps {
   aiError: string;
 }
 
-const providerHelp = { url: 'https://platform.openai.com/api-keys', name: 'OpenAI' };
+const PROVIDER_HELP = {
+  openai: { url: 'https://platform.openai.com/api-keys', name: 'OpenAI' },
+  google: { url: 'https://aistudio.google.com/app/apikey', name: 'Google Gemini' },
+};
 
 export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: AISettingsSectionProps) {
   const { t } = useTranslation();
@@ -22,6 +31,9 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
   const providerSectionRef = useRef<HTMLDivElement>(null);
   
   const inputClass = "w-full h-12 sm:h-14 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/10 border-2 border-white/20 backdrop-blur-md shadow-inner focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none font-bold text-sm sm:text-base md:text-lg text-white placeholder:text-white/30 placeholder:font-normal text-left";
+
+  const currentProvider = (aiSettings.aiProvider as 'openai' | 'google') || 'openai';
+  const providerHelp = PROVIDER_HELP[currentProvider];
 
   const scrollProviderSectionBelowNavbar = () => {
     if (!providerSectionRef.current) return;
@@ -32,7 +44,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
 
   const selectMode = (useDirectAI: boolean) => {
     if (useDirectAI && !DIRECT_AI_FEATURE_ENABLED) return;
-    onAISettingsChange({ useDirectAI, aiProvider: "openai" });
+    onAISettingsChange({ useDirectAI });
 
     if (useDirectAI) {
       setTimeout(() => {
@@ -198,23 +210,47 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
                     <Info className="w-5 h-5 md:w-4 md:h-4" /> {t("planner.ai.provider.help")}
                   </button>
                 </Label>
-                <div className="rounded-xl sm:rounded-2xl border-2 border-primary/20 bg-primary/10 px-4 py-3 text-sm font-semibold text-white/85">
-                  OpenAI
-                </div>
+                
+                <Select
+                  value={aiSettings.aiProvider || "openai"}
+                  onValueChange={(value) => onAISettingsChange({ aiProvider: value })}
+                >
+                  <SelectTrigger id="aiProvider" className={inputClass}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="openai">OpenAI (ChatGPT)</SelectItem>
+                    <SelectItem value="google">Google Gemini</SelectItem>
+                  </SelectContent>
+                </Select>
 
                 <div className="space-y-3 pt-2">
-                  <Label htmlFor="openaiModel" className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-white/75">
-                    {t("planner.ai.provider.openaiModelLabel")}
+                  <Label htmlFor="aiModel" className="text-xs sm:text-sm font-semibold tracking-[0.08em] text-white/75">
+                    {t("planner.ai.provider.modelLabel")}
                   </Label>
                   <Select
-                    value={aiSettings.openaiModel || DEFAULT_OPENAI_MODEL}
-                    onValueChange={(value) => onAISettingsChange({ aiProvider: "openai", openaiModel: value })}
+                    value={
+                      currentProvider === 'openai' 
+                        ? (aiSettings.openaiModel || DEFAULT_OPENAI_MODEL)
+                        : (aiSettings.googleModel || DEFAULT_GEMINI_MODEL)
+                    }
+                    onValueChange={(value) => {
+                      if (currentProvider === 'openai') {
+                        onAISettingsChange({ openaiModel: value });
+                      } else {
+                        onAISettingsChange({ googleModel: value });
+                      }
+                    }}
                   >
-                    <SelectTrigger id="openaiModel" className={inputClass}>
+                    <SelectTrigger id="aiModel" className={inputClass}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="gpt-5.4">ChatGPT 5.4</SelectItem>
+                      {AI_MODELS[currentProvider].map((model) => (
+                        <SelectItem key={model.value} value={model.value}>
+                          {model.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -223,7 +259,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               <div className="space-y-4 text-left">
                 <Label htmlFor="apiKey" className="min-h-[3.5rem] sm:min-h-[3.75rem] flex items-start gap-2 text-xs sm:text-sm md:text-base font-bold text-white/95 mb-3 leading-tight">
                   <Lock className="w-5 h-5 md:w-4 md:h-4 text-primary" />
-                  {t("planner.ai.apiKey.hint")}
+                  {t("planner.ai.apiKey.hint")} ({providerHelp.name})
                 </Label>
                 <div className="relative">
                   <input

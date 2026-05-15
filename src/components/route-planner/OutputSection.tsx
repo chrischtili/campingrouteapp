@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { RoutePreviewMap } from "./RoutePreviewMap";
 
 interface OutputSectionProps {
   output: string;
@@ -160,13 +161,38 @@ export function OutputSection({
         .replace(/'/g, "&#39;");
     const titleMatch = output.match(/^#\s*([^\n]+)/m);
     const docTitle = titleMatch?.[1]?.trim() || t("planner.output.title.direct");
+    
+    // Convert Tailwind classes to inline styles for print output
+    const convertTailwindToInline = (html: string) => {
+      return html
+        // Paragraphs: leading-8 mb-5
+        .replace(/class="leading-8 mb-5"/g, 'style="line-height: 2rem; margin-bottom: 1.25rem;"')
+        // Headings - tracking-[0.08em] (escaped brackets in HTML)
+        .replace(/class="mt-12 mb-6 text-2xl sm:text-3xl font-black tracking-\[0\.08em\]"/g, 'style="margin-top: 3rem; margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 900; letter-spacing: 0.08em;"')
+        .replace(/class="mt-12 mb-5 text-xl sm:text-2xl font-black tracking-\[0\.08em\]"/g, 'style="margin-top: 3rem; margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 900; letter-spacing: 0.08em;"')
+        .replace(/class="mt-10 mb-4 text-lg sm:text-xl font-black tracking-\[0\.08em\]"/g, 'style="margin-top: 2.5rem; margin-bottom: 1rem; font-size: 1.125rem; font-weight: 900; letter-spacing: 0.08em;"')
+        // Lists
+        .replace(/class="list-disc"/g, 'style="list-style-type: disc;"')
+        .replace(/class="list-decimal"/g, 'style="list-style-type: decimal;"')
+        .replace(/class="pl-5 space-y-2 mb-6"/g, 'style="padding-left: 1.25rem; margin-bottom: 1.5rem;"')
+        // List items
+        .replace(/class="pl-1 leading-7"/g, 'style="padding-left: 0.25rem; line-height: 1.75rem;"')
+        // Horizontal rule
+        .replace(/class="my-8 border-0 border-t"/g, 'style="margin: 2rem 0; border: 0; border-top: 1px solid #ddd;"')
+        // Remove id attributes (not needed for print)
+        .replace(/id="[^"]*"/g, '')
+        // Remove remaining class attributes that we didn't convert
+        .replace(/class="[^"]*"/g, '');
+    };
+    
+    const formattedForPrint = outputView === "formatted" 
+      ? convertTailwindToInline(formattedHtml)
+      : escapeHtml(sanitizeCopyText(outputBody));
+    
     const printBody = outputView === "formatted"
-      ? `
-        <div class="formatted-output">${formattedHtml}</div>
-      `
-      : `
-        <pre class="raw-output">${escapeHtml(sanitizeCopyText(outputBody))}</pre>
-      `;
+      ? `<div>${formattedForPrint}</div>`
+      : `<pre style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; font-size: 12px; line-height: 1.5;">${formattedForPrint}</pre>`;
+    
     const iframe = document.createElement('iframe');
     iframe.style.position = 'fixed';
     iframe.style.right = '0';
@@ -189,10 +215,9 @@ export function OutputSection({
               p { margin: 0 0 14px; }
               ul, ol { margin: 0 0 18px 20px; padding: 0; }
               li { margin-bottom: 6px; }
+              strong { font-weight: 800; }
               a { color: #c97b00; text-decoration: underline; }
               hr { border: 0; border-top: 1px solid #ddd; margin: 24px 0; }
-              .raw-output { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; font-size: 12px; line-height: 1.5; }
-              .formatted-output strong { font-weight: 800; }
               .footer { margin-top: 30px; font-size: 10px; color: #666; border-top: 1px solid #eee; padding-top: 10px; }
             </style>
           </head>
@@ -431,27 +456,117 @@ ${gpxOnly}`;
       { level: "safe" as const, regex: /\b(unkritisch|uncritical|sans problème|senza criticità|onkritisch)\b/i },
     ];
     const ratingLeadRegex = /^(bewertung|rating|évaluation|valutazione|beoordeling)\s*[:–-]/i;
-    const stageContextRegex = /\b(etappe|stage|leg|fahrtabschnitt|trajet)\b/i;
+    // Verbessertes Regex: Suche nach Etappe, Leg, Stage etc.
+    const stageNameRegex = /^(etappe|stage|leg|fahrtabschnitt|trajet)\s*\d*[:–-]?\s*(.+)$/i;
 
     const items: StageRiskItem[] = [];
     const seen = new Set<string>();
+    
+    // Wir brauchen einen Kontext-Speicher, falls die Bewertung in der Zeile nach der Etappen-Überschrift steht
+    let currentStageTitle = "";
 
-    for (const line of analysisLines) {
-      const match = patterns.find((entry) => entry.regex.test(line));
-      if (!match) continue;
-      if (!ratingLeadRegex.test(line) && !stageContextRegex.test(line)) continue;
+    const fullLines = outputBody.replace(/\r\n/g, "\n").split("\n").map(l => l.trim()).filter(Boolean);
 
-      const detail = line.replace(ratingLeadRegex, "").trim() || line;
-      const title = t(`planner.output.risk.${match.level}`);
-      const key = `${match.level}:${detail}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      items.push({ title, level: match.level, detail });
-      if (items.length >= 5) break;
+    for (let i = 0; i < fullLines.length; i++) {
+      const line = fullLines[i];
+      // Bereinige die Zeile von Markdown-Symbolen für die Prüfung
+      const cleanLine = line.replace(/[*#_]/g, "").trim();
+      
+      // Prüfe ob die Zeile eine Etappen-Überschrift ist (z.B. "ETAPPE 1: Ort A nach Ort B" oder nur "Etappe 1")
+      // Das Regex ist nun offener für verschiedene Formate
+      const stageMatch = cleanLine.match(/^(etappe|stage|leg|fahrtabschnitt|trajet)\s*\d*[:–-]?\s*(.*)$/i);
+      if (stageMatch && stageMatch[1]) {
+        currentStageTitle = cleanLine;
+      }
+
+      // Prüfe ob die Zeile eine Bewertung enthält
+      const match = patterns.find((entry) => entry.regex.test(cleanLine));
+      if (match) {
+        const isExplicitRating = ratingLeadRegex.test(cleanLine.replace(/^[-*•\d.\s]+/, "").trim());
+        
+        // Wir akzeptieren die Zeile als Bewertung, wenn sie explizit "Bewertung:" sagt 
+        // ODER wenn wir uns gerade im Kontext einer zuvor gefundenen Etappe befinden
+        if (isExplicitRating || currentStageTitle) {
+          const detail = cleanLine.replace(/^[-*•\d.\s]+/, "").replace(ratingLeadRegex, "").trim();
+          
+          const title = currentStageTitle || t(`planner.output.risk.${match.level}`);
+          
+          // Spezielles Handling für Bereiche (z.B. "Etappe 1-4")
+          const rangeMatch = title.match(/(etappe|stage|leg)\s*(\d+)\s*[-–bis\s]+\s*(\d+)/i);
+          if (rangeMatch) {
+            const start = parseInt(rangeMatch[2]);
+            const end = parseInt(rangeMatch[3]);
+            const labelPrefix = rangeMatch[1];
+            
+            for (let s = start; s <= end; s++) {
+              const sTitle = `${labelPrefix} ${s}`;
+              const sKey = `${sTitle}:${match.level}:${detail}`;
+              if (!seen.has(sKey)) {
+                seen.add(sKey);
+                items.push({ title: sTitle, level: match.level, detail });
+              }
+            }
+          } else {
+            const key = `${title}:${match.level}:${detail}`;
+            if (!seen.has(key)) {
+              seen.add(key);
+              items.push({ title, level: match.level, detail });
+            }
+          }
+          // Nach einer gefundenen Bewertung setzen wir den Titel zurück
+          currentStageTitle = ""; 
+        }
+      }
+      
+      if (items.length >= 8) break; // Erhöht auf 8, da Roadtrips oft mehr Etappen haben
+    }
+
+    // Fallback: Wenn wir nichts über die Zeilen-Logik gefunden haben, nutze die alte analysisLines Logik
+    if (items.length === 0) {
+      for (const line of analysisLines) {
+        const match = patterns.find((entry) => entry.regex.test(line));
+        if (!match) continue;
+        const detail = line.replace(ratingLeadRegex, "").trim() || line;
+        const title = t(`planner.output.risk.${match.level}`);
+        items.push({ title, level: match.level, detail });
+        if (items.length >= 5) break;
+      }
     }
 
     return items;
-  }, [analysisLines, t]);
+  }, [outputBody, analysisLines, t]);
+
+  const routeMapData = useMemo(() => {
+    const waypoints: Array<{ lat: number; lon: number; name?: string }> = [];
+    const trackPoints: Array<[number, number]> = [];
+
+    const gpxContent = gpxWptOnly || gpxGarmin;
+    if (!gpxContent) return { waypoints, trackPoints };
+
+    try {
+      // Waypoints extrahieren
+      const wptRegex = /<wpt lat="([\d.-]+)" lon="([\d.-]+)">[\s\S]*?<name>(.*?)<\/name>/g;
+      let wptMatch;
+      while ((wptMatch = wptRegex.exec(gpxContent)) !== null) {
+        waypoints.push({
+          lat: parseFloat(wptMatch[1]),
+          lon: parseFloat(wptMatch[2]),
+          name: wptMatch[3]
+        });
+      }
+
+      // Trackpoints extrahieren (aus <trkpt> oder <rtept>)
+      const trkptRegex = /<(trkpt|rtept) lat="([\d.-]+)" lon="([\d.-]+)"/g;
+      let trkptMatch;
+      while ((trkptMatch = trkptRegex.exec(gpxContent)) !== null) {
+        trackPoints.push([parseFloat(trkptMatch[2]), parseFloat(trkptMatch[3])]);
+      }
+    } catch (e) {
+      console.error("Error parsing GPX for map preview:", e);
+    }
+
+    return { waypoints, trackPoints };
+  }, [gpxWptOnly, gpxGarmin]);
 
   const handleDownloadGPX = (gpxContent: string, filename: string, successKey: string) => {
     const cleaned = sanitizeGpxContent(gpxContent);
@@ -738,7 +853,7 @@ ${gpxOnly}`;
           <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5">
             {!useDirectAI && (
               <div className="flex flex-col items-center gap-3 rounded-[1.4rem] border border-primary/16 bg-[linear-gradient(180deg,rgba(241,244,250,0.96),rgba(233,238,247,0.96))] px-4 py-5 text-center dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.72),rgba(44,53,70,0.78))]">
-                <div className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-primary">
+                <div className="flex items-center justify-center gap-2 text-[10px] font-black tracking-[0.16em] text-primary">
                   <Heart className="h-3.5 w-3.5 fill-current" />
                   {t("planner.summary.save.coffeeBadge")}
                 </div>
@@ -751,7 +866,7 @@ ${gpxOnly}`;
                   href="https://www.buymeacoffee.com/campingroute"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-primary/45 bg-primary px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white shadow-[0_12px_24px_rgba(201,123,0,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/92 hover:shadow-[0_16px_28px_rgba(201,123,0,0.32)]"
+                  className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-primary/45 bg-primary px-4 py-3 text-xs font-black tracking-[0.12em] text-white shadow-[0_12px_24px_rgba(201,123,0,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/92 hover:shadow-[0_16px_28px_rgba(201,123,0,0.32)]"
                 >
                   <span className="text-base leading-none" aria-hidden="true">☕</span>
                   {t("planner.summary.save.coffee")}
@@ -838,46 +953,82 @@ ${gpxOnly}`;
                 </div>
               </div>
             )}
+
+            {useDirectAI && (routeMapData.waypoints.length > 0 || routeMapData.trackPoints.length > 0) && (
+              <div className={`p-4 sm:p-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-4 w-1 bg-primary rounded-full" />
+                  <div className="text-[10px] font-black tracking-[0.1em] text-primary">
+                    {t("planner.output.mapPreview.title")}
+                  </div>
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-white/10 shadow-inner">
+                  <RoutePreviewMap 
+                    waypoints={routeMapData.waypoints} 
+                    trackPoints={routeMapData.trackPoints} 
+                  />
+                </div>
+              </div>
+            )}
+
             {useDirectAI && stageRiskItems.length > 0 && (
               <div className={`p-4 sm:p-5 ${isMobile ? "rounded-[1.25rem]" : "output-panel rounded-[1.5rem]"}`}>
-                <div className="text-[9px] font-semibold tracking-[0.08em] text-primary mb-3">
-                  {t("planner.output.risk.title")}
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-4 w-1 bg-primary rounded-full" />
+                  <div className="text-[10px] font-black tracking-[0.1em] text-primary">
+                    {t("planner.output.risk.title")}
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                
+                <div className="space-y-3">
                   {stageRiskItems.map((item, index) => {
                     const config = item.level === "safe"
                       ? {
-                          dot: "bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.55)]",
-                          badge: "border-emerald-400/25 bg-emerald-400/10 text-emerald-300",
+                          border: "border-emerald-500/20",
+                          bg: "bg-emerald-500/5",
+                          indicator: "bg-emerald-500",
+                          glow: "shadow-[0_0_15px_rgba(16,185,129,0.3)]",
+                          text: "text-emerald-600 dark:text-emerald-400",
                           label: t("planner.output.risk.safe"),
                         }
                       : item.level === "caution"
                         ? {
-                            dot: "bg-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.5)]",
-                            badge: "border-amber-400/25 bg-amber-400/10 text-amber-300",
+                            border: "border-amber-500/20",
+                            bg: "bg-amber-500/5",
+                            indicator: "bg-amber-500",
+                            glow: "shadow-[0_0_15px_rgba(245,158,11,0.3)]",
+                            text: "text-amber-600 dark:text-amber-400",
                             label: t("planner.output.risk.caution"),
                           }
                         : {
-                            dot: "bg-red-400 shadow-[0_0_16px_rgba(248,113,113,0.5)]",
-                            badge: "border-red-400/25 bg-red-400/10 text-red-300",
+                            border: "border-red-500/20",
+                            bg: "bg-red-500/5",
+                            indicator: "bg-red-500",
+                            glow: "shadow-[0_0_15px_rgba(239,68,68,0.3)]",
+                            text: "text-red-600 dark:text-red-400",
                             label: t("planner.output.risk.critical"),
                           };
 
                     return (
-                      <div key={`${item.title}-${index}`} className="output-card rounded-2xl px-3.5 py-3">
-                        <div className="flex items-start justify-between gap-3 mb-3">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <span className={`mt-1 h-3 w-3 rounded-full shrink-0 ${config.dot}`} />
-                            <div className="text-sm sm:text-base font-bold text-foreground dark:text-white/92 leading-snug">
+                      <div 
+                        key={`${item.title}-${index}`} 
+                        className={`relative overflow-hidden rounded-2xl border ${config.border} ${config.bg} p-4 transition-all hover:scale-[1.01]`}
+                      >
+                        {/* Status-Linie links */}
+                        <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${config.indicator} ${config.glow}`} />
+                        
+                        <div className="pl-2">
+                          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h4 className="text-sm sm:text-base font-black text-foreground dark:text-white leading-tight">
                               {item.title}
-                            </div>
+                            </h4>
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${config.border} ${config.text} bg-white/50 dark:bg-black/20`}>
+                              {config.label}
+                            </span>
                           </div>
-                          <span className={`shrink-0 rounded-full border px-3 py-1 text-[9px] font-semibold tracking-[0.05em] ${config.badge}`}>
-                            {config.label}
-                          </span>
-                        </div>
-                        <div className="text-xs sm:text-sm text-muted-foreground dark:text-white/68 leading-5 sm:leading-6">
-                          {item.detail}
+                          <p className="text-xs sm:text-sm text-muted-foreground dark:text-white/70 leading-relaxed italic">
+                            {item.detail}
+                          </p>
                         </div>
                       </div>
                     );

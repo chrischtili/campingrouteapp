@@ -327,7 +327,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                     {stats.map((stat) => (
                       <div key={stat.label} className="min-w-[7.5rem] flex-1 rounded-2xl border border-white/65 bg-white/72 px-4 py-3 dark:border-white/10 dark:bg-white/[0.04]">
                         <div className="text-2xl font-black tracking-tight text-foreground dark:text-white">{stat.value}</div>
-                        <div className="mt-1 text-[10px] font-black uppercase tracking-[0.18em] text-foreground/52 dark:text-white/45">
+                        <div className="mt-1 text-[10px] font-black uppercase tracking-[0.18em] text-foreground/75 dark:text-white/70">
                           {stat.label}
                         </div>
                       </div>

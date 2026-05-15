@@ -20,7 +20,8 @@ interface NavbarProps {
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.5");
+  const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
+  const [releaseVersion, setReleaseVersion] = useState("0.5.6");
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);
@@ -98,6 +99,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
       }
     }
     setMobileMenuOpen(false);
+    setIsNavDropdownOpen(false);
   };
 
   const handleFAQItemNavigation = (itemId: string) => {
@@ -107,6 +109,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
       window.dispatchEvent(new CustomEvent("open-faq", { detail: itemId }));
     }
     setMobileMenuOpen(false);
+    setIsNavDropdownOpen(false);
   };
 
   const handlePlanNow = () => {
@@ -118,21 +121,25 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
       navigate("/prompt-generator");
     }
     setMobileMenuOpen(false);
+    setIsNavDropdownOpen(false);
   };
 
   const handleOpenPlaceFinder = (path = "/campingplatz-finder") => {
     navigate(path);
     setMobileMenuOpen(false);
+    setIsNavDropdownOpen(false);
   };
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     setMobileMenuOpen(false);
+    setIsNavDropdownOpen(false);
   };
 
   const openWhatsNew = () => {
     window.dispatchEvent(new Event("open-whats-new"));
     setMobileMenuOpen(false);
+    setIsNavDropdownOpen(false);
   };
 
   const toggleMobileMenu = () => {
@@ -233,7 +240,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             {t("navbar.planNow")}
           </Button>
 
-          <DropdownMenu>
+          <DropdownMenu open={isNavDropdownOpen} onOpenChange={setIsNavDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Button
                 type="button"
@@ -272,7 +279,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </DropdownMenuItem>
 
               <DropdownMenuItem
-                onClick={() => setTheme(oppositeExplicitTheme)}
+                onClick={() => {
+                  setTheme(oppositeExplicitTheme);
+                  setIsNavDropdownOpen(false);
+                }}
                 className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
               >
                 <div className="flex w-full items-center justify-between gap-3">

@@ -156,7 +156,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-8">
             <Users className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.accommodation.group.travelers")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.group.travelers")}</span>
           </div>
           <FormSlider
             id="numberOfTravelers"
@@ -173,7 +173,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-8">
             <Wallet className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.accommodation.group.budget")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.group.budget")}</span>
           </div>
           <FormSlider
             id="avgCampsitePriceMax"
@@ -192,7 +192,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <Home className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.accommodation.categories.type.label")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.categories.type.label")}</span>
           </div>
           <div className="flex flex-wrap gap-2 w-full">
             <BadgeToggleGroup
@@ -220,7 +220,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <Settings className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.accommodation.categories.facilities.label")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.categories.facilities.label")}</span>
           </div>
           <BadgeToggleGroup
             name="facilities"
@@ -233,7 +233,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <Heart className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.interests.title")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.interests.title")}</span>
           </div>
           <BadgeToggleGroup
             name="activities"
@@ -246,7 +246,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <MessageSquare className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/52 dark:text-white/50">{t("planner.interests.additional.label")}</span>
+            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.interests.additional.label")}</span>
           </div>
           <textarea
             id="additionalInfo"

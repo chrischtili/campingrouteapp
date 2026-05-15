@@ -554,6 +554,14 @@
         "content3": "Se vuoi contribuire tecnicamente, trovi il codice sorgente su GitHub.",
         "action": "Apri il feedback",
         "github": "Apri GitHub"
+      },
+      "directAI": {
+        "q": "Cosa succede quando si usa 'IA Diretta' (Suggerimenti di percorso)?",
+        "title": "Genera tre suggerimenti di percorso direttamente nello strumento.",
+        "content": "Come funziona la generazione diretta",
+        "content1": "Con l'opzione 'IA Diretta', Camping Route interroga direttamente il modello di IA (es. Gemini) in background.",
+        "content2": "Riceverai quindi tre diverse opzioni per il tuo viaggio (es. la più veloce, la più panoramica).",
+        "content3": "Usando il pulsante 'Scegli questo percorso', puoi applicare l'opzione desiderata direttamente alla tua pianificazione e al prompt finale."
       }
     }
   },
@@ -568,6 +576,7 @@
     },
     "loading": {
       "ai": "🤖 Genero itinerario...",
+      "concepts": "✨ Generazione suggerimenti di percorso...",
       "prompt": "📝 Creo prompt...",
       "error": "Si è verificato un errore IA.",
       "invalidKey": "Chiave API non valida.",
@@ -576,10 +585,21 @@
     "nav": {
       "back": "Indietro",
       "next": "Avanti",
-      "generateRoute": "Genera itinerario",
+      "generateRoute": "Genera percorso",
+      "generateConcepts": "Genera suggerimenti di percorso",
+      "generateWithoutConcept": "Genera il mio percorso (senza suggerimento)",
+      "chooseRoute": "Scegli questo percorso",
       "generatePrompt": "Crea prompt",
-      "finishPrompt": "Completa",
+      "finishPrompt": "Concludi",
       "copyPrompt": "Copia prompt"
+    },
+    "alternatives": {
+      "badge": "Suggerimenti di percorso",
+      "title": "Scegli la tua avventura",
+      "lead": "In base alle tue preferenze, l'IA ha creato tre concetti diversi. Quale ti attira di più?",
+      "loadingTitle": "Forgiando idee...",
+      "loadingLead": "L'IA sta attualmente progettando 3 interessanti concetti di percorso per te.",
+      "highlightsTitle": "Punti salienti del percorso"
     },
     "summary": {
       "title": "Riepilogo",
@@ -697,7 +717,7 @@
       "provider": {
         "label": "Fornitore & modello",
         "help": "Quale modello scegliere?",
-        "openaiModelLabel": "Modello OpenAI"
+        "modelLabel": "Modello IA"
       },
       "apiKey": {
         "hint": "La tua chiave non viene salvata e viene usata solo per questa sessione.",
@@ -978,7 +998,14 @@
             "rural": "Ambiente rurale",
             "unesco": "Patrimonio UNESCO",
             "farm": "Fattorie & spacci",
-            "markets": "Mercati locali"
+            "markets": "Mercati locali",
+            "castles": "Castelli & palazzi",
+            "nationalParks": "Parchi nazionali",
+            "viewpoints": "Punti panoramici",
+            "vineyards": "Cantine & degustazioni",
+            "wellness": "Centri termali & benessere",
+            "oldTowns": "Centri storici",
+            "beaches": "Spiagge & laghi"
           }
         },
         "restrictions": {
@@ -1269,6 +1296,9 @@
         "caution": "Con prudenza",
         "critical": "Piuttosto inadatta"
       },
+      "mapPreview": {
+        "title": "Anteprima del percorso"
+      },
       "spotlight": {
         "title": "Valutazione rapida",
         "topRecommendation": "Suggerimento top",
@@ -1381,7 +1411,8 @@
     "sourceCode": "Codice sorgente su GitHub",
     "whatsNew": "Novità della {{version}}",
     "feedback": "Invia feedback",
-    "support": "Supporta CampingRoute"
+    "support": "Supporta CampingRoute",
+    "scrollToTop": "Torna su"
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari per viaggi camping e road trip con conoscenze specialistiche per l'Europa e destinazioni internazionali. Crea, in base ai miei dati, un itinerario pratico e ben strutturato adatto al tipo di veicolo selezionato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",
@@ -1494,7 +1525,8 @@
     "ok": "OK",
     "cancel": "Annulla",
     "copy": "Copia",
-    "print": "Stampa"
+    "print": "Stampa",
+    "close": "Chiudi"
   },
   "app": {
     "reloadNotice": "La pagina è stata ricaricata automaticamente dopo un aggiornamento.",
@@ -1504,9 +1536,11 @@
       "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
-        "feedback": "Modulo di feedback migliorato: in caso di valutazione negativa, è ora richiesta una breve spiegazione per aiutarci a migliorare in modo mirato.",
-        "menu": "Il menu mobile ora si chiude in modo affidabile dopo aver selezionato una nuova lingua.",
-        "mobileLayout": "Layout mobile ottimizzato per le tappe: gli orari di arrivo e partenza sono perfettamente allineati."
+        "uiReorder": "Migliore panoramica: L'editor del campeggio è stato logicamente riordinato, a partire dall'itinerario e dal veicolo.",
+        "readability": "Contrasto più elevato: Le etichette nell'editor sono ora molto più facili da leggere.",
+        "uiButtons": "Rifinitura UI: I pulsanti di selezione del percorso non sono più in maiuscolo e sono localizzati per tutte le lingue.",
+        "mapFix": "Fix mappa: La visualizzazione della mappa per i suggerimenti di percorso IA è stata stabilizzata e ora si centra correttamente.",
+        "faq": "Nuove FAQ: Una nuova voce spiega in dettaglio come utilizzare l'IA direttamente nello strumento."
       },
       "dismiss": "Capito",
       "release": "Vedi release"

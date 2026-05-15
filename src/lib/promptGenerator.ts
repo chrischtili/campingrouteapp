@@ -240,6 +240,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     ? '• ' + t('prompt.labels.accommodationTypePriorityNote') + '\n'
     : '';
   const verificationInstruction = t('prompt.verificationInstruction');
+  const linkPolicyInstruction = lang.startsWith('de')
+    ? '\n\nLink-Policy: Gib fuer JEDEN genannten Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link an. Wenn kein offizieller Link existiert, nutze IMMER einen OpenCampingMap-Kartenlink mit Koordinaten-Hash. Nenne niemals einen Platz ohne Link. Schlage keine allgemeine Suche vor, sondern liefere konkrete Ergebnisse.'
+    : '\n\nLink Policy: Provide a working link for EVERY place mentioned (main suggestion AND alternatives). If no official link exists, ALWAYS use an OpenCampingMap map link with a coordinate hash. Never name a place without a link. Do not suggest a general search; provide concrete results.';
   const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
   const logicalScheduleInstruction = buildLogicalScheduleInstruction(lang, data, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')
@@ -367,6 +370,7 @@ ${data.additionalInfo}
 ${t('prompt.instructions')}
 ${t('prompt.instructionsCamperPlanning')}
 ${verificationInstruction}
+${linkPolicyInstruction}
 ${dailyLimitBufferInstruction}
 ${logicalScheduleInstruction}
 ${pdfDownloadInstruction}
@@ -386,10 +390,10 @@ export async function callAIAPI(formData: FormData, aiSettings: AISettings): Pro
     console.log('API Key present:', !!aiSettings.apiKey?.trim());
   }
 
-  return _callAIAPIInternal(prompt, aiSettings);
+  return callAIAPIInternal(prompt, aiSettings);
 }
 
-async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promise<string> {
+export async function callAIAPIInternal(prompt: string, aiSettings: AISettings): Promise<string> {
   const lang = (i18next.language || 'en').toLowerCase();
   let apiUrl = '';
   let headers: Record<string, string> = {};
@@ -454,6 +458,50 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
         temperature: 0.7
       };
       break;
+
+    case 'google':
+      let geminiModel = aiSettings.googleModel || DEFAULT_GEMINI_MODEL;
+      
+      // Fixup fuer veraltete oder inkorrekte Model-Namen aus dem LocalStorage
+      if (geminiModel === 'gemini-3.1-flash-live') geminiModel = 'gemini-3-flash-preview';
+      if (geminiModel === 'gemini-3.1-pro') geminiModel = 'gemini-3.1-pro-preview';
+      if (geminiModel === 'gemini-3.1-flash-lite') geminiModel = 'gemini-3.1-flash-lite-preview';
+      if (geminiModel === 'gemini-3.0-flash') geminiModel = 'gemini-3-flash-preview';
+
+      // v1beta ist fuer Live-Suche (Grounding) bei Gemini 3.1 erforderlich
+      // v1 liefert bei Grounding-Tools oft 400 Bad Request
+      apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${aiSettings.apiKey}`;
+      headers = { 'Content-Type': 'application/json' };
+      
+      const geminiSystemMessage = lang.startsWith('de')
+        ? 'Du bist ein hilfreicher Routenplaner fuer Camping, Wohnmobil, Wohnwagen, Zelt und Motorrad. Antworte im Markdown-Format.'
+        : 'You are a helpful route planner for camping, RVs, caravans, tents, and motorcycles. Respond in Markdown format.';
+
+      const truncationInstruction = lang.startsWith('de')
+        ? '\n\nWICHTIG: Erzeuge die Antwort IMMER vollständig. Brich niemals mitten im Satz oder mitten in einer Sektion ab. Wenn die Route sehr lang ist, fasse dich in den Beschreibungen etwas kürzer, aber liefere alle Sektionen (1 bis 9) und alle GPX-Blöcke bis zum Ende aus.'
+        : '\n\nIMPORTANT: Always generate the response completely. Never stop in the middle of a sentence or section. If the route is very long, be more concise in descriptions, but deliver all sections (1 to 9) and all GPX blocks until the very end.';
+
+      requestData = {
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: `${geminiSystemMessage}\n\n${webSearchDirective}\n\n${prompt}${truncationInstruction}` }]
+          }
+        ],
+        system_instruction: {
+          parts: [{ text: geminiSystemMessage }]
+        },
+        tools: [
+          {
+            google_search: {} 
+          }
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 65536
+        }
+      };
+      break;
     
     default:
       throw new Error('Unsupported AI provider');
@@ -467,6 +515,7 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
       body: JSON.stringify(requestData)
     });
   } catch (fetchError) {
+    console.error("Fetch error:", fetchError);
     throw new Error(i18next.t("planner.loading.error"));
   }
   
@@ -474,8 +523,9 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
     let errorData: any = null;
     try {
       errorData = await response.json();
+      console.error("AI API Error Details:", errorData);
     } catch {
-      // ignore parse errors and fall back to generic copy
+      // ignore parse errors
     }
 
     throw new Error(i18next.t("planner.loading.error"));
@@ -498,7 +548,18 @@ async function _callAIAPIInternal(prompt: string, aiSettings: AISettings): Promi
     if (outputText) {
       return outputText;
     }
+    
+    if (responseData.choices?.[0]?.message?.content) {
+      return responseData.choices[0].message.content;
+    }
   }
 
-  return responseData.choices[0].message.content;
+  if (aiSettings.aiProvider === 'google') {
+    const geminiText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (geminiText) {
+      return geminiText;
+    }
+  }
+
+  return responseData.choices?.[0]?.message?.content || "";
 }

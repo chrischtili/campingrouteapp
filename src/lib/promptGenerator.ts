@@ -301,6 +301,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const routeLines = [
     `• ${t('prompt.labels.start')}: ${data.startPoint}`,
     `• ${t('prompt.labels.destination')}: ${data.destination}`,
+    data.routeType === 'roundTrip' ? `• ${t('planner.route.routeType.options.roundTrip')}: ${t('planner.route.roundTrip.description')} (${t('prompt.labels.returnDestination')}: ${data.startPoint})` : '',
     data.destinationBooked ? `• ZENTRALER ANKERPUNKT: Der Aufenthalt am Zielort ${data.destination} ist FEST GEBUCHT und UNVERÄNDERLICH.` : '',
     data.destinationArrivalDate ? `  - ${t('prompt.labels.finalArrival')}: ${formatDate(data.destinationArrivalDate)}` : '',
     data.destinationDepartureDate ? `  - ${t('prompt.labels.finalDeparture')}: ${formatDate(data.destinationDepartureDate)}` : '',

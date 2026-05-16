@@ -783,6 +783,13 @@
         "description": "Markeer je hoofdbestemming als een vast ankerpunt.",
         "note": "✨ Vast verblijf: De AI plant de aankomst en het vertrek precies rond deze vaste periode."
       },
+      "destinationStayPlanned": {
+        "label": "Verblijf op bestemming plannen",
+        "description": "Leg vast wanneer je op de hoofdbestemming wilt aankomen en weer wilt vertrekken."
+      },
+      "roundTrip": {
+        "description": "Je keert aan het einde weer terug naar je startpunt."
+      },
       "stages": {
         "title": "Tussenstops",
         "add": "Stop toevoegen",

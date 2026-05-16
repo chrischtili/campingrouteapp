@@ -775,6 +775,13 @@
         "description": "Marquez votre destination principale comme un point d'ancrage fixe.",
         "note": "✨ Séjour fixe : L'IA planifiera l'arrivée et le départ exactement autour de cette période fixe."
       },
+      "destinationStayPlanned": {
+        "label": "Planifier le séjour à destination",
+        "description": "Déterminez quand Sie voulez arriver et repartir de la destination principale."
+      },
+      "roundTrip": {
+        "description": "Vous reviendrez à votre point de départ à la fin."
+      },
       "stages": {
         "title": "Étapes",
         "add": "Ajouter une étape",

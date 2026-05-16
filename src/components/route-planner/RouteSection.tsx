@@ -190,14 +190,14 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               "bg-white/40 dark:bg-white/5 border-slate-100 dark:border-white/5"
             )}>
               <Label className={fieldLabelClass}>
-                <Route className="w-3.5 h-3.5 text-primary" /> {t("planner.route.routeType.label")}
+                <Route className="w-3.5 h-3.5 text-primary" /> {t("planner.route.type.label")}
               </Label>
               <BadgeToggleGroup
                 name="routeType"
                 options={[
-                  { value: "oneWay", label: t("planner.route.routeType.options.oneWay") },
-                  { value: "roundTrip", label: t("planner.route.routeType.options.roundTrip") },
-                  { value: "multiStage", label: t("planner.route.routeType.options.multiStage") },
+                  { value: "oneWay", label: t("planner.route.type.options.oneWay") },
+                  { value: "roundTrip", label: t("planner.route.type.options.roundTrip") },
+                  { value: "multiStage", label: t("planner.route.type.options.multiStage") },
                 ]}
                 selectedValues={[formData.routeType]}
                 onChange={(_name, value, checked) => checked && onChange({ routeType: value })}

@@ -775,6 +775,13 @@
         "description": "Mark your primary destination as a fixed anchor point.",
         "note": "✨ Fixed stay: The AI will plan the arrival and departure exactly around this fixed period."
       },
+      "destinationStayPlanned": {
+        "label": "Plan stay at destination",
+        "description": "Specify when you want to arrive at and depart from the main destination."
+      },
+      "roundTrip": {
+        "description": "You will return to your starting point at the end."
+      },
       "stages": {
         "title": "Stops",
         "add": "Add stop",

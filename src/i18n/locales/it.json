@@ -775,6 +775,13 @@
         "description": "Segna la tua destinazione principale come punto di ancoraggio fisso.",
         "note": "✨ Soggiorno fisso: L'IA pianificherà l'arrivo e la partenza esattamente intorno a questo periodo fisso."
       },
+      "destinationStayPlanned": {
+        "label": "Pianifica soggiorno a destinazione",
+        "description": "Specifica quando vuoi arrivare e partire dalla destinazione principale."
+      },
+      "roundTrip": {
+        "description": "Tornerai al punto di partenza alla fine."
+      },
       "stages": {
         "title": "Tappe intermedie",
         "add": "Aggiungi tappa",

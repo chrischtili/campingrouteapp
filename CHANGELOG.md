@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **UI**: Neue „Anker-Logik“ für Reiseziele: Markiere dein Hauptziel als fest gebucht, um die An- und Abreise exakt darum herum zu planen.
+- **UI**: Explorer-Modus: Der Platzfinder wurde prominent an die zweite Stelle gerückt, um die Entdeckung von Zielen vor die Detailplanung zu stellen.
 - **UI**: Rundreisen-Toggle direkt beim Startpunkt für einen schnelleren Planungs-Flow.
 - **UX**: Intelligente Label-Anpassung: Felder zeigen nun den Namen des Ortes an (z.B. „Abreise Weingarten“ statt nur „Abreise“).
 - **UX**: Prompt-Regenerierung: Bei Änderungen an der Reise erscheint nun ein direkter Hinweis zum Aktualisieren des Prompts.

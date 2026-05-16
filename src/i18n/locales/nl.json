@@ -820,6 +820,10 @@
       "departure": "Vertrek",
       "arrival": "Aankomst",
       "optionalPlaceholder": "Optioneel",
+      "dates": {
+        "tripWindowNote": "Stel de periode voor je reis vast. Alle velden sind optioneel.",
+        "tripWindowNoteRoundTrip": "Rondreis-modus: Leg hier de volledige periode van vertrek tot definitieve terugkeer vast. Alle velden zijn optioneel."
+      },
       "maxDistance": "Max km / dag",
       "maxDriveTime": "Max. rijtijd / dag",
       "targetRegions": {

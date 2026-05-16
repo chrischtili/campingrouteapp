@@ -815,7 +815,8 @@
       "returnTime": "Ankunft am Rückkehrziel",
       "optionalPlaceholder": "Optional",
       "dates": {
-        "tripWindowNote": "Lege hier den Zeitraum für deine gesamte Reise (von der ersten Abfahrt bis zur endgültigen Rückkehr) fest."
+        "tripWindowNote": "Lege hier den Zeitraum für deine Reise fest. Alle Felder sind optional.",
+        "tripWindowNoteRoundTrip": "Rundreise-Modus: Setze hier den Gesamtzeitraum von der Abfahrt bis zur finalen Rückkehr fest. Alle Felder sind optional."
       },
       "maxDistance": "Max. km / Tag",
       "maxDriveTime": "Max. Fahrzeit / Tag",

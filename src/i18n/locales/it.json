@@ -812,6 +812,10 @@
       "departure": "Partenza",
       "arrival": "Arrivo",
       "optionalPlaceholder": "Opzionale",
+      "dates": {
+        "tripWindowNote": "Imposta il periodo del tuo viaggio. Tutti i campi sono opzionali.",
+        "tripWindowNoteRoundTrip": "Modalità viaggio di andata e ritorno: Imposta qui l'intero periodo, dalla partenza al ritorno finale. Tutti i campi sono opzionali."
+      },
       "maxDistance": "Max. km / giorno",
       "maxDriveTime": "Tempo di guida max / giorno",
       "targetRegions": {

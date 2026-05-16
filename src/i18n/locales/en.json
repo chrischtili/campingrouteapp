@@ -815,7 +815,8 @@
       "returnTime": "Arrival at return destination",
       "optionalPlaceholder": "Optional",
       "dates": {
-        "tripWindowNote": "Set the time frame for your entire journey (from first departure to final return)."
+        "tripWindowNote": "Set the time frame for your journey. All fields are optional.",
+        "tripWindowNoteRoundTrip": "Round trip mode: Set the entire period from departure to final return here. All fields are optional."
       },
       "maxDistance": "Max km / day",
       "maxDriveTime": "Max drive time / day",

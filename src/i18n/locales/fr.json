@@ -812,7 +812,11 @@
       "departure": "Départ",
       "arrival": "Arrivée",
       "optionalPlaceholder": "Optionnel",
-      "maxDistance": "Max km / jour",
+      "dates": {
+        "tripWindowNote": "Définissez la période de votre voyage. Tous les champs sont facultatifs.",
+        "tripWindowNoteRoundTrip": "Mode aller-retour : Définissez ici la période totale, du départ au retour final. Tous les champs sont facultatifs."
+      },
+      "maxDistance": "Max. km / jour",
       "maxDriveTime": "Temps de conduite max / jour",
       "targetRegions": {
         "label": "Régions & zones cibles",

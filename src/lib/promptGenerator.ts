@@ -481,12 +481,12 @@ export async function callAIAPIInternal(prompt: string, aiSettings: AISettings):
       headers = { 'Content-Type': 'application/json' };
       
       const geminiSystemMessage = lang.startsWith('de')
-        ? 'Du bist ein hilfreicher Routenplaner fuer Camping, Wohnmobil, Wohnwagen, Zelt und Motorrad. Antworte im Markdown-Format.'
-        : 'You are a helpful route planner for camping, RVs, caravans, tents, and motorcycles. Respond in Markdown format.';
+        ? 'Du bist ein hilfreicher Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt und Motorrad. Antworte STRENG im Markdown-Format. Nutze NIEMALS HTML-Tags wie <b> oder <i>. Nutze stattdessen **fett** oder *kursiv*.'
+        : 'You are a helpful route planner for camping, RVs, caravans, tents, and motorcycles. Respond STRICTLY in Markdown format. NEVER use HTML tags like <b> or <i>. Use **bold** or *italic* instead.';
 
       const truncationInstruction = lang.startsWith('de')
-        ? '\n\nWICHTIG: Erzeuge die Antwort IMMER vollständig. Brich niemals mitten im Satz oder mitten in einer Sektion ab. Wenn die Route sehr lang ist, fasse dich in den Beschreibungen etwas kürzer, aber liefere alle Sektionen (1 bis 9) und alle GPX-Blöcke bis zum Ende aus.'
-        : '\n\nIMPORTANT: Always generate the response completely. Never stop in the middle of a sentence or section. If the route is very long, be more concise in descriptions, but deliver all sections (1 to 9) and all GPX blocks until the very end.';
+        ? '\n\nWICHTIG: Erzeuge die Antwort IMMER vollständig. Nutze für die Formatierung ausschließlich Markdown (kein HTML). Brich niemals mitten im Satz oder mitten in einer Sektion ab. Wenn die Route sehr lang ist, fasse dich in den Beschreibungen etwas kürzer, aber liefere alle Sektionen (1 bis 9) und alle GPX-Blöcke bis zum Ende aus.'
+        : '\n\nIMPORTANT: Always generate the response completely. Use ONLY Markdown for formatting (no HTML). Never stop in the middle of a sentence or section. If the route is very long, be more concise in descriptions, but deliver all sections (1 to 9) and all GPX blocks until the very end.';
 
       requestData = {
         contents: [

@@ -283,7 +283,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       if (stage.booked) {
         // Deutlichere Kennzeichnung für die KI, dass dieser Stopp unveränderlich ist
         const bookedLabel = lang.startsWith('de') 
-          ? 'ZENTRALE ANKERPUNKT: Dieser Aufenthalt ist FEST GEBUCHT und UNVERÄNDERLICH'
+          ? 'ZENTRALER ANKERPUNKT: Dieser Aufenthalt ist FEST GEBUCHT und UNVERÄNDERLICH'
           : 'CENTRAL ANCHOR: This stay is FIXED BOOKED and CANNOT BE MOVED';
         lines.push(`• ${bookedLabel}`);
       }

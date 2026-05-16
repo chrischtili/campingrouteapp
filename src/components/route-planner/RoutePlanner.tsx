@@ -1381,6 +1381,42 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               </AccordionContent>
             </AccordionItem>
 
+            <AccordionItem value="vehicle" data-planner-section="vehicle" className={plannerAccordionItemClass}>
+              <AccordionTrigger className={plannerAccordionTriggerClass}>
+                {renderPlannerAccordionHeader(t("planner.vehicle.title"), vehicleSummary)}
+              </AccordionTrigger>
+              <AccordionContent className={plannerAccordionContentClass}>
+                <div className={plannerSectionClass}>
+                  <VehicleSection formData={formData} onChange={handleFormChange} />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="accommodation" data-planner-section="accommodation" className={plannerAccordionItemClass}>
+              <AccordionTrigger className={plannerAccordionTriggerClass}>
+                {renderPlannerAccordionHeader(t("planner.accommodation.title"), accommodationSummary)}
+              </AccordionTrigger>
+              <AccordionContent className={plannerAccordionContentClass}>
+                <div className={plannerSectionClass}>
+                  <AccommodationSection formData={formData} onChange={handleFormChange} onCheckboxChange={handleCheckboxChange} />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="optimization" data-planner-section="optimization" className={plannerAccordionItemClass}>
+              <AccordionTrigger className={plannerAccordionTriggerClass}>
+                {renderPlannerAccordionHeader(
+                  `${t("planner.optimization.title")} · ${t("planner.optimization.categories.roadType.label")} & ${t("planner.optimization.categories.restrictions.label")}`,
+                  optimizationSummary,
+                )}
+              </AccordionTrigger>
+              <AccordionContent className={plannerAccordionContentClass}>
+                <div className={plannerSectionClass}>
+                  <RouteOptimizationSection formData={formData} onCheckboxChange={handleCheckboxChange} onChange={handleFormChange} />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
             {showAISettingsSection && (
               <AccordionItem value="ai" data-planner-section="ai" className={plannerAccordionItemClass}>
                 <AccordionTrigger className={plannerAccordionTriggerClass}>

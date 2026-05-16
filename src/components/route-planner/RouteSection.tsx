@@ -186,18 +186,25 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
           <div className="flex flex-wrap items-center gap-4 w-full mt-2">
             <div className={cn(
-              "flex items-center justify-between gap-3 p-3 rounded-xl border transition-colors flex-1",
-              formData.routeType === "roundTrip" ? "bg-primary/5 border-primary/20" : "bg-white/40 dark:bg-white/5 border-slate-100 dark:border-white/5"
+              "flex flex-col gap-3 p-4 rounded-xl border transition-colors flex-1 min-w-[280px]",
+              "bg-white/40 dark:bg-white/5 border-slate-100 dark:border-white/5"
             )}>
-              <div className="space-y-0.5">
-                <div className="text-[11px] font-bold text-foreground dark:text-white">{t("planner.route.routeType.options.roundTrip", "Rundreise")}</div>
-                <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.roundTrip.description", "Du kehrst am Ende wieder zu deinem Startort zurück.")}</div>
-              </div>
-              <Switch
-                checked={formData.routeType === "roundTrip"}
-                onCheckedChange={(checked) => onChange({ routeType: checked ? "roundTrip" : "oneWay" })}
-                className={switchClass}
+              <Label className={fieldLabelClass}>
+                <Route className="w-3.5 h-3.5 text-primary" /> {t("planner.route.routeType.label")}
+              </Label>
+              <BadgeToggleGroup
+                name="routeType"
+                options={[
+                  { value: "oneWay", label: t("planner.route.routeType.options.oneWay") },
+                  { value: "roundTrip", label: t("planner.route.routeType.options.roundTrip") },
+                  { value: "multiStage", label: t("planner.route.routeType.options.multiStage") },
+                ]}
+                selectedValues={[formData.routeType]}
+                onChange={(_name, value, checked) => checked && onChange({ routeType: value })}
               />
+              <p className="text-[9px] text-foreground/50 dark:text-white/40 italic">
+                {formData.routeType === "roundTrip" ? t("planner.route.roundTrip.description") : ""}
+              </p>
             </div>
           </div>
         </div>

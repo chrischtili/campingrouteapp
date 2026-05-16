@@ -5,19 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.5.6] - 2026-05-15
+## [0.5.7] - 2026-05-15
+
+### Added
+- **UI**: Neue „Anker-Logik“ für Reiseziele: Markiere dein Hauptziel als fest gebucht, um die An- und Abreise exakt darum herum zu planen.
+- **UI**: Rundreisen-Toggle direkt beim Startpunkt für einen schnelleren Planungs-Flow.
+- **UX**: Intelligente Label-Anpassung: Felder zeigen nun den Namen des Ortes an (z.B. „Abreise Weingarten“ statt nur „Abreise“).
+- **UX**: Prompt-Regenerierung: Bei Änderungen an der Reise erscheint nun ein direkter Hinweis zum Aktualisieren des Prompts.
 
 ### Changed
-- **UI**: Logische Neu-Sortierung der Editor-Bereiche für einen intuitiveren Planungs-Flow: „Letzte Planungen“ steht nun für schnellen Zugriff ganz oben.
-- **UI**: Erhöhter Kontrast der Feld-Beschriftungen für deutlich bessere Lesbarkeit.
-- **UI**: Buttons zur Routen-Auswahl sind nun in allen Sprachen lokalisiert und nicht mehr in Großbuchstaben.
-- **UX**: Clarified button labels for "Generate without suggestion" fallback.
+- **UI**: Optimiertes Layout für Datums- und Zeitfelder (nebeneinander statt untereinander).
+- **UI**: Fehlende Uhrzeit-Icons in allen Zeitfeldern nachgetragen.
 
 ### Fixed
-- **Maps**: Stabilisierte Kartendarstellung und Zentrierung für die KI-Routenvorschläge.
-- **I18n**: Fehlende Übersetzungen für den Bereich der Routenvorschläge in allen 5 Sprachen ergänzt.
+- **I18n**: Alle neuen Funktionen sind vollständig in alle 5 Sprachen übersetzt.
+- **Grammar**: Korrektur von „Zentrale Ankerpunkt“ zu „Zentraler Ankerpunkt“.
 
-## [0.5.5] - 2026-04-28
+## [0.5.6] - 2026-05-15
 
 ### Changed
 - **Feedback**: Wenn "Nicht hilfreich" ausgewählt wird, ist das Feld "Was sollte ich verbessern?" nun ein Pflichtfeld.

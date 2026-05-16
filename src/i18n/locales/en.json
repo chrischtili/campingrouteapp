@@ -590,6 +590,8 @@
       "generateWithoutConcept": "Generate own route (without suggestion)",
       "chooseRoute": "Choose this route",
       "generatePrompt": "Create Prompt",
+      "updatePrompt": "Update Prompt",
+      "updateRoute": "Update Route",
       "finishPrompt": "Finish",
       "copyPrompt": "Copy Prompt"
     },
@@ -769,8 +771,20 @@
         "placeholder": "e.g. London"
       },
       "destinationBooked": {
-        "label": "Place at destination already booked",
-        "description": "If enabled, AI should not search for an overnight place at the destination."
+        "label": "Fixed booking / reserved",
+        "description": "Mark your primary destination as a fixed anchor point.",
+        "note": "✨ Fixed stay: The AI will plan the arrival and departure exactly around this fixed period."
+      },
+      "stages": {
+        "title": "Stops",
+        "add": "Add stop",
+        "addSimple": "Add stop",
+        "empty": "No stops added yet.",
+        "stop": "Stop {{num}}",
+        "placeholder": "e.g. City, region or landmark",
+        "booked": "Fixed booking / reserved",
+        "details": "Details",
+        "bookedNote": "✨ Fixed stay: The AI will treat this period as immutable and plan the rest of the route around it."
       },
       "stage": {
         "label": "Stop {{num}}",
@@ -781,13 +795,21 @@
         "departureDate": "Departure",
         "departureTime": "Departure time",
         "bookedLabel": "Place at stop {{num}} already booked",
+        "bookedLabelWithName": "Place in {{name}} already booked",
         "bookedDescription": "If enabled, AI should not search for an overnight place at this stop.",
         "detailsLabel": "Plan stop {{num}} in more detail",
-        "detailsDescription": "Optionally define arrival and departure for this stop."
+        "detailsLabelWithName": "Plan stop {{num}} ({{name}}) in more detail",
+        "detailsDescription": "Optionally define arrival and departure for this stop.",
+        "details": "Details"
       },
       "departure": "Departure",
       "arrival": "Arrival",
+      "return": "Return to",
+      "returnTime": "Arrival at return destination",
       "optionalPlaceholder": "Optional",
+      "dates": {
+        "tripWindowNote": "Set the time frame for your entire journey (from first departure to final return)."
+      },
       "maxDistance": "Max km / day",
       "maxDriveTime": "Max drive time / day",
       "targetRegions": {
@@ -1254,7 +1276,10 @@
         "description": "Copy the text and paste it into your preferred AI (e.g. ChatGPT, Gemini or Mistral)."
       },
       "results": {
-        "title": "Your results"
+        "title": "Your Results"
+      },
+      "stale": {
+        "message": "Your travel plans have changed. Update the prompt to incorporate the latest data."
       },
       "print": {
         "gpxError": "No GPX data."
@@ -1537,11 +1562,11 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "uiReorder": "Better overview: The camping editor has been logically reordered – 'Saved Plans' are now at the top for quick access.",
-        "readability": "Higher contrast: Labels in the editor are now much easier to read.",
-        "uiButtons": "UI Polish: Route selection buttons are no longer uppercase and are localized for all languages.",
-        "mapFix": "Map Fix: Map display for AI route suggestions has been stabilized and now centers correctly.",
-        "faq": "New FAQ: A new entry explains in detail how you can use AI directly within the tool."
+        "anchors": "Anchor Planning: Mark your main destination as fixed to have the AI plan your arrival and departure exactly around it.",
+        "roundTrip": "Round Trip Shortcut: Enable round trips directly at the starting point for an even faster planning flow.",
+        "contextLabels": "Smart Labeling: Input fields now directly show your location name (e.g. 'Departure Weingarten').",
+        "updateUX": "Prompt Refresh: When you change your plans, you can now instantly update the prompt with one click.",
+        "uiPolish": "UI Polish: Date and time fields are now more clearly arranged and equipped with matching icons."
       },
       "dismiss": "Got it",
       "release": "View release"

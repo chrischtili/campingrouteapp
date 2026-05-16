@@ -590,6 +590,8 @@
       "generateWithoutConcept": "Eigene Route (ohne Vorschlag) generieren",
       "chooseRoute": "Diese Route wählen",
       "generatePrompt": "Prompt erstellen",
+      "updatePrompt": "Prompt aktualisieren",
+      "updateRoute": "Route aktualisieren",
       "finishPrompt": "Fertigstellen",
       "copyPrompt": "Prompt kopieren"
     },
@@ -769,8 +771,27 @@
         "placeholder": "z.B. Gardasee"
       },
       "destinationBooked": {
-        "label": "Platz am Ziel schon gebucht",
-        "description": "Wenn aktiviert, soll die KI am Ziel keinen Übernachtungsplatz suchen."
+        "label": "Fest gebucht / reserviert",
+        "description": "Markiere dein Hauptziel als festen Ankerpunkt.",
+        "note": "✨ Fixer Aufenthalt: Die KI plant die An- und Abreise exakt um diesen festen Zeitraum herum."
+      },
+      "destinationStayPlanned": {
+        "label": "Aufenthalt am Ziel planen",
+        "description": "Lege fest, wann du am Hauptziel ankommen und wieder abfahren möchtest."
+      },
+      "roundTrip": {
+        "description": "Du kehrst am Ende wieder zu deinem Startort zurück."
+      },
+      "stages": {
+        "title": "Zwischenziele",
+        "add": "Ziel hinzufügen",
+        "addSimple": "Stopp hinzufügen",
+        "empty": "Noch keine Zwischenziele hinzugefügt.",
+        "stop": "Zwischenstopp {{num}}",
+        "placeholder": "z. B. Stadt, Region oder Sehenswürdigkeit",
+        "booked": "Fest gebucht / reserviert",
+        "details": "Details",
+        "bookedNote": "✨ Fixer Aufenthalt: Die KI wird diesen Zeitraum als unveränderlich betrachten und die restliche Route darum herum planen."
       },
       "stage": {
         "label": "Zwischenziel {{num}}",
@@ -781,13 +802,21 @@
         "departureDate": "Abfahrt vom",
         "departureTime": "Abfahrtszeit",
         "bookedLabel": "Platz am Zwischenziel {{num}} schon gebucht",
+        "bookedLabelWithName": "Platz in {{name}} schon gebucht",
         "bookedDescription": "Wenn aktiviert, soll die KI an diesem Zwischenziel keinen Übernachtungsplatz suchen.",
         "detailsLabel": "Zwischenziel {{num}} genauer planen",
-        "detailsDescription": "Ankunft und Abfahrt für diesen Zwischenstopp optional festlegen."
+        "detailsLabelWithName": "Zwischenziel {{num}} ({{name}}) genauer planen",
+        "detailsDescription": "Ankunft und Abfahrt für diesen Zwischenstopp optional festlegen.",
+        "details": "Details"
       },
       "departure": "Abreise",
       "arrival": "Ankunft",
+      "return": "Rückkehr nach",
+      "returnTime": "Ankunft am Rückkehrziel",
       "optionalPlaceholder": "Optional",
+      "dates": {
+        "tripWindowNote": "Lege hier den Zeitraum für deine gesamte Reise (von der ersten Abfahrt bis zur endgültigen Rückkehr) fest."
+      },
       "maxDistance": "Max. km / Tag",
       "maxDriveTime": "Max. Fahrzeit / Tag",
       "targetRegions": {
@@ -1256,6 +1285,9 @@
       "results": {
         "title": "Deine Ergebnisse"
       },
+      "stale": {
+        "message": "Deine Reisepläne haben sich geändert. Aktualisiere den Prompt, um die neuesten Daten zu übernehmen."
+      },
       "print": {
         "gpxError": "Keine GPX-Daten."
       },
@@ -1490,14 +1522,15 @@
       "stageArrivalDate": "Ankunft am Zwischenziel {{num}}",
       "startDeparture": "Abreise am Startpunkt",
       "startDepartureTime": "Abfahrtszeit am Startpunkt",
-      "finalArrival": "Ankunft am Ziel",
-      "finalArrivalTime": "Ankunftszeit am Ziel",
-      "stageArrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
-      "stageDepartureDate": "Abfahrt vom Zwischenziel {{num}}",
-      "stageDepartureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
-      "stageBookedNoSearch": "Zwischenziel {{num}}: Platz bereits gebucht (keine Suche nach Übernachtungsplatz an diesem Zwischenziel)",
-      "destinationDepartureDate": "Abfahrt vom Ziel"
-    },
+        "finalArrival": "Ankunft am Ziel",
+        "finalDeparture": "Abreise vom Ziel",
+        "finalArrivalTime": "Ankunftszeit am Ziel",
+        "stageArrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
+        "stageDepartureDate": "Abfahrt vom Zwischenziel {{num}}",
+        "stageDepartureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+        "stageBookedNoSearch": "Zwischenziel {{num}}: Platz bereits gebucht (keine Suche nach Übernachtungsplatz an diesem Zwischenziel)",
+        "destinationDepartureDate": "Abfahrt vom Ziel"
+      },
     "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1) Etappenplanung (Tageskilometer, Fahrzeit, geplante Abfahrts- und Ankunftszeiten je Fahrtabschnitt, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2) Übernachtungen (nutze ausschließlich Daten von https://opencampingmap.org. Nenne nur Plätze, die dort auffindbar sind. Für jeden vorgeschlagenen Hauptplatz und jede Alternative gib zwei Links an: 1) den Link zur Seite auf OpenCampingMap und 2) den dort hinterlegten offiziellen Platz-Link (falls eingetragen). Gib für jeden Platz einen funktionierenden OpenCampingMap-Link an (direkter Platzlink oder Kartenlink). Wenn einer der beiden Links fehlt, schreibe das klar dazu. Erfinde keine Plätze, Links, Adressen oder Telefonnummern. Nenne grobe Preisbereiche nur als Richtwerte und suche weiterhin mindestens eine Alternative pro Übernachtung.)\n\n3) Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4) Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5) Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6) Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7) Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8) Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9) Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Gib für jeden Fahrtabschnitt klar an, von welchem Ort an welchem Datum und zu welcher Uhrzeit abgefahren wird und an welchem Ort an welchem Datum und zu welcher Uhrzeit die Ankunft geplant ist. Wenn ich nur Ankunftsdaten/-zeiten oder nur Abfahrtsdaten/-zeiten vorgebe, berechne die fehlenden Zeiten logisch aus den übrigen Angaben, Tageslimits und Etappen. Nenne diese Zeiten als realistische Planung bzw. Schätzung.\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
     "instructionsCamperPlanning": "\n\nWichtig: Bewerte jede Etappe zusätzlich aus Sicht des gewählten Fahrzeugtyps mit einer kurzen Einschätzung wie \"unkritisch\", \"mit Vorsicht\" oder \"für dieses Fahrzeug eher ungeeignet\" und begründe das knapp.\n\nWichtig: Plane fahrzeugrelevante Versorgungs- und Service-Logik mit ein. Weise sinnvoll darauf hin, wann z. B. Frischwasser, Entsorgung, Tanken, Einkaufen, Strom, sanitäre Stopps oder andere passende Services eingeplant werden sollten.\n\nWichtig: Ordne vorgeschlagene Übernachtungsorte kurz ein, z. B. als Durchreise-Stopp, guter 2-3-Nächte-Platz oder Urlaubsziel. Wenn ich Regionen/Zielgebiete vorgebe oder längere Stopps an schönen Orten wünsche, plane dort bewusst mehr Zeit ein, statt nur möglichst viele Ortswechsel zu erzeugen. Verwende diese drei Begriffe nach Möglichkeit wörtlich.\n\nWichtig: Gib bei jeder Etappe möglichst eine eigene Zeile im Stil \"Bewertung: unkritisch\" oder \"Bewertung: mit Vorsicht\" oder \"Bewertung: eher ungeeignet\" plus kurzem Grund an, damit die Einschätzung klar erkennbar bleibt.",
     "verificationInstruction": "\n\nWichtig: Verwende das Wort \"UNGESICHERT\" sparsam und nur bei wirklich entscheidungsrelevanten, nicht sicher verifizierten Angaben. Das gilt besonders für Verfügbarkeit, aktuelle Preise, Öffnungszeiten, Zufahrten, Sperrungen, Straßenzustand, saisonale Einschränkungen und lokale Regeln.\n\nWichtig: Setze \"UNGESICHERT\" nicht in fast jeden Satz und nicht bei jeder groben Distanz- oder Fahrzeit-Schätzung. Bündele Unsicherheiten lieber in einem kurzen Hinweis pro Etappe, Übernachtungsplatz oder Abschnitt, statt jedes einzelne Detail zu markieren.\n\nWichtig: Beende die Antwort mit einer kurzen manuellen Prüfliste mit genau diesen vier Punkten: \"Zufahrt prüfen\", \"aktuelle Sperrungen prüfen\", \"Verfügbarkeit prüfen\" und \"lokale Regeln prüfen\".",
@@ -1536,11 +1569,11 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "uiReorder": "Bessere Übersicht: Der Camping-Editor wurde logisch neu sortiert – „Letzte Planungen“ stehen für schnellen Zugriff nun ganz oben.",
-        "readability": "Höherer Kontrast: Die Beschriftungen im Editor sind nun deutlich besser lesbar.",
-        "uiButtons": "UI-Feinschliff: Die Buttons zur Routenauswahl wurden von Großbuchstaben befreit und sind nun in allen Sprachen lokalisiert.",
-        "mapFix": "Karten-Fix: Die Kartendarstellung bei den KI-Routenvorschlägen wurde stabilisiert und zentriert nun korrekt.",
-        "faq": "Neue FAQ: Ein neuer Eintrag erklärt im Detail, wie du die KI direkt im Tool nutzen kannst."
+        "anchors": "Anker-Planung: Markiere dein Hauptziel als fest gebucht, um die An- und Abreise exakt darum herum planen zu lassen.",
+        "roundTrip": "Rundreisen-Shortcut: Aktiviere Rundreisen nun direkt beim Startpunkt für einen noch schnelleren Flow.",
+        "contextLabels": "Intelligente Beschriftung: Die Eingabefelder zeigen nun direkt den Namen deines Ortes an (z.B. „Abreise Weingarten“).",
+        "updateUX": "Prompt-Aktualisierung: Bei Änderungen an deinen Plänen kannst du den Prompt nun sofort mit einem Klick aktualisieren.",
+        "uiPolish": "Layout-Feinschliff: Datums- und Zeitfelder sind nun übersichtlicher angeordnet und mit passenden Icons versehen."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

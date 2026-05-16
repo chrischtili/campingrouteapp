@@ -281,13 +281,17 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       if (!stage.destination?.trim()) return '';
       const lines = [`• ${t('prompt.labels.stage', { num: index + 1 })}: ${stage.destination.trim()}`];
       if (stage.booked) {
-        lines.push(`• ${t('prompt.labels.stageBookedNoSearch', { num: index + 1 })}`);
+        // Deutlichere Kennzeichnung für die KI, dass dieser Stopp unveränderlich ist
+        const bookedLabel = lang.startsWith('de') 
+          ? 'ZENTRALE ANKERPUNKT: Dieser Aufenthalt ist FEST GEBUCHT und UNVERÄNDERLICH'
+          : 'CENTRAL ANCHOR: This stay is FIXED BOOKED and CANNOT BE MOVED';
+        lines.push(`• ${bookedLabel}`);
       }
-      if (stage.detailsEnabled) {
-        if (stage.arrivalDate) lines.push(`• ${t('prompt.labels.stageArrivalDate', { num: index + 1 })}: ${formatDate(stage.arrivalDate)}`);
-        if (stage.arrivalTime) lines.push(`• ${t('prompt.labels.stageArrivalTime', { num: index + 1 })}: ${stage.arrivalTime}`);
-        if (stage.departureDate) lines.push(`• ${t('prompt.labels.stageDepartureDate', { num: index + 1 })}: ${formatDate(stage.departureDate)}`);
-        if (stage.departureTime) lines.push(`• ${t('prompt.labels.stageDepartureTime', { num: index + 1 })}: ${stage.departureTime}`);
+      if (stage.detailsEnabled || stage.booked) {
+        if (stage.arrivalDate) lines.push(`  - ${t('prompt.labels.stageArrivalDate', { num: index + 1 })}: ${formatDate(stage.arrivalDate)}`);
+        if (stage.arrivalTime) lines.push(`  - ${t('prompt.labels.stageArrivalTime', { num: index + 1 })}: ${stage.arrivalTime}`);
+        if (stage.departureDate) lines.push(`  - ${t('prompt.labels.stageDepartureDate', { num: index + 1 })}: ${formatDate(stage.departureDate)}`);
+        if (stage.departureTime) lines.push(`  - ${t('prompt.labels.stageDepartureTime', { num: index + 1 })}: ${stage.departureTime}`);
       }
       return lines.join('\n');
     })
@@ -297,6 +301,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const routeLines = [
     `• ${t('prompt.labels.start')}: ${data.startPoint}`,
     `• ${t('prompt.labels.destination')}: ${data.destination}`,
+    data.destinationBooked ? `• ZENTRALER ANKERPUNKT: Der Aufenthalt am Zielort ${data.destination} ist FEST GEBUCHT und UNVERÄNDERLICH.` : '',
+    data.destinationArrivalDate ? `  - ${t('prompt.labels.finalArrival')}: ${formatDate(data.destinationArrivalDate)}` : '',
+    data.destinationDepartureDate ? `  - ${t('prompt.labels.finalDeparture')}: ${formatDate(data.destinationDepartureDate)}` : '',
     data.targetRegions ? `• ${t('prompt.labels.targetRegions')}: ${data.targetRegions}` : '',
     data.preferScenicLongerStops ? `• ${t('prompt.labels.preferScenicLongerStops')}` : '',
     data.destinationBooked ? `• ${t('prompt.labels.destinationBookedNoSearch')}` : '',

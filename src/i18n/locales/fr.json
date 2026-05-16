@@ -590,6 +590,8 @@
       "generateWithoutConcept": "Générer mon propre itinéraire (sans suggestion)",
       "chooseRoute": "Choisir cet itinéraire",
       "generatePrompt": "Créer le prompt",
+      "updatePrompt": "Mettre à jour le prompt",
+      "updateRoute": "Mettre à jour l'itinéraire",
       "finishPrompt": "Terminer",
       "copyPrompt": "Copier le prompt"
     },
@@ -769,8 +771,20 @@
         "placeholder": "ex. Londres"
       },
       "destinationBooked": {
-        "label": "Place à destination déjà réservée",
-        "description": "Si activé, l'IA ne doit pas rechercher de nuitée à la destination."
+        "label": "Fixé / réservé",
+        "description": "Marquez votre destination principale comme un point d'ancrage fixe.",
+        "note": "✨ Séjour fixe : L'IA planifiera l'arrivée et le départ exactement autour de cette période fixe."
+      },
+      "stages": {
+        "title": "Étapes",
+        "add": "Ajouter une étape",
+        "addSimple": "Ajouter un arrêt",
+        "empty": "Aucune étape ajoutée pour le moment.",
+        "stop": "Arrêt {{num}}",
+        "placeholder": "p. ex. ville, région ou curiosité",
+        "booked": "Fixé / réservé",
+        "details": "Détails",
+        "bookedNote": "✨ Séjour fixe : L'IA traitera cette période comme immuable et planifiera le reste de l'itinéraire autour d'elle."
       },
       "stage": {
         "label": "Arrêt {{num}}",
@@ -781,9 +795,12 @@
         "departureDate": "Départ",
         "departureTime": "Heure de départ",
         "bookedLabel": "Place à l’arrêt {{num}} déjà réservée",
+        "bookedLabelWithName": "Place à {{name}} déjà réservée",
         "bookedDescription": "Si activé, l'IA ne doit pas rechercher de nuitée à cet arrêt.",
         "detailsLabel": "Planifier l’arrêt {{num}} plus précisément",
-        "detailsDescription": "Définis si besoin l’arrivée et le départ pour cet arrêt."
+        "detailsLabelWithName": "Planifier l’arrêt {{num}} ({{name}}) plus précisément",
+        "detailsDescription": "Définis si besoin l’arrivée et le départ pour cet arrêt.",
+        "details": "Détails"
       },
       "departure": "Départ",
       "arrival": "Arrivée",
@@ -1256,6 +1273,9 @@
       "results": {
         "title": "Vos résultats"
       },
+      "stale": {
+        "message": "Vos projets de voyage ont changé. Mettez à jour le prompt pour inclure les dernières données."
+      },
       "print": {
         "gpxError": "Aucune donnée GPX."
       },
@@ -1537,11 +1557,11 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "uiReorder": "Meilleure vue d'ensemble : L'éditeur de camping a été logiquement réorganisé, en commençant par l'itinéraire et le véhicule.",
-        "readability": "Contraste plus élevé : Les étiquettes dans l'éditeur sont désormais beaucoup plus faciles à lire.",
-        "uiButtons": "Peaufinage UI : Les boutons de sélection d'itinéraire ne sont plus en majuscules et sont localisés dans toutes les langues.",
-        "mapFix": "Correction de la carte : L'affichage de la carte pour les suggestions d'itinéraires IA a été stabilisé et se centre désormais correctement.",
-        "faq": "Nouvelle FAQ : Une nouvelle entrée explique en détail comment utiliser l'IA directement dans l'outil."
+        "anchors": "Planification d’ancrage : marquez votre destination principale comme fixe pour que l’IA planifie votre arrivée et votre départ exactement autour d’elle.",
+        "roundTrip": "Raccourci voyage aller-retour : activez les voyages aller-retour directement au point de départ pour un flux de planification encore plus rapide.",
+        "contextLabels": "Étiquetage intelligent : les champs de saisie affichent désormais directement le nom de votre emplacement (par ex. « Départ Weingarten »).",
+        "updateUX": "Actualisation du prompt : lorsque vous modifiez vos plans, vous pouvez désormais actualiser instantanément le prompt en un clic.",
+        "uiPolish": "Peaufinage de l’UI : les champs de date et d’heure sont désormais disposés plus clairement et équipés d’icônes correspondantes."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

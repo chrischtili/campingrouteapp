@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner
 
-[![Version](https://img.shields.io/badge/version-v0.5.6-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.7-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -12,14 +12,14 @@
 
 ---
 
-## 🌟 Highlights (v0.5.6)
+## 🌟 Highlights (v0.5.7)
 
-- **Optimierter Workflow**: Logische Neu-Sortierung der Editor-Bereiche für einen intuitiveren Planungs-Flow.
-- **Schneller Zugriff**: „Letzte Planungen“ stehen nun für schnellen Zugriff auf Entwürfe ganz oben.
-- **Bessere Lesbarkeit**: Erhöhter Kontrast der Feld-Beschriftungen und UI-Feinschliff für alle Buttons.
-- **Präzise Karten**: Stabilisierte Kartendarstellung und korrekte Zentrierung für KI-Routenvorschläge inklusive Tooltips.
-- **Mehrsprachig**: Volle Unterstützung für Deutsch 🇩🇪, Englisch 🇬🇧, Niederländisch 🇳🇱, Französisch 🇫🇷, Italienisch 🇮🇹.
-- **KI-gestützte Planung**: Erstellt strukturierte Prompts für ChatGPT, Claude & Co. inklusive GPX-Export-Befehlen.
+- **Anker-Planung**: Markiere dein Hauptziel als fest gebucht, um die An- und Abreise exakt darum herum planen zu lassen.
+- **Rundreisen-Shortcut**: Aktiviere Rundreisen nun direkt beim Startpunkt für einen noch schnelleren Flow.
+- **Intelligente Beschriftung**: Eingabefelder zeigen nun dynamisch den Namen deines Ortes an (z.B. „Abreise Weingarten“).
+- **Prompt-Aktualisierung**: Bei Änderungen an deinen Plänen kannst du den Prompt nun sofort mit einem Klick aktualisieren.
+- **UI-Feinschliff**: Optimiertes Layout für Datums- und Zeitfelder für bessere Übersicht.
+- **Vollständig lokalisiert**: Alle neuen Funktionen sind in allen 5 Sprachen (DE, EN, NL, FR, IT) verfügbar.
 
 ## 📦 Features
 
@@ -51,14 +51,14 @@
 
 **The AI Route Planner specifically for RVs & Campers!**
 
-### 🌟 Highlights (v0.5.6)
+### 🌟 Highlights (v0.5.7)
 
-- **Optimized Workflow**: Logical reordering of editor sections for a more intuitive planning flow.
-- **Quick Access**: 'Saved Plans' are now at the top for fast access to your drafts.
-- **Better Readability**: Increased contrast for labels and UI polish for all buttons.
-- **Precise Maps**: Stabilized map display and correct centering for AI route suggestions, including tooltips.
-- **Multilingual**: Full support for German 🇩🇪, English 🇬🇧, Dutch 🇳🇱, French 🇫🇷, Italian 🇮🇹.
-- **AI-Powered Planning**: Creates structured prompts for ChatGPT, Claude & others, including GPX export commands.
+- **Anchor Planning**: Mark your main destination as fixed to have the AI plan your arrival and departure exactly around it.
+- **Round Trip Shortcut**: Enable round trips directly at the starting point for an even faster planning flow.
+- **Smart Labeling**: Input fields now dynamically show your location name (e.g. 'Departure Weingarten').
+- **Prompt Refresh**: When you change your plans, you can now instantly update the prompt with one click.
+- **UI Polish**: Optimized layout for date and time fields for better overview.
+- **Fully Localized**: All new features are available in all 5 languages (DE, EN, NL, FR, IT).
 
 ### 📦 Features
 

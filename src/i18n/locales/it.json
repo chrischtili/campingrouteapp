@@ -590,6 +590,8 @@
       "generateWithoutConcept": "Genera il mio percorso (senza suggerimento)",
       "chooseRoute": "Scegli questo percorso",
       "generatePrompt": "Crea prompt",
+      "updatePrompt": "Aggiorna prompt",
+      "updateRoute": "Aggiorna itinerario",
       "finishPrompt": "Concludi",
       "copyPrompt": "Copia prompt"
     },
@@ -769,8 +771,20 @@
         "placeholder": "ad es. Lago di Garda"
       },
       "destinationBooked": {
-        "label": "Posto alla destinazione già prenotato",
-        "description": "Se attivo, l'IA non deve cercare un pernottamento alla destinazione."
+        "label": "Prenotato / riservato",
+        "description": "Segna la tua destinazione principale come punto di ancoraggio fisso.",
+        "note": "✨ Soggiorno fisso: L'IA pianificherà l'arrivo e la partenza esattamente intorno a questo periodo fisso."
+      },
+      "stages": {
+        "title": "Tappe intermedie",
+        "add": "Aggiungi tappa",
+        "addSimple": "Aggiungi tappa",
+        "empty": "Nessuna tappa aggiunta ancora.",
+        "stop": "Tappa intermedia {{num}}",
+        "placeholder": "ad es. città, regione o attrazione",
+        "booked": "Prenotato / riservato",
+        "details": "Dettagli",
+        "bookedNote": "✨ Soggiorno fisso: L'IA considererà questo periodo come immutabile e pianificherà il resto del percorso intorno ad esso."
       },
       "stage": {
         "label": "Tappa intermedia {{num}}",
@@ -781,9 +795,12 @@
         "departureDate": "Partenza",
         "departureTime": "Orario di partenza",
         "bookedLabel": "Posto alla tappa intermedia {{num}} già prenotato",
+        "bookedLabelWithName": "Posto a {{name}} già prenotato",
         "bookedDescription": "Se attivo, l'IA non deve cercare un pernottamento in questa tappa.",
         "detailsLabel": "Pianifica meglio la tappa intermedia {{num}}",
-        "detailsDescription": "Definisci facoltativamente arrivo e partenza per questa tappa."
+        "detailsLabelWithName": "Pianifica meglio la tappa intermedia {{num}} ({{name}})",
+        "detailsDescription": "Definisci facoltativamente arrivo e partenza per questa tappa.",
+        "details": "Dettagli"
       },
       "departure": "Partenza",
       "arrival": "Arrivo",
@@ -1256,6 +1273,9 @@
       "results": {
         "title": "I tuoi risultati"
       },
+      "stale": {
+        "message": "I tuoi piani di viaggio sono cambiati. Aggiorna il prompt per includere i dati più recenti."
+      },
       "print": {
         "gpxError": "Nessun dato GPX."
       },
@@ -1536,11 +1556,11 @@
       "title": "Novità nella {{version}}",
       "description": "Le modifiche principali della release attuale vengono mostrate solo una volta per versione.",
       "items": {
-        "uiReorder": "Migliore panoramica: L'editor del campeggio è stato logicamente riordinato, a partire dall'itinerario e dal veicolo.",
-        "readability": "Contrasto più elevato: Le etichette nell'editor sono ora molto più facili da leggere.",
-        "uiButtons": "Rifinitura UI: I pulsanti di selezione del percorso non sono più in maiuscolo e sono localizzati per tutte le lingue.",
-        "mapFix": "Fix mappa: La visualizzazione della mappa per i suggerimenti di percorso IA è stata stabilizzata e ora si centra correttamente.",
-        "faq": "Nuove FAQ: Una nuova voce spiega in dettaglio come utilizzare l'IA direttamente nello strumento."
+        "anchors": "Pianificazione ancoraggio: segna la tua destinazione principale come fissa per fare in modo che l’IA pianifichi il tuo arrivo e la tua partenza esattamente intorno ad essa.",
+        "roundTrip": "Scorciatoia viaggio di andata e ritorno: abilita i viaggi di andata e ritorno direttamente al punto di partenza per un flusso di pianificazione ancora più veloce.",
+        "contextLabels": "Etichettatura intelligente: i campi di inserimento mostrano ora direttamente il nome della tua località (ad es. 'Partenza Weingarten').",
+        "updateUX": "Aggiornamento prompt: quando modifichi i tuoi piani, puoi ora aggiornare istantaneamente il prompt con un clic.",
+        "uiPolish": "Rifinitura UI: i campi data e ora sono ora disposti più chiaramente e dotati di icone corrispondenti."
       },
       "dismiss": "Capito",
       "release": "Vedi release"

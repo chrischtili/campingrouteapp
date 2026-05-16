@@ -11,6 +11,8 @@ import { RoutePreviewMap } from "./RoutePreviewMap";
 interface OutputSectionProps {
   output: string;
   isLoading: boolean;
+  isStale?: boolean;
+  onRegenerate?: () => void;
   loadingMessage?: string;
   aiModel?: string;
   aiError?: string;
@@ -51,6 +53,8 @@ interface StageRiskItem {
 export function OutputSection({ 
   output, 
   isLoading, 
+  isStale,
+  onRegenerate,
   loadingMessage, 
   aiModel, 
   aiError, 
@@ -769,6 +773,31 @@ ${gpxOnly}`;
       className="output-scope space-y-6"
     >
       <div className="relative group">
+        {isStale && !isLoading && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <Alert className="rounded-2xl border-primary/25 bg-primary/5 dark:bg-primary/10 shadow-lg shadow-primary/5">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <AlertDescription className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <span className="text-xs sm:text-sm font-bold text-foreground dark:text-white/90">
+                  {t("planner.output.stale.message")}
+                </span>
+                <Button 
+                  size="sm" 
+                  onClick={onRegenerate}
+                  className="h-9 rounded-xl bg-primary text-white hover:bg-primary/90 font-black text-[10px] tracking-widest uppercase shadow-md shadow-primary/20 shrink-0"
+                >
+                  <Sparkles className="w-3 h-3 mr-1.5" />
+                  {useDirectAI ? t("planner.nav.updateRoute") : t("planner.nav.updatePrompt")}
+                </Button>
+              </AlertDescription>
+            </Alert>
+          </motion.div>
+        )}
+
         <div
           className={`relative overflow-hidden ${
             isMobile

@@ -595,6 +595,8 @@
       "next": "Verder",
       "generateRoute": "Route genereren",
       "generatePrompt": "Prompt maken",
+      "updatePrompt": "Prompt bijwerken",
+      "updateRoute": "Route bijwerken",
       "generateConcepts": "Routevoorstellen genereren",
       "generateWithoutConcept": "Eigen route (zonder voorstel) genereren",
       "chooseRoute": "Deze route kiezen",
@@ -777,8 +779,20 @@
         "placeholder": "bijv. Parijs"
       },
       "destinationBooked": {
-        "label": "Plek op bestemming al geboekt",
-        "description": "Als dit actief is, mag de AI geen overnachtingsplek op de bestemming zoeken."
+        "label": "Vast geboekt / gereserveerd",
+        "description": "Markeer je hoofdbestemming als een vast ankerpunt.",
+        "note": "✨ Vast verblijf: De AI plant de aankomst en het vertrek precies rond deze vaste periode."
+      },
+      "stages": {
+        "title": "Tussenstops",
+        "add": "Stop toevoegen",
+        "addSimple": "Stop toevoegen",
+        "empty": "Nog geen tussenstops toegevoegd.",
+        "stop": "Tussenstop {{num}}",
+        "placeholder": "bijv. stad, regio of bezienswaardigheid",
+        "booked": "Vast geboekt / gereserveerd",
+        "details": "Details",
+        "bookedNote": "✨ Vast verblijf: De AI beschouwt deze periode als onveranderlijk en plant de rest van de route eromheen."
       },
       "stage": {
         "label": "Tussenstop {{num}}",
@@ -789,9 +803,12 @@
         "departureDate": "Vertrek",
         "departureTime": "Vertrektijd",
         "bookedLabel": "Plek bij tussenstop {{num}} al geboekt",
+        "bookedLabelWithName": "Plek in {{name}} al geboekt",
         "bookedDescription": "Als dit actief is, mag de AI geen overnachtingsplek bij deze tussenstop zoeken.",
         "detailsLabel": "Tussenstop {{num}} nauwkeuriger plannen",
-        "detailsDescription": "Stel desgewenst aankomst en vertrek voor deze stop in."
+        "detailsLabelWithName": "Tussenstop {{num}} ({{name}}) nauwkeuriger plannen",
+        "detailsDescription": "Stel desgewenst aankomst en vertrek voor deze stop in.",
+        "details": "Details"
       },
       "departure": "Vertrek",
       "arrival": "Aankomst",
@@ -1264,6 +1281,9 @@
       "results": {
         "title": "Je resultaten"
       },
+      "stale": {
+        "message": "Je reisplannen zijn gewijzigd. Werk de prompt bij om de nieuwste gegevens op te nemen."
+      },
       "print": {
         "gpxError": "Geen GPX‑gegevens."
       },
@@ -1544,11 +1564,11 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "uiReorder": "Beter overzicht: De camping-editor is logisch opnieuw gesorteerd – „Laatste planningen” staan nu bovenaan voor snelle toegang.",
-        "readability": "Hoger contrast: Labels in de editor zijn nu veel beter leesbaar.",
-        "uiButtons": "UI-verfijning: De routekeuze-knoppen zijn niet meer in hoofdletters en zijn nu gelokaliseerd voor alle talen.",
-        "mapFix": "Kaartfix: De kaartweergave voor AI-routesuggesties is gestabiliseerd en centreert nu correct.",
-        "faq": "Nieuwe FAQ: Een nieuwe entry legt in detail uit hoe je AI direct binnen de tool kunt gebruiken."
+        "anchors": "Ankerplanning: Markeer je hoofdbestemming als vast om de AI je aankomst en vertrek er precies omheen te laten plannen.",
+        "roundTrip": "Rondreis-shortcut: Activeer rondreizen nu direct bij het startpunt voor een nog snellere flow.",
+        "contextLabels": "Slimme labels: De invoervelden tonen nu direct de naam van je locatie (bijv. „Vertrek Weingarten”).",
+        "updateUX": "Prompt vernieuwen: Bij wijzigingen in je plannen kun je de prompt nu direct met één klik bijwerken.",
+        "uiPolish": "UI-verfijning: Datum- en tijdvelden zijn nu overzichtelijker gerangschikt en voorzien van bijpassende iconen."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

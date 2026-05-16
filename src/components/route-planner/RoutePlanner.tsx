@@ -1026,7 +1026,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           
         setAiModel(getAIModelLabel(provider, model));
         setFeedbackEligible(true);
-        setPromptReadyToCopy(false);
+        setPromptReadyToCopy(true);
         void trackGeneration("route");
       } else {
         setLoadingMessage(t("planner.loading.prompt"));
@@ -1161,7 +1161,11 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           className="planner-primary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-primary/30 bg-primary px-5 font-semibold transition-all active:scale-95 hover:bg-primary/90"
                         >
                           <Bot className="h-4 w-4" />
-                          <span>{aiSettings.useDirectAI ? t("planner.nav.generateRoute") : t("planner.nav.finishPrompt")}</span>
+                          <span>
+                            {aiSettings.useDirectAI 
+                              ? (output ? t("planner.nav.updateRoute") : t("planner.nav.generateRoute")) 
+                              : (output && !promptReadyToCopy ? t("planner.nav.updatePrompt") : t("planner.nav.finishPrompt"))}
+                          </span>
                         </Button>
                       </div>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -1608,6 +1612,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                 <OutputSection
                   output={output}
                   isLoading={isLoading}
+                  isStale={!!output && !promptReadyToCopy}
+                  onRegenerate={() => runGeneration()}
                   loadingMessage={loadingMessage}
                   aiModel={aiModel}
                   aiError={aiError}
@@ -1674,8 +1680,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                 {aiSettings.useDirectAI 
                   ? (isConceptSelectionMode 
                       ? t("planner.nav.generateWithoutConcept") 
-                      : (output ? t("planner.nav.generateRoute") : t("planner.nav.generateConcepts"))) 
-                  : t("planner.nav.finishPrompt")}
+                      : (output ? t("planner.nav.updateRoute") : t("planner.nav.generateConcepts"))) 
+                  : (output && !promptReadyToCopy ? t("planner.nav.updatePrompt") : t("planner.nav.finishPrompt"))}
               </span>
             )}
           </Button>

@@ -21,7 +21,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.6");
+  const [releaseVersion, setReleaseVersion] = useState("0.5.7");
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);

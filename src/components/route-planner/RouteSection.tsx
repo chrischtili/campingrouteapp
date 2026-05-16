@@ -5,8 +5,8 @@ import { Switch } from "@/components/ui/switch";
 import { FormSlider } from "./FormSlider";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { Map as MapIcon, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, Clock3, X, ChevronRight, CheckCircle2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Map as MapIcon, MapPin, Calendar, Info, Sparkles, Plus, Trash2, Home, Route, Clock, X, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
@@ -133,16 +133,10 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     onChange({ stages: formData.stages.filter((_, currentIndex) => currentIndex !== index) });
   };
 
-  const buildStopLabel = (baseKey: string, index: number, destination?: string) => {
-    const baseLabel = t(baseKey, { num: index + 1 });
-    const trimmed = destination?.trim();
-    return trimmed ? `${baseLabel} (${trimmed})` : baseLabel;
-  };
-
-  const isReturnPlanned = formData.routeType === "roundTrip" || formData.destinationBooked || formData.destinationStayPlanned;
+  const isReturnTrip = formData.startPoint && formData.destination && formData.startPoint.toLowerCase().trim() === formData.destination.toLowerCase().trim();
   
   const getArrivalLabel = () => {
-    if (isReturnPlanned && formData.startPoint) {
+    if (isReturnTrip) {
       return `${t("planner.route.return", "Rückkehr nach")} ${formData.startPoint}`;
     }
     if (formData.destination) {
@@ -152,7 +146,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   };
 
   const getArrivalTimeLabel = () => {
-    if (isReturnPlanned && formData.startPoint) {
+    if (isReturnTrip) {
       return `${t("planner.route.returnTime", "Ankunft am Rückkehrziel")} ${formData.startPoint}`;
     }
     if (formData.destination) {
@@ -171,7 +165,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             {t("planner.route.start.label")}
             <span className="text-primary font-black">*</span>
           </Label>
-          <div className="relative w-full mb-4">
+          <div className="relative w-full">
             <input
               id="startPoint"
               placeholder={t("planner.route.start.placeholder")}
@@ -183,155 +177,26 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
           </div>
           {!formData.startPoint && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
-
-          <div className="flex flex-wrap items-center gap-4 w-full mt-2">
-            <div className={cn(
-              "flex flex-col gap-3 p-4 rounded-xl border transition-colors flex-1 min-w-[280px]",
-              "bg-white/40 dark:bg-white/5 border-slate-100 dark:border-white/5"
-            )}>
-              <Label className={fieldLabelClass}>
-                <Route className="w-3.5 h-3.5 text-primary" /> {t("planner.route.type.label")}
-              </Label>
-              <BadgeToggleGroup
-                name="routeType"
-                options={[
-                  { value: "oneWay", label: t("planner.route.type.options.oneWay") },
-                  { value: "roundTrip", label: t("planner.route.type.options.roundTrip") },
-                  { value: "multiStage", label: t("planner.route.type.options.multiStage") },
-                ]}
-                selectedValues={[formData.routeType]}
-                onChange={(_name, value, checked) => checked && onChange({ routeType: value })}
-              />
-              <p className="text-[9px] text-foreground/50 dark:text-white/40 italic">
-                {formData.routeType === "roundTrip" ? t("planner.route.roundTrip.description") : ""}
-              </p>
-            </div>
-          </div>
         </div>
 
-        <div className={cn(
-          "planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left transition-all duration-300",
-          formData.destinationBooked 
-            ? "border-emerald-500/40 bg-emerald-500/[0.03] dark:bg-emerald-500/[0.08]" 
-            : (formData.destinationStayPlanned ? "border-primary/20 bg-white/40 dark:bg-white/[0.03]" : "")
-        )} style={glassPanelStyle}>
-          <Label htmlFor="destination" className={cn(fieldLabelClass, formData.destinationBooked && "text-emerald-600 dark:text-emerald-400")}>
+        <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
+          <Label htmlFor="destination" className={fieldLabelClass}>
             <Home className="w-4 h-4 text-primary" />
             {t("planner.route.destination.label")}
             <span className="text-primary font-black">*</span>
           </Label>
-          <div className="relative w-full mb-4">
+          <div className="relative w-full">
             <input
               id="destination"
               placeholder={t("planner.route.destination.placeholder")}
               value={formData.destination}
               onChange={(e) => onChange({ destination: e.target.value })}
-              className={cn(inputClass, "pl-10", !formData.destination && "border-red-400/40", formData.destinationBooked && "border-emerald-500/30 focus:border-emerald-500/50")}
+              className={cn(inputClass, "pl-10", !formData.destination && "border-red-400/40")}
               required
             />
-            <Home className={cn("absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4", formData.destinationBooked ? "text-emerald-500/40" : "text-primary/40")} />
+            <Home className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
           </div>
           {!formData.destination && <div className={requiredError}>{t("planner.route.requiredHint")}</div>}
-
-          <div className="flex flex-wrap items-center gap-4 w-full mt-2">
-            <div className={cn(
-              "flex items-center justify-between gap-3 p-3 rounded-xl border transition-colors flex-1 min-w-[200px]",
-              formData.destinationStayPlanned || formData.destinationBooked ? "bg-white/60 dark:bg-white/10 border-primary/20" : "bg-white/40 dark:bg-white/5 border-slate-100 dark:border-white/5"
-            )}>
-              <div className="space-y-0.5">
-                <div className="text-[11px] font-bold text-foreground dark:text-white">{t("planner.route.destinationStayPlanned.label", "Aufenthalt am Ziel planen")}</div>
-                <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.destinationStayPlanned.description", "Lege fest, wann du am Hauptziel ankommen und wieder abfahren möchtest.")}</div>
-              </div>
-              <Switch
-                checked={!!formData.destinationStayPlanned || !!formData.destinationBooked}
-                onCheckedChange={(checked) => {
-                  onChange({ destinationStayPlanned: checked });
-                  if (!checked) onChange({ destinationBooked: false });
-                }}
-                className={switchClass}
-              />
-            </div>
-          </div>
-
-          {(formData.destinationStayPlanned || formData.destinationBooked) && (
-            <div className="space-y-4 pt-4 w-full border-t border-slate-100 dark:border-white/5 mt-4">
-              <div className={cn(
-                "flex items-center justify-between gap-3 p-3 rounded-xl border transition-colors",
-                formData.destinationBooked ? "bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/30" : "bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10"
-              )}>
-                <div className="space-y-0.5">
-                  <div className={cn("text-[11px] font-bold", formData.destinationBooked ? "text-emerald-700 dark:text-emerald-400" : "text-foreground dark:text-white")}>{t("planner.route.destinationBooked.label", "Fest gebucht / reserviert")}</div>
-                  <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.destinationBooked.description", "Markiere diesen Aufenthalt als unveränderlichen Ankerpunkt.")}</div>
-                </div>
-                <Switch
-                  checked={!!formData.destinationBooked}
-                  onCheckedChange={(checked) => {
-                    onChange({ destinationBooked: checked });
-                    if (checked) onChange({ destinationStayPlanned: true });
-                  }}
-                  className={cn(switchClass, formData.destinationBooked && "data-[state=checked]:bg-emerald-500 shadow-[0_0_0_2px_rgba(16,185,129,0.22)]")}
-                />
-              </div>
-
-              {formData.destinationBooked && (
-                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-[10px] font-medium leading-relaxed text-emerald-700 dark:text-emerald-300">
-                  {t("planner.route.destinationBooked.note", "✨ Fixer Aufenthalt: Die KI plant die An- und Abreise exakt um diesen festen Zeitraum herum.")}
-                </div>
-              )}
-              
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className={cn(fieldLabelClass, "mb-1")}>
-                    {formData.destination ? `${t("planner.route.arrival")} ${formData.destination}` : t("planner.route.arrival")}
-                  </Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div className="relative">
-                      <input
-                        type="date"
-                        value={formData.destinationArrivalDate || ""}
-                        onChange={(e) => onChange({ destinationArrivalDate: e.target.value })}
-                        className={cn(inputClass, "pr-8", formData.destinationBooked && "border-emerald-500/20")}
-                      />
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="time"
-                        value={formData.destinationArrivalTime || ""}
-                        onChange={(e) => onChange({ destinationArrivalTime: e.target.value })}
-                        className={cn(timeInputClass, formData.destinationBooked && "border-emerald-500/20")}
-                      />
-                      <Clock className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label className={cn(fieldLabelClass, "mb-1")}>
-                    {formData.destination ? `${t("planner.route.departure")} ${formData.destination}` : t("planner.route.departure")}
-                  </Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div className="relative">
-                      <input
-                        type="date"
-                        value={formData.destinationDepartureDate || ""}
-                        onChange={(e) => onChange({ destinationDepartureDate: e.target.value })}
-                        className={cn(inputClass, "pr-8", formData.destinationBooked && "border-emerald-500/20")}
-                      />
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="time"
-                        value={formData.destinationDepartureTime || ""}
-                        onChange={(e) => onChange({ destinationDepartureTime: e.target.value })}
-                        className={cn(timeInputClass, formData.destinationBooked && "border-emerald-500/20")}
-                      />
-                      <Clock className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -346,7 +211,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
               {getArrivalLabel()}
             </span>
             <p className="text-[9px] text-foreground/40 dark:text-white/30 leading-tight">
-              {t("planner.route.dates.tripWindowNote", "Lege hier den Zeitraum für deine gesamte Reise (von der ersten Abfahrt bis zur endgültigen Rückkehr) fest.")}
+              {isReturnTrip 
+                ? t("planner.route.dates.tripWindowNoteRoundTrip", "Rundreise-Modus: Setze hier den Gesamtzeitraum von der Abfahrt bis zur finalen Rückkehr fest.")
+                : t("planner.route.dates.tripWindowNote", "Lege hier den Zeitraum für deine Reise fest.")}
             </p>
           </div>
         </div>
@@ -512,7 +379,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                       <div className="space-y-0.5">
                         <div className="text-[11px] font-bold text-foreground dark:text-white">
                           {stage.destination?.trim() 
-                            ? t("planner.route.stage.detailsLabelWithName", { num: index + 1, name: stage.destination.trim() }) || `Zwischenziel ${index + 1} (${stage.destination.trim()}) genauer planen`
+                            ? t("planner.route.stage.detailsLabelWithName", { num: index + 1, name: stage.destination.trim() })
                             : t("planner.route.stage.detailsLabel", { num: index + 1 })}
                         </div>
                         <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.stage.detailsDescription")}</div>
@@ -530,7 +397,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                       <div className="space-y-0.5">
                         <div className={cn("text-[11px] font-bold", stage.booked ? "text-emerald-700 dark:text-emerald-400" : "text-foreground dark:text-white")}>
                           {stage.destination?.trim()
-                            ? t("planner.route.stage.bookedLabelWithName", { num: index + 1, name: stage.destination.trim() }) || `Platz in ${stage.destination.trim()} schon gebucht`
+                            ? t("planner.route.stage.bookedLabelWithName", { num: index + 1, name: stage.destination.trim() })
                             : t("planner.route.stage.bookedLabel", { num: index + 1 })}
                         </div>
                         <div className="text-[9px] text-foreground/50 dark:text-white/40">{t("planner.route.stage.bookedDescription")}</div>
@@ -547,7 +414,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                     <div className="space-y-4 pt-2">
                       {stage.booked && (
                         <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-[10px] font-medium leading-relaxed text-emerald-700 dark:text-emerald-300">
-                          {t("planner.route.stage.bookedNote", "✨ Fixer Aufenthalt: Die KI wird diesen Zeitraum als unveränderlich betrachten und die restliche Route darum herum planen.")}
+                          {t("planner.route.stage.bookedNote", "✨ Fixer Aufenthalt: Die KI wird diesen Zeitraum als unveränderlich betrachten.")}
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
@@ -555,7 +422,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                           {stage.destination?.trim() ? `${t("planner.route.arrival")} ${stage.destination.trim()}` : t("planner.route.stage.arrivalDate", { num: index + 1 })}
                         </Label>
                         <Label className={cn(fieldLabelClass, "mb-0")}>
-                          {stage.destination?.trim() ? `${t("planner.route.arrival")} ${stage.destination.trim()}` : t("planner.route.stage.arrivalTime", { num: index + 1 })}
+                          {stage.destination?.trim() ? `${t("planner.route.arrivalTime")} ${stage.destination.trim()}` : t("planner.route.stage.arrivalTime", { num: index + 1 })}
                         </Label>
                         
                         <div className="relative">
@@ -575,7 +442,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                             onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
                             className={cn(timeInputClass, stage.booked && "border-emerald-500/20")}
                           />
-                          <Clock className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
                         </div>
 
                         <div className="col-span-2 mt-2"></div>
@@ -584,7 +450,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                           {stage.destination?.trim() ? `${t("planner.route.departure")} ${stage.destination.trim()}` : t("planner.route.stage.departureDate", { num: index + 1 })}
                         </Label>
                         <Label className={cn(fieldLabelClass, "mb-0")}>
-                          {stage.destination?.trim() ? `${t("planner.route.departure")} ${stage.destination.trim()}` : t("planner.route.stage.departureTime", { num: index + 1 })}
+                          {stage.destination?.trim() ? `${t("planner.route.departureTime")} ${stage.destination.trim()}` : t("planner.route.stage.departureTime", { num: index + 1 })}
                         </Label>
                         
                         <div className="relative">
@@ -604,7 +470,6 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                             onChange={(e) => updateStage(index, { departureTime: e.target.value })}
                             className={cn(timeInputClass, stage.booked && "border-emerald-500/20")}
                           />
-                          <Clock className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
                         </div>
                       </div>
                     </div>

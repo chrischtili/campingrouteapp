@@ -298,16 +298,14 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     .filter(Boolean)
     .join('\n');
 
+  const isRoundTrip = data.startPoint && data.destination && data.startPoint.toLowerCase().trim() === data.destination.toLowerCase().trim();
+
   const routeLines = [
     `• ${t('prompt.labels.start')}: ${data.startPoint}`,
     `• ${t('prompt.labels.destination')}: ${data.destination}`,
-    data.routeType === 'roundTrip' ? `• ${t('planner.route.routeType.options.roundTrip')}: ${t('planner.route.roundTrip.description')} (${t('prompt.labels.returnDestination')}: ${data.startPoint})` : '',
-    data.destinationBooked ? `• ZENTRALER ANKERPUNKT: Der Aufenthalt am Zielort ${data.destination} ist FEST GEBUCHT und UNVERÄNDERLICH.` : '',
-    data.destinationArrivalDate ? `  - ${t('prompt.labels.finalArrival')}: ${formatDate(data.destinationArrivalDate)}` : '',
-    data.destinationDepartureDate ? `  - ${t('prompt.labels.finalDeparture')}: ${formatDate(data.destinationDepartureDate)}` : '',
+    isRoundTrip ? `• RUNDREISE: Die Reise beginnt und endet am selben Ort (${data.startPoint}). Plane die Route so, dass alle Etappen und das Urlaubsziel innerhalb des Zeitrahmens liegen und die Rückkehr rechtzeitig erfolgt.` : '',
     data.targetRegions ? `• ${t('prompt.labels.targetRegions')}: ${data.targetRegions}` : '',
     data.preferScenicLongerStops ? `• ${t('prompt.labels.preferScenicLongerStops')}` : '',
-    data.destinationBooked ? `• ${t('prompt.labels.destinationBookedNoSearch')}` : '',
     stageLines,
     data.startDate ? `• ${t('prompt.labels.startDeparture')}: ${formatDate(data.startDate)}` : '',
     data.startTime ? `• ${t('prompt.labels.startDepartureTime')}: ${data.startTime}` : '',

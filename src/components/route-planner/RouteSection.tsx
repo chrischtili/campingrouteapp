@@ -31,29 +31,33 @@ const getStageMinimumDate = (stages: RouteStage[], index: number, startDate: str
 };
 
 const normalizeStageDates = (stages: RouteStage[], startDate: string) => {
-  return stages.map((stage, index, currentStages) => {
-    if (!stage.detailsEnabled) {
-      return stage;
+  const normalized: RouteStage[] = [];
+  let currentMinDate = startDate;
+
+  for (let i = 0; i < stages.length; i++) {
+    const stage = { ...stages[i] };
+    if (!stage.detailsEnabled && !stage.booked) {
+      normalized.push(stage);
+      continue;
     }
 
-    const minimumDate = getStageMinimumDate(currentStages, index, startDate);
-    const nextStage = { ...stage };
-
-    if (minimumDate) {
-      if (nextStage.arrivalDate && nextStage.arrivalDate < minimumDate) {
-        nextStage.arrivalDate = minimumDate;
-      }
+    // Arrival must be >= currentMinDate
+    if (currentMinDate && stage.arrivalDate && stage.arrivalDate < currentMinDate) {
+      stage.arrivalDate = currentMinDate;
     }
 
-    const departureMinimumDate = nextStage.arrivalDate || minimumDate;
-    if (departureMinimumDate) {
-      if (nextStage.departureDate && nextStage.departureDate < departureMinimumDate) {
-        nextStage.departureDate = departureMinimumDate;
-      }
+    // Departure must be >= Arrival (or currentMinDate if Arrival empty)
+    const departureMin = stage.arrivalDate || currentMinDate;
+    if (departureMin && stage.departureDate && stage.departureDate < departureMin) {
+      stage.departureDate = departureMin;
     }
 
-    return nextStage;
-  });
+    normalized.push(stage);
+    // Next stage must be >= this stage's departure/arrival
+    currentMinDate = stage.departureDate || stage.arrivalDate || currentMinDate;
+  }
+
+  return normalized;
 };
 
 export function RouteSection({ formData, onChange }: RouteSectionProps) {

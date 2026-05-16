@@ -282,9 +282,12 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       const lines = [`• ${t('prompt.labels.stage', { num: index + 1 })}: ${stage.destination.trim()}`];
       if (stage.booked) {
         // Deutlichere Kennzeichnung für die KI, dass dieser Stopp unveränderlich ist
-        const bookedLabel = lang.startsWith('de') 
-          ? 'ZENTRALER ANKERPUNKT: Dieser Aufenthalt ist FEST GEBUCHT und UNVERÄNDERLICH'
-          : 'CENTRAL ANCHOR: This stay is FIXED BOOKED and CANNOT BE MOVED';
+        let bookedLabel = 'CENTRAL ANCHOR POINT: This stay is FIXED and IMMUTABLE';
+        if (lang.startsWith('de')) bookedLabel = 'ZENTRALER ANKERPUNKT: Dieser Aufenthalt ist FEST GEBUCHT und UNVERÄNDERLICH';
+        else if (lang.startsWith('nl')) bookedLabel = 'CENTRAAL ANKERPUNT: Dit verblijf is VAST GEBOEKT en ONVERANDERLIJK';
+        else if (lang.startsWith('fr')) bookedLabel = 'POINT D\'ANCRAGE CENTRAL : Ce séjour est RÉSERVÉ et IMMUABLE';
+        else if (lang.startsWith('it')) bookedLabel = 'PUNTO DI ANCORAGGIO CENTRALE: Questo soggiorno è PRENOTATO e IMMUTABILE';
+        
         lines.push(`• ${bookedLabel}`);
       }
       if (stage.detailsEnabled || stage.booked) {
@@ -300,10 +303,25 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
 
   const isRoundTrip = data.startPoint && data.destination && data.startPoint.toLowerCase().trim() === data.destination.toLowerCase().trim();
 
+  let roundTripLabel = '';
+  if (isRoundTrip) {
+    if (lang.startsWith('de')) {
+      roundTripLabel = `• RUNDREISE: Die Reise beginnt und endet am selben Ort (${data.startPoint}). Plane die Route so, dass alle Etappen und das Urlaubsziel innerhalb des Zeitrahmens liegen und die Rückkehr rechtzeitig erfolgt.`;
+    } else if (lang.startsWith('nl')) {
+      roundTripLabel = `• RONDREIS: De reis begint en eindigt op dezelfde locatie (${data.startPoint}). Plan de route zo dat alle etappes en de vakantiebestemming binnen het tijdschema passen en de terugkeer op tijd is.`;
+    } else if (lang.startsWith('fr')) {
+      roundTripLabel = `• VOYAGE ALLER-RETOUR : Le voyage commence et se termine au même endroit (${data.startPoint}). Planifie l'itinéraire de manière à ce que toutes les étapes et la destination de vacances respectent le calendrier et que le retour se fasse à temps.`;
+    } else if (lang.startsWith('it')) {
+      roundTripLabel = `• VIAGGIO DI ANDATA E RITORNO: Il viaggio inizia e finisce nello stesso luogo (${data.startPoint}). Pianifica l'itinerario in modo che tutte le tappe e la destinazione della vacanza rientrino nei tempi previsti e il ritorno avvenga puntualmente.`;
+    } else {
+      roundTripLabel = `• ROUND TRIP: The journey starts and ends at the same location (${data.startPoint}). Plan the route so that all stages and the holiday destination fit within the timeframe and the return journey is on time.`;
+    }
+  }
+
   const routeLines = [
     `• ${t('prompt.labels.start')}: ${data.startPoint}`,
     `• ${t('prompt.labels.destination')}: ${data.destination}`,
-    isRoundTrip ? `• RUNDREISE: Die Reise beginnt und endet am selben Ort (${data.startPoint}). Plane die Route so, dass alle Etappen und das Urlaubsziel innerhalb des Zeitrahmens liegen und die Rückkehr rechtzeitig erfolgt.` : '',
+    roundTripLabel,
     data.targetRegions ? `• ${t('prompt.labels.targetRegions')}: ${data.targetRegions}` : '',
     data.preferScenicLongerStops ? `• ${t('prompt.labels.preferScenicLongerStops')}` : '',
     stageLines,
@@ -479,13 +497,17 @@ export async function callAIAPIInternal(prompt: string, aiSettings: AISettings):
       apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${aiSettings.apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       
-      const geminiSystemMessage = lang.startsWith('de')
-        ? 'Du bist ein hilfreicher Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt und Motorrad. Antworte STRENG im Markdown-Format. Nutze NIEMALS HTML-Tags wie <b> oder <i>. Nutze stattdessen **fett** oder *kursiv*.'
-        : 'You are a helpful route planner for camping, RVs, caravans, tents, and motorcycles. Respond STRICTLY in Markdown format. NEVER use HTML tags like <b> or <i>. Use **bold** or *italic* instead.';
+      let geminiSystemMessage = 'You are a helpful route planner for camping, RVs, caravans, tents, and motorcycles. Respond STRICTLY in Markdown format. NEVER use HTML tags like <b> or <i>. Use **bold** or *italic* instead.';
+      if (lang.startsWith('de')) geminiSystemMessage = 'Du bist ein hilfreicher Routenplaner für Camping, Wohnmobil, Wohnwagen, Zelt und Motorrad. Antworte STRENG im Markdown-Format. Nutze NIEMALS HTML-Tags wie <b> oder <i>. Nutze stattdessen **fett** oder *kursiv*.';
+      else if (lang.startsWith('nl')) geminiSystemMessage = 'Je bent een behulpzame routeplanner voor kamperen, camper, caravan, tent en motor. Antwoord STRIKT in Markdown-formaat. Gebruik NOOIT HTML-tags zoals <b> of <i>. Gebruik in plaats daarvan **vet** of *cursief*.';
+      else if (lang.startsWith('fr')) geminiSystemMessage = 'Tu es un planificateur d\'itinéraires utile pour le camping, le camping-car, la caravane, la tente et la moto. Réponds STRICTEMENT au format Markdown. N\'utilise JAMAIS de balises HTML comme <b> ou <i>. Utilise plutôt du **gras** ou de l\'*italique*.';
+      else if (lang.startsWith('it')) geminiSystemMessage = 'Sei un utile pianificatore di itinerari per campeggio, camper, roulotte, tenda e moto. Rispondi RIGOROSAMENTE in formato Markdown. Non usare MAI tag HTML come <b> o <i>. Usa invece il **grassetto** o il *corsivo*.';
 
-      const truncationInstruction = lang.startsWith('de')
-        ? '\n\nWICHTIG: Erzeuge die Antwort IMMER vollständig. Nutze für die Formatierung ausschließlich Markdown (kein HTML). Brich niemals mitten im Satz oder mitten in einer Sektion ab. Wenn die Route sehr lang ist, fasse dich in den Beschreibungen etwas kürzer, aber liefere alle Sektionen (1 bis 9) und alle GPX-Blöcke bis zum Ende aus.'
-        : '\n\nIMPORTANT: Always generate the response completely. Use ONLY Markdown for formatting (no HTML). Never stop in the middle of a sentence or section. If the route is very long, be more concise in descriptions, but deliver all sections (1 to 9) and all GPX blocks until the very end.';
+      let truncationInstruction = '\n\nIMPORTANT: Always generate the response completely. Use ONLY Markdown for formatting (no HTML). Never stop in the middle of a sentence or section. If the route is very long, be more concise in descriptions, but deliver all sections (1 to 9) and all GPX blocks until the very end.';
+      if (lang.startsWith('de')) truncationInstruction = '\n\nWICHTIG: Erzeuge die Antwort IMMER vollständig. Nutze für die Formatierung ausschließlich Markdown (kein HTML). Brich niemals mitten im Satz oder mitten in einer Sektion ab. Wenn die Route sehr lang ist, fasse dich in den Beschreibungen etwas kürzer, aber liefere alle Sektionen (1 bis 9) und alle GPX-Blöcke bis zum Ende aus.';
+      else if (lang.startsWith('nl')) truncationInstruction = '\n\nBELANGRIJK: Genereer het antwoord ALTIJD volledig. Gebruik voor de opmaak uitsluitend Markdown (geen HTML). Stop nooit midden in een zin of sectie. Als de route erg lang is, wees dan iets beknopter in de beschrijvingen, maar lever alle secties (1 tot 9) en alle GPX-blokken tot aan het einde uit.';
+      else if (lang.startsWith('fr')) truncationInstruction = '\n\nIMPORTANT : Génère TOUJOURS la réponse complète. Utilise uniquement Markdown pour la mise en forme (pas de HTML). Ne t\'arrête jamais au milieu d\'une phrase ou d\'une section. Si l\'itinéraire est très long, sois plus concis dans les descriptions, mais fournis toutes les sections (1 à 9) et tous les blocs GPX jusqu\'à la fin.';
+      else if (lang.startsWith('it')) truncationInstruction = '\n\nIMPORTANTE: Genera SEMPRE la risposta completa. Usa solo Markdown per la formattazione (niente HTML). Non fermarti mai a metà di una frase o di una sezione. Se l\'itinerario è molto lungo, sii più conciso nelle descrizioni, ma fornisci tutte le sezioni (da 1 a 9) e tutti i blocchi GPX fino alla fine.';
 
       requestData = {
         contents: [

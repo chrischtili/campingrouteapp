@@ -187,7 +187,7 @@
             "date": "June 3, 2026",
             "distance": "approx. 185 km",
             "duration": "approx. 2:50-3:20 h",
-            "route": "Easy start via A5 / A6 / A81 toward Wuerzburg. Kanu-Club Wuerzburg with OCM link https://opencampingmap.org/en/way/1190353250 and official site https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "route": "Easy start via A5 / A6 / A81 toward Wuerzburg. Kanu-Club Wuerzburg with Link https://camping.info/stellplatz.info/en/way/1190353250 and official site https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "pause": "Short lunch or coffee break near Heilbronn, then arrive early in the wine village.",
             "note": "Relaxed start before the holiday traffic."
           },
@@ -205,7 +205,7 @@
             "date": "June 5, 2026",
             "distance": "approx. 245 km",
             "duration": "approx. 3:45-4:15 h",
-            "route": "A7 / A38 / A14 / B189 with a calm eastern bypass. Campinginsel Havelberg with https://opencampingmap.org/de/way/211239954 and https://www.campinginsel-havelberg.de/",
+            "route": "A7 / A38 / A14 / B189 with a calm eastern bypass. Campinginsel Havelberg with https://camping.info/stellplatz.info/de/way/211239954 and https://www.campinginsel-havelberg.de/",
             "pause": "Pause window south of Magdeburg or around Stendal.",
             "note": "Buffer day before the fixed date in Perleberg."
           },
@@ -241,7 +241,7 @@
             "date": "June 14, 2026",
             "distance": "approx. 195 km",
             "duration": "approx. 3:00-3:30 h",
-            "route": "Do not return via the outbound track, but head southwest via country roads and smaller federal roads into the heath. Naturcamping Lueneburger Heide with OCM link https://opencampingmap.org/en/way/79293021 and campsite page https://naturcamping-lh.de/campingplatz/",
+            "route": "Do not return via the outbound track, but head southwest via country roads and smaller federal roads into the heath. Naturcamping Lueneburger Heide with Link https://camping.info/stellplatz.info/en/way/79293021 and campsite page https://naturcamping-lh.de/campingplatz/",
             "pause": "Break near Ludwigslust or Uelzen, then a relaxed rolling-in evening in the heath."
           },
           {
@@ -272,7 +272,7 @@
           "name": "Kanu-Club Wuerzburg / Obereisenheim",
           "price": "approx. EUR25-40 / night",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/en/way/1190353250",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/en/way/1190353250",
             "Official site: https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "Calm first evening on the Main with wine villages and short reach to town or dinner options"
           ]
@@ -292,7 +292,7 @@
           "name": "Campinginsel Havelberg",
           "price": "approx. EUR30-45 / night",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/de/way/211239954",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/de/way/211239954",
             "Official site: https://www.campinginsel-havelberg.de/",
             "Clean reserve and buffer night before the fixed date in Perleberg"
           ]
@@ -322,7 +322,7 @@
           "name": "Naturcamping Lueneburger Heide",
           "price": "approx. EUR35-50 / night",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/en/way/79293021",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/en/way/79293021",
             "Official site: https://naturcamping-lh.de/campingplatz/",
             "Restaurant on site: https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
@@ -784,14 +784,12 @@
       },
       "stages": {
         "title": "Stops",
+        "description": "Add as many stops as you need for your route.",
         "add": "Add stop",
-        "addSimple": "Add stop",
-        "empty": "No stops added yet.",
-        "stop": "Stop {{num}}",
-        "placeholder": "e.g. City, region or landmark",
-        "booked": "Fixed booking / reserved",
-        "details": "Details",
-        "bookedNote": "✨ Fixed stay: The AI will treat this period as immutable and plan the rest of the route around it."
+        "addSimple": "Add stop(s)",
+        "remove": "Remove",
+        "empty": "No stops added yet",
+        "required": "A place is required as soon as a stop is added."
       },
       "stage": {
         "label": "Stop {{num}}",
@@ -896,15 +894,6 @@
       "returnDestination": {
         "label": "Return destination",
         "placeholder": "e.g. Karlsruhe"
-      },
-      "stages": {
-        "title": "Stops",
-        "description": "Add as many stops as you need for your route.",
-        "add": "Add stop",
-        "addSimple": "Add stop(s)",
-        "remove": "Remove",
-        "empty": "No stops added yet",
-        "required": "A place is required as soon as a stop is added."
       },
       "destinationDetails": {
         "label": "Plan times in more detail",
@@ -1222,7 +1211,7 @@
       },
       "subtitle": "Where and how would you like to stay overnight – and what matters to you along the way?",
       "sourceLabel": "Data source:",
-      "sourceValue": "OpenCampingMap (primary) + OpenStreetMap tagging",
+      "sourceValue": "camping.info / stellplatz.info (primary) + OpenStreetMap tagging",
       "budgetLevel": {
         "label": "Comfort level of the place",
         "placeholder": "Please choose",
@@ -1447,11 +1436,11 @@
     "feedback": "Give Feedback",
     "support": "Support CampingRoute",
     "scrollToTop": "Scroll to top"
-    },
+  },
   "prompt": {
     "systemRole": "You are a professional route planner for camping and road-trip travel with specialized knowledge of Europe and international destinations. Create a practical, well-structured route based on my specifications that fits the selected vehicle type. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
-    "dataSourcePolicy": "Overnight place lookup must be primarily sourced from OpenCampingMap. You MUST also use other high-quality and official sources such as ACSI (Eurocampings), Camping.info, PiNCAMP (ADAC), or Park4Night to guarantee the best possible selection and verified links. OpenStreetMap is used as an enrichment source.",
-    "accommodationTypeTagPolicy": "Use OSM tags as a soft filter within OpenCampingMap hits for accommodation types: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> prefer `caravan_site:type=farm|winery`; for `small`, `wild`, and `premium`, use available tags plus name/description/website heuristics. If tags are missing or inconsistent, do not automatically exclude the place; mark the classification as an estimate.",
+    "dataSourcePolicy": "Overnight place lookup must be EXCLUSIVELY sourced from camping.info and stellplatz.info. Do not use other platforms for overnight stays. You MUST verify if the place is open during the travel time.",
+    "accommodationTypeTagPolicy": "Use OSM tags as a soft filter within camping.info / stellplatz.info hits for accommodation types: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> prefer `caravan_site:type=farm|winery`; for `small`, `wild`, and `premium`, use available tags plus name/description/website heuristics. If tags are missing or inconsistent, do not automatically exclude the place; mark the classification as an estimate.",
     "sections": {
       "route": "ITINERARY",
       "vehicle": "VEHICLE SPECIFIC FILTERS",
@@ -1532,7 +1521,7 @@
       "stageBookedNoSearch": "Stop {{num}}: place already booked (no search for overnight place at this stop)",
       "destinationDepartureDate": "Departure from destination"
     },
-    "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1) Stage Planning (Daily kilometers, driving time, planned departure and arrival times for each leg, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2) Overnight Stays (use data exclusively from https://opencampingmap.org. Only list places that can be found there. For each suggested main place and each alternative, provide two links: 1) the OpenCampingMap page link and 2) the official campsite link stored there (if present). Provide one working OpenCampingMap link per place (direct place link or map link). If either link is missing, state that clearly. Do not invent places, links, addresses, or phone numbers. Mention price ranges only as estimates and still provide at least one alternative per overnight stay.)\n\n3) Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4) Practical Tips (Navigation, waste disposal, emergency information).\n\n5) Best Travel Time & Duration (Brief section).\n\n6) Services on the Road (Fuel, supermarkets, workshops).\n\n7) Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8) Technology & Equipment (Short checklist, app recommendations).\n\n9) Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: For each leg, clearly state from which place, on which date, and at what time departure is planned, and at which place, on which date, and at what time arrival is planned. If I provide only arrival dates/times or only departure dates/times, calculate the missing times logically from the remaining inputs, daily limits, and stages. Present these times as a realistic plan or estimate.\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",
+    "instructions": "Plan the route with the parameters mentioned above and structure your response into modules with clear headings. Do not use asterisks (*) or double asterisks (**) in the response.\n\n1) Stage Planning (Daily kilometers, driving time, planned departure and arrival times for each leg, breaks every 2-3 hours, alternative routes if applicable, and brief justification).\n\n2) Overnight Stays (use data exclusively from camping.info and stellplatz.info. Only list places that can be found there. Provide a direct, working link to camping.info or stellplatz.info for each place. If you cannot determine the opening times with certainty or the place is closed during the travel time, provide a clear warning. Do not invent places, links, addresses, or phone numbers. Mention price ranges only as estimates and still provide at least one alternative per overnight stay.) the camping.info / stellplatz.info page link and 2) the official campsite link stored there (if present). Provide one working camping.info / stellplatz.info link per place (direct place link or map link). If either link is missing, state that clearly. Do not invent places, links, addresses, or phone numbers. Mention price ranges only as estimates and still provide at least one alternative per overnight stay.)\n\n3) Highlights & Activities (Top 3 per stage, briefly with costs/opening hours if known).\n\n4) Practical Tips (Navigation, waste disposal, emergency information).\n\n5) Best Travel Time & Duration (Brief section).\n\n6) Services on the Road (Fuel, supermarkets, workshops).\n\n7) Additional Info (Budget guidance, sustainability, health, connectivity).\n\n8) Technology & Equipment (Short checklist, app recommendations).\n\n9) Flexibility (Alternative routes, legal notes on wild camping, tools for further optimization).\n\nImportant: For each leg, clearly state from which place, on which date, and at what time departure is planned, and at which place, on which date, and at what time arrival is planned. If I provide only arrival dates/times or only departure dates/times, calculate the missing times logically from the remaining inputs, daily limits, and stages. Present these times as a realistic plan or estimate.\n\nImportant: Use your internal map knowledge, if available, to roughly calculate distances and typical driving times between stages. Provide distances in km and driving times in hours/minutes, and mark them as estimates (e.g., \"approx. 230 km / 3:00-3:30 h\"). Avoid exact precision if you do not have access to current routing data, and explicitly ask me to verify the route in the navigation system (e.g., Google Maps, Here, Garmin, OpenStreetMap app).\n\nIf your platform offers a file download, always save the GPX file with the .gpx extension (not .txt). If no download is possible, output only the GPX file, without any extra text or markers. Also provide a short download guide for macOS, iOS, Windows, and Android.",
     "instructionsCamperPlanning": "\n\nImportant: Rate each leg briefly from the perspective of the selected vehicle type, for example as \"uncritical\", \"use caution\" or \"rather unsuitable for this vehicle\", and explain that briefly.\n\nImportant: Include vehicle-relevant supply and service logic. Point out when fresh water, waste disposal, fuel, groceries, power, sanitary stops, or other suitable services should sensibly be planned.\n\nImportant: Classify suggested overnight places briefly, for example as a transit stop, a good 2-3 night stay, or a proper holiday base. If I specify regions/target areas or ask for longer stops at especially beautiful places, deliberately spend more time there instead of creating as many location changes as possible. Use these three terms verbatim whenever possible.\n\nImportant: For each leg, if possible, include a separate line such as \"Rating: uncritical\" or \"Rating: use caution\" or \"Rating: rather unsuitable\" plus a short reason, so the assessment stays easy to detect.",
     "verificationInstruction": "\n\nImportant: Use the word \"UNCERTAIN\" sparingly and only for genuinely decision-relevant details that are not securely verified. This applies especially to availability, current prices, opening hours, access roads, closures, road conditions, seasonal restrictions and local rules.\n\nImportant: Do not put \"UNCERTAIN\" into almost every sentence and do not repeat it for every rough distance or driving-time estimate. Group uncertainty into one short note per leg, overnight stop or section instead of tagging each small detail.\n\nImportant: End the answer with a short manual verification checklist using exactly these four points: \"check access\", \"check current closures\", \"check availability\" and \"check local rules\".",
     "gpx": {
@@ -1570,11 +1559,9 @@
       "title": "What's new in {{version}}?",
       "description": "The main changes in the current release appear only once per version.",
       "items": {
-        "anchors": "Anchor Planning: Mark your main destination as fixed to have the AI plan your arrival and departure exactly around it.",
-        "roundTrip": "Round Trip Shortcut: Enable round trips directly at the starting point for an even faster planning flow.",
-        "contextLabels": "Smart Labeling: Input fields now directly show your location name (e.g. 'Departure Weingarten').",
-        "updateUX": "Prompt Refresh: When you change your plans, you can now instantly update the prompt with one click.",
-        "uiPolish": "UI Polish: Date and time fields are now more clearly arranged and equipped with matching icons."
+        "searchPlatform": "New Search Platforms: The AI now searches exclusively on camping.info and stellplatz.info for suitable overnight stays.",
+        "openingHours": "Opening Hours Check: Active verification if places are open during your planned travel time. Closed places trigger a warning.",
+        "cleanLinks": "Verified Links: All suggested places now include guaranteed direct links to the respective platforms."
       },
       "dismiss": "Got it",
       "release": "View release"

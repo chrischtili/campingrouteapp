@@ -180,55 +180,49 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       ].filter(Boolean).join('\n')
     : '';
   const dataSourcePolicy = t('prompt.dataSourcePolicy');
-  const accommodationTypeTagPolicy = t('prompt.accommodationTypeTagPolicy');
-  const openCampingMapPolicy = lang.startsWith('de')
+    const openCampingMapPolicy = lang.startsWith('de')
     ? [
-        'OpenCampingMap-Regeln:',
-        '- Bevorzuge IMMER Karten-Links mit Koordinaten im Format `https://opencampingmap.org/#18/lat/lon`. Diese sind am stabilsten.',
-        '- Nutze Objekt-Links (`/de/node/ID` oder `/de/way/ID`) NUR dann, wenn du die ID absolut sicher aus einer Websuche verifiziert hast. Erfinde niemals IDs.',
-        '- Goldene Regel: Jeder OpenCampingMap-Link MUSS einen Koordinaten-Hash (`#18/...`) enthalten, damit der Nutzer immer an der richtigen Stelle auf der Karte landet, selbst wenn die ID falsch waere.',
-        '- Link-Extraktion: Wenn du die Websuche nutzt, extrahiere IMMER die direkten URLs aus den Suchergebnissen. Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
-        '- Wenn kein sicherer Treffer gefunden wird, nutze einen Karten-Link basierend auf den geografischen Koordinaten des Ortes.',
-        '- Erfinde niemals OpenCampingMap-Objekte, IDs, Platznamen, Adressen oder Telefonnummern.'
+        'Such-Regeln für Camping- und Stellplätze:',
+        '- Suche AUSSCHLIESSLICH auf camping.info und stellplatz.info nach passenden Plätzen.',
+        '- Überprüfe zwingend, ob der Platz zur angegebenen Reisezeit geöffnet hat.',
+        '- Ist ein Platz zur geplanten Zeit geschlossen oder kannst du die Öffnungszeiten nicht sicher ermitteln, füge zwingend einen deutlichen Hinweis für den Nutzer hinzu.',
+        '- Verlinke die gefundenen Plätze direkt mit der URL von camping.info oder stellplatz.info.',
+        '- Erfinde niemals Plätze, Links, Adressen oder Telefonnummern.'
       ].join('\n')
     : lang.startsWith('nl')
       ? [
-          'OpenCampingMap-regels:',
-          '- Geef ALTIJD de voorkeur aan kaartlinks met coördinaten in het formaat `https://opencampingmap.org/#18/lat/lon`. Deze zijn het meest stabiel.',
-          '- Gebruik object-links (/nl/node/ID of /nl/way/ID) ALLEEN als je de ID absoluut zeker hebt geverifieerd via een zoekopdracht op het web. Verzin nooit ID\'s.',
-          '- Gouden regel: Elke OpenCampingMap-link MOET een coördinaten-hash (#18/...) bevatten, zodat de gebruiker altijd op de juiste plek op de kaart terechtkomt, zelfs als de ID onjuist zou zijn.',
-          '- Linkextractie: Als je web search gebruikt, extraheer dan ALTIJD de directe URL\'s uit de zoekresultaten. Geef geen links die eerst naar een Google-zoekopdracht leiden.',
-          '- Als er geen betrouwbaar resultaat wordt gevonden, gebruik dan een kaartlink op basis van de geografische coördinaten van de locatie.',
-          '- Verzin nooit OpenCampingMap-objecten, ID\'s, campingnamen, adressen of telefoonnummers.'
+          'Zoekregels voor campings en camperplaatsen:',
+          '- Zoek UITSLUITEND op camping.info en stellplatz.info naar geschikte plaatsen.',
+          '- Controleer altijd of de plaats geopend is tijdens de geplande reistijd.',
+          '- Als een plaats tijdens de geplande reistijd gesloten is of als je de openingstijden niet zeker weet, voeg dan altijd een duidelijke waarschuwing voor de gebruiker toe.',
+          '- Link de gevonden plaatsen direct met de URL van camping.info of stellplatz.info.',
+          '- Verzin nooit plaatsen, links, adressen of telefoonnummers.'
         ].join('\n')
       : lang.startsWith('fr')
         ? [
-            'Règles OpenCampingMap :',
-            '- Privilégie TOUJOURS les liens de carte avec coordonnées au format `https://opencampingmap.org/#18/lat/lon`. Ce sont les plus stables.',
-            '- N’utilise les liens d’objet (/fr/node/ID ou /fr/way/ID) QUE si tu as vérifié l’ID de manière absolue via une recherche web. N’invente jamais d’ID.',
-            '- Règle d’or : chaque lien OpenCampingMap DOIT contenir un hash de coordonnées (#18/...) afin que l’utilisateur arrive toujours au bon endroit sur la carte, même si l’ID était erroné.',
-            '- Extraction de liens : lors de la recherche web, extrais TOUJOURS les URL directes des résultats. Ne donne pas de liens menant d’abord à une recherche Google.',
-            '- Si aucun résultat fiable n’est trouvé, utilise un lien de carte basé sur les coordonnées géographiques du lieu.',
-            '- N’invente jamais d’objets OpenCampingMap, d’ID, de noms de campings, d’adresses ou de numéros de téléphone.'
+            'Règles de recherche pour campings et aires de camping-car :',
+            '- Cherche EXCLUSIVEMENT sur camping.info et stellplatz.info des emplacements adaptés.',
+            '- Vérifie impérativement si l\'emplacement est ouvert pendant la période de voyage prévue.',
+            '- Si un emplacement est fermé pendant le voyage ou si tu ne peux pas déterminer les heures d\'ouverture avec certitude, ajoute obligatoirement un avertissement clair pour l\'utilisateur.',
+            '- Lie les emplacements trouvés directement avec l\'URL de camping.info ou stellplatz.info.',
+            '- N\'invente jamais de lieux, liens, adresses ou numéros de téléphone.'
           ].join('\n')
         : lang.startsWith('it')
           ? [
-              'Regole OpenCampingMap:',
-              '- Preferisci SEMPRE i link alla mappa con coordinate nel formato `https://opencampingmap.org/#18/lat/lon`. Sono i più stabili.',
-              '- Usa i link all’oggetto (/it/node/ID oder /it/way/ID) SOLO se hai verificato l’ID in modo assoluto tramite una ricerca web. Non inventare mai ID.',
-              '- Regola d’oro: ogni link di OpenCampingMap DEVE contenere un hash di coordinate (#18/...), in modo che l’utente arrivi sempre nel punto giusto sulla mappa, anche se l’ID fosse errato.',
-              '- Estrazione link: durante la ricerca web, estrai SEMPRE gli URL diretti dai risultati. Non fornire link che portano prima a una ricerca su Google.',
-              '- Se non viene trovato alcun risultato affidabile, usa un link alla mappa basato sulle coordinate geografiche della località.',
-              '- Non inventare mai oggetti OpenCampingMap, ID, nomi di campeggi, indirizzi o numeri di telefono.'
+              'Regole di ricerca per campeggi e aree di sosta:',
+              '- Cerca ESCLUSIVAMENTE su camping.info e stellplatz.info posti adeguati.',
+              '- Verifica sempre se il campeggio/area di sosta è aperto durante il periodo di viaggio previsto.',
+              '- Se un posto è chiuso durante il periodo previsto o se non puoi determinare con certezza gli orari di apertura, aggiungi obbligatoriamente un avviso chiaro per l\'utente.',
+              '- Collega i posti trovati direttamente con l\'URL di camping.info o stellplatz.info.',
+              '- Non inventare mai posti, link, indirizzi o numeri di telefono.'
             ].join('\n')
           : [
-              'OpenCampingMap rules:',
-              '- ALWAYS prefer map links with coordinates in the format `https://opencampingmap.org/#18/lat/lon`. These are the most stable.',
-              '- Use object links (/en/node/ID or /en/way/ID) ONLY if you have absolutely verified the ID via web search. Never invent IDs.',
-              '- Golden Rule: Every OpenCampingMap link MUST contain a coordinate hash (#18/...) so that the user always lands in the right place on the map, even if the ID were wrong.',
-              '- Link extraction: When searching the web, extract the full URL including the part after the `#`. Do not provide shortened links.',
-              '- If no reliable result is found, use a map link based on the geographical coordinates of the location.',
-              '- Never invent OpenCampingMap objects, IDs, campsite names, addresses or phone numbers.'
+              'Search rules for campsites and motorhome pitches:',
+              '- Search EXCLUSIVELY on camping.info and stellplatz.info for suitable places.',
+              '- Always verify if the place is open during the planned travel time.',
+              '- If a place is closed during the planned travel time or if you cannot determine the opening times with certainty, you MUST add a clear note/warning for the user.',
+              '- Link the found places directly with the URL of camping.info or stellplatz.info.',
+              '- Never invent places, links, addresses or phone numbers.'
             ].join('\n');
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
   const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
@@ -241,13 +235,13 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const verificationInstruction = t('prompt.verificationInstruction');
   const linkPolicyInstruction = lang.startsWith('de')
-    ? '\n\nLink-Policy: Gib fuer JEDEN genannten Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link an. Wenn kein offizieller Link existiert, nutze IMMER einen OpenCampingMap-Kartenlink mit Koordinaten-Hash. Nenne niemals einen Platz ohne Link. Schlage keine allgemeine Suche vor, sondern liefere konkrete Ergebnisse.'
-    : '\n\nLink Policy: Provide a working link for EVERY place mentioned (main suggestion AND alternatives). If no official link exists, ALWAYS use an OpenCampingMap map link with a coordinate hash. Never name a place without a link. Do not suggest a general search; provide concrete results.';
+    ? '\n\nLink-Policy: Gib fuer JEDEN genannten Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link an. Verwende ausschließlich direkte Links zu camping.info oder stellplatz.info. Nenne niemals einen Platz ohne Link. Schlage keine allgemeine Suche vor, sondern liefere konkrete Ergebnisse.'
+    : '\n\nLink Policy: Provide a working link for EVERY place mentioned (main suggestion AND alternatives). Exclusively use direct links to camping.info or stellplatz.info. Never name a place without a link. Do not suggest a general search; provide concrete results.';
   const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
   const logicalScheduleInstruction = buildLogicalScheduleInstruction(lang, data, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')
-    ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und den Routeninfos und biete sie zum Download an. Die PDF darf keine Kurzfassung oder kompakte Zusammenfassung sein, sondern soll die normale Antwort inhaltlich so vollständig wie möglich spiegeln. Übernimm alle Hauptabschnitte 1 bis 9, alle Etappen mit Zeiten, Bewertungen und Pausenlogik, alle Übernachtungen mit Hauptplatz und Alternativen sowie die dazugehörigen OpenCampingMap-Links, offiziellen Platz-Links und wichtigen Restaurant-, Aktivitäts- oder Zusatzlinks. Lasse keine Links, Alternativen, Warnhinweise oder Serviceinfos weg, nur um die PDF kürzer zu halten. Verwende in der PDF vollständige, anklickbare URLs statt bloßer Link-Platzhalter, Referenznummern oder Fußnotenmarker. Wenn die PDF dadurch länger wird, nutze lieber zusätzliche Seiten statt Inhalte zu verdichten oder zusammenzufassen. Falls zusätzlich eine GPX-Datei ausgegeben wird, muss der vollständige GPX-XML-Block nicht in die PDF kopiert werden; erwähne die GPX-Datei dann kurz als separaten Download. Verwende für die PDF einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
-    : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and the route details and offer it as a download. The PDF must not be a short version or compact summary; it should mirror the normal answer as completely as possible. Include all main sections 1 to 9, all legs with times, ratings, and break logic, all overnight stays with primary place and alternatives, plus the related OpenCampingMap links, official place links, and important restaurant, activity, or supporting links. Do not drop links, alternatives, warnings, or service notes just to make the PDF shorter. In the PDF, use full clickable URLs instead of bare link placeholders, reference numbers, or footnote markers. If that makes the PDF longer, prefer extra pages over compressing or summarizing the content. If a GPX file is also generated, the full GPX XML block does not need to be copied into the PDF; briefly mention the GPX file as a separate download instead. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
+    ? '\n\nPDF-Datei: Wenn deine Plattform Datei-Downloads oder Artefakte unterstützt, erstelle zusätzlich eine PDF-Datei mit der vollständigen Route und den Routeninfos und biete sie zum Download an. Die PDF darf keine Kurzfassung oder kompakte Zusammenfassung sein, sondern soll die normale Antwort inhaltlich so vollständig wie möglich spiegeln. Übernimm alle Hauptabschnitte 1 bis 9, alle Etappen mit Zeiten, Bewertungen und Pausenlogik, alle Übernachtungen mit Hauptplatz und Alternativen sowie die dazugehörigen camping.info/stellplatz.info-Links, offiziellen Platz-Links und wichtigen Restaurant-, Aktivitäts- oder Zusatzlinks. Lasse keine Links, Alternativen, Warnhinweise oder Serviceinfos weg, nur um die PDF kürzer zu halten. Verwende in der PDF vollständige, anklickbare URLs statt bloßer Link-Platzhalter, Referenznummern oder Fußnotenmarker. Wenn die PDF dadurch länger wird, nutze lieber zusätzliche Seiten statt Inhalte zu verdichten oder zusammenzufassen. Falls zusätzlich eine GPX-Datei ausgegeben wird, muss der vollständige GPX-XML-Block nicht in die PDF kopiert werden; erwähne die GPX-Datei dann kurz als separaten Download. Verwende für die PDF einen sinnvollen Dateinamen wie campingroute-reiseplan.pdf. Wenn kein PDF-Download möglich ist, gib stattdessen nur die normale formatierte Antwort aus und behaupte keinen Download.'
+    : '\n\nPDF file: If your platform supports file downloads or artifacts, also create a PDF file with the full route and the route details and offer it as a download. The PDF must not be a short version or compact summary; it should mirror the normal answer as completely as possible. Include all main sections 1 to 9, all legs with times, ratings, and break logic, all overnight stays with primary place and alternatives, plus the related camping.info/stellplatz.info links, official place links, and important restaurant, activity, or supporting links. Do not drop links, alternatives, warnings, or service notes just to make the PDF shorter. In the PDF, use full clickable URLs instead of bare link placeholders, reference numbers, or footnote markers. If that makes the PDF longer, prefer extra pages over compressing or summarizing the content. If a GPX file is also generated, the full GPX XML block does not need to be copied into the PDF; briefly mention the GPX file as a separate download instead. Use a sensible filename such as campingroute-travel-plan.pdf. If PDF download is not possible, provide only the normal formatted response and do not claim that a download exists.';
   const largeVehicleStopInstruction = shouldUseLargeVehicleStopLogic
     ? lang.startsWith('de')
       ? '\n\nWichtig: Bevorzuge für dieses größere Fahrzeug bzw. Gespann gut zugängliche Tankstellen, Autohof- und Rastanlagen mit ausreichend Platz zum An- und Abfahren. Meide kleine Tankstellen, enge Rastplätze oder Stopps ohne vernünftige Zufahrt für große Fahrzeuge bzw. ohne geeignete Lkw-/Langfahrzeug-Zufahrt. Wenn ein geplanter Service-Stopp problematisch wirkt, nenne stattdessen eine besser geeignete Alternative.'
@@ -339,7 +333,6 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
 
   return `${t('prompt.systemRole', { language: languageName })}
 ${dataSourcePolicy}
-${accommodationTypeTagPolicy}
 ${openCampingMapPolicy}
 
 🗺️ ${t('prompt.sections.route')}:
@@ -426,25 +419,21 @@ export async function callAIAPIInternal(prompt: string, aiSettings: AISettings):
     ? [
         'Wichtig fuer die Websuche:',
         '- Nutze vor der Antwort zwingend die Websuche.',
-        '- Wenn OpenCampingMap die Primaerquelle sein soll, suche pro Etappe und pro Ort mehrfach gezielt auf OpenCampingMap statt nach dem ersten unsicheren Treffer abzubrechen.',
-        '- Suche OpenCampingMap gezielt mit Ortsname, Region, Platztyp und ggf. bekanntem Platznamen statt nur mit einer einzelnen Kurzsuche.',
-        '- Wenn mehrere OpenCampingMap-Kandidaten auftauchen, waehle den mit dem klarsten Ortsbezug, der passendsten Uebernachtungsart und dem kleinsten Umweg.',
+        '- Suche pro Etappe und pro Ort mehrfach gezielt auf camping.info und stellplatz.info statt nach dem ersten unsicheren Treffer abzubrechen.',
+        '- Wenn mehrere Kandidaten auftauchen, waehle den mit dem klarsten Ortsbezug, der passendsten Uebernachtungsart und dem kleinsten Umweg.',
         '- Verwende keine Meta-Antworten wie "wenn du moechtest, kann ich ..." oder "ich kann im naechsten Schritt ...". Liefere die bestmoeglichen Ergebnisse direkt.',
-        '- Link-Extraktion: Extrahiere IMMER die direkten URLs aus den Suchergebnissen. Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
-        '- Wenn kein sicherer direkter OpenCampingMap-Objektlink auffindbar ist, nutze stattdessen einen funktionierenden OpenCampingMap-Kartenlink mit passendem Zoom und korrekter Position (Format: `https://opencampingmap.org/de/#zoom/lat/lon`).',
-        '- Verwende einen OpenCampingMap-Objektlink nur dann, wenn Ort und Platz wirklich zusammenpassen. Bei Unsicherheit ist ein Kartenlink Pflicht.',
+        '- Link-Extraktion: Extrahiere IMMER die direkten URLs aus den Suchergebnissen (von camping.info oder stellplatz.info). Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
+        '- Pruefe stets die Oeffnungszeiten zur Reisezeit! Ist dies nicht moeglich oder der Platz geschlossen, weise den Nutzer deutlich darauf hin.',
         '- Erfinde keine Plaetze, Links, Adressen oder Telefonnummern. Wenn nach mehreren gezielten Suchen nichts Sicheres auffindbar ist, sage das knapp und mache mit dem naechsten Ort weiter.'
       ].join('\n')
     : [
         'Important for web search:',
         '- Always use web search before answering.',
-        '- If OpenCampingMap is the primary source, search OpenCampingMap repeatedly for each leg and each place instead of stopping after the first uncertain hit.',
-        '- Search OpenCampingMap using place name, region, accommodation type and known campsite name if available, not just a single short query.',
-        '- If several OpenCampingMap candidates appear, choose the one with the clearest location match, the best fitting accommodation type and the smallest detour.',
+        '- Search repeatedly and specifically on camping.info and stellplatz.info for each leg and each place instead of stopping after the first uncertain hit.',
+        '- If several candidates appear, choose the one with the clearest location match, the best fitting accommodation type and the smallest detour.',
         '- Do not produce meta answers like "if you want, I can..." or "in the next step I can...". Deliver the best possible result directly.',
-        '- Link extraction: ALWAYS extract direct URLs from search results. Do not provide links that lead to a Google search or another search engine first.',
-        '- If no reliable direct OpenCampingMap object link can be found, use a working OpenCampingMap map link with appropriate zoom and correct position instead (Format: `https://opencampingmap.org/en/#zoom/lat/lon`).',
-        '- Only use a direct OpenCampingMap object link when place and campsite clearly match. If uncertain, a map link is required instead.',
+        '- Link extraction: ALWAYS extract direct URLs from search results (from camping.info or stellplatz.info). Do not provide links that lead to a Google search or another search engine first.',
+        '- Always check the opening times during the travel period! If this is not possible or the place is closed, point this out clearly to the user.',
         '- Do not invent places, links, addresses, or phone numbers. After several targeted searches, if nothing reliable is found, say so briefly and continue with the next place.'
       ].join('\n');
   

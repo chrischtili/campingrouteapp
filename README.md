@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner
 
-[![Version](https://img.shields.io/badge/version-v0.5.7-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -12,14 +12,11 @@
 
 ---
 
-## 🌟 Highlights (v0.5.7)
+## 🌟 Highlights (v0.5.8)
 
-- **Anker-Planung**: Markiere dein Hauptziel als fest gebucht, um die An- und Abreise exakt darum herum planen zu lassen.
-- **Rundreisen-Shortcut**: Aktiviere Rundreisen nun direkt beim Startpunkt für einen noch schnelleren Flow.
-- **Intelligente Beschriftung**: Eingabefelder zeigen nun dynamisch den Namen deines Ortes an (z.B. „Abreise Weingarten“).
-- **Prompt-Aktualisierung**: Bei Änderungen an deinen Plänen kannst du den Prompt nun sofort mit einem Klick aktualisieren.
-- **UI-Feinschliff**: Optimiertes Layout für Datums- und Zeitfelder für bessere Übersicht.
-- **Vollständig lokalisiert**: Alle neuen Funktionen sind in allen 5 Sprachen (DE, EN, NL, FR, IT) verfügbar.
+- **Neue Suchplattformen**: Die KI sucht nun exklusiv auf camping.info und stellplatz.info nach passenden Übernachtungsmöglichkeiten.
+- **Öffnungszeiten-Check**: Es wird aktiv geprüft, ob Plätze zur geplanten Reisezeit geöffnet haben. Bei geschlossenen Plätzen gibt es einen Warnhinweis.
+- **Verifizierte Links**: Alle vorgeschlagenen Plätze enthalten nun garantierte Direktlinks zu den jeweiligen Plattformen.
 
 ## 📦 Features
 
@@ -51,14 +48,11 @@
 
 **The AI Route Planner specifically for RVs & Campers!**
 
-### 🌟 Highlights (v0.5.7)
+### 🌟 Highlights (v0.5.8)
 
-- **Anchor Planning**: Mark your main destination as fixed to have the AI plan your arrival and departure exactly around it.
-- **Round Trip Shortcut**: Enable round trips directly at the starting point for an even faster planning flow.
-- **Smart Labeling**: Input fields now dynamically show your location name (e.g. 'Departure Weingarten').
-- **Prompt Refresh**: When you change your plans, you can now instantly update the prompt with one click.
-- **UI Polish**: Optimized layout for date and time fields for better overview.
-- **Fully Localized**: All new features are available in all 5 languages (DE, EN, NL, FR, IT).
+- **New Search Platforms**: The AI now searches exclusively on camping.info and stellplatz.info for suitable overnight stays.
+- **Opening Hours Check**: Active verification if places are open during your planned travel time. Closed places trigger a warning.
+- **Verified Links**: All suggested places now include guaranteed direct links to the respective platforms.
 
 ### 📦 Features
 

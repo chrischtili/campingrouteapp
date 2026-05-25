@@ -187,7 +187,7 @@
             "date": "03.06.2026",
             "distance": "env. 185 km",
             "duration": "env. 2:50–3:20 h",
-            "route": "Départ souple via A5 / A6 / A81 vers Wurtzbourg. Kanu-Club Wuerzburg avec lien OCM https://opencampingmap.org/en/way/1190353250 et site officiel https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "route": "Départ souple via A5 / A6 / A81 vers Wurtzbourg. Kanu-Club Wuerzburg avec lien OCM https://camping.info/stellplatz.info/en/way/1190353250 et site officiel https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "pause": "Courte pause déjeuner ou café vers Heilbronn, puis arrivée volontairement tôt dans le village viticole.",
             "note": "Début calme avant le trafic du jour férié."
           },
@@ -205,7 +205,7 @@
             "date": "05.06.2026",
             "distance": "env. 245 km",
             "duration": "env. 3:45–4:15 h",
-            "route": "A7 / A38 / A14 / B189 avec contournement est plus calme. Campinginsel Havelberg avec https://opencampingmap.org/de/way/211239954 et https://www.campinginsel-havelberg.de/",
+            "route": "A7 / A38 / A14 / B189 avec contournement est plus calme. Campinginsel Havelberg avec https://camping.info/stellplatz.info/de/way/211239954 et https://www.campinginsel-havelberg.de/",
             "pause": "Fenêtre de pause au sud de Magdeburg ou vers Stendal.",
             "note": "Journée tampon avant la date fixe à Perleberg."
           },
@@ -241,7 +241,7 @@
             "date": "14.06.2026",
             "distance": "env. 195 km",
             "duration": "env. 3:00–3:30 h",
-            "route": "Pas de retour par l'aller, mais cap au sud-ouest via routes secondaires. Naturcamping Lueneburger Heide avec lien OCM https://opencampingmap.org/en/way/79293021 et page du camping https://naturcamping-lh.de/campingplatz/",
+            "route": "Pas de retour par l'aller, mais cap au sud-ouest via routes secondaires. Naturcamping Lueneburger Heide avec lien OCM https://camping.info/stellplatz.info/en/way/79293021 et page du camping https://naturcamping-lh.de/campingplatz/",
             "pause": "Pause vers Ludwigslust ou Uelzen, puis arrivée douce dans la lande."
           },
           {
@@ -272,7 +272,7 @@
           "name": "Kanu-Club Wuerzburg / Obereisenheim",
           "price": "env. 25–40 € / nuit",
           "details": [
-            "OpenCampingMap : https://opencampingmap.org/en/way/1190353250",
+            "camping.info / stellplatz.info : https://camping.info/stellplatz.info/en/way/1190353250",
             "Lien officiel : https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "Premier soir calme au bord du Main avec villages viticoles et accès facile à la gastronomie"
           ]
@@ -292,7 +292,7 @@
           "name": "Campinginsel Havelberg",
           "price": "env. 30–45 € / nuit",
           "details": [
-            "OpenCampingMap : https://opencampingmap.org/de/way/211239954",
+            "camping.info / stellplatz.info : https://camping.info/stellplatz.info/de/way/211239954",
             "Lien officiel : https://www.campinginsel-havelberg.de/",
             "Nuit tampon propre avant le rendez-vous fixe à Perleberg"
           ]
@@ -322,7 +322,7 @@
           "name": "Naturcamping Lueneburger Heide",
           "price": "env. 35–50 € / nuit",
           "details": [
-            "OpenCampingMap : https://opencampingmap.org/en/way/79293021",
+            "camping.info / stellplatz.info : https://camping.info/stellplatz.info/en/way/79293021",
             "Lien officiel : https://naturcamping-lh.de/campingplatz/",
             "Restauration sur place : https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
@@ -783,15 +783,13 @@
         "description": "Vous reviendrez à votre point de départ à la fin."
       },
       "stages": {
-        "title": "Étapes",
-        "add": "Ajouter une étape",
-        "addSimple": "Ajouter un arrêt",
-        "empty": "Aucune étape ajoutée pour le moment.",
-        "stop": "Arrêt {{num}}",
-        "placeholder": "p. ex. ville, région ou curiosité",
-        "booked": "Fixé / réservé",
-        "details": "Détails",
-        "bookedNote": "✨ Séjour fixe : L'IA traitera cette période comme immuable et planifiera le reste de l'itinéraire autour d'elle."
+        "title": "Arrêts",
+        "description": "Ajoute autant d’arrêts que nécessaire pour ton itinéraire.",
+        "add": "Ajouter un arrêt",
+        "addSimple": "Ajouter un/des arrêt(s)",
+        "remove": "Supprimer",
+        "empty": "Aucun arrêt ajouté",
+        "required": "Un lieu est obligatoire dès qu’un arrêt est ajouté."
       },
       "stage": {
         "label": "Arrêt {{num}}",
@@ -894,15 +892,6 @@
       "returnDestination": {
         "label": "Destination du retour",
         "placeholder": "p. ex. Karlsruhe"
-      },
-      "stages": {
-        "title": "Arrêts",
-        "description": "Ajoute autant d’arrêts que nécessaire pour ton itinéraire.",
-        "add": "Ajouter un arrêt",
-        "addSimple": "Ajouter un/des arrêt(s)",
-        "remove": "Supprimer",
-        "empty": "Aucun arrêt ajouté",
-        "required": "Un lieu est obligatoire dès qu’un arrêt est ajouté."
       },
       "destinationDetails": {
         "label": "Planifier les heures plus précisément",
@@ -1220,7 +1209,7 @@
       },
       "subtitle": "Où et comment souhaitez-vous passer la nuit — et qu’est-ce qui est important pour vous en route ?",
       "sourceLabel": "Source des données :",
-      "sourceValue": "OpenCampingMap (prioritaire) + repères OpenStreetMap",
+      "sourceValue": "camping.info / stellplatz.info (prioritaire) + repères OpenStreetMap",
       "budgetLevel": {
         "label": "Niveau de confort de l’emplacement",
         "placeholder": "Veuillez choisir",
@@ -1448,8 +1437,8 @@
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires pour le camping et les road trips, avec une connaissance spécialisée de l’Europe et des destinations internationales. Créez un itinéraire pratique et bien structuré, adapté au type de véhicule sélectionné, selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",
-    "dataSourcePolicy": "Les requêtes de nuitées doivent être basées en priorité sur OpenCampingMap. OpenStreetMap ne sert qu’en complément pour les tags de catégorisation (ex. `caravan_site:type=farm|winery`) et n’a pas la priorité sur OpenCampingMap.",
-    "accommodationTypeTagPolicy": "Utilise les tags OSM comme filtre souple au sein des résultats OpenCampingMap pour les types d’hébergement: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> privilégier `caravan_site:type=farm|winery`; pour `small`, `wild` et `premium`, utilise les tags disponibles plus des heuristiques sur le nom/la description/le site web. Si les tags sont absents ou incohérents, n’exclus pas automatiquement le lieu et indique que la classification est estimée.",
+    "dataSourcePolicy": "La recherche d'hébergements se fait EXCLUSIVEMENT sur camping.info et stellplatz.info. N'utilise aucune autre plateforme. Vérifie impérativement si l'emplacement est ouvert pendant la période de voyage.",
+    "accommodationTypeTagPolicy": "Utilise les tags OSM comme filtre souple au sein des résultats camping.info / stellplatz.info pour les types d’hébergement: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> privilégier `caravan_site:type=farm|winery`; pour `small`, `wild` et `premium`, utilise les tags disponibles plus des heuristiques sur le nom/la description/le site web. Si les tags sont absents ou incohérents, n’exclus pas automatiquement le lieu et indique que la classification est estimée.",
     "sections": {
       "route": "ITINÉRAIRE",
       "vehicle": "FILTRES SPÉCIFIQUES VÉHICULE",
@@ -1530,7 +1519,7 @@
       "stageBookedNoSearch": "Arrêt {{num}} : place déjà réservée (pas de recherche de nuitée à cet arrêt)",
       "destinationDepartureDate": "Départ de la destination"
     },
-    "instructions": "Planifiez l’itinéraire avec les paramètres ci‑dessus et structurez la réponse en modules avec des titres clairs. N’utilisez pas d’astérisques (*) ou doubles astérisques (**) dans la réponse.\n\n1) Planification des étapes (kilométrage par jour, temps de conduite, heures prévues de départ et d’arrivée pour chaque tronçon, pauses toutes les 2‑3 heures, itinéraires alternatifs si applicable, et justification brève).\n\n2) Nuits (utilise exclusivement des données de https://opencampingmap.org. Ne propose que des lieux trouvables sur ce site. Pour chaque lieu principal proposé et chaque alternative, donne deux liens : 1) le lien de la page OpenCampingMap et 2) le lien officiel du camping indiqué sur cette page (si disponible). Donne pour chaque lieu un lien OpenCampingMap fonctionnel (lien direct du lieu ou lien carte). Si l’un des deux liens manque, indique-le clairement. N’invente ni lieux, ni liens, ni adresses, ni numéros de téléphone. Donne des fourchettes de prix uniquement comme estimations et propose toujours au moins une alternative par nuit.)\n\n3) Points forts & activités (Top 3 par étape, avec coûts/horaires si connus).\n\n4) Conseils pratiques (navigation, vidanges, informations d’urgence).\n\n5) Meilleure période & durée (section courte).\n\n6) Services sur la route (carburant, supermarchés, ateliers).\n\n7) Infos supplémentaires (budget, durabilité, santé, connectivité).\n\n8) Technologie & équipement (check‑list courte, apps recommandées).\n\n9) Flexibilité (itinéraires alternatifs, notes juridiques sur le camping sauvage, outils d’optimisation).\n\nImportant : pour chaque tronçon, indiquez clairement depuis quel lieu, à quelle date et à quelle heure le départ est prévu, ainsi que dans quel lieu, à quelle date et à quelle heure l’arrivée est prévue. Si je fournis seulement des dates/heures d’arrivée ou seulement des dates/heures de départ, calculez logiquement les horaires manquants à partir des autres informations, des limites journalières et des étapes. Présentez ces horaires comme une planification réaliste ou une estimation.\n\nImportant : utilisez vos connaissances cartographiques internes pour estimer distances et temps de conduite. Donnez les distances en km et les temps en heures/minutes, et marquez‑les comme estimations (p. ex. « env. 230 km / 3:00‑3:30 h »). Évitez une précision excessive si vous n’avez pas accès aux données actuelles et demandez‑moi explicitement de vérifier l’itinéraire dans le GPS (Google Maps, Here, Garmin, app OpenStreetMap).\n\nSi ta plateforme propose un téléchargement, enregistre toujours le fichier GPX avec l’extension .gpx (pas .txt). Si aucun téléchargement n’est possible, renvoie uniquement le fichier GPX, sans texte supplémentaire ni marqueurs. Ajoute également un court guide de téléchargement pour macOS, iOS, Windows et Android.",
+    "instructions": "Planifiez l’itinéraire avec les paramètres ci‑dessus et structurez la réponse en modules avec des titres clairs. N’utilisez pas d’astérisques (*) ou doubles astérisques (**) dans la réponse.\n\n1) Planification des étapes (kilométrage par jour, temps de conduite, heures prévues de départ et d’arrivée pour chaque tronçon, pauses toutes les 2‑3 heures, itinéraires alternatifs si applicable, et justification brève).\n\n2) Nuits (utilise exclusivement des données de https://camping.info/stellplatz.info. Ne propose que des lieux trouvables sur ce site. Pour chaque lieu principal proposé et chaque alternative, donne deux liens : 1) le lien de la page camping.info / stellplatz.info et 2) le lien officiel du camping indiqué sur cette page (si disponible). Donne pour chaque lieu un lien camping.info / stellplatz.info fonctionnel (lien direct du lieu ou lien carte). Si l’un des deux liens manque, indique-le clairement. N’invente ni lieux, ni liens, ni adresses, ni numéros de téléphone. Donne des fourchettes de prix uniquement comme estimations et propose toujours au moins une alternative par nuit.)\n\n3) Points forts & activités (Top 3 par étape, avec coûts/horaires si connus).\n\n4) Conseils pratiques (navigation, vidanges, informations d’urgence).\n\n5) Meilleure période & durée (section courte).\n\n6) Services sur la route (carburant, supermarchés, ateliers).\n\n7) Infos supplémentaires (budget, durabilité, santé, connectivité).\n\n8) Technologie & équipement (check‑list courte, apps recommandées).\n\n9) Flexibilité (itinéraires alternatifs, notes juridiques sur le camping sauvage, outils d’optimisation).\n\nImportant : pour chaque tronçon, indiquez clairement depuis quel lieu, à quelle date et à quelle heure le départ est prévu, ainsi que dans quel lieu, à quelle date et à quelle heure l’arrivée est prévue. Si je fournis seulement des dates/heures d’arrivée ou seulement des dates/heures de départ, calculez logiquement les horaires manquants à partir des autres informations, des limites journalières et des étapes. Présentez ces horaires comme une planification réaliste ou une estimation.\n\nImportant : utilisez vos connaissances cartographiques internes pour estimer distances et temps de conduite. Donnez les distances en km et les temps en heures/minutes, et marquez‑les comme estimations (p. ex. « env. 230 km / 3:00‑3:30 h »). Évitez une précision excessive si vous n’avez pas accès aux données actuelles et demandez‑moi explicitement de vérifier l’itinéraire dans le GPS (Google Maps, Here, Garmin, app OpenStreetMap).\n\nSi ta plateforme propose un téléchargement, enregistre toujours le fichier GPX avec l’extension .gpx (pas .txt). Si aucun téléchargement n’est possible, renvoie uniquement le fichier GPX, sans texte supplémentaire ni marqueurs. Ajoute également un court guide de téléchargement pour macOS, iOS, Windows et Android.",
     "gpx": {
       "garmin": "Fichier GPX : ajoute exactement un fichier GPX pour les waypoints Garmin à la fin de la réponse.\n\nImportant : fournis le GPX sous forme de bloc XML pur, sans Markdown, sans backticks et sans marqueurs supplémentaires comme BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nExigences :\nCrée des waypoints <wpt> pour le départ, toutes les étapes, les nuits et la destination. Pour les nuits, indique dans <desc> l’adresse, le site web et le téléphone (si disponible). Les alternatives (obligatoires) doivent être indiquées uniquement dans <desc> avec nom, adresse, site web et téléphone (si disponible).\nNe pas générer de route (<rte>) ni de trace (<trk>).\n\nRends d’abord la réponse normale complète avec toutes les sections demandées. Ajoute seulement ensuite le bloc GPX tout à la fin. Aucun texte ne doit suivre après le bloc GPX.",
       "routeTrack": "Fichier GPX : ajoute exactement un fichier GPX (route+trace) à la fin de la réponse.\n\nImportant : fournis le GPX sous forme de bloc XML pur, sans Markdown, sans backticks et sans marqueurs supplémentaires comme BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nExigences :\nCrée des waypoints <wpt> pour le départ, toutes les étapes, les nuits et la destination. Pour les nuits, indique dans <desc> l’adresse, le site web et le téléphone (si disponible). Les alternatives (obligatoires) doivent être indiquées uniquement dans <desc> avec nom, adresse, site web et téléphone (si disponible).\nCrée une route (<rte>) avec tous les points dans l’ordre (<rtept>) pour que Garmin la reconnaisse comme route.\nCrée aussi la route complète comme trace (<trk> avec <trkseg> et <trkpt>).\n\nRends d’abord la réponse normale complète avec toutes les sections demandées. Ajoute seulement ensuite le bloc GPX tout à la fin. Aucun texte ne doit suivre après le bloc GPX.",
@@ -1568,11 +1557,9 @@
       "title": "Quoi de neuf dans {{version}} ?",
       "description": "Les changements principaux de la version actuelle ne s’affichent qu’une seule fois par version.",
       "items": {
-        "anchors": "Planification d’ancrage : marquez votre destination principale comme fixe pour que l’IA planifie votre arrivée et votre départ exactement autour d’elle.",
-        "roundTrip": "Raccourci voyage aller-retour : activez les voyages aller-retour directement au point de départ pour un flux de planification encore plus rapide.",
-        "contextLabels": "Étiquetage intelligent : les champs de saisie affichent désormais directement le nom de votre emplacement (par ex. « Départ Weingarten »).",
-        "updateUX": "Actualisation du prompt : lorsque vous modifiez vos plans, vous pouvez désormais actualiser instantanément le prompt en un clic.",
-        "uiPolish": "Peaufinage de l’UI : les champs de date et d’heure sont désormais disposés plus clairement et équipés d’icônes correspondantes."
+        "searchPlatform": "Nouvelles plateformes de recherche : L'IA recherche désormais exclusivement sur camping.info et stellplatz.info pour trouver des hébergements adaptés.",
+        "openingHours": "Vérification des heures d'ouverture : Vérification active si les lieux sont ouverts pendant votre période de voyage prévue. Les lieux fermés déclenchent un avertissement.",
+        "cleanLinks": "Liens vérifiés : Tous les lieux suggérés incluent désormais des liens directs garantis vers les plateformes respectives."
       },
       "dismiss": "Compris",
       "release": "Voir la version"

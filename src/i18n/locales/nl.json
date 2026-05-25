@@ -187,7 +187,7 @@
             "date": "03.06.2026",
             "distance": "ca. 185 km",
             "duration": "ca. 2:50–3:20 u",
-            "route": "Rustige start via A5 / A6 / A81 richting Wuerzburg. Kanu-Club Wuerzburg met OCM-link https://opencampingmap.org/en/way/1190353250 en officiële link https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "route": "Rustige start via A5 / A6 / A81 richting Wuerzburg. Kanu-Club Wuerzburg met OCM-link https://camping.info/stellplatz.info/en/way/1190353250 en officiële link https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "pause": "Korte lunch- of koffiestop bij Heilbronn en daarna bewust vroeg aankomen in het wijndorp.",
             "note": "Rustige start voor het feestdagverkeer."
           },
@@ -205,7 +205,7 @@
             "date": "05.06.2026",
             "distance": "ca. 245 km",
             "duration": "ca. 3:45–4:15 u",
-            "route": "A7 / A38 / A14 / B189 met rustige oostelijke omleiding. Campinginsel Havelberg met https://opencampingmap.org/de/way/211239954 en https://www.campinginsel-havelberg.de/",
+            "route": "A7 / A38 / A14 / B189 met rustige oostelijke omleiding. Campinginsel Havelberg met https://camping.info/stellplatz.info/de/way/211239954 en https://www.campinginsel-havelberg.de/",
             "pause": "Pauzemoment ten zuiden van Magdeburg of rond Stendal.",
             "note": "Bufferdag voor de vaste datum in Perleberg."
           },
@@ -241,7 +241,7 @@
             "date": "14.06.2026",
             "distance": "ca. 195 km",
             "duration": "ca. 3:00–3:30 u",
-            "route": "Niet terug over de heenreis, maar zuidwestelijk via land- en Bundesstrassen de heide in. Naturcamping Lueneburger Heide met OCM-link https://opencampingmap.org/en/way/79293021 en campinglink https://naturcamping-lh.de/campingplatz/",
+            "route": "Niet terug over de heenreis, maar zuidwestelijk via land- en Bundesstrassen de heide in. Naturcamping Lueneburger Heide met OCM-link https://camping.info/stellplatz.info/en/way/79293021 en campinglink https://naturcamping-lh.de/campingplatz/",
             "pause": "Pauze bij Ludwigslust of Uelzen en daarna ontspannen de heide inrollen."
           },
           {
@@ -272,7 +272,7 @@
           "name": "Kanu-Club Wuerzburg / Obereisenheim",
           "price": "ca. EUR25–40 / nacht",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/en/way/1190353250",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/en/way/1190353250",
             "Officiële link: https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "Rustige eerste avond aan de Main met wijndorpen en eetgelegenheden op korte afstand"
           ]
@@ -292,7 +292,7 @@
           "name": "Campinginsel Havelberg",
           "price": "ca. EUR30–45 / nacht",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/de/way/211239954",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/de/way/211239954",
             "Officiële link: https://www.campinginsel-havelberg.de/",
             "Zuivere buffer-overnachting voor de vaste afspraak in Perleberg"
           ]
@@ -322,7 +322,7 @@
           "name": "Naturcamping Lueneburger Heide",
           "price": "ca. EUR35–50 / nacht",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/en/way/79293021",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/en/way/79293021",
             "Officiële link: https://naturcamping-lh.de/campingplatz/",
             "Restaurant op de camping: https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
@@ -529,12 +529,12 @@
         "recDesc": "Je huidige concept blijft in hetzelfde browsertabblad staan wanneer je wisselt tussen zoeker en assistent."
       },
       "directAI": {
-        "q": "Wat gebeurt er bij 'Directe AI' (routeforstellen)?",
-        "title": "Genereer drie routeforstellen direct in de tool.",
+        "q": "Wat gebeurt er bij het gebruik van 'Directe AI' (Routevoorstellen)?",
+        "title": "Genereer drie routevoorstellen rechtstreeks in de tool.",
         "content": "Hoe directe generatie werkt",
-        "content1": "Met de optie 'Directe AI' vraagt Camping Route het AI‑model (bv. Gemini) direct op de achtergrond aan.",
-        "content2": "Je krijgt vervolgens drie verschillende opties voor je reis (bv. snelste, meest schilderachtige).",
-        "content3": "Met de knop 'Deze route kiezen' kun je je voorkeursoptie direct toepassen op je planning en definitieve prompt."
+        "content1": "Met de optie 'Directe AI' bevraagt Camping Route het AI-model (bijv. Gemini) direct op de achtergrond.",
+        "content2": "Je ontvangt dan drie verschillende opties voor je reis (bijv. snelste, mooiste route).",
+        "content3": "Met de knop 'Kies deze route' kun je de gewenste optie direct overnemen in je verdere planning en de uiteindelijke prompt."
       },
       "cost": {
         "q": "Wat kost Camping Route mij echt?",
@@ -562,14 +562,6 @@
         "content3": "Wil je technisch bijdragen, dan vind je de broncode op GitHub.",
         "action": "Feedback openen",
         "github": "Open GitHub"
-      },
-      "directAI": {
-        "q": "Wat gebeurt er bij het gebruik van 'Directe AI' (Routevoorstellen)?",
-        "title": "Genereer drie routevoorstellen rechtstreeks in de tool.",
-        "content": "Hoe directe generatie werkt",
-        "content1": "Met de optie 'Directe AI' bevraagt Camping Route het AI-model (bijv. Gemini) direct op de achtergrond.",
-        "content2": "Je ontvangt dan drie verschillende opties voor je reis (bijv. snelste, mooiste route).",
-        "content3": "Met de knop 'Kies deze route' kun je de gewenste optie direct overnemen in je verdere planning en de uiteindelijke prompt."
       }
     }
   },
@@ -792,14 +784,12 @@
       },
       "stages": {
         "title": "Tussenstops",
-        "add": "Stop toevoegen",
-        "addSimple": "Stop toevoegen",
-        "empty": "Nog geen tussenstops toegevoegd.",
-        "stop": "Tussenstop {{num}}",
-        "placeholder": "bijv. stad, regio of bezienswaardigheid",
-        "booked": "Vast geboekt / gereserveerd",
-        "details": "Details",
-        "bookedNote": "✨ Vast verblijf: De AI beschouwt deze periode als onveranderlijk en plant de rest van de route eromheen."
+        "description": "Voeg zoveel tussenstops toe als je voor je route nodig hebt.",
+        "add": "Tussenstop toevoegen",
+        "addSimple": "Tussenstop(s) toevoegen",
+        "remove": "Verwijderen",
+        "empty": "Nog geen tussenstops toegevoegd",
+        "required": "Een plaats is verplicht zodra een tussenstop is toegevoegd."
       },
       "stage": {
         "label": "Tussenstop {{num}}",
@@ -902,15 +892,6 @@
       "returnDestination": {
         "label": "Terugkeerbestemming",
         "placeholder": "bijv. Karlsruhe"
-      },
-      "stages": {
-        "title": "Tussenstops",
-        "description": "Voeg zoveel tussenstops toe als je voor je route nodig hebt.",
-        "add": "Tussenstop toevoegen",
-        "addSimple": "Tussenstop(s) toevoegen",
-        "remove": "Verwijderen",
-        "empty": "Nog geen tussenstops toegevoegd",
-        "required": "Een plaats is verplicht zodra een tussenstop is toegevoegd."
       },
       "destinationDetails": {
         "label": "Tijden nauwkeuriger plannen",
@@ -1228,7 +1209,7 @@
       },
       "subtitle": "Waar en hoe wil je overnachten – en wat vind je onderweg belangrijk?",
       "sourceLabel": "Databron:",
-      "sourceValue": "OpenCampingMap (primair) + OpenStreetMap-tagging",
+      "sourceValue": "camping.info / stellplatz.info (primair) + OpenStreetMap-tagging",
       "budgetLevel": {
         "label": "Comfortniveau van de plek",
         "placeholder": "Kies een optie",
@@ -1360,7 +1341,8 @@
         "notHelpful": "Niet nuttig",
         "notHelpfulHint": "Iets was onduidelijk, niet passend of ontbrak."
       },
-      "messageLabel": "Wat kan beter? *",      "messagePlaceholder": "Bijvoorbeeld: duidelijkere prompts, betere etappelogica, nuttigere aanwijzingen of eenvoudigere bediening ...",
+      "messageLabel": "Wat kan beter? *",
+      "messagePlaceholder": "Bijvoorbeeld: duidelijkere prompts, betere etappelogica, nuttigere aanwijzingen of eenvoudigere bediening ...",
       "privacy": "Voer geen persoonsgegevens in. Feedback wordt alleen opgeslagen voor productverbetering.",
       "thanks": "Bedankt voor je feedback.",
       "actions": {
@@ -1462,8 +1444,8 @@
   },
   "prompt": {
     "systemRole": "Je bent een professionele routeplanner voor camping- en roadtripreizen met gespecialiseerde kennis van Europa en internationale bestemmingen. Maak op basis van mijn specificaties een praktische, goed gestructureerde route die past bij het gekozen voertuigtype. Houd rekening met voertuigspecificaties, reisdoelen, budget en persoonlijke voorkeuren. Als realtime data (bijv. verkeer, beschikbaarheid, exacte prijzen) niet beschikbaar is, werk dan met plausibele schattingen, markeer die als zodanig en geef aan wat ik zelf moet controleren in het navigatiesysteem of een campingapp.",
-    "dataSourcePolicy": "Overnachtingsplaatsen worden primair uit OpenCampingMap gezocht. OpenStreetMap wordt alleen gebruikt als aanvullende bron voor categorisering (bijv. `caravan_site:type=farm|winery`) en is niet als vervangende of eerstvolgende bron bedoeld.",
-    "accommodationTypeTagPolicy": "Gebruik OSM-tags als zachte filter binnen OpenCampingMap-resultaten voor accommodatietypes: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> geef voorkeur aan `caravan_site:type=farm|winery`; voor `small`, `wild` en `premium` gebruik je beschikbare tags plus heuristieken op naam/beschrijving/website. Als tags ontbreken of inconsistent zijn, sluit de plek niet automatisch uit en markeer de classificatie als schatting.",
+    "dataSourcePolicy": "Zoekopdrachten voor overnachtingsplaatsen worden UITSLUITEND uitgevoerd via camping.info en stellplatz.info. Gebruik geen andere platforms voor overnachtingsplaatsen. Controleer altijd of de plaats geopend is tijdens de reistijd.",
+    "accommodationTypeTagPolicy": "Gebruik OSM-tags als zachte filter binnen camping.info / stellplatz.info-resultaten voor accommodatietypes: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> geef voorkeur aan `caravan_site:type=farm|winery`; voor `small`, `wild` en `premium` gebruik je beschikbare tags plus heuristieken op naam/beschrijving/website. Als tags ontbreken of inconsistent zijn, sluit de plek niet automatisch uit en markeer de classificatie als schatting.",
     "sections": {
       "route": "ROUTEBESCHRIJVING",
       "vehicle": "VOERTUIGFILTERS",
@@ -1544,7 +1526,7 @@
       "stageBookedNoSearch": "Tussenstop {{num}}: plek al geboekt (geen zoekopdracht naar overnachtingsplek bij deze tussenstop)",
       "destinationDepartureDate": "Vertrek van bestemming"
     },
-    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1) Etappenplanning (Dagkilometers, rijtijd, geplande vertrek- en aankomsttijden per traject, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2) Overnachtingen (gebruik uitsluitend gegevens van https://opencampingmap.org. Noem alleen plaatsen die daar vindbaar zijn. Geef voor elke voorgestelde hoofdplek en elke alternatieve plek twee links: 1) de OpenCampingMap-paginalink en 2) de daar vermelde officiële campinglink (indien aanwezig). Geef per plaats één werkende OpenCampingMap-link (directe plaatslink of kaartlink). Als een van beide links ontbreekt, vermeld dat duidelijk. Verzin geen plaatsen, links, adressen of telefoonnummers. Noem prijsranges alleen als schatting en geef nog steeds minimaal één alternatief per overnachting.)\n\n3) Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4) Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5) Beste reistijd & duur (Korte sectie).\n\n6) Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7) Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8) Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9) Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: vermeld voor elk traject duidelijk vanaf welke plaats, op welke datum en op welk tijdstip het vertrek is gepland, en op welke plaats, datum en tijd de aankomst is gepland. Als ik alleen aankomstdata/-tijden of alleen vertrekdata/-tijden opgeef, bereken dan de ontbrekende tijden logisch op basis van de overige invoer, daglimieten en etappes. Presenteer deze tijden als een realistische planning of schatting.\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",
+    "instructions": "Plan de route met de bovenstaande parameters en structureer je antwoord in modules met duidelijke koppen. Gebruik geen asterisken (*) of dubbele asterisken (**) in het antwoord.\n\n1) Etappenplanning (Dagkilometers, rijtijd, geplande vertrek- en aankomsttijden per traject, pauzes elke 2-3 uur, alternatieve routes indien van toepassing, en korte motivatie).\n\n2) Overnachtingen (gebruik uitsluitend gegevens van camping.info en stellplatz.info. Noem alleen plaatsen die daar te vinden zijn. Geef voor elke plaats een directe, werkende link naar camping.info of stellplatz.info. Als je de openingstijden niet zeker weet of de plaats gesloten is tijdens de reistijd, geef dan een duidelijke waarschuwing. Verzin geen plaatsen, links, adressen of telefoonnummers. Noem prijsklassen alleen als richtlijn en zoek nog steeds minstens één alternatief per overnachting.) de camping.info / stellplatz.info-paginalink en 2) de daar vermelde officiële campinglink (indien aanwezig). Geef per plaats één werkende camping.info / stellplatz.info-link (directe plaatslink of kaartlink). Als een van beide links ontbreekt, vermeld dat duidelijk. Verzin geen plaatsen, links, adressen of telefoonnummers. Noem prijsranges alleen als schatting en geef nog steeds minimaal één alternatief per overnachting.)\n\n3) Hoogtepunten & activiteiten (Top 3 per etappe, kort met kosten/openingstijden indien bekend).\n\n4) Praktische tips (Navigatie, afvalverwerking, noodinformatie).\n\n5) Beste reistijd & duur (Korte sectie).\n\n6) Onderweg services (Brandstof, supermarkten, werkplaatsen).\n\n7) Aanvullende info (Budgetadvies, duurzaamheid, gezondheid, connectiviteit).\n\n8) Technologie & uitrusting (Korte checklist, app-aanbevelingen).\n\n9) Flexibiliteit (Alternatieve routes, juridische notities over wildkamperen, tools voor verdere optimalisatie).\n\nBelangrijk: vermeld voor elk traject duidelijk vanaf welke plaats, op welke datum en op welk tijdstip het vertrek is gepland, en op welke plaats, datum en tijd de aankomst is gepland. Als ik alleen aankomstdata/-tijden of alleen vertrekdata/-tijden opgeef, bereken dan de ontbrekende tijden logisch op basis van de overige invoer, daglimieten en etappes. Presenteer deze tijden als een realistische planning of schatting.\n\nBelangrijk: Gebruik je interne kaartkennis, indien beschikbaar, om afstanden en typische rijtijden tussen etappes grof te berekenen. Geef afstanden in km en rijtijden in uren/minuten, en markeer ze als schattingen (bijv. \"ca. 230 km / 3:00-3:30 u\"). Vermijd exacte precisie als je geen toegang hebt tot actuele routegegevens, en vraag me expliciet om de route te verifiëren in het navigatiesysteem (bijv. Google Maps, Here, Garmin, OpenStreetMap-app).\n\nAls je platform een bestanddownload aanbiedt, sla het GPX-bestand altijd op met de extensie .gpx (niet .txt). Als downloaden niet mogelijk is, geef dan alleen het GPX-bestand weer, zonder extra tekst of markers. Geef daarnaast een korte downloadinstructie voor macOS, iOS, Windows en Android.",
     "gpx": {
       "garmin": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand voor Garmin‑waypoints toe.\n\nBelangrijk: Geef de GPX als een puur XML‑blok uit, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nVereisten:\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nGeen route (<rte>) en geen track (<trk>) uitgeven.\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna het GPX-blok helemaal aan het einde toe. Na het GPX-blok mag geen extra tekst meer volgen.",
       "routeTrack": "GPX-bestand: Voeg aan het einde van het antwoord precies één GPX-bestand (route+track) toe.\n\nBelangrijk: Geef de GPX als een puur XML‑blok uit, zonder Markdown, zonder backticks en zonder extra markers zoals BEGIN/END.\n\n<gpx version=\"1.1\" creator=\"CampingRoute.app\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  ...\n</gpx>\n\nVereisten:\nMaak <wpt>-waypoints voor start, alle etappes, overnachtingen en bestemming. Voor overnachtingen: vermeld in <desc> adres, website en telefoon (indien beschikbaar). Alternatieven (verplicht) uitsluitend in <desc> met naam, adres, website en telefoon (indien beschikbaar).\nMaak een route (<rte>) met alle punten in volgorde (<rtept>), zodat Garmin dit als route herkent.\nLeg de volledige route ook vast als track (<trk> met <trkseg> en <trkpt>).\n\nGeef eerst het volledige normale antwoord met alle vereiste secties terug. Voeg pas daarna het GPX-blok helemaal aan het einde toe. Na het GPX-blok mag geen extra tekst meer volgen.",
@@ -1575,11 +1557,9 @@
       "title": "Wat is nieuw in {{version}}?",
       "description": "De belangrijkste wijzigingen van deze release worden maar één keer per versie getoond.",
       "items": {
-        "anchors": "Ankerplanning: Markeer je hoofdbestemming als vast om de AI je aankomst en vertrek er precies omheen te laten plannen.",
-        "roundTrip": "Rondreis-shortcut: Activeer rondreizen nu direct bij het startpunt voor een nog snellere flow.",
-        "contextLabels": "Slimme labels: De invoervelden tonen nu direct de naam van je locatie (bijv. „Vertrek Weingarten”).",
-        "updateUX": "Prompt vernieuwen: Bij wijzigingen in je plannen kun je de prompt nu direct met één klik bijwerken.",
-        "uiPolish": "UI-verfijning: Datum- en tijdvelden zijn nu overzichtelijker gerangschikt en voorzien van bijpassende iconen."
+        "searchPlatform": "Nieuwe zoekplatforms: De AI zoekt nu exclusief op camping.info en stellplatz.info naar geschikte overnachtingsplaatsen.",
+        "openingHours": "Openingstijden check: Er wordt nu actief gecontroleerd of plaatsen geopend zijn tijdens de geplande reistijd. Bij gesloten plaatsen volgt een waarschuwing.",
+        "cleanLinks": "Geverifieerde links: Alle voorgestelde plaatsen bevatten nu gegarandeerde directe links naar de respectievelijke platforms."
       },
       "dismiss": "Begrepen",
       "release": "Release bekijken"

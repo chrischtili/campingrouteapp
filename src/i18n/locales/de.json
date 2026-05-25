@@ -187,7 +187,7 @@
             "date": "03.06.2026",
             "distance": "ca. 185 km",
             "duration": "ca. 2:50–3:20 h",
-            "route": "Lockerer Auftakt über A5 / A6 / A81 Richtung Würzburg. Kanu-Club Würzburg mit OCM-Link https://opencampingmap.org/en/way/1190353250 und offiziellem Platzlink https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
+            "route": "Lockerer Auftakt über A5 / A6 / A81 Richtung Würzburg. Kanu-Club Würzburg mit Link https://camping.info/stellplatz.info/en/way/1190353250 und offiziellem Platzlink https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "pause": "Kurzer Mittags- oder Kaffeestopp im Raum Heilbronn, dann bewusst früh in den Weinort einrollen.",
             "note": "Ruhiger Einstieg vor dem Feiertagsverkehr."
           },
@@ -205,7 +205,7 @@
             "date": "05.06.2026",
             "distance": "ca. 245 km",
             "duration": "ca. 3:45–4:15 h",
-            "route": "A7 / A38 / A14 / B189 mit ruhiger Ostumfahrung. Campinginsel Havelberg mit https://opencampingmap.org/de/way/211239954 und https://www.campinginsel-havelberg.de/",
+            "route": "A7 / A38 / A14 / B189 mit ruhiger Ostumfahrung. Campinginsel Havelberg mit https://camping.info/stellplatz.info/de/way/211239954 und https://www.campinginsel-havelberg.de/",
             "pause": "Pausenfenster südlich von Magdeburg oder im Raum Stendal.",
             "note": "Puffertag vor dem fixen Termin in Perleberg."
           },
@@ -241,7 +241,7 @@
             "date": "14.06.2026",
             "distance": "ca. 195 km",
             "duration": "ca. 3:00–3:30 h",
-            "route": "Nicht zurück über die Hinfahrt, sondern südwestlich über Land und kleinere Bundesstraßen in die Heide. Naturcamping Lüneburger Heide mit OCM-Link https://opencampingmap.org/en/way/79293021 und Platzseite https://naturcamping-lh.de/campingplatz/",
+            "route": "Nicht zurück über die Hinfahrt, sondern südwestlich über Land und kleinere Bundesstraßen in die Heide. Naturcamping Lüneburger Heide mit Link https://camping.info/stellplatz.info/en/way/79293021 und Platzseite https://naturcamping-lh.de/campingplatz/",
             "pause": "Pause im Raum Ludwigslust oder Uelzen, danach entspannter Einrollabend in die Heide."
           },
           {
@@ -272,7 +272,7 @@
           "name": "Kanu-Club Würzburg / Obereisenheim",
           "price": "ca. 25–40 € / Nacht",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/en/way/1190353250",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/en/way/1190353250",
             "Offizieller Platzlink: https://www.kc-wuerzburg.de/camping-gastst%C3%A4tte/",
             "Ruhiger erster Abend am Main mit Weinorten und kurzer Stadt-/Gastro-Reichweite"
           ]
@@ -292,7 +292,7 @@
           "name": "Campinginsel Havelberg",
           "price": "ca. 30–45 € / Nacht",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/de/way/211239954",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/de/way/211239954",
             "Offizieller Platzlink: https://www.campinginsel-havelberg.de/",
             "Saubere Reserve- und Puffernacht vor dem fixen Termin in Perleberg"
           ]
@@ -322,7 +322,7 @@
           "name": "Naturcamping Lüneburger Heide",
           "price": "ca. 35–50 € / Nacht",
           "details": [
-            "OpenCampingMap: https://opencampingmap.org/en/way/79293021",
+            "camping.info / stellplatz.info: https://camping.info/stellplatz.info/en/way/79293021",
             "Offizieller Platzlink: https://naturcamping-lh.de/campingplatz/",
             "Gastronomie am Platz: https://naturcamping-lh.de/campingplatz/gastronomie/"
           ]
@@ -402,7 +402,7 @@
         },
         {
           "label": "Wichtige Links",
-          "value": "OpenCampingMap allgemein: https://opencampingmap.org • Würzburg: https://opencampingmap.org/en/way/1190353250 • Havelberg: https://opencampingmap.org/de/way/211239954 • Lüneburger Heide: https://opencampingmap.org/en/way/79293021"
+          "value": "camping.info / stellplatz.info allgemein: https://camping.info/stellplatz.info • Würzburg: https://camping.info/stellplatz.info/en/way/1190353250 • Havelberg: https://camping.info/stellplatz.info/de/way/211239954 • Lüneburger Heide: https://camping.info/stellplatz.info/en/way/79293021"
         }
       ]
     },
@@ -784,14 +784,12 @@
       },
       "stages": {
         "title": "Zwischenziele",
-        "add": "Ziel hinzufügen",
-        "addSimple": "Stopp hinzufügen",
-        "empty": "Noch keine Zwischenziele hinzugefügt.",
-        "stop": "Zwischenstopp {{num}}",
-        "placeholder": "z. B. Stadt, Region oder Sehenswürdigkeit",
-        "booked": "Fest gebucht / reserviert",
-        "details": "Details",
-        "bookedNote": "✨ Fixer Aufenthalt: Die KI wird diesen Zeitraum als unveränderlich betrachten und die restliche Route darum herum planen."
+        "description": "Füge so viele Zwischenziele hinzu, wie du für deine Route brauchst.",
+        "add": "Zwischenziel hinzufügen",
+        "addSimple": "Zwischenziel(e) hinzufügen",
+        "remove": "Entfernen",
+        "empty": "Noch keine Zwischenziele angelegt",
+        "required": "Ort ist Pflicht, sobald ein Zwischenziel hinzugefügt wurde."
       },
       "stage": {
         "label": "Zwischenziel {{num}}",
@@ -896,15 +894,6 @@
       "returnDestination": {
         "label": "Rückkehrziel",
         "placeholder": "z.B. Karlsruhe"
-      },
-      "stages": {
-        "title": "Zwischenziele",
-        "description": "Füge so viele Zwischenziele hinzu, wie du für deine Route brauchst.",
-        "add": "Zwischenziel hinzufügen",
-        "addSimple": "Zwischenziel(e) hinzufügen",
-        "remove": "Entfernen",
-        "empty": "Noch keine Zwischenziele angelegt",
-        "required": "Ort ist Pflicht, sobald ein Zwischenziel hinzugefügt wurde."
       },
       "destinationDetails": {
         "label": "Zeiten genauer planen",
@@ -1222,7 +1211,7 @@
       },
       "subtitle": "Wo und wie möchtest du übernachten – und was ist dir unterwegs wichtig?",
       "sourceLabel": "Datenquelle:",
-      "sourceValue": "OpenCampingMap (primär) + OpenStreetMap-Kennzeichnung",
+      "sourceValue": "camping.info / stellplatz.info (primär) + OpenStreetMap-Kennzeichnung",
       "budgetLevel": {
         "label": "Komfortniveau des Platzes",
         "placeholder": "Bitte wählen",
@@ -1354,7 +1343,8 @@
         "notHelpful": "Nicht hilfreich",
         "notHelpfulHint": "Etwas war unklar, unpassend oder hat gefehlt."
       },
-      "messageLabel": "Was sollte ich verbessern? *",      "messagePlaceholder": "Zum Beispiel: klarere Prompts, bessere Etappenlogik, hilfreichere Hinweise oder einfachere Bedienung ...",
+      "messageLabel": "Was sollte ich verbessern? *",
+      "messagePlaceholder": "Zum Beispiel: klarere Prompts, bessere Etappenlogik, hilfreichere Hinweise oder einfachere Bedienung ...",
       "privacy": "Bitte keine personenbezogenen Daten eingeben. Das Feedback wird nur zur Produktverbesserung gespeichert.",
       "thanks": "Danke für dein Feedback.",
       "actions": {
@@ -1449,8 +1439,8 @@
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",
-    "dataSourcePolicy": "Abfragen zu Übernachtungsplätzen erfolgen primär über OpenCampingMap. Nutze zwingend auch weitere hochwertige und offizielle Quellen wie ACSI (Eurocampings), Camping.info, PiNCAMP (ADAC) oder Park4Night, um die bestmögliche Auswahl und verifizierte Links zu garantieren. OpenStreetMap dient zur Ergänzung (z. B. `caravan_site:type=farm|winery`).",
-    "accommodationTypeTagPolicy": "Nutze für Unterkunftstypen OSM-Tags als weichen Filter innerhalb der OpenCampingMap-Treffer: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> bevorzugt `caravan_site:type=farm|winery`; für `small`, `wild` und `premium` nutze verfügbare Tags plus Name/Beschreibung/Website-Heuristiken. Wenn Tags fehlen oder uneinheitlich sind, verwerfe den Platz nicht automatisch, sondern kennzeichne die Einordnung als Schätzung.",
+    "dataSourcePolicy": "Abfragen zu Übernachtungsplätzen erfolgen AUSSCHLIESSLICH über camping.info und stellplatz.info. Nutze keine anderen Plattformen für Übernachtungsplätze. Überprüfe zwingend, ob der Platz zur Reisezeit geöffnet ist.",
+    "accommodationTypeTagPolicy": "Nutze für Unterkunftstypen OSM-Tags als weichen Filter innerhalb der camping.info / stellplatz.info-Treffer: `camping` -> `tourism=camp_site`, `pitch` -> `tourism=caravan_site`, `farm` -> bevorzugt `caravan_site:type=farm|winery`; für `small`, `wild` und `premium` nutze verfügbare Tags plus Name/Beschreibung/Website-Heuristiken. Wenn Tags fehlen oder uneinheitlich sind, verwerfe den Platz nicht automatisch, sondern kennzeichne die Einordnung als Schätzung.",
     "sections": {
       "route": "REISEROUTE",
       "vehicle": "FAHRZEUG",
@@ -1523,16 +1513,16 @@
       "stageArrivalDate": "Ankunft am Zwischenziel {{num}}",
       "startDeparture": "Abreise am Startpunkt",
       "startDepartureTime": "Abfahrtszeit am Startpunkt",
-        "finalArrival": "Ankunft am Ziel",
-        "finalDeparture": "Abreise vom Ziel",
-        "finalArrivalTime": "Ankunftszeit am Ziel",
-        "stageArrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
-        "stageDepartureDate": "Abfahrt vom Zwischenziel {{num}}",
-        "stageDepartureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
-        "stageBookedNoSearch": "Zwischenziel {{num}}: Platz bereits gebucht (keine Suche nach Übernachtungsplatz an diesem Zwischenziel)",
-        "destinationDepartureDate": "Abfahrt vom Ziel"
-      },
-    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1) Etappenplanung (Tageskilometer, Fahrzeit, geplante Abfahrts- und Ankunftszeiten je Fahrtabschnitt, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2) Übernachtungen (nutze ausschließlich Daten von https://opencampingmap.org. Nenne nur Plätze, die dort auffindbar sind. Für jeden vorgeschlagenen Hauptplatz und jede Alternative gib zwei Links an: 1) den Link zur Seite auf OpenCampingMap und 2) den dort hinterlegten offiziellen Platz-Link (falls eingetragen). Gib für jeden Platz einen funktionierenden OpenCampingMap-Link an (direkter Platzlink oder Kartenlink). Wenn einer der beiden Links fehlt, schreibe das klar dazu. Erfinde keine Plätze, Links, Adressen oder Telefonnummern. Nenne grobe Preisbereiche nur als Richtwerte und suche weiterhin mindestens eine Alternative pro Übernachtung.)\n\n3) Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4) Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5) Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6) Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7) Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8) Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9) Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Gib für jeden Fahrtabschnitt klar an, von welchem Ort an welchem Datum und zu welcher Uhrzeit abgefahren wird und an welchem Ort an welchem Datum und zu welcher Uhrzeit die Ankunft geplant ist. Wenn ich nur Ankunftsdaten/-zeiten oder nur Abfahrtsdaten/-zeiten vorgebe, berechne die fehlenden Zeiten logisch aus den übrigen Angaben, Tageslimits und Etappen. Nenne diese Zeiten als realistische Planung bzw. Schätzung.\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
+      "finalArrival": "Ankunft am Ziel",
+      "finalDeparture": "Abreise vom Ziel",
+      "finalArrivalTime": "Ankunftszeit am Ziel",
+      "stageArrivalTime": "Ankunftszeit am Zwischenziel {{num}}",
+      "stageDepartureDate": "Abfahrt vom Zwischenziel {{num}}",
+      "stageDepartureTime": "Abfahrtszeit vom Zwischenziel {{num}}",
+      "stageBookedNoSearch": "Zwischenziel {{num}}: Platz bereits gebucht (keine Suche nach Übernachtungsplatz an diesem Zwischenziel)",
+      "destinationDepartureDate": "Abfahrt vom Ziel"
+    },
+    "instructions": "Plane die Route mit den oben genannten Parametern und gliedere deine Antwort nach den folgenden Bausteinen mit klaren Überschriften. Verwende keine Sternchen (*) oder doppelte Sternchen (**) in der Antwort.\n\n1) Etappenplanung (Tageskilometer, Fahrzeit, geplante Abfahrts- und Ankunftszeiten je Fahrtabschnitt, Pausen alle 2-3 h, ggf. Alternativroute und kurze Begründung).\n\n2) Übernachtungen (nutze ausschließlich Daten von camping.info und stellplatz.info. Nenne nur Plätze, die dort auffindbar sind. Gib für jeden Platz einen direkten, funktionierenden Link zu camping.info oder stellplatz.info an. Wenn du die Öffnungszeiten nicht sicher ermitteln kannst oder der Platz zur Reisezeit geschlossen ist, gib einen deutlichen Warnhinweis aus. Erfinde keine Plätze, Links, Adressen oder Telefonnummern. Nenne grobe Preisbereiche nur als Richtwerte und suche weiterhin mindestens eine Alternative pro Übernachtung.) den Link zur Seite auf camping.info / stellplatz.info und 2) den dort hinterlegten offiziellen Platz-Link (falls eingetragen). Gib für jeden Platz einen funktionierenden camping.info / stellplatz.info-Link an (direkter Platzlink oder Kartenlink). Wenn einer der beiden Links fehlt, schreibe das klar dazu. Erfinde keine Plätze, Links, Adressen oder Telefonnummern. Nenne grobe Preisbereiche nur als Richtwerte und suche weiterhin mindestens eine Alternative pro Übernachtung.)\n\n3) Highlights & Aktivitäten (Top 3 pro Etappe, kurz mit Kosten/Öffnungszeiten, wenn bekannt).\n\n4) Praktische Tipps (Navigation, Entsorgung, Notfall-Hinweise).\n\n5) Beste Reisezeit & Dauer (Kurzabschnitt).\n\n6) Service unterwegs (Tanken, Supermärkte, Werkstätten).\n\n7) Zusatzinfos (Budget-Orientierung, Nachhaltigkeit, Gesundheit, Konnektivität).\n\n8) Technik & Ausrüstung (Kurz-Checkliste, App-Empfehlungen).\n\n9) Flexibilität (Alternativrouten, rechtliche Hinweise zu Wildcamping, Tools zur weiteren Optimierung).\n\nWichtig: Gib für jeden Fahrtabschnitt klar an, von welchem Ort an welchem Datum und zu welcher Uhrzeit abgefahren wird und an welchem Ort an welchem Datum und zu welcher Uhrzeit die Ankunft geplant ist. Wenn ich nur Ankunftsdaten/-zeiten oder nur Abfahrtsdaten/-zeiten vorgebe, berechne die fehlenden Zeiten logisch aus den übrigen Angaben, Tageslimits und Etappen. Nenne diese Zeiten als realistische Planung bzw. Schätzung.\n\nWichtig: Nutze, wenn verfügbar, dein internes Kartenwissen, um Entfernungen und typische Fahrzeiten zwischen den Etappen grob zu berechnen. Gib Entfernungen in km und Fahrzeiten in Stunden/Minuten an und kennzeichne sie als Schätzung (z. B. \"ca. 230 km / 3:00-3:30 h\"). Vermeide exakte Präzision, wenn du keinen Zugriff auf aktuelle Routing-Daten hast, und fordere mich ausdrücklich auf, die Route im Navi (z. B. Google Maps, Here, Garmin, OpenStreetMap-App) final zu prüfen.\n\nFalls deine Plattform einen Datei-Download anbietet, speichere die GPX-Datei immer mit der Endung .gpx (nicht .txt). Wenn kein Download möglich ist, gib ausschließlich die GPX-Datei aus, ohne zusätzlichen Text oder Marker. Erstelle außerdem eine kurze Download‑Anleitung für macOS, iOS, Windows und Android.",
     "instructionsCamperPlanning": "\n\nWichtig: Nutze STRENG Markdown für die Formatierung. Nutze NIEMALS HTML-Tags wie <b>. Nutze stattdessen **fett**.\n\nWichtig: Bewerte jede Etappe KRITISCH aus Sicht des gewählten Fahrzeugtyps und dessen Dimensionen (insb. Höhe und Gewicht). Nutze dafür die Begriffe \"unkritisch\", \"mit Vorsicht\" oder \"eher ungeeignet\". Begründe dies knapp (z. B. niedrige Brücken, enge Bergstraßen).\n\nWichtig: Plane fahrzeugrelevante Versorgungs- und Service-Logik mit ein. Weise sinnvoll darauf hin, wann z. B. Frischwasser, Entsorgung, Tanken, Einkaufen, Strom, sanitäre Stopps oder andere passende Services eingeplant werden sollten.\n\nWichtig: Ordne vorgeschlagene Übernachtungsorte kurz ein, z. B. als Durchreise-Stopp, guter 2-3-Nächte-Platz oder Urlaubsziel. Wenn ich Regionen/Zielgebiete vorgebe oder längere Stopps an schönen Orten wünsche, plane dort bewusst mehr Zeit ein, statt nur möglichst viele Ortswechsel zu erzeugen.\n\nWichtig: Gib bei jeder Etappe eine EIGENE ZEILE im Stil \"**Bewertung:** unkritisch\" (oder entsprechende Stufe) plus kurzem Grund an, damit die Einschätzung sofort ins Auge fällt.",
     "verificationInstruction": "\n\nWichtig: Verwende das Wort \"UNGESICHERT\" sparsam und nur bei wirklich entscheidungsrelevanten, nicht sicher verifizierten Angaben. Das gilt besonders für Verfügbarkeit, aktuelle Preise, Öffnungszeiten, Zufahrten, Sperrungen, Straßenzustand, saisonale Einschränkungen und lokale Regeln.\n\nWichtig: Setze \"UNGESICHERT\" nicht in fast jeden Satz und nicht bei jeder groben Distanz- oder Fahrzeit-Schätzung. Bündele Unsicherheiten lieber in einem kurzen Hinweis pro Etappe, Übernachtungsplatz oder Abschnitt, statt jedes einzelne Detail zu markieren.\n\nWichtig: Beende die Antwort mit einer kurzen manuellen Prüfliste mit genau diesen vier Punkten: \"Zufahrt prüfen\", \"aktuelle Sperrungen prüfen\", \"Verfügbarkeit prüfen\" und \"lokale Regeln prüfen\".",
     "gpx": {
@@ -1570,11 +1560,9 @@
       "title": "Was ist neu in {{version}}?",
       "description": "Die wichtigsten Änderungen im aktuellen Release erscheinen nur einmal pro Version.",
       "items": {
-        "anchors": "Anker-Planung: Markiere dein Hauptziel als fest gebucht, um die An- und Abreise exakt darum herum planen zu lassen.",
-        "roundTrip": "Rundreisen-Shortcut: Aktiviere Rundreisen nun direkt beim Startpunkt für einen noch schnelleren Flow.",
-        "contextLabels": "Intelligente Beschriftung: Die Eingabefelder zeigen nun direkt den Namen deines Ortes an (z.B. „Abreise Weingarten“).",
-        "updateUX": "Prompt-Aktualisierung: Bei Änderungen an deinen Plänen kannst du den Prompt nun sofort mit einem Klick aktualisieren.",
-        "uiPolish": "Layout-Feinschliff: Datums- und Zeitfelder sind nun übersichtlicher angeordnet und mit passenden Icons versehen."
+        "searchPlatform": "Neue Suchplattformen: Die KI sucht nun exklusiv auf camping.info und stellplatz.info nach passenden Übernachtungsmöglichkeiten.",
+        "openingHours": "Öffnungszeiten-Check: Es wird jetzt aktiv geprüft, ob Plätze zur geplanten Reisezeit geöffnet haben. Bei geschlossenen Plätzen gibt es einen Warnhinweis.",
+        "cleanLinks": "Verifizierte Links: Alle vorgeschlagenen Plätze enthalten nun garantierte Direktlinks zu den jeweiligen Plattformen."
       },
       "dismiss": "Verstanden",
       "release": "Release ansehen"

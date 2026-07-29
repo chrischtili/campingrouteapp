@@ -8,8 +8,9 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { getFinderSeo } from "@/lib/finderPageContent";
+import { getFinderSeo, getFinderPageContent } from "@/lib/finderPageContent";
 import { getPromptGeneratorSeo } from "@/lib/promptGeneratorPageContent";
+import { getSchemaLocale, generateFAQPageSchema, generateHowToSchema, generateWebApplicationSchema } from "@/lib/seoSchema";
 
 const CHUNK_RELOAD_KEY = "cr_chunk_reload";
 const CHUNK_RELOAD_NOTICE_KEY = "cr_chunk_reload_notice";
@@ -106,7 +107,7 @@ const App = () => {
   const location = useLocation();
   const [showWhatsNew, setShowWhatsNew] = React.useState(false);
   const [releaseVersion, setReleaseVersion] = React.useState<string | null>(null);
-  const displayReleaseVersion = `v${(releaseVersion || "0.5.8").replace(/^v/i, "")}`;
+  const displayReleaseVersion = `v${(releaseVersion || "0.5.9").replace(/^v/i, "")}`;
 
   const openWhatsNew = React.useCallback(() => {
     setShowWhatsNew(true);
@@ -313,6 +314,60 @@ const App = () => {
       meta.setAttribute('property', 'og:locale:alternate');
       meta.setAttribute('content', loc);
       document.head.appendChild(meta);
+    });
+
+    // Dynamic JSON-LD Schema Injection for GEO, AEO & LLMO
+    const schemaLocale = getSchemaLocale(i18n.language);
+    let dynamicFaqs: Array<{ question: string; answer: string }> = [];
+
+    if (location.pathname === "/campingplatz-finder") {
+      const content = getFinderPageContent(i18n.language, "camping");
+      dynamicFaqs = content.faqs;
+    } else if (location.pathname === "/stellplatz-finder") {
+      const content = getFinderPageContent(i18n.language, "stopover");
+      dynamicFaqs = content.faqs;
+    } else {
+      // Main landing page FAQs
+      dynamicFaqs = [
+        {
+          question: t("faq.items.whatIs.q"),
+          answer: `${t("faq.items.whatIs.title")} ${t("faq.items.whatIs.prec1")} ${t("faq.items.whatIs.ai1")}`,
+        },
+        {
+          question: t("faq.items.howItWorks.q"),
+          answer: `${t("faq.items.howItWorks.title")}: 1. ${t("faq.items.howItWorks.step1")} - ${t("faq.items.howItWorks.step1a")}. 2. ${t("faq.items.howItWorks.step2")} - ${t("faq.items.howItWorks.step2a")}. 3. ${t("faq.items.howItWorks.step3")} - ${t("faq.items.howItWorks.step3a")}.`,
+        },
+        {
+          question: t("faq.items.aiModel.q"),
+          answer: `${t("faq.items.aiModel.title")} ${t("faq.items.aiModel.gpt1")} ${t("faq.items.aiModel.recDesc")}`,
+        },
+        {
+          question: t("faq.items.cost.q"),
+          answer: `${t("faq.items.cost.title")} ${t("faq.items.cost.free1")} ${t("faq.items.cost.transDesc")}`,
+        },
+        {
+          question: t("faq.items.privacy.q"),
+          answer: `${t("faq.items.privacy.title")} ${t("faq.items.privacy.device1")} ${t("faq.items.privacy.sec1")}`,
+        },
+      ];
+    }
+
+    const schemas = [
+      generateWebApplicationSchema(schemaLocale),
+      generateHowToSchema(schemaLocale),
+      generateFAQPageSchema(dynamicFaqs),
+    ];
+
+    let dynamicScript = document.head.querySelector('#dynamic-seo-schema') as HTMLScriptElement | null;
+    if (!dynamicScript) {
+      dynamicScript = document.createElement('script');
+      dynamicScript.id = 'dynamic-seo-schema';
+      dynamicScript.type = 'application/ld+json';
+      document.head.appendChild(dynamicScript);
+    }
+    dynamicScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": schemas,
     });
   }, [t, i18n.language, location.pathname, location.search]);
 

@@ -1,6 +1,6 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner
 
-[![Version](https://img.shields.io/badge/version-v0.5.8-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.5.9-blue.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
@@ -12,11 +12,12 @@
 
 ---
 
-## 🌟 Highlights (v0.5.8)
+## 🌟 Highlights (v0.5.9)
 
-- **Neue Suchplattformen**: Die KI sucht nun exklusiv auf camping.info und stellplatz.info nach passenden Übernachtungsmöglichkeiten.
-- **Öffnungszeiten-Check**: Es wird aktiv geprüft, ob Plätze zur geplanten Reisezeit geöffnet haben. Bei geschlossenen Plätzen gibt es einen Warnhinweis.
-- **Verifizierte Links**: Alle vorgeschlagenen Plätze enthalten nun garantierte Direktlinks zu den jeweiligen Plattformen.
+- **GEO & AEO Optimierung**: Vollständige Unterstützung für KI-Suchmaschinen (Perplexity, ChatGPT, Google AI Overviews) via dynamische Schema.org JSON-LD (FAQPage, HowTo & WebApplication).
+- **Strukturierte Mikrodaten**: HTML5-Microdata in FAQs für direkte KI-Zitate und Direct Answers.
+- **Exklusive Suchplattformen**: Die KI sucht exklusiv auf camping.info und stellplatz.info nach passenden Übernachtungsmöglichkeiten.
+- **Öffnungszeiten-Check**: Aktive Prüfung, ob Plätze zur geplanten Reisezeit geöffnet haben (mit Nutzerwarnung bei geschlossenen Plätzen).
 
 ## 📦 Features
 
@@ -48,11 +49,12 @@
 
 **The AI Route Planner specifically for RVs & Campers!**
 
-### 🌟 Highlights (v0.5.8)
+### 🌟 Highlights (v0.5.9)
 
-- **New Search Platforms**: The AI now searches exclusively on camping.info and stellplatz.info for suitable overnight stays.
-- **Opening Hours Check**: Active verification if places are open during your planned travel time. Closed places trigger a warning.
-- **Verified Links**: All suggested places now include guaranteed direct links to the respective platforms.
+- **GEO & AEO Optimization**: Full support for AI search engines (Perplexity, ChatGPT, Google AI Overviews) via dynamic Schema.org JSON-LD (FAQPage, HowTo & WebApplication).
+- **Structured Microdata**: HTML5 microdata in FAQs for direct AI snippet citations.
+- **Exclusive Search Platforms**: The AI searches exclusively on camping.info and stellplatz.info for suitable overnights.
+- **Opening Hours Check**: Active verification if places are open during your planned travel time.
 
 ### 📦 Features
 

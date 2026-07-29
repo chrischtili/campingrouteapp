@@ -198,6 +198,8 @@ export function FAQSection({ onStartPlanning }: FAQSectionProps) {
                 key={faq.id}
                 id={faq.id}
                 value={faq.id}
+                itemScope
+                itemType="https://schema.org/Question"
                 className="theme-surface rounded-3xl overflow-hidden border transition-all duration-500 hover:border-primary/18 hover:shadow-[0_24px_64px_rgba(88,93,79,0.14)] data-[state=open]:border-primary/20 data-[state=open]:shadow-[0_24px_64px_rgba(88,93,79,0.16)] dark:border-white/10 dark:hover:border-white/14 dark:hover:shadow-[0_24px_64px_rgba(0,0,0,0.22)] dark:data-[state=open]:border-primary/22 dark:data-[state=open]:bg-[linear-gradient(180deg,rgba(61,81,75,0.92),rgba(46,63,58,0.94))] dark:data-[state=open]:shadow-[0_24px_64px_rgba(0,0,0,0.24)]"
               >
                 <AccordionTrigger className="px-6 sm:px-8 py-6 hover:no-underline group">
@@ -205,11 +207,11 @@ export function FAQSection({ onStartPlanning }: FAQSectionProps) {
                     <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
                       <faq.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <span className="font-black text-base sm:text-lg md:text-xl tracking-tight text-foreground dark:text-white">{faq.q}</span>
+                    <span itemProp="name" className="font-black text-base sm:text-lg md:text-xl tracking-tight text-foreground dark:text-white">{faq.q}</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
-                  <div className="pl-0 sm:pl-[4.25rem] space-y-6 mt-4 sm:mt-0">
+                <AccordionContent itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
+                  <div itemProp="text" className="pl-0 sm:pl-[4.25rem] space-y-6 mt-4 sm:mt-0">
                     <p className="text-foreground dark:text-white font-bold text-lg">{faq.title}</p>
                     
                     {faq.content && (

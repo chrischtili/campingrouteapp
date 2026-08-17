@@ -245,16 +245,16 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   const showAISettingsSection = DIRECT_AI_FEATURE_ENABLED;
   const plannerSectionClass = `w-full min-w-0 px-0 sm:px-6 lg:px-8 ${isMobile ? "py-3" : "py-6 sm:py-7"}`;
   const plannerSummarySectionClass = "px-1 sm:px-6 lg:px-8 py-4 sm:py-7";
-  const plannerAccordionItemClass = `w-full min-w-0 overflow-hidden bg-[linear-gradient(180deg,rgba(238,242,249,0.98),rgba(231,236,245,0.98))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.94),rgba(44,53,70,0.96))] ${
-    isMobile
-      ? "rounded-[1.4rem] border border-primary/16 shadow-[0_8px_18px_rgba(15,23,42,0.04)]"
-      : "rounded-[1.75rem] border-2 border-primary/20 shadow-[0_12px_30px_rgba(15,23,42,0.06)]"
+  const plannerAccordionItemClass = `overflow-hidden transition-all bg-white border border-gray-200/80 shadow-sm dark:bg-slate-900 dark:border-slate-800 ${
+    isMobile 
+      ? "rounded-2xl" 
+      : "rounded-2xl"
   }`;
-  const plannerAccordionTriggerClass = `text-left hover:no-underline transition-colors hover:bg-black/[0.02] data-[state=open]:bg-black/[0.02] dark:hover:bg-white/[0.03] dark:data-[state=open]:bg-white/[0.03] ${
+  const plannerAccordionTriggerClass = `text-left hover:no-underline transition-colors hover:bg-gray-50/80 data-[state=open]:bg-gray-50/80 dark:hover:bg-slate-800/50 dark:data-[state=open]:bg-slate-800/50 ${
     isMobile ? "px-4 py-4" : "px-4 sm:px-6 py-5"
   }`;
   const plannerAccordionContentClass = `w-full min-w-0 pt-0 ${isMobile ? "px-3 pb-4" : "px-3 sm:px-6 pb-5 sm:pb-6"}`;
-  const plannerPanelSurfaceClass = "bg-[linear-gradient(180deg,rgba(238,242,249,0.985),rgba(231,236,245,0.985))] dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.985),rgba(44,53,70,0.985))]";
+  const plannerPanelSurfaceClass = "bg-white border border-gray-200/80 shadow-sm dark:bg-slate-900 dark:border-slate-800";
   const promptPageContent = getPromptGeneratorPageContent(i18n.language);
   const validActivityValues = new Set([
     "nature",
@@ -1048,7 +1048,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
       className={`theme-popup-shell theme-popup-vehicle relative overflow-hidden ${
         isMobile
           ? "rounded-none border-0 bg-transparent shadow-none dark:bg-transparent"
-          : "rounded-[2.5rem] border-2 shadow-[0_32px_120px_rgba(0,0,0,0.18)]"
+          : "rounded-3xl border border-gray-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900"
       }`}
     >
       <section
@@ -1145,7 +1145,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           onClick={runGeneration}
                           disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                          className="planner-primary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-primary/30 bg-primary px-5 font-semibold transition-all active:scale-95 hover:bg-primary/90"
+                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 font-semibold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20"
                         >
                           <Bot className="h-4 w-4" />
                           <span>
@@ -1230,8 +1230,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                   }`
                                 : `gap-4 rounded-2xl px-4 py-4 ${
                                     isActivePlan
-                                      ? "border-2 border-primary/55 bg-primary/[0.06] shadow-[0_12px_30px_rgba(0,0,0,0.10),0_0_0_1px_rgba(255,128,0,0.10)]"
-                                      : "border border-primary/35 bg-white/[0.04] shadow-[inset_0_0_0_1px_rgba(255,128,0,0.08)]"
+                                      ? "border-2 border-primary bg-primary/5 shadow-sm"
+                                      : "border border-gray-200 bg-white shadow-none dark:border-slate-800 dark:bg-slate-900"
                                   }`
                             }`}
                           >
@@ -1648,14 +1648,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
             type="button"
             onClick={isStickyPromptCopyMode ? copyPromptOutput : (aiSettings.useDirectAI && !isConceptSelectionMode && !output ? handleGenerateConcepts : () => runGeneration())}
             disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-            className={`h-11 w-auto max-w-full rounded-[1.25rem] border px-4 text-sm font-semibold backdrop-blur-2xl transition-all ${
+            className={`h-11 w-auto max-w-full rounded-xl border px-4 text-sm font-semibold transition-all ${
               isStickyPromptCopyMode
-                ? "border-emerald-700/40 bg-emerald-600 text-white shadow-[0_18px_42px_rgba(5,150,105,0.28)] hover:bg-emerald-500"
+                ? "border-emerald-700/40 bg-emerald-600 text-white shadow-sm hover:bg-emerald-500"
                 : isConceptSelectionMode 
-                  ? "border-slate-400 bg-white !text-slate-950 shadow-md hover:border-primary/50 hover:bg-slate-50 !hover:text-black dark:border-white/15 dark:bg-white/5 dark:!text-white/70 dark:hover:bg-white/10 dark:!hover:text-white" 
-                  : "planner-primary-button border-primary/35 shadow-[0_12px_24px_rgba(201,123,0,0.2)]"
+                  ? "border-slate-300 bg-white text-slate-800 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200" 
+                  : "border-primary/40 bg-primary text-white shadow-sm hover:bg-primary/90"
             }`}
-            style={!isStickyPromptCopyMode && !isConceptSelectionMode ? { color: "#fff" } : undefined}
           >
             {isStickyPromptCopyMode ? (
               <>
@@ -1683,7 +1682,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
         <Navbar onStartPlanning={revealPlanner} />
 
         <section className={`relative overflow-hidden pb-12 pt-28 sm:pt-32 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_top,rgba(255,147,41,0.16),transparent_56%)] blur-3xl" />
           <div className="relative mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -1692,7 +1690,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               className={`overflow-hidden ${
                 isMobile
                   ? "rounded-none border-0 bg-transparent px-0 py-6 shadow-none dark:bg-transparent"
-                  : "rounded-[2.75rem] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,251,245,0.95),rgba(247,240,230,0.94))] px-6 py-8 shadow-[0_28px_90px_rgba(255,128,0,0.12)] dark:bg-[linear-gradient(180deg,rgba(48,55,45,0.94),rgba(31,38,33,0.97))] sm:px-8 sm:py-10 lg:px-12 lg:py-14"
+                  : "rounded-3xl border border-gray-200/80 bg-white px-6 py-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:px-8 sm:py-10 lg:px-12 lg:py-14"
               }`}
             >
               <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
@@ -1823,17 +1821,17 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
         <TestimonialsSection />
       </Suspense>
 
-      <section className="planner-scope theme-band-vehicle relative overflow-hidden px-4 py-20 text-foreground dark:text-white">
+      <section className="relative overflow-hidden px-4 py-20 text-foreground dark:text-white">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl space-y-6 text-center">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
-              className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/12 px-4 py-1.5 backdrop-blur-md"
+              className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 dark:border-emerald-900/40 dark:bg-emerald-950/20"
             >
-              <MapIcon className="h-4 w-4 text-primary" />
-              <span className="text-[10px] font-black tracking-[0.3em] text-primary">
+              <Sparkles className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-emerald-800 dark:text-emerald-300">
                 {t("planner.badge")}
               </span>
             </motion.span>
@@ -1849,10 +1847,12 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               <Button
                 type="button"
                 onClick={revealPlanner}
-                className="planner-primary-button h-12 rounded-2xl px-6 font-semibold"
+                className="planner-primary-button relative inline-flex h-13 min-w-[200px] items-center justify-center overflow-hidden rounded-2xl bg-emerald-600 px-6 font-bold !text-white shadow-md shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98]"
               >
-                <Sparkles className="mr-2 h-4 w-4" />
-                {t("planner.cta")}
+                <span className="relative z-10 flex items-center gap-2 text-base font-bold !text-white">
+                  <Sparkles className="h-5 w-5 !text-white" />
+                  {t("planner.cta")}
+                </span>
               </Button>
             </div>
           </div>

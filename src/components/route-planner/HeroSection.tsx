@@ -1,4 +1,4 @@
-import { BusFront, Caravan, CheckCircle2, ChevronRight, MapPin, Search, Sparkles } from "lucide-react";
+import { BusFront, Caravan, CheckCircle2, ChevronRight, MapPin, Search, Sparkles, MessageSquare, Compass, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -73,12 +73,6 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-background" id="home">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#fbf7f0_0%,#eef4fb_45%,#f7f1e7_100%)] dark:bg-[linear-gradient(180deg,#111714_0%,#18211d_45%,#121814_100%)]" />
-        <div className="absolute left-[-8%] top-[9%] h-72 w-72 rounded-full bg-primary/14 blur-3xl sm:h-96 sm:w-96" />
-        <div className="absolute right-[-10%] top-[18%] h-80 w-80 rounded-full bg-sky-200/45 blur-3xl dark:bg-sky-900/20 sm:h-[28rem] sm:w-[28rem]" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(255,248,239,0.85))] dark:bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(9,13,11,0.78))]" />
-      </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-10 pt-28 md:pb-14 md:pt-32">
         <div className="flex flex-col items-center text-center space-y-8 mb-12 lg:mb-16">
@@ -106,19 +100,19 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           </div>
         </div>
 
-        <div className="grid flex-1 items-start gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
-          <div className="space-y-8">
-            <div className="rounded-[2rem] border border-white/70 bg-white/78 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05] sm:p-5">
-              <div className="mb-3 flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-[0.28em]">
-                <Sparkles className="h-3.5 w-3.5" />
+        <div className="grid flex-1 items-start gap-12 lg:grid-cols-2 lg:gap-14">
+          <div className="col-span-1 lg:col-span-2">
+            <div className="rounded-3xl border border-gray-200/80 bg-white p-6 sm:p-8 lg:p-10 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="mb-3 flex items-center gap-2 text-primary font-bold text-[11px] uppercase tracking-[0.2em]">
+                <Sparkles className="h-4 w-4" />
                 {t("hero.directEntry.badge")}
               </div>
-              <div className="mb-5 text-2xl font-black tracking-tight text-foreground dark:text-white">
+              <div className="mb-6 text-2xl font-black tracking-tight text-foreground dark:text-white sm:text-3xl">
                 {t("hero.directEntry.title")}
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <div className="relative flex-1">
-                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-primary dark:text-primary/90" />
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     type="text"
                     value={destinationQuery}
@@ -146,10 +140,10 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                     }}
                     placeholder={t("hero.directEntry.placeholder")}
                     aria-label={t("hero.directEntry.label")}
-                    className="h-12 sm:h-14 rounded-2xl border-primary/12 bg-white/90 pl-14 sm:pl-14 text-sm sm:text-base text-foreground shadow-[0_12px_28px_rgba(15,23,42,0.08)] placeholder:text-foreground/45 dark:border-white/10 dark:bg-white/[0.08]"
+                    className="h-13 rounded-xl border border-gray-200 bg-gray-50/60 focus:bg-white pl-12 text-base text-foreground shadow-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-800/60"
                   />
                   {showSuggestions && (
-                    <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-white/70 bg-white/95 shadow-[0_20px_50px_rgba(15,23,42,0.14)] backdrop-blur-xl dark:border-white/10 dark:bg-[#1b231f]/95">
+                    <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900">
                       {isSuggesting ? (
                         <div className="px-4 py-3 text-sm text-foreground/60 dark:text-white/60">
                           {t("hero.directEntry.loading")}
@@ -161,7 +155,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                             type="button"
                             onMouseDown={(event) => event.preventDefault()}
                             onClick={() => handleSelectSuggestion(suggestion)}
-                            className="flex w-full items-start justify-between gap-3 border-b border-border/50 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-primary/6 dark:border-white/10 dark:hover:bg-white/[0.05]"
+                            className="flex w-full items-start justify-between gap-3 border-b border-gray-100 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-gray-50 dark:border-slate-800 dark:hover:bg-slate-800/50"
                           >
                             <div className="min-w-0">
                               <div className="truncate text-sm font-semibold text-foreground dark:text-white">
@@ -179,12 +173,12 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                   )}
                 </div>
                 <Button
-                  size="sm"
+                  type="button"
                   onClick={handleStart}
-                  className="group h-12 rounded-2xl border-2 border-primary/45 bg-primary hover:bg-primary/90 px-6 text-sm font-black text-white shadow-xl shadow-primary/30 transition-all hover:scale-[1.01] sm:h-14 sm:px-8 sm:text-base"
+                  className="relative inline-flex h-13 min-w-[200px] items-center justify-center overflow-hidden rounded-2xl bg-emerald-600 px-6 font-bold !text-white shadow-md shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98]"
                 >
-                  <span className="relative z-10 flex items-center gap-2.5">
-                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform" />
+                  <span className="relative z-10 flex items-center gap-2 text-base font-bold !text-white">
+                    <MapPin className="h-5 w-5 !text-white" />
                     {t("hero.directEntry.cta")}
                   </span>
                 </Button>
@@ -208,7 +202,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                     key={dest.value}
                     type="button"
                     onClick={() => onStartPlanning?.(dest.value)}
-                    className="rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 text-xs font-bold text-primary transition-all hover:bg-primary/10 active:scale-95"
+                    className="rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-bold text-emerald-800 transition-all hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/50 dark:text-emerald-300 dark:hover:bg-emerald-900/60 active:scale-95"
                   >
                     {dest.label}
                   </button>
@@ -226,105 +220,76 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                 ].map((chip) => (
                   <span
                     key={chip}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/72 px-4 py-2 text-xs font-semibold text-foreground/76 shadow-[0_10px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05] dark:text-white/78"
+                    className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50/80 px-4 py-2 text-xs font-semibold text-foreground/80 dark:border-slate-700 dark:bg-slate-800/80 dark:text-white/80"
                   >
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
                     {chip}
                   </span>
                 ))}
               </div>
             </div>
-
-            <div className="rounded-[1.75rem] border border-white/70 bg-white/62 p-4 shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04]">
-              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary">
-                {t("hero.finders.badge")}
-              </div>
-              <div className="mt-2 text-xl font-black tracking-tight text-foreground dark:text-white">
-                {t("hero.finders.title")}
-              </div>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground/66 dark:text-white/62">
-                {t("hero.finders.description")}
-              </p>
-              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-12 rounded-2xl border border-primary/20 bg-white/92 px-5 font-semibold text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.08)] hover:border-primary/45 hover:bg-white dark:border-white/12 dark:bg-white/95 dark:text-slate-950 dark:hover:border-primary/40 dark:hover:bg-white"
-                >
-                  <Link
-                    to="/stellplatz-finder"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-slate-950"
-                  >
-                    <BusFront className="h-4 w-4 shrink-0 text-primary" />
-                    {t("hero.finders.stopoverCta")}
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-12 rounded-2xl border border-primary/20 bg-white/92 px-5 font-semibold text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.08)] hover:border-primary/45 hover:bg-white dark:border-white/12 dark:bg-white/95 dark:text-slate-950 dark:hover:border-primary/40 dark:hover:bg-white"
-                >
-                  <Link
-                    to="/campingplatz-finder"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-slate-950"
-                  >
-                    <Caravan className="h-4 w-4 shrink-0 text-primary" />
-                    {t("hero.finders.campingCta")}
-                  </Link>
-                </Button>
-              </div>
-            </div>
-
           </div>
 
-          <div className="relative">
-            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-[2.5rem] bg-primary/10 blur-2xl" />
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(245,242,235,0.94))] p-5 shadow-[0_30px_90px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))]">
-              <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
-              <div className="relative space-y-5">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <div className="text-[10px] font-black uppercase tracking-[0.24em] text-primary">
-                      {t("hero.visual.badge")}
-                    </div>
-                    <div className="mt-2 text-3xl font-black tracking-tight text-foreground dark:text-white">
-                      {t("hero.visual.title")}
-                    </div>
+          <div className="relative col-span-1 lg:col-span-2">
+            <div 
+              className="relative overflow-hidden rounded-3xl p-8 sm:p-10 shadow-xl text-white"
+              style={{ background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' }}
+            >
+              {/* Decorative background circle */}
+              <div className="pointer-events-none absolute -bottom-12 -right-12 h-52 w-52 rounded-full bg-white/[0.03]" />
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 relative z-10">
+                {/* Step 1 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                    <MessageSquare className="h-6.5 w-6.5" />
                   </div>
-                  <div className="hidden rounded-2xl border border-primary/18 bg-primary/10 px-4 py-3 text-right lg:block">
-                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">{t("hero.visual.outputLabel")}</div>
-                    <div className="mt-1 text-sm font-semibold text-foreground dark:text-white">{t("hero.visual.outputValue")}</div>
-                  </div>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[1.6rem] border border-border/70 bg-white/76 p-4 shadow-[0_14px_34px_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-white/[0.04]">
-                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">{t("hero.visual.step1Label")}</div>
-                    <div className="mt-3 text-2xl font-black tracking-tight text-foreground dark:text-white">{t("hero.visual.step1Value")}</div>
-                    <div className="mt-2 text-sm leading-6 text-foreground/62 dark:text-white/60">
-                      {t("hero.visual.step1Description")}
-                    </div>
-                  </div>
-                  <div className="rounded-[1.6rem] border border-border/70 bg-white/76 p-4 shadow-[0_14px_34px_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-white/[0.04]">
-                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">{t("hero.visual.step2Label")}</div>
-                    <div className="mt-3 space-y-2 text-sm leading-6 text-foreground/70 dark:text-white/66">
-                      <div>{t("hero.visual.step2Bullet1")}</div>
-                      <div>{t("hero.visual.step2Bullet2")}</div>
-                      <div>{t("hero.visual.step2Bullet3")}</div>
-                    </div>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                      SCHRITT 01
+                    </span>
+                    <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                      Wohnmobil & Route wählen
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                      Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
+                    </p>
                   </div>
                 </div>
 
-                <div className="rounded-[1.75rem] border border-primary/14 bg-[linear-gradient(180deg,rgba(238,242,249,0.9),rgba(231,236,245,0.9))] p-4 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(60,71,93,0.56),rgba(44,53,70,0.62))]">
-                  <div className="flex flex-wrap gap-3">
-                    {stats.map((stat) => (
-                      <div key={stat.label} className="min-w-[7.5rem] flex-1 rounded-2xl border border-white/65 bg-white/72 px-4 py-3 dark:border-white/10 dark:bg-white/[0.04]">
-                        <div className="text-2xl font-black tracking-tight text-foreground dark:text-white">{stat.value}</div>
-                        <div className="mt-1 text-[10px] font-black uppercase tracking-[0.18em] text-foreground/75 dark:text-white/70">
-                          {stat.label}
-                        </div>
-                      </div>
-                    ))}
+                {/* Step 2 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                    <Compass className="h-6.5 w-6.5" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                      SCHRITT 02
+                    </span>
+                    <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                      Smarte KI-Prompts generieren
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                      Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                    <Heart className="h-6.5 w-6.5" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                      SCHRITT 03
+                    </span>
+                    <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                      Stellplätze & GPX exportieren
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                      Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
+                    </p>
                   </div>
                 </div>
               </div>

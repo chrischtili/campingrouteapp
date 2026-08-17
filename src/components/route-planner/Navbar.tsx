@@ -2,14 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, ChevronRight, Moon, Sun } from "lucide-react";
+import { Globe, Menu, X, Moon, Sun } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { motion } from "framer-motion";
 import { useTheme } from "@/components/ui/theme-provider";
 import { getFinderNavLabels } from "@/lib/finderPageContent";
 
@@ -18,18 +17,14 @@ interface NavbarProps {
 }
 
 export function Navbar({ onStartPlanning }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
-  const [releaseVersion, setReleaseVersion] = useState("0.5.9");
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);
   const { setTheme, resolvedTheme } = useTheme();
-  const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const isHomePage = location.pathname === "/";
 
   // Close mobile menu when clicking outside
@@ -50,366 +45,176 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     };
   }, [mobileMenuOpen]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    let isMounted = true;
-    const loadVersion = async () => {
-      try {
-        const response = await fetch(`/version.json?ts=${Date.now()}`, { cache: "no-store" });
-        if (!response.ok) return;
-        const data = await response.json();
-        if (isMounted && typeof data?.version === "string") {
-          setReleaseVersion(data.version);
+  const handleNavClick = (href: string) => {
+    setMobileMenuOpen(false);
+    if (href.startsWith("#")) {
+      if (!isHomePage) {
+        navigate(`/${href}`);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          const yOffset = -70;
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
         }
-      } catch {
-        // Keep fallback version in the label.
       }
-    };
-    loadVersion();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) {
-      const timeoutId = window.setTimeout(() => {
-        mobileMenuButtonRef.current?.blur();
-      }, 0);
-      return () => window.clearTimeout(timeoutId);
-    }
-  }, [mobileMenuOpen]);
-
-  const handleNavClick = (anchor: string) => {
-    if (!isHomePage) {
-      navigate(`/${anchor}`);
     } else {
-      const element = document.querySelector(anchor);
-      if (element) {
-        const yOffset = -80;
-        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
+      navigate(href);
     }
-    setMobileMenuOpen(false);
-    setIsNavDropdownOpen(false);
-  };
-
-  const handleFAQItemNavigation = (itemId: string) => {
-    if (!isHomePage) {
-      navigate(`/?faq=${itemId}`);
-    } else {
-      window.dispatchEvent(new CustomEvent("open-faq", { detail: itemId }));
-    }
-    setMobileMenuOpen(false);
-    setIsNavDropdownOpen(false);
-  };
-
-  const handlePlanNow = () => {
-    if (!isHomePage) {
-      navigate("/prompt-generator");
-    } else if (onStartPlanning) {
-      onStartPlanning();
-    } else {
-      navigate("/prompt-generator");
-    }
-    setMobileMenuOpen(false);
-    setIsNavDropdownOpen(false);
-  };
-
-  const handleOpenPlaceFinder = (path = "/campingplatz-finder") => {
-    navigate(path);
-    setMobileMenuOpen(false);
-    setIsNavDropdownOpen(false);
   };
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     setMobileMenuOpen(false);
-    setIsNavDropdownOpen(false);
   };
 
-  const openWhatsNew = () => {
-    window.dispatchEvent(new Event("open-whats-new"));
-    setMobileMenuOpen(false);
-    setIsNavDropdownOpen(false);
-  };
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen((open) => !open);
-    requestAnimationFrame(() => {
-      mobileMenuButtonRef.current?.blur();
-    });
-  };
-
-  const navLinks = [
-    { name: t("navbar.features"), href: "#features" },
-    { name: t("navbar.exampleRoute"), faqItem: "exampleRoute" },
-    { name: t("navbar.faq"), href: "#faq" },
+  const navItems = [
+    { name: t("navbar.planNow"), path: "/prompt-generator", isAnchor: false },
+    { name: finderLabels.camping, path: "/campingplatz-finder", isAnchor: false },
+    { name: finderLabels.stopover, path: "/stellplatz-finder", isAnchor: false },
+    { name: t("navbar.features"), path: "#features", isAnchor: true },
+    { name: t("navbar.faq"), path: "#faq", isAnchor: true },
   ];
 
-  const oppositeExplicitTheme = resolvedTheme === "dark" ? "light" : "dark";
-  const ThemeIcon = resolvedTheme === "dark" ? Sun : Moon;
-  const themeToggleLabel = resolvedTheme === "dark" ? t("navbar.theme.activateLight") : t("navbar.theme.activateDark");
+  const languages = [
+    { code: "de", label: "Deutsch (DE)" },
+    { code: "en", label: "English (EN)" },
+    { code: "nl", label: "Nederlands (NL)" },
+    { code: "fr", label: "Français (FR)" },
+    { code: "it", label: "Italiano (IT)" },
+  ];
 
   return (
-    <nav 
+    <header 
       id="main-nav"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled 
-          ? "site-nav py-4 backdrop-blur-xl border-b shadow-2xl" 
-          : "py-8 bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 w-full border-b border-gray-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors"
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo Area */}
-        <Link 
-          to="/" 
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-3 group"
-        >
-          <Compass className="w-8 h-8 text-primary transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110" />
-          <div className="flex flex-col">
-            <span className="font-black text-2xl tracking-tighter text-foreground dark:text-white leading-none">
-              Camping<span className="text-primary">Route</span>
-            </span>
-            <span className="mt-1 text-[8px] font-semibold tracking-[0.12em] text-foreground/45 dark:text-white/40 leading-none">
-              {t("navbar.subtitle")}
-            </span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-4">
+          
+          {/* Left: Brand Logo & Title */}
+          <div className="flex items-center gap-8">
+            <Link 
+              to="/" 
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex items-center gap-2.5 group"
+            >
+              <img
+                src="/android-chrome-192x192.png"
+                alt="CampingRoute Logo"
+                className="w-8 h-8 transition-transform duration-300 group-hover:scale-105"
+              />
+              <span 
+                className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#166534] dark:text-emerald-400"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 800 }}
+              >
+                CampingRoute
+              </span>
+            </Link>
+
+            {/* Desktop Sightseer-Style Tab Navigation Links */}
+            <nav className="hidden md:flex items-center gap-6">
+              {navItems.map((item) => {
+                const isActive = item.isAnchor 
+                  ? isHomePage && location.hash === item.path
+                  : location.pathname === item.path;
+
+                return (
+                  <button
+                    key={item.path}
+                    type="button"
+                    onClick={() => handleNavClick(item.path)}
+                    className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors ${
+                      isActive 
+                        ? "text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400" 
+                        : "text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white font-semibold"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                );
+              })}
+            </nav>
           </div>
-        </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                className="rounded-full px-4 sm:px-6 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.08em] text-foreground/78 dark:text-white bg-white/72 hover:bg-white/82 dark:bg-white/10 dark:hover:bg-white/14 border border-white/70 dark:border-white/14 shadow-[0_18px_42px_rgba(15,23,42,0.10)] dark:shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
-                style={{
-                  backgroundImage:
-                    resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))"
-                      : "linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62))",
-                }}
-              >
-                {t("navbar.placeFinder")}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-72 rounded-2xl border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
-              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 hover:bg-muted/80 focus:bg-muted/80 dark:hover:bg-white/8 dark:focus:bg-white/8">
-                <Link to="/campingplatz-finder" className="group flex w-full flex-col items-start gap-1 rounded-xl transition-colors">
-                  <span className="text-sm font-black text-foreground transition-colors group-hover:text-primary dark:text-white dark:group-hover:text-primary">{finderLabels.camping}</span>
-                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
-                    {t("navbar.placeFinderDescriptions.camping")}
-                  </span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="rounded-xl px-3 py-3 hover:bg-muted/80 focus:bg-muted/80 dark:hover:bg-white/8 dark:focus:bg-white/8">
-                <Link to="/stellplatz-finder" className="group flex w-full flex-col items-start gap-1 rounded-xl transition-colors">
-                  <span className="text-sm font-black text-foreground transition-colors group-hover:text-primary dark:text-white dark:group-hover:text-primary">{finderLabels.stopover}</span>
-                  <span className="text-xs leading-relaxed text-foreground/60 dark:text-white/58">
-                    {t("navbar.placeFinderDescriptions.stopover")}
-                  </span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Button
-            onClick={handlePlanNow}
-            className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/25 border border-primary/40 hover:scale-[1.02]"
-          >
-            {t("navbar.planNow")}
-          </Button>
-
-          <DropdownMenu open={isNavDropdownOpen} onOpenChange={setIsNavDropdownOpen}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-11 w-11 rounded-2xl border border-foreground/12 bg-white/72 text-foreground hover:bg-white/88 dark:border-white/14 dark:bg-white/10 dark:text-white dark:hover:bg-white/14 shadow-[0_14px_34px_rgba(15,23,42,0.10)] backdrop-blur-2xl"
-                aria-label={t("navbar.navigation")}
-                title={t("navbar.navigation")}
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-80 rounded-[1.5rem] border border-border/80 bg-popover/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95">
-              {navLinks.map((link) => (
-                <DropdownMenuItem
-                  key={link.name}
-                  onClick={() => link.faqItem ? handleFAQItemNavigation(link.faqItem) : handleNavClick(link.href!)}
-                  className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
+          {/* Right: Theme Toggle, Language & Mobile Burger Menu */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            
+            {/* Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 px-2.5 text-xs font-bold text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg gap-1.5"
                 >
-                  <div className="flex w-full items-center justify-between gap-3">
-                    <span className="text-sm font-black text-foreground dark:text-white">{link.name}</span>
-                    <ChevronRight className="h-4 w-4 text-primary" />
-                  </div>
-                </DropdownMenuItem>
-              ))}
+                  <Globe className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+                  <span className="uppercase">{i18n.language.slice(0, 2)}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44 rounded-xl border border-gray-200 bg-white p-1 shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`rounded-lg text-xs font-semibold px-3 py-2 cursor-pointer ${
+                      i18n.language.startsWith(lang.code) 
+                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 font-bold" 
+                        : "text-gray-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    {lang.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-              <div className="my-2 h-px bg-foreground/8 dark:bg-white/10" />
+            {/* Light / Dark Mode Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className="h-9 w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
+              title="Theme umschalten"
+            >
+              {resolvedTheme === "dark" ? (
+                <Sun className="h-4.5 w-4.5 text-yellow-400" />
+              ) : (
+                <Moon className="h-4.5 w-4.5 text-slate-700" />
+              )}
+            </Button>
 
-              <DropdownMenuItem
-                onClick={openWhatsNew}
-                className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
-              >
-                <span className="text-sm font-semibold text-foreground/75 dark:text-white/78">
-                  {t("navbar.whatsNew", { version: displayReleaseVersion })}
-                </span>
-              </DropdownMenuItem>
+            {/* Mobile Burger Menu Button */}
+            <Button
+              ref={mobileMenuButtonRef}
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden h-9 w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
+              aria-label="Menü öffnen"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+          </div>
 
-              <DropdownMenuItem
-                onClick={() => {
-                  setTheme(oppositeExplicitTheme);
-                  setIsNavDropdownOpen(false);
-                }}
-                className="rounded-xl px-3 py-3 focus:bg-muted/80 dark:focus:bg-white/8"
-              >
-                <div className="flex w-full items-center justify-between gap-3">
-                  <span className="text-sm font-semibold text-foreground dark:text-white">{themeToggleLabel}</span>
-                  <ThemeIcon className="h-4 w-4 text-primary" />
-                </div>
-              </DropdownMenuItem>
-
-              <div className="mx-1 mt-2 rounded-2xl border border-border/70 bg-background/70 px-3 py-3 dark:border-white/10 dark:bg-white/5">
-                <div className="mb-2 flex items-center gap-2 text-[11px] font-black tracking-[0.14em] text-foreground/55 dark:text-white/55">
-                  <Globe className="h-3.5 w-3.5 text-primary" />
-                  {i18n.language.toUpperCase()}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    ["de", "DE"],
-                    ["en", "EN"],
-                    ["nl", "NL"],
-                    ["fr", "FR"],
-                    ["it", "IT"],
-                  ].map(([lng, label]) => (
-                    <button
-                      key={lng}
-                      type="button"
-                      onClick={() => changeLanguage(lng)}
-                      className={`inline-flex min-w-[44px] items-center justify-center rounded-xl border px-3 py-2 text-xs font-black tracking-[0.08em] transition-colors ${
-                        i18n.language === lng
-                          ? "border-primary/40 bg-primary/12 text-primary"
-                          : "border-border/70 bg-background/80 text-foreground/65 hover:bg-muted/70 dark:border-white/10 dark:bg-white/6 dark:text-white/65 dark:hover:bg-white/10"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
-
-        {/* Mobile Toggle */}
-        <button 
-          type="button"
-          ref={mobileMenuButtonRef}
-          aria-expanded={mobileMenuOpen}
-          className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/70 dark:bg-black/45 flex items-center justify-center text-foreground dark:text-white border border-foreground/12 dark:border-white/18 shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_18px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl outline-none ring-0 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
-          onClick={toggleMobileMenu}
-          onMouseUp={(event) => event.currentTarget.blur()}
-          onTouchEnd={(event) => event.currentTarget.blur()}
-          style={{
-            WebkitTapHighlightColor: "transparent",
-            WebkitAppearance: "none",
-            appearance: "none",
-            outline: "none",
-          }}
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
-        </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Slide-out Menu */}
       {mobileMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`site-nav-menu lg:hidden fixed left-0 right-0 z-[60] border-b p-6 sm:p-8 shadow-xl backdrop-blur-2xl ${
-            scrolled ? "top-[72px] sm:top-[84px]" : "top-[96px] sm:top-[112px]"
-          }`}
-        >
-          <div className="flex flex-col gap-4 sm:gap-6">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => link.faqItem ? handleFAQItemNavigation(link.faqItem) : handleNavClick(link.href!)}
-                className="text-xl sm:text-2xl font-black tracking-tighter text-foreground dark:text-white flex items-center justify-between group py-2"
-              >
-                {link.name}
-                <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
-              </button>
-            ))}
-            <div className="h-px bg-foreground/12 dark:bg-white/12 my-2" />
+        <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-2">
+          {navItems.map((item) => (
             <button
+              key={item.path}
               type="button"
-              onClick={() => handleOpenPlaceFinder("/campingplatz-finder")}
-              className="flex items-center justify-between rounded-2xl px-3 py-3 text-xl font-black tracking-tighter text-foreground transition-colors hover:bg-muted/70 hover:text-primary dark:text-white dark:hover:bg-white/10 dark:hover:text-primary sm:text-2xl group"
+              onClick={() => handleNavClick(item.path)}
+              className="block w-full text-left rounded-xl px-4 py-3 text-sm font-bold text-gray-800 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60"
             >
-              {finderLabels.camping}
-              <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
+              {item.name}
             </button>
-            <button
-              type="button"
-              onClick={() => handleOpenPlaceFinder("/stellplatz-finder")}
-              className="flex items-center justify-between rounded-2xl px-3 py-3 text-xl font-black tracking-tighter text-foreground transition-colors hover:bg-muted/70 hover:text-primary dark:text-white dark:hover:bg-white/10 dark:hover:text-primary sm:text-2xl group"
-            >
-              {finderLabels.stopover}
-              <ChevronRight className="text-primary opacity-0 group-hover:opacity-100 transition-all w-5 h-5 sm:w-6 sm:h-6" />
-            </button>
-            <button
-              type="button"
-              onClick={openWhatsNew}
-              className="text-sm font-bold text-foreground/70 dark:text-white/78 hover:text-primary transition-colors text-left py-1"
-            >
-              {t("navbar.whatsNew", { version: displayReleaseVersion })}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setTheme(oppositeExplicitTheme);
-                setMobileMenuOpen(false);
-              }}
-              aria-label={themeToggleLabel}
-              title={themeToggleLabel}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-foreground/15 bg-white/75 text-foreground hover:bg-white/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/16 dark:border-white/18"
-            >
-              <ThemeIcon className="h-5 w-5 text-primary" />
-            </button>
-            <div className="space-y-4 pt-2">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex gap-3 sm:gap-4">
-                  <button onClick={() => changeLanguage('de')} className={`text-xs sm:text-sm font-black ${i18n.language === 'de' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>DE</button>
-                  <button onClick={() => changeLanguage('en')} className={`text-xs sm:text-sm font-black ${i18n.language === 'en' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>EN</button>
-                  <button onClick={() => changeLanguage('nl')} className={`text-xs sm:text-sm font-black ${i18n.language === 'nl' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>NL</button>
-                  <button onClick={() => changeLanguage('fr')} className={`text-xs sm:text-sm font-black ${i18n.language === 'fr' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>FR</button>
-                  <button onClick={() => changeLanguage('it')} className={`text-xs sm:text-sm font-black ${i18n.language === 'it' ? 'text-primary' : 'text-foreground/40 dark:text-white/40'}`}>IT</button>
-                </div>
-              </div>
-              <Button
-                onClick={handlePlanNow}
-                className="w-full rounded-2xl min-h-[54px] px-5 py-3 font-black text-[11px] sm:text-[12px] tracking-[0.12em] text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/25 border border-primary/40"
-              >
-                {t("navbar.planNow")}
-              </Button>
-            </div>
-          </div>
-        </motion.div>
+          ))}
+        </div>
       )}
-    </nav>
+    </header>
   );
 }

@@ -1,76 +1,70 @@
-# 🚐 Camping Route - KI Wohnmobil Routenplaner
+# 🚐 Camping Route - KI Wohnmobil Routenplaner (v0.6.1)
 
-[![Version](https://img.shields.io/badge/version-v0.5.9-blue.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.6.1-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Der KI-Routenplaner speziell für Wohnmobile & Camper!**
+**Der KI-Routenplaner speziell für Wohnmobile, Camper & Roadtrips in Europa!**
 
 👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
 
-[English version below](#-english-version)
+---
+
+## 🌟 Neues Sightseer-Design & Updates (v0.6.1)
+
+- **Sightseer-Design Redesign**: Komplett überarbeitete Benutzeroberfläche inspiriert von Sightseer – inklusive robuster Pinned Tab-Navbar, klarem Canvas-Hintergrund (`#f9fafb` / `#090d16`), 3-Stufen-Roadtrip-Banner und abgerundeten Karten-Containern.
+- **100% DSGVO-Konforme Lokale Schriften**: Sämtliche Google Fonts CDN-Aufrufe wurden durch lokal gehostete `@fontsource/plus-jakarta-sans` ersetzt. Keine externen Schriftarten-Verbindungen.
+- **Pinned Tab Navigation**: Schneller Wechsel zwischen Prompt-Assistent, Campingplatz-Finder und Stellplatz-Finder direkt über die obere Menüleiste.
+- **Optimierter Dark Mode**: Einheitliches, augenschonendes Slate-Dark-Design ohne veraltete Schatten- oder Gradienten-Altlasten.
 
 ---
 
-## 🌟 Highlights (v0.5.9)
+## 📦 Core Features
 
-- **GEO & AEO Optimierung**: Vollständige Unterstützung für KI-Suchmaschinen (Perplexity, ChatGPT, Google AI Overviews) via dynamische Schema.org JSON-LD (FAQPage, HowTo & WebApplication).
-- **Strukturierte Mikrodaten**: HTML5-Microdata in FAQs für direkte KI-Zitate und Direct Answers.
-- **Exklusive Suchplattformen**: Die KI sucht exklusiv auf camping.info und stellplatz.info nach passenden Übernachtungsmöglichkeiten.
-- **Öffnungszeiten-Check**: Aktive Prüfung, ob Plätze zur geplanten Reisezeit geöffnet haben (mit Nutzerwarnung bei geschlossenen Plätzen).
+### 🎯 KI-Prompt-Assistent
+- 7-Schritte-Assistent für perfekt strukturierte KI-Prompts.
+- Fahrzeugspezifische Angaben (Länge, Höhe, Gewicht, Führerschein, Ausrüstung).
+- Erstellt optimierte Prompts für ChatGPT, Gemini, Perplexity, Claude & Mistral.
 
-## 📦 Features
+### 🏕️ Campingplatz- & Stellplatz-Finder
+- Integrierte Direkt-Suche für europäische Camping- und Stellplätze via OpenStreetMap (OSM).
+- Detaillierte Filter und direkte Einbindung von Suchergebnissen als Etappen in deine Route.
 
-### 🎯 KI-Prompt-Planer
-- 7-Schritte-Assistent für die perfekte Routenstruktur.
-- Fahrzeugspezifische Angaben (Größe, Gewicht, Vorlieben).
-- Generiert optimierte Prompts für alle gängigen KI-Modelle.
+### 📍 GPX-Export & Offline-Speicherung
+- Direkter Download von GPX-Dateien (Wegpunkte, Tracks, Routen für Garmin / OsmAnd / Locus).
+- Lokale Speicherung im Browser ohne Registrierung.
+- PDF- und Druck-optimierte Reiseplaner-Ausgabe.
 
-### 🏕️ Platzfinder
-- Integrierte Suche nach Camping- und Stellplätzen via OpenStreetMap (OSM).
-- Detailansichten mit Ausstattung (Strom, Wasser, Toilets) und direkten Links.
-- Übernahme von Fundstellen mit einem Klick in deine Route.
-
-### 📥 Export & Integration
-- Unterstützung für **GPX-Datei-Downloads** (Garmin-Wegpunkte oder Route+Track).
-- Lokales Speichern von Planungen im Browser (kein Login nötig).
-- PDF- und Druck-optimierte Ausgabe des Reiseplans.
+---
 
 ## 💻 Tech Stack
 
 - **Frontend**: React 18, TypeScript, Vite
-- **Styling**: Tailwind CSS, shadcn/ui, Framer Motion
-- **I18n**: react-i18next (5 Sprachen)
-- **Maps**: Leaflet / OpenStreetMap
+- **Styling**: Tailwind CSS, `@fontsource/plus-jakarta-sans`, shadcn/ui, Framer Motion
+- **Internationalisierung**: react-i18next (DE, EN, NL, FR, IT)
+- **Geodaten**: Leaflet, OpenStreetMap, Nominatim
 
 ---
 
-## 🌍 English Version
-
-**The AI Route Planner specifically for RVs & Campers!**
-
-### 🌟 Highlights (v0.5.9)
-
-- **GEO & AEO Optimization**: Full support for AI search engines (Perplexity, ChatGPT, Google AI Overviews) via dynamic Schema.org JSON-LD (FAQPage, HowTo & WebApplication).
-- **Structured Microdata**: HTML5 microdata in FAQs for direct AI snippet citations.
-- **Exclusive Search Platforms**: The AI searches exclusively on camping.info and stellplatz.info for suitable overnights.
-- **Opening Hours Check**: Active verification if places are open during your planned travel time.
-
-### 📦 Features
-
-- **AI Prompt Planner**: 7-step assistant for perfect route structure.
-- **Place Finder**: Integrated search for campsites and stopovers via OpenStreetMap.
-- **Export & Integration**: Support for GPX downloads, local saving, and PDF/Print output.
-
-### 🛠 Installation
+## 🚀 Lokale Entwicklung
 
 ```bash
+# Repository klonen
+git clone https://github.com/chrischtili/campingrouteapp.git
+cd campingrouteapp
+
+# Abhängigkeiten installieren
 npm install
+
+# Entwicklungs-Server starten
 npm run dev
+
+# Production Build erstellen
+npm run build
 ```
 
 ---
 
 ## 📄 Lizenz / License
 
-MIT - [chrischtili](https://github.com/chrischtili)
+MIT © [chrischtili](https://github.com/chrischtili)

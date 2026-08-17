@@ -25,8 +25,8 @@ const pageConfig = {
     alternateHref: "/stellplatz-finder",
     generatorHref: "/prompt-generator",
     shellClass:
-      "border-primary/20 bg-[linear-gradient(180deg,rgba(255,251,245,0.95),rgba(248,240,225,0.92))] shadow-[0_28px_90px_rgba(255,128,0,0.12)] dark:bg-[linear-gradient(180deg,rgba(50,56,44,0.92),rgba(31,38,33,0.96))]",
-    heroOrbClass: "bg-primary/18",
+      "border border-gray-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 rounded-3xl",
+    heroOrbClass: "bg-primary/10",
     accentClass: "text-primary",
   },
   stopover: {
@@ -34,8 +34,8 @@ const pageConfig = {
     alternateHref: "/campingplatz-finder",
     generatorHref: "/prompt-generator",
     shellClass:
-      "border-emerald-900/12 bg-[linear-gradient(180deg,rgba(244,250,247,0.95),rgba(231,241,237,0.92))] shadow-[0_28px_90px_rgba(16,72,58,0.12)] dark:bg-[linear-gradient(180deg,rgba(42,63,59,0.92),rgba(25,40,38,0.96))]",
-    heroOrbClass: "bg-emerald-500/16",
+      "border border-gray-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 rounded-3xl",
+    heroOrbClass: "bg-primary/10",
     accentClass: "text-primary",
   },
 } satisfies Record<FinderPageVariant, { icon: typeof Caravan; alternateHref: string; generatorHref: string; shellClass: string; heroOrbClass: string; accentClass: string }>;
@@ -169,7 +169,6 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
 
       <main className="overflow-x-hidden overflow-y-hidden pt-28 sm:pt-32">
         <section className="relative px-3 pb-12 sm:px-6 lg:px-8">
-          <div className={cn("pointer-events-none absolute inset-x-0 top-0 h-[32rem] blur-3xl", config.heroOrbClass)} />
 
           <div className="relative mx-auto max-w-7xl">
             <motion.div
@@ -210,13 +209,13 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
                   </div>
 
                   <div className="flex flex-col gap-3 sm:flex-row">
-                    <Button asChild className="planner-primary-button h-12 rounded-2xl px-6 font-semibold">
+                    <Button asChild className="h-12 rounded-xl bg-primary hover:bg-primary/90 px-6 font-semibold text-white shadow-sm transition-all">
                       <Link to={config.generatorHref}>
                         <Sparkles className="mr-2 h-4 w-4" />
                         {copy.plannerCta}
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-background/92 px-6 font-semibold text-foreground hover:border-primary/35 hover:bg-background hover:text-foreground dark:border-white/12 dark:bg-[#27332b] dark:text-white dark:hover:border-primary/35 dark:hover:bg-[#2e3b32] dark:hover:text-white">
+                    <Button asChild variant="outline" className="h-12 rounded-xl border border-gray-200 bg-white px-6 font-semibold text-gray-800 hover:bg-gray-50 dark:border-slate-800 dark:bg-slate-900 dark:text-gray-200 shadow-sm transition-all">
                       <Link
                         to={config.alternateHref}
                         className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-white"

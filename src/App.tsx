@@ -390,55 +390,6 @@ const App = () => {
             <Toaster />
             <Sonner />
           </Suspense>
-          <Dialog open={showWhatsNew} onOpenChange={(open) => !open && handleDismissWhatsNew()}>
-            <DialogContent className="theme-popup-shell max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-xl overflow-y-auto border p-0 sm:w-full">
-              <div className="p-6 sm:p-8">
-                <DialogHeader className="space-y-3 text-left">
-                  <DialogTitle className="text-xl sm:text-2xl font-black tracking-tight text-foreground dark:text-white">
-                    {t("app.whatsNew.title", { version: displayReleaseVersion })}
-                  </DialogTitle>
-                  <DialogDescription className="text-sm leading-relaxed text-muted-foreground dark:text-white/70">
-                    {t("app.whatsNew.description")}
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="mt-6 space-y-3">
-                  {Object.keys(t("app.whatsNew.items", { returnObjects: true }) || {})
-                    .map((key) => {
-                      const item = t(`app.whatsNew.items.${key}`);
-                      return (
-                        <div key={key} className="rounded-2xl border border-border bg-white/70 px-4 py-3 text-sm text-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/85">
-                          {item}
-                        </div>
-                      );
-                    })}
-                </div>
-
-                <DialogFooter className="mt-6 flex-col gap-3 sm:flex-row sm:justify-end">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleDismissWhatsNew}
-                    className="border-border bg-white/70 text-foreground hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
-                  >
-                    {t("app.whatsNew.dismiss")}
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      handleDismissWhatsNew();
-                      if (releaseVersion) {
-                        window.open(`https://github.com/chrischtili/campingrouteapp/releases/tag/v${releaseVersion}`, "_blank", "noopener,noreferrer");
-                      }
-                    }}
-                    className="bg-primary text-white hover:bg-primary/90"
-                  >
-                    {t("app.whatsNew.release")}
-                  </Button>
-                </DialogFooter>
-              </div>
-            </DialogContent>
-          </Dialog>
           {/* Skip link for accessibility */}
           <a href="#main-content" className="sr-only focus:not-sr-only">
             Zum Hauptinhalt springen

@@ -575,7 +575,7 @@ export function PlaceFinderSection({
 
           <Button
             type="button"
-            className="planner-primary-button h-12 rounded-2xl px-6 font-semibold"
+            className="h-12 rounded-xl bg-primary hover:bg-primary/90 px-6 font-semibold text-white shadow-sm transition-all"
             onClick={handleSearch}
             disabled={searchDisabled}
           >
@@ -604,14 +604,14 @@ export function PlaceFinderSection({
                   className={`flex w-full min-w-0 flex-col items-stretch gap-3 px-4 py-3 text-left transition sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
                     standalone
                       ? active
-                        ? "border-primary/35 bg-primary/[0.08] shadow-[0_14px_28px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
+                        ? "border-emerald-600/40 bg-emerald-50/70 shadow-sm dark:bg-emerald-950/30"
                         : "border-border/80 bg-background/92 hover:bg-muted/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
                       : active
                         ? isMobile
-                          ? "rounded-[0.95rem] border-l-2 border-primary/40 bg-transparent"
-                          : "rounded-[1.35rem] border-primary/35 bg-primary/[0.12] shadow-[0_14px_28px_rgba(255,138,0,0.14)]"
+                          ? "rounded-[0.95rem] border-l-2 border-emerald-600 bg-transparent"
+                          : "rounded-[1.35rem] border-emerald-600/40 bg-emerald-50/70 shadow-sm dark:bg-emerald-950/30"
                         : isMobile
-                          ? "rounded-[0.95rem] border-l-2 border-primary/18 bg-transparent"
+                          ? "rounded-[0.95rem] border-l-2 border-emerald-600/20 bg-transparent"
                           : "rounded-[1.35rem] border-white/10 bg-white/[0.05] hover:bg-white/[0.08]"
                   }`}
                 >
@@ -691,10 +691,10 @@ export function PlaceFinderSection({
                     className={`group overflow-hidden rounded-[1.5rem] text-left transition ${
                       standalone
                         ? isSelected
-                          ? "border border-primary/40 bg-primary/[0.06] shadow-[0_18px_34px_rgba(255,138,0,0.12)] dark:bg-primary/[0.10]"
+                          ? "border border-emerald-600/40 bg-emerald-50/70 shadow-sm dark:bg-emerald-950/30"
                           : "border border-border/70 bg-background/90 hover:border-primary/30 hover:bg-muted/50 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
                         : isSelected
-                          ? "border border-primary/40 bg-primary/[0.10] shadow-[0_18px_34px_rgba(255,138,0,0.14)]"
+                          ? "border border-emerald-600/40 bg-emerald-50/70 shadow-sm dark:bg-emerald-950/30"
                           : "border border-white/10 bg-white/[0.04] hover:border-primary/30 hover:bg-white/[0.06]"
                     }`}
                   >

@@ -78,7 +78,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               onClick={() => selectMode(false)}
               className={`rounded-[1.75rem] border p-5 text-left transition-all ${
                 !aiSettings.useDirectAI
-                  ? "border-primary/40 bg-primary/12 shadow-[0_16px_40px_rgba(255,128,0,0.14)]"
+                  ? "border-emerald-600/40 bg-emerald-500/10 shadow-sm"
                   : "border-white/10 bg-white/5 hover:bg-white/8"
               }`}
             >
@@ -101,7 +101,7 @@ export function AISettingsSection({ aiSettings, onAISettingsChange, aiError }: A
               disabled={!DIRECT_AI_FEATURE_ENABLED}
               className={`rounded-[1.75rem] border p-5 text-left transition-all ${
                 aiSettings.useDirectAI
-                  ? "border-primary/40 bg-primary/12 shadow-[0_16px_40px_rgba(255,128,0,0.14)]"
+                  ? "border-emerald-600/40 bg-emerald-500/10 shadow-sm"
                   : "border-white/10 bg-white/5 hover:bg-white/8 disabled:cursor-not-allowed disabled:opacity-60"
               }`}
             >

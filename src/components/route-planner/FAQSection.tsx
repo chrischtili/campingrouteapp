@@ -152,47 +152,41 @@ export function FAQSection({ onStartPlanning }: FAQSectionProps) {
   ];
 
   return (
-    <section id="faq" className="pt-20 pb-16 sm:py-32 px-6 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none content-section-dark content-section-features" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/5 via-transparent to-black/10 dark:from-white/[0.03] dark:via-transparent dark:to-black/0" />
+    <section id="faq" className="pt-16 pb-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden transition-colors">
       
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-16 space-y-3"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8">
-            <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-semibold text-[10px] tracking-[0.08em]">
-              {t("faq.badge")}
-            </span>
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/70 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400 font-bold text-[11px] uppercase tracking-wider">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-600" />
+            {t("faq.badge")}
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground dark:text-white tracking-tight leading-[0.95]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground dark:text-white tracking-tight">
             {t("faq.title")}
           </h2>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <Accordion type="single" collapsible value={openItem || ""} onValueChange={(val) => {
             setOpenItem(val || undefined);
-            // Scroll to top of opened accordion item on mobile
             if (window.innerWidth < 768 && val) {
               setTimeout(() => {
                 const el = document.getElementById(val);
                 if (el) {
-                  // Adjust offset to 100px to account for the fixed navbar on mobile
                   const y = el.getBoundingClientRect().top + window.scrollY - 100;
                   window.scrollTo({ top: y, behavior: 'smooth' });
                 }
-              }, 300); // Wait for animation to complete
+              }, 300);
             }
-          }} className="space-y-4">
+          }} className="space-y-3.5">
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={faq.id}
@@ -200,19 +194,19 @@ export function FAQSection({ onStartPlanning }: FAQSectionProps) {
                 value={faq.id}
                 itemScope
                 itemType="https://schema.org/Question"
-                className="theme-surface rounded-3xl overflow-hidden border transition-all duration-500 hover:border-primary/18 hover:shadow-[0_24px_64px_rgba(88,93,79,0.14)] data-[state=open]:border-primary/20 data-[state=open]:shadow-[0_24px_64px_rgba(88,93,79,0.16)] dark:border-white/10 dark:hover:border-white/14 dark:hover:shadow-[0_24px_64px_rgba(0,0,0,0.22)] dark:data-[state=open]:border-primary/22 dark:data-[state=open]:bg-[linear-gradient(180deg,rgba(61,81,75,0.92),rgba(46,63,58,0.94))] dark:data-[state=open]:shadow-[0_24px_64px_rgba(0,0,0,0.24)]"
+                className="rounded-2xl border border-gray-200/80 bg-white overflow-hidden shadow-sm dark:border-slate-800 dark:bg-slate-900 transition-colors"
               >
-                <AccordionTrigger className="px-6 sm:px-8 py-6 hover:no-underline group">
-                  <div className="flex items-center gap-4 sm:gap-5 text-left">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-500 shadow-lg">
-                      <faq.icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                <AccordionTrigger className="px-5 sm:px-7 py-5 hover:no-underline group">
+                  <div className="flex items-center gap-4 text-left">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-emerald-100/70 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 flex items-center justify-center group-data-[state=open]:bg-emerald-600 group-data-[state=open]:text-white transition-colors shadow-sm">
+                      <faq.icon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
                     </div>
-                    <span itemProp="name" className="font-black text-base sm:text-lg md:text-xl tracking-tight text-foreground dark:text-white">{faq.q}</span>
+                    <span itemProp="name" className="font-bold text-base sm:text-lg tracking-tight text-foreground dark:text-white">{faq.q}</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
-                  <div itemProp="text" className="pl-0 sm:pl-[4.25rem] space-y-6 mt-4 sm:mt-0">
-                    <p className="text-foreground dark:text-white font-bold text-lg">{faq.title}</p>
+                <AccordionContent itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="px-5 sm:px-7 pb-6 pt-1">
+                  <div itemProp="text" className="pl-0 sm:pl-[3.25rem] space-y-5 mt-2 sm:mt-0">
+                    <p className="text-foreground dark:text-white font-semibold text-base">{faq.title}</p>
                     
                     {faq.content && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

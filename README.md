@@ -10,9 +10,9 @@
 
 ---
 
-## 🌟 Neues Sightseer-Design & Updates (v0.6.1)
+## 🌟 Neues UI-Design & Highlights (v0.6.1)
 
-- **Sightseer-Design Redesign**: Komplett überarbeitete Benutzeroberfläche inspiriert von Sightseer – inklusive robuster Pinned Tab-Navbar, klarem Canvas-Hintergrund (`#f9fafb` / `#090d16`), 3-Stufen-Roadtrip-Banner und abgerundeten Karten-Containern.
+- **Modernes UI-Redesign**: Komplett überarbeitete, aufgeräumte Benutzeroberfläche – inklusive fester Pinned Tab-Navbar, einheitlichem Canvas-Hintergrund (`#f9fafb` / `#090d16`), 3-Stufen-Roadtrip-Banner und abgerundeten Karten-Containern.
 - **100% DSGVO-Konforme Lokale Schriften**: Sämtliche Google Fonts CDN-Aufrufe wurden durch lokal gehostete `@fontsource/plus-jakarta-sans` ersetzt. Keine externen Schriftarten-Verbindungen.
 - **Pinned Tab Navigation**: Schneller Wechsel zwischen Prompt-Assistent, Campingplatz-Finder und Stellplatz-Finder direkt über die obere Menüleiste.
 - **Optimierter Dark Mode**: Einheitliches, augenschonendes Slate-Dark-Design ohne veraltete Schatten- oder Gradienten-Altlasten.

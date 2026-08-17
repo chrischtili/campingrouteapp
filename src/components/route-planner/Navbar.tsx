@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, Moon, Sun } from "lucide-react";
+import { Globe, Menu, X, Moon, Sun, Coffee } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -137,9 +137,21 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             </nav>
           </div>
 
-          {/* Right: Theme Toggle, Language & Mobile Burger Menu */}
+          {/* Right: Coffee Link, Theme Toggle, Language & Mobile Burger Menu */}
           <div className="flex items-center gap-2 sm:gap-3">
             
+            {/* Buy Me A Coffee Link */}
+            <a
+              href="https://www.buymeacoffee.com/campingroute"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 rounded-lg transition-colors dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900/50 dark:hover:bg-amber-900/60"
+              title={t("planner.summary.save.coffeeHint", "Kaffee spendieren")}
+            >
+              <Coffee className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
+            </a>
+
             {/* Language Switcher */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -213,6 +225,16 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               {item.name}
             </button>
           ))}
+          <a
+            href="https://www.buymeacoffee.com/campingroute"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 w-full rounded-xl px-4 py-3 text-sm font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/50 dark:text-amber-300"
+          >
+            <Coffee className="h-4.5 w-4.5 text-amber-600 dark:text-amber-400" />
+            <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
+          </a>
         </div>
       )}
     </header>

@@ -78,8 +78,6 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
         <div className="absolute left-[-8%] top-[9%] h-72 w-72 rounded-full bg-primary/14 blur-3xl sm:h-96 sm:w-96" />
         <div className="absolute right-[-10%] top-[18%] h-80 w-80 rounded-full bg-sky-200/45 blur-3xl dark:bg-sky-900/20 sm:h-[28rem] sm:w-[28rem]" />
         <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(255,248,239,0.85))] dark:bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(9,13,11,0.78))]" />
-        <div className="absolute left-[8%] top-[22%] hidden h-24 w-24 rounded-[2rem] border border-primary/18 bg-white/35 rotate-12 shadow-[0_22px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:block dark:border-white/10 dark:bg-white/[0.04]" />
-        <div className="absolute right-[12%] top-[62%] hidden h-20 w-20 rounded-full border border-primary/18 bg-white/30 shadow-[0_20px_52px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:block dark:border-white/10 dark:bg-white/[0.04]" />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-10 pt-28 md:pb-14 md:pt-32">

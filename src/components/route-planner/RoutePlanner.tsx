@@ -1709,40 +1709,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                     <p className="max-w-3xl text-lg leading-relaxed text-foreground/76 dark:text-white/72">
                       {promptPageContent.lead}
                     </p>
-                    <p className="max-w-2xl text-sm leading-7 text-foreground/62 dark:text-white/62 sm:text-base">
-                      {promptPageContent.intro}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2.5">
-                    {promptPageContent.chips.map((chip) => (
-                      <span
-                        key={chip}
-                        className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-white/72 px-4 py-2 text-xs font-semibold text-foreground/80 shadow-sm dark:border-white/12 dark:bg-white/8 dark:text-white/78"
-                      >
-                        <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                        {chip}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <Button type="button" onClick={revealPlanner} className="planner-primary-button h-12 rounded-2xl px-6 font-semibold">
-                      <Sparkles className="mr-2 h-4 w-4" />
-                      {promptPageContent.primaryCta}
-                    </Button>
-                    <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-white/70 px-6 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
-                      <Link to="/campingplatz-finder">
-                        <Caravan className="mr-2 h-4 w-4 text-primary" />
-                        {promptPageContent.secondaryCta}
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-white/70 px-6 font-semibold text-foreground hover:bg-white dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
-                      <Link to="/stellplatz-finder">
-                        <BusFront className="mr-2 h-4 w-4 text-primary" />
-                        {promptPageContent.tertiaryCta}
-                      </Link>
-                    </Button>
                   </div>
                 </div>
 
@@ -1854,7 +1820,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
 
       <Suspense fallback={<div className="h-96" />}>
         <FeaturesSection />
-        <FinderToolsSection />
         <TestimonialsSection />
       </Suspense>
 

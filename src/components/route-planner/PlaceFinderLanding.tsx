@@ -269,152 +269,17 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
         </section>
 
         <section className="px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-7xl gap-8 xl:grid-cols-[0.82fr_1.18fr]">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              className="space-y-5"
-            >
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-primary">
-                  <Search className="h-3.5 w-3.5" />
-                  {copy.searchBadge}
-                </div>
-                <h2 className="text-3xl font-black tracking-tight text-foreground dark:text-white sm:text-4xl">{copy.searchTitle}</h2>
-                <p className="max-w-xl text-base leading-8 text-foreground/66 dark:text-white/64">{copy.searchLead}</p>
-              </div>
-
-              <div className="space-y-4 rounded-[2rem] border border-border/70 bg-white/72 p-5 shadow-[0_20px_44px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/6">
-                <div className="text-sm font-black uppercase tracking-[0.2em] text-primary">{copy.benefitsTitle}</div>
-                <p className="text-sm leading-7 text-foreground/66 dark:text-white/64">{copy.benefitsLead}</p>
-                <div className="space-y-3">
-                  {copy.benefits.map((benefit) => (
-                    <div key={benefit.title} className="rounded-[1.4rem] border border-border/70 bg-background/78 px-4 py-4 dark:border-white/10 dark:bg-white/[0.03]">
-                      <div className="text-base font-bold text-foreground dark:text-white">{benefit.title}</div>
-                      <p className="mt-2 text-sm leading-6 text-foreground/64 dark:text-white/60">{benefit.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="space-y-4"
-            >
-              <PlaceFinderSection
-                formData={plannerDraftFormData}
-                standalone
-                initialCategories={categories}
-                hideCategoryFilters
-                onTransferToPrompt={handleTransferToPrompt}
-              />
-            </motion.div>
-          </div>
-        </section>
-
-        <section className="px-4 py-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-6 space-y-3">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white/70 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-primary shadow-sm dark:border-white/10 dark:bg-white/8">
-                <Compass className="h-3.5 w-3.5" />
-                {t("navbar.faq")}
-              </div>
-              <h2 className="text-3xl font-black tracking-tight text-foreground dark:text-white sm:text-4xl">{copy.faqTitle}</h2>
-              <p className="max-w-3xl text-base leading-8 text-foreground/64 dark:text-white/62">{copy.faqLead}</p>
-            </div>
-
-            <div className="grid gap-4 lg:grid-cols-3">
-              {copy.faqs.map((faq) => (
-                <motion.article
-                  key={faq.question}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  className="rounded-[2rem] border border-border/70 bg-white/76 p-6 shadow-[0_20px_42px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/6"
-                >
-                  <h3 className="text-xl font-black tracking-tight text-foreground dark:text-white">{faq.question}</h3>
-                  <p className="mt-4 text-sm leading-7 text-foreground/64 dark:text-white/60">{faq.answer}</p>
-                </motion.article>
-              ))}
-            </div>
+            <PlaceFinderSection
+              formData={plannerDraftFormData}
+              standalone
+              initialCategories={categories}
+              hideCategoryFilters
+              onTransferToPrompt={handleTransferToPrompt}
+            />
           </div>
         </section>
 
-        <section className="px-4 pb-6 pt-2 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl rounded-[2rem] border border-border/70 bg-white/76 p-6 shadow-[0_20px_42px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/6 sm:p-8">
-            <div className="max-w-4xl space-y-4">
-              <h2 className="text-2xl font-black tracking-tight text-foreground dark:text-white sm:text-3xl">
-                {copy.relatedTitle}
-              </h2>
-              <p className="text-sm leading-7 text-foreground/68 dark:text-white/62 sm:text-base">
-                {copy.seo.description}
-              </p>
-              <p className="text-sm leading-7 text-foreground/68 dark:text-white/62 sm:text-base">
-                {copy.searchLead} {copy.plannerLead}
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link
-                  to={config.generatorHref}
-                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
-                >
-                  {copy.plannerCta}
-                </Link>
-                <Link
-                  to={config.alternateHref}
-                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
-                >
-                  {copy.alternateCta}
-                </Link>
-                <Link
-                  to="/"
-                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
-                >
-                  {copy.homeCta}
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              className="rounded-[2.5rem] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,250,242,0.96),rgba(247,243,236,0.94))] px-6 py-8 shadow-[0_24px_70px_rgba(255,128,0,0.12)] dark:border-primary/25 dark:bg-[linear-gradient(180deg,rgba(54,58,48,0.96),rgba(31,36,33,0.96))] sm:px-8 sm:py-10"
-            >
-              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-                <div className="space-y-3">
-                  <div className="text-sm font-black uppercase tracking-[0.2em] text-primary">{copy.plannerTitle}</div>
-                  <h2 className="text-3xl font-black tracking-tight text-foreground dark:text-white sm:text-4xl">{copy.alternateLead}</h2>
-                  <p className="max-w-3xl text-base leading-8 text-foreground/68 dark:text-white/64">{copy.plannerLead}</p>
-                </div>
-                <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-                  <Button asChild className="planner-primary-button h-12 rounded-2xl px-6 font-semibold">
-                    <Link to={config.generatorHref}>
-                      <Sparkles className="mr-2 h-4 w-4" />
-                      {copy.plannerCta}
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="h-12 rounded-2xl border border-border/80 bg-background/92 px-6 font-semibold text-foreground hover:border-primary/35 hover:bg-background hover:text-foreground dark:border-white/12 dark:bg-[#27332b] dark:text-white dark:hover:border-primary/35 dark:hover:bg-[#2e3b32] dark:hover:text-white">
-                    <Link
-                      to={config.alternateHref}
-                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-foreground dark:text-white"
-                    >
-                      {copy.alternateCta}
-                      <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
       </main>
 
       <Footer />

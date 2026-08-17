@@ -90,8 +90,8 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           </div>
 
           <div className="space-y-5">
-            <h1 className="text-[2.7rem] font-black tracking-[-0.045em] text-foreground sm:text-6xl sm:tracking-[-0.04em] lg:text-7xl xl:text-[5.5rem] dark:text-white">
-              <span className="flex flex-col gap-1 leading-[0.9] sm:gap-2 sm:leading-[0.92]">
+            <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl dark:text-white">
+              <span className="flex flex-col gap-1 leading-tight sm:gap-1.5">
                 <span className="block">{t("hero.headline.line1")}</span>
                 <span className="block">{t("hero.headline.line2")}</span>
                 <span className="block text-primary">{t("hero.headline.line3")}</span>

@@ -30,7 +30,7 @@ export function FeaturesSection() {
               {t("features.badge")}
             </span>
           </span>
-            <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tight leading-[0.95] reveal-once delay-1">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground tracking-tight reveal-once delay-1">
               {t("features.title")}
             </h2>
         </div>

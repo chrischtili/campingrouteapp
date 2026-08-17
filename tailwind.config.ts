@@ -112,7 +112,7 @@ export default {
   		},
   		fontFamily: {
   			sans: [
-  				'Source Sans Pro',
+  				'Plus Jakarta Sans',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',

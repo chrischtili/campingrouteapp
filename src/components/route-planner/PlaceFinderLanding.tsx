@@ -186,7 +186,7 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
                   </div>
 
                   <div className="space-y-4">
-                    <h1 className="max-w-none text-[2.65rem] font-black leading-[0.94] tracking-tight text-foreground dark:text-white sm:text-5xl lg:max-w-4xl lg:text-6xl">
+                    <h1 className="max-w-none text-3xl font-extrabold tracking-tight text-foreground dark:text-white sm:text-4xl lg:max-w-4xl lg:text-5xl">
                       {copy.title} <span className={config.accentClass}>{copy.accent}</span>
                     </h1>
                     <p className="max-w-3xl text-base leading-relaxed text-foreground/76 dark:text-white/72 sm:text-lg">

@@ -1703,7 +1703,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   </div>
 
                   <div className="space-y-5">
-                    <h1 className="max-w-4xl text-4xl font-black tracking-tight text-foreground dark:text-white sm:text-5xl lg:text-6xl">
+                    <h1 className="max-w-4xl text-3xl font-extrabold tracking-tight text-foreground dark:text-white sm:text-4xl lg:text-5xl">
                       {promptPageContent.title} <span className="text-primary">{promptPageContent.accent}</span>
                     </h1>
                     <p className="max-w-3xl text-lg leading-relaxed text-foreground/76 dark:text-white/72">

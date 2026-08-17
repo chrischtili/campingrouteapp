@@ -175,11 +175,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center gap-3 group"
         >
-          <img
-            src="/android-chrome-192x192.png"
-            alt="Logo"
-            className="w-8 h-8 transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110"
-          />
+          <Compass className="w-8 h-8 text-primary transition-transform duration-500 group-hover:rotate-[360deg] group-hover:scale-110" />
           <div className="flex flex-col">
             <span className="font-black text-2xl tracking-tighter text-foreground dark:text-white leading-none">
               Camping<span className="text-primary">Route</span>
@@ -230,12 +226,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
           <Button
             onClick={handlePlanNow}
-            className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white border border-primary/80 shadow-[0_16px_40px_rgba(255,128,0,0.3)] hover:scale-[1.02] hover:shadow-[0_20px_52px_rgba(255,128,0,0.4)]"
-            style={{
-              background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-            }}
+            className="rounded-full px-5 sm:px-7 h-10 sm:h-11 font-black text-[9px] sm:text-[11px] tracking-[0.1em] transition-all duration-300 text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/25 border border-primary/40 hover:scale-[1.02]"
           >
             {t("navbar.planNow")}
           </Button>
@@ -411,10 +402,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </div>
               <Button
                 onClick={handlePlanNow}
-                className="w-full rounded-2xl min-h-[54px] px-5 py-3 font-black text-[11px] sm:text-[12px] tracking-[0.12em] text-white border border-primary/80 shadow-[0_18px_42px_rgba(255,128,0,0.3)]"
-                style={{
-                  background: "linear-gradient(135deg, rgba(255, 145, 0, 0.98), rgba(255, 123, 0, 0.92))",
-                }}
+                className="w-full rounded-2xl min-h-[54px] px-5 py-3 font-black text-[11px] sm:text-[12px] tracking-[0.12em] text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/25 border border-primary/40"
               >
                 {t("navbar.planNow")}
               </Button>

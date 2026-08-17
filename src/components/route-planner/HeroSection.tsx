@@ -181,12 +181,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                 <Button
                   size="sm"
                   onClick={handleStart}
-                  className="group h-12 rounded-2xl border-2 border-primary/45 px-6 text-sm font-black text-white shadow-xl shadow-primary/30 transition-all hover:scale-[1.01] sm:h-14 sm:px-8 sm:text-base"
-                  style={{
-                    background: "rgba(255, 128, 0, 0.92)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
-                  }}
+                  className="group h-12 rounded-2xl border-2 border-primary/45 bg-primary hover:bg-primary/90 px-6 text-sm font-black text-white shadow-xl shadow-primary/30 transition-all hover:scale-[1.01] sm:h-14 sm:px-8 sm:text-base"
                 >
                   <span className="relative z-10 flex items-center gap-2.5">
                     <MapPin className="h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform" />

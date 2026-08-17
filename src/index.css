@@ -144,13 +144,13 @@
 
   .glass-input:focus {
     background: rgba(255, 255, 255, 0.96) !important;
-    border-color: #f59e0b !important;
-    box-shadow: 0 0 0 4px rgba(255, 128, 0, 0.16) !important;
+    border-color: #22c55e !important;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16) !important;
   }
 
   .dark .glass-input:focus {
     background: rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 0 0 4px rgba(255, 128, 0, 0.2) !important;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2) !important;
   }
 
   .theme-surface {
@@ -176,14 +176,14 @@
   .theme-popup-shell {
     background: rgba(252, 249, 244, 0.985);
     color: hsl(var(--foreground));
-    border-color: rgba(255, 128, 0, 0.72);
+    border-color: rgba(34, 197, 94, 0.72);
     box-shadow: 0 36px 140px rgba(67, 58, 39, 0.24);
   }
 
   .dark .theme-popup-shell {
     background: rgba(36, 56, 58, 0.98);
     color: hsl(var(--foreground));
-    border-color: rgba(255, 128, 0, 0.85);
+    border-color: rgba(34, 197, 94, 0.85);
     box-shadow: 0 36px 140px rgba(0, 0, 0, 0.74);
   }
 
@@ -277,8 +277,8 @@
   }
 
   .popup-input:focus {
-    border-color: rgba(255, 128, 0, 0.82);
-    box-shadow: 0 0 0 4px rgba(255, 128, 0, 0.14);
+    border-color: rgba(34, 197, 94, 0.82);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
   }
 
   .dark .popup-input {
@@ -293,8 +293,8 @@
   }
 
   .dark .popup-input:focus {
-    border-color: rgba(255, 128, 0, 0.9);
-    box-shadow: 0 0 0 4px rgba(255, 128, 0, 0.2);
+    border-color: rgba(34, 197, 94, 0.9);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
   }
 
   .theme-band {
@@ -364,6 +364,11 @@
     color: rgba(67, 83, 77, 0.76) !important;
   }
 
+  .planner-primary-button {
+    background-color: hsl(var(--primary)) !important;
+    background-image: none !important;
+  }
+
   .planner-primary-button,
   .planner-primary-button * {
     color: #fff !important;
@@ -396,7 +401,7 @@
   }
 
   .light .planner-scope .text-primary {
-    color: rgb(229, 126, 24) !important;
+    color: hsl(var(--primary)) !important;
   }
 
   .concept-marker-tooltip {

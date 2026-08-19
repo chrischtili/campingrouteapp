@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy } from "react";
-import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload, Map as MapIcon, CheckCircle2, Compass, Caravan, BusFront } from "lucide-react";
+import { Route, Bot, Truck, FileText, Calendar, Clock3, Users, Sparkles, Wallet, Save, FolderOpen, Trash2, ChevronRight, Copy, Download, Upload, Map as MapIcon, CheckCircle2, Compass, Caravan, BusFront, MessageSquare, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormData, AISettings, RouteStage, initialFormData, initialAISettings } from "@/types/routePlanner";
 import { generatePrompt, callAIAPI } from "@/lib/promptGenerator";
@@ -1854,6 +1854,72 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   {t("planner.cta")}
                 </span>
               </Button>
+            </div>
+
+            <div className="mt-12 text-left">
+              <div 
+                className="relative overflow-hidden rounded-3xl p-8 sm:p-10 shadow-xl text-white"
+                style={{ background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' }}
+              >
+                {/* Decorative background circle */}
+                <div className="pointer-events-none absolute -bottom-12 -right-12 h-52 w-52 rounded-full bg-white/[0.03]" />
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 relative z-10">
+                  {/* Step 1 */}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                      <MessageSquare className="h-6.5 w-6.5" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                        SCHRITT 01
+                      </span>
+                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Wohnmobil & Route wählen
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                        Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                      <Compass className="h-6.5 w-6.5" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                        SCHRITT 02
+                      </span>
+                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Smarte KI-Prompts generieren
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                        Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                      <Heart className="h-6.5 w-6.5" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                        SCHRITT 03
+                      </span>
+                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Stellplätze & GPX exportieren
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                        Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

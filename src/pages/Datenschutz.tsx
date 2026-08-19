@@ -5,14 +5,19 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Shield, Lock, EyeOff, Database, ArrowLeft } from "lucide-react";
 
+import { AppBreadcrumbs } from "@/components/AppBreadcrumbs";
+
 export default function Datenschutz() {
   const { t } = useTranslation();
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground dark:text-white transition-colors">
       <Navbar />
+      <div className="pt-16 sm:pt-20">
+        <AppBreadcrumbs />
+      </div>
       
-      <main className="flex-1 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 pt-10 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -20,8 +25,8 @@ export default function Datenschutz() {
             className="space-y-10"
           >
             <div className="text-center space-y-3 mb-10">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/70 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400 font-bold text-[11px] uppercase tracking-wider">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-600" />
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400" />
                 {t("privacy.badge")}
               </span>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground dark:text-white">

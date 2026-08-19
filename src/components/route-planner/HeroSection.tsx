@@ -72,17 +72,10 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background" id="home">
+    <section className="relative overflow-hidden bg-background" id="home">
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-10 pt-28 md:pb-14 md:pt-32">
-        <div className="flex flex-col items-center text-center space-y-8 mb-12 lg:mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/18 bg-white/68 px-4 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.05]">
-            <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
-              {t("hero.badge")}
-            </span>
-          </div>
-
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 pb-6 pt-28 md:pb-8 md:pt-32">
+        <div className="flex flex-col items-center text-center space-y-8 mb-4">
           <div className="space-y-5">
             <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl dark:text-white">
               <span className="flex flex-col gap-1 leading-tight sm:gap-1.5">
@@ -99,10 +92,6 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
             </p>
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-foreground/30 dark:text-white/30">
-        <ChevronRight className="w-6 h-6 rotate-90" />
       </div>
     </section>
   );

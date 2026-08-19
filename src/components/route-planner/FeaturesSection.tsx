@@ -14,11 +14,11 @@ export function FeaturesSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 px-6 bg-background relative" id="features">
+    <section className="pt-8 sm:pt-12 pb-16 sm:pb-24 px-6 bg-background relative" id="features">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12 sm:mb-16 space-y-4">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary/20 bg-primary/8 text-primary font-bold text-[11px] uppercase tracking-wider">
-            <span className="flex h-2 w-2 rounded-full bg-primary" />
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400" />
             {t("features.badge")}
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">

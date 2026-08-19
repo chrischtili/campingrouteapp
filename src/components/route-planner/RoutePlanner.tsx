@@ -29,6 +29,7 @@ import { AccommodationSection } from "./AccommodationSection";
 import { AISettingsSection } from "./AISettingsSection";
 import { OutputSection } from "./OutputSection";
 import { FeedbackModal } from "./FeedbackModal";
+import { AppBreadcrumbs } from "@/components/AppBreadcrumbs";
 
 // Nur die Sektionen unter dem Formular bleiben Lazy
 const FeaturesSection = lazy(() => import("./FeaturesSection").then(m => ({ default: m.FeaturesSection })));
@@ -1680,8 +1681,11 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
     return (
       <main className="min-h-screen bg-background" id="main-content">
         <Navbar onStartPlanning={revealPlanner} />
+        <div className="pt-16 sm:pt-20">
+          <AppBreadcrumbs />
+        </div>
 
-        <section className={`relative overflow-hidden pb-12 pt-28 sm:pt-32 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
+        <section className={`relative overflow-hidden pb-12 pt-8 sm:pt-10 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
           <div className="relative mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -1818,7 +1822,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
 
       <Suspense fallback={<div className="h-96" />}>
         <FeaturesSection />
-        <TestimonialsSection />
       </Suspense>
 
       <section className="relative overflow-hidden px-4 py-20 text-foreground dark:text-white">
@@ -1828,12 +1831,10 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
-              className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 dark:border-emerald-900/40 dark:bg-emerald-950/20"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider"
             >
-              <Sparkles className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-emerald-800 dark:text-emerald-300">
-                {t("planner.badge")}
-              </span>
+              <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              <span>{t("planner.badge")}</span>
             </motion.span>
             <div className="space-y-4">
               <h2 className="text-3xl font-black tracking-tight text-foreground dark:text-white md:text-5xl">
@@ -1855,68 +1856,68 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                 </span>
               </Button>
             </div>
+          </div>
 
-            <div className="mt-12 text-left">
-              <div 
-                className="relative overflow-hidden rounded-3xl p-8 sm:p-10 shadow-xl text-white"
-                style={{ background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' }}
-              >
-                {/* Decorative background circle */}
-                <div className="pointer-events-none absolute -bottom-12 -right-12 h-52 w-52 rounded-full bg-white/[0.03]" />
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 relative z-10">
-                  {/* Step 1 */}
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
-                      <MessageSquare className="h-6.5 w-6.5" />
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                        SCHRITT 01
-                      </span>
-                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                        Wohnmobil & Route wählen
-                      </h3>
-                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                        Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
-                      </p>
-                    </div>
+          <div className="mt-14 text-left">
+            <div 
+              className="relative overflow-hidden rounded-3xl p-8 sm:p-10 shadow-xl text-white"
+              style={{ background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' }}
+            >
+              {/* Decorative background circle */}
+              <div className="pointer-events-none absolute -bottom-12 -right-12 h-52 w-52 rounded-full bg-white/[0.03]" />
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 relative z-10">
+                {/* Step 1 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                    <MessageSquare className="h-6.5 w-6.5" />
                   </div>
-
-                  {/* Step 2 */}
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
-                      <Compass className="h-6.5 w-6.5" />
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                        SCHRITT 02
-                      </span>
-                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                        Smarte KI-Prompts generieren
-                      </h3>
-                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                        Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
-                      </p>
-                    </div>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                      SCHRITT 01
+                    </span>
+                    <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                      Wohnmobil & Route wählen
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                      Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
+                    </p>
                   </div>
+                </div>
 
-                  {/* Step 3 */}
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
-                      <Heart className="h-6.5 w-6.5" />
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                        SCHRITT 03
-                      </span>
-                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                        Stellplätze & GPX exportieren
-                      </h3>
-                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                        Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
-                      </p>
-                    </div>
+                {/* Step 2 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                    <Compass className="h-6.5 w-6.5" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                      SCHRITT 02
+                    </span>
+                    <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                      Smarte KI-Prompts generieren
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                      Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                    <Heart className="h-6.5 w-6.5" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                      SCHRITT 03
+                    </span>
+                    <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                      Stellplätze & GPX exportieren
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                      Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1924,6 +1925,10 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           </div>
         </div>
       </section>
+
+      <Suspense fallback={<div className="h-96" />}>
+        <TestimonialsSection />
+      </Suspense>
 
       <FeedbackModal
         open={showFeedbackModal}

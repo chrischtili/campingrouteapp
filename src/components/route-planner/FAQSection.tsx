@@ -144,8 +144,8 @@ export function FAQSection({ onStartPlanning }: FAQSectionProps) {
           viewport={{ once: true }}
           className="text-center mb-12 sm:mb-16 space-y-3"
         >
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/70 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400 font-bold text-[11px] uppercase tracking-wider">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-600" />
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400" />
             {t("faq.badge")}
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground dark:text-white tracking-tight">

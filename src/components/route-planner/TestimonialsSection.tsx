@@ -33,11 +33,9 @@ export function TestimonialsSection() {
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-24">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md mb-8 reveal-once">
-            <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary font-black text-[10px] tracking-[0.3em]">
-              {t("testimonials.badge")}
-            </span>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider mb-8 reveal-once">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400" />
+            <span>{t("testimonials.badge")}</span>
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground dark:text-white tracking-tight leading-[0.95] reveal-once delay-1">
             {t("testimonials.title")}

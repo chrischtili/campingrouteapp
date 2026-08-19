@@ -15,6 +15,8 @@ import { initialFormData } from "@/types/routePlanner";
 import type { FormData } from "@/types/routePlanner";
 import type { PlaceSearchResult } from "@/types/placeFinder";
 
+import { AppBreadcrumbs } from "@/components/AppBreadcrumbs";
+
 interface PlaceFinderLandingProps {
   variant: FinderPageVariant;
 }
@@ -166,8 +168,11 @@ export function PlaceFinderLanding({ variant }: PlaceFinderLandingProps) {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground dark:text-white">
       <Navbar />
+      <div className="pt-16 sm:pt-20">
+        <AppBreadcrumbs />
+      </div>
 
-      <main className="overflow-x-hidden overflow-y-hidden pt-28 sm:pt-32">
+      <main className="overflow-x-hidden overflow-y-hidden pt-8 sm:pt-10">
         <section className="relative px-3 pb-12 sm:px-6 lg:px-8">
 
           <div className="relative mx-auto max-w-7xl">

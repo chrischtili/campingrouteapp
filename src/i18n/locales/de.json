@@ -480,11 +480,11 @@
     "title": "Häufige Fragen",
     "items": {
       "whatIs": {
-        "q": "Was ist Camping Route?",
+        "q": "Was ist CampingRoute?",
         "title": "Der Prompt-Assistent für Camping- und Roadtrip-Routen.",
-        "prec": "Was Camping Route für dich übernimmt",
+        "prec": "Was CampingRoute für dich übernimmt",
         "prec1": "Du gibst Start, Ziel, Reisedaten, Fahrzeug und Vorlieben einmal sauber ein.",
-        "prec2": "Camping Route baut daraus einen strukturierten Prompt für ChatGPT, Claude oder andere KI-Tools.",
+        "prec2": "CampingRoute baut daraus einen strukturierten Prompt für ChatGPT, Claude oder andere KI-Tools.",
         "prec3": "Mit dem Platzfinder kannst du passende Campingplätze oder Stellplätze direkt vorab auswählen und übernehmen.",
         "ai": "Dein Vorteil",
         "ai1": "Weniger Nachschärfen im KI-Chat.",
@@ -530,12 +530,12 @@
       },
       "cost": {
         "q": "Was kostet CampingRoute?",
-        "title": "Camping Route selbst ist kostenlos.",
+        "title": "CampingRoute selbst ist kostenlos.",
         "free": "Die App",
         "free1": "Formular und Prompt-Erstellung sind 100% kostenlos.",
         "free2": "Keine Anmeldung nötig. Du kannst den Prompt-Assistenten direkt im Browser nutzen.",
         "opt": "Externe KI-Kosten",
-        "transDesc": "Kosten entstehen nur dann, wenn du den generierten Prompt in einem kostenpflichtigen KI-Dienst nutzt. Diese Kosten laufen ausschließlich über deinen gewählten Anbieter, nicht über Camping Route."
+        "transDesc": "Kosten entstehen nur dann, wenn du den generierten Prompt in einem kostenpflichtigen KI-Dienst nutzt. Diese Kosten laufen ausschließlich über deinen gewählten Anbieter, nicht über CampingRoute."
       },
       "privacy": {
         "q": "Wo werden meine eingegebenen Daten gespeichert?",
@@ -546,7 +546,7 @@
         "sec1": "Deine Daten verlassen dein Gerät erst dann, wenn du den generierten Prompt selbst in einen externen KI-Dienst einfügst."
       },
       "helpImprove": {
-        "q": "Kann ich helfen, Camping Route besser zu machen?",
+        "q": "Kann ich helfen, CampingRoute besser zu machen?",
         "title": "Ja. Feedback, Ideen und Beiträge helfen direkt weiter.",
         "content": "So kannst du helfen",
         "content1": "Gib direkt auf der Seite Feedback oder teile Verbesserungsvorschläge.",
@@ -559,7 +559,7 @@
         "q": "Was passiert bei 'KI direkt nutzen' (Routen-Vorschläge)?",
         "title": "Drei Routen-Vorschläge direkt im Tool generieren.",
         "content": "So funktioniert die direkte Generierung",
-        "content1": "Mit der Option 'KI direkt nutzen' fragt Camping Route im Hintergrund das KI-Modell (z.B. Gemini) direkt an.",
+        "content1": "Mit der Option 'KI direkt nutzen' fragt CampingRoute im Hintergrund das KI-Modell (z.B. Gemini) direkt an.",
         "content2": "Du erhältst dann drei unterschiedliche Varianten für deine Reise (z.B. schnellste, landschaftlich schönste).",
         "content3": "Über den Button 'Diese Route wählen' kannst du die gewünschte Variante direkt in deine weitere Planung und den finalen Prompt übernehmen."
       }

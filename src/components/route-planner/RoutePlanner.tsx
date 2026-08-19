@@ -1817,8 +1817,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
       <HeroSection onStartPlanning={revealPlanner} />
 
       <Suspense fallback={<div className="h-96" />}>
-        <TestimonialsSection />
         <FeaturesSection />
+        <TestimonialsSection />
       </Suspense>
 
       <section className="relative overflow-hidden px-4 py-20 text-foreground dark:text-white">

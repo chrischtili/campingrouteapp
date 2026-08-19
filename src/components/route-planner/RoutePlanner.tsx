@@ -1818,7 +1818,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
 
       <Suspense fallback={<div className="h-96" />}>
         <FeaturesSection />
-        <TestimonialsSection />
       </Suspense>
 
       <section className="relative overflow-hidden px-4 py-20 text-foreground dark:text-white">
@@ -1858,6 +1857,10 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           </div>
         </div>
       </section>
+
+      <Suspense fallback={<div className="h-96" />}>
+        <TestimonialsSection />
+      </Suspense>
 
       <FeedbackModal
         open={showFeedbackModal}

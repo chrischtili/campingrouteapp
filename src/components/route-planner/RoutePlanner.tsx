@@ -1817,6 +1817,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
       <HeroSection onStartPlanning={revealPlanner} />
 
       <Suspense fallback={<div className="h-96" />}>
+        <TestimonialsSection />
         <FeaturesSection />
       </Suspense>
 
@@ -1857,10 +1858,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           </div>
         </div>
       </section>
-
-      <Suspense fallback={<div className="h-96" />}>
-        <TestimonialsSection />
-      </Suspense>
 
       <FeedbackModal
         open={showFeedbackModal}

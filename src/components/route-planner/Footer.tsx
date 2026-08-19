@@ -67,16 +67,6 @@ export function Footer() {
                   {t("navbar.planNow")}
                 </Link>
               </li>
-              <li>
-                <Link to="/campingplatz-finder" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
-                  {finderLabels.camping}
-                </Link>
-              </li>
-              <li>
-                <Link to="/stellplatz-finder" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
-                  {finderLabels.stopover}
-                </Link>
-              </li>
             </ul>
           </div>
 

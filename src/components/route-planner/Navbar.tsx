@@ -70,8 +70,6 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const navItems = [
     { name: t("navbar.planNow"), path: "/prompt-generator", isAnchor: false },
-    { name: finderLabels.camping, path: "/campingplatz-finder", isAnchor: false },
-    { name: finderLabels.stopover, path: "/stellplatz-finder", isAnchor: false },
     { name: t("navbar.features"), path: "#features", isAnchor: true },
     { name: t("navbar.faq"), path: "#faq", isAnchor: true },
   ];

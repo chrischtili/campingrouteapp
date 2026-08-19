@@ -14,7 +14,7 @@
 
 - **Modernes UI-Redesign**: Komplett überarbeitete, aufgeräumte Benutzeroberfläche – inklusive fester Pinned Tab-Navbar, einheitlichem Canvas-Hintergrund (`#f9fafb` / `#090d16`), 3-Stufen-Roadtrip-Banner und abgerundeten Karten-Containern.
 - **100% DSGVO-Konforme Lokale Schriften**: Sämtliche Google Fonts CDN-Aufrufe wurden durch lokal gehostete `@fontsource/plus-jakarta-sans` ersetzt. Keine externen Schriftarten-Verbindungen.
-- **Pinned Tab Navigation**: Schneller Wechsel zwischen Prompt-Assistent, Campingplatz-Finder und Stellplatz-Finder direkt über die obere Menüleiste.
+- **Sightseer-Style Breadcrumb Navigation**: Elegante Brotkrumen-Navigation auf allen Unterseiten (`Startseite / ...`) direkt unter der Menüleiste.
 - **Optimierter Dark Mode**: Einheitliches, augenschonendes Slate-Dark-Design ohne veraltete Schatten- oder Gradienten-Altlasten.
 
 ---
@@ -25,10 +25,6 @@
 - 7-Schritte-Assistent für perfekt strukturierte KI-Prompts.
 - Fahrzeugspezifische Angaben (Länge, Höhe, Gewicht, Führerschein, Ausrüstung).
 - Erstellt optimierte Prompts für ChatGPT, Gemini, Perplexity, Claude & Mistral.
-
-### 🏕️ Campingplatz- & Stellplatz-Finder
-- Integrierte Direkt-Suche für europäische Camping- und Stellplätze via OpenStreetMap (OSM).
-- Detaillierte Filter und direkte Einbindung von Suchergebnissen als Etappen in deine Route.
 
 ### 📍 GPX-Export & Offline-Speicherung
 - Direkter Download von GPX-Dateien (Wegpunkte, Tracks, Routen für Garmin / OsmAnd / Locus).

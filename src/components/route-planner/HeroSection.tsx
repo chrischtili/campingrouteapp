@@ -100,19 +100,6 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
           </div>
         </div>
 
-          <div className="mt-8 flex justify-center">
-            <Button
-              type="button"
-              onClick={() => onStartPlanning?.()}
-              className="relative inline-flex h-13 min-w-[220px] items-center justify-center overflow-hidden rounded-2xl bg-emerald-600 px-8 font-bold !text-white shadow-md shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98]"
-            >
-              <span className="relative z-10 flex items-center gap-2 text-base font-bold !text-white">
-                <Sparkles className="h-5 w-5 !text-white" />
-                {t("hero.directEntry.cta")}
-              </span>
-            </Button>
-          </div>
-
         <div className="mt-12">
           <div className="relative col-span-1 lg:col-span-2">
             <div 

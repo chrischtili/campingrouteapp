@@ -723,6 +723,55 @@
   box-shadow: var(--shadow-md) !important;
 }
 
+/* Responsive Place Detail Modal Content */
+.entdecken-root .detail-grid-container {
+  max-width: 1200px;
+  margin: 1rem auto 0 auto;
+  padding: 0 0.85rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .entdecken-root .detail-grid-container {
+    margin-top: 2rem;
+    padding: 0 1.5rem;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+}
+
+.entdecken-root .detail-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .entdecken-root .detail-card {
+    padding: 2rem;
+  }
+}
+
+.entdecken-root .detail-title {
+  font-size: clamp(1.35rem, 4vw, 2.2rem);
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
 @media (max-width: 768px) {
   .responsive-detail-grid {
     grid-template-columns: 1fr !important;

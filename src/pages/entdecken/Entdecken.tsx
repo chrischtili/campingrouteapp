@@ -1301,19 +1301,19 @@ const getWebsiteUrl = (place: Place): string | null => {
               </div>
 
               {/* Grid Content Columns */}
-              <div style={{ maxWidth: '1200px', margin: '2rem auto 0 auto', padding: '0 1.5rem', display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }} className="responsive-detail-grid">
+              <div className="detail-grid-container responsive-detail-grid">
                 
                 {/* Left Column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: 0 }}>
                   {/* Place Header Block */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+                  <div className="detail-card">
                     <span className={`place-card-type ${selectedPlace.type}`} style={{ display: 'inline-block', marginBottom: '0.75rem', fontSize: '0.75rem', fontWeight: 700 }}>
                       {getTypeLabel(selectedPlace.type)}
                     </span>
-                    <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--gray-900)', letterSpacing: '-0.02em', marginBottom: '0.5rem', lineHeight: '1.15' }}>{selectedPlace.name}</h1>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                      <MapPin size={16} />
-                      {selectedPlace.address}
+                    <h1 className="detail-title">{selectedPlace.name}</h1>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.25rem', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+                      <MapPin size={16} className="shrink-0" />
+                      <span>{selectedPlace.address}</span>
                     </p>
                     <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500, marginTop: '0.75rem' }}>
                       Datenquelle:{" "}
@@ -1341,58 +1341,58 @@ const getWebsiteUrl = (place: Place): string | null => {
                   </div>
 
                   {/* See What It's Really Like */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>Der Ort auf einen Blick</h3>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>Echte Reisebeschreibungen, Merkmale und Bewertungen aus der Community.</p>
+                  <div className="detail-card">
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.4rem', overflowWrap: 'break-word' }}>Der Ort auf einen Blick</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.25rem', overflowWrap: 'break-word' }}>Echte Reisebeschreibungen, Merkmale und Bewertungen aus der Community.</p>
                     
-                    <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '2rem', textAlign: 'center', color: 'var(--gray-400)' }}>
-                      <ImageIcon size={32} style={{ margin: '0 auto 0.75rem auto' }} />
-                      <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>Keine Videoberichte vorhanden</p>
-                      <p style={{ fontSize: '0.8rem', marginTop: '0.25rem' }}>Erstelle den ersten Videobeitrag über diesen Campingplatz!</p>
-                      <button style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0.45rem 1.25rem', fontWeight: 700, fontSize: '0.85rem', marginTop: '1rem', cursor: 'pointer' }}>Inhalt hinzufügen</button>
+                    <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-400)' }}>
+                      <ImageIcon size={28} style={{ margin: '0 auto 0.5rem auto' }} />
+                      <p style={{ fontWeight: 600, fontSize: '0.85rem' }}>Keine Videoberichte vorhanden</p>
+                      <p style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>Erstelle den ersten Videobeitrag über diesen Campingplatz!</p>
+                      <button style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0.45rem 1.25rem', fontWeight: 700, fontSize: '0.82rem', marginTop: '0.85rem', cursor: 'pointer' }}>Inhalt hinzufügen</button>
                     </div>
                   </div>
 
                   {/* About & Description */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '1rem' }}>{de.aboutLabel}</h3>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--gray-600)', lineHeight: '1.7', whiteSpace: 'pre-line' }}>{cleanDescription}</p>
+                  <div className="detail-card">
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.75rem' }}>{de.aboutLabel}</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', lineHeight: '1.65', whiteSpace: 'pre-line', overflowWrap: 'break-word', wordBreak: 'break-word' }}>{cleanDescription}</p>
                     
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginTop: '1.5rem', marginBottom: '0.75rem' }}>{de.amenitiesLabel}</h4>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginTop: '1.25rem', marginBottom: '0.65rem' }}>{de.amenitiesLabel}</h4>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                       {getAmenityList(selectedPlace).map((amenity, i) => (
-                        <span key={i} className="amenity-tag" style={{ background: 'var(--gray-100)', color: 'var(--gray-700)', fontSize: '0.8rem', fontWeight: 600, padding: '0.35rem 0.75rem', borderRadius: '8px' }}>
+                        <span key={i} className="amenity-tag" style={{ background: 'var(--gray-100)', color: 'var(--gray-700)', fontSize: '0.78rem', fontWeight: 600, padding: '0.3rem 0.65rem', borderRadius: '8px' }}>
                           {amenity.replace('-', ' ')}
                         </span>
                       ))}
                     </div>
                     {getAmenityList(selectedPlace).length === 0 && (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', marginTop: '0.5rem' }}>Ausstattungsdetails liegen für diesen Ort noch nicht vor.</p>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)', fontStyle: 'italic', marginTop: '0.4rem' }}>Ausstattungsdetails liegen für diesen Ort noch nicht vor.</p>
                     )}
                   </div>
 
                   {/* Reviews Section */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                      <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>{de.reviewsTitle}</h3>
-                      <button onClick={() => setShowReviewModal(true)} style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '9999px', padding: '0.45rem 1.25rem', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer' }}>Bericht schreiben</button>
+                  <div className="detail-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>{de.reviewsTitle}</h3>
+                      <button onClick={() => setShowReviewModal(true)} style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '9999px', padding: '0.4rem 1rem', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}>Bericht schreiben</button>
                     </div>
                     
                     {reviews.length === 0 ? (
-                      <p style={{ fontSize: '0.9rem', color: 'var(--gray-400)', fontStyle: 'italic', textAlign: 'center', padding: '2rem' }}>{de.noReviews}</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', textAlign: 'center', padding: '1.5rem' }}>{de.noReviews}</p>
                     ) : (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {reviews.map((review) => (
-                          <div key={review.id} style={{ borderBottom: '1px solid var(--gray-100)', paddingBottom: '1.25rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                              <span style={{ fontWeight: 700, color: 'var(--gray-800)' }}>{review.author}</span>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', color: '#b45309', fontSize: '0.85rem', fontWeight: 700 }}>
+                          <div key={review.id} style={{ borderBottom: '1px solid var(--gray-100)', paddingBottom: '1rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
+                              <span style={{ fontWeight: 700, color: 'var(--gray-800)', fontSize: '0.85rem' }}>{review.author}</span>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', color: '#b45309', fontSize: '0.82rem', fontWeight: 700 }}>
                                 <Star size={12} fill="#b45309" />
                                 <span>{review.rating}</span>
                               </div>
                             </div>
-                            <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', lineHeight: '1.5' }}>{review.content}</p>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--gray-400)', marginTop: '0.25rem', display: 'block' }}>{review.created_at}</span>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', lineHeight: '1.5', overflowWrap: 'break-word' }}>{review.content}</p>
+                            <span style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginTop: '0.2rem', display: 'block' }}>{review.created_at}</span>
                           </div>
                         ))}
                       </div>
@@ -1401,27 +1401,27 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
 
                 {/* Right Column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: 0 }}>
                   
                   {/* Save box */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.4rem' }}>Diesen Ort speichern</h4>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginBottom: '1rem' }}>Füge diesen Campingplatz einem deiner Roadtrips hinzu.</p>
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>Diesen Ort speichern</h4>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>Füge diesen Campingplatz einem deiner Roadtrips hinzu.</p>
                     <button 
                       onClick={() => setShowSaveToListModal(true)}
-                      style={{ width: '100%', background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '12px', padding: '0.75rem 1rem', fontSize: '0.95rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', cursor: 'pointer' }}
+                      style={{ width: '100%', background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '12px', padding: '0.65rem 1rem', fontSize: '0.88rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', cursor: 'pointer' }}
                     >
-                      <Heart size={18} />
+                      <Heart size={16} />
                       <span>Roadtrip hinzufügen</span>
                     </button>
                   </div>
 
                   {/* Stayed here box */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.4rem' }}>Schon dagewesen?</h4>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginBottom: '1rem' }}>Teile deine Erfahrung und bewerte diesen Ort.</p>
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>Schon dagewesen?</h4>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>Teile deine Erfahrung und bewerte diesen Ort.</p>
                     
-                    <div style={{ display: 'flex', gap: '0.35rem', justifyContent: 'center', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', gap: '0.35rem', justifyContent: 'center', marginBottom: '0.85rem' }}>
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button 
                           key={star} 
@@ -1429,55 +1429,55 @@ const getWebsiteUrl = (place: Place): string | null => {
                           style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray-200)' }}
                           className="hover:scale-110 transition-transform"
                         >
-                          <Star size={24} style={{ color: star <= selectedPlace.rating ? '#b45309' : 'var(--gray-200)' }} fill={star <= selectedPlace.rating ? '#b45309' : 'none'} />
+                          <Star size={22} style={{ color: star <= selectedPlace.rating ? '#b45309' : 'var(--gray-200)' }} fill={star <= selectedPlace.rating ? '#b45309' : 'none'} />
                         </button>
                       ))}
                     </div>
 
                     <button 
                       onClick={() => setShowReviewModal(true)}
-                      style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.85rem', fontWeight: 700, width: '100%', textAlign: 'center', cursor: 'pointer' }}
+                      style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.82rem', fontWeight: 700, width: '100%', textAlign: 'center', cursor: 'pointer' }}
                     >
                       Bericht schreiben
                     </button>
                   </div>
 
                   {/* Photos box */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem' }}>Bildergalerie</h4>
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.75rem' }}>Bildergalerie</h4>
                     {imageUrl ? (
-                      <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', height: '180px' }}>
+                      <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', height: '170px' }}>
                         <img src={imageUrl} alt={selectedPlace.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = getFallbackImage(selectedPlace); }} />
                       </div>
                     ) : (
-                      <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '2rem', textAlign: 'center', color: 'var(--gray-400)' }}>
-                        <Camera size={28} style={{ margin: '0 auto 0.5rem auto' }} />
-                        <p style={{ fontSize: '0.8rem', fontWeight: 600 }}>Keine Fotos verfügbar</p>
-                        <button style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.8rem', fontWeight: 700, marginTop: '0.5rem', cursor: 'pointer' }}>Foto hochladen</button>
+                      <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-400)' }}>
+                        <Camera size={26} style={{ margin: '0 auto 0.4rem auto' }} />
+                        <p style={{ fontSize: '0.78rem', fontWeight: 600 }}>Keine Fotos verfügbar</p>
+                        <button style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.78rem', fontWeight: 700, marginTop: '0.4rem', cursor: 'pointer' }}>Foto hochladen</button>
                       </div>
                     )}
                   </div>
 
                   {/* Share box */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.4rem' }}>Diesen Ort teilen</h4>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginBottom: '1rem' }}>Teile diesen Platz mit deinen Camping-Freunden.</p>
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>Diesen Ort teilen</h4>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>Teile diesen Platz mit deinen Camping-Freunden.</p>
                     
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <button onClick={copyShareLink} style={{ flex: 1, background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.6rem 0.8rem', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', cursor: 'pointer' }}>
-                        <Share2 size={16} />
-                        Teilen
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <button onClick={copyShareLink} style={{ flex: '1 1 auto', minWidth: '75px', background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.55rem 0.7rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', cursor: 'pointer' }}>
+                        <Share2 size={15} />
+                        <span>Teilen</span>
                       </button>
                       {getWebsiteUrl(selectedPlace) && (
-                        <a href={getWebsiteUrl(selectedPlace)!} target="_blank" rel="noreferrer" style={{ background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.6rem 0.8rem', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', textDecoration: 'none', flex: 1 }}>
-                          <Globe size={16} />
-                          Webseite
+                        <a href={getWebsiteUrl(selectedPlace)!} target="_blank" rel="noreferrer" style={{ flex: '1 1 auto', minWidth: '85px', background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.55rem 0.7rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', textDecoration: 'none' }}>
+                          <Globe size={15} />
+                          <span>Webseite</span>
                         </a>
                       )}
                       {selectedPlace.phone && (
-                        <a href={`tel:${selectedPlace.phone.replace(/[^+\d]/g, '')}`} style={{ background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.6rem 0.8rem', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', textDecoration: 'none', flex: 1 }}>
-                          <MessageSquare size={16} />
-                          Anrufen
+                        <a href={`tel:${selectedPlace.phone.replace(/[^+\d]/g, '')}`} style={{ flex: '1 1 auto', minWidth: '80px', background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.55rem 0.7rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', textDecoration: 'none' }}>
+                          <MessageSquare size={15} />
+                          <span>Anrufen</span>
                         </a>
                       )}
                     </div>

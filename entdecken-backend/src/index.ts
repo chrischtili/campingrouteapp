@@ -1545,21 +1545,40 @@ if (isStdioMode) {
   // Start Express API & SSE MCP Server Transport
   const PORT = process.env.PORT || 3000;
   
-  let mcpTransport: SSEServerTransport | null = null;
+  const mcpTransports = new Map<string, SSEServerTransport>();
 
-  app.get("/mcp", (req, res) => {
+  app.get("/mcp", async (req, res) => {
     console.log("New SSE connection established for MCP client");
-    mcpTransport = new SSEServerTransport("/messages", res);
-    mcpServer.connect(mcpTransport).catch((err) => {
+    const transport = new SSEServerTransport("/discover/messages", res);
+    mcpTransports.set(transport.sessionId, transport);
+
+    transport.onclose = () => {
+      console.log(`MCP SSE session closed: ${transport.sessionId}`);
+      mcpTransports.delete(transport.sessionId);
+    };
+
+    try {
+      await mcpServer.connect(transport);
+    } catch (err) {
       console.error("Failed to connect MCP server to SSE transport:", err);
-    });
+      mcpTransports.delete(transport.sessionId);
+    }
   });
 
-  app.post("/messages", (req, res) => {
-    if (mcpTransport) {
-      mcpTransport.handleMessage(req, res as any);
+  app.post("/messages", async (req, res) => {
+    const sessionId = (req.query.sessionId as string) || req.headers["x-session-id"] as string;
+    const transport = sessionId ? mcpTransports.get(sessionId) : Array.from(mcpTransports.values())[0];
+    if (transport) {
+      try {
+        await transport.handlePostMessage(req, res, req.body);
+      } catch (err: any) {
+        console.error("Error handling MCP post message:", err);
+        if (!res.headersSent) {
+          res.status(500).json({ error: err?.message || "Internal server error" });
+        }
+      }
     } else {
-      res.status(400).send("No active SSE connection found.");
+      res.status(400).send(`Session not found. Active sessions: ${Array.from(mcpTransports.keys()).join(', ')}`);
     }
   });
 

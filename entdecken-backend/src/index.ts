@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import express from "express";
 import cors from "cors";
 import { getDb } from "./db/db.js";
-import { mcpServer } from "./mcp-server.js";
+import { mcpServer, createMcpServer } from "./mcp-server.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import crypto from "crypto";
@@ -1557,8 +1557,9 @@ if (isStdioMode) {
       mcpTransports.delete(transport.sessionId);
     };
 
+    const server = createMcpServer();
     try {
-      await mcpServer.connect(transport);
+      await server.connect(transport);
     } catch (err) {
       console.error("Failed to connect MCP server to SSE transport:", err);
       mcpTransports.delete(transport.sessionId);

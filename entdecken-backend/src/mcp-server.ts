@@ -8,20 +8,21 @@ import {
 import { getDb } from "./db/db.js";
 import crypto from "crypto";
 
-export const mcpServer = new Server(
-  {
-    name: "campingroute",
-    version: "1.0.0",
-  },
-  {
-    capabilities: {
-      tools: {},
+export function createMcpServer(): Server {
+  const server = new Server(
+    {
+      name: "campingroute",
+      version: "1.0.0",
     },
-  }
-);
+    {
+      capabilities: {
+        tools: {},
+      },
+    }
+  );
 
-// Define tools
-mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
+  // Define tools
+  server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
@@ -112,7 +113,7 @@ mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
 });
 
 // Handle tool executions
-mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const db = await getDb();
   const { name, arguments: args } = request.params;
 
@@ -297,13 +298,18 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      default:
-        throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
+        default:
+          throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
+      }
+    } catch (error: any) {
+      if (error instanceof McpError) {
+        throw error;
+      }
+      throw new McpError(ErrorCode.InternalError, error.message || "An unexpected error occurred");
     }
-  } catch (error: any) {
-    if (error instanceof McpError) {
-      throw error;
-    }
-    throw new McpError(ErrorCode.InternalError, error.message || "An unexpected error occurred");
-  }
-});
+  });
+
+  return server;
+}
+
+export const mcpServer = createMcpServer();

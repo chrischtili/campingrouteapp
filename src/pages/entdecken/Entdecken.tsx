@@ -825,7 +825,6 @@ function EntdeckenContent() {
     if (selectedPlace) {
       fetchReviews(selectedPlace.id);
       fetchNearbyPlaces(selectedPlace.id);
-      window.scrollTo(0, 0);
     } else {
       setNearbyPlaces([]);
     }
@@ -1246,7 +1245,7 @@ const getWebsiteUrl = (place: Place): string | null => {
         {/* Place Detail Modal Overlay */}
         {selectedPlace && (
           <div
-            style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(15, 23, 42, 0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', backdropFilter: 'blur(2px)' }}
+            className="place-modal-overlay"
             onClick={() => setSelectedPlace(null)}
           >
             {(() => {
@@ -1254,7 +1253,12 @@ const getWebsiteUrl = (place: Place): string | null => {
           const cleanDescription = getCleanDescription(selectedPlace);
 
           return (
-            <div onClick={(e) => e.stopPropagation()} style={{ position: 'relative', background: 'var(--gray-50)', width: '100%', maxWidth: '1000px', maxHeight: '92vh', overflowY: 'auto', WebkitOverflowScrolling: 'touch', borderRadius: '16px', boxShadow: '0 25px 60px rgba(0,0,0,0.4)' }}>
+            <div className="place-modal-container" onClick={(e) => e.stopPropagation()}>
+              {/* Mobile Drag/Pull Indicator */}
+              <div className="sm:hidden" style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.6rem', paddingBottom: '0.2rem', background: 'white' }}>
+                <div style={{ width: '40px', height: '4px', borderRadius: '9999px', background: 'var(--gray-300)' }} />
+              </div>
+
               {/* Close button */}
               <button
                 onClick={() => setSelectedPlace(null)}

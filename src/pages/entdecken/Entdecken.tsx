@@ -541,7 +541,7 @@ function EntdeckenContent() {
   const mcpConfigCode = JSON.stringify({
     mcpServers: {
       campingroute: {
-        url: "https://campingroute.app/mcp"
+        serverUrl: "https://campingroute.app/discover/mcp"
       }
     }
   }, null, 2);
@@ -2946,20 +2946,20 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Endpoint URL Box */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.4rem', display: 'block' }}>
-                  MCP SSE-Endpoint URL
+                  MCP Server Endpoint URL
                 </label>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <input 
                     type="text" 
                     readOnly 
-                    value="https://campingroute.app/mcp" 
+                    value="https://campingroute.app/discover/mcp" 
                     className="form-input" 
                     style={{ fontFamily: 'monospace', fontWeight: 700, color: 'var(--primary-800)', background: 'var(--gray-50)' }}
                   />
                   <button
                     type="button"
                     onClick={() => {
-                      navigator.clipboard.writeText("https://campingroute.app/mcp");
+                      navigator.clipboard.writeText("https://campingroute.app/discover/mcp");
                       setCopiedMCP(true);
                       setTimeout(() => setCopiedMCP(false), 2000);
                     }}
@@ -2975,7 +2975,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               <div style={{ marginBottom: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                   <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', margin: 0 }}>
-                    Einbindung in Claude Desktop (<code style={{ fontSize: '0.75rem' }}>claude_desktop_config.json</code>)
+                    Einbindung in MCP-Clients (<code style={{ fontSize: '0.75rem' }}>claude_desktop_config.json</code> / Cursor / Agenten)
                   </label>
                   <button
                     type="button"
@@ -3004,13 +3004,17 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Available Tools Overview */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'block' }}>
-                  Verfügbare MCP-Tools für deine KI
+                  Verfügbare MCP-Tools für deine KI (7 Tools)
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                   {[
-                    { name: 'search_places', desc: 'Sucht nach Campingplätzen, Stellplätzen & Sehenswürdigkeiten mit Filtern nach Land, Region, Ort, Flüssen & Merkmalen.' },
-                    { name: 'get_place_details', desc: 'Liefert vollständige Kontaktdaten, Koordinaten, Preise, Sanitär-Ausstattung und Details zu einem Ort.' },
-                    { name: 'get_reviews', desc: 'Ruft echte Reiseberichte und Bewertungen von Campern zu einem Platz ab.' }
+                    { name: 'search_places', desc: 'Sucht europaweit nach Campingplätzen, Stellplätzen & Sehenswürdigkeiten mit Filtern nach Land, Region, Ort, Typ & Merkmalen.' },
+                    { name: 'get_place_details', desc: 'Liefert vollständige Kontaktdaten, Koordinaten, Preise, Sanitär-Ausstattung und Details zu einem Platz.' },
+                    { name: 'get_reviews', desc: 'Ruft echte Reiseberichte und Bewertungen von Campern zu einem Platz ab.' },
+                    { name: 'add_review', desc: 'Schreibt eine neue Bewertung und vergibt Sterne für einen besuchten Platz.' },
+                    { name: 'get_lists', desc: 'Gibt alle erstellten Reiselisten und Favoriten-Sammlungen zurück.' },
+                    { name: 'create_list', desc: 'Erstellt eine neue Reiseliste (z. B. für eine geplante Route oder Favoriten).' },
+                    { name: 'save_to_list', desc: 'Speichert einen Campingplatz oder Spot in einer bestimmten Reiseliste.' }
                   ].map((t) => (
                     <div key={t.name} style={{ background: 'var(--gray-50)', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--gray-200)' }}>
                       <div style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '0.85rem', color: '#7c3aed' }}>{t.name}</div>

@@ -1,66 +1,83 @@
-# 🚐 Camping Route - KI Wohnmobil Routenplaner (v0.6.1)
+# 🚐 Camping Route - KI Wohnmobil Routenplaner & Entdecken (v0.7.0)
 
-[![Version](https://img.shields.io/badge/version-v0.6.1-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.7.0-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Der KI-Routenplaner speziell für Wohnmobile, Camper & Roadtrips in Europa!**
+**Die smarte Plattform für Wohnmobil-Reisende, Camper & Roadtripper in Europa – mit KI-Routenplaner, interaktivem Entdecken-Portal und MCP-KI-Integration!**
 
 👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
 
 ---
 
-## 🌟 Neues UI-Design & Highlights (v0.6.1)
+## 🌟 Neu in Version 0.7.0
 
-- **Modernes UI-Redesign**: Komplett überarbeitete, aufgeräumte Benutzeroberfläche – inklusive fester Pinned Tab-Navbar, einheitlichem Canvas-Hintergrund (`#f9fafb` / `#090d16`), 3-Stufen-Roadtrip-Banner und abgerundeten Karten-Containern.
-- **100% DSGVO-Konforme Lokale Schriften**: Sämtliche Google Fonts CDN-Aufrufe wurden durch lokal gehostete `@fontsource/plus-jakarta-sans` ersetzt. Keine externen Schriftarten-Verbindungen.
-- **Sightseer-Style Breadcrumb Navigation**: Elegante Brotkrumen-Navigation auf allen Unterseiten (`Startseite / ...`) direkt unter der Menüleiste.
-- **Optimierter Dark Mode**: Einheitliches, augenschonendes Slate-Dark-Design ohne veraltete Schatten- oder Gradienten-Altlasten.
-
----
-
-## 📦 Core Features
-
-### 🎯 KI-Prompt-Assistent
-- 7-Schritte-Assistent für perfekt strukturierte KI-Prompts.
-- Fahrzeugspezifische Angaben (Länge, Höhe, Gewicht, Führerschein, Ausrüstung).
-- Erstellt optimierte Prompts für ChatGPT, Gemini, Perplexity, Claude & Mistral.
-
-### 📍 GPX-Export & Offline-Speicherung
-- Direkter Download von GPX-Dateien (Wegpunkte, Tracks, Routen für Garmin / OsmAnd / Locus).
-- Lokale Speicherung im Browser ohne Registrierung.
-- PDF- und Druck-optimierte Reiseplaner-Ausgabe.
+- 🧭 **Neues „Entdecken“-Portal (`/entdecken`)**:
+  - Interaktive Kartensuche für verifizierte Camping- & Stellplätze in ganz Europa (aus OpenStreetMap mit geprüfter Webadresse).
+  - Sehenswürdigkeiten & Highlights direkt aus Wikidata mit Bildern und Hintergrundinfos.
+  - Schnelle Länderfilter (Deutschland 🇩🇪, Österreich 🇦🇹, Schweiz 🇨🇭, Italien 🇮🇹, Frankreich 🇫🇷, Schweden 🇸🇪, Niederlande 🇳🇱, Dänemark 🇩🇰).
+- 🤖 **Bring Your Own Key (BYOK) KI-Architektur**:
+  - Volle Kontrolle über KI-Kosten: Eigener API-Key (Gemini, OpenAI, Anthropic, Mistral, Perplexity, OpenRouter) im Browser hinterlegbar.
+  - Smarte 0€-Deterministische Suche für klare Suchanfragen ohne API-Kosten.
+- 🔌 **Model Context Protocol (MCP) Server**:
+  - Integrierter MCP-Server zur direkten Anbindung an Cursor, Claude Desktop oder KI-Agenten, um Camping- & Routendaten abzufragen.
+- 🎨 **Modernes UI-Design & Breadcrumb-Navigation**:
+  - Elegantes Dark/Light-Theme, nahtlose Sightseer-Breadcrumbs und 100% DSGVO-konforme lokale Schriftarten (`@fontsource/plus-jakarta-sans`).
 
 ---
 
-## 💻 Tech Stack
+## 📦 Kern-Features
 
-- **Frontend**: React 18, TypeScript, Vite
-- **Styling**: Tailwind CSS, `@fontsource/plus-jakarta-sans`, shadcn/ui, Framer Motion
+### 🎯 KI-Prompt-Assistent & Routenplaner
+- 7-Schritte-Assistent für optimal strukturierte Reise- und Routen-Prompts.
+- Fahrzeugspezifische Filter (Länge, Höhe, Gesamtgewicht, Führerscheinklasse, Maut-/Fährenpräferenzen).
+- Kompatibel mit allen gängigen KI-Modellen (ChatGPT, Gemini, Claude, Mistral, Perplexity).
+
+### 📍 GPX-Export & Offline-Nutzung
+- Direkter Download strukturierter GPX-Dateien (Wegpunkte, Tracks und Etappen für Garmin, OsmAnd, Locus Map).
+- Lokale Speicherung im Browser ohne Registrierungszwang.
+- Druck- und PDF-optimierte Reiseunterlagen.
+
+### 🏕️ Entdecken & Spot-Finder
+- Suche nach Kriterien (Lage am See, Berge, Hundefreundlich, Ver- & Entsorgung, Strom).
+- Detailansichten mit direkten Links zur Website, Kontaktdaten und Anfahrtsinformationen.
+
+---
+
+## 💻 Tech Stack & Architektur
+
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, Leaflet / OpenStreetMap
+- **Backend**: Node.js / Express (Port 3002 für API & Static Dist, Port 3000 für Entdecken-Suche & MCP)
+- **Datenbanken**: SQLite (`places.sqlite`, `campingroute_eu.db`) + Geodaten-Indizes
 - **Internationalisierung**: react-i18next (DE, EN, NL, FR, IT)
-- **Geodaten**: Leaflet, OpenStreetMap, Nominatim
 
 ---
 
 ## 🚀 Lokale Entwicklung
 
 ```bash
-# Repository klonen
+# 1. Repository klonen
 git clone https://github.com/chrischtili/campingrouteapp.git
 cd campingrouteapp
 
-# Abhängigkeiten installieren
+# 2. Frontend-Abhängigkeiten installieren
 npm install
 
-# Entwicklungs-Server starten
-npm run dev
+# 3. Entdecken-Backend Abhängigkeiten installieren
+cd entdecken-backend
+npm install
+cd ..
 
-# Production Build erstellen
-npm run build
+# 4. Entwicklungs-Server starten
+# Terminal 1: Entdecken-Backend
+cd entdecken-backend && npm run dev
+
+# Terminal 2: Frontend
+npm run dev
 ```
 
 ---
 
-## 📄 Lizenz / License
+## 📄 Lizenz
 
 MIT © [chrischtili](https://github.com/chrischtili)

@@ -45,3 +45,11 @@ COUNTER_SERVER_DOKUMENTATION.md
 public/version.json
 feedback.json
 tmp/
+
+# Entdecken-Backend
+entdecken-backend/node_modules/
+entdecken-backend/dist/
+entdecken-backend/*.db
+entdecken-backend/*.db-wal
+entdecken-backend/*.db-shm
+entdecken-backend/src/data/*.geojson

@@ -2015,6 +2015,30 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    // Entdecken-Seite -> Entdecken-Backend (eigener Port, default 3000)
+    if (pathname.startsWith('/discover')) {
+      const targetPort = Number(process.env.DISCOVER_PORT || 3000);
+      const targetPath = pathname.replace(/^\/discover/, '') + url.search;
+      const proxyReq = http.request(
+        {
+          hostname: '127.0.0.1',
+          port: targetPort,
+          path: targetPath,
+          method: req.method,
+          headers: req.headers,
+        },
+        (proxyRes) => {
+          res.writeHead(proxyRes.statusCode || 502, proxyRes.headers);
+          proxyRes.pipe(res);
+        }
+      );
+      proxyReq.on('error', (err) => {
+        sendJson(res, 502, { error: 'Entdecken-Backend nicht erreichbar: ' + err.message });
+      });
+      req.pipe(proxyReq);
+      return;
+    }
+
     if (req.method === 'POST' && pathname === '/api/count-visit') {
       const counter = incrementCounter();
       sendJson(res, 200, { success: true, visits: counter.visits });

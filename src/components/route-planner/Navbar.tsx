@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/ui/theme-provider";
 import { getFinderNavLabels } from "@/lib/finderPageContent";
+import { Settings2 } from "lucide-react";
 
 interface NavbarProps {
   onStartPlanning?: () => void;
@@ -26,6 +27,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/";
+  const isDiscoverPage = location.pathname === "/entdecken";
+
+  const openDiscoverAISettings = () => {
+    window.dispatchEvent(new CustomEvent("campingroute:open-ai-settings"));
+  };
 
   // Close mobile menu when clicking outside
   useEffect(() => {
@@ -70,6 +76,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const navItems = [
     { name: t("navbar.planNow"), path: "/prompt-generator", isAnchor: false },
+    { name: "Entdecken", path: "/entdecken", isAnchor: false },
     { name: t("navbar.features"), path: "#features", isAnchor: true },
     { name: t("navbar.faq"), path: "#faq", isAnchor: true },
   ];
@@ -110,7 +117,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               </span>
             </Link>
 
-            {/* Desktop Sightseer-Style Tab Navigation Links */}
+            {/* Desktop Tab Navigation Links */}
             <nav className="hidden md:flex items-center gap-6">
               {navItems.map((item) => {
                 const isActive = item.isAnchor 
@@ -149,6 +156,20 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <Coffee className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
               <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
             </a>
+
+            {/* KI-Einstellungen (nur auf der Entdecken-Seite) */}
+            {isDiscoverPage && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={openDiscoverAISettings}
+                className="h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
+                title="KI-Einstellungen"
+              >
+                <Settings2 className="h-4 w-4" />
+                <span className="hidden sm:inline">KI-Einstellungen</span>
+              </Button>
+            )}
 
             {/* Language Switcher */}
             <DropdownMenu>
@@ -223,6 +244,16 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               {item.name}
             </button>
           ))}
+          {isDiscoverPage && (
+            <button
+              type="button"
+              onClick={() => { openDiscoverAISettings(); setMobileMenuOpen(false); }}
+              className="flex items-center gap-2 w-full rounded-xl px-4 py-3 text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300"
+            >
+              <Settings2 className="h-4.5 w-4.5" />
+              KI-Einstellungen
+            </button>
+          )}
           <a
             href="https://www.buymeacoffee.com/campingroute"
             target="_blank"
@@ -235,6 +266,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           </a>
         </div>
       )}
+
     </header>
   );
 }

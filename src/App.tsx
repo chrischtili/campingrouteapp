@@ -77,6 +77,7 @@ const AdminStats = lazyWithReload(() => import("./pages/AdminStats"));
 const CampingplatzFinder = lazyWithReload(() => import("./pages/CampingplatzFinder"));
 const StellplatzFinder = lazyWithReload(() => import("./pages/StellplatzFinder"));
 const PromptGenerator = lazyWithReload(() => import("./pages/PromptGenerator"));
+const Entdecken = lazyWithReload(() => import("./pages/entdecken/Entdecken"));
 
 // Dynamische Importe für UI-Komponenten
 const Toaster = lazyWithReload(() =>
@@ -398,6 +399,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/prompt-generator" element={<PromptGenerator />} />
+              <Route path="/entdecken" element={<Entdecken />} />
               <Route path="/campingplatz-finder" element={<CampingplatzFinder />} />
               <Route path="/stellplatz-finder" element={<StellplatzFinder />} />
               <Route path="/impressum" element={<Impressum />} />

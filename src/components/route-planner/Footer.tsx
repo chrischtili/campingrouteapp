@@ -1,11 +1,12 @@
-import { Github, ArrowUp } from "lucide-react";
+import { Github, ArrowUp, Cpu } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getFinderNavLabels } from "@/lib/finderPageContent";
 
 export function Footer() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const finderLabels = getFinderNavLabels(i18n.language);
   const [releaseVersion, setReleaseVersion] = useState("0.6.1");
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
@@ -56,17 +57,35 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links Column 1 */}
+          {/* Beliebte Reiseländer */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-foreground dark:text-white">
-              Navigation
+              Beliebte Reiseländer
             </h4>
-            <ul className="space-y-2 text-xs font-medium text-foreground/70 dark:text-white/70">
-              <li>
-                <Link to="/prompt-generator" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
-                  {t("navbar.planNow")}
-                </Link>
-              </li>
+            <ul className="grid grid-cols-2 gap-2 text-xs font-medium text-foreground/70 dark:text-white/70">
+              {[
+                ["DE", "🇩🇪 Deutschland"],
+                ["AT", "🇦🇹 Österreich"],
+                ["CH", "🇨🇭 Schweiz"],
+                ["IT", "🇮🇹 Italien"],
+                ["FR", "🇫🇷 Frankreich"],
+                ["SE", "🇸🇪 Schweden"],
+                ["NL", "🇳🇱 Niederlande"],
+                ["DK", "🇩🇰 Dänemark"],
+              ].map(([code, label]) => (
+                <li key={code}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.dispatchEvent(new CustomEvent("campingroute:open-country", { detail: { code } }));
+                      navigate("/entdecken");
+                    }}
+                    className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+                  >
+                    {label}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -97,6 +116,19 @@ export function Footer() {
                   <span>GitHub Repository</span>
                 </a>
               </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent("campingroute:open-mcp"));
+                    navigate("/entdecken");
+                  }}
+                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+                >
+                  <Cpu className="w-3.5 h-3.5" />
+                  <span>MCP-Server für KI-Assistenten</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -126,11 +158,34 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-foreground/50 dark:text-white/40">
-          <p>© 2026 CampingRoute.app. Alle Rechte vorbehalten.</p>
+          <div className="space-y-1">
+            <p>© 2026 CampingRoute.app. Alle Rechte vorbehalten.</p>
+            <p>
+              Kartendaten &amp; Orte ©{" "}
+              <a
+                href="https://www.openstreetmap.org/copyright"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+              >
+                OpenStreetMap
+              </a>
+              -Mitwirkende (ODbL). Sehenswürdigkeiten &amp; Bilder bereitgestellt durch{" "}
+              <a
+                href="https://www.wikidata.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+              >
+                Wikidata
+              </a>
+              . Camping- &amp; Stellplätze aus OpenStreetMap (nur mit verifizierter Website), Sehenswürdigkeiten aus Wikidata.
+            </p>
+          </div>
           <button
             type="button"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+            className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors shrink-0"
           >
             <span>Nach oben</span>
             <ArrowUp className="w-3.5 h-3.5" />

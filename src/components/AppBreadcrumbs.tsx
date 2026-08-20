@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 export interface BreadcrumbItem {
   label: string;
   path?: string;
+  onClick?: () => void;
 }
 
 interface AppBreadcrumbsProps {
@@ -22,6 +23,8 @@ export function AppBreadcrumbs({ items, className = "" }: AppBreadcrumbsProps) {
     const path = location.pathname;
     if (path === "/prompt-generator") {
       breadcrumbItems.push({ label: t("nav.planner", "Prompt-Assistent") });
+    } else if (path === "/entdecken") {
+      breadcrumbItems.push({ label: "Entdecken" });
     } else if (path === "/impressum") {
       breadcrumbItems.push({ label: t("imprint.title", "Impressum") });
     } else if (path === "/datenschutz") {
@@ -57,17 +60,29 @@ export function AppBreadcrumbs({ items, className = "" }: AppBreadcrumbsProps) {
           return (
             <div key={index} className="flex items-center gap-2">
               <span className="text-gray-400 dark:text-slate-600 font-normal">/</span>
-              {isLast || !item.path ? (
+              {isLast ? (
                 <span className="text-gray-700 dark:text-slate-300 font-medium">
                   {item.label}
                 </span>
-              ) : (
+              ) : item.onClick ? (
+                <button
+                  type="button"
+                  onClick={item.onClick}
+                  className="text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 font-semibold transition-colors cursor-pointer"
+                >
+                  {item.label}
+                </button>
+              ) : item.path ? (
                 <Link
                   to={item.path}
                   className="text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 font-semibold transition-colors"
                 >
                   {item.label}
                 </Link>
+              ) : (
+                <span className="text-gray-700 dark:text-slate-300 font-medium">
+                  {item.label}
+                </span>
               )}
             </div>
           );

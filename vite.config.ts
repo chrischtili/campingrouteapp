@@ -17,6 +17,12 @@ export default defineConfig(({ mode }) => ({
         target: "http://127.0.0.1:3002",
         changeOrigin: true,
       },
+      // Entdecken-Seite -> Entdecken-Backend (eigener Port 3000)
+      "/discover": {
+        target: "http://127.0.0.1:3000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/discover/, ""),
+      },
     },
   },
   plugins: [

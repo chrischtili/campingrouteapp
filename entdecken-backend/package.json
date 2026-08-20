@@ -1,0 +1,37 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "start:prod": "node dist/index.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "import-data": "tsx src/scripts/import-osm.ts",
+    "import-wikidata": "tsx src/scripts/import-wikidata.ts",
+    "import-osm-grid": "tsx src/scripts/import-osm-grid.ts",
+    "merge-places": "tsx src/scripts/merge-places.ts",
+    "import-fr-it": "tsx src/scripts/import-fr-it.ts",
+    "migrate-data-quality": "tsx src/scripts/migrate-data-quality.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "@types/sqlite3": "^3.1.11",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  }
+}

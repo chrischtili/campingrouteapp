@@ -1775,38 +1775,41 @@ const getWebsiteUrl = (place: Place): string | null => {
                       padding: '4px', 
                       borderRadius: '12px', 
                       width: '100%',
-                      maxWidth: '560px'
+                      maxWidth: '560px',
+                      boxSizing: 'border-box'
                     }}>
                       <button 
                         onClick={() => { setCountryTab('camping'); scrollToTop(); }}
                         style={{
-                          padding: '0.6rem 0.75rem',
+                          padding: '0.55rem 0.5rem',
                           borderRadius: '9px',
                           border: 'none',
                           background: countryTab === 'camping' ? 'white' : 'transparent',
                           color: countryTab === 'camping' ? 'var(--primary-800)' : 'var(--gray-600)',
                           fontWeight: countryTab === 'camping' ? 800 : 600,
-                          fontSize: '0.82rem',
+                          fontSize: '0.8rem',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: '0.35rem',
+                          minWidth: 0,
                           boxShadow: countryTab === 'camping' ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <MapPin size={14} className={countryTab === 'camping' ? 'text-primary-700' : 'text-gray-400'} />
-                        <span>Camping</span>
+                        <MapPin size={14} className="shrink-0" style={{ color: countryTab === 'camping' ? 'var(--primary-700)' : 'var(--gray-400)' }} />
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Camping</span>
                         <span style={{ 
                           background: countryTab === 'camping' ? 'var(--primary-100)' : 'var(--gray-200)', 
                           color: countryTab === 'camping' ? 'var(--primary-800)' : 'var(--gray-600)',
-                          padding: '0.1rem 0.45rem', 
+                          padding: '0.1rem 0.4rem', 
                           borderRadius: '9999px', 
-                          fontSize: '0.72rem', 
-                          fontWeight: 700 
+                          fontSize: '0.7rem', 
+                          fontWeight: 700,
+                          flexShrink: 0
                         }}>
-                          {countryStats[selectedCountryView] || 0}
+                          {(countryStats[selectedCountryView] || 0).toLocaleString('de-DE')}
                         </span>
                       </button>
 
@@ -1814,33 +1817,35 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <button 
                           onClick={() => { setCountryTab('attractions'); scrollToTop(); }}
                           style={{
-                            padding: '0.6rem 0.75rem',
+                            padding: '0.55rem 0.5rem',
                             borderRadius: '9px',
                             border: 'none',
                             background: countryTab === 'attractions' ? 'white' : 'transparent',
                             color: countryTab === 'attractions' ? 'var(--primary-800)' : 'var(--gray-600)',
                             fontWeight: countryTab === 'attractions' ? 800 : 600,
-                            fontSize: '0.82rem',
+                            fontSize: '0.8rem',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: '0.35rem',
+                            minWidth: 0,
                             boxShadow: countryTab === 'attractions' ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
                             transition: 'all 0.15s ease'
                           }}
                         >
-                          <Compass size={14} className={countryTab === 'attractions' ? 'text-primary-700' : 'text-gray-400'} />
-                          <span>Sehenswürdigkeiten</span>
+                          <Compass size={14} className="shrink-0" style={{ color: countryTab === 'attractions' ? 'var(--primary-700)' : 'var(--gray-400)' }} />
+                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Highlights</span>
                           <span style={{ 
                             background: countryTab === 'attractions' ? 'var(--primary-100)' : 'var(--gray-200)', 
                             color: countryTab === 'attractions' ? 'var(--primary-800)' : 'var(--gray-600)',
-                            padding: '0.1rem 0.45rem', 
+                            padding: '0.1rem 0.4rem', 
                             borderRadius: '9999px', 
-                            fontSize: '0.72rem', 
-                            fontWeight: 700 
+                            fontSize: '0.7rem', 
+                            fontWeight: 700,
+                            flexShrink: 0
                           }}>
-                            {attractionStats[selectedCountryView] || 0}
+                            {(attractionStats[selectedCountryView] || 0).toLocaleString('de-DE')}
                           </span>
                         </button>
                       )}

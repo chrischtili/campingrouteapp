@@ -960,6 +960,20 @@ function EntdeckenContent() {
     }
   };
 
+  const scrollToTop = () => {
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      if (document.documentElement) {
+        document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }
+      if (document.body) {
+        document.body.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }
+    } catch {
+      window.scrollTo(0, 0);
+    }
+  };
+
   const handleSearch = async (e?: React.FormEvent, customQuery?: string, pageNum?: number) => {
     if (e) e.preventDefault();
     const pageToFetch = pageNum !== undefined ? pageNum : 1;
@@ -978,8 +992,8 @@ function EntdeckenContent() {
     setRouteInfo(null);
     setRoutePolyline(null);
 
-    // Bei neuer Suche / Regions-Klick wieder von oben starten
-    if (pageToFetch <= 1) window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Sofort nach oben scrollen
+    scrollToTop();
 
     try {
       const headers: Record<string, string> = {};
@@ -1004,6 +1018,7 @@ function EntdeckenContent() {
       if (searchPlaces.length > 0 && !selectedCountryView) {
         setSelectedCountryView(searchPlaces[0].country);
       }
+      setTimeout(scrollToTop, 50);
     } catch (e) {
       console.error('Error executing AI search:', e);
     } finally {
@@ -1023,7 +1038,8 @@ function EntdeckenContent() {
     setTotalItems(0);
     setCurrentPage(1);
     setMapPoints([]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
+    setTimeout(scrollToTop, 50);
     fetchFeaturedPlaces();
   };
 
@@ -1035,7 +1051,8 @@ function EntdeckenContent() {
     setSearchQuery('');
     setCountryTab(tab);
     setSelectedCountryView(code);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
+    setTimeout(scrollToTop, 60);
   };
 
   // Open a place from the results minimap popup (fetches the full record)
@@ -1743,7 +1760,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Tab Selector inside Country Page */}
                   <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1rem' }}>
                     <button 
-                      onClick={() => setCountryTab('camping')}
+                      onClick={() => { setCountryTab('camping'); scrollToTop(); }}
                       style={{
                         padding: '0.6rem 1.25rem',
                         borderRadius: '9999px',
@@ -1765,7 +1782,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                     {attractionStats[selectedCountryView] > 0 && (
                       <button 
-                        onClick={() => setCountryTab('attractions')}
+                        onClick={() => { setCountryTab('attractions'); scrollToTop(); }}
                         style={{
                           padding: '0.6rem 1.25rem',
                           borderRadius: '9999px',

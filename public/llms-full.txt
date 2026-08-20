@@ -1,0 +1,56 @@
+# CampingRoute.app - Complete AI Integration & MCP Specification
+
+## System Information
+- Name: CampingRoute
+- URL: https://campingroute.app
+- API Base: https://campingroute.app/discover/api
+- MCP Server URL: https://campingroute.app/discover/mcp
+- Architecture: Express + SQLite + React + Leaflet + MCP SDK
+
+## MCP Configuration for Claude Desktop / Cursor / Antigravity
+```json
+{
+  "mcpServers": {
+    "campingroute": {
+      "serverUrl": "https://campingroute.app/discover/mcp"
+    }
+  }
+}
+```
+
+## MCP Tool Definitions
+
+### 1. search_places
+Search verified campsites, pitches, glamping, and tourist attractions across Europe.
+- `query` (string, optional): Search query (e.g. "Camping mit Pool Gardasee")
+- `type` (string, optional): Filter by "campsite", "pitch", "glamping", or "attraction"
+- `country` (string, optional): 2-letter country code (e.g. "DE", "IT", "FR", "NO", "DK", "SE", "AT", "CH", "ES", "NL", "BE", "HR", "PT", "LU")
+- `limit` (number, optional, default: 20)
+
+### 2. get_place_details
+Retrieve comprehensive details for a specific place.
+- `id` (string, required): Place ID (e.g. "DE-12345")
+
+### 3. get_reviews
+Retrieve traveler reviews and ratings for a place.
+- `place_id` (string, required): Place ID
+
+### 4. add_review
+Submit a traveler rating and review.
+- `place_id` (string, required)
+- `author` (string, required)
+- `rating` (number, 1-5, required)
+- `content` (string, required)
+
+### 5. get_lists
+Retrieve user roadtrips and saved lists.
+
+### 6. create_list
+Create a new roadtrip collection.
+- `name` (string, required)
+- `description` (string, optional)
+
+### 7. save_to_list
+Save a place to a specific list.
+- `list_id` (string, required)
+- `place_id` (string, required)

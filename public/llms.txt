@@ -1,0 +1,27 @@
+# CampingRoute.app - AI & LLM Manifest
+
+> CampingRoute is a modern European camping route planner, campsite discovery engine, and official Model Context Protocol (MCP) server.
+
+## Overview
+- Website: https://campingroute.app
+- Discover & Search: https://campingroute.app/discover
+- Prompt Generator: https://campingroute.app/prompt-generator
+- Supported Languages: German (de), English (en), French (fr), Italian (it), Dutch (nl)
+- MCP Endpoint: https://campingroute.app/discover/mcp
+
+## Features
+- **AI Camping Search**: Natural-language search across 17,000+ campsites, RV pitches, glamping sites, and attractions across 14 European countries (Germany, Austria, Switzerland, Italy, France, Spain, Norway, Sweden, Denmark, Netherlands, Belgium, Croatia, Portugal, Luxembourg).
+- **Route Planning**: Camper-optimized routing, stages, GPX export, vehicle dimensions, toll avoidance.
+- **Model Context Protocol (MCP)**: Streamable HTTP and SSE tools for AI agents and coding assistants.
+
+## MCP Tools
+1. `search_places`: Search campsites, motorhome pitches, glamping, or attractions with filters (country, type, query).
+2. `get_place_details`: Retrieve detailed place information, coordinates, amenities, address, and metadata.
+3. `get_reviews`: Fetch community reviews and ratings.
+4. `add_review`: Submit new traveler reviews.
+5. `get_lists`: Fetch user roadtrip collections.
+6. `create_list`: Create a new roadtrip list.
+7. `save_to_list`: Save places to roadtrip lists.
+
+## Full Documentation
+For complete technical schemas and integration guides, see: https://campingroute.app/llms-full.txt

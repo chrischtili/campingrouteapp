@@ -28,7 +28,12 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import de from './de.json';
+import de from './locales/de.json';
+import en from './locales/en.json';
+import fr from './locales/fr.json';
+import it from './locales/it.json';
+import nl from './locales/nl.json';
+import { useTranslation } from 'react-i18next';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -433,6 +438,10 @@ function getFallbackImage(place: Place): string {
 }
 
 function EntdeckenContent() {
+  const { i18n } = useTranslation();
+  const currentLang = (i18n.language || 'de').slice(0, 2).toLowerCase();
+  const t = currentLang === 'en' ? en : currentLang === 'fr' ? fr : currentLang === 'it' ? it : currentLang === 'nl' ? nl : de;
+
   const [activeTab, setActiveTab] = useState<'explore' | 'lists'>('explore');
   const [places, setPlaces] = useState<Place[]>([]);
   const [mapPoints, setMapPoints] = useState<any[]>([]);
@@ -1173,24 +1182,24 @@ function EntdeckenContent() {
     }
   };
 
-  // Helper to determine type label in German
+  // Helper to determine type label in current language
   const getTypeLabel = (type: string) => {
     switch (type) {
-      case 'campground': return 'Campingplatz';
-      case 'caravan': return 'Stellplatz';
-      case 'glamping': return 'Glamping';
-      case 'attraction': return 'Sehenswürdigkeit';
+      case 'campground': return t.placeTypeCamping;
+      case 'caravan': return t.placeTypeStellplatz;
+      case 'glamping': return t.placeTypeGlamping;
+      case 'attraction': return t.placeTypeAttraction;
       default: return type;
     }
   };
 
   const getTypeLabelPlural = (type: string) => {
     switch (type) {
-      case 'campground': return 'Campingplätze';
-      case 'caravan': return 'Stellplätze';
-      case 'glamping': return 'Glamping-Spots';
-      case 'attraction': return 'Sehenswürdigkeiten';
-      default: return type + 'e';
+      case 'campground': return t.tabCamping;
+      case 'caravan': return t.placeTypeStellplatz;
+      case 'glamping': return t.placeTypeGlamping;
+      case 'attraction': return t.tabHighlights;
+      default: return type;
     }
   };
 
@@ -1355,10 +1364,10 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                   {/* About & Description */}
                   <div className="detail-card">
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.75rem' }}>{de.aboutLabel}</h3>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.75rem' }}>{t.aboutLabel}</h3>
                     <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', lineHeight: '1.65', whiteSpace: 'pre-line', overflowWrap: 'break-word', wordBreak: 'break-word' }}>{cleanDescription}</p>
                     
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginTop: '1.25rem', marginBottom: '0.65rem' }}>{de.amenitiesLabel}</h4>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginTop: '1.25rem', marginBottom: '0.65rem' }}>{t.amenitiesLabel}</h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                       {getAmenityList(selectedPlace).map((amenity, i) => (
                         <span key={i} className="amenity-tag" style={{ background: 'var(--gray-100)', color: 'var(--gray-700)', fontSize: '0.78rem', fontWeight: 600, padding: '0.3rem 0.65rem', borderRadius: '8px' }}>
@@ -1374,12 +1383,12 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Reviews Section */}
                   <div className="detail-card">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>{de.reviewsTitle}</h3>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>{t.reviewsTitle}</h3>
                       <button onClick={() => setShowReviewModal(true)} style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '9999px', padding: '0.4rem 1rem', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}>Bericht schreiben</button>
                     </div>
                     
                     {reviews.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', textAlign: 'center', padding: '1.5rem' }}>{de.noReviews}</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', textAlign: 'center', padding: '1.5rem' }}>{t.noReviews}</p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {reviews.map((review) => (
@@ -1584,11 +1593,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                   textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                   transition: 'all 0.3s ease-in-out'
                 }}>
-                  {de.heroTitle}
+                  {t.heroTitle}
                 </h1>
                 {!hasSearched && (
                   <p style={{ fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.95)', maxWidth: '600px', lineHeight: '1.6', marginBottom: '2rem', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
-                    {de.heroSubtitle}
+                    {t.heroSubtitle}
                   </p>
                 )}
 
@@ -1598,7 +1607,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <Search size={20} style={{ color: 'var(--gray-400)', position: 'absolute', left: '1rem' }} />
                     <input 
                       type="text" 
-                      placeholder={de.searchPlaceholder}
+                      placeholder={t.searchPlaceholder}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       style={{ width: '100%', border: 'none', outline: 'none', padding: '0.8rem 1rem 0.8rem 2rem', fontSize: '1.05rem', color: 'var(--gray-800)' }}
@@ -1606,13 +1615,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                   </div>
                   <button type="submit" style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0 1.75rem', fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'background 0.2s' }} className="search-submit-btn">
                     <Sparkles size={16} />
-                    {de.searchBtn}
+                    {t.searchBtn}
                   </button>
                 </form>
 
                 {/* Suggestions Badges */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', maxWidth: '700px' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>{de.suggestionsTitle}</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>{t.suggestionsTitle}</span>
                   {(() => {
                     const country = selectedCountryView || featuredCountry || 'DE';
                     const activeBadges = BADGES_BY_COUNTRY[country] || FALLBACK_BADGES;
@@ -1746,19 +1755,19 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Country Subdivisions Page View */}
               {selectedCountryView && !hasSearched && (
-                <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: '16px', padding: '1.25rem sm:padding: 2rem', boxShadow: 'var(--shadow-sm)', marginBottom: '3.5rem', marginTop: '1rem' }}>
+                <div className="country-detail-card" style={{ background: 'var(--card-bg, white)', border: '1px solid var(--card-border, var(--gray-200))', borderRadius: '16px', padding: '1.25rem sm:padding: 2rem', boxShadow: 'var(--shadow-sm)', marginBottom: '3.5rem', marginTop: '1rem' }}>
                   
                   {/* Country Header */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1rem' }}>
                     <span style={{ fontSize: '2.5rem', lineHeight: 1 }}>{COUNTRY_FLAGS[selectedCountryView]}</span>
                     <div>
                       <h2 style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)' }}>
-                        {countryTab === 'camping' ? `Camping in ${COUNTRY_NAMES[selectedCountryView]}` : `Sehenswürdigkeiten in ${COUNTRY_NAMES[selectedCountryView]}`}
+                        {countryTab === 'camping' ? `Camping in ${COUNTRY_NAMES[selectedCountryView]}` : `${t.tabHighlights} in ${COUNTRY_NAMES[selectedCountryView]}`}
                       </h2>
                       <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', margin: '0.2rem 0 0 0' }}>
                         {countryTab === 'camping'
-                          ? `Entdecke ${countryStats[selectedCountryView] || 0} verifizierte Plätze nach Region oder Bundesland`
-                          : `Entdecke ${attractionStats[selectedCountryView] || 0} fantastische Ausflugsziele nach Region oder Bundesland`}
+                          ? (t.campsiteCount || '{{count}} Plätze').replace('{{count}}', String(countryStats[selectedCountryView] || 0)) + ' nach Region oder Bundesland'
+                          : (t.attractionCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(attractionStats[selectedCountryView] || 0)) + ' nach Region oder Bundesland'}
                       </p>
                     </div>
                   </div>
@@ -1767,7 +1776,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.75rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1.25rem' }}>
                     
                     {/* Segmented Control Tabs */}
-                    <div style={{ 
+                    <div className="segmented-control" style={{ 
                       display: 'grid', 
                       gridTemplateColumns: (attractionStats[selectedCountryView] || 0) > 0 ? '1fr 1fr' : '1fr', 
                       gap: '0.35rem', 
@@ -1799,8 +1808,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                         }}
                       >
                         <MapPin size={14} className="shrink-0" style={{ color: countryTab === 'camping' ? 'var(--primary-700)' : 'var(--gray-400)' }} />
-                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Camping</span>
-                        <span style={{ 
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.tabCamping}</span>
+                        <span className="country-stats-badge" style={{ 
                           background: countryTab === 'camping' ? 'var(--primary-100)' : 'var(--gray-200)', 
                           color: countryTab === 'camping' ? 'var(--primary-800)' : 'var(--gray-600)',
                           padding: '0.1rem 0.4rem', 
@@ -1835,8 +1844,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                           }}
                         >
                           <Compass size={14} className="shrink-0" style={{ color: countryTab === 'attractions' ? 'var(--primary-700)' : 'var(--gray-400)' }} />
-                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Highlights</span>
-                          <span style={{ 
+                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.tabHighlights}</span>
+                          <span className="country-stats-badge" style={{ 
                             background: countryTab === 'attractions' ? 'var(--primary-100)' : 'var(--gray-200)', 
                             color: countryTab === 'attractions' ? 'var(--primary-800)' : 'var(--gray-600)',
                             padding: '0.1rem 0.4rem', 
@@ -1873,7 +1882,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                       }}
                     >
                       <Search size={14} />
-                      <span>Alle {countryTab === 'camping' ? (countryStats[selectedCountryView] || 0) : (attractionStats[selectedCountryView] || 0)} {countryTab === 'camping' ? 'Plätze' : 'Ziele'} in {COUNTRY_NAMES[selectedCountryView]} anzeigen</span>
+                      <span>{countryTab === 'camping' 
+                        ? (t.allPlacesIn || 'Alle {{count}} Plätze in {{country}} anzeigen').replace('{{count}}', String(countryStats[selectedCountryView] || 0)).replace('{{country}}', COUNTRY_NAMES[selectedCountryView] || selectedCountryView)
+                        : (t.allAttractionsIn || 'Alle {{count}} Ziele in {{country}} anzeigen').replace('{{count}}', String(attractionStats[selectedCountryView] || 0)).replace('{{country}}', COUNTRY_NAMES[selectedCountryView] || selectedCountryView)}</span>
                     </button>
                   </div>
 
@@ -1882,7 +1893,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       {REGIONS_BY_COUNTRY[selectedCountryView].states.filter(state => !(subdivisionStats[state] !== undefined && subdivisionStats[state] === 0)).length > 0 && (
                         <div>
                           <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            📍 {countryTab === 'camping' ? 'Bundesländer / Provinzen' : 'Regionen mit Sehenswürdigkeiten'}
+                            📍 {countryTab === 'camping' ? t.regionsStates : t.attractionsRegions}
                           </h3>
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '0.75rem' }}>
                             {REGIONS_BY_COUNTRY[selectedCountryView].states
@@ -1900,7 +1911,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                                     {state.replace(/ \(Kanton\)/gi, '').replace(/ \(Luxemburg\)/gi, '').replace(/ \(Wallonien\)/gi, '').replace(/ \(Lappland\)/gi, '')}
                                   </div>
                                   <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)', marginTop: '0.1rem', fontWeight: 600 }}>
-                                    {subdivisionStats[state] !== undefined ? `${subdivisionStats[state]} ${countryTab === 'camping' ? 'Plätze' : 'Sehenswürdigkeiten'}` : 'Lädt...'}
+                                    {subdivisionStats[state] !== undefined 
+                                      ? (countryTab === 'camping' 
+                                          ? (t.campsiteCount || '{{count}} Plätze').replace('{{count}}', String(subdivisionStats[state]))
+                                          : (t.attractionCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(subdivisionStats[state])))
+                                      : (t.loadingCount || 'Lädt...')}
                                   </div>
                                 </div>
                               </button>
@@ -1912,7 +1927,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       {REGIONS_BY_COUNTRY[selectedCountryView].popular.filter(reg => !(subdivisionStats[reg] !== undefined && subdivisionStats[reg] === 0)).length > 0 && (
                         <div>
                           <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            🏖️ {countryTab === 'camping' ? 'Beliebte Urlaubsregionen' : 'Ausflugsziele nach Regionen'}
+                            🏖️ {countryTab === 'camping' ? t.regionsPopular : t.attractionsPopular}
                           </h3>
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '0.75rem' }}>
                             {REGIONS_BY_COUNTRY[selectedCountryView].popular
@@ -1928,7 +1943,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 <div>
                                   <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)' }}>{reg}</div>
                                   <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)', marginTop: '0.1rem', fontWeight: 600 }}>
-                                    {subdivisionStats[reg] !== undefined ? `${subdivisionStats[reg]} ${countryTab === 'camping' ? 'Plätze' : 'Sehenswürdigkeiten'}` : 'Lädt...'}
+                                    {subdivisionStats[reg] !== undefined 
+                                      ? (countryTab === 'camping' 
+                                          ? (t.campsiteCount || '{{count}} Plätze').replace('{{count}}', String(subdivisionStats[reg]))
+                                          : (t.attractionCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(subdivisionStats[reg])))
+                                      : (t.loadingCount || 'Lädt...')}
                                   </div>
                                 </div>
                               </button>
@@ -2047,7 +2066,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   /* Loading Spinner */
                   <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
                     <div className="spinner" style={{ margin: '0 auto 1rem auto', border: '3px solid var(--gray-200)', borderTop: '3px solid var(--primary-600)', borderRadius: '50%', width: '40px', height: '40px', animation: 'spin 1s linear infinite' }}></div>
-                    <p style={{ color: 'var(--gray-500)', fontWeight: 600 }}>{de.loadingText}</p>
+                    <p style={{ color: 'var(--gray-500)', fontWeight: 600 }}>{t.loadingText}</p>
                   </div>
                 ) : places.length === 0 ? (
                   /* Empty Results / Missing Key Beta Guidance */
@@ -2435,7 +2454,7 @@ const getWebsiteUrl = (place: Place): string | null => {
             {!selectedList ? (
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                  <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>{de.roadtripTitle}</h2>
+                  <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>{t.roadtripTitle}</h2>
                   <button 
                     onClick={() => setShowAddListModal(true)}
                     style={{ 
@@ -2453,7 +2472,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     }}
                   >
                     <Plus size={18} />
-                    {de.createRoadtrip}
+                    {t.createRoadtrip}
                   </button>
                 </div>
 
@@ -2467,7 +2486,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     >
                       <div className="list-card-title">
                         {list.name}
-                        <span className="list-card-count">{list.item_count} {de.itemCount}</span>
+                        <span className="list-card-count">{list.item_count} {t.itemCount}</span>
                       </div>
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginTop: '0.5rem' }}>
                         {list.description || 'Keine Beschreibung vorhanden.'}
@@ -2493,7 +2512,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     fontSize: '0.95rem'
                   }}
                 >
-                  {de.backToLists}
+                  {t.backToLists}
                 </button>
                 <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.25rem' }}>{selectedList.name}</h2>
                 <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{selectedList.description}</p>
@@ -2529,13 +2548,13 @@ const getWebsiteUrl = (place: Place): string | null => {
         <div className="modal-overlay" onClick={() => setShowAddListModal(false)}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3 style={{ fontWeight: 800 }}>{de.createRoadtrip}</h3>
+              <h3 style={{ fontWeight: 800 }}>{t.createRoadtrip}</h3>
               <button className="close-btn" onClick={() => setShowAddListModal(false)}><X size={16} /></button>
             </div>
             <form onSubmit={handleCreateList}>
               <div className="modal-content">
                 <div className="form-group">
-                  <label className="form-label">{de.roadtripNameLabel}</label>
+                  <label className="form-label">{t.roadtripNameLabel}</label>
                   <input 
                     type="text" 
                     className="form-input" 
@@ -2546,7 +2565,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">{de.roadtripDescLabel}</label>
+                  <label className="form-label">{t.roadtripDescLabel}</label>
                   <input 
                     type="text" 
                     className="form-input" 
@@ -2556,8 +2575,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                   />
                 </div>
                 <div className="form-actions">
-                  <button type="button" className="action-button secondary" onClick={() => setShowAddListModal(false)}>{de.cancelBtn}</button>
-                  <button type="submit" className="action-button">{de.createBtn}</button>
+                  <button type="button" className="action-button secondary" onClick={() => setShowAddListModal(false)}>{t.cancelBtn}</button>
+                  <button type="submit" className="action-button">{t.createBtn}</button>
                 </div>
               </div>
             </form>
@@ -2570,15 +2589,15 @@ const getWebsiteUrl = (place: Place): string | null => {
         <div className="modal-overlay" onClick={() => setShowSaveToListModal(false)}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3 style={{ fontWeight: 800 }}>{de.saveToRoadtripTitle}</h3>
+              <h3 style={{ fontWeight: 800 }}>{t.saveToRoadtripTitle}</h3>
               <button className="close-btn" onClick={() => setShowSaveToListModal(false)}><X size={16} /></button>
             </div>
             <div className="modal-content">
-              <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', marginBottom: '1.25rem' }}>{de.selectRoadtripText} <strong>{selectedPlace?.name}</strong>:</p>
+              <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', marginBottom: '1.25rem' }}>{t.selectRoadtripText} <strong>{selectedPlace?.name}</strong>:</p>
               {lists.length === 0 ? (
                 <div>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', marginBottom: '1rem' }}>{de.noRoadtrips}</p>
-                  <button className="action-button" onClick={() => { setShowSaveToListModal(false); setShowAddListModal(true); }}>{de.createRoadtripListBtn}</button>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', marginBottom: '1rem' }}>{t.noRoadtrips}</p>
+                  <button className="action-button" onClick={() => { setShowSaveToListModal(false); setShowAddListModal(true); }}>{t.createRoadtripListBtn}</button>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -2618,13 +2637,13 @@ const getWebsiteUrl = (place: Place): string | null => {
         <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3 style={{ fontWeight: 800 }}>{de.writeReviewTitle}</h3>
+              <h3 style={{ fontWeight: 800 }}>{t.writeReviewTitle}</h3>
               <button className="close-btn" onClick={() => setShowReviewModal(false)}><X size={16} /></button>
             </div>
             <form onSubmit={handleAddReview}>
               <div className="modal-content">
                 <div className="form-group">
-                  <label className="form-label">{de.nameLabel}</label>
+                  <label className="form-label">{t.nameLabel}</label>
                   <input 
                     type="text" 
                     className="form-input" 
@@ -2635,33 +2654,33 @@ const getWebsiteUrl = (place: Place): string | null => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">{de.ratingLabel}</label>
+                  <label className="form-label">{t.ratingLabel}</label>
                   <select 
                     className="form-input"
                     value={newReviewVal.rating}
                     onChange={(e) => setNewReviewVal({ ...newReviewVal, rating: parseInt(e.target.value) })}
                   >
-                    <option value="5">{de.rating5}</option>
-                    <option value="4">{de.rating4}</option>
-                    <option value="3">{de.rating3}</option>
-                    <option value="2">{de.rating2}</option>
-                    <option value="1">{de.rating1}</option>
+                    <option value="5">{t.rating5}</option>
+                    <option value="4">{t.rating4}</option>
+                    <option value="3">{t.rating3}</option>
+                    <option value="2">{t.rating2}</option>
+                    <option value="1">{t.rating1}</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">{de.experienceLabel}</label>
+                  <label className="form-label">{t.experienceLabel}</label>
                   <textarea 
                     className="form-input" 
                     rows={4}
-                    placeholder={de.experiencePlaceholder}
+                    placeholder={t.experiencePlaceholder}
                     required
                     value={newReviewVal.content}
                     onChange={(e) => setNewReviewVal({ ...newReviewVal, content: e.target.value })}
                   />
                 </div>
                 <div className="form-actions">
-                  <button type="button" className="action-button secondary" onClick={() => setShowReviewModal(false)}>{de.cancelBtn}</button>
-                  <button type="submit" className="action-button">{de.submitBtn}</button>
+                  <button type="button" className="action-button secondary" onClick={() => setShowReviewModal(false)}>{t.cancelBtn}</button>
+                  <button type="submit" className="action-button">{t.submitBtn}</button>
                 </div>
               </div>
             </form>

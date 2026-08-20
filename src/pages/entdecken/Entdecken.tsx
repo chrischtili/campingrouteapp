@@ -1742,14 +1742,16 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Country Subdivisions Page View */}
               {selectedCountryView && !hasSearched && (
-                <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)', marginBottom: '3.5rem', marginTop: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1.25rem' }}>
-                    <span style={{ fontSize: '3rem' }}>{COUNTRY_FLAGS[selectedCountryView]}</span>
+                <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: '16px', padding: '1.25rem sm:padding: 2rem', boxShadow: 'var(--shadow-sm)', marginBottom: '3.5rem', marginTop: '1rem' }}>
+                  
+                  {/* Country Header */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1rem' }}>
+                    <span style={{ fontSize: '2.5rem', lineHeight: 1 }}>{COUNTRY_FLAGS[selectedCountryView]}</span>
                     <div>
-                      <h2 style={{ fontSize: '1.8rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)' }}>
+                      <h2 style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)' }}>
                         {countryTab === 'camping' ? `Camping in ${COUNTRY_NAMES[selectedCountryView]}` : `Sehenswürdigkeiten in ${COUNTRY_NAMES[selectedCountryView]}`}
                       </h2>
-                      <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', margin: '0.25rem 0 0 0' }}>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', margin: '0.2rem 0 0 0' }}>
                         {countryTab === 'camping'
                           ? `Entdecke ${countryStats[selectedCountryView] || 0} verifizierte Plätze nach Region oder Bundesland`
                           : `Entdecke ${attractionStats[selectedCountryView] || 0} fantastische Ausflugsziele nach Region oder Bundesland`}
@@ -1757,73 +1759,112 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </div>
                   </div>
 
-                  {/* Tab Selector inside Country Page */}
-                  <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1rem' }}>
-                    <button 
-                      onClick={() => { setCountryTab('camping'); scrollToTop(); }}
-                      style={{
-                        padding: '0.6rem 1.25rem',
-                        borderRadius: '9999px',
-                        border: 'none',
-                        background: countryTab === 'camping' ? 'var(--primary-700)' : 'var(--gray-100)',
-                        color: countryTab === 'camping' ? 'white' : 'var(--gray-700)',
-                        fontWeight: 700,
-                        fontSize: '0.9rem',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      <MapPin size={16} />
-                      Camping & Stellplätze ({countryStats[selectedCountryView] || 0})
-                    </button>
-
-                    {attractionStats[selectedCountryView] > 0 && (
+                  {/* Responsive Tab Switcher & Action Bar */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.75rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1.25rem' }}>
+                    
+                    {/* Segmented Control Tabs */}
+                    <div style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: (attractionStats[selectedCountryView] || 0) > 0 ? '1fr 1fr' : '1fr', 
+                      gap: '0.35rem', 
+                      background: 'var(--gray-100)', 
+                      padding: '4px', 
+                      borderRadius: '12px', 
+                      width: '100%',
+                      maxWidth: '560px'
+                    }}>
                       <button 
-                        onClick={() => { setCountryTab('attractions'); scrollToTop(); }}
+                        onClick={() => { setCountryTab('camping'); scrollToTop(); }}
                         style={{
-                          padding: '0.6rem 1.25rem',
-                          borderRadius: '9999px',
+                          padding: '0.6rem 0.75rem',
+                          borderRadius: '9px',
                           border: 'none',
-                          background: countryTab === 'attractions' ? 'var(--primary-700)' : 'var(--gray-100)',
-                          color: countryTab === 'attractions' ? 'white' : 'var(--gray-700)',
-                          fontWeight: 700,
-                          fontSize: '0.9rem',
+                          background: countryTab === 'camping' ? 'white' : 'transparent',
+                          color: countryTab === 'camping' ? 'var(--primary-800)' : 'var(--gray-600)',
+                          fontWeight: countryTab === 'camping' ? 800 : 600,
+                          fontSize: '0.82rem',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '0.5rem',
-                          transition: 'all 0.2s'
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          boxShadow: countryTab === 'camping' ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
+                          transition: 'all 0.15s ease'
                         }}
                       >
-                        <Compass size={16} />
-                        Sehenswürdigkeiten ({attractionStats[selectedCountryView] || 0})
+                        <MapPin size={14} className={countryTab === 'camping' ? 'text-primary-700' : 'text-gray-400'} />
+                        <span>Camping</span>
+                        <span style={{ 
+                          background: countryTab === 'camping' ? 'var(--primary-100)' : 'var(--gray-200)', 
+                          color: countryTab === 'camping' ? 'var(--primary-800)' : 'var(--gray-600)',
+                          padding: '0.1rem 0.45rem', 
+                          borderRadius: '9999px', 
+                          fontSize: '0.72rem', 
+                          fontWeight: 700 
+                        }}>
+                          {countryStats[selectedCountryView] || 0}
+                        </span>
                       </button>
-                    )}
 
+                      {(attractionStats[selectedCountryView] || 0) > 0 && (
+                        <button 
+                          onClick={() => { setCountryTab('attractions'); scrollToTop(); }}
+                          style={{
+                            padding: '0.6rem 0.75rem',
+                            borderRadius: '9px',
+                            border: 'none',
+                            background: countryTab === 'attractions' ? 'white' : 'transparent',
+                            color: countryTab === 'attractions' ? 'var(--primary-800)' : 'var(--gray-600)',
+                            fontWeight: countryTab === 'attractions' ? 800 : 600,
+                            fontSize: '0.82rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.35rem',
+                            boxShadow: countryTab === 'attractions' ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          <Compass size={14} className={countryTab === 'attractions' ? 'text-primary-700' : 'text-gray-400'} />
+                          <span>Sehenswürdigkeiten</span>
+                          <span style={{ 
+                            background: countryTab === 'attractions' ? 'var(--primary-100)' : 'var(--gray-200)', 
+                            color: countryTab === 'attractions' ? 'var(--primary-800)' : 'var(--gray-600)',
+                            padding: '0.1rem 0.45rem', 
+                            borderRadius: '9999px', 
+                            fontSize: '0.72rem', 
+                            fontWeight: 700 
+                          }}>
+                            {attractionStats[selectedCountryView] || 0}
+                          </span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Button: Alle Ergebnisse des Landes anzeigen */}
                     <button 
                       onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping in ${COUNTRY_NAMES[selectedCountryView]}` : `Sehenswürdigkeiten in ${COUNTRY_NAMES[selectedCountryView]}`)}
                       style={{
-                        marginLeft: 'auto',
-                        padding: '0.6rem 1.25rem',
-                        borderRadius: '9999px',
-                        border: 'none',
+                        width: '100%',
+                        maxWidth: '560px',
+                        padding: '0.6rem 0.9rem',
+                        borderRadius: '10px',
+                        border: '1px solid var(--primary-200)',
                         background: 'var(--primary-50)',
                         color: 'var(--primary-800)',
                         fontWeight: 700,
-                        fontSize: '0.9rem',
+                        fontSize: '0.82rem',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '0.5rem',
-                        transition: 'all 0.2s'
+                        justifyContent: 'center',
+                        gap: '0.4rem',
+                        transition: 'all 0.15s'
                       }}
-                      className="hover:bg-primary-100"
                     >
-                      <Search size={16} />
-                      Alle {countryTab === 'camping' ? (countryStats[selectedCountryView] || 0) : (attractionStats[selectedCountryView] || 0)} {countryTab === 'camping' ? 'Plätze' : 'Sehenswürdigkeiten'} anzeigen
+                      <Search size={14} />
+                      <span>Alle {countryTab === 'camping' ? (countryStats[selectedCountryView] || 0) : (attractionStats[selectedCountryView] || 0)} {countryTab === 'camping' ? 'Plätze' : 'Ziele'} in {COUNTRY_NAMES[selectedCountryView]} anzeigen</span>
                     </button>
                   </div>
 

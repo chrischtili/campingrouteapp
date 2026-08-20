@@ -1549,7 +1549,15 @@ if (isStdioMode) {
 
   app.get("/mcp", async (req, res) => {
     console.log("New SSE connection established for MCP client");
-    const transport = new SSEServerTransport("/discover/messages", res);
+    const proto = req.headers["x-forwarded-proto"] || "https";
+    const host = req.headers["x-forwarded-host"] || req.headers.host || "campingroute.app";
+    const isLocal = String(host).includes("localhost") || String(host).includes("127.0.0.1");
+    const base = isLocal ? `http://${host}` : `${proto}://${host}`;
+    const messagesUrl = `${base}/discover/messages`;
+
+    res.setHeader("X-Accel-Buffering", "no");
+
+    const transport = new SSEServerTransport(messagesUrl, res);
     mcpTransports.set(transport.sessionId, transport);
 
     transport.onclose = () => {

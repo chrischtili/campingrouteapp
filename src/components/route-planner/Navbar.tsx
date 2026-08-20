@@ -94,23 +94,23 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
       id="main-nav"
       className="fixed top-0 left-0 right-0 z-50 w-full border-b border-gray-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
           
           {/* Left: Brand Logo & Title */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 sm:gap-8 min-w-0">
             <Link 
               to="/" 
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="flex items-center gap-2.5 group"
+              className="flex items-center gap-2 group shrink-0"
             >
               <img
                 src="/android-chrome-192x192.png"
                 alt="CampingRoute Logo"
-                className="w-8 h-8 transition-transform duration-300 group-hover:scale-105"
+                className="w-7 h-7 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-105"
               />
               <span 
-                className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#166534] dark:text-emerald-400"
+                className="font-extrabold text-lg sm:text-2xl tracking-tight text-[#166534] dark:text-emerald-400 whitespace-nowrap"
                 style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 800 }}
               >
                 CampingRoute
@@ -143,7 +143,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           </div>
 
           {/* Right: Coffee Link, Theme Toggle, Language & Mobile Burger Menu */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
             
             {/* Buy Me A Coffee Link */}
             <a
@@ -157,17 +157,17 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
             </a>
 
-            {/* KI-Einstellungen (nur auf der Entdecken-Seite) */}
+            {/* KI-Einstellungen (nur auf der Entdecken-Seite, ab sm Bildschirmgröße) */}
             {isDiscoverPage && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={openDiscoverAISettings}
-                className="h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
+                className="hidden sm:inline-flex h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
                 title="KI-Einstellungen"
               >
                 <Settings2 className="h-4 w-4" />
-                <span className="hidden sm:inline">KI-Einstellungen</span>
+                <span>KI-Einstellungen</span>
               </Button>
             )}
 
@@ -177,7 +177,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  className="h-9 px-2.5 text-xs font-bold text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg gap-1.5"
+                  className="h-8.5 sm:h-9 px-2 sm:px-2.5 text-xs font-bold text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg gap-1"
                 >
                   <Globe className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
                   <span className="uppercase">{i18n.language.slice(0, 2)}</span>
@@ -205,13 +205,13 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               variant="ghost"
               size="icon"
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="h-9 w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
+              className="h-8.5 w-8.5 sm:h-9 sm:w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
               title="Theme umschalten"
             >
               {resolvedTheme === "dark" ? (
-                <Sun className="h-4.5 w-4.5 text-yellow-400" />
+                <Sun className="h-4 w-4 text-yellow-400" />
               ) : (
-                <Moon className="h-4.5 w-4.5 text-slate-700" />
+                <Moon className="h-4 w-4 text-slate-700" />
               )}
             </Button>
 
@@ -221,7 +221,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden h-9 w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
+              className="md:hidden h-8.5 w-8.5 sm:h-9 sm:w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
               aria-label="Menü öffnen"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

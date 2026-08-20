@@ -147,28 +147,28 @@ interface List {
   item_count: number;
 }
 
-const COUNTRY_NAMES: { [key: string]: string } = {
-  "DE": "Deutschland",
-  "AT": "Österreich",
-  "CH": "Schweiz",
-  "DK": "Dänemark",
-  "NO": "Norwegen",
-  "SE": "Schweden",
-  "FR": "Frankreich",
-  "NL": "Niederlande",
-  "BE": "Belgien",
-  "LU": "Luxemburg",
-  "FI": "Finnland",
-  "IT": "Italien",
-  "ES": "Spanien",
-  "PT": "Portugal",
-  "HR": "Kroatien",
-  "GR": "Griechenland",
-  "SI": "Slowenien",
-  "CZ": "Tschechien",
-  "PL": "Polen",
-  "HU": "Ungarn",
-  "GB": "Großbritannien"
+const COUNTRY_NAMES: { [lang: string]: { [key: string]: string } } = {
+  de: {
+    "DE": "Deutschland", "AT": "Österreich", "CH": "Schweiz", "DK": "Dänemark", "NO": "Norwegen", "SE": "Schweden", "FR": "Frankreich", "NL": "Niederlande", "BE": "Belgien", "LU": "Luxemburg", "FI": "Finnland", "IT": "Italien", "ES": "Spanien", "PT": "Portugal", "HR": "Kroatien", "GR": "Griechenland", "SI": "Slowenien", "CZ": "Tschechien", "PL": "Polen", "HU": "Ungarn", "GB": "Großbritannien"
+  },
+  en: {
+    "DE": "Germany", "AT": "Austria", "CH": "Switzerland", "DK": "Denmark", "NO": "Norway", "SE": "Sweden", "FR": "France", "NL": "Netherlands", "BE": "Belgium", "LU": "Luxembourg", "FI": "Finland", "IT": "Italy", "ES": "Spain", "PT": "Portugal", "HR": "Croatia", "GR": "Greece", "SI": "Slovenia", "CZ": "Czech Republic", "PL": "Poland", "HU": "Hungary", "GB": "United Kingdom"
+  },
+  fr: {
+    "DE": "Allemagne", "AT": "Autriche", "CH": "Suisse", "DK": "Danemark", "NO": "Norvège", "SE": "Suède", "FR": "France", "NL": "Pays-Bas", "BE": "Belgique", "LU": "Luxembourg", "FI": "Finlande", "IT": "Italie", "ES": "Espagne", "PT": "Portugal", "HR": "Croatie", "GR": "Grèce", "SI": "Slovénie", "CZ": "République tchèque", "PL": "Pologne", "HU": "Hongrie", "GB": "Royaume-Uni"
+  },
+  it: {
+    "DE": "Germania", "AT": "Austria", "CH": "Svizzera", "DK": "Danimarca", "NO": "Norvegia", "SE": "Svezia", "FR": "Francia", "NL": "Paesi Bassi", "BE": "Belgio", "LU": "Lussemburgo", "FI": "Finlandia", "IT": "Italia", "ES": "Spagna", "PT": "Portogallo", "HR": "Croazia", "GR": "Grecia", "SI": "Slovenia", "CZ": "Repubblica Ceca", "PL": "Polonia", "HU": "Ungheria", "GB": "Regno Unito"
+  },
+  nl: {
+    "DE": "Duitsland", "AT": "Oostenrijk", "CH": "Zwitserland", "DK": "Denemarken", "NO": "Noorwegen", "SE": "Zweden", "FR": "Frankrijk", "NL": "Nederland", "BE": "België", "LU": "Luxemburg", "FI": "Finland", "IT": "Italië", "ES": "Spanje", "PT": "Portugal", "HR": "Kroatië", "GR": "Griekenland", "SI": "Slovenië", "CZ": "Tsjechië", "PL": "Polen", "HU": "Hongarije", "GB": "Verenigd Koninkrijk"
+  }
+};
+
+const getCountryName = (code: string, lang: string = 'de'): string => {
+  const l = (lang || 'de').slice(0, 2).toLowerCase();
+  const dict = COUNTRY_NAMES[l] || COUNTRY_NAMES.de;
+  return dict[code] || code;
 };
 
 const COUNTRY_FLAGS: { [key: string]: string } = {
@@ -615,18 +615,18 @@ function EntdeckenContent() {
   }, []);
 
   // Report the current navigation path so campingroute_app's breadcrumbs can
-  // show Länder / Regionen / Sehenswürdigkeiten / Orte.
+  // show Länder / Regionen / Sehenswürdigkeiten / Orte in the current language.
   useEffect(() => {
-    const countryName = (c?: string) => (c ? (COUNTRY_NAMES as any)[c] || c : '');
-    const typePlural = (t: string) =>
-      t === 'attraction' ? 'Sehenswürdigkeiten' : t === 'caravan' ? 'Stellplätze' : t === 'glamping' ? 'Glamping' : 'Campingplätze';
+    const countryName = (c?: string) => (c ? getCountryName(c, currentLang) : '');
+    const typePlural = (tp: string) =>
+      tp === 'attraction' ? t.tabHighlights : tp === 'caravan' ? t.placeTypeStellplatz : tp === 'glamping' ? t.placeTypeGlamping : t.tabCamping;
     const parentLabel = (c: string) =>
       countryTab === 'attractions'
-        ? `Sehenswürdigkeiten in ${countryName(c)}`
-        : `Camping in ${countryName(c)}`;
+        ? (t.attractionsInRegion || 'Sehenswürdigkeiten in {{country}}').replace('{{country}}', countryName(c))
+        : (t.campingIn || 'Camping in {{country}}').replace('{{country}}', countryName(c));
 
     const trail: BreadcrumbItem[] = [
-      { label: 'Entdecken', path: '/entdecken', onClick: () => { setSelectedPlace(null); resetSearch(); } },
+      { label: t.tabExplore || 'Entdecken', path: '/discover', onClick: () => { setSelectedPlace(null); resetSearch(); } },
     ];
     if (selectedPlace) {
       const code = selectedPlace.country;
@@ -644,13 +644,13 @@ function EntdeckenContent() {
           onClick: () => openCountryView(selectedCountryView, countryTab),
         });
       } else {
-        trail.push({ label: 'Suchergebnisse' });
+        trail.push({ label: t.searchResults || 'Suchergebnisse' });
       }
       if (searchQuery) trail.push({ label: searchQuery });
     }
     setDiscoverBreadcrumbs(trail);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPlace, selectedCountryView, countryTab, hasSearched, searchQuery]);
+  }, [selectedPlace, selectedCountryView, countryTab, hasSearched, searchQuery, currentLang, t]);
 
   // Guess home country from browser locale on mount
   useEffect(() => {
@@ -1277,13 +1277,13 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Breadcrumbs */}
               <div style={{ background: 'white', borderBottom: '1px solid var(--gray-100)', padding: '0.75rem 1.5rem' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 600, flexWrap: 'wrap' }}>
-                  <a href="/" onClick={(e) => { e.preventDefault(); resetSearch(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>Startseite</a>
+                  <a href="/" onClick={(e) => { e.preventDefault(); resetSearch(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navHome || 'Startseite'}</a>
                   <span>/</span>
-                  <a href="/" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>Entdecken</a>
+                  <a href="/discover" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navDiscover || 'Entdecken'}</a>
                   <span>/</span>
-                  <a href="/" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); setSelectedCountryView(selectedPlace.country); setHasSearched(false); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{COUNTRY_NAMES[selectedPlace.country] || selectedPlace.country}</a>
+                  <a href="/" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); setSelectedCountryView(selectedPlace.country); setHasSearched(false); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{getCountryName(selectedPlace.country, currentLang)}</a>
                   <span>/</span>
-                  <a href="/" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); handleSearch(undefined, `${getTypeLabelPlural(selectedPlace.type)} in ${COUNTRY_NAMES[selectedPlace.country] || selectedPlace.country}`); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{getTypeLabelPlural(selectedPlace.type)}</a>
+                  <a href="/" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); handleSearch(undefined, `${getTypeLabelPlural(selectedPlace.type)} in ${getCountryName(selectedPlace.country, currentLang)}`); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{getTypeLabelPlural(selectedPlace.type)}</a>
                   {searchQuery && (
                     <>
                       <span>/</span>
@@ -1304,7 +1304,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 {/* Floating location badge */}
                 <div style={{ position: 'absolute', bottom: '1.25rem', left: '1.25rem', zIndex: 1000, background: 'rgba(31, 41, 55, 0.95)', color: 'white', padding: '0.45rem 1rem', borderRadius: '18px', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 600, boxShadow: 'var(--shadow-md)' }}>
                   <MapPin size={14} className="text-primary-400" />
-                  <span>{selectedPlace.city || selectedPlace.address.split(',')[selectedPlace.address.split(',').length - 1]?.trim() || selectedPlace.address}, {COUNTRY_NAMES[selectedPlace.country] || selectedPlace.country}</span>
+                  <span>{selectedPlace.city || selectedPlace.address.split(',')[selectedPlace.address.split(',').length - 1]?.trim() || selectedPlace.address}, {getCountryName(selectedPlace.country, currentLang)}</span>
                 </div>
 
               </div>
@@ -1663,9 +1663,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <MessageSquare size={26} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>Schritt 01</span>
-                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0.2rem 0 0.5rem 0', color: 'white' }}>Reiseideen beschreiben</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#a7f3d0', lineHeight: '1.5', margin: 0 }}>Egal ob "schattiger Stellplatz an der Ostsee für Familien" oder "Wellness-Camping" – drücke deine Wünsche einfach in eigenen Worten aus.</p>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>{t.step1Label}</span>
+                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0.2rem 0 0.5rem 0', color: 'white' }}>{t.step1Title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#a7f3d0', lineHeight: '1.5', margin: 0 }}>{t.step1Desc}</p>
                     </div>
                   </div>
 
@@ -1674,9 +1674,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <Compass size={26} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>Schritt 02</span>
-                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0.2rem 0 0.5rem 0', color: 'white' }}>Filterfreies Suchen</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#a7f3d0', lineHeight: '1.5', margin: 0 }}>Unsere KI durchforstet die Plätze nach Vibe, Ausstattung und regionaler Lage, um dir treffsichere Vorschläge ohne langes Filtern zu liefern.</p>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>{t.step2Label}</span>
+                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0.2rem 0 0.5rem 0', color: 'white' }}>{t.step2Title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#a7f3d0', lineHeight: '1.5', margin: 0 }}>{t.step2Desc}</p>
                     </div>
                   </div>
 
@@ -1685,22 +1685,22 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <Heart size={26} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>Schritt 03</span>
-                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0.2rem 0 0.5rem 0', color: 'white' }}>Reisen perfekt planen</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#a7f3d0', lineHeight: '1.5', margin: 0 }}>Speichere Favoriten in personalisierten Roadtrip-Listen ab, hinterlege eigene Notizen und plane dein nächstes Outdoor-Abenteuer.</p>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>{t.step3Label}</span>
+                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0.2rem 0 0.5rem 0', color: 'white' }}>{t.step3Title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#a7f3d0', lineHeight: '1.5', margin: 0 }}>{t.step3Desc}</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Campgrounds by Country (Germany, Austria, Switzerland, Denmark, Norway, Sweden) */}
+              {/* Campgrounds by Country */}
               {!hasSearched && !selectedCountryView && (
                 <div style={{ marginBottom: '3.5rem' }}>
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>Camping- und Stellplätze nach Land</h2>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>Die am häufigsten gelisteten Regionen in unserer europäischen Datenbank</p>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>{t.campgroundsByCountry}</h2>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{t.campgroundsByCountrySubtitle}</p>
                   
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.25rem' }}>
-                    {Object.keys(COUNTRY_NAMES).map((code) => (
+                    {Object.keys(COUNTRY_FLAGS).map((code) => (
                       <div 
                         key={code}
                         onClick={() => openCountryView(code, 'camping')}
@@ -1711,9 +1711,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                           {COUNTRY_FLAGS[code]}
                         </div>
                         <div>
-                          <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)' }}>{COUNTRY_NAMES[code]}</h4>
+                          <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)' }}>{getCountryName(code, currentLang)}</h4>
                           <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginTop: '0.15rem' }}>
-                            {countryStats[code] || 0} Plätze
+                            {(t.placesCount || '{{count}} Plätze').replace('{{count}}', String(countryStats[code] || 0))}
                           </p>
                         </div>
                       </div>
@@ -1725,11 +1725,11 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Attractions by Country */}
               {!hasSearched && !selectedCountryView && (
                 <div style={{ marginBottom: '3.5rem' }}>
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>Sehenswürdigkeiten nach Land</h2>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>Parks, Schlösser, Naturwunder und Orte, die eine Reise wert sind</p>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>{t.attractionsByCountry}</h2>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{t.attractionsByCountrySubtitle}</p>
                   
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.25rem' }}>
-                    {Object.keys(COUNTRY_NAMES)
+                    {Object.keys(COUNTRY_FLAGS)
                       .filter(code => attractionStats[code] > 0)
                       .map((code) => (
                         <div 
@@ -1742,9 +1742,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                             {COUNTRY_FLAGS[code]}
                           </div>
                           <div>
-                            <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)' }}>{COUNTRY_NAMES[code]}</h4>
+                            <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)' }}>{getCountryName(code, currentLang)}</h4>
                             <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginTop: '0.15rem' }}>
-                              {attractionStats[code] || 0} Sehenswürdigkeiten
+                              {(t.attractionsCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(attractionStats[code] || 0))}
                             </p>
                           </div>
                         </div>
@@ -1762,7 +1762,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <span style={{ fontSize: '2.5rem', lineHeight: 1 }}>{COUNTRY_FLAGS[selectedCountryView]}</span>
                     <div>
                       <h2 style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)' }}>
-                        {countryTab === 'camping' ? `Camping in ${COUNTRY_NAMES[selectedCountryView]}` : `${t.tabHighlights} in ${COUNTRY_NAMES[selectedCountryView]}`}
+                        {countryTab === 'camping' ? `Camping in ${getCountryName(selectedCountryView, currentLang)}` : `${t.tabHighlights} in ${getCountryName(selectedCountryView, currentLang)}`}
                       </h2>
                       <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', margin: '0.2rem 0 0 0' }}>
                         {countryTab === 'camping'
@@ -1862,7 +1862,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                     {/* Button: Alle Ergebnisse des Landes anzeigen */}
                     <button 
-                      onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping in ${COUNTRY_NAMES[selectedCountryView]}` : `Sehenswürdigkeiten in ${COUNTRY_NAMES[selectedCountryView]}`)}
+                      onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping in ${getCountryName(selectedCountryView, currentLang)}` : `Sehenswürdigkeiten in ${getCountryName(selectedCountryView, currentLang)}`)}
                       style={{
                         width: '100%',
                         maxWidth: '560px',
@@ -1883,8 +1883,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                     >
                       <Search size={14} />
                       <span>{countryTab === 'camping' 
-                        ? (t.allPlacesIn || 'Alle {{count}} Plätze in {{country}} anzeigen').replace('{{count}}', String(countryStats[selectedCountryView] || 0)).replace('{{country}}', COUNTRY_NAMES[selectedCountryView] || selectedCountryView)
-                        : (t.allAttractionsIn || 'Alle {{count}} Ziele in {{country}} anzeigen').replace('{{count}}', String(attractionStats[selectedCountryView] || 0)).replace('{{country}}', COUNTRY_NAMES[selectedCountryView] || selectedCountryView)}</span>
+                        ? (t.allPlacesIn || 'Alle {{count}} Plätze in {{country}} anzeigen').replace('{{count}}', String(countryStats[selectedCountryView] || 0)).replace('{{country}}', getCountryName(selectedCountryView, currentLang))
+                        : (t.allAttractionsIn || 'Alle {{count}} Ziele in {{country}} anzeigen').replace('{{count}}', String(attractionStats[selectedCountryView] || 0)).replace('{{country}}', getCountryName(selectedCountryView, currentLang))}</span>
                     </button>
                   </div>
 
@@ -2021,44 +2021,26 @@ const getWebsiteUrl = (place: Place): string | null => {
                           </span>
                         </>
                       ) : (
-                        `Suchergebnisse (${totalItems})`
+                        `${t.searchResults} (${totalItems})`
                       )}
                     </span>
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <span>Besondere Reiseziele in</span>
+                      <span>{t.featuredTitle}</span>
                       <select 
                         value={featuredCountry}
                         onChange={(e) => setFeaturedCountry(e.target.value)}
                         style={{ background: 'white', border: '1px solid var(--gray-300)', borderRadius: '8px', padding: '0.25rem 0.75rem', fontSize: '1rem', fontWeight: 700, color: 'var(--primary-800)', outline: 'none', cursor: 'pointer' }}
                       >
-                        <option value="ALL">Ganz Europa</option>
-                        <option value="DE">Deutschland</option>
-                        <option value="AT">Österreich</option>
-                        <option value="CH">Schweiz</option>
-                        <option value="DK">Dänemark</option>
-                        <option value="NO">Norwegen</option>
-                        <option value="SE">Schweden</option>
-                        <option value="FR">Frankreich</option>
-                        <option value="NL">Niederlande</option>
-                        <option value="BE">Belgien</option>
-                        <option value="LU">Luxemburg</option>
-                        <option value="FI">Finnland</option>
-                        <option value="IT">Italien</option>
-                        <option value="ES">Spanien</option>
-                        <option value="PT">Portugal</option>
-                        <option value="HR">Kroatien</option>
-                        <option value="GR">Griechenland</option>
-                        <option value="SI">Slowenien</option>
-                        <option value="CZ">Tschechien</option>
-                        <option value="PL">Polen</option>
-                        <option value="HU">Ungarn</option>
-                        <option value="GB">Großbritannien</option>
+                        <option value="ALL">{currentLang === 'en' ? 'All Europe' : currentLang === 'fr' ? "Toute l'Europe" : currentLang === 'it' ? 'Tutta Europa' : currentLang === 'nl' ? 'Heel Europa' : 'Ganz Europa'}</option>
+                        {Object.keys(COUNTRY_FLAGS).map((c) => (
+                          <option key={c} value={c}>{getCountryName(c, currentLang)}</option>
+                        ))}
                       </select>
                     </div>
                   )}
                   {hasSearched && (
-                    <button onClick={resetSearch} style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer' }}>Suche zurücksetzen</button>
+                    <button onClick={resetSearch} style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer' }}>{t.resetSearch}</button>
                   )}
                 </h2>
 
@@ -2266,7 +2248,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                           <div style={{ padding: '1.25rem' }}>
                             <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{place.name}</h3>
                             <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '0.75rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {place.city || place.address.split(',')[0]}, {COUNTRY_NAMES[place.country] || place.country}
+                              {place.city || place.address.split(',')[0]}, {getCountryName(place.country, currentLang)}
                             </p>
                             
                             <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', lineHeight: '1.5', height: '2.5rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', marginBottom: '1rem' }}>
@@ -2435,7 +2417,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                           <div style={{ marginBottom: '2rem' }}>
                             <div ref={resultsMapRef} style={{ height: '320px', borderRadius: '12px', border: '1px solid var(--gray-200)', zIndex: 1 }} />
                             <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.4rem' }}>
-                              🗺️ {mapPoints.length} Orte auf der Karte {routeInfo ? `(Routenlinie von ${routeInfo.origin} nach ${routeInfo.destination})` : '(Camping grün · Stellplatz blau · Glamping lila · Sehenswürdigkeit orange · Goldumrandet: KI-Top-Picks)'}
+                              🗺️ {routeInfo 
+                                ? `${mapPoints.length} Orte auf der Karte (Routenlinie von ${routeInfo.origin} nach ${routeInfo.destination})` 
+                                : (t.mapLegend || '{{count}} Orte auf der Karte').replace('{{count}}', String(mapPoints.length))}
                             </p>
                           </div>
                         )}

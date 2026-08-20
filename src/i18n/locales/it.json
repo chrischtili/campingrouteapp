@@ -1564,5 +1564,11 @@
       "dismiss": "Capito",
       "release": "Vedi release"
     }
+  },
+  "breadcrumb": {
+    "home": "Home"
+  },
+  "nav": {
+    "discover": "Scopri"
   }
 }

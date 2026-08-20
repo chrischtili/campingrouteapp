@@ -1566,5 +1566,11 @@
       "dismiss": "Got it",
       "release": "View release"
     }
+  },
+  "breadcrumb": {
+    "home": "Home"
+  },
+  "nav": {
+    "discover": "Discover"
   }
 }

@@ -1564,5 +1564,11 @@
       "dismiss": "Compris",
       "release": "Voir la version"
     }
+  },
+  "breadcrumb": {
+    "home": "Accueil"
+  },
+  "nav": {
+    "discover": "Découvrir"
   }
 }

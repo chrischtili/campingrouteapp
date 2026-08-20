@@ -1567,5 +1567,11 @@
       "dismiss": "Verstanden",
       "release": "Release ansehen"
     }
+  },
+  "breadcrumb": {
+    "home": "Startseite"
+  },
+  "nav": {
+    "discover": "Entdecken"
   }
 }

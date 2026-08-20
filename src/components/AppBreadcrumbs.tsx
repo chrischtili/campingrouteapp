@@ -23,8 +23,8 @@ export function AppBreadcrumbs({ items, className = "" }: AppBreadcrumbsProps) {
     const path = location.pathname;
     if (path === "/prompt-generator") {
       breadcrumbItems.push({ label: t("nav.planner", "Prompt-Assistent") });
-    } else if (path === "/entdecken") {
-      breadcrumbItems.push({ label: "Entdecken" });
+    } else if (path === "/entdecken" || path === "/discover") {
+      breadcrumbItems.push({ label: t("nav.discover", "Entdecken") });
     } else if (path === "/impressum") {
       breadcrumbItems.push({ label: t("imprint.title", "Impressum") });
     } else if (path === "/datenschutz") {

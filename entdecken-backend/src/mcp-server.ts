@@ -8,115 +8,94 @@ import {
 import { getDb } from "./db/db.js";
 import crypto from "crypto";
 
-export function createMcpServer(): Server {
-  const server = new Server(
-    {
-      name: "campingroute",
-      version: "1.0.0",
-    },
-    {
-      capabilities: {
-        tools: {},
-      },
-    }
-  );
-
-  // Define tools
-  server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: "search_places",
-        description: "Search for campgrounds, caravan sites, and tourist attractions in Europe. Results include structured location data (country, state, city), amenities, pricing and quality-based ratings.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            query: { type: "string", description: "Search term (e.g., 'Lofoten', 'Zugspitze')" },
-            type: { type: "string", enum: ["campground", "caravan", "glamping", "attraction"], description: "Filter by place type" },
-            country: { type: "string", description: "Two-letter country code (e.g., DE, AT, CH, SE, NO)" },
-            state: { type: "string", description: "State, region or canton name (e.g., 'Bayern', 'Toskana', 'Wallis')" },
-            city: { type: "string", description: "City or municipality name (e.g., 'München', 'Stockholm')" },
-            amenities: { type: "string", description: "Comma-separated amenities (e.g. 'wifi,showers,hookups')" }
-          }
-        }
-      },
-      {
-        name: "get_place_details",
-        description: "Get full details of a specific place including contact info, pricing, coordinates, and amenities.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            id: { type: "string", description: "The unique ID of the place" }
-          },
-          required: ["id"]
-        }
-      },
-      {
-        name: "get_reviews",
-        description: "Get traveler reviews for a specific place.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            place_id: { type: "string", description: "The unique ID of the place" }
-          },
-          required: ["place_id"]
-        }
-      },
-      {
-        name: "add_review",
-        description: "Write a traveler review for a specific place you have visited.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            place_id: { type: "string", description: "The unique ID of the place" },
-            author: { type: "string", description: "Name of the reviewer" },
-            content: { type: "string", description: "The detailed review content" },
-            rating: { type: "number", minimum: 1, maximum: 5, description: "Rating from 1 to 5 stars" }
-          },
-          required: ["place_id", "author", "content", "rating"]
-        }
-      },
-      {
-        name: "get_lists",
-        description: "Retrieve all your saved travel lists.",
-        inputSchema: {
-          type: "object",
-          properties: {}
-        }
-      },
-      {
-        name: "create_list",
-        description: "Create a new named travel list to save places.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: { type: "string", description: "Name of the list (e.g., 'Norway Summer 2026')" },
-            description: { type: "string", description: "Optional description of the list" }
-          },
-          required: ["name"]
-        }
-      },
-      {
-        name: "save_to_list",
-        description: "Save a place to one of your travel lists.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            list_id: { type: "string", description: "The ID of the list to add to" },
-            place_id: { type: "string", description: "The ID of the place to save" }
-          },
-          required: ["list_id", "place_id"]
-        }
+export const MCP_TOOLS = [
+  {
+    name: "search_places",
+    description: "Search for campgrounds, caravan sites, and tourist attractions in Europe. Results include structured location data (country, state, city), amenities, pricing and quality-based ratings.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Search term (e.g., 'Lofoten', 'Zugspitze')" },
+        type: { type: "string", enum: ["campground", "caravan", "glamping", "attraction"], description: "Filter by place type" },
+        country: { type: "string", description: "Two-letter country code (e.g., DE, AT, CH, SE, NO)" },
+        state: { type: "string", description: "State, region or canton name (e.g., 'Bayern', 'Toskana', 'Wallis')" },
+        city: { type: "string", description: "City or municipality name (e.g., 'München', 'Stockholm')" },
+        amenities: { type: "string", description: "Comma-separated amenities (e.g. 'wifi,showers,hookups')" }
       }
-    ]
-  };
-});
+    }
+  },
+  {
+    name: "get_place_details",
+    description: "Get full details of a specific place including contact info, pricing, coordinates, and amenities.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        id: { type: "string", description: "The unique ID of the place" }
+      },
+      required: ["id"]
+    }
+  },
+  {
+    name: "get_reviews",
+    description: "Get traveler reviews for a specific place.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        place_id: { type: "string", description: "The unique ID of the place" }
+      },
+      required: ["place_id"]
+    }
+  },
+  {
+    name: "add_review",
+    description: "Write a traveler review for a specific place you have visited.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        place_id: { type: "string", description: "The unique ID of the place" },
+        author: { type: "string", description: "Name of the reviewer" },
+        content: { type: "string", description: "The detailed review content" },
+        rating: { type: "number", minimum: 1, maximum: 5, description: "Rating from 1 to 5 stars" }
+      },
+      required: ["place_id", "author", "content", "rating"]
+    }
+  },
+  {
+    name: "get_lists",
+    description: "Retrieve all your saved travel lists.",
+    inputSchema: {
+      type: "object",
+      properties: {}
+    }
+  },
+  {
+    name: "create_list",
+    description: "Create a new named travel list to save places.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        name: { type: "string", description: "Name of the list (e.g., 'Norway Summer 2026')" },
+        description: { type: "string", description: "Optional description of the list" }
+      },
+      required: ["name"]
+    }
+  },
+  {
+    name: "save_to_list",
+    description: "Save a place to one of your travel lists.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        list_id: { type: "string", description: "The ID of the list to add to" },
+        place_id: { type: "string", description: "The ID of the place to save" }
+      },
+      required: ["list_id", "place_id"]
+    }
+  }
+];
 
-// Handle tool executions
-  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+export async function executeMcpTool(name: string, args: any): Promise<any> {
   const db = await getDb();
-  const { name, arguments: args } = request.params;
-
   try {
     switch (name) {
       case "search_places": {
@@ -301,12 +280,37 @@ export function createMcpServer(): Server {
         default:
           throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
       }
-    } catch (error: any) {
-      if (error instanceof McpError) {
-        throw error;
-      }
-      throw new McpError(ErrorCode.InternalError, error.message || "An unexpected error occurred");
+  } catch (error: any) {
+    if (error instanceof McpError) {
+      throw error;
     }
+    throw new McpError(ErrorCode.InternalError, error.message || "An unexpected error occurred");
+  }
+}
+
+export function createMcpServer(): Server {
+  const server = new Server(
+    {
+      name: "campingroute",
+      version: "1.0.0",
+    },
+    {
+      capabilities: {
+        tools: {
+          listChanged: true,
+        },
+      },
+    }
+  );
+
+  server.setRequestHandler(ListToolsRequestSchema, async () => {
+    return {
+      tools: MCP_TOOLS,
+    };
+  });
+
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    return await executeMcpTool(request.params.name, request.params.arguments);
   });
 
   return server;

@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import express from "express";
 import cors from "cors";
 import { getDb } from "./db/db.js";
-import { mcpServer, createMcpServer } from "./mcp-server.js";
+import { mcpServer, createMcpServer, MCP_TOOLS, executeMcpTool } from "./mcp-server.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import crypto from "crypto";
@@ -1576,7 +1576,7 @@ if (isStdioMode) {
 
   const handleMcpPost = async (req: express.Request, res: express.Response) => {
     const sessionId = (req.query.sessionId as string) || (req.headers["x-session-id"] as string) || (req.headers["mcp-session-id"] as string);
-    const transport = sessionId ? mcpTransports.get(sessionId) : (Array.from(mcpTransports.values()).pop() || null);
+    const transport = sessionId ? mcpTransports.get(sessionId) : null;
     
     if (transport) {
       try {
@@ -1584,14 +1584,78 @@ if (isStdioMode) {
         return;
       } catch (err: any) {
         console.error("Error in transport.handlePostMessage:", err);
-        if (!res.headersSent) {
-          res.status(500).json({ error: err?.message || "Internal server error" });
+      }
+    }
+
+    // Direct JSON-RPC Protocol Handling (Streamable HTTP / Go MCP client fallback)
+    const msg = req.body;
+    if (msg && typeof msg === "object") {
+      const id = msg.id ?? null;
+      const method = msg.method;
+
+      if (method === "initialize") {
+        res.json({
+          jsonrpc: "2.0",
+          id,
+          result: {
+            protocolVersion: "2024-11-05",
+            capabilities: {
+              tools: { listChanged: true }
+            },
+            serverInfo: {
+              name: "campingroute",
+              version: "1.0.0"
+            }
+          }
+        });
+        return;
+      }
+
+      if (method === "notifications/initialized" || method === "notifications/cancelled") {
+        res.status(200).json({ jsonrpc: "2.0", id, result: {} });
+        return;
+      }
+
+      if (method === "ping") {
+        res.json({ jsonrpc: "2.0", id, result: {} });
+        return;
+      }
+
+      if (method === "tools/list") {
+        res.json({
+          jsonrpc: "2.0",
+          id,
+          result: {
+            tools: MCP_TOOLS
+          }
+        });
+        return;
+      }
+
+      if (method === "tools/call") {
+        try {
+          const { name, arguments: toolArgs } = msg.params || {};
+          const result = await executeMcpTool(name, toolArgs);
+          res.json({
+            jsonrpc: "2.0",
+            id,
+            result
+          });
+        } catch (err: any) {
+          res.status(200).json({
+            jsonrpc: "2.0",
+            id,
+            error: {
+              code: -32603,
+              message: err?.message || "Internal tool execution error"
+            }
+          });
         }
         return;
       }
     }
 
-    res.status(400).send(`Session not found. Active sessions: ${Array.from(mcpTransports.keys()).join(', ')}`);
+    res.status(400).send("Invalid JSON-RPC or Session not found");
   };
 
   app.post("/mcp", handleMcpPost);

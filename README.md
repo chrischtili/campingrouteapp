@@ -22,7 +22,7 @@
 - 🔌 **Model Context Protocol (MCP) Server**:
   - Integrierter MCP-Server zur direkten Anbindung an Cursor, Claude Desktop oder KI-Agenten, um Camping- & Routendaten abzufragen.
 - 🎨 **Modernes UI-Design & Breadcrumb-Navigation**:
-  - Elegantes Dark/Light-Theme, nahtlose Sightseer-Breadcrumbs und 100% DSGVO-konforme lokale Schriftarten (`@fontsource/plus-jakarta-sans`).
+  - Elegantes Dark/Light-Theme, nahtlose Breadcrumb-Navigation und 100% DSGVO-konforme lokale Schriftarten (`@fontsource/plus-jakarta-sans`).
 
 ---
 

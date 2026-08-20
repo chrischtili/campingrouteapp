@@ -1574,22 +1574,28 @@ if (isStdioMode) {
     }
   });
 
-  app.post("/messages", async (req, res) => {
-    const sessionId = (req.query.sessionId as string) || req.headers["x-session-id"] as string;
-    const transport = sessionId ? mcpTransports.get(sessionId) : Array.from(mcpTransports.values())[0];
+  const handleMcpPost = async (req: express.Request, res: express.Response) => {
+    const sessionId = (req.query.sessionId as string) || (req.headers["x-session-id"] as string) || (req.headers["mcp-session-id"] as string);
+    const transport = sessionId ? mcpTransports.get(sessionId) : (Array.from(mcpTransports.values()).pop() || null);
+    
     if (transport) {
       try {
         await transport.handlePostMessage(req, res, req.body);
+        return;
       } catch (err: any) {
-        console.error("Error handling MCP post message:", err);
+        console.error("Error in transport.handlePostMessage:", err);
         if (!res.headersSent) {
           res.status(500).json({ error: err?.message || "Internal server error" });
         }
+        return;
       }
-    } else {
-      res.status(400).send(`Session not found. Active sessions: ${Array.from(mcpTransports.keys()).join(', ')}`);
     }
-  });
+
+    res.status(400).send(`Session not found. Active sessions: ${Array.from(mcpTransports.keys()).join(', ')}`);
+  };
+
+  app.post("/mcp", handleMcpPost);
+  app.post("/messages", handleMcpPost);
 
   app.listen(PORT, () => {
     console.log(`===============================================`);

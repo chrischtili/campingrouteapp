@@ -549,6 +549,29 @@ app.get("/api/search", async (req, res) => {
       return res.json({ places, summary: "", total: places.length, page, limit });
     }
 
+    // Direct place / city name matching (instant 5ms response, bypasses AI)
+    const directPlaces = await db.all(
+      `SELECT * FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?) ORDER BY rating DESC LIMIT ? OFFSET ?`,
+      [`%${queryStr}%`, queryStr.toLowerCase(), limit, offset]
+    );
+    if (directPlaces.length > 0 && !queryStr.includes(' nach ') && !queryStr.includes(' und ') && !queryStr.includes('route')) {
+      const countRow = await db.get(
+        `SELECT COUNT(*) as total FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?)`,
+        [`%${queryStr}%`, queryStr.toLowerCase()]
+      );
+      const total = countRow?.total || directPlaces.length;
+      const mapPoints = await computeMapPoints(db, `SELECT * FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?)`, [`%${queryStr}%`, queryStr.toLowerCase()]);
+      console.log(`Direct database match for "${queryStr}": found ${total} places.`);
+      return res.json({
+        places: directPlaces,
+        mapPoints,
+        summary: `<p>Gefundene Orte und Reiseziele für <strong>„${queryStr}“</strong>.</p>`,
+        total,
+        page,
+        limit
+      });
+    }
+
     // Match "Sehenswürdigkeiten in [Land]" or "Attraktionen in [Land]"
     const attractionMatch = queryStr.match(/^(Sehenswürdigkeiten|Attraktionen|Ausflugsziele) in (Deutschland|Österreich|Schweiz|Norwegen|Dänemark|Schweden|Italien|Frankreich|Niederlande|Belgien|Luxemburg|Finnland|Spanien|Portugal|Kroatien|Griechenland|Slowenien|Tschechien|Polen|Ungarn|Großbritannien)$/i);
     if (attractionMatch) {

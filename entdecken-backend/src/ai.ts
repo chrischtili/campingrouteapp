@@ -47,7 +47,7 @@ export function getAIProvider(overrides?: { provider?: string; apiKey?: string }
   if (rawProvider === 'claude') {
     return cfg('claude', 'claude-3-5-haiku-20241022', 'CLAUDE_API_KEY');
   }
-  return cfg('gemini', 'gemini-3.7-flash', 'GEMINI_API_KEY');
+  return cfg('gemini', 'gemini-2.5-flash', 'GEMINI_API_KEY');
 }
 
 async function geminiChat(
@@ -56,9 +56,13 @@ async function geminiChat(
   prompt: string,
   jsonMode: boolean
 ): Promise<string> {
+  if (!cfg.apiKey || !cfg.apiKey.trim()) {
+    throw new Error('No Gemini API key provided');
+  }
+
   const genAI = new GoogleGenerativeAI(cfg.apiKey);
-  const modelsToTry = [cfg.model, 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
-  const uniqueModels = [...new Set(modelsToTry.filter(Boolean))];
+  const modelsToTry = [cfg.model, 'gemini-2.5-flash', 'gemini-2.0-flash'].filter(Boolean);
+  const uniqueModels = [...new Set(modelsToTry)];
 
   let lastError: any = null;
   for (const modelName of uniqueModels) {
@@ -74,7 +78,7 @@ async function geminiChat(
         request.systemInstruction = systemInstruction;
       }
       const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error(`Timeout with model ${modelName}`)), 12000)
+        setTimeout(() => reject(new Error(`Timeout with model ${modelName}`)), 4000)
       );
       const response: any = await Promise.race([
         model.generateContent(request),

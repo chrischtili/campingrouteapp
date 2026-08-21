@@ -32,6 +32,8 @@ import {
   projectPointToRoute
 } from "./search.js";
 
+import { searchDztTrails, searchDztEvents, searchDztPois } from "./dzt.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -77,6 +79,81 @@ app.get("/", (req, res) => {
     version: "1.0.0",
     mcp: "/mcp"
   });
+});
+
+// DZT Knowledge Graph Endpoints
+app.get("/api/dzt/trails", async (req, res) => {
+  try {
+    const region = req.query.region as string;
+    const locality = req.query.locality as string;
+    const keywords = req.query.keywords as string;
+    const difficulty = req.query.difficulty as string;
+    const maxLength = req.query.max_length_km ? Number(req.query.max_length_km) : undefined;
+
+    const trails = await searchDztTrails({ region, locality, keywords, difficulty, max_length_km: maxLength });
+    res.json({
+      success: true,
+      source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany",
+      data: trails.map((t: any) => ({
+        id: t["@id"],
+        name: t["schema:name"],
+        description: t["schema:description"] ? t["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 350) : undefined,
+        image: t["schema:image"] ? (Array.isArray(t["schema:image"]) ? t["schema:image"][0]?.["schema:contentUrl"] : t["schema:image"]?.["schema:contentUrl"]) : undefined
+      }))
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/dzt/events", async (req, res) => {
+  try {
+    const region = req.query.region as string;
+    const locality = req.query.locality as string;
+    const keywords = req.query.keywords as string;
+    const dateRangeStart = req.query.dateRangeStart as string;
+    const dateRangeEnd = req.query.dateRangeEnd as string;
+
+    const events = await searchDztEvents({ region, locality, keywords, dateRangeStart, dateRangeEnd });
+    res.json({
+      success: true,
+      source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany",
+      data: events.map((e: any) => ({
+        id: e["@id"],
+        name: e["schema:name"],
+        description: e["schema:description"] ? e["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 350) : undefined,
+        address: e["schema:address"],
+        startDate: e["schema:startDate"],
+        image: e["schema:image"] ? (Array.isArray(e["schema:image"]) ? e["schema:image"][0]?.["schema:contentUrl"] : e["schema:image"]?.["schema:contentUrl"]) : undefined
+      }))
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/dzt/pois", async (req, res) => {
+  try {
+    const region = req.query.region as string;
+    const locality = req.query.locality as string;
+    const keywords = req.query.keywords as string;
+    const type = req.query.type as string;
+
+    const pois = await searchDztPois({ region, locality, keywords, type });
+    res.json({
+      success: true,
+      source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany",
+      data: pois.map((p: any) => ({
+        id: p["@id"],
+        name: p["schema:name"],
+        description: p["schema:description"] ? p["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 350) : undefined,
+        address: p["schema:address"],
+        image: p["schema:image"] ? (Array.isArray(p["schema:image"]) ? p["schema:image"][0]?.["schema:contentUrl"] : p["schema:image"]?.["schema:contentUrl"]) : undefined
+      }))
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
 
 // Test AI API Key endpoint

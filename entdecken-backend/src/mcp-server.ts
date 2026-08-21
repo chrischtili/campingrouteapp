@@ -7,6 +7,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { getDb } from "./db/db.js";
 import crypto from "crypto";
+import { searchDztTrails, searchDztEvents, searchDztPois } from "./dzt.js";
 
 export const MCP_TOOLS = [
   {
@@ -90,6 +91,47 @@ export const MCP_TOOLS = [
         place_id: { type: "string", description: "The ID of the place to save" }
       },
       required: ["list_id", "place_id"]
+    }
+  },
+  {
+    name: "get_german_trails",
+    description: "Search official German hiking and biking trails (tours) via the German National Tourist Board (DZT) Knowledge Graph. Returns verified routes, difficulty, distance, and official descriptions.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        region: { type: "string", description: "Region or federal state in Germany (e.g., 'Schwarzwald', 'Allgäu', 'Bayern')" },
+        locality: { type: "string", description: "City or town name" },
+        keywords: { type: "string", description: "Keywords (e.g., 'Rundweg,Aussicht,Familie')" },
+        difficulty: { type: "string", enum: ["easy", "medium", "hard"], description: "Trail difficulty level" },
+        max_length_km: { type: "number", description: "Maximum trail length in kilometers" }
+      }
+    }
+  },
+  {
+    name: "get_german_events",
+    description: "Search official upcoming events, festivals, and cultural highlights in Germany via the DZT Knowledge Graph.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        region: { type: "string", description: "Region or federal state in Germany (e.g., 'Bodensee', 'Harz')" },
+        locality: { type: "string", description: "City or town name" },
+        keywords: { type: "string", description: "Event keywords (e.g., 'Weinfest,Festival,Markt')" },
+        dateRangeStart: { type: "string", description: "Start date in ISO format (YYYY-MM-DD)" },
+        dateRangeEnd: { type: "string", description: "End date in ISO format (YYYY-MM-DD)" }
+      }
+    }
+  },
+  {
+    name: "get_german_pois",
+    description: "Search verified official tourist attractions, castles, museums, nature spots, and points of interest in Germany via the DZT Knowledge Graph.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        region: { type: "string", description: "Region or federal state in Germany (e.g., 'Sachsen', 'Mecklenburg-Vorpommern')" },
+        locality: { type: "string", description: "City or town name" },
+        keywords: { type: "string", description: "Keywords (e.g., 'Burg,Schloss,See,Museum')" },
+        type: { type: "string", description: "Type of POI (e.g., 'TouristAttraction', 'Museum', 'Castle')" }
+      }
     }
   }
 ];
@@ -272,6 +314,72 @@ export async function executeMcpTool(name: string, args: any): Promise<any> {
             {
               type: "text",
               text: `Place successfully saved to list ${list_id}.`
+            }
+          ]
+        };
+      }
+
+      case "get_german_trails": {
+        const trails = await searchDztTrails(args || {});
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                source: "Deutsche Zentrale für Tourismus e.V. (DZT) Knowledge Graph / Open Data Germany",
+                count: trails.length,
+                trails: trails.map((t: any) => ({
+                  id: t["@id"],
+                  name: t["schema:name"],
+                  description: t["schema:description"] ? t["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 300) : undefined,
+                  image: t["schema:image"] ? (Array.isArray(t["schema:image"]) ? t["schema:image"][0]?.["schema:contentUrl"] : t["schema:image"]?.["schema:contentUrl"]) : undefined
+                }))
+              }, null, 2)
+            }
+          ]
+        };
+      }
+
+      case "get_german_events": {
+        const events = await searchDztEvents(args || {});
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                source: "Deutsche Zentrale für Tourismus e.V. (DZT) Knowledge Graph / Open Data Germany",
+                count: events.length,
+                events: events.map((e: any) => ({
+                  id: e["@id"],
+                  name: e["schema:name"],
+                  description: e["schema:description"] ? e["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 300) : undefined,
+                  address: e["schema:address"],
+                  startDate: e["schema:startDate"],
+                  image: e["schema:image"] ? (Array.isArray(e["schema:image"]) ? e["schema:image"][0]?.["schema:contentUrl"] : e["schema:image"]?.["schema:contentUrl"]) : undefined
+                }))
+              }, null, 2)
+            }
+          ]
+        };
+      }
+
+      case "get_german_pois": {
+        const pois = await searchDztPois(args || {});
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                source: "Deutsche Zentrale für Tourismus e.V. (DZT) Knowledge Graph / Open Data Germany",
+                count: pois.length,
+                pois: pois.map((p: any) => ({
+                  id: p["@id"],
+                  name: p["schema:name"],
+                  description: p["schema:description"] ? p["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 300) : undefined,
+                  address: p["schema:address"],
+                  image: p["schema:image"] ? (Array.isArray(p["schema:image"]) ? p["schema:image"][0]?.["schema:contentUrl"] : p["schema:image"]?.["schema:contentUrl"]) : undefined
+                }))
+              }, null, 2)
             }
           ]
         };

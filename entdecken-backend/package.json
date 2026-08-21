@@ -15,7 +15,8 @@
     "import-osm-grid": "tsx src/scripts/import-osm-grid.ts",
     "merge-places": "tsx src/scripts/merge-places.ts",
     "import-fr-it": "tsx src/scripts/import-fr-it.ts",
-    "migrate-data-quality": "tsx src/scripts/migrate-data-quality.ts"
+    "migrate-data-quality": "tsx src/scripts/migrate-data-quality.ts",
+    "enrich-dzt": "tsx src/scripts/enrich-dzt.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

@@ -22,6 +22,14 @@
 5. `get_lists`: Fetch user roadtrip collections.
 6. `create_list`: Create a new roadtrip list.
 7. `save_to_list`: Save places to roadtrip lists.
+8. `get_german_trails`: Search official hiking & bike trails in Germany with difficulty & distance via DZT Knowledge Graph.
+9. `get_german_events`: Search official upcoming cultural & local events in Germany via DZT Knowledge Graph.
+10. `get_german_pois`: Search verified official attractions, castles, museums, and nature spots in Germany via DZT Knowledge Graph.
+
+## Data Sources & Attributions
+- OpenStreetMap contributors (ODbL)
+- Wikidata contributors (CC0)
+- German National Tourist Board / Deutsche Zentrale für Tourismus e.V. (DZT) Open Data Knowledge Graph (CC0 / CC BY-SA)
 
 ## Full Documentation
 For complete technical schemas and integration guides, see: https://campingroute.app/llms-full.txt

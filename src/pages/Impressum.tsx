@@ -110,6 +110,28 @@ export default function Impressum() {
                 </div>
               </section>
 
+              {/* Data Sources & Licenses */}
+              <section className="rounded-3xl border border-gray-200/80 bg-white p-7 sm:p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex items-center gap-3.5 mb-5">
+                  <div className="w-10 h-10 rounded-2xl bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 flex items-center justify-center">
+                    <Info className="w-5 h-5" />
+                  </div>
+                  <h2 className="text-lg sm:text-xl font-bold tracking-tight text-foreground dark:text-white">
+                    {i18n.language === 'de' ? 'Datenquellen & Lizenzen' : 'Data Sources & Licenses'}
+                  </h2>
+                </div>
+                <div className="space-y-4 text-foreground/80 dark:text-white/80 text-xs sm:text-sm leading-relaxed">
+                  <p>
+                    <strong>Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany:</strong><br />
+                    Tourismusdaten, Sehenswürdigkeiten, Touren &amp; Events in Deutschland stammen u.&nbsp;a. aus dem offiziellen <a href="https://open-data-germany.org/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">DZT Knowledge Graph</a> (Open Data Germany), lizenziert unter offenen Lizenzen (CC0 / CC BY-SA).
+                  </p>
+                  <p>
+                    <strong>OpenStreetMap &amp; Wikidata:</strong><br />
+                    Geodaten und Stellplatzinformationen basieren auf <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">OpenStreetMap</a> (© OpenStreetMap-Mitwirkende, ODbL) sowie <a href="https://www.wikidata.org/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">Wikidata</a> (CC0).
+                  </p>
+                </div>
+              </section>
+
               {/* Open Source */}
               <section className="rounded-3xl border border-emerald-200 bg-emerald-50/50 p-7 sm:p-8 shadow-sm dark:border-emerald-900/40 dark:bg-emerald-950/20">
                 <h2 className="text-lg sm:text-xl font-bold tracking-tight text-emerald-900 dark:text-emerald-300 mb-3">

@@ -1330,6 +1330,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500, marginTop: '0.75rem' }}>
                       Datenquelle:{" "}
                       {(() => {
+                        if (selectedPlace.source === 'dzt' || selectedPlace.id?.startsWith('dzt-')) {
+                          return (
+                            <a href="https://open-data-germany.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
+                              DZT Knowledge Graph (Open Data Germany)
+                            </a>
+                          );
+                        }
                         const osmMatch = (selectedPlace.osm_id || '').match(/^(node|way|relation)-(\d+)$/);
                         const wdId = (selectedPlace.id || selectedPlace.osm_id || '').match(/wikidata-(Q\d+)/i)?.[1];
                         if (selectedPlace.type === 'attraction' && wdId) {

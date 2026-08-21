@@ -779,13 +779,13 @@ app.get("/api/search", async (req, res) => {
       });
     } else {
       usedModel = true;
-      const systemInstruction = await buildIntentPrompt(db);
-      const prompt = `User query: "${queryStr}"`;
-      const responseText = await chatJSON(aiConfig, systemInstruction, prompt);
       try {
+        const systemInstruction = await buildIntentPrompt(db);
+        const prompt = `User query: "${queryStr}"`;
+        const responseText = await chatJSON(aiConfig, systemInstruction, prompt);
         intent = validateIntent(JSON.parse(responseText.trim()));
-      } catch (parseErr) {
-        console.warn(`Could not parse AI intent for "${queryStr}":`, parseErr);
+      } catch (parseErr: any) {
+        console.warn(`Could not parse AI intent for "${queryStr}":`, parseErr?.message || parseErr);
         intent = {};
       }
       console.log(`AI intent for "${queryStr}": ${JSON.stringify(intent)}`);

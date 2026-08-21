@@ -53,9 +53,10 @@ async function runEnrichment() {
     for (const keywords of KEYWORD_SETS) {
       try {
         const pois = await searchDztPois({ region, keywords });
-        totalFetched += pois.length;
+        if (Array.isArray(pois)) {
+          totalFetched += pois.length;
 
-        for (const poi of pois) {
+          for (const poi of pois) {
           const name = poi['schema:name'];
           if (!name) continue;
 
@@ -115,6 +116,7 @@ async function runEnrichment() {
               break;
             }
           }
+        }
         }
 
         // Polite delay between API requests

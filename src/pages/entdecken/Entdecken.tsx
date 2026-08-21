@@ -1330,32 +1330,46 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500, marginTop: '0.75rem' }}>
                       Datenquelle:{" "}
                       {(() => {
-                        if (selectedPlace.source === 'dzt' || selectedPlace.id?.startsWith('dzt-')) {
-                          return (
-                            <a href="https://open-data-germany.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
-                              DZT Knowledge Graph (Open Data Germany)
-                            </a>
-                          );
-                        }
-                        const osmMatch = (selectedPlace.osm_id || '').match(/^(node|way|relation)-(\d+)$/);
+                        const hasDzt = (selectedPlace.source || '').includes('dzt') || selectedPlace.id?.startsWith('dzt-');
+                        const osmMatch = (selectedPlace.osm_id || selectedPlace.id || '').match(/^(?:osm-)?(node|way|relation)-(\d+)$/);
                         const wdId = (selectedPlace.id || selectedPlace.osm_id || '').match(/wikidata-(Q\d+)/i)?.[1];
+
+                        const dztLink = (
+                          <a href="https://open-data-germany.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
+                            DZT Knowledge Graph (Open Data Germany)
+                          </a>
+                        );
+
+                        const osmLink = osmMatch ? (
+                          <a href={`https://www.openstreetmap.org/${osmMatch[1]}/${osmMatch[2]}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
+                            OpenStreetMap
+                          </a>
+                        ) : <span>OpenStreetMap</span>;
+
+                        const wdLink = wdId ? (
+                          <a href={`https://www.wikidata.org/wiki/${wdId}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
+                            Wikidata
+                          </a>
+                        ) : <span>Wikidata</span>;
+
+                        if (hasDzt) {
+                          if (osmMatch || (selectedPlace.source || '').includes('osm')) {
+                            return (
+                              <>
+                                {dztLink} &amp; {osmLink}
+                              </>
+                            );
+                          }
+                          return dztLink;
+                        }
+
                         if (selectedPlace.type === 'attraction' && wdId) {
-                          return (
-                            <a href={`https://www.wikidata.org/wiki/${wdId}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
-                              Wikidata
-                            </a>
-                          );
+                          return wdLink;
                         }
-                        if (selectedPlace.type !== 'attraction' && osmMatch) {
-                          return (
-                            <a href={`https://www.openstreetmap.org/${osmMatch[1]}/${osmMatch[2]}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-700)', textDecoration: 'underline' }}>
-                              OpenStreetMap
-                            </a>
-                          );
-                        }
-                        return selectedPlace.type === 'attraction' ? 'Wikidata' : 'OpenStreetMap';
+
+                        return osmLink;
                       })()}
-                      {selectedPlace.type !== 'attraction' && selectedPlace.website ? ' · verifizierte Website' : ''}
+                      {selectedPlace.website ? ' · verifizierte Website' : ''}
                     </p>
                   </div>
 

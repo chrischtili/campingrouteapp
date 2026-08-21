@@ -66,14 +66,26 @@
 
   <!-- Entdecken / Discover -->
   <url>
-    <loc>https://campingroute.app/discover</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://campingroute.app/discover"/>
+    <loc>https://campingroute.app/entdecken</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://campingroute.app/entdecken"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://campingroute.app/discover?lng=en"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://campingroute.app/discover?lng=fr"/>
     <xhtml:link rel="alternate" hreflang="nl" href="https://campingroute.app/discover?lng=nl"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://campingroute.app/discover?lng=it"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://campingroute.app/discover"/>
-    <lastmod>2026-08-20</lastmod>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://campingroute.app/discover</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://campingroute.app/entdecken"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://campingroute.app/discover?lng=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://campingroute.app/discover?lng=fr"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://campingroute.app/discover?lng=nl"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://campingroute.app/discover?lng=it"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://campingroute.app/discover"/>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>

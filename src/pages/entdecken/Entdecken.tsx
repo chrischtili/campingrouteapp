@@ -518,12 +518,12 @@ function EntdeckenContent() {
     setAiSettings(cleared);
     setTempAISettings(cleared);
     localStorage.removeItem('campingroute_discover_ai');
-    setTestResult({ success: true, message: 'API-Schlüssel wurde erfolgreich aus deinem Browser gelöscht.' });
+    setTestResult({ success: true, message: t.aiKeyClearedMsg || 'API-Schlüssel wurde erfolgreich aus deinem Browser gelöscht.' });
   };
 
   const handleTestAIKey = async () => {
     if (!tempAISettings.apiKey || !tempAISettings.apiKey.trim()) {
-      setTestResult({ success: false, message: 'Bitte gib zuerst einen API-Key ein.' });
+      setTestResult({ success: false, message: t.aiPleaseEnterKey || 'Bitte gib zuerst einen API-Key ein.' });
       return;
     }
     setIsTestingKey(true);
@@ -537,7 +537,7 @@ function EntdeckenContent() {
       const data = await res.json();
       setTestResult(data);
     } catch (err: any) {
-      setTestResult({ success: false, message: err.message || 'Verbindungstest fehlgeschlagen.' });
+      setTestResult({ success: false, message: err.message || t.aiTestFailedMsg || 'Verbindungstest fehlgeschlagen.' });
     } finally {
       setIsTestingKey(false);
     }
@@ -1150,7 +1150,7 @@ function EntdeckenContent() {
       if (response.ok) {
         setShowSaveToListModal(false);
         fetchLists();
-        alert(`Ort erfolgreich im Roadtrip gespeichert!`);
+        alert(t.savedSuccessAlert || `Ort erfolgreich im Roadtrip gespeichert!`);
       }
     } catch (e) {
       console.error('Error saving to list:', e);
@@ -1240,7 +1240,7 @@ const getWebsiteUrl = (place: Place): string | null => {
     if (!selectedPlace) return;
     const base = window.location.origin.includes('localhost') ? window.location.origin : 'https://campingroute.app';
     navigator.clipboard.writeText(`${base}/place/${selectedPlace.id}`);
-    alert("Teilungslink wurde in die Zwischenablage kopiert!");
+    alert(t.linkCopiedAlert || "Teilungslink wurde in die Zwischenablage kopiert!");
   };
 
   return (
@@ -1351,14 +1351,14 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                   {/* See What It's Really Like */}
                   <div className="detail-card">
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.4rem', overflowWrap: 'break-word' }}>Der Ort auf einen Blick</h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.25rem', overflowWrap: 'break-word' }}>Echte Reisebeschreibungen, Merkmale und Bewertungen aus der Community.</p>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.4rem', overflowWrap: 'break-word' }}>{t.placeOverviewTitle}</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.25rem', overflowWrap: 'break-word' }}>{t.placeOverviewSubtitle}</p>
                     
                     <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-400)' }}>
                       <ImageIcon size={28} style={{ margin: '0 auto 0.5rem auto' }} />
-                      <p style={{ fontWeight: 600, fontSize: '0.85rem' }}>Keine Videoberichte vorhanden</p>
-                      <p style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>Erstelle den ersten Videobeitrag über diesen Campingplatz!</p>
-                      <button style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0.45rem 1.25rem', fontWeight: 700, fontSize: '0.82rem', marginTop: '0.85rem', cursor: 'pointer' }}>Inhalt hinzufügen</button>
+                      <p style={{ fontWeight: 600, fontSize: '0.85rem' }}>{t.noVideoReports}</p>
+                      <p style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>{t.noVideoReportsSub}</p>
+                      <button style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0.45rem 1.25rem', fontWeight: 700, fontSize: '0.82rem', marginTop: '0.85rem', cursor: 'pointer' }}>{t.addContentBtn}</button>
                     </div>
                   </div>
 
@@ -1376,7 +1376,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       ))}
                     </div>
                     {getAmenityList(selectedPlace).length === 0 && (
-                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)', fontStyle: 'italic', marginTop: '0.4rem' }}>Ausstattungsdetails liegen für diesen Ort noch nicht vor.</p>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)', fontStyle: 'italic', marginTop: '0.4rem' }}>{t.noAmenitiesAvailable}</p>
                     )}
                   </div>
 
@@ -1384,7 +1384,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   <div className="detail-card">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                       <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>{t.reviewsTitle}</h3>
-                      <button onClick={() => setShowReviewModal(true)} style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '9999px', padding: '0.4rem 1rem', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}>Bericht schreiben</button>
+                      <button onClick={() => setShowReviewModal(true)} style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '9999px', padding: '0.4rem 1rem', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}>{t.writeReviewBtn}</button>
                     </div>
                     
                     {reviews.length === 0 ? (
@@ -1414,21 +1414,21 @@ const getWebsiteUrl = (place: Place): string | null => {
                   
                   {/* Save box */}
                   <div className="detail-card">
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>Diesen Ort speichern</h4>
-                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>Füge diesen Campingplatz einem deiner Roadtrips hinzu.</p>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>{t.saveLocation}</h4>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>{t.saveLocationDesc}</p>
                     <button 
                       onClick={() => setShowSaveToListModal(true)}
                       style={{ width: '100%', background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '12px', padding: '0.65rem 1rem', fontSize: '0.88rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', cursor: 'pointer' }}
                     >
                       <Heart size={16} />
-                      <span>Roadtrip hinzufügen</span>
+                      <span>{t.addToRoadtrip}</span>
                     </button>
                   </div>
 
                   {/* Stayed here box */}
                   <div className="detail-card">
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>Schon dagewesen?</h4>
-                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>Teile deine Erfahrung und bewerte diesen Ort.</p>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>{t.alreadyBeenHere}</h4>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>{t.alreadyBeenHereDesc}</p>
                     
                     <div style={{ display: 'flex', gap: '0.35rem', justifyContent: 'center', marginBottom: '0.85rem' }}>
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -1447,13 +1447,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                       onClick={() => setShowReviewModal(true)}
                       style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.82rem', fontWeight: 700, width: '100%', textAlign: 'center', cursor: 'pointer' }}
                     >
-                      Bericht schreiben
+                      {t.writeReviewBtn}
                     </button>
                   </div>
 
                   {/* Photos box */}
                   <div className="detail-card">
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.75rem' }}>Bildergalerie</h4>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.75rem' }}>{t.photoGallery}</h4>
                     {imageUrl ? (
                       <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', height: '170px' }}>
                         <img src={imageUrl} alt={selectedPlace.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = getFallbackImage(selectedPlace); }} />
@@ -1461,32 +1461,32 @@ const getWebsiteUrl = (place: Place): string | null => {
                     ) : (
                       <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-400)' }}>
                         <Camera size={26} style={{ margin: '0 auto 0.4rem auto' }} />
-                        <p style={{ fontSize: '0.78rem', fontWeight: 600 }}>Keine Fotos verfügbar</p>
-                        <button style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.78rem', fontWeight: 700, marginTop: '0.4rem', cursor: 'pointer' }}>Foto hochladen</button>
+                        <p style={{ fontSize: '0.78rem', fontWeight: 600 }}>{t.noPhotos}</p>
+                        <button style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.78rem', fontWeight: 700, marginTop: '0.4rem', cursor: 'pointer' }}>{t.uploadPhoto}</button>
                       </div>
                     )}
                   </div>
 
                   {/* Share box */}
                   <div className="detail-card">
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>Diesen Ort teilen</h4>
-                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>Teile diesen Platz mit deinen Camping-Freunden.</p>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.35rem' }}>{t.shareLocation}</h4>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>{t.shareLocationDesc}</p>
                     
                     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                       <button onClick={copyShareLink} style={{ flex: '1 1 auto', minWidth: '75px', background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.55rem 0.7rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', cursor: 'pointer' }}>
                         <Share2 size={15} />
-                        <span>Teilen</span>
+                        <span>{t.shareBtn}</span>
                       </button>
                       {getWebsiteUrl(selectedPlace) && (
                         <a href={getWebsiteUrl(selectedPlace)!} target="_blank" rel="noreferrer" style={{ flex: '1 1 auto', minWidth: '85px', background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.55rem 0.7rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', textDecoration: 'none' }}>
                           <Globe size={15} />
-                          <span>Webseite</span>
+                          <span>{t.websiteLink}</span>
                         </a>
                       )}
                       {selectedPlace.phone && (
                         <a href={`tel:${selectedPlace.phone.replace(/[^+\d]/g, '')}`} style={{ flex: '1 1 auto', minWidth: '80px', background: 'var(--gray-100)', border: 'none', color: 'var(--gray-700)', padding: '0.55rem 0.7rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', textDecoration: 'none' }}>
                           <MessageSquare size={15} />
-                          <span>Anrufen</span>
+                          <span>{t.callBtn}</span>
                         </a>
                       )}
                     </div>
@@ -2066,15 +2066,15 @@ const getWebsiteUrl = (place: Place): string | null => {
                       {/* Beta Badge */}
                       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(245, 158, 11, 0.1)', color: '#d97706', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '1.25rem', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
                         <Sparkles size={14} />
-                        BETA-PHASE · BRING YOUR OWN KEY
+                        {t.betaByokBadge || 'BETA-PHASE · BRING YOUR OWN KEY'}
                       </div>
 
                       <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.75rem' }}>
-                        Intelligente KI-Suche &amp; Kuration aktivieren
+                        {t.betaByokTitle || 'Intelligente KI-Suche & Kuration aktivieren'}
                       </h3>
 
                       <p style={{ color: 'var(--gray-600)', fontSize: '0.95rem', lineHeight: '1.6', maxWidth: '540px', margin: '0 auto 1.5rem auto' }}>
-                        Für freie Textbeschreibungen wie <em>„{searchQuery}“</em> oder individuelle Routen-Stopps nutzt CampingRoute modernste KI. Hinterlege einfach deinen eigenen Schlüssel (z. B. den dauerhaft <strong>kostenlosen Google Gemini Key</strong> oder <strong>DeepSeek Key</strong>).
+                        {t.betaByokDesc || `Für freie Textbeschreibungen wie „${searchQuery}“ oder individuelle Routen-Stopps nutzt CampingRoute modernste KI.`}
                       </p>
 
                       {/* CTA Button to open Settings Modal */}
@@ -2099,7 +2099,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         className="hover:scale-102"
                       >
                         <Key size={18} />
-                        🔑 Jetzt KI-Key eintragen (Google, DeepSeek, OpenAI, Claude)
+                        {t.betaByokBtn || '🔑 Jetzt KI-Key eintragen (Google, DeepSeek, OpenAI, Claude)'}
                       </button>
 
                       {/* Feature & Privacy Highlights Grid */}
@@ -2107,15 +2107,15 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'flex-start' }}>
                           <Shield size={18} color="#16a34a" style={{ flexShrink: 0, marginTop: '2px' }} />
                           <div style={{ fontSize: '0.82rem', color: 'var(--gray-600)', lineHeight: '1.45' }}>
-                            <strong style={{ color: 'var(--gray-900)', display: 'block', marginBottom: '0.15rem' }}>100% DSGVO-konform:</strong>
-                            Dein API-Schlüssel wird ausschließlich lokal in deinem Browser (localStorage) gespeichert und niemals auf unseren Servern abgelegt.
+                            <strong style={{ color: 'var(--gray-900)', display: 'block', marginBottom: '0.15rem' }}>{t.betaPrivacyTitle || '100% DSGVO-konform:'}</strong>
+                            {t.betaPrivacyText || 'Dein API-Schlüssel wird ausschließlich lokal in deinem Browser (localStorage) gespeichert und niemals auf unseren Servern abgelegt.'}
                           </div>
                         </div>
                         <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'flex-start' }}>
                           <Compass size={18} color="#2563eb" style={{ flexShrink: 0, marginTop: '2px' }} />
                           <div style={{ fontSize: '0.82rem', color: 'var(--gray-600)', lineHeight: '1.45' }}>
-                            <strong style={{ color: 'var(--gray-900)', display: 'block', marginBottom: '0.15rem' }}>Einfache Suchen ohne Key:</strong>
-                            Orts- &amp; Regions-Suchen wie <a href="#" onClick={(e) => { e.preventDefault(); handleSearch(undefined, 'Camping an der Mosel'); }} style={{ color: 'var(--primary-700)', fontWeight: 700, textDecoration: 'underline' }}>„Camping an der Mosel“</a> oder <a href="#" onClick={(e) => { e.preventDefault(); handleSearch(undefined, 'Camping in Bayern'); }} style={{ color: 'var(--primary-700)', fontWeight: 700, textDecoration: 'underline' }}>„Camping in Bayern“</a> klappen immer direkt ohne Key!
+                            <strong style={{ color: 'var(--gray-900)', display: 'block', marginBottom: '0.15rem' }}>{t.betaSimpleSearchesTitle || 'Einfache Suchen ohne Key:'}</strong>
+                            {t.betaSimpleSearchesText || 'Orts- & Regions-Suchen klappen immer direkt ohne Key!'}
                           </div>
                         </div>
                       </div>
@@ -2124,11 +2124,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                     /* Standard Empty State if key is present but no database results match */
                     <div style={{ textAlign: 'center', padding: '4rem 1rem', background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)' }}>
                       <Info size={48} style={{ color: 'var(--gray-300)', marginBottom: '1rem' }} />
-                      <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--gray-900)' }}>Keine passenden Orte gefunden</h3>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--gray-900)' }}>{t.noMatchingPlacesTitle || 'Keine passenden Orte gefunden'}</h3>
                       <p style={{ color: 'var(--gray-500)', maxWidth: '440px', margin: '0 auto 1.5rem auto', lineHeight: '1.5' }}>
-                        Zu deiner Beschreibung wurden leider keine Treffer in der Datenbank gefunden. Versuche es mit einer allgemeineren Beschreibung oder ändere die Filter.
+                        {t.noMatchingPlacesText || 'Zu deiner Beschreibung wurden leider keine Treffer in der Datenbank gefunden. Versuche es mit einer allgemeineren Beschreibung oder ändere die Filter.'}
                       </p>
-                      <button onClick={resetSearch} className="action-button secondary">Suche zurücksetzen</button>
+                      <button onClick={resetSearch} className="action-button secondary">{t.resetSearch || 'Suche zurücksetzen'}</button>
                     </div>
                   )
                 ) : (
@@ -2162,7 +2162,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             </div>
                           </div>
                           <span style={{ background: 'rgba(52, 211, 153, 0.2)', color: '#34d399', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 800, border: '1px solid rgba(52, 211, 153, 0.4)' }}>
-                            ✨ Routen-Korridor aktiv
+                            {t.routeCorridorActive || '✨ Routen-Korridor aktiv'}
                           </span>
                         </div>
                       </div>
@@ -2186,7 +2186,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         }}
                       >
                         <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-800)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          ✨ {recommendationTitle || 'CampingRoute Reiseführer-Zusammenfassung'}
+                          ✨ {recommendationTitle || t.guideSummaryTitle || 'CampingRoute Reiseführer-Zusammenfassung'}
                         </h3>
                         <div 
                            dangerouslySetInnerHTML={{ __html: searchSummary }} 
@@ -2234,12 +2234,12 @@ const getWebsiteUrl = (place: Place): string | null => {
                             {place.stage_number ? (
                               <span style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', margin: 0, background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', color: 'white', padding: '0.25rem 0.6rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
                                 <MapPin size={12} />
-                                Etappe {place.stage_number}
+                                {(t.stageNumber || 'Etappe {{number}}').replace('{{number}}', String(place.stage_number))}
                               </span>
                             ) : isCurated ? (
                               <span style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', margin: 0, background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', color: 'white', padding: '0.25rem 0.6rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
                                 <Sparkles size={12} />
-                                Top-Empfehlung
+                                {t.topRecommendation || 'Top-Empfehlung'}
                               </span>
                             ) : null}
                           </div>
@@ -2473,7 +2473,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <span className="list-card-count">{list.item_count} {t.itemCount}</span>
                       </div>
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginTop: '0.5rem' }}>
-                        {list.description || 'Keine Beschreibung vorhanden.'}
+                        {list.description || t.noDescription || 'Keine Beschreibung vorhanden.'}
                       </p>
                     </div>
                   ))}
@@ -2502,7 +2502,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{selectedList.description}</p>
 
                 {listItems.length === 0 ? (
-                  <p style={{ color: 'var(--gray-400)', fontSize: '0.9rem' }}>Noch keine gespeicherten Orte in diesem Roadtrip. Suche in "Entdecken" nach Orten und füge sie hinzu!</p>
+                  <p style={{ color: 'var(--gray-400)', fontSize: '0.9rem' }}>{t.noSavedPlacesInList || 'Noch keine gespeicherten Orte in diesem Roadtrip. Suche in "Entdecken" nach Orten und füge sie hinzu!'}</p>
                 ) : (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
                     {listItems.map((item) => (
@@ -2682,8 +2682,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                   <Key size={20} />
                 </div>
                 <div>
-                  <h3 style={{ fontWeight: 800, margin: 0, fontSize: '1.2rem', color: 'var(--gray-900)' }}>KI-Einstellungen & Eigener API-Key</h3>
-                  <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.8rem', color: 'var(--gray-500)' }}>Wähle dein bevorzugtes KI-Modell und nutze deinen eigenen Schlüssel</p>
+                  <h3 style={{ fontWeight: 800, margin: 0, fontSize: '1.2rem', color: 'var(--gray-900)' }}>{t.aiSettingsTitle || 'KI-Einstellungen & Eigener API-Key'}</h3>
+                  <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.8rem', color: 'var(--gray-500)' }}>{t.aiSettingsSubtitle || 'Wähle dein bevorzugtes KI-Modell und nutze deinen eigenen Schlüssel'}</p>
                 </div>
               </div>
               <button className="close-btn" onClick={() => setShowAISettingsModal(false)}><X size={18} /></button>
@@ -2705,16 +2705,16 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <Shield size={20} style={{ color: '#16a34a', flexShrink: 0, marginTop: '2px' }} />
                 <div style={{ fontSize: '0.8rem', color: '#166534', lineHeight: '1.5' }}>
                   <strong style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.85rem', color: '#14532d' }}>
-                    🔒 Datenschutz & DSGVO-Hinweis (100% lokal)
+                    {t.aiPrivacyTitle || '🔒 Datenschutz & DSGVO-Hinweis (100% lokal)'}
                   </strong>
-                  Dein API-Schlüssel wird <strong>ausschließlich lokal in deinem Browser (localStorage)</strong> gespeichert und niemals auf unseren Servern dauerhaft gesichert oder protokolliert. Bei einer Suchanfrage wird er per verschlüsselter HTTPS-Verbindung temporär an den jeweiligen KI-Anbieter übermittelt.
+                  {t.aiPrivacyText || 'Dein API-Schlüssel wird ausschließlich lokal in deinem Browser (localStorage) gespeichert und niemals auf unseren Servern dauerhaft gesichert oder protokolliert. Bei einer Suchanfrage wird er per verschlüsselter HTTPS-Verbindung temporär an den jeweiligen KI-Anbieter übermittelt.'}
                 </div>
               </div>
 
               {/* Provider Tabs */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'block' }}>
-                  1. KI-Anbieter wählen
+                  {t.aiStep1 || '1. KI-Anbieter wählen'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.6rem' }}>
                   {[
@@ -2762,8 +2762,8 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Model Selection */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>2. Modell-Auswahl</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500 }}>Neueste Generationen 2026/2025</span>
+                  <span>{t.aiStep2 || '2. Modell-Auswahl'}</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500 }}>{t.aiStep2Subtitle || 'Neueste Generationen 2026/2025'}</span>
                 </label>
 
                 {!isCustomModel ? (
@@ -2785,14 +2785,14 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {m.label} ({m.id}) {m.tag ? `— ${m.tag}` : ''}
                       </option>
                     ))}
-                    <option value="CUSTOM_MANUAL">✏️ Anderes Modell eingeben (Custom Model ID)...</option>
+                    <option value="CUSTOM_MANUAL">{t.aiCustomModelOption || '✏️ Anderes Modell eingeben (Custom Model ID)...'}</option>
                   </select>
                 ) : (
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <input
                       type="text"
                       className="form-input"
-                      placeholder="z.B. gemini-3.7-flash oder claude-3-7-sonnet"
+                      placeholder={t.aiCustomModelPlaceholder || "z.B. gemini-3.7-flash oder claude-3-7-sonnet"}
                       value={tempAISettings.model}
                       onChange={(e) => setTempAISettings({ ...tempAISettings, model: e.target.value })}
                       style={{ flex: 1, fontWeight: 600, fontSize: '0.9rem' }}
@@ -2806,7 +2806,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       }}
                       style={{ padding: '0.5rem 1rem', background: 'var(--gray-100)', border: '1px solid var(--gray-300)', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}
                     >
-                      Liste
+                      {t.aiListBtn || 'Liste'}
                     </button>
                   </div>
                 )}
@@ -2816,28 +2816,28 @@ const getWebsiteUrl = (place: Place): string | null => {
               <div style={{ marginBottom: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', margin: 0 }}>
-                    3. Dein {tempAISettings.provider.toUpperCase()} API-Key
+                    {(t.aiStep3 || '3. Dein {{provider}} API-Key').replace('{{provider}}', tempAISettings.provider.toUpperCase())}
                   </label>
                   
                   {/* Provider Key Link */}
                   {tempAISettings.provider === 'gemini' && (
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem', textDecoration: 'none' }}>
-                      Kostenlosen Gemini Key holen <ExternalLink size={12} />
+                      {t.aiGetGeminiKey || 'Kostenlosen Gemini Key holen'} <ExternalLink size={12} />
                     </a>
                   )}
                   {tempAISettings.provider === 'deepseek' && (
                     <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#d97706', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem', textDecoration: 'none' }}>
-                      DeepSeek Key erstellen <ExternalLink size={12} />
+                      {t.aiGetDeepseekKey || 'DeepSeek Key erstellen'} <ExternalLink size={12} />
                     </a>
                   )}
                   {tempAISettings.provider === 'openai' && (
                     <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#059669', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem', textDecoration: 'none' }}>
-                      OpenAI Key erstellen <ExternalLink size={12} />
+                      {t.aiGetOpenaiKey || 'OpenAI Key erstellen'} <ExternalLink size={12} />
                     </a>
                   )}
                   {tempAISettings.provider === 'claude' && (
                     <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#7c3aed', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem', textDecoration: 'none' }}>
-                      Anthropic Claude Key erstellen <ExternalLink size={12} />
+                      {t.aiGetClaudeKey || 'Anthropic Claude Key erstellen'} <ExternalLink size={12} />
                     </a>
                   )}
                 </div>
@@ -2871,7 +2871,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       color: 'var(--gray-400)',
                       padding: 0
                     }}
-                    title={showApiKeyMask ? 'Schlüssel verbergen' : 'Schlüssel anzeigen'}
+                    title={showApiKeyMask ? (t.aiHideKey || 'Schlüssel verbergen') : (t.aiShowKey || 'Schlüssel anzeigen')}
                   >
                     {showApiKeyMask ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -2921,7 +2921,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     }}
                   >
                     {isTestingKey ? <div className="spinner" style={{ width: '14px', height: '14px', border: '2px solid var(--gray-300)', borderTop: '2px solid var(--primary-600)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div> : <Cpu size={15} />}
-                    {isTestingKey ? 'Prüfe...' : 'Verbindung testen'}
+                    {isTestingKey ? (t.aiTestingKey || 'Prüfe...') : (t.aiTestKeyBtn || 'Verbindung testen')}
                   </button>
 
                   {aiSettings.apiKey && (
@@ -2941,10 +2941,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                         color: '#dc2626',
                         cursor: 'pointer'
                       }}
-                      title="Löscht den Key rückstandslos aus deinem Browser"
+                      title={t.aiDeleteKeyTitle || "Löscht den Key rückstandslos aus deinem Browser"}
                     >
                       <Trash2 size={14} />
-                      Löschen
+                      {t.aiDeleteKeyBtn || 'Löschen'}
                     </button>
                   )}
                 </div>
@@ -2956,7 +2956,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     onClick={() => setShowAISettingsModal(false)}
                     style={{ padding: '0.6rem 1.25rem', fontSize: '0.85rem' }}
                   >
-                    Abbrechen
+                    {t.cancelBtn || 'Abbrechen'}
                   </button>
                   <button
                     type="button"
@@ -2964,7 +2964,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     onClick={handleSaveAISettings}
                     style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem', fontWeight: 800 }}
                   >
-                    Speichern & Aktivieren
+                    {t.aiSaveAndActivate || 'Speichern & Aktivieren'}
                   </button>
                 </div>
               </div>
@@ -2984,8 +2984,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                   <Cpu size={20} />
                 </div>
                 <div>
-                  <h3 style={{ fontWeight: 800, margin: 0, fontSize: '1.2rem', color: 'var(--gray-900)' }}>CampingRoute MCP-Server</h3>
-                  <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.8rem', color: 'var(--gray-500)' }}>Model Context Protocol für Claude Desktop, Cursor &amp; KI-Agenten</p>
+                  <h3 style={{ fontWeight: 800, margin: 0, fontSize: '1.2rem', color: 'var(--gray-900)' }}>{t.mcpServer || 'CampingRoute MCP-Server'}</h3>
+                  <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.8rem', color: 'var(--gray-500)' }}>{t.mcpServerDesc || 'Model Context Protocol für Claude Desktop, Cursor & KI-Agenten'}</p>
                 </div>
               </div>
               <button className="close-btn" onClick={() => setShowMCPModal(false)}><X size={18} /></button>
@@ -3007,16 +3007,16 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <Sparkles size={20} style={{ color: '#7c3aed', flexShrink: 0, marginTop: '2px' }} />
                 <div style={{ fontSize: '0.82rem', color: '#5b21b6', lineHeight: '1.5' }}>
                   <strong style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.85rem', color: '#4c1d95' }}>
-                    Verbinde deine eigene KI mit 20.000+ Campingplätzen in Europa
+                    {t.mcpServerHeading || 'Verbinde deine eigene KI mit 20.000+ Campingplätzen in Europa'}
                   </strong>
-                  Mit dem offiziellen <strong>MCP-Server</strong> kann dein KI-Assistent (z. B. Claude Desktop oder Cursor) direkt auf verifizierte Campingplätze, Stellplätze, Ausstattungen und Sehenswürdigkeiten zugreifen – <strong>100% über dein eigenes KI-Guthaben / deinen Key</strong>.
+                  {t.mcpServerIntro || 'Mit dem offiziellen MCP-Server kann dein KI-Assistent (z. B. Claude Desktop oder Cursor) direkt auf verifizierte Campingplätze, Stellplätze, Ausstattungen und Sehenswürdigkeiten zugreifen – 100% über dein eigenes KI-Guthaben / deinen Key.'}
                 </div>
               </div>
 
               {/* Endpoint URL Box */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.4rem', display: 'block' }}>
-                  MCP Server Endpoint URL
+                  {t.mcpEndpointLabel || 'MCP Server Endpoint URL'}
                 </label>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <input 
@@ -3036,7 +3036,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     style={{ padding: '0.5rem 1rem', background: 'var(--gray-100)', border: '1px solid var(--gray-300)', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
                   >
                     {copiedMCP ? <Check size={14} color="#16a34a" /> : <Copy size={14} />}
-                    {copiedMCP ? 'Kopiert!' : 'Kopieren'}
+                    {copiedMCP ? (t.mcpCopied || 'Kopiert!') : (t.mcpCopy || 'Kopieren')}
                   </button>
                 </div>
               </div>
@@ -3045,7 +3045,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               <div style={{ marginBottom: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                   <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', margin: 0 }}>
-                    Einbindung in MCP-Clients (<code style={{ fontSize: '0.75rem' }}>claude_desktop_config.json</code> / Cursor / Agenten)
+                    {t.mcpConfigLabel || 'Einbindung in MCP-Clients (claude_desktop_config.json / Cursor / Agenten)'}
                   </label>
                   <button
                     type="button"
@@ -3053,7 +3053,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     style={{ background: 'none', border: 'none', color: '#7c3aed', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem', padding: 0 }}
                   >
                     {copiedMCP ? <Check size={12} color="#16a34a" /> : <Copy size={12} />}
-                    {copiedMCP ? 'JSON kopiert!' : 'JSON kopieren'}
+                    {copiedMCP ? (t.mcpCopiedConfig || 'JSON kopiert!') : (t.mcpCopyConfig || 'JSON kopieren')}
                   </button>
                 </div>
 
@@ -3074,21 +3074,21 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Available Tools Overview */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'block' }}>
-                  Verfügbare MCP-Tools für deine KI (7 Tools)
+                  {t.mcpToolsHeader || 'Verfügbare MCP-Tools für deine KI (7 Tools)'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                   {[
-                    { name: 'search_places', desc: 'Sucht europaweit nach Campingplätzen, Stellplätzen & Sehenswürdigkeiten mit Filtern nach Land, Region, Ort, Typ & Merkmalen.' },
-                    { name: 'get_place_details', desc: 'Liefert vollständige Kontaktdaten, Koordinaten, Preise, Sanitär-Ausstattung und Details zu einem Platz.' },
-                    { name: 'get_reviews', desc: 'Ruft echte Reiseberichte und Bewertungen von Campern zu einem Platz ab.' },
-                    { name: 'add_review', desc: 'Schreibt eine neue Bewertung und vergibt Sterne für einen besuchten Platz.' },
-                    { name: 'get_lists', desc: 'Gibt alle erstellten Reiselisten und Favoriten-Sammlungen zurück.' },
-                    { name: 'create_list', desc: 'Erstellt eine neue Reiseliste (z. B. für eine geplante Route oder Favoriten).' },
-                    { name: 'save_to_list', desc: 'Speichert einen Campingplatz oder Spot in einer bestimmten Reiseliste.' }
-                  ].map((t) => (
-                    <div key={t.name} style={{ background: 'var(--gray-50)', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--gray-200)' }}>
-                      <div style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '0.85rem', color: '#7c3aed' }}>{t.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--gray-600)', marginTop: '0.15rem' }}>{t.desc}</div>
+                    { name: 'search_places', desc: t.mcpTool1Desc || 'Sucht europaweit nach Campingplätzen, Stellplätzen & Sehenswürdigkeiten mit Filtern nach Land, Region, Ort, Typ & Merkmalen.' },
+                    { name: 'get_place_details', desc: t.mcpTool2Desc || 'Liefert vollständige Kontaktdaten, Koordinaten, Preise, Sanitär-Ausstattung und Details zu einem Platz.' },
+                    { name: 'get_reviews', desc: t.mcpTool3Desc || 'Ruft echte Reiseberichte und Bewertungen von Campern zu einem Platz ab.' },
+                    { name: 'add_review', desc: t.mcpTool4Desc || 'Schreibt eine neue Bewertung und vergibt Sterne für einen besuchten Platz.' },
+                    { name: 'get_lists', desc: t.mcpTool5Desc || 'Gibt alle erstellten Reiselisten und Favoriten-Sammlungen zurück.' },
+                    { name: 'create_list', desc: t.mcpTool6Desc || 'Erstellt eine neue Reiseliste (z. B. für eine geplante Route oder Favoriten).' },
+                    { name: 'save_to_list', desc: t.mcpTool7Desc || 'Speichert einen Campingplatz oder Spot in einer bestimmten Reiseliste.' }
+                  ].map((tItem) => (
+                    <div key={tItem.name} style={{ background: 'var(--gray-50)', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--gray-200)' }}>
+                      <div style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '0.85rem', color: '#7c3aed' }}>{tItem.name}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--gray-600)', marginTop: '0.15rem' }}>{tItem.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -3102,7 +3102,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   onClick={() => setShowMCPModal(false)}
                   style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem', fontWeight: 800 }}
                 >
-                  Fertig
+                  {t.mcpClose || 'Schließen'}
                 </button>
               </div>
 

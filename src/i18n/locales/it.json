@@ -24,7 +24,11 @@
       "activateLight": "Attiva tema chiaro",
       "activateDark": "Attiva tema scuro",
       "useSystem": "Usa tema di sistema"
-    }
+    },
+    "discover": "Scopri",
+    "aiSettings": "Impostazioni IA",
+    "toggleTheme": "Cambia tema",
+    "openMenu": "Apri menu"
   },
   "hero": {
     "badge": "Assistente prompt IA",
@@ -1433,7 +1437,17 @@
     "whatsNew": "Novità della {{version}}",
     "feedback": "Invia feedback",
     "support": "Supporta CampingRoute",
-    "scrollToTop": "Torna su"
+    "scrollToTop": "Torna su",
+    "brandDescription": "CampingRoute — Trova il tuo viaggio in campeggio perfetto con l'intelligenza artificiale avanzata. Scopri fantastici campeggi e aree sosta in Europa.",
+    "popularCountries": "Destinazioni popolari",
+    "featuresHeading": "Funzionalità & Info",
+    "mcpServerLink": "Server MCP per assistenti IA",
+    "legalHeading": "Informazioni legali",
+    "impressum": "Note legali",
+    "datenschutz": "Informativa sulla privacy",
+    "version": "Versione",
+    "copyrightText": "© 2026 CampingRoute.app. Tutti i diritti riservati.",
+    "attributionText": "Dati cartografici & luoghi © contributori OpenStreetMap (ODbL). Attrazioni & immagini fornite da Wikidata. Campeggi e aree sosta da OpenStreetMap (solo sito web verificato), attrazioni da Wikidata."
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari per viaggi camping e road trip con conoscenze specialistiche per l'Europa e destinazioni internazionali. Crea, in base ai miei dati, un itinerario pratico e ben strutturato adatto al tipo di veicolo selezionato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",

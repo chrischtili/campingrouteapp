@@ -24,7 +24,11 @@
       "activateLight": "Activer le thème clair",
       "activateDark": "Activer le thème sombre",
       "useSystem": "Utiliser le thème du système"
-    }
+    },
+    "discover": "Découvrir",
+    "aiSettings": "Paramètres IA",
+    "toggleTheme": "Changer de thème",
+    "openMenu": "Ouvrir le menu"
   },
   "hero": {
     "badge": "Assistant de prompt IA",
@@ -1433,7 +1437,17 @@
     "whatsNew": "Nouveautés de {{version}}",
     "feedback": "Donner un avis",
     "support": "Soutenir CampingRoute",
-    "scrollToTop": "Retour en haut"
+    "scrollToTop": "Haut de page",
+    "brandDescription": "CampingRoute — Trouvez votre séjour de camping idéal grâce à une intelligence artificielle intelligente. Découvrez de magnifiques campings et aires de camping-car en Europe.",
+    "popularCountries": "Destinations populaires",
+    "featuresHeading": "Fonctionnalités & Infos",
+    "mcpServerLink": "Serveur MCP pour assistants IA",
+    "legalHeading": "Mentions légales",
+    "impressum": "Mentions légales",
+    "datenschutz": "Politique de confidentialité",
+    "version": "Version",
+    "copyrightText": "© 2026 CampingRoute.app. Tous droits réservés.",
+    "attributionText": "Données cartographiques & lieux © contributeurs OpenStreetMap (ODbL). Sites touristiques & photos fournis par Wikidata. Campings et aires issus d'OpenStreetMap (site vérifié uniquement), sites touristiques de Wikidata."
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires pour le camping et les road trips, avec une connaissance spécialisée de l’Europe et des destinations internationales. Créez un itinéraire pratique et bien structuré, adapté au type de véhicule sélectionné, selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",

@@ -24,7 +24,11 @@
       "activateLight": "Helles Design aktivieren",
       "activateDark": "Dunkles Design aktivieren",
       "useSystem": "Systemdesign verwenden"
-    }
+    },
+    "discover": "Entdecken",
+    "aiSettings": "KI-Einstellungen",
+    "toggleTheme": "Theme umschalten",
+    "openMenu": "Menü öffnen"
   },
   "hero": {
     "badge": "KI-Prompt-Assistent",
@@ -1435,7 +1439,17 @@
     "whatsNew": "Neu in {{version}}",
     "feedback": "Feedback geben",
     "support": "CampingRoute unterstützen",
-    "scrollToTop": "Nach oben scrollen"
+    "scrollToTop": "Nach oben",
+    "brandDescription": "CampingRoute — Finde deine perfekte Campingtour mit smarter künstlicher Intelligenz. Entdecke tolle Stellplätze und Campingplätze in Europa.",
+    "popularCountries": "Beliebte Reiseländer",
+    "featuresHeading": "Features & Info",
+    "mcpServerLink": "MCP-Server für KI-Assistenten",
+    "legalHeading": "Rechtliches",
+    "impressum": "Impressum",
+    "datenschutz": "Datenschutz",
+    "version": "Version",
+    "copyrightText": "© 2026 CampingRoute.app. Alle Rechte vorbehalten.",
+    "attributionText": "Kartendaten & Orte © OpenStreetMap-Mitwirkende (ODbL). Sehenswürdigkeiten & Bilder bereitgestellt durch Wikidata. Camping- & Stellplätze aus OpenStreetMap (nur mit verifizierter Website), Sehenswürdigkeiten aus Wikidata."
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",

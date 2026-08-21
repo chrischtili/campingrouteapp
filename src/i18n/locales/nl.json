@@ -24,7 +24,11 @@
       "activateLight": "Licht thema inschakelen",
       "activateDark": "Donker thema inschakelen",
       "useSystem": "Systeemthema gebruiken"
-    }
+    },
+    "discover": "Ontdekken",
+    "aiSettings": "AI-instellingen",
+    "toggleTheme": "Thema wisselen",
+    "openMenu": "Menu openen"
   },
   "hero": {
     "badge": "AI-prompt-assistent",
@@ -1365,7 +1369,17 @@
     "whatsNew": "Nieuw in {{version}}",
     "feedback": "Feedback geven",
     "support": "Steun CampingRoute",
-    "scrollToTop": "Naar boven"
+    "scrollToTop": "Naar boven",
+    "brandDescription": "CampingRoute — Vind je perfecte campingroute met slimme kunstmatige intelligentie. Ontdek fantastische camperplaatsen en campings in Europa.",
+    "popularCountries": "Populaire bestemmingen",
+    "featuresHeading": "Functies & Info",
+    "mcpServerLink": "MCP-server voor AI-assistenten",
+    "legalHeading": "Juridisch",
+    "impressum": "Colofon",
+    "datenschutz": "Privacybeleid",
+    "version": "Versie",
+    "copyrightText": "© 2026 CampingRoute.app. Alle rechten voorbehouden.",
+    "attributionText": "Kaartgegevens & locaties © OpenStreetMap-auteurs (ODbL). Bezienswaardigheden & afbeeldingen geleverd door Wikidata. Campings & camperplaatsen via OpenStreetMap (alleen geverifieerde website), bezienswaardigheden via Wikidata."
   },
   "buttons": {
     "ok": "OK",

@@ -27,7 +27,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/";
-  const isDiscoverPage = location.pathname === "/entdecken";
+  const isDiscoverPage = location.pathname === "/entdecken" || location.pathname === "/discover";
 
   const openDiscoverAISettings = () => {
     window.dispatchEvent(new CustomEvent("campingroute:open-ai-settings"));
@@ -75,10 +75,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   };
 
   const navItems = [
-    { name: t("navbar.planNow"), path: "/prompt-generator", isAnchor: false },
-    { name: "Entdecken", path: "/entdecken", isAnchor: false },
-    { name: t("navbar.features"), path: "#features", isAnchor: true },
-    { name: t("navbar.faq"), path: "#faq", isAnchor: true },
+    { name: t("navbar.planNow", "Prompt-Assistent"), path: "/prompt-generator", isAnchor: false },
+    { name: t("navbar.discover", "Entdecken"), path: "/discover", isAnchor: false },
+    { name: t("navbar.features", "Features"), path: "#features", isAnchor: true },
+    { name: t("navbar.faq", "FAQ"), path: "#faq", isAnchor: true },
   ];
 
   const languages = [
@@ -164,10 +164,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                 size="sm"
                 onClick={openDiscoverAISettings}
                 className="hidden sm:inline-flex h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
-                title="KI-Einstellungen"
+                title={t("navbar.aiSettings", "KI-Einstellungen")}
               >
                 <Settings2 className="h-4 w-4" />
-                <span>KI-Einstellungen</span>
+                <span>{t("navbar.aiSettings", "KI-Einstellungen")}</span>
               </Button>
             )}
 
@@ -206,7 +206,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               size="icon"
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
               className="h-8.5 w-8.5 sm:h-9 sm:w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
-              title="Theme umschalten"
+              title={t("navbar.toggleTheme", "Theme umschalten")}
             >
               {resolvedTheme === "dark" ? (
                 <Sun className="h-4 w-4 text-yellow-400" />
@@ -222,7 +222,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden h-8.5 w-8.5 sm:h-9 sm:w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
-              aria-label="Menü öffnen"
+              aria-label={t("navbar.openMenu", "Menü öffnen")}
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -251,7 +251,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               className="flex items-center gap-2 w-full rounded-xl px-4 py-3 text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300"
             >
               <Settings2 className="h-4.5 w-4.5" />
-              KI-Einstellungen
+              {t("navbar.aiSettings", "KI-Einstellungen")}
             </button>
           )}
           <a

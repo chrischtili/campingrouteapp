@@ -16,7 +16,8 @@
     "merge-places": "tsx src/scripts/merge-places.ts",
     "import-fr-it": "tsx src/scripts/import-fr-it.ts",
     "migrate-data-quality": "tsx src/scripts/migrate-data-quality.ts",
-    "enrich-dzt": "tsx src/scripts/enrich-dzt.ts"
+    "enrich-dzt": "tsx src/scripts/enrich-dzt.ts",
+    "import-dzt-bulk": "tsx src/scripts/import-dzt-bulk.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

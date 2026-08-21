@@ -137,6 +137,8 @@ function createCounterDefaults() {
   return {
     visits: 0,
     history: {},
+    discover_visits: 0,
+    discover_history: {},
     generations: {
       prompt: 0,
       route: 0,
@@ -198,6 +200,10 @@ function normalizeCounter(counter) {
   return {
     visits: Number(nextCounter.visits || 0),
     history: nextCounter.history && typeof nextCounter.history === 'object' ? nextCounter.history : {},
+    discover_visits: Number(nextCounter.discover_visits || nextCounter.discoverVisits || 0),
+    discover_history: nextCounter.discover_history && typeof nextCounter.discover_history === 'object'
+      ? nextCounter.discover_history
+      : (nextCounter.discoverHistory && typeof nextCounter.discoverHistory === 'object' ? nextCounter.discoverHistory : {}),
     generations: {
       prompt: Number(nextGenerations.prompt || 0),
       route: Number(nextGenerations.route || 0),
@@ -506,6 +512,15 @@ function incrementCounter() {
   return counter;
 }
 
+function incrementDiscoverCounter() {
+  const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
+  counter.discover_visits += 1;
+  const key = todayKey();
+  counter.discover_history[key] = Number(counter.discover_history[key] || 0) + 1;
+  writeJson(COUNTER_PATH, counter);
+  return counter;
+}
+
 function incrementGeneration(mode, details) {
   const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
   const allowedModes = new Set(['prompt', 'route', 'place_search', 'place_search_solo', 'place_select']);
@@ -528,6 +543,8 @@ function getCounter() {
     data: {
       visits: counter.visits,
       history: counter.history,
+      discover_visits: counter.discover_visits,
+      discover_history: counter.discover_history,
       generations: {
         prompt: counter.generations.prompt,
         route: counter.generations.route,
@@ -546,7 +563,7 @@ function getCounter() {
     },
     meta: {
       server: 'route-counter',
-      version: 'analytics-v3',
+      version: 'analytics-v4',
       timestamp: new Date().toISOString()
     }
   };
@@ -2048,6 +2065,12 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/count-visit') {
       const counter = incrementCounter();
       sendJson(res, 200, { success: true, visits: counter.visits });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/count-discover') {
+      const counter = incrementDiscoverCounter();
+      sendJson(res, 200, { success: true, discover_visits: counter.discover_visits });
       return;
     }
 

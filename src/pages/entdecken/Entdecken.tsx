@@ -790,6 +790,9 @@ function EntdeckenContent() {
     fetchLists();
     fetchCountryStats();
     fetchAttractionStats();
+
+    // Track discover visit
+    fetch('/api/count-discover', { method: 'POST' }).catch(() => {});
   }, []);
 
   // Sync featured places with chosen featuredCountry

@@ -9,11 +9,8 @@
             --primary: #4a9b8e;
             --primary-dark: #3a7a6f;
             --accent-visits: #4a9b8e;
+            --accent-discover: #059669;
             --accent-prompts: #f59e0b;
-            --accent-direct: #6366f1;
-            --accent-places: #0ea5a4;
-            --accent-places-solo: #f97316;
-            --accent-selects: #14b8a6;
             --accent-feedback: #e11d48;
             --accent-neutral: #64748b;
             --secondary: #eef3f2;
@@ -127,17 +124,9 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
-        }
-
-        .stats-grid.primary {
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        }
-
-        .stats-grid.secondary {
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         }
 
         .stat-card {
@@ -175,10 +164,6 @@
             font-size: 0.9rem;
         }
 
-        .stats-grid.secondary .stat-card .value {
-            font-size: 2.1rem;
-        }
-
         .stat-card.emphasis {
             border-left-width: 5px;
             box-shadow: 0 16px 34px rgba(10, 24, 24, 0.1);
@@ -196,44 +181,20 @@
             color: var(--accent-visits);
         }
 
+        .stat-card.discover {
+            border-left-color: var(--accent-discover);
+        }
+
+        .stat-card.discover .value {
+            color: var(--accent-discover);
+        }
+
         .stat-card.prompts {
             border-left-color: var(--accent-prompts);
         }
 
         .stat-card.prompts .value {
             color: var(--accent-prompts);
-        }
-
-        .stat-card.direct {
-            border-left-color: var(--accent-direct);
-        }
-
-        .stat-card.direct .value {
-            color: var(--accent-direct);
-        }
-
-        .stat-card.places {
-            border-left-color: var(--accent-places);
-        }
-
-        .stat-card.places .value {
-            color: var(--accent-places);
-        }
-
-        .stat-card.selects {
-            border-left-color: var(--accent-selects);
-        }
-
-        .stat-card.selects .value {
-            color: var(--accent-selects);
-        }
-
-        .stat-card.places-solo {
-            border-left-color: var(--accent-places-solo);
-        }
-
-        .stat-card.places-solo .value {
-            color: var(--accent-places-solo);
         }
 
         .stat-card.feedback {
@@ -446,41 +407,23 @@
         <div id="stats-content" style="display: none;">
             <div class="dashboard-section">
                 <h2 class="section-title">Heute im Blick</h2>
-                <div class="stats-grid primary">
+                <div class="stats-grid">
                     <div class="stat-card emphasis visits">
                         <h3>Heutige Besuche</h3>
                         <div class="value" id="today-visits">-</div>
-                        <div class="label">Heutiger Tag</div>
+                        <div class="label">Hauptseite heute</div>
+                    </div>
+
+                    <div class="stat-card emphasis discover">
+                        <h3>Entdecken heute</h3>
+                        <div class="value" id="today-discover-visits">-</div>
+                        <div class="label">Aufrufe Entdecken-Seite</div>
                     </div>
 
                     <div class="stat-card emphasis prompts">
                         <h3>Prompts heute</h3>
                         <div class="value" id="prompt-generations-today">-</div>
                         <div class="label">Heute erstellt</div>
-                    </div>
-
-                    <div class="stat-card emphasis direct">
-                        <h3>KI direkt heute</h3>
-                        <div class="value" id="route-generations-today">-</div>
-                        <div class="label">Heute direkt genutzt</div>
-                    </div>
-
-                    <div class="stat-card emphasis places">
-                        <h3>Finder-Suchen heute</h3>
-                        <div class="value" id="place-searches-today">-</div>
-                        <div class="label">Heute gesucht</div>
-                    </div>
-
-                    <div class="stat-card emphasis places-solo">
-                        <h3>Campingplatz solo heute</h3>
-                        <div class="value" id="place-searches-solo-camping-today">-</div>
-                        <div class="label">Eigenständige Campingplatz-Suche</div>
-                    </div>
-
-                    <div class="stat-card emphasis places-solo">
-                        <h3>Stellplatz solo heute</h3>
-                        <div class="value" id="place-searches-solo-stopover-today">-</div>
-                        <div class="label">Eigenständige Stellplatz-Suche</div>
                     </div>
 
                     <div class="stat-card emphasis feedback">
@@ -506,66 +449,42 @@
 
             <div class="dashboard-section">
                 <h2 class="section-title">Gesamt & Qualität</h2>
-                <div class="stats-grid secondary">
+                <div class="stats-grid">
                     <div class="stat-card neutral visits">
-                    <h3>Gesamtbesuche</h3>
-                    <div class="value" id="total-visits">-</div>
-                    <div class="label">Seit Beginn der Aufzeichnung</div>
-                </div>
+                        <h3>Gesamtbesuche</h3>
+                        <div class="value" id="total-visits">-</div>
+                        <div class="label">Seit Beginn der Aufzeichnung</div>
+                    </div>
 
-                <div class="stat-card neutral prompts">
-                    <h3>Prompts generiert</h3>
-                    <div class="value" id="prompt-generations">-</div>
-                    <div class="label">Modus „Prompt generieren“</div>
-                </div>
+                    <div class="stat-card neutral discover">
+                        <h3>Entdecken gesamt</h3>
+                        <div class="value" id="total-discover-visits">-</div>
+                        <div class="label">Aufrufe Entdecken-Seite gesamt</div>
+                    </div>
 
-                <div class="stat-card neutral direct">
-                    <h3>KI direkt genutzt</h3>
-                    <div class="value" id="route-generations">-</div>
-                    <div class="label">Modus „Route generieren“</div>
-                </div>
+                    <div class="stat-card neutral prompts">
+                        <h3>Prompts generiert</h3>
+                        <div class="value" id="prompt-generations">-</div>
+                        <div class="label">Modus „Prompt generieren“</div>
+                    </div>
 
-                <div class="stat-card neutral places">
-                    <h3>Finder-Suchen gesamt</h3>
-                    <div class="value" id="place-searches">-</div>
-                    <div class="label">Suche nach Stell- & Campingplätzen</div>
-                </div>
+                    <div class="stat-card neutral feedback">
+                        <h3>Feedback gesamt</h3>
+                        <div class="value" id="feedback-total">-</div>
+                        <div class="label">Abgesendete Rückmeldungen</div>
+                    </div>
 
-                <div class="stat-card neutral places-solo">
-                    <h3>Campingplatz solo gesamt</h3>
-                    <div class="value" id="place-searches-solo-camping-total">-</div>
-                    <div class="label">Eigenständige Campingplatz-Suche</div>
-                </div>
+                    <div class="stat-card neutral feedback">
+                        <h3>Hilfreich-Quote</h3>
+                        <div class="value" id="feedback-helpful-rate">-</div>
+                        <div class="label">Anteil positives Feedback</div>
+                    </div>
 
-                <div class="stat-card neutral places-solo">
-                    <h3>Stellplatz solo gesamt</h3>
-                    <div class="value" id="place-searches-solo-stopover-total">-</div>
-                    <div class="label">Eigenständige Stellplatz-Suche</div>
-                </div>
-
-                <div class="stat-card neutral selects">
-                    <h3>Übernahmen gesamt</h3>
-                    <div class="value" id="place-selects">-</div>
-                    <div class="label">Plätze in Planung übernommen</div>
-                </div>
-
-                <div class="stat-card neutral feedback">
-                    <h3>Feedback gesamt</h3>
-                    <div class="value" id="feedback-total">-</div>
-                    <div class="label">Abgesendete Rückmeldungen</div>
-                </div>
-
-                <div class="stat-card neutral feedback">
-                    <h3>Hilfreich-Quote</h3>
-                    <div class="value" id="feedback-helpful-rate">-</div>
-                    <div class="label">Anteil positives Feedback</div>
-                </div>
-
-                <div class="stat-card neutral neutral">
-                    <h3>Kommentare</h3>
-                    <div class="value" id="feedback-comments">-</div>
-                    <div class="label">Mit Freitext</div>
-                </div>
+                    <div class="stat-card neutral neutral">
+                        <h3>Kommentare</h3>
+                        <div class="value" id="feedback-comments">-</div>
+                        <div class="label">Mit Freitext</div>
+                    </div>
                 </div>
             </div>
 
@@ -636,18 +555,11 @@
         // Daten Elemente
         const totalVisitsEl = document.getElementById('total-visits');
         const todayVisitsEl = document.getElementById('today-visits');
+        const totalDiscoverVisitsEl = document.getElementById('total-discover-visits');
+        const todayDiscoverVisitsEl = document.getElementById('today-discover-visits');
         const avgVisitsEl = document.getElementById('avg-visits');
         const promptGenerationsEl = document.getElementById('prompt-generations');
-        const routeGenerationsEl = document.getElementById('route-generations');
         const promptGenerationsTodayEl = document.getElementById('prompt-generations-today');
-        const routeGenerationsTodayEl = document.getElementById('route-generations-today');
-        const placeSearchesEl = document.getElementById('place-searches');
-        const placeSearchesTodayEl = document.getElementById('place-searches-today');
-        const placeSearchesSoloCampingTodayEl = document.getElementById('place-searches-solo-camping-today');
-        const placeSearchesSoloStopoverTodayEl = document.getElementById('place-searches-solo-stopover-today');
-        const placeSearchesSoloCampingTotalEl = document.getElementById('place-searches-solo-camping-total');
-        const placeSearchesSoloStopoverTotalEl = document.getElementById('place-searches-solo-stopover-total');
-        const placeSelectsEl = document.getElementById('place-selects');
         const feedbackTotalEl = document.getElementById('feedback-total');
         const feedbackTodayEl = document.getElementById('feedback-today');
         const feedbackHelpfulRateEl = document.getElementById('feedback-helpful-rate');
@@ -731,16 +643,14 @@
             return days;
         }
 
-        function mergeDailySeries(...series) {
+        function mergeDailySeries(visitsHistory = {}, discoverHistory = {}, promptHistory = {}, feedbackHistory = {}) {
             return getLastSevenDays({}).map((day) => ({
                 key: day.key,
                 label: day.label,
-                visits: Number(series[0]?.[day.key] || 0),
-                prompts: Number(series[1]?.[day.key] || 0),
-                direct: Number(series[2]?.[day.key] || 0),
-                places: Number(series[3]?.[day.key] || 0),
-                placesSolo: Number(series[4]?.[day.key] || 0),
-                feedback: Number(series[5]?.[day.key] || 0),
+                visits: Number(visitsHistory?.[day.key] || 0),
+                discover: Number(discoverHistory?.[day.key] || 0),
+                prompts: Number(promptHistory?.[day.key] || 0),
+                feedback: Number(feedbackHistory?.[day.key] || 0),
             }));
         }
 
@@ -755,8 +665,6 @@
                     statsContentEl.style.display = 'none';
                 }
 
-                console.log('Lade Statistiken...');
-
                 const response = await fetch('/api/admin/counter?' + Date.now(), {
                     headers: {
                         'Authorization': 'Basic ' + authToken
@@ -764,17 +672,12 @@
                     credentials: 'include'
                 });
 
-                console.log('Response Status:', response.status);
-                console.log('Response Headers:', [...response.headers.entries()]);
-
                 let data = null;
                 try {
                     data = await response.json();
                 } catch {
                     throw new Error('API liefert kein gültiges JSON');
                 }
-
-                console.log('Response Data:', data);
 
                 let feedbackSummary = { total: 0, helpful: 0, comments: 0 };
                 let feedbackItems = [];
@@ -804,55 +707,38 @@
                 const visits =
                     typeof data?.data?.visits === 'number' ? data.data.visits :
                     typeof data?.visits === 'number' ? data.visits :
-                    null;
+                    0;
 
-                if (visits === null) {
-                    throw new Error('Antwort enthält kein Feld "visits"');
-                }
+                const discoverVisits =
+                    typeof data?.data?.discover_visits === 'number' ? data.data.discover_visits :
+                    typeof data?.discover_visits === 'number' ? data.discover_visits :
+                    0;
 
                 const history = data?.data?.history || data?.history || {};
+                const discoverHistory = data?.data?.discover_history || data?.discover_history || {};
                 const generations = data?.data?.generations || data?.generations || {};
                 const generationHistory = generations?.history || {};
-                const analytics = data?.data?.analytics || {};
-                const searchSummary = analytics.searches?.summary || {};
-                const todaySearchSummary = searchSummary.today || {};
-                const totalSearchSummary = searchSummary.total || {};
-                const todaySoloSummary = todaySearchSummary.solo || {};
-                const totalSoloSummary = totalSearchSummary.solo || {};
                 const meta = data?.meta || {};
                 const lastSevenDays = getLastSevenDays(history);
                 const todayKey = toLocalDateKey();
                 const todayVisits = Number(history[todayKey] || 0);
+                const todayDiscoverVisits = Number(discoverHistory[todayKey] || 0);
                 const sevenDayTotal = lastSevenDays.reduce((sum, day) => sum + day.value, 0);
                 const averageVisits = lastSevenDays.length ? sevenDayTotal / lastSevenDays.length : 0;
                 const promptGenerations = Number(generations.prompt || 0);
-                const routeGenerations = Number(generations.route || 0);
-                const placeSearches = Number(generations.place_search || 0);
-                const placeSelects = Number(generations.place_select || 0);
                 const promptHistory = generationHistory.prompt || {};
-                const routeHistory = generationHistory.route || {};
-                const placeSearchHistory = generationHistory.place_search || {};
-                const placeSearchSoloHistory = generationHistory.place_search_solo || {};
                 const promptToday = Number(promptHistory[todayKey] || 0);
-                const routeToday = Number(routeHistory[todayKey] || 0);
-                const placeSearchToday = Number(placeSearchHistory[todayKey] || 0);
                 const feedbackHistory = feedbackSummary.history || {};
-                latestChartDays = mergeDailySeries(history, promptHistory, routeHistory, placeSearchHistory, placeSearchSoloHistory, feedbackHistory);
+                
+                latestChartDays = mergeDailySeries(history, discoverHistory, promptHistory, feedbackHistory);
 
                 totalVisitsEl.textContent = visits.toLocaleString('de-DE');
                 todayVisitsEl.textContent = todayVisits.toLocaleString('de-DE');
+                totalDiscoverVisitsEl.textContent = discoverVisits.toLocaleString('de-DE');
+                todayDiscoverVisitsEl.textContent = todayDiscoverVisits.toLocaleString('de-DE');
                 avgVisitsEl.textContent = averageVisits.toFixed(1).replace('.', ',');
                 promptGenerationsEl.textContent = promptGenerations.toLocaleString('de-DE');
-                routeGenerationsEl.textContent = routeGenerations.toLocaleString('de-DE');
                 promptGenerationsTodayEl.textContent = promptToday.toLocaleString('de-DE');
-                routeGenerationsTodayEl.textContent = routeToday.toLocaleString('de-DE');
-                placeSearchesEl.textContent = placeSearches.toLocaleString('de-DE');
-                placeSearchesTodayEl.textContent = placeSearchToday.toLocaleString('de-DE');
-                placeSearchesSoloCampingTodayEl.textContent = Number(todaySoloSummary.camping || 0).toLocaleString('de-DE');
-                placeSearchesSoloStopoverTodayEl.textContent = Number(todaySoloSummary.stopover || 0).toLocaleString('de-DE');
-                placeSearchesSoloCampingTotalEl.textContent = Number(totalSoloSummary.camping || 0).toLocaleString('de-DE');
-                placeSearchesSoloStopoverTotalEl.textContent = Number(totalSoloSummary.stopover || 0).toLocaleString('de-DE');
-                placeSelectsEl.textContent = placeSelects.toLocaleString('de-DE');
                 updateFeedbackStats(feedbackSummary);
                 renderFeedbackList(feedbackItems);
 
@@ -884,13 +770,11 @@
         function drawChart(days = []) {
             const canvas = document.getElementById('visitsChart');
             if (!canvas) {
-                console.error('Canvas nicht gefunden');
                 return;
             }
             
             const ctx = canvas.getContext('2d');
             if (!ctx) {
-                console.error('Kontext nicht verfügbar');
                 return;
             }
             
@@ -907,10 +791,8 @@
                 ? days
                 : getLastSevenDays({});
             const visitValues = preparedDays.map((day) => day.visits ?? day.value ?? 0);
+            const discoverValues = preparedDays.map((day) => day.discover ?? 0);
             const promptValues = preparedDays.map((day) => day.prompts ?? 0);
-            const directValues = preparedDays.map((day) => day.direct ?? 0);
-            const placeValues = preparedDays.map((day) => day.places ?? 0);
-            const placeSoloValues = preparedDays.map((day) => day.placesSolo ?? 0);
             const feedbackValues = preparedDays.map((day) => day.feedback ?? 0);
             const labels = preparedDays.map((day) => day.label);
 
@@ -922,14 +804,12 @@
             ctx.fillStyle = '#333';
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('Besuche, Prompts, KI direkt, Finder, Solo-Finder und Feedback (7 Tage)', canvas.width / 2, 25);
+            ctx.fillText('Besuche, Entdecken-Aufrufe, Prompts & Feedback (7 Tage)', canvas.width / 2, 25);
 
             const maxValue = Math.max(
                 ...visitValues,
+                ...discoverValues,
                 ...promptValues,
-                ...directValues,
-                ...placeValues,
-                ...placeSoloValues,
                 ...feedbackValues,
                 10
             );
@@ -943,16 +823,14 @@
             const scaleY = chartHeight / maxValue;
 
             const legendItems = [
-                { label: 'Besuche', color: 'rgba(74, 155, 142, 0.95)' },
+                { label: 'Besuche (Gesamt)', color: 'rgba(74, 155, 142, 0.95)' },
+                { label: 'Entdecken', color: 'rgba(5, 150, 105, 0.95)' },
                 { label: 'Prompts', color: 'rgba(255, 159, 67, 0.95)' },
-                { label: 'KI direkt', color: 'rgba(108, 92, 231, 0.95)' },
-                { label: 'Finder', color: 'rgba(14, 165, 164, 0.95)' },
-                { label: 'Solo-Finder', color: 'rgba(249, 115, 22, 0.95)' },
                 { label: 'Feedback', color: 'rgba(220, 53, 69, 0.95)' },
             ];
 
             legendItems.forEach((item, index) => {
-                const x = chartLeft + index * 96;
+                const x = chartLeft + index * 135;
                 ctx.fillStyle = item.color;
                 ctx.fillRect(x, 34, 18, 4);
                 ctx.fillStyle = '#4b5d5a';
@@ -961,10 +839,10 @@
                 ctx.fillText(item.label, x + 26, 40);
             });
 
-            const barSeries = [visitValues, promptValues, directValues, placeValues, placeSoloValues, feedbackValues];
+            const barSeries = [visitValues, discoverValues, promptValues, feedbackValues];
             const innerGroupWidth = Math.max(26, groupWidth * 0.72);
             const gap = 4;
-            const barWidth = Math.max(4, Math.min(12, (innerGroupWidth - gap * 5) / 6));
+            const barWidth = Math.max(4, Math.min(14, (innerGroupWidth - gap * 3) / 4));
 
             barSeries.forEach((values, seriesIndex) => {
                 values.forEach((value, index) => {

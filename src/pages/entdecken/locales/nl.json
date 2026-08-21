@@ -167,5 +167,10 @@
   "attractionCount": "{{count}} bezienswaardigheden",
   "allPlacesIn": "Toon alle {{count}} plaatsen in {{country}}",
   "allAttractionsIn": "Toon alle {{count}} bezienswaardigheden in {{country}}",
-  "loadingCount": "Laden..."
+  "loadingCount": "Laden...",
+  "nearbyCampsitesTitle": "Campings in de buurt",
+  "nearbyCampsitesSubtitle": "Accommodaties in de omgeving",
+  "nearbyAttractionsTitle": "Bezienswaardigheden in de buurt",
+  "nearbyAttractionsSubtitle": "Uitstapjes en natuurwonderen",
+  "noNearbyPlacesFound": "Geen andere plekken in de omgeving gevonden."
 }

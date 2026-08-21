@@ -167,5 +167,10 @@
   "attractionCount": "{{count}} attrazioni",
   "allPlacesIn": "Mostra tutti i {{count}} luoghi in {{country}}",
   "allAttractionsIn": "Mostra tutte le {{count}} attrazioni in {{country}}",
-  "loadingCount": "Caricamento..."
+  "loadingCount": "Caricamento...",
+  "nearbyCampsitesTitle": "Campeggi nelle vicinanze",
+  "nearbyCampsitesSubtitle": "Alloggi nei dintorni",
+  "nearbyAttractionsTitle": "Attrazioni nelle vicinanze",
+  "nearbyAttractionsSubtitle": "Mete di escursione e meraviglie naturali",
+  "noNearbyPlacesFound": "Nessun altro luogo trovato nelle vicinanze."
 }

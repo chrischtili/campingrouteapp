@@ -1498,14 +1498,20 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Nearby Places box */}
                   <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
                     <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.25rem' }}>
-                      {selectedPlace.type === 'attraction' ? 'Campingplätze in der Nähe' : 'Sehenswürdigkeiten in der Nähe'}
+                      {selectedPlace.type === 'attraction' 
+                        ? (t.nearbyCampsitesTitle || 'Campingplätze in der Nähe') 
+                        : (t.nearbyAttractionsTitle || 'Sehenswürdigkeiten in der Nähe')}
                     </h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '1.25rem' }}>
-                      {selectedPlace.type === 'attraction' ? 'Unterkünfte in der Umgebung' : 'Ausflugsziele und Naturwunder'}
+                      {selectedPlace.type === 'attraction' 
+                        ? (t.nearbyCampsitesSubtitle || 'Unterkünfte in der Umgebung') 
+                        : (t.nearbyAttractionsSubtitle || 'Ausflugsziele und Naturwunder')}
                     </p>
                     
                     {nearbyPlaces.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', margin: 0 }}>Keine weiteren Orte im Umkreis gefunden.</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', margin: 0 }}>
+                        {t.noNearbyPlacesFound || 'Keine weiteren Orte im Umkreis gefunden.'}
+                      </p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                         {nearbyPlaces.map((item) => (

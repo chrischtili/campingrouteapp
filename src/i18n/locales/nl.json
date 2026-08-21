@@ -1379,7 +1379,7 @@
     "datenschutz": "Privacybeleid",
     "version": "Versie",
     "copyrightText": "© 2026 CampingRoute.app. Alle rechten voorbehouden.",
-    "attributionText": "Kaartgegevens & locaties © OpenStreetMap-auteurs (ODbL). Bezienswaardigheden & afbeeldingen geleverd door Wikidata. Campings & camperplaatsen via OpenStreetMap (alleen geverifieerde website), bezienswaardigheden via Wikidata."
+    "attributionText": "Kaartgegevens & locaties © OpenStreetMap-auteurs (ODbL). Toerisme- & reisgegevens © Duits Nationaal Bureau voor Toerisme (DZT) / Open Data Germany. Bezienswaardigheden & afbeeldingen geleverd door Wikidata & DZT. Campings & camperplaatsen via OpenStreetMap & DZT."
   },
   "buttons": {
     "ok": "OK",

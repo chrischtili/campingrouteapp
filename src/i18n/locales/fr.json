@@ -1447,7 +1447,7 @@
     "datenschutz": "Politique de confidentialité",
     "version": "Version",
     "copyrightText": "© 2026 CampingRoute.app. Tous droits réservés.",
-    "attributionText": "Données cartographiques & lieux © contributeurs OpenStreetMap (ODbL). Sites touristiques & photos fournis par Wikidata. Campings et aires issus d'OpenStreetMap (site vérifié uniquement), sites touristiques de Wikidata."
+    "attributionText": "Données cartographiques & lieux © contributeurs OpenStreetMap (ODbL). Données touristiques © Office National Allemand du Tourisme (DZT) / Open Data Germany. Sites & images fournis par Wikidata & DZT. Campings & aires issus d'OpenStreetMap & DZT."
   },
   "prompt": {
     "systemRole": "Vous êtes un planificateur professionnel d’itinéraires pour le camping et les road trips, avec une connaissance spécialisée de l’Europe et des destinations internationales. Créez un itinéraire pratique et bien structuré, adapté au type de véhicule sélectionné, selon mes spécifications. Tenez compte des caractéristiques du véhicule, des objectifs de voyage, du budget et des préférences personnelles. Si les données en temps réel (p. ex. trafic, disponibilité, prix exacts) ne sont pas disponibles, utilisez des estimations plausibles, indiquez‑le et précisez ce que je dois vérifier moi‑même dans le GPS ou une app de camping.",

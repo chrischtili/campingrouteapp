@@ -1449,7 +1449,7 @@
     "datenschutz": "Datenschutz",
     "version": "Version",
     "copyrightText": "© 2026 CampingRoute.app. Alle Rechte vorbehalten.",
-    "attributionText": "Kartendaten & Orte © OpenStreetMap-Mitwirkende (ODbL). Sehenswürdigkeiten & Bilder bereitgestellt durch Wikidata. Camping- & Stellplätze aus OpenStreetMap (nur mit verifizierter Website), Sehenswürdigkeiten aus Wikidata."
+    "attributionText": "Kartendaten & Orte © OpenStreetMap-Mitwirkende (ODbL). Tourismus- & Reisedaten © Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany. Sehenswürdigkeiten & Bilder bereitgestellt durch Wikidata & DZT Open Data. Camping- & Stellplätze aus OpenStreetMap & DZT."
   },
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",

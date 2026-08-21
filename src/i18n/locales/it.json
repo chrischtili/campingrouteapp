@@ -1447,7 +1447,7 @@
     "datenschutz": "Informativa sulla privacy",
     "version": "Versione",
     "copyrightText": "© 2026 CampingRoute.app. Tutti i diritti riservati.",
-    "attributionText": "Dati cartografici & luoghi © contributori OpenStreetMap (ODbL). Attrazioni & immagini fornite da Wikidata. Campeggi e aree sosta da OpenStreetMap (solo sito web verificato), attrazioni da Wikidata."
+    "attributionText": "Dati cartografici & luoghi © contributori OpenStreetMap (ODbL). Dati turistici © Ente Nazionale Germanico per il Turismo (DZT) / Open Data Germany. Attrazioni & immagini fornite da Wikidata & DZT. Campeggi & aree sosta da OpenStreetMap & DZT."
   },
   "prompt": {
     "systemRole": "Sei un pianificatore professionale di itinerari per viaggi camping e road trip con conoscenze specialistiche per l'Europa e destinazioni internazionali. Crea, in base ai miei dati, un itinerario pratico e ben strutturato adatto al tipo di veicolo selezionato. Considera specifiche del veicolo, destinazioni, vincoli di budget e preferenze personali. Se non hai accesso a dati in tempo reale (ad es. traffico, disponibilità, prezzi esatti), lavora con stime plausibili, contrassegnale come tali e indicami cosa dovrei verificare io stesso nel navigatore o in un'app di campeggio.",

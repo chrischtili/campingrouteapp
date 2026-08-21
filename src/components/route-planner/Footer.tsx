@@ -48,6 +48,19 @@ export function Footer() {
     { code: "DK", flag: "🇩🇰", name: { de: "Dänemark", en: "Denmark", fr: "Danemark", it: "Danimarca", nl: "Denemarken" } },
   ];
 
+  const handleNavClick = (href: string) => {
+    if (href.startsWith("#")) {
+      if (window.location.pathname !== "/") {
+        navigate(`/${href}`);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
+
   return (
     <footer className="w-full border-t border-gray-200/80 bg-white py-12 dark:border-slate-800 dark:bg-slate-900 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -103,14 +116,22 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs font-medium text-foreground/70 dark:text-white/70">
               <li>
-                <a href="#features" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => handleNavClick("#features")}
+                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                >
                   {t("navbar.features", "Features")}
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#faq" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => handleNavClick("#faq")}
+                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                >
                   {t("navbar.faq", "FAQ")}
-                </a>
+                </button>
               </li>
               <li>
                 <a 
@@ -165,16 +186,16 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-foreground/50 dark:text-white/40">
-          <div className="space-y-1">
+          <div className="space-y-1 text-center sm:text-left">
             <p>{t("footer.copyrightText", "© 2026 CampingRoute.app. Alle Rechte vorbehalten.")}</p>
             <p>
-              {t("footer.attributionText", "Kartendaten & Orte © OpenStreetMap-Mitwirkende (ODbL). Sehenswürdigkeiten & Bilder bereitgestellt durch Wikidata. Camping- & Stellplätze aus OpenStreetMap (nur mit verifizierter Website), Sehenswürdigkeiten aus Wikidata.")}
+              {t("footer.attributionText", "Kartendaten & Orte © OpenStreetMap-Mitwirkende (ODbL). Tourismus- & Reisedaten © Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany. Sehenswürdigkeiten & Bilder bereitgestellt durch Wikidata & DZT Open Data. Camping- & Stellplätze aus OpenStreetMap & DZT.")}
             </p>
           </div>
           <button
             type="button"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors shrink-0"
+            className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors shrink-0 cursor-pointer"
           >
             <span>{t("footer.scrollToTop", "Nach oben")}</span>
             <ArrowUp className="w-3.5 h-3.5" />

@@ -258,16 +258,26 @@ WHERE {
 
   console.log(`🏕️ Campgrounds: ${campEnriched} existing places enriched & fused with DZT, ${campInserted} new added, ${duplicatesCleaned} duplicates merged.`);
 
-  // 2. Fetch Tourist Attractions with Coordinates
-  console.log('\n📥 2. Fetching Tourist Attractions, Parks & Castles from DZT...');
-  const attractionQuery = `
+  // 2. Fetch Tourist Attractions with Coordinates (Paginated across all of Germany)
+  console.log('\n📥 2. Fetching ALL Tourist Attractions, Parks, Castles & Museums from DZT...');
+  const ATTRACTION_TYPES = ['schema:TouristAttraction', 'schema:Park', 'schema:Museum', 'schema:CivicStructure', 'schema:LandmarksOrHistoricalBuildings'];
+  
+  let attrEnriched = 0;
+  let attrInserted = 0;
+
+  for (const aType of ATTRACTION_TYPES) {
+    let offset = 0;
+    const batchSize = 5000;
+
+    while (true) {
+      console.log(`  Fetching ${aType} (Offset: ${offset}, Limit: ${batchSize})...`);
+      const attractionQuery = `
 PREFIX schema: <https://schema.org/>
 
 SELECT ?id ?name ?desc ?lat ?lon ?image ?street ?locality ?postalCode ?phone ?url
 WHERE {
-  ?id a ?type ;
+  ?id a ${aType} ;
       schema:name ?name .
-  FILTER (?type IN (schema:TouristAttraction, schema:Park, schema:Museum, schema:CivicStructure))
   ?id schema:geo ?geo .
   ?geo schema:latitude ?lat ; schema:longitude ?lon .
   OPTIONAL { ?id schema:description ?desc }
@@ -281,16 +291,23 @@ WHERE {
     OPTIONAL { ?address schema:postalCode ?postalCode }
   }
 }
-LIMIT 10000
+LIMIT ${batchSize} OFFSET ${offset}
 `;
 
-  const attractions = await runSparql(attractionQuery);
-  console.log(`✅ Retrieved ${attractions.length} Attraction records with coordinates from DZT.\n`);
+      let batch: any[] = [];
+      try {
+        batch = await runSparql(attractionQuery);
+      } catch (err: any) {
+        console.warn(`  ⚠️ Batch fetch error at offset ${offset}:`, err.message);
+        break;
+      }
 
-  let attrEnriched = 0;
-  let attrInserted = 0;
+      if (!batch || batch.length === 0) {
+        break;
+      }
+      console.log(`  ✅ Retrieved ${batch.length} ${aType} records.`);
 
-  for (const item of attractions) {
+      for (const item of batch) {
     const rawId = item.id?.value;
     const name = item.name?.value;
     if (!name || !rawId) continue;
@@ -406,6 +423,13 @@ LIMIT 10000
       attrInserted++;
     }
   }
+
+    offset += batchSize;
+    if (batch.length < batchSize) {
+      break;
+    }
+  }
+}
 
   console.log(`🏰 Attractions: ${attrEnriched} existing places enriched & fused, ${attrInserted} new added.`);
 

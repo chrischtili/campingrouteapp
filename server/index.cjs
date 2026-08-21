@@ -2068,8 +2068,9 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    if (req.method === 'POST' && pathname === '/api/count-discover') {
+    if ((req.method === 'POST' || req.method === 'GET') && (pathname === '/api/count-discover' || pathname === '/discover/api/count-discover')) {
       const counter = incrementDiscoverCounter();
+      console.log(`[Counter] Discover visit recorded. Total: ${counter.discover_visits}`);
       sendJson(res, 200, { success: true, discover_visits: counter.discover_visits });
       return;
     }

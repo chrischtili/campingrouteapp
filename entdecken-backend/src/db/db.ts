@@ -155,21 +155,5 @@ export async function getDb(): Promise<Database> {
     END;
   `);
 
-  // Keep the FTS index in sync with existing rows.
-  const ftsCount = await dbConnection.get("SELECT count(*) AS c FROM places_fts");
-  const placesCount = await dbConnection.get("SELECT count(*) AS c FROM places");
-  if ((ftsCount?.c || 0) !== (placesCount?.c || 0)) {
-    try {
-      await dbConnection.run("DELETE FROM places_fts");
-      await dbConnection.exec(`
-        INSERT INTO places_fts(rowid, name, description, address, city, amenities, state)
-        SELECT rowid, name, description, address, city, amenities, state FROM places
-      `);
-      console.log('[db] Rebuilt full-text search index.');
-    } catch (e: any) {
-      console.warn(`[db] FTS rebuild failed: ${e.message}`);
-    }
-  }
-
   return dbConnection;
 }

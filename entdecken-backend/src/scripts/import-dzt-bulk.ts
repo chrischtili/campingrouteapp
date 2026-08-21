@@ -76,8 +76,17 @@ function cleanHtml(str: string): string {
 }
 
 async function importDztBulk() {
-  console.log('=== Starting Smart Geo-Fusing DZT Knowledge Graph Bulk Ingestion ===\n');
+  console.log('=== Starting Memory-Safe DZT Knowledge Graph Bulk Ingestion ===\n');
   const db = await getDb();
+
+  // Optimize SQLite performance & reduce disk churn during bulk insertion
+  await db.exec(`
+    PRAGMA synchronous = OFF;
+    PRAGMA temp_store = MEMORY;
+    DROP TRIGGER IF EXISTS places_fts_ai;
+    DROP TRIGGER IF EXISTS places_fts_au;
+    DROP TRIGGER IF EXISTS places_fts_ad;
+  `);
 
   // 1. Fetch all Campgrounds from DZT
   console.log('📥 1. Fetching Campgrounds from DZT SPARQL Endpoint...');
@@ -105,10 +114,15 @@ WHERE {
 }
 `;
 
-  const campgrounds = await runSparql(campgroundQuery);
-  console.log(`✅ Retrieved ${campgrounds.length} Campground records from DZT.\n`);
+  let campgrounds: any[] = [];
+  try {
+    campgrounds = await runSparql(campgroundQuery);
+    console.log(`✅ Retrieved ${campgrounds.length} Campground records from DZT.\n`);
+  } catch (err: any) {
+    console.warn(`⚠️ Could not fetch campgrounds: ${err.message}`);
+  }
 
-  // Load all existing German places into memory for instant fast geo-matching
+  // Load existing German places into memory for fast spatial lookup
   console.log('⚡ Loading existing German places for fast spatial matching...');
   const allGermanPlaces = await db.all(
     `SELECT id, name, type, latitude, longitude, city, street, postal_code, address, description, image_url, phone, website, source FROM places WHERE country = 'DE'`
@@ -118,6 +132,9 @@ WHERE {
   let campEnriched = 0;
   let campInserted = 0;
   let duplicatesCleaned = 0;
+
+  await db.run('BEGIN TRANSACTION');
+  let uncommitted = 0;
 
   for (const item of campgrounds) {
     const rawId = item.id?.value;
@@ -140,14 +157,12 @@ WHERE {
     let minDistance = 999999;
 
     if (!isNaN(lat) && !isNaN(lon)) {
-      // Find nearby candidates within bbox +- 0.05 degrees (~5km)
       for (const cand of allGermanPlaces) {
         if (cand.type !== 'campground' && cand.type !== 'caravan') continue;
         if (Math.abs(cand.latitude - lat) > 0.05 || Math.abs(cand.longitude - lon) > 0.05) continue;
 
         const distKm = haversineDistance(lat, lon, cand.latitude, cand.longitude);
         if (distKm < 0.8) {
-          // Check name similarity
           const candWords = normalizeWords(cand.name);
           const hasCommonWord = dztWords.some((w) => candWords.includes(w)) || dztWords.length === 0;
 
@@ -162,7 +177,6 @@ WHERE {
     }
 
     if (bestMatch) {
-      // Enrich the existing place!
       const updates: string[] = [];
       const params: any[] = [];
 
@@ -216,14 +230,12 @@ WHERE {
       await db.run(`UPDATE places SET ${updates.join(', ')} WHERE id = ?`, params);
       campEnriched++;
 
-      // If there was an old dzt-* duplicate created previously, remove it
       const duplicateDztId = `dzt-${rawId.split('/').pop()}`;
       if (bestMatch.id !== duplicateDztId) {
         const delRes = await db.run(`DELETE FROM places WHERE id = ?`, [duplicateDztId]);
         if (delRes?.changes) duplicatesCleaned += delRes.changes;
       }
     } else if (!isNaN(lat) && !isNaN(lon)) {
-      // Brand new place
       const placeId = `dzt-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
       const address = [street, postalCode, city, 'Deutschland'].filter(Boolean).join(', ');
 
@@ -254,20 +266,30 @@ WHERE {
       );
       campInserted++;
     }
+
+    uncommitted++;
+    if (uncommitted >= 300) {
+      await db.run('COMMIT');
+      await db.run('PRAGMA wal_checkpoint(TRUNCATE)');
+      await db.run('BEGIN TRANSACTION');
+      uncommitted = 0;
+    }
   }
 
-  console.log(`🏕️ Campgrounds: ${campEnriched} existing places enriched & fused with DZT, ${campInserted} new added, ${duplicatesCleaned} duplicates merged.`);
+  await db.run('COMMIT');
+  await db.run('PRAGMA wal_checkpoint(TRUNCATE)');
+  console.log(`🏕️ Campgrounds: ${campEnriched} enriched, ${campInserted} new added, ${duplicatesCleaned} duplicates merged.`);
 
-  // 2. Fetch Tourist Attractions with Coordinates (Paginated across all of Germany)
-  console.log('\n📥 2. Fetching ALL Tourist Attractions, Parks, Castles & Museums from DZT...');
-  const ATTRACTION_TYPES = ['schema:TouristAttraction', 'schema:Park', 'schema:Museum', 'schema:CivicStructure', 'schema:LandmarksOrHistoricalBuildings'];
+  // 2. Fetch Tourist Attractions in batches
+  console.log('\n📥 2. Fetching Tourist Attractions, Parks, Castles & Museums from DZT...');
+  const ATTRACTION_TYPES = ['schema:TouristAttraction', 'schema:Park', 'schema:Museum', 'schema:CivicStructure'];
   
   let attrEnriched = 0;
   let attrInserted = 0;
 
   for (const aType of ATTRACTION_TYPES) {
     let offset = 0;
-    const batchSize = 5000;
+    const batchSize = 3000;
 
     while (true) {
       console.log(`  Fetching ${aType} (Offset: ${offset}, Limit: ${batchSize})...`);
@@ -298,199 +320,185 @@ LIMIT ${batchSize} OFFSET ${offset}
       try {
         batch = await runSparql(attractionQuery);
       } catch (err: any) {
-        console.warn(`  ⚠️ Batch fetch error at offset ${offset}:`, err.message);
+        console.warn(`  ⚠️ Category ${aType} finished at offset ${offset}.`);
         break;
       }
 
       if (!batch || batch.length === 0) {
         break;
       }
-      console.log(`  ✅ Retrieved ${batch.length} ${aType} records.`);
+      console.log(`  ✅ Processing ${batch.length} ${aType} records...`);
+
+      await db.run('BEGIN TRANSACTION');
+      let batchUncommitted = 0;
 
       for (const item of batch) {
-    const rawId = item.id?.value;
-    const name = item.name?.value;
-    if (!name || !rawId) continue;
+        const rawId = item.id?.value;
+        const name = item.name?.value;
+        if (!name || !rawId) continue;
 
-    const lat = parseFloat(item.lat?.value);
-    const lon = parseFloat(item.lon?.value);
-    if (isNaN(lat) || isNaN(lon)) continue;
+        const lat = parseFloat(item.lat?.value);
+        const lon = parseFloat(item.lon?.value);
+        if (isNaN(lat) || isNaN(lon)) continue;
 
-    const desc = cleanHtml(item.desc?.value || '');
-    const imageUrl = item.image?.value || null;
-    const street = item.street?.value || null;
-    const city = item.locality?.value || null;
-    const postalCode = item.postalCode?.value || null;
-    const phone = item.phone?.value || null;
-    const website = item.url?.value || null;
+        const desc = cleanHtml(item.desc?.value || '');
+        const imageUrl = item.image?.value || null;
+        const street = item.street?.value || null;
+        const city = item.locality?.value || null;
+        const postalCode = item.postalCode?.value || null;
+        const phone = item.phone?.value || null;
+        const website = item.url?.value || null;
 
-    const dztWords = normalizeWords(name);
+        const dztWords = normalizeWords(name);
 
-    let bestMatch: any = null;
-    let minDistance = 999999;
+        let bestMatch: any = null;
+        let minDistance = 999999;
 
-    for (const cand of allGermanPlaces) {
-      if (cand.type !== 'attraction') continue;
-      if (Math.abs(cand.latitude - lat) > 0.05 || Math.abs(cand.longitude - lon) > 0.05) continue;
+        for (const cand of allGermanPlaces) {
+          if (cand.type !== 'attraction') continue;
+          if (Math.abs(cand.latitude - lat) > 0.05 || Math.abs(cand.longitude - lon) > 0.05) continue;
 
-      const distKm = haversineDistance(lat, lon, cand.latitude, cand.longitude);
-      if (distKm < 0.6) {
-        const candWords = normalizeWords(cand.name);
-        const hasCommonWord = dztWords.some((w) => candWords.includes(w)) || dztWords.length === 0;
+          const distKm = haversineDistance(lat, lon, cand.latitude, cand.longitude);
+          if (distKm < 0.6) {
+            const candWords = normalizeWords(cand.name);
+            const hasCommonWord = dztWords.some((w) => candWords.includes(w)) || dztWords.length === 0;
 
-        if (distKm < 0.1 || hasCommonWord) {
-          if (distKm < minDistance) {
-            minDistance = distKm;
-            bestMatch = cand;
+            if (distKm < 0.1 || hasCommonWord) {
+              if (distKm < minDistance) {
+                minDistance = distKm;
+                bestMatch = cand;
+              }
+            }
           }
         }
-      }
-    }
 
-    if (bestMatch) {
-      const updates: string[] = [];
-      const params: any[] = [];
+        if (bestMatch) {
+          const updates: string[] = [];
+          const params: any[] = [];
 
-      if (desc && (!bestMatch.description || bestMatch.description.length < desc.length)) {
-        updates.push('description = ?');
-        params.push(desc);
-        bestMatch.description = desc;
-      }
-      if (imageUrl && !bestMatch.image_url) {
-        updates.push('image_url = ?');
-        params.push(imageUrl);
-        bestMatch.image_url = imageUrl;
-      }
-      if (city && (!bestMatch.city || bestMatch.city === 'null')) {
-        updates.push('city = ?');
-        params.push(city);
-        bestMatch.city = city;
-      }
-      if (street && !bestMatch.street) {
-        updates.push('street = ?');
-        params.push(street);
-        bestMatch.street = street;
+          if (desc && (!bestMatch.description || bestMatch.description.length < desc.length)) {
+            updates.push('description = ?');
+            params.push(desc);
+            bestMatch.description = desc;
+          }
+          if (imageUrl && !bestMatch.image_url) {
+            updates.push('image_url = ?');
+            params.push(imageUrl);
+            bestMatch.image_url = imageUrl;
+          }
+          if (city && (!bestMatch.city || bestMatch.city === 'null')) {
+            updates.push('city = ?');
+            params.push(city);
+            bestMatch.city = city;
+          }
+          if (street && !bestMatch.street) {
+            updates.push('street = ?');
+            params.push(street);
+            bestMatch.street = street;
+          }
+
+          const fullAddress = [street || bestMatch.street, postalCode || bestMatch.postal_code, city || bestMatch.city, 'Deutschland'].filter(Boolean).join(', ');
+          if (fullAddress && (!bestMatch.address || bestMatch.address === 'Deutschland')) {
+            updates.push('address = ?');
+            params.push(fullAddress);
+            bestMatch.address = fullAddress;
+          }
+
+          updates.push("source = 'dzt,osm'");
+          updates.push("data_quality = 90");
+          params.push(bestMatch.id);
+
+          await db.run(`UPDATE places SET ${updates.join(', ')} WHERE id = ?`, params);
+          attrEnriched++;
+
+          const duplicateDztId = `dzt-${rawId.split('/').pop()}`;
+          if (bestMatch.id !== duplicateDztId) {
+            const delRes = await db.run(`DELETE FROM places WHERE id = ?`, [duplicateDztId]);
+            if (delRes?.changes) duplicatesCleaned += delRes.changes;
+          }
+        } else {
+          const placeId = `dzt-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
+          const address = [street, postalCode, city, 'Deutschland'].filter(Boolean).join(', ');
+
+          await db.run(
+            `INSERT OR REPLACE INTO places (
+              id, name, type, latitude, longitude, country, city, postal_code, street,
+              description, image_url, phone, website, address, source, data_quality, last_updated
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              placeId,
+              name,
+              'attraction',
+              lat,
+              lon,
+              'DE',
+              city,
+              postalCode,
+              street,
+              desc || null,
+              imageUrl,
+              phone,
+              website,
+              address || null,
+              'dzt',
+              85,
+              new Date().toISOString()
+            ]
+          );
+          attrInserted++;
+        }
+
+        batchUncommitted++;
+        if (batchUncommitted >= 300) {
+          await db.run('COMMIT');
+          await db.run('BEGIN TRANSACTION');
+          batchUncommitted = 0;
+        }
       }
 
-      const fullAddress = [street || bestMatch.street, postalCode || bestMatch.postal_code, city || bestMatch.city, 'Deutschland'].filter(Boolean).join(', ');
-      if (fullAddress && (!bestMatch.address || bestMatch.address === 'Deutschland')) {
-        updates.push('address = ?');
-        params.push(fullAddress);
-        bestMatch.address = fullAddress;
+      await db.run('COMMIT');
+      await db.run('PRAGMA wal_checkpoint(TRUNCATE)');
+
+      offset += batchSize;
+      if (batch.length < batchSize) {
+        break;
       }
-
-      updates.push("source = 'dzt,osm'");
-      updates.push("data_quality = 90");
-      params.push(bestMatch.id);
-
-      await db.run(`UPDATE places SET ${updates.join(', ')} WHERE id = ?`, params);
-      attrEnriched++;
-
-      const duplicateDztId = `dzt-${rawId.split('/').pop()}`;
-      if (bestMatch.id !== duplicateDztId) {
-        const delRes = await db.run(`DELETE FROM places WHERE id = ?`, [duplicateDztId]);
-        if (delRes?.changes) duplicatesCleaned += delRes.changes;
-      }
-    } else {
-      const placeId = `dzt-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
-      const address = [street, postalCode, city, 'Deutschland'].filter(Boolean).join(', ');
-
-      await db.run(
-        `INSERT OR REPLACE INTO places (
-          id, name, type, latitude, longitude, country, city, postal_code, street,
-          description, image_url, phone, website, address, source, data_quality, last_updated
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          placeId,
-          name,
-          'attraction',
-          lat,
-          lon,
-          'DE',
-          city,
-          postalCode,
-          street,
-          desc || null,
-          imageUrl,
-          phone,
-          website,
-          address || null,
-          'dzt',
-          85,
-          new Date().toISOString()
-        ]
-      );
-      attrInserted++;
     }
   }
-
-    offset += batchSize;
-    if (batch.length < batchSize) {
-      break;
-    }
-  }
-}
 
   console.log(`🏰 Attractions: ${attrEnriched} existing places enriched & fused, ${attrInserted} new added.`);
 
-  // 3. Final Spatial Deduplication Pass
-  console.log('\n🧹 3. Running final spatial deduplication pass across Germany...');
-  const allPlaces = await db.all("SELECT * FROM places WHERE country = 'DE'");
-  const osmPlaces = allPlaces.filter(p => !p.id.startsWith('dzt-'));
-  const dztPlaces = allPlaces.filter(p => p.id.startsWith('dzt-'));
+  // 3. Final Rebuild of Full-Text Search Index & Triggers
+  console.log('\n🧹 3. Rebuilding full-text search index...');
+  await db.exec(`
+    DELETE FROM places_fts;
+    INSERT INTO places_fts(rowid, name, description, address, city, amenities, state)
+    SELECT rowid, name, description, address, city, amenities, state FROM places;
 
-  let passMerged = 0;
-  for (const dzt of dztPlaces) {
-    const dztWords = normalizeWords(dzt.name);
-    let bestOsm: any = null;
-    let minDistance = 999999;
+    CREATE TRIGGER IF NOT EXISTS places_fts_ai AFTER INSERT ON places BEGIN
+      INSERT INTO places_fts(rowid, name, description, address, city, amenities, state)
+      VALUES (new.rowid, new.name, new.description, new.address, new.city, new.amenities, new.state);
+    END;
+    CREATE TRIGGER IF NOT EXISTS places_fts_ad AFTER DELETE ON places BEGIN
+      DELETE FROM places_fts WHERE rowid = old.rowid;
+    END;
+    CREATE TRIGGER IF NOT EXISTS places_fts_au AFTER UPDATE ON places BEGIN
+      DELETE FROM places_fts WHERE rowid = old.rowid;
+      INSERT INTO places_fts(rowid, name, description, address, city, amenities, state)
+      VALUES (new.rowid, new.name, new.description, new.address, new.city, new.amenities, new.state);
+    END;
 
-    for (const osm of osmPlaces) {
-      if (osm.type !== dzt.type && !(osm.type.startsWith('camp') && dzt.type.startsWith('camp'))) continue;
-      if (Math.abs(osm.latitude - dzt.latitude) > 0.05 || Math.abs(osm.longitude - dzt.longitude) > 0.05) continue;
-
-      const dist = haversineDistance(dzt.latitude, dzt.longitude, osm.latitude, osm.longitude);
-      if (dist < 0.6) {
-        const osmWords = normalizeWords(osm.name);
-        const hasCommon = dztWords.some(w => osmWords.includes(w)) || dztWords.length === 0;
-        if (dist < 0.15 || hasCommon) {
-          if (dist < minDistance) {
-            minDistance = dist;
-            bestOsm = osm;
-          }
-        }
-      }
-    }
-
-    if (bestOsm) {
-      const desc = dzt.description || bestOsm.description;
-      const img = dzt.image_url || bestOsm.image_url;
-      const city = dzt.city || bestOsm.city;
-      const street = dzt.street || bestOsm.street;
-      const postalCode = dzt.postal_code || bestOsm.postal_code;
-      const address = dzt.address || bestOsm.address;
-      const phone = dzt.phone || bestOsm.phone;
-      const website = dzt.website || bestOsm.website;
-
-      await db.run(
-        `UPDATE places SET 
-          description = ?, image_url = ?, city = ?, street = ?, postal_code = ?, 
-          address = ?, phone = ?, website = ?, source = 'dzt,osm', data_quality = 90
-        WHERE id = ?`,
-        [desc, img, city, street, postalCode, address, phone, website, bestOsm.id]
-      );
-
-      await db.run("DELETE FROM places WHERE id = ?", [dzt.id]);
-      passMerged++;
-    }
-  }
-  console.log(`✅ Cleaned and fused ${passMerged} duplicate places into canonical OSM records.`);
+    PRAGMA synchronous = NORMAL;
+    VACUUM;
+    PRAGMA wal_checkpoint(TRUNCATE);
+  `);
+  console.log('✅ Full-text search index rebuilt and SQLite database optimized & compacted.');
 
   console.log('\n======================================================');
-  console.log('🎉 TOTAL DZT GEO-FUSION & IMPORT COMPLETE:');
-  console.log(`   Total Existing Places Enriched: ${campEnriched + attrEnriched + passMerged}`);
-  console.log(`   Total Brand New Places Added: ${campInserted + attrInserted - passMerged}`);
-  console.log(`   Total Duplicates Fused: ${duplicatesCleaned + passMerged}`);
+  console.log('🎉 TOTAL DZT BULK IMPORT COMPLETE:');
+  console.log(`   Total Existing Places Enriched: ${campEnriched + attrEnriched}`);
+  console.log(`   Total Brand New Places Added: ${campInserted + attrInserted}`);
+  console.log(`   Total Duplicates Cleaned: ${duplicatesCleaned}`);
   console.log('======================================================\n');
 }
 

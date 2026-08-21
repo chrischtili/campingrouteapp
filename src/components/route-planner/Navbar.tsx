@@ -27,7 +27,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/";
-  const isDiscoverPage = location.pathname === "/entdecken" || location.pathname === "/discover";
+  const isDiscoverPage = ['/entdecken', '/discover', '/decouvrir', '/scopri', '/ontdekken'].includes(location.pathname);
 
   const openDiscoverAISettings = () => {
     window.dispatchEvent(new CustomEvent("campingroute:open-ai-settings"));
@@ -76,7 +76,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const navItems = [
     { name: t("navbar.planNow", "Prompt-Assistent"), path: "/prompt-generator", isAnchor: false },
-    { name: t("navbar.discover", "Entdecken"), path: "/discover", isAnchor: false },
+    { name: t("navbar.discover", "Entdecken"), path: "/entdecken", isAnchor: false },
     { name: t("navbar.features", "Features"), path: "#features", isAnchor: true },
     { name: t("navbar.faq", "FAQ"), path: "#faq", isAnchor: true },
   ];
@@ -120,9 +120,12 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             {/* Desktop Tab Navigation Links */}
             <nav className="hidden md:flex items-center gap-6">
               {navItems.map((item) => {
+                const isDiscoverItem = item.path === '/entdecken' || item.path === '/discover';
                 const isActive = item.isAnchor 
                   ? isHomePage && location.hash === item.path
-                  : location.pathname === item.path;
+                  : isDiscoverItem
+                    ? isDiscoverPage
+                    : location.pathname === item.path;
 
                 return (
                   <button

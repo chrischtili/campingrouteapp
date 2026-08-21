@@ -2032,10 +2032,10 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // Entdecken-Seite -> Entdecken-Backend (eigener Port, default 3000)
-    if (pathname.startsWith('/discover')) {
+    // Entdecken-Backend API & MCP (eigener Port, default 3000)
+    if (pathname.startsWith('/discover/api') || pathname.startsWith('/discover/mcp') || pathname === '/discover/sse') {
       const targetPort = Number(process.env.DISCOVER_PORT || 3000);
-      const targetPath = (pathname.replace(/^\/discover/, '') || '/') + url.search;
+      const targetPath = pathname.replace(/^\/discover/, '') + url.search;
       const forwardHeaders = { ...req.headers };
       forwardHeaders.host = `127.0.0.1:${targetPort}`;
 

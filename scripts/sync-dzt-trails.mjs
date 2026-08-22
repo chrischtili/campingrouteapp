@@ -281,6 +281,9 @@ async function main() {
           const imgObj = Array.isArray(t["schema:image"]) ? t["schema:image"][0] : t["schema:image"];
           imageUrl = imgObj?.["schema:contentUrl"] || imgObj?.contentUrl || (typeof imgObj === "string" ? imgObj : "");
         }
+        if (imageUrl && typeof imageUrl === "string") {
+          imageUrl = imageUrl.replace(/^http:\/\//i, "https://");
+        }
         if (!imageUrl || typeof imageUrl !== "string" || !imageUrl.startsWith("http")) {
           imageUrl = DEFAULT_TRAIL_IMAGES[Math.floor(Math.random() * DEFAULT_TRAIL_IMAGES.length)];
         }

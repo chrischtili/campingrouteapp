@@ -1386,8 +1386,8 @@ function EntdeckenContent() {
     }
   };
 
-const cleanImageUrl = (url: string | null) => {
-  if (!url) return null;
+const cleanImageUrl = (url: string | null | undefined) => {
+  if (!url) return '';
   return url.replace(/^http:\/\//i, 'https://');
 };
 
@@ -2430,7 +2430,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             {/* Image banner */}
                             <div style={{ position: 'relative', height: '170px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
                               <img
-                                src={trail.image_url}
+                                src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
                                 alt={trail.name}
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                 onError={(e) => {

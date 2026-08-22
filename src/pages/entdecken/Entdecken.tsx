@@ -1151,9 +1151,6 @@ function EntdeckenContent() {
     // 2. Add campsite markers (only close to the selected trail)
     if (trailCampsites && trailCampsites.length > 0) {
       trailCampsites.forEach(p => {
-        if (Math.abs(p.latitude - selectedTrail.latitude) < 0.5 && Math.abs(p.longitude - selectedTrail.longitude) < 0.8) {
-          bounds.extend([p.latitude, p.longitude]);
-        }
         const distLabel = (p as any).distance_km !== undefined ? ` · 📍 ${(p as any).distance_km} km` : '';
         L.circleMarker([p.latitude, p.longitude], {
           radius: 8,
@@ -1167,7 +1164,12 @@ function EntdeckenContent() {
       });
     }
 
-    map.fitBounds(bounds, { padding: [45, 45], maxZoom: 13 });
+    // Smoothly fit bounds on trail route without re-jumping when campsites load
+    if (trailPolyline && trailPolyline.length >= 2) {
+      map.fitBounds(bounds, { padding: [45, 45], maxZoom: 13, animate: false });
+    } else {
+      map.setView([selectedTrail.latitude, selectedTrail.longitude], 12, { animate: false });
+    }
   }, [trailPolyline, trailStartCoords, trailEndCoords, trailCampsites, selectedTrail]);
 
   // Trails Overview Map Effect (when in map or split view mode)

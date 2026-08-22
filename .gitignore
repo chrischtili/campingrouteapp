@@ -41,6 +41,7 @@ places-*.sqlite
 # Ignore custom server files (production configuration)
 server/*
 !server/index.cjs
+!server/trails.json
 COUNTER_SERVER_DOKUMENTATION.md
 public/version.json
 feedback.json

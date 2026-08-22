@@ -116,12 +116,13 @@
       "description": "Nessuna memorizzazione dei dati. Tutto resta localmente nel tuo browser."
     },
     "openSource": {
-      "title": "Open source",
-      "description": "Completamente trasparente. Codice consultabile su GitHub e aperto ai contributi."
+      "title": "Open Source & Gratuito",
+      "description": "Completamente trasparente e senza pubblicità. Nessun costo nascosto, codice visibile su GitHub e uso gratuito al 100%."
     },
-    "freeAdFree": {
-      "title": "Gratuito & senza pubblicità",
-      "description": "Nessun costo nascosto. Nessuna pubblicità. Utilizzo completamente gratuito."
+    "discoverPortal": {
+      "title": "Novità: Portale Scopri",
+      "description": "Esplora oltre 16.000 percorsi escursionistici e ciclabili, eventi e attrazioni con collegamenti diretti ai campeggi.",
+      "linkText": "Scopri ora"
     }
   },
   "testimonials": {

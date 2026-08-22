@@ -116,12 +116,13 @@
       "description": "No data storage. Everything remains locally in your browser."
     },
     "openSource": {
-      "title": "Open Source",
-      "description": "Fully transparent. Code can be viewed and contributed to on GitHub."
+      "title": "Open Source & Free",
+      "description": "Fully transparent and ad-free. No hidden costs, code viewable on GitHub, and 100% free to use."
     },
-    "freeAdFree": {
-      "title": "Free & Ad-free",
-      "description": "No hidden costs. No advertising. Completely free to use."
+    "discoverPortal": {
+      "title": "New: Discover Portal",
+      "description": "Explore over 16,000 verified hiking and cycling trails, events, and attractions with direct camping access across Germany.",
+      "linkText": "Discover now"
     }
   },
   "testimonials": {

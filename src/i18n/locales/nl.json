@@ -116,12 +116,13 @@
       "description": "Geen accounts, geen tracking, geen verborgen opslag."
     },
     "openSource": {
-      "title": "Open source",
-      "description": "Transparant en community‑gedreven."
+      "title": "Open Source & Gratis",
+      "description": "Volledig transparant en reclamevrij. Geen verborgen kosten, code in te zien op GitHub en 100% gratis te gebruiken."
     },
-    "freeAdFree": {
-      "title": "Gratis & advertentievrij",
-      "description": "Geen paywalls, geen advertenties."
+    "discoverPortal": {
+      "title": "Nieuw: Ontdek-Portaal",
+      "description": "Ontdek meer dan 16.000 geverifieerde wandel- en fietsroutes, evenementen en bezienswaardigheden met directe campingaansluiting.",
+      "linkText": "Nu ontdekken"
     }
   },
   "testimonials": {

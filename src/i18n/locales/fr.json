@@ -116,12 +116,13 @@
       "description": "Aucun stockage de données. Tout reste localement dans votre navigateur."
     },
     "openSource": {
-      "title": "Open source",
-      "description": "Entièrement transparent. Le code est disponible et contributif sur GitHub."
+      "title": "Open Source & Gratuit",
+      "description": "Entièrement transparent et sans publicité. Aucun coût caché, code disponible sur GitHub et 100% gratuit."
     },
-    "freeAdFree": {
-      "title": "Gratuit & sans pub",
-      "description": "Aucun coût caché. Aucune publicité. 100% gratuit."
+    "discoverPortal": {
+      "title": "Nouveau : Portail Découvrir",
+      "description": "Explorez plus de 16 000 sentiers de randonnée et pistes cyclables, événements et points d'intérêt avec accès camping.",
+      "linkText": "Découvrir maintenant"
     }
   },
   "testimonials": {

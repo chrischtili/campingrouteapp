@@ -1,5 +1,6 @@
-import { Compass, Zap, Filter, Shield, Github, Gift, ArrowRight } from "lucide-react";
+import { Compass, Zap, Filter, Shield, Github, Sparkles, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export function FeaturesSection() {
   const { t } = useTranslation();
@@ -9,8 +10,24 @@ export function FeaturesSection() {
     { icon: Filter, title: t("features.smartFilters.title"), description: t("features.smartFilters.description") },
     { icon: Zap, title: t("features.readyInstantly.title"), description: t("features.readyInstantly.description") },
     { icon: Shield, title: t("features.privacyFirst.title"), description: t("features.privacyFirst.description") },
-    { icon: Github, title: t("features.openSource.title"), description: t("features.openSource.description"), link: "https://github.com/chrischtili/campingrouteapp" },
-    { icon: Gift, title: t("features.freeAdFree.title"), description: t("features.freeAdFree.description") },
+    { 
+      icon: Github, 
+      title: t("features.openSource.title"), 
+      description: t("features.openSource.description"), 
+      link: "https://github.com/chrischtili/campingrouteapp",
+      linkText: "Open Source auf GitHub",
+      isExternal: true,
+      linkIcon: Github
+    },
+    { 
+      icon: Sparkles, 
+      title: t("features.discoverPortal.title"), 
+      description: t("features.discoverPortal.description"), 
+      link: "/entdecken",
+      linkText: t("features.discoverPortal.linkText", "Jetzt entdecken"),
+      isExternal: false,
+      linkIcon: Sparkles
+    },
   ];
 
   return (
@@ -48,16 +65,27 @@ export function FeaturesSection() {
               </div>
 
               {f.link && (
-                <a 
-                  href={f.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-semibold text-sm hover:underline mt-5"
-                >
-                  <Github className="w-4 h-4" />
-                  <span>Open Source</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
+                f.isExternal ? (
+                  <a 
+                    href={f.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-semibold text-sm hover:underline mt-5"
+                  >
+                    {f.linkIcon && <f.linkIcon className="w-4 h-4" />}
+                    <span>{f.linkText || "Open Source"}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <Link 
+                    to={f.link}
+                    className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-semibold text-sm hover:underline mt-5"
+                  >
+                    {f.linkIcon && <f.linkIcon className="w-4 h-4" />}
+                    <span>{f.linkText || "Jetzt entdecken"}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )
               )}
             </div>
           ))}

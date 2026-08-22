@@ -116,12 +116,13 @@
       "description": "Keine Datenspeicherung. Alles bleibt lokal in deinem Browser."
     },
     "openSource": {
-      "title": "Open Source",
-      "description": "Vollständig transparent. Code auf GitHub einsehbar und mitwirkbar."
+      "title": "Open Source & Kostenlos",
+      "description": "Vollständig transparent und werbefrei. Keine versteckten Kosten, Code auf GitHub einsehbar und 100% kostenlose Nutzung."
     },
-    "freeAdFree": {
-      "title": "Kostenlos & Werbefrei",
-      "description": "Keine versteckten Kosten. Keine Werbung. Vollständig kostenlose Nutzung."
+    "discoverPortal": {
+      "title": "Neu: Entdecken-Portal",
+      "description": "Erkunde über 16.000 verifizierte Wander- und Radwege, Events und Sehenswürdigkeiten mit direkter Camping-Anbindung in ganz Deutschland.",
+      "linkText": "Jetzt entdecken"
     }
   },
   "testimonials": {

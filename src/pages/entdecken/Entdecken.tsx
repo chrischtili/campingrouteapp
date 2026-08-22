@@ -47,33 +47,14 @@ import { Navbar } from "@/components/route-planner/Navbar";
 import { Footer } from "@/components/route-planner/Footer";
 import { AppBreadcrumbs, type BreadcrumbItem } from "@/components/AppBreadcrumbs";
 import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBreadcrumbs";
+import { FAMOUS_TRAILS, getNearbyTrails, type Trail } from "@/data/trails";
+
+export type { Trail };
 
 export interface AISettings {
   provider: 'gemini' | 'deepseek' | 'openai' | 'claude';
   model: string;
   apiKey: string;
-}
-
-export interface Trail {
-  id: string;
-  name: string;
-  type: 'hiking' | 'biking' | 'both';
-  region: string;
-  country: string;
-  distance_km: number;
-  duration_hours?: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-  elevation_gain_m?: number;
-  description: string;
-  highlights: string[];
-  image_url: string;
-  start_location: string;
-  end_location: string;
-  latitude: number;
-  longitude: number;
-  campsites_along_count: number;
-  rating: number;
-  distance_to_place_km?: number;
 }
 
 export const DEFAULT_MODELS: { [key: string]: { id: string; label: string; tag?: string }[] } = {
@@ -504,7 +485,7 @@ function EntdeckenContent() {
   const [showSaveToListModal, setShowSaveToListModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [featuredCountry, setFeaturedCountry] = useState<string>('DE');
-  const [trails, setTrails] = useState<Trail[]>([]);
+  const [trails, setTrails] = useState<Trail[]>(() => FAMOUS_TRAILS);
   const [trailFilter, setTrailFilter] = useState<'all' | 'hiking' | 'biking'>('all');
   const [nearbyTrails, setNearbyTrails] = useState<Trail[]>([]);
   const [isLoadingTrails, setIsLoadingTrails] = useState(false);
@@ -827,15 +808,24 @@ function EntdeckenContent() {
   const fetchTrails = async (filter: 'all' | 'hiking' | 'biking' = trailFilter) => {
     setIsLoadingTrails(true);
     try {
-      const res = await fetch(`/api/trails?type=${filter}`);
+      const res = await fetch(`/discover/api/trails?type=${filter}`);
       if (res.ok) {
         const data = await res.json();
-        setTrails(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setTrails(data);
+          return;
+        }
       }
     } catch (e) {
-      console.error('Failed to fetch trails:', e);
+      console.error('Failed to fetch trails from backend, using local dataset:', e);
     } finally {
       setIsLoadingTrails(false);
+    }
+    // Local fallback filtering
+    if (filter === 'all') {
+      setTrails(FAMOUS_TRAILS);
+    } else {
+      setTrails(FAMOUS_TRAILS.filter(t => t.type === filter || t.type === 'both'));
     }
   };
 
@@ -897,12 +887,21 @@ function EntdeckenContent() {
     if (selectedPlace) {
       fetchReviews(selectedPlace.id);
       fetchNearbyPlaces(selectedPlace.id);
-      fetch(`/api/places/${selectedPlace.id}/nearby-trails`)
+      fetch(`/discover/api/places/${selectedPlace.id}/nearby-trails`)
         .then(res => res.ok ? res.json() : [])
-        .then(data => setNearbyTrails(data || []))
-        .catch(() => setNearbyTrails([]));
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            setNearbyTrails(data);
+          } else {
+            setNearbyTrails(getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 40).slice(0, 3));
+          }
+        })
+        .catch(() => {
+          setNearbyTrails(getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 40).slice(0, 3));
+        });
     } else {
       setNearbyPlaces([]);
+      setNearbyTrails([]);
     }
   }, [selectedPlace]);
 
@@ -1925,7 +1924,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {/* Filter Pills */}
                     <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--gray-100)', padding: '4px', borderRadius: '12px' }}>
                       <button
-                        onClick={() => setTrailFilter('all')}
+                        onClick={() => { setTrailFilter('all'); fetchTrails('all'); }}
                         style={{
                           padding: '0.4rem 0.85rem',
                           borderRadius: '8px',
@@ -1941,7 +1940,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {t.allTrails || 'Alle Touren'}
                       </button>
                       <button
-                        onClick={() => setTrailFilter('hiking')}
+                        onClick={() => { setTrailFilter('hiking'); fetchTrails('hiking'); }}
                         style={{
                           padding: '0.4rem 0.85rem',
                           borderRadius: '8px',
@@ -1957,7 +1956,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {t.hikingTrails || '🥾 Wandern'}
                       </button>
                       <button
-                        onClick={() => setTrailFilter('biking')}
+                        onClick={() => { setTrailFilter('biking'); fetchTrails('biking'); }}
                         style={{
                           padding: '0.4rem 0.85rem',
                           borderRadius: '8px',

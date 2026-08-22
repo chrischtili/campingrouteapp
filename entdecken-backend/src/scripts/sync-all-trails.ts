@@ -183,33 +183,24 @@ PREFIX schema_http: <http://schema.org/>
 PREFIX odta: <https://odta.io/voc/>
 PREFIX odta_http: <http://odta.io/voc/>
 
-SELECT DISTINCT ?id ?name ?lat ?lon ?startLat ?startLon ?partLat ?partLon ?line ?length ?diff ?desc ?image ?locality
+SELECT DISTINCT ?id ?name ?lat ?lon ?startLat ?startLon ?line ?length ?diff ?desc ?image ?locality
 WHERE {
-  { ?id a odta:${group.subtype} ; schema:name|schema_http:name ?name . }
+  { ?id a odta:${group.subtype} ; schema:name ?name . }
   UNION
-  { ?id a odta_http:${group.subtype} ; schema_http:name|schema:name ?name . }
-  UNION
-  { ?id a schema:${group.subtype} ; schema:name|schema_http:name ?name . }
-  UNION
-  { ?id a schema_http:${group.subtype} ; schema_http:name|schema:name ?name . }
+  { ?id a schema:${group.subtype} ; schema:name ?name . }
 
-  OPTIONAL { ?id schema:geo|schema_http:geo ?geo . ?geo schema:latitude|schema_http:latitude ?lat ; schema:longitude|schema_http:longitude ?lon }
+  OPTIONAL { ?id schema:geo ?geo . ?geo schema:latitude ?lat ; schema:longitude ?lon }
+  OPTIONAL { ?id schema:geo ?geoLine . ?geoLine schema:line ?line }
   OPTIONAL {
-    ?id odta:startLocation|odta_http:startLocation ?startLoc .
-    ?startLoc schema:geo|schema_http:geo ?startGeo .
-    ?startGeo schema:latitude|schema_http:latitude ?startLat ; schema:longitude|schema_http:longitude ?startLon .
-    OPTIONAL { ?startLoc schema:addressLocality|schema_http:addressLocality ?locality }
+    ?id odta:startLocation ?startLoc .
+    ?startLoc schema:geo ?startGeo .
+    ?startGeo schema:latitude ?startLat ; schema:longitude ?startLon .
+    OPTIONAL { ?startLoc schema:addressLocality ?locality }
   }
-  OPTIONAL {
-    ?id schema:hasPart|schema_http:hasPart ?part .
-    ?part schema:geo|schema_http:geo ?partGeo .
-    ?partGeo schema:latitude|schema_http:latitude ?partLat ; schema:longitude|schema_http:longitude ?partLon .
-  }
-  OPTIONAL { ?id schema:geo|schema_http:geo ?geoLine . ?geoLine schema:line|schema_http:line ?line }
-  OPTIONAL { ?id odta:length|odta_http:length ?lenObj . ?lenObj schema:value|schema_http:value ?length }
-  OPTIONAL { ?id odta:difficulty|odta_http:difficulty ?diffObj . ?diffObj schema:name|schema_http:name ?diff }
-  OPTIONAL { ?id schema:description|schema_http:description ?desc }
-  OPTIONAL { ?id schema:image|schema_http:image ?image }
+  OPTIONAL { ?id odta:length ?lenObj . ?lenObj schema:value ?length }
+  OPTIONAL { ?id odta:difficulty ?diffObj . ?diffObj schema:name ?diff }
+  OPTIONAL { ?id schema:description ?desc }
+  OPTIONAL { ?id schema:image ?image }
 }
 LIMIT ${batchSize} OFFSET ${offset}
 `;

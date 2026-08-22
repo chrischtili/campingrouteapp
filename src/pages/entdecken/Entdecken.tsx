@@ -8,6 +8,7 @@ import {
   X, 
   Globe, 
   ChevronRight,
+  ChevronDown,
   Info,
   Sparkles,
   MapPin,
@@ -2571,6 +2572,39 @@ const getWebsiteUrl = (place: Place): string | null => {
                         )}
                       </div>
 
+                      {/* Bundesland Dropdown Selector */}
+                      <div style={{ position: 'relative', minWidth: '190px' }}>
+                        <select
+                          value={trailStateFilter}
+                          onChange={(e) => { setTrailStateFilter(e.target.value); setVisibleTrailsCount(12); }}
+                          style={{
+                            width: '100%',
+                            padding: '0.45rem 2rem 0.45rem 0.75rem',
+                            borderRadius: '10px',
+                            border: trailStateFilter !== 'Alle Bundesländer' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                            background: trailStateFilter !== 'Alle Bundesländer' ? 'var(--primary-50)' : 'var(--card-bg)',
+                            color: trailStateFilter !== 'Alle Bundesländer' ? 'var(--primary-800)' : 'var(--gray-800)',
+                            fontSize: '0.82rem',
+                            fontWeight: 700,
+                            outline: 'none',
+                            cursor: 'pointer',
+                            appearance: 'none',
+                            WebkitAppearance: 'none'
+                          }}
+                        >
+                          {GERMAN_STATES_LIST.map((st) => {
+                            const count = stateCounts[st] || 0;
+                            if (st !== 'Alle Bundesländer' && count === 0) return null;
+                            return (
+                              <option key={st} value={st}>
+                                {st === 'Alle Bundesländer' ? `📍 ${st} (${count})` : `${st} (${count})`}
+                              </option>
+                            );
+                          })}
+                        </select>
+                        <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                      </div>
+
                       {/* Type Pills */}
                       <div style={{ display: 'flex', gap: '0.25rem', background: 'var(--gray-100)', padding: '4px', borderRadius: '12px' }}>
                         <button
@@ -2692,62 +2726,33 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </div>
                   </div>
 
-                  {/* Bundesland Pills Selector */}
-                  <div style={{ 
-                    display: 'flex', 
-                    gap: '0.45rem', 
-                    overflowX: 'auto', 
-                    paddingBottom: '0.75rem', 
-                    marginBottom: '1rem',
-                    scrollbarWidth: 'thin'
-                  }}>
-                    {GERMAN_STATES_LIST.map((st) => {
-                      const count = stateCounts[st] || 0;
-                      if (st !== 'Alle Bundesländer' && count === 0) return null;
-                      const isSelected = trailStateFilter === st;
-                      return (
-                        <button
-                          key={st}
-                          onClick={() => { setTrailStateFilter(st); setVisibleTrailsCount(12); }}
-                          style={{
-                            padding: '0.45rem 0.85rem',
-                            borderRadius: '9999px',
-                            border: isSelected ? '1px solid var(--primary-600)' : '1px solid var(--card-border)',
-                            background: isSelected ? 'var(--primary-600)' : 'var(--card-bg)',
-                            color: isSelected ? 'white' : 'var(--gray-700)',
-                            fontSize: '0.8rem',
-                            fontWeight: isSelected ? 800 : 600,
-                            cursor: 'pointer',
-                            whiteSpace: 'nowrap',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.4rem',
-                            boxShadow: isSelected ? '0 2px 8px rgba(5,150,105,0.25)' : 'none',
-                            transition: 'all 0.15s ease'
-                          }}
-                          className={!isSelected ? 'hover:bg-gray-100' : ''}
-                        >
-                          <span>{st}</span>
-                          <span style={{
-                            padding: '1px 6px',
-                            borderRadius: '9999px',
-                            fontSize: '0.7rem',
-                            fontWeight: 700,
-                            background: isSelected ? 'rgba(255,255,255,0.25)' : 'var(--gray-100)',
-                            color: isSelected ? 'white' : 'var(--gray-500)'
-                          }}>
-                            {count}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Results Count Summary */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', fontSize: '0.82rem', color: 'var(--gray-500)', fontWeight: 600 }}>
-                    <span>
-                      Zeige {Math.min(visibleTrailsCount, filteredTrails.length)} von {filteredTrails.length} Touren {trailStateFilter !== 'Alle Bundesländer' ? `in ${trailStateFilter}` : 'in ganz Deutschland'}
-                    </span>
+                  {/* Results Count & Filter Summary */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', fontSize: '0.82rem', color: 'var(--gray-500)', fontWeight: 600, flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <span>
+                        Zeige {Math.min(visibleTrailsCount, filteredTrails.length)} von {filteredTrails.length} Touren {trailStateFilter !== 'Alle Bundesländer' ? `in ${trailStateFilter}` : 'in ganz Deutschland'}
+                      </span>
+                      {trailStateFilter !== 'Alle Bundesländer' && (
+                        <span style={{ 
+                          display: 'inline-flex', 
+                          alignItems: 'center', 
+                          gap: '0.3rem', 
+                          padding: '2px 8px', 
+                          borderRadius: '9999px', 
+                          background: 'var(--primary-100)', 
+                          color: 'var(--primary-800)',
+                          fontSize: '0.75rem',
+                          fontWeight: 700
+                        }}>
+                          📍 {trailStateFilter}
+                          <button
+                            onClick={() => { setTrailStateFilter('Alle Bundesländer'); setVisibleTrailsCount(12); }}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary-800)', fontSize: '0.85rem', padding: 0, lineHeight: 1 }}
+                            title="Filter entfernen"
+                          >×</button>
+                        </span>
+                      )}
+                    </div>
                     {(trailSearchText || trailFilter !== 'all' || trailStateFilter !== 'Alle Bundesländer') && (
                       <button
                         onClick={() => {

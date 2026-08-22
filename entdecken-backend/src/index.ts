@@ -281,7 +281,13 @@ function getAllTrailsList(): Trail[] {
     if (fs.existsSync(p)) {
       try {
         const parsed = JSON.parse(fs.readFileSync(p, "utf8"));
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((r: any) => ({
+            ...r,
+            highlights: typeof r.highlights === 'string' ? JSON.parse(r.highlights || '[]') : (r.highlights || []),
+            polyline: typeof r.polyline === 'string' ? JSON.parse(r.polyline || '[]') : r.polyline
+          }));
+        }
       } catch {}
     }
   }
@@ -517,7 +523,14 @@ app.get("/api/places/:id/nearby-trails", async (req, res) => {
     for (const fp of trailsFilePaths) {
       if (fs.existsSync(fp)) {
         try {
-          allTrails = JSON.parse(fs.readFileSync(fp, "utf8"));
+          const parsed = JSON.parse(fs.readFileSync(fp, "utf8"));
+          if (Array.isArray(parsed)) {
+            allTrails = parsed.map((r: any) => ({
+              ...r,
+              highlights: typeof r.highlights === 'string' ? JSON.parse(r.highlights || '[]') : (r.highlights || []),
+              polyline: typeof r.polyline === 'string' ? JSON.parse(r.polyline || '[]') : r.polyline
+            }));
+          }
           break;
         } catch (_) {}
       }

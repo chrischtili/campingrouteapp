@@ -2032,6 +2032,30 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    // Hiking & Biking Trails endpoint
+    if (req.method === 'GET' && (pathname === '/api/trails' || pathname === '/discover/api/trails')) {
+      const type = (url.searchParams.get('type') || 'all').toLowerCase();
+      const region = (url.searchParams.get('region') || '').toLowerCase();
+      try {
+        const trailsFilePath = path.join(__dirname, 'trails.json');
+        let trailsList = [];
+        if (fs.existsSync(trailsFilePath)) {
+          trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+        }
+        if (type && type !== 'all') {
+          trailsList = trailsList.filter(t => t.type === type || t.type === 'both');
+        }
+        if (region) {
+          trailsList = trailsList.filter(t => (t.region || '').toLowerCase().includes(region));
+        }
+        sendJson(res, 200, trailsList);
+        return;
+      } catch (err) {
+        sendJson(res, 200, []);
+        return;
+      }
+    }
+
     // Entdecken-Backend API & MCP (eigener Port, default 3000)
     if (pathname.startsWith('/discover/api') || pathname.startsWith('/discover/mcp') || pathname === '/discover/sse') {
       const targetPort = Number(process.env.DISCOVER_PORT || 3000);

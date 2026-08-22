@@ -72,7 +72,7 @@ interface CacheEntry {
 const searchCache = new Map<string, CacheEntry>();
 
 // Root info route
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({
     name: "CampingRoute API",
     status: "online",

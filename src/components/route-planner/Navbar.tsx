@@ -146,7 +146,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           </div>
 
           {/* Right: Coffee Link, Theme Toggle, Language & Mobile Burger Menu */}
-          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             
             {/* Buy Me A Coffee Link */}
             <a
@@ -180,10 +180,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  className="h-8.5 sm:h-9 px-2 sm:px-2.5 text-xs font-bold text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg gap-1"
+                  className="h-9 px-2.5 text-xs font-bold text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-xl gap-1.5"
                 >
-                  <Globe className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
-                  <span className="uppercase">{i18n.language.slice(0, 2)}</span>
+                  <Globe className="h-4.5 w-4.5 text-emerald-700 dark:text-emerald-400" />
+                  <span className="uppercase font-bold">{i18n.language.slice(0, 2)}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-44 rounded-xl border border-gray-200 bg-white p-1 shadow-lg dark:border-slate-800 dark:bg-slate-900">
@@ -208,13 +208,13 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               variant="ghost"
               size="icon"
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="h-8.5 w-8.5 sm:h-9 sm:w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
+              className="h-9 w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-xl"
               title={t("navbar.toggleTheme", "Theme umschalten")}
             >
               {resolvedTheme === "dark" ? (
-                <Sun className="h-4 w-4 text-yellow-400" />
+                <Sun className="h-4.5 w-4.5 text-yellow-400" />
               ) : (
-                <Moon className="h-4 w-4 text-slate-700" />
+                <Moon className="h-4.5 w-4.5 text-slate-700" />
               )}
             </Button>
 
@@ -224,10 +224,10 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden h-8.5 w-8.5 sm:h-9 sm:w-9 text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg"
+              className="md:hidden h-10 w-10 text-gray-800 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-xl ml-1.5 border border-gray-200/70 dark:border-slate-800 active:scale-95 transition-all shadow-xs"
               aria-label={t("navbar.openMenu", "Menü öffnen")}
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
 

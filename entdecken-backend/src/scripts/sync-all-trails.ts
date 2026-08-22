@@ -36,7 +36,13 @@ function callDztMcp(tool: string, args: Record<string, any>): Promise<any[]> {
         res.on('end', () => {
           try {
             const parsed = JSON.parse(body);
-            const graph = parsed?.result?.structuredContent?.['@graph'] || [];
+            let content = parsed.result?.structuredContent;
+            if (!content && parsed.result?.content?.[0]?.text) {
+              try {
+                content = JSON.parse(parsed.result.content[0].text);
+              } catch (e) {}
+            }
+            const graph = content?.['@graph'] || (Array.isArray(content) ? content : []);
             resolve(Array.isArray(graph) ? graph : []);
           } catch (e) {
             resolve([]);
@@ -528,7 +534,7 @@ export async function syncAllTrails() {
     console.log(`+${addedCount} new`);
   }
 
-  // 3. Export full trails database to JSON backup files
+  // 3. Final Summary & Database Stats
   const allDbTrails = await db.all('SELECT * FROM trails ORDER BY state, name');
   console.log(`\n======================================================`);
   console.log(`🎉 TOTAL TRAILS IN DATABASE: ${allDbTrails.length}`);

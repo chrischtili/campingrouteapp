@@ -7,28 +7,23 @@ import { assignState } from '../db/geo.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const DZT_API_KEY = process.env.DZT_API_KEY || '647e87679f71e0ec10f66056ad0721ef';
+const DZT_API_KEY = process.env.DZT_API_KEY || 'b513a9bd29df07836f0d483ff34b3518';
 
-function callDztMcp(tool: string, args: Record<string, any>): Promise<any[]> {
-  return new Promise((resolve) => {
-    const payload = JSON.stringify({
-      jsonrpc: '2.0',
-      id: 1,
-      method: 'tools/call',
-      params: { name: tool, arguments: args }
-    });
+const SPARQL_URL = 'https://proxy.opendatagermany.io/api/ts/v1/kg/sparql';
 
+function runSparql(query: string): Promise<any[]> {
+  return new Promise((resolve, reject) => {
     const req = https.request(
+      SPARQL_URL,
       {
-        hostname: 'proxy.opendatagermany.io',
-        path: '/api/its/mcp',
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          accept: 'application/sparql-results+json',
+          'content-type': 'text/plain',
           'x-api-key': DZT_API_KEY,
-          'Content-Length': Buffer.byteLength(payload)
+          'Content-Length': Buffer.byteLength(query)
         },
-        timeout: 25000
+        timeout: 90000
       },
       (res) => {
         let body = '';
@@ -36,28 +31,20 @@ function callDztMcp(tool: string, args: Record<string, any>): Promise<any[]> {
         res.on('end', () => {
           try {
             const parsed = JSON.parse(body);
-            let content = parsed.result?.structuredContent;
-            if (!content && parsed.result?.content?.[0]?.text) {
-              try {
-                content = JSON.parse(parsed.result.content[0].text);
-              } catch (e) {}
-            }
-            const graph = content?.['@graph'] || (Array.isArray(content) ? content : []);
-            resolve(Array.isArray(graph) ? graph : []);
+            const bindings = parsed?.results?.bindings || [];
+            resolve(Array.isArray(bindings) ? bindings : []);
           } catch (e) {
-            resolve([]);
+            reject(new Error(`Failed to parse SPARQL response: ${body.slice(0, 200)}`));
           }
         });
       }
     );
-
-    req.on('error', () => resolve([]));
+    req.on('error', reject);
     req.on('timeout', () => {
       req.destroy();
-      resolve([]);
+      reject(new Error('SPARQL request timed out'));
     });
-
-    req.write(payload);
+    req.write(query);
     req.end();
   });
 }
@@ -90,187 +77,10 @@ const DEFAULT_TRAIL_IMAGES = [
   'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80'
 ];
 
-// Comprehensive query targets covering all regions, districts, valleys, and cities across Germany
-const SEARCH_TARGETS: { locality?: string; region?: string; keywords?: string; fallbackState: string }[] = [
-  // --- Baden-Württemberg ---
-  { locality: 'Heilbronn', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Heidelberg', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Mannheim', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Karlsruhe', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Pforzheim', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Baden-Baden', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Stuttgart', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Ludwigsburg', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Esslingen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Göppingen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Schwäbisch Hall', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Künzelsau', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Crailsheim', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Tauberbischofsheim', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Mosbach', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Sinsheim', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Tübingen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Reutlingen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Freudenstadt', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Calw', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Rottweil', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Balingen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Villingen-Schwenningen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Freiburg', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Lörrach', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Waldshut', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Konstanz', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Friedrichshafen', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Ravensburg', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Ulm', fallbackState: 'Baden-Württemberg' },
-  { locality: 'Aalen', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Odenwald', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Kraichgau', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Stromberg', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Hohenlohe', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Taubertal', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Neckar', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Kocher', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Jagst', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Schwarzwald', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Nordschwarzwald', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Hochschwarzwald', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Schwäbische Alb', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Bodensee', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Hegau', fallbackState: 'Baden-Württemberg' },
-  { keywords: 'Donautal', fallbackState: 'Baden-Württemberg' },
-  { region: 'Baden-Württemberg', fallbackState: 'Baden-Württemberg' },
-
-  // --- Bayern ---
-  { region: 'Allgäu', fallbackState: 'Bayern' },
-  { region: 'Bayerischer Wald', fallbackState: 'Bayern' },
-  { region: 'Fränkische Schweiz', fallbackState: 'Bayern' },
-  { region: 'Altmühltal', fallbackState: 'Bayern' },
-  { region: 'Chiemsee-Alpenland', fallbackState: 'Bayern' },
-  { region: 'Berchtesgadener Land', fallbackState: 'Bayern' },
-  { region: 'Tegernsee Schliersee', fallbackState: 'Bayern' },
-  { region: 'Zugspitz Region', fallbackState: 'Bayern' },
-  { region: 'Fichtelgebirge', fallbackState: 'Bayern' },
-  { region: 'Frankenwald', fallbackState: 'Bayern' },
-  { region: 'Rhön', fallbackState: 'Bayern' },
-  { region: 'Spessart', fallbackState: 'Bayern' },
-  { region: 'Steigerwald', fallbackState: 'Bayern' },
-  { region: 'Fränkisches Seenland', fallbackState: 'Bayern' },
-  { region: 'Oberpfälzer Wald', fallbackState: 'Bayern' },
-  { region: 'Bayerischer Jura', fallbackState: 'Bayern' },
-  { locality: 'München', fallbackState: 'Bayern' },
-  { locality: 'Nürnberg', fallbackState: 'Bayern' },
-  { locality: 'Augsburg', fallbackState: 'Bayern' },
-  { locality: 'Würzburg', fallbackState: 'Bayern' },
-  { locality: 'Regensburg', fallbackState: 'Bayern' },
-  { locality: 'Bamberg', fallbackState: 'Bayern' },
-  { locality: 'Passau', fallbackState: 'Bayern' },
-  { region: 'Bayern', fallbackState: 'Bayern' },
-
-  // --- Hessen ---
-  { region: 'Taunus', fallbackState: 'Hessen' },
-  { region: 'Vogelsberg', fallbackState: 'Hessen' },
-  { region: 'Kellerwald-Edersee', fallbackState: 'Hessen' },
-  { region: 'Westerwald', fallbackState: 'Hessen' },
-  { region: 'Lahntal', fallbackState: 'Hessen' },
-  { region: 'Nordhessen', fallbackState: 'Hessen' },
-  { region: 'Rheingau', fallbackState: 'Hessen' },
-  { region: 'Bergstraße', fallbackState: 'Hessen' },
-  { locality: 'Frankfurt', fallbackState: 'Hessen' },
-  { locality: 'Wiesbaden', fallbackState: 'Hessen' },
-  { locality: 'Kassel', fallbackState: 'Hessen' },
-  { locality: 'Darmstadt', fallbackState: 'Hessen' },
-  { locality: 'Fulda', fallbackState: 'Hessen' },
-  { locality: 'Marburg', fallbackState: 'Hessen' },
-  { region: 'Hessen', fallbackState: 'Hessen' },
-
-  // --- Nordrhein-Westfalen ---
-  { region: 'Sauerland', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Siegerland-Wittgenstein', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Bergisches Land', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Teutoburger Wald', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Münsterland', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Nordeifel', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Niederrhein', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Ruhrgebiet', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Siebengebirge', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Köln', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Düsseldorf', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Bonn', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Aachen', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Münster', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Bielefeld', fallbackState: 'Nordrhein-Westfalen' },
-  { locality: 'Winterberg', fallbackState: 'Nordrhein-Westfalen' },
-  { region: 'Nordrhein-Westfalen', fallbackState: 'Nordrhein-Westfalen' },
-
-  // --- Rheinland-Pfalz & Saarland ---
-  { region: 'Mosel', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Vulkaneifel', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Hunsrück', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Pfälzerwald', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Mittelrhein', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Rheinhessen', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Naheland', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Ahrtal', fallbackState: 'Rheinland-Pfalz' },
-  { locality: 'Mainz', fallbackState: 'Rheinland-Pfalz' },
-  { locality: 'Koblenz', fallbackState: 'Rheinland-Pfalz' },
-  { locality: 'Trier', fallbackState: 'Rheinland-Pfalz' },
-  { region: 'Saarschleifenland', fallbackState: 'Saarland' },
-  { locality: 'Saarbrücken', fallbackState: 'Saarland' },
-
-  // --- Niedersachsen, Bremen & Hamburg ---
-  { region: 'Harz', fallbackState: 'Niedersachsen' },
-  { region: 'Lüneburger Heide', fallbackState: 'Niedersachsen' },
-  { region: 'Weserbergland', fallbackState: 'Niedersachsen' },
-  { region: 'Ostfriesland', fallbackState: 'Niedersachsen' },
-  { region: 'Nordseeküste', fallbackState: 'Niedersachsen' },
-  { region: 'Osnabrücker Land', fallbackState: 'Niedersachsen' },
-  { region: 'Emsland', fallbackState: 'Niedersachsen' },
-  { locality: 'Hannover', fallbackState: 'Niedersachsen' },
-  { locality: 'Braunschweig', fallbackState: 'Niedersachsen' },
-  { locality: 'Göttingen', fallbackState: 'Niedersachsen' },
-  { locality: 'Bremen', fallbackState: 'Bremen' },
-  { locality: 'Hamburg', fallbackState: 'Hamburg' },
-
-  // --- Sachsen, Thüringen & Sachsen-Anhalt ---
-  { region: 'Sächsische Schweiz', fallbackState: 'Sachsen' },
-  { region: 'Erzgebirge', fallbackState: 'Sachsen' },
-  { region: 'Vogtland', fallbackState: 'Sachsen' },
-  { region: 'Oberlausitz', fallbackState: 'Sachsen' },
-  { locality: 'Dresden', fallbackState: 'Sachsen' },
-  { locality: 'Leipzig', fallbackState: 'Sachsen' },
-  { region: 'Thüringer Wald', fallbackState: 'Thüringen' },
-  { region: 'Hainich', fallbackState: 'Thüringen' },
-  { locality: 'Erfurt', fallbackState: 'Thüringen' },
-  { locality: 'Weimar', fallbackState: 'Thüringen' },
-  { region: 'Harz Sachsen-Anhalt', fallbackState: 'Sachsen-Anhalt' },
-  { region: 'Saale-Unstrut', fallbackState: 'Sachsen-Anhalt' },
-  { locality: 'Magdeburg', fallbackState: 'Sachsen-Anhalt' },
-  { locality: 'Halle', fallbackState: 'Sachsen-Anhalt' },
-
-  // --- Mecklenburg-Vorpommern, Brandenburg & Berlin ---
-  { region: 'Mecklenburgische Seenplatte', fallbackState: 'Mecklenburg-Vorpommern' },
-  { region: 'Rügen', fallbackState: 'Mecklenburg-Vorpommern' },
-  { region: 'Usedom', fallbackState: 'Mecklenburg-Vorpommern' },
-  { region: 'Fischland-Darß-Zingst', fallbackState: 'Mecklenburg-Vorpommern' },
-  { locality: 'Rostock', fallbackState: 'Mecklenburg-Vorpommern' },
-  { locality: 'Schwerin', fallbackState: 'Mecklenburg-Vorpommern' },
-  { region: 'Spreewald', fallbackState: 'Brandenburg' },
-  { region: 'Uckermark', fallbackState: 'Brandenburg' },
-  { region: 'Havelland', fallbackState: 'Brandenburg' },
-  { locality: 'Potsdam', fallbackState: 'Brandenburg' },
-  { locality: 'Berlin', fallbackState: 'Berlin' },
-  { region: 'Holsteinische Schweiz', fallbackState: 'Schleswig-Holstein' },
-  { region: 'Nordfriesland', fallbackState: 'Schleswig-Holstein' },
-  { locality: 'Kiel', fallbackState: 'Schleswig-Holstein' },
-  { locality: 'Lübeck', fallbackState: 'Schleswig-Holstein' }
-];
-
 export async function syncAllTrails() {
-  console.log('🚀 Starting Comprehensive Live Open Data Trails Ingestion into SQLite Database...\n');
+  console.log('🚀 Starting DZT Open Data Trails Sync via SPARQL (bulk, all trails in one pass)...\n');
   const db = await getDb();
 
-  // Create table if not exists
   await db.exec(`
     CREATE TABLE IF NOT EXISTS trails (
       id TEXT PRIMARY KEY,
@@ -308,170 +118,198 @@ export async function syncAllTrails() {
   const seenNames = new Set<string>();
   let totalInserted = 0;
 
-  // 1. Clear trails table for clean, fresh Open Data ingestion
   console.log('🧹 Clearing trails table for fresh Open Data Germany ingestion...');
   await db.exec('DELETE FROM trails;');
 
-  // 2. Fetch fresh live data from DZT Open Data Germany across all targets
-  console.log(`📡 Fetching live trails across ${SEARCH_TARGETS.length} cities, regions & districts...`);
-  
-  for (const target of SEARCH_TARGETS) {
-    const queryParams: Record<string, any> = {};
-    let label = '';
-    if (target.locality) {
-      queryParams.locality = target.locality;
-      label = `City: ${target.locality}`;
-    } else if (target.region) {
-      queryParams.region = target.region;
-      label = `Region: ${target.region}`;
-    } else if (target.keywords) {
-      queryParams.keywords = target.keywords;
-      label = `Keyword: ${target.keywords}`;
+  // Single bulk SPARQL query over the whole DZT knowledge graph.
+  // The MCP tool "get_trails_by_criteria" is capped at 50 results per call with no
+  // pagination, so it can never return the full dataset. SPARQL returns everything.
+  const trailsQuery = `
+PREFIX schema: <https://schema.org/>
+PREFIX schema_http: <http://schema.org/>
+PREFIX odta: <https://odta.io/voc/>
+PREFIX odta_http: <http://odta.io/voc/>
+
+SELECT DISTINCT ?id ?name ?desc ?lat ?lon ?image ?locality ?region ?length ?diff
+WHERE {
+  {
+    ?id a schema:TouristTrip ;
+        schema:name ?name .
+  } UNION {
+    ?id a odta:Tour ;
+        schema:name ?name .
+  } UNION {
+    ?id a schema_http:TouristTrip ;
+        schema_http:name ?name .
+  } UNION {
+    ?id a odta_http:Tour ;
+        schema_http:name ?name .
+  }
+  OPTIONAL { ?id schema:description|schema_http:description ?desc }
+  OPTIONAL {
+    ?id schema:geo|schema_http:geo ?geo .
+    OPTIONAL { ?geo schema:latitude|schema_http:latitude ?lat ; schema:longitude|schema_http:longitude ?lon . }
+  }
+  OPTIONAL {
+    ?id odta:startLocation|odta_http:startLocation ?startLoc .
+    OPTIONAL {
+      ?startLoc schema:geo|schema_http:geo ?startGeo .
+      ?startGeo schema:latitude|schema_http:latitude ?lat ; schema:longitude|schema_http:longitude ?lon .
     }
+    OPTIONAL { ?startLoc schema:addressLocality|schema_http:addressLocality ?locality }
+  }
+  OPTIONAL { ?id schema:image|schema_http:image ?image }
+  OPTIONAL { ?id odta:length|odta_http:length ?lenObj . OPTIONAL { ?lenObj schema:value|schema_http:value ?length } }
+  OPTIONAL { ?id odta:difficulty|odta_http:difficulty ?diffObj . OPTIONAL { ?diffObj schema:name|schema_http:name ?diff } }
+}
+LIMIT 25000
+`;
 
-    process.stdout.write(`  Querying ${label} (${target.fallbackState})... `);
-    const results = await callDztMcp('get_trails_by_criteria', queryParams);
-    
-    let addedCount = 0;
-    if (results.length > 0) {
-      await db.run('BEGIN TRANSACTION');
-      for (const t of results) {
-        const name = extractString(t['schema:name'] || t.name).trim();
-        if (!name) continue;
-        const normName = name.toLowerCase();
-        if (seenNames.has(normName)) continue;
-        seenNames.add(normName);
+  console.log('📡 Fetching all trails from DZT SPARQL endpoint...');
+  let trailsList: any[] = [];
+  try {
+    trailsList = await runSparql(trailsQuery);
+  } catch (err: any) {
+    console.warn(`  ⚠️ Could not fetch trails via SPARQL: ${err.message}`);
+  }
+  console.log(`  ✅ Retrieved ${trailsList.length} trail records from DZT.\n`);
 
-        const rawId = extractString(t['@id'] || t.id);
-        const trailId = `dzt-trail-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
+  const skippedNoGeo: string[] = [];
+  await db.run('BEGIN TRANSACTION');
+  let uncommitted = 0;
 
-        let lat = 0;
-        let lon = 0;
-        const geo = t['schema:geo'] || t.geo;
-        if (geo) {
-          lat = parseFloat(extractString(geo['schema:latitude'] || geo.latitude));
-          lon = parseFloat(extractString(geo['schema:longitude'] || geo.longitude));
-        }
+  for (const item of trailsList) {
+    const rawId = extractString(item.id?.value || item.id?.value);
+    const name = extractString(item.name?.value || item.name).trim();
+    if (!name || !rawId) continue;
+    if (seenIds.has(rawId) || seenNames.has(name.toLowerCase())) continue;
+    seenIds.add(rawId);
+    seenNames.add(name.toLowerCase());
 
-        const startLoc = t['odta:startLocation'] || t.startLocation;
-        if ((!lat || isNaN(lat)) && startLoc) {
-          const sGeo = startLoc['schema:geo'] || startLoc.geo;
-          if (sGeo) {
-            lat = parseFloat(extractString(sGeo['schema:latitude'] || sGeo.latitude));
-            lon = parseFloat(extractString(sGeo['schema:longitude'] || sGeo.longitude));
-          }
-        }
+    let lat = parseFloat(extractString(item.lat?.value));
+    let lon = parseFloat(extractString(item.lon?.value));
 
-        let polyline: [number, number][] = [];
-        const lineStr = extractString(geo?.['schema:line'] || geo?.line || t['schema:line'] || t.line);
-        if (lineStr && typeof lineStr === 'string') {
-          const pairs = lineStr.trim().split(/\s+/);
-          polyline = pairs.map(p => {
-            const [c1, c2] = p.split(',').map(Number);
-            return fixLatLng(c1, c2);
-          }).filter(([la, lo]) => la !== 0 && lo !== 0);
-
-          if ((!lat || isNaN(lat) || lat === 0) && polyline.length > 0) {
-            lat = polyline[0][0];
-            lon = polyline[0][1];
-          }
-        }
-
-        if (isNaN(lat) || isNaN(lon) || lat === 0) continue;
-        const fixed = fixLatLng(lat, lon);
-        lat = fixed[0];
-        lon = fixed[1];
-
-        if (lat < 47.0 || lat > 55.5 || lon < 5.5 || lon > 15.5) continue;
-
-        let stateName = await assignState('DE', lat, lon);
-        if (!stateName) stateName = target.fallbackState;
-
-        let distKm = 12;
-        const lenVal = t['odta:length'] || t.length;
-        if (lenVal) {
-          const m = parseFloat(extractString(lenVal['schema:value'] || lenVal.value || lenVal));
-          if (!isNaN(m) && m > 0) distKm = Math.round(m / 100) / 10;
-        } else {
-          const rawDesc = extractString(t['schema:description'] || t.description);
-          const matchKm = (name + ' ' + rawDesc).match(/(\d+(?:[.,]\d+)?)\s*km\b/i);
-          if (matchKm) distKm = parseFloat(matchKm[1].replace(',', '.'));
-        }
-
-        const isBiking = name.toLowerCase().includes('rad') || name.toLowerCase().includes('bike') || name.toLowerCase().includes('cycle');
-        const isHiking = name.toLowerCase().includes('wander') || name.toLowerCase().includes('steig') || name.toLowerCase().includes('pfad') || name.toLowerCase().includes('weg');
-        const trailType = isBiking && isHiking ? 'both' : isBiking ? 'biking' : 'hiking';
-
-        let diff = 'medium';
-        const diffObj = t['odta:difficulty'] || t.difficulty;
-        const diffRaw = extractString(diffObj?.['schema:name'] || diffObj?.name || diffObj).toLowerCase();
-        if (diffRaw.includes('leicht') || diffRaw.includes('easy') || distKm < 10) diff = 'easy';
-        else if (diffRaw.includes('schwer') || diffRaw.includes('hard') || distKm > 35) diff = 'hard';
-
-        const durationHours = trailType === 'biking' ? Math.max(1, Math.round((distKm / 16) * 10) / 10) : Math.max(1, Math.round((distKm / 3.8) * 10) / 10);
-        let desc = cleanHtml(extractString(t['schema:description'] || t.description));
-        if (desc.length > 450) desc = desc.slice(0, 447) + '...';
-
-        const locality = target.locality || target.region || extractString(startLoc?.['schema:addressLocality'] || startLoc?.addressLocality) || stateName;
-        
-        let imageUrl = '';
-        const img = t['schema:image'] || t.image;
-        if (img) {
-          if (Array.isArray(img)) imageUrl = extractString(img[0]?.['schema:contentUrl'] || img[0]?.contentUrl || img[0]);
-          else imageUrl = extractString(img?.['schema:contentUrl'] || img?.contentUrl || img);
-        }
-        if (imageUrl && typeof imageUrl === 'string') imageUrl = imageUrl.replace(/^http:\/\//i, 'https://');
-        if (!imageUrl || typeof imageUrl !== 'string' || !imageUrl.startsWith('http')) {
-          imageUrl = DEFAULT_TRAIL_IMAGES[Math.floor(Math.random() * DEFAULT_TRAIL_IMAGES.length)];
-        }
-
-        await db.run(
-          `INSERT OR REPLACE INTO trails (
-            id, name, type, region, state, country, distance_km, duration_hours,
-            difficulty, elevation_gain_m, description, highlights, image_url,
-            start_location, end_location, latitude, longitude, polyline,
-            campsites_along_count, rating, search_query, source, last_updated
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [
-            trailId,
-            name,
-            trailType,
-            locality,
-            stateName,
-            'DE',
-            distKm,
-            durationHours,
-            diff,
-            Math.round(distKm * (diff === 'hard' ? 28 : diff === 'medium' ? 18 : 8)),
-            desc,
-            JSON.stringify([locality, `${distKm} km Tour`, `${diff === 'easy' ? 'Leichte' : diff === 'medium' ? 'Mittlere' : 'Anspruchsvolle'} Route`, 'Verifizierter DZT Open-Data Trail']),
-            imageUrl,
-            locality,
-            locality,
-            Math.round(lat * 1000) / 1000,
-            Math.round(lon * 1000) / 1000,
-            polyline.length > 0 ? JSON.stringify(polyline) : null,
-            Math.min(48, Math.max(2, Math.round(distKm * 0.12))),
-            4.8,
-            `Camping in ${locality}`,
-            'dzt_opendata',
-            new Date().toISOString()
-          ]
-        );
-        addedCount++;
-        totalInserted++;
+    const startLoc = item.startLoc || item.startLocation;
+    if ((!lat || isNaN(lat)) && startLoc) {
+      const sGeo = startLoc['schema:geo'] || startLoc.geo;
+      if (sGeo) {
+        lat = parseFloat(extractString(sGeo['schema:latitude'] || sGeo.latitude));
+        lon = parseFloat(extractString(sGeo['schema:longitude'] || sGeo.longitude));
       }
-      await db.run('COMMIT');
     }
-    console.log(`+${addedCount} new`);
+
+    let polyline: [number, number][] = [];
+    if ((!lat || isNaN(lat)) && (item.line?.value || item['schema:line'])) {
+      const lineStr = extractString(item.line?.value || item['schema:line']);
+      if (lineStr && typeof lineStr === 'string') {
+        const pairs = lineStr.trim().split(/\s+/);
+        polyline = pairs.map(p => {
+          const [c1, c2] = p.split(',').map(Number);
+          return fixLatLng(c1, c2);
+        }).filter(([la, lo]) => la !== 0 && lo !== 0);
+        if ((!lat || isNaN(lat)) && polyline.length > 0) {
+          lat = polyline[0][0];
+          lon = polyline[0][1];
+        }
+      }
+    }
+
+    if (isNaN(lat) || isNaN(lon) || lat === 0) {
+      skippedNoGeo.push(name);
+      continue;
+    }
+    const fixed = fixLatLng(lat, lon);
+    lat = fixed[0];
+    lon = fixed[1];
+
+    if (lat < 47.0 || lat > 55.5 || lon < 5.5 || lon > 15.5) continue;
+
+    const trailId = `dzt-trail-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
+
+    let stateName = await assignState('DE', lat, lon);
+    if (!stateName) stateName = 'Deutschland';
+
+    let distKm = 12;
+    const lenVal = item.length?.value;
+    if (lenVal) {
+      const m = parseFloat(extractString(lenVal));
+      if (!isNaN(m) && m > 0) distKm = Math.round(m / 100) / 10;
+    } else {
+      const rawDesc = extractString(item.desc?.value);
+      const matchKm = (name + ' ' + rawDesc).match(/(\d+(?:[.,]\d+)?)\s*km\b/i);
+      if (matchKm) distKm = parseFloat(matchKm[1].replace(',', '.'));
+    }
+
+    const isBiking = name.toLowerCase().includes('rad') || name.toLowerCase().includes('bike') || name.toLowerCase().includes('cycle');
+    const isHiking = name.toLowerCase().includes('wander') || name.toLowerCase().includes('steig') || name.toLowerCase().includes('pfad') || name.toLowerCase().includes('weg') || name.toLowerCase().includes('tour') || name.toLowerCase().includes('runde');
+    const trailType = isBiking && isHiking ? 'both' : isBiking ? 'biking' : 'hiking';
+
+    let diff = 'medium';
+    const diffRaw = extractString(item.diff?.value).toLowerCase();
+    if (diffRaw.includes('leicht') || diffRaw.includes('easy') || distKm < 10) diff = 'easy';
+    else if (diffRaw.includes('schwer') || diffRaw.includes('hard') || distKm > 35) diff = 'hard';
+
+    const durationHours = trailType === 'biking' ? Math.max(1, Math.round((distKm / 16) * 10) / 10) : Math.max(1, Math.round((distKm / 3.8) * 10) / 10);
+    let desc = cleanHtml(extractString(item.desc?.value));
+    if (desc.length > 450) desc = desc.slice(0, 447) + '...';
+
+    const locality = extractString(item.locality?.value) || stateName;
+
+    let imageUrl = extractString(item.image?.value);
+    if (imageUrl && typeof imageUrl === 'string') imageUrl = imageUrl.replace(/^http:\/\//i, 'https://');
+    if (!imageUrl || typeof imageUrl !== 'string' || !imageUrl.startsWith('http')) {
+      imageUrl = DEFAULT_TRAIL_IMAGES[Math.floor(Math.random() * DEFAULT_TRAIL_IMAGES.length)];
+    }
+
+    await db.run(
+      `INSERT OR REPLACE INTO trails (
+        id, name, type, region, state, country, distance_km, duration_hours,
+        difficulty, elevation_gain_m, description, highlights, image_url,
+        start_location, end_location, latitude, longitude, polyline,
+        campsites_along_count, rating, search_query, source, last_updated
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        trailId,
+        name,
+        trailType,
+        locality,
+        stateName,
+        'DE',
+        distKm,
+        durationHours,
+        diff,
+        Math.round(distKm * (diff === 'hard' ? 28 : diff === 'medium' ? 18 : 8)),
+        desc,
+        JSON.stringify([locality, `${distKm} km Tour`, `${diff === 'easy' ? 'Leichte' : diff === 'medium' ? 'Mittlere' : 'Anspruchsvolle'} Route`, 'Verifizierter DZT Open-Data Trail']),
+        imageUrl,
+        locality,
+        locality,
+        Math.round(lat * 1000) / 1000,
+        Math.round(lon * 1000) / 1000,
+        polyline.length > 0 ? JSON.stringify(polyline) : null,
+        Math.min(48, Math.max(2, Math.round(distKm * 0.12))),
+        4.8,
+        `Camping in ${locality}`,
+        'dzt_opendata',
+        new Date().toISOString()
+      ]
+    );
+    totalInserted++;
+    uncommitted++;
+    if (uncommitted >= 300) {
+      await db.run('COMMIT');
+      await db.run('BEGIN TRANSACTION');
+      uncommitted = 0;
+    }
   }
 
-  // 3. Final Summary & Database Stats
+  await db.run('COMMIT');
+  console.log(`  ✅ Inserted ${totalInserted} trails (${skippedNoGeo.length} skipped without coordinates).`);
+
   const allDbTrails = await db.all('SELECT * FROM trails ORDER BY state, name');
   console.log(`\n======================================================`);
   console.log(`🎉 TOTAL TRAILS IN DATABASE: ${allDbTrails.length}`);
-  
-  // Breakdown by state
+
   const stateCounts: Record<string, number> = {};
   for (const t of allDbTrails) {
     const st = t.state || 'Unbekannt';

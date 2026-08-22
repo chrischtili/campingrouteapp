@@ -455,44 +455,6 @@ const STATIC_QUERIES: { [key: string]: { sql: string; summary: string; totalQuer
     totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND state = 'Niedersachsen' AND country = 'DE'",
     summary: "<p>Campingplätze in <strong>Niedersachsen</strong> – von der Lüneburger Heide bis zur Nordsee.</p>"
   },
-  // Regions
-  "camping im schwarzwald": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND (state = 'Baden-Württemberg' AND country = 'DE') AND (address LIKE '%Schwarzwald%' OR name LIKE '%Schwarzwald%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND (state = 'Baden-Württemberg' AND country = 'DE') AND (address LIKE '%Schwarzwald%' OR name LIKE '%Schwarzwald%')",
-    summary: "<p>Camping im <strong>Schwarzwald</strong> – Natur pur in einem der schönsten Mittelgebirge Deutschlands.</p>"
-  },
-  "camping am bodensee": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND ( (state = 'Baden-Württemberg' AND country = 'DE') OR (state = 'Bayern' AND country = 'DE') OR (country = 'AT') OR (country = 'CH') ) AND (address LIKE '%Bodensee%' OR name LIKE '%Bodensee%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND ( (state = 'Baden-Württemberg' AND country = 'DE') OR (state = 'Bayern' AND country = 'DE') OR (country = 'AT') OR (country = 'CH') ) AND (address LIKE '%Bodensee%' OR name LIKE '%Bodensee%')",
-    summary: "<p>Campingplätze am <strong>Bodensee</strong> – in Deutschland, Österreich und der Schweiz.</p>"
-  },
-  // Coastal regions - Germany
-  "camping an der ostsee": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%')",
-    summary: "<p>Campingplätze an der <strong>Ostseeküste</strong> in Mecklenburg-Vorpommern und Schleswig-Holstein – direkt am Meer!</p>"
-  },
-  "campingplätze an der ostsee": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%')",
-    summary: "<p>Campingplätze an der <strong>Ostseeküste</strong> in Mecklenburg-Vorpommern und Schleswig-Holstein – mit Meerblick!</p>"
-  },
-  "campingplätze an der ostseeküste mit meerblick": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%' OR description LIKE '%Meerblick%' OR amenities LIKE '%Meerblick%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%' OR description LIKE '%Meerblick%' OR amenities LIKE '%Meerblick%')",
-    summary: "<p>Campingplätze an der <strong>Ostseeküste mit Meerblick</strong> in Mecklenburg-Vorpommern und Schleswig-Holstein – perfekt für deinen Urlaub am Wasser!</p>"
-  },
-  // More variations for Ostsee
-  "camping ostsee": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%')",
-    summary: "<p>Campingplätze an der <strong>Ostsee</strong> in Mecklenburg-Vorpommern und Schleswig-Holstein.</p>"
-  },
-  "wohnmobil an der ostsee": {
-    sql: "SELECT * FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%') ORDER BY rating DESC LIMIT ? OFFSET ?",
-    totalQuery: "SELECT COUNT(*) AS total FROM places WHERE type IN ('campground', 'caravan', 'glamping') AND country = 'DE' AND (state = 'Mecklenburg-Vorpommern' OR state = 'Schleswig-Holstein') AND (address LIKE '%Ostsee%' OR address LIKE '%Ostseeküste%' OR name LIKE '%Ostsee%' OR name LIKE '%Ostseeküste%')",
-    summary: "<p>Wohnmobilstellplätze an der <strong>Ostsee</strong> – direkt am Meer!</p>"
-  },
   // Attractions in states
   "sehenswürdigkeiten in bayern": {
     sql: "SELECT * FROM places WHERE type = 'attraction' AND state = 'Bayern' AND country = 'DE' ORDER BY rating DESC LIMIT ? OFFSET ?",

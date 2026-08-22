@@ -1916,6 +1916,20 @@ if (isStdioMode) {
   app.post("/mcp", handleMcpPost);
   app.post("/messages", handleMcpPost);
 
+  // Ensure all places in target countries have their state assigned from GPS coords
+  try {
+    const db = await getDb();
+    const unassigned = await db.get("SELECT COUNT(*) as count FROM places WHERE country = 'DE' AND (state IS NULL OR state = '')");
+    if (unassigned && unassigned.count > 0) {
+      console.log(`[GeoState] Found ${unassigned.count} places in DE without state. Assigning from coordinates...`);
+      import("./scripts/update-all-states.js")
+        .then(m => m.assignGeoStates(db))
+        .catch(err => console.warn("[GeoState] Auto-assign warning:", err.message));
+    }
+  } catch (err) {
+    console.warn("[GeoState] Check warning:", err);
+  }
+
   app.listen(PORT, () => {
     console.log(`===============================================`);
     console.log(`🚀 CampingRoute is running!`);

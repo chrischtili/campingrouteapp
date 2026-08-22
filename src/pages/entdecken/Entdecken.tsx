@@ -474,6 +474,8 @@ function EntdeckenContent() {
   const [countryAttractions, setCountryAttractions] = useState<Place[]>([]);
   const [subdivisionStats, setSubdivisionStats] = useState<{ [key: string]: number }>({});
   const [countryTab, setCountryTab] = useState<'camping' | 'attractions'>('camping');
+  const [homeCountryTab, setHomeCountryTab] = useState<'camping' | 'attractions'>('camping');
+  const [subdivisionViewMode, setSubdivisionViewMode] = useState<'states' | 'popular'>('states');
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState<'split' | 'map' | 'list'>('split');
@@ -2416,62 +2418,113 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
               )}
 
-              {/* Campgrounds by Country */}
+              {/* Unified Country Explorer Section */}
               {!hasSearched && !selectedCountryView && (
                 <div style={{ marginBottom: '3.5rem' }}>
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>{t.campgroundsByCountry}</h2>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{t.campgroundsByCountrySubtitle}</p>
-                  
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.25rem' }}>
-                    {Object.keys(COUNTRY_FLAGS).map((code) => (
-                      <div 
-                        key={code}
-                        onClick={() => openCountryView(code, 'camping')}
-                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-sm)' }}
-                        className="hover:scale-102 hover:shadow-md"
-                      >
-                        <div style={{ fontSize: '2.5rem', background: 'var(--gray-50)', padding: '0.5rem', borderRadius: '12px', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          {COUNTRY_FLAGS[code]}
-                        </div>
-                        <div>
-                          <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)' }}>{getCountryName(code, currentLang)}</h4>
-                          <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginTop: '0.15rem' }}>
-                            {(t.placesCount || '{{count}} Plätze').replace('{{count}}', String(countryStats[code] || 0))}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div>
+                      <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        🌍 {t.campgroundsByCountry || 'Reiseziele & Länder'}
+                      </h2>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', margin: 0 }}>
+                        {homeCountryTab === 'camping'
+                          ? (t.campgroundsByCountrySubtitle || 'Entdecke geprüfte Camping- und Stellplätze in ganz Europa')
+                          : (t.attractionsByCountrySubtitle || 'Entdecke beliebte Parks, Schlösser und Sehenswürdigkeiten')}
+                      </p>
+                    </div>
 
-              {/* Attractions by Country */}
-              {!hasSearched && !selectedCountryView && (
-                <div style={{ marginBottom: '3.5rem' }}>
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>{t.attractionsByCountry}</h2>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{t.attractionsByCountrySubtitle}</p>
-                  
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.25rem' }}>
-                    {Object.keys(COUNTRY_FLAGS)
-                      .filter(code => attractionStats[code] > 0)
-                      .map((code) => (
+                    {/* Mode Toggle: Camping vs Sehenswürdigkeiten */}
+                    <div style={{ display: 'flex', gap: '0.25rem', background: 'var(--gray-100)', padding: '4px', borderRadius: '12px' }}>
+                      <button
+                        onClick={() => setHomeCountryTab('camping')}
+                        style={{
+                          padding: '0.45rem 0.9rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          fontSize: '0.82rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          background: homeCountryTab === 'camping' ? 'var(--card-bg)' : 'transparent',
+                          color: homeCountryTab === 'camping' ? 'var(--primary-700)' : 'var(--gray-600)',
+                          boxShadow: homeCountryTab === 'camping' ? 'var(--shadow-sm)' : 'none',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <MapPin size={15} />
+                        <span>🏕️ {t.tabCamping || 'Campingplätze'}</span>
+                      </button>
+                      <button
+                        onClick={() => setHomeCountryTab('attractions')}
+                        style={{
+                          padding: '0.45rem 0.9rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          fontSize: '0.82rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          background: homeCountryTab === 'attractions' ? 'var(--card-bg)' : 'transparent',
+                          color: homeCountryTab === 'attractions' ? 'var(--primary-700)' : 'var(--gray-600)',
+                          boxShadow: homeCountryTab === 'attractions' ? 'var(--shadow-sm)' : 'none',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <Compass size={15} />
+                        <span>🏛️ {t.tabHighlights || 'Sehenswürdigkeiten'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1rem' }}>
+                    {Object.keys(COUNTRY_FLAGS).map((code) => {
+                      const count = homeCountryTab === 'camping' ? (countryStats[code] || 0) : (attractionStats[code] || 0);
+                      const secondaryCount = homeCountryTab === 'camping' ? (attractionStats[code] || 0) : (countryStats[code] || 0);
+                      if (homeCountryTab === 'attractions' && count === 0) return null;
+
+                      return (
                         <div 
                           key={code}
-                          onClick={() => openCountryView(code, 'attractions')}
-                          style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-sm)' }}
-                          className="hover:scale-102 hover:shadow-md"
+                          onClick={() => openCountryView(code, homeCountryTab)}
+                          style={{
+                            background: 'var(--card-bg)',
+                            border: '1px solid var(--card-border)',
+                            borderRadius: '14px',
+                            padding: '1rem 1.15rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.9rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                            boxShadow: 'var(--shadow-sm)'
+                          }}
+                          className="hover:scale-102 hover:shadow-md hover:border-primary-400"
                         >
-                          <div style={{ fontSize: '2.5rem', background: 'var(--gray-50)', padding: '0.5rem', borderRadius: '12px', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <div style={{ fontSize: '2.3rem', background: 'var(--gray-50)', padding: '0.35rem', borderRadius: '10px', width: '54px', height: '54px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             {COUNTRY_FLAGS[code]}
                           </div>
-                          <div>
-                            <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)' }}>{getCountryName(code, currentLang)}</h4>
-                            <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginTop: '0.15rem' }}>
-                              {(t.attractionsCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(attractionStats[code] || 0))}
-                            </p>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.2rem 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {getCountryName(code, currentLang)}
+                            </h4>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--primary-700)' }}>
+                                {homeCountryTab === 'camping' ? `🏕️ ${count.toLocaleString('de-DE')} Plätze` : `🏛️ ${count.toLocaleString('de-DE')} Ziele`}
+                              </span>
+                              {secondaryCount > 0 && (
+                                <span style={{ fontSize: '0.7rem', color: 'var(--gray-400)', fontWeight: 600 }}>
+                                  · {homeCountryTab === 'camping' ? `${secondaryCount.toLocaleString('de-DE')} Ziele` : `${secondaryCount.toLocaleString('de-DE')} Plätze`}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -3109,73 +3162,130 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </button>
                   </div>
 
-                  {REGIONS_BY_COUNTRY[selectedCountryView] && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                      {REGIONS_BY_COUNTRY[selectedCountryView].states.filter(state => !(subdivisionStats[state] !== undefined && subdivisionStats[state] === 0)).length > 0 && (
-                        <div>
-                          <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            📍 {countryTab === 'camping' ? t.regionsStates : t.attractionsRegions}
-                          </h3>
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '0.75rem' }}>
-                            {REGIONS_BY_COUNTRY[selectedCountryView].states
-                              .filter(state => !(subdivisionStats[state] !== undefined && subdivisionStats[state] === 0))
-                              .map((state) => (
-                              <button 
-                                key={state}
-                                onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping in ${state}` : `Sehenswürdigkeiten in ${state}`)}
-                                style={{ background: 'var(--gray-50)', border: '1px solid var(--gray-200)', borderRadius: '12px', padding: '0.85rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-                                className="hover-card-btn"
-                              >
-                                <MapPin size={18} style={{ color: 'var(--primary-700)', flexShrink: 0 }} />
-                                <div>
-                                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)' }}>
-                                    {state.replace(/ \(Kanton\)/gi, '').replace(/ \(Luxemburg\)/gi, '').replace(/ \(Wallonien\)/gi, '').replace(/ \(Lappland\)/gi, '')}
+                  {REGIONS_BY_COUNTRY[selectedCountryView] && (() => {
+                    const availableStates = REGIONS_BY_COUNTRY[selectedCountryView].states.filter(state => !(subdivisionStats[state] !== undefined && subdivisionStats[state] === 0));
+                    const availablePopular = REGIONS_BY_COUNTRY[selectedCountryView].popular.filter(reg => !(subdivisionStats[reg] !== undefined && subdivisionStats[reg] === 0));
+                    const hasBoth = availableStates.length > 0 && availablePopular.length > 0;
+
+                    return (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        
+                        {/* Segment switcher between Bundesländer / Urlaubsregionen */}
+                        {hasBoth && (
+                          <div style={{ display: 'flex', gap: '0.35rem', background: 'var(--gray-100)', padding: '4px', borderRadius: '12px', width: 'fit-content' }}>
+                            <button
+                              onClick={() => setSubdivisionViewMode('states')}
+                              style={{
+                                padding: '0.45rem 0.9rem',
+                                borderRadius: '8px',
+                                border: 'none',
+                                fontSize: '0.82rem',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.4rem',
+                                background: subdivisionViewMode === 'states' ? 'var(--card-bg)' : 'transparent',
+                                color: subdivisionViewMode === 'states' ? 'var(--primary-700)' : 'var(--gray-600)',
+                                boxShadow: subdivisionViewMode === 'states' ? 'var(--shadow-sm)' : 'none',
+                                transition: 'all 0.15s ease'
+                              }}
+                            >
+                              <MapPin size={14} />
+                              <span>{countryTab === 'camping' ? t.regionsStates : t.attractionsRegions} ({availableStates.length})</span>
+                            </button>
+                            <button
+                              onClick={() => setSubdivisionViewMode('popular')}
+                              style={{
+                                padding: '0.45rem 0.9rem',
+                                borderRadius: '8px',
+                                border: 'none',
+                                fontSize: '0.82rem',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.4rem',
+                                background: subdivisionViewMode === 'popular' ? 'var(--card-bg)' : 'transparent',
+                                color: subdivisionViewMode === 'popular' ? 'var(--primary-700)' : 'var(--gray-600)',
+                                boxShadow: subdivisionViewMode === 'popular' ? 'var(--shadow-sm)' : 'none',
+                                transition: 'all 0.15s ease'
+                              }}
+                            >
+                              <Compass size={14} />
+                              <span>{countryTab === 'camping' ? t.regionsPopular : t.attractionsPopular} ({availablePopular.length})</span>
+                            </button>
+                          </div>
+                        )}
+
+                        {/* States Grid */}
+                        {(!hasBoth || subdivisionViewMode === 'states') && availableStates.length > 0 && (
+                          <div>
+                            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                              📍 {countryTab === 'camping' ? t.regionsStates : t.attractionsRegions}
+                            </h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.65rem' }}>
+                              {availableStates.map((state) => (
+                                <button 
+                                  key={state}
+                                  onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping in ${state}` : `Sehenswürdigkeiten in ${state}`)}
+                                  style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '12px', padding: '0.75rem 0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.65rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
+                                  className="hover-card-btn hover:border-primary-400"
+                                >
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
+                                    <MapPin size={16} style={{ color: 'var(--primary-700)', flexShrink: 0 }} />
+                                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                      {state.replace(/ \(Kanton\)/gi, '').replace(/ \(Luxemburg\)/gi, '').replace(/ \(Wallonien\)/gi, '').replace(/ \(Lappland\)/gi, '')}
+                                    </span>
                                   </div>
-                                  <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)', marginTop: '0.1rem', fontWeight: 600 }}>
+                                  <span style={{ fontSize: '0.72rem', fontWeight: 800, padding: '2px 7px', borderRadius: '9999px', background: 'var(--primary-50)', color: 'var(--primary-700)', flexShrink: 0 }}>
                                     {subdivisionStats[state] !== undefined 
                                       ? (countryTab === 'camping' 
-                                          ? (t.campsiteCount || '{{count}} Plätze').replace('{{count}}', String(subdivisionStats[state]))
-                                          : (t.attractionCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(subdivisionStats[state])))
-                                      : (t.loadingCount || 'Lädt...')}
-                                  </div>
-                                </div>
-                              </button>
-                          ))}
-                        </div>
-                      </div>
-                      )}
+                                          ? `${subdivisionStats[state]} Plätze`
+                                          : `${subdivisionStats[state]} Ziele`)
+                                      : '...'}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
-                      {REGIONS_BY_COUNTRY[selectedCountryView].popular.filter(reg => !(subdivisionStats[reg] !== undefined && subdivisionStats[reg] === 0)).length > 0 && (
-                        <div>
-                          <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            🏖️ {countryTab === 'camping' ? t.regionsPopular : t.attractionsPopular}
-                          </h3>
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '0.75rem' }}>
-                            {REGIONS_BY_COUNTRY[selectedCountryView].popular
-                              .filter(reg => !(subdivisionStats[reg] !== undefined && subdivisionStats[reg] === 0))
-                              .map((reg) => (
-                              <button 
-                                key={reg}
-                                onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping ${reg}` : `Sehenswürdigkeiten in ${reg}`)}
-                                style={{ background: 'var(--gray-50)', border: '1px solid var(--gray-200)', borderRadius: '12px', padding: '0.85rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-                                className="hover-card-btn"
-                              >
-                                <Compass size={18} style={{ color: 'var(--primary-700)', flexShrink: 0 }} />
-                                <div>
-                                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)' }}>{reg}</div>
-                                  <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)', marginTop: '0.1rem', fontWeight: 600 }}>
+                        {/* Popular Regions Grid */}
+                        {(!hasBoth || subdivisionViewMode === 'popular') && availablePopular.length > 0 && (
+                          <div>
+                            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                              🏖️ {countryTab === 'camping' ? t.regionsPopular : t.attractionsPopular}
+                            </h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.65rem' }}>
+                              {availablePopular.map((reg) => (
+                                <button 
+                                  key={reg}
+                                  onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping ${reg}` : `Sehenswürdigkeiten in ${reg}`)}
+                                  style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '12px', padding: '0.75rem 0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.65rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
+                                  className="hover-card-btn hover:border-primary-400"
+                                >
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
+                                    <Compass size={16} style={{ color: 'var(--primary-700)', flexShrink: 0 }} />
+                                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                      {reg}
+                                    </span>
+                                  </div>
+                                  <span style={{ fontSize: '0.72rem', fontWeight: 800, padding: '2px 7px', borderRadius: '9999px', background: 'var(--primary-50)', color: 'var(--primary-700)', flexShrink: 0 }}>
                                     {subdivisionStats[reg] !== undefined 
                                       ? (countryTab === 'camping' 
-                                          ? (t.campsiteCount || '{{count}} Plätze').replace('{{count}}', String(subdivisionStats[reg]))
-                                          : (t.attractionCount || '{{count}} Sehenswürdigkeiten').replace('{{count}}', String(subdivisionStats[reg])))
-                                      : (t.loadingCount || 'Lädt...')}
-                                  </div>
-                                </div>
-                              </button>
-                            ))}
+                                          ? `${subdivisionStats[reg]} Plätze`
+                                          : `${subdivisionStats[reg]} Ziele`)
+                                      : '...'}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
+                    );
+                  })()}
 
                       {countryAttractions.length > 0 && (
                         <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--gray-100)', paddingTop: '1.5rem' }}>
@@ -3223,8 +3333,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                           </div>
                         </div>
                       )}
-                    </div>
-                  )}
                 </div>
               )}
 

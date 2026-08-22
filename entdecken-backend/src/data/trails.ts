@@ -32,13 +32,13 @@ export const FAMOUS_TRAILS: Trail[] = [
     "duration_hours": 80,
     "difficulty": "hard",
     "elevation_gain_m": 7800,
-    "description": "Der älteste und berühmteste Höhenwanderweg Deutschlands führt von Pforzheim quer durch den Schwarzwald bis nach Basel. Fantastische Fernsichten über Vogesen und Schweizer Alpen.",
+    "description": "Der älteste und berühmteste Höhenwanderweg Deutschlands führt von Pforzheim quer durch den Schwarzwald bis nach Basel. Fantastische Fernsichten über Vogesen und Schweizer Alpen über den Feldberg.",
     "highlights": [
-      "Mummelsee",
+      "Mummelsee & Hornisgrinde",
       "Feldberg-Gipfel (1.493m)",
       "Titisee",
       "Saiger Höhe",
-      "Belchen"
+      "Belchen-Panorama"
     ],
     "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
     "start_location": "Pforzheim",
@@ -59,13 +59,13 @@ export const FAMOUS_TRAILS: Trail[] = [
     "duration_hours": 95,
     "difficulty": "medium",
     "elevation_gain_m": 4500,
-    "description": "Spektakuläre Weinbergs-Steillagen, romantische Burgen und sanfte Flussschleifen. Einer der abwechslungsreichsten Qualitätswander- und Radwege Europas mit hervorragender Camping-Dichte.",
+    "description": "Spektakuläre Weinbergs-Steillagen, romantische Burgen und sanfte Flussschleifen. Einer der abwechslungsreichsten Qualitätswander- und Radwege Europas mit hervorragender Camping-Dichte direkt am Flussufer.",
     "highlights": [
-      "Burg Eltz",
+      "Märchenschloss Burg Eltz",
       "Bremmer Calmont (steilster Weinberg)",
-      "Cochem",
-      "Bernkastel-Kues",
-      "Porta Nigra"
+      "Reichsburg Cochem",
+      "Fachwerk-Altstadt Bernkastel-Kues",
+      "Römische Porta Nigra Trier"
     ],
     "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
     "start_location": "Perl (Dreiländereck)",
@@ -86,12 +86,12 @@ export const FAMOUS_TRAILS: Trail[] = [
     "duration_hours": 85,
     "difficulty": "medium",
     "elevation_gain_m": 6200,
-    "description": "Führt rechtsrheinisch durch das UNESCO-Welterbe Oberes Mittelrheintal von Bonn über Koblenz nach Wiesbaden. Dichte Burgendichte und Traumblicke auf den Rhein.",
+    "description": "Führt rechtsrheinisch durch das UNESCO-Welterbe Oberes Mittelrheintal von Bonn über Koblenz nach Wiesbaden. Dichte Burgendichte, schmale Felsenpfade und Traumblicke auf den Rhein.",
     "highlights": [
-      "Loreley-Felsen",
-      "Drachenfels",
-      "Marksburg",
-      "Pfalzgrafenstein",
+      "Sagenumwobener Loreley-Felsen",
+      "Drachenfels & Siebengebirge",
+      "Marksburg Braubach",
+      "Inselburg Pfalzgrafenstein",
       "Schloss Biebrich"
     ],
     "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
@@ -115,11 +115,11 @@ export const FAMOUS_TRAILS: Trail[] = [
     "elevation_gain_m": 4100,
     "description": "Gilt als einer der schönsten Wanderwege Deutschlands. Wilde Felsenschluchten, mystische Tafelberge und die weltberühmte Basteibrücke inspirierten schon Caspar David Friedrich.",
     "highlights": [
-      "Basteibrücke",
+      "Weltberühmte Basteibrücke",
       "Festung Königstein",
-      "Schrammsteine",
-      "Kuhstall",
-      "Kirnitzschtal"
+      "Schrammsteine Felslabyrinth",
+      "Kuhstall Felsentor",
+      "Romantisches Kirnitzschtal"
     ],
     "image_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
     "start_location": "Liebethal",
@@ -140,12 +140,13 @@ export const FAMOUS_TRAILS: Trail[] = [
     "duration_hours": 55,
     "difficulty": "easy",
     "elevation_gain_m": 2100,
-    "description": "Wunderschöne Jura-Felsformationen, sonnige Wacholderheiden und sanft fließende Flussauen im Naturpark Altmühltal. Extrem familien- und wohnmobilfreundlich.",
+    "description": "Wunderschöne Jura-Felsformationen, sonnige Wacholderheiden und sanft fließende Flussauen im Naturpark Altmühltal. Extrem familien- und wohnmobilfreundlich mit gemütlichen Ufer-Stellplätzen.",
     "highlights": [
       "Zwölf Apostel Felsen",
       "Donaudurchbruch Weltenburg",
-      "Burg Prunn",
-      "Befreiungshalle"
+      "Ritterburg Prunn",
+      "Befreiungshalle Kelheim",
+      "Fossilien-Steinbrüche"
     ],
     "image_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
     "start_location": "Gunzenhausen",
@@ -169,10 +170,10 @@ export const FAMOUS_TRAILS: Trail[] = [
     "description": "Der beliebteste Radfernweg Europas umrundet den gesamten Bodensee durch drei Länder (Deutschland, Österreich, Schweiz) vor einer atemberaubenden Alpenkulisse.",
     "highlights": [
       "Blumeninsel Mainau",
-      "Pfahlbauten Unteruhldingen",
+      "UNESCO-Pfahlbauten Unteruhldingen",
       "Altstadt Lindau",
-      "Rheinfall",
-      "Meersburg"
+      "Rheinfall Schaffhausen",
+      "Burg Meersburg"
     ],
     "image_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
     "start_location": "Konstanz",
@@ -195,9 +196,9 @@ export const FAMOUS_TRAILS: Trail[] = [
     "elevation_gain_m": 850,
     "description": "Verbindet Hamburg mit Celle und führt mitten durch die lila blühenden Heideflächen, dichte Kiefernwälder und idyllische Wacholderhaine des autofreien Naturschutzgebiets.",
     "highlights": [
-      "Wilseder Berg (169m)",
-      "Totengrund",
-      "Pietzmoor",
+      "Aussicht Wilseder Berg (169m)",
+      "Mystischer Totengrund",
+      "Pietzmoor Holzbohlenweg",
       "Heidedörfer Undeloh & Wilsede"
     ],
     "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
@@ -221,11 +222,11 @@ export const FAMOUS_TRAILS: Trail[] = [
     "elevation_gain_m": 950,
     "description": "Von der Donauquelle in Donaueschingen über das Durchbruchstal der Schwäbischen Alb, Ulm, Regensburg bis in die Dreiflüssestadt Passau. Flach, verkehrsarm und naturnah.",
     "highlights": [
-      "Ulmer Münster",
+      "Höchstes Ulmer Münster",
       "Kloster Weltenburg",
       "UNESCO-Altstadt Regensburg",
-      "Walhalla",
-      "Passau"
+      "Ruhmeshalle Walhalla",
+      "Dreiflüssestadt Passau"
     ],
     "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
     "start_location": "Donaueschingen",
@@ -249,10 +250,10 @@ export const FAMOUS_TRAILS: Trail[] = [
     "description": "Quer über den Harz und hinauf auf den sagenumwobenen Brocken. Urige Nadelwälder, Moore des Oberharzer Wasserregals und das spektakuläre Bodetal.",
     "highlights": [
       "Brockengipfel (1.141m)",
-      "Bodetal-Schlucht",
-      "Oderteich",
-      "Dammgraben",
-      "Rübeland-Höhlen"
+      "Bodetal Grand Canyon",
+      "Oderteich Badesee",
+      "Oberharzer Dammgraben",
+      "Rübeland Tropfsteinhöhlen"
     ],
     "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
     "start_location": "Osterode",
@@ -275,11 +276,11 @@ export const FAMOUS_TRAILS: Trail[] = [
     "elevation_gain_m": 1200,
     "description": "Endlose weiße Sandstrände, Steilküsten, traditionsreiche Hansestädte und die Kreidefelsen von Rügen. Der Traumweg für Sommer- und Campingurlauber.",
     "highlights": [
-      "Nationalpark Jasmund (Kreidefelsen)",
-      "Fischland-Darß-Zingst",
-      "Wismar & Stralsund",
-      "Warnemünde",
-      "Usedom"
+      "Nationalpark Jasmund Kreidefelsen",
+      "Halbinsel Fischland-Darß-Zingst",
+      "Hansestädte Wismar & Stralsund",
+      "Ostseebad Warnemünde",
+      "Sonneninsel Usedom"
     ],
     "image_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
     "start_location": "Flensburg",
@@ -302,11 +303,11 @@ export const FAMOUS_TRAILS: Trail[] = [
     "elevation_gain_m": 6400,
     "description": "Motto: „Wo Fels und Wasser dich begleiten“. Führt durch das Hohe Venn, den Nationalpark Eifel mit seinen Stauseen und die vulkanischen Maare der Vulkaneifel bis nach Trier.",
     "highlights": [
-      "Hohes Venn",
-      "Rursee",
+      "Hochmoor Hohes Venn",
+      "Rursee & Urftsee",
       "Vulkanmaare Daun",
       "Gerolsteiner Dolomiten",
-      "Genovevahöhle"
+      "Genovevahöhle Butzweiler"
     ],
     "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
     "start_location": "Aachen-Kornelimünster",
@@ -329,11 +330,11 @@ export const FAMOUS_TRAILS: Trail[] = [
     "elevation_gain_m": 9200,
     "description": "Drei Weghöhen durch die Traumlandschaft des Allgäus: Von sanften Hügeln und Wasserfällen bis zu hochalpinen Gratkraxeleien in den Allgäuer Hochalpen.",
     "highlights": [
-      "Breitachklamm",
-      "Nebelhorn",
-      "Schloss Neuschwanstein",
-      "Großer Alpsee",
-      "Forggensee"
+      "Tiefste Breitachklamm",
+      "Nebelhorn Berggipfel",
+      "Königsschloss Neuschwanstein",
+      "Großer Alpsee Immenstadt",
+      "Forggensee Panorama"
     ],
     "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
     "start_location": "Oberstdorf",
@@ -343,10 +344,115 @@ export const FAMOUS_TRAILS: Trail[] = [
     "campsites_along_count": 28,
     "rating": 4.9,
     "search_query": "Camping im Allgäu"
+  },
+  {
+    "id": "trail-rennsteig-thueringen",
+    "name": "Rennsteig Thüringer Wald",
+    "type": "hiking",
+    "region": "Thüringen",
+    "country": "DE",
+    "distance_km": 170,
+    "duration_hours": 48,
+    "difficulty": "medium",
+    "elevation_gain_m": 3100,
+    "description": "Der traditionsreichste Kammweg Deutschlands zieht sich über den Kamm des Thüringer Waldes, des Thüringer Schiefergebirges und des Frankenwaldes.",
+    "highlights": [
+      "Großer Inselsberg (916m)",
+      "UNESCO-Biosphärenreservat Vessertal",
+      "Schneekopf (978m)",
+      "Wartburg bei Eisenach"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Hörschel (Werra)",
+    "end_location": "Blankenstein (Saale)",
+    "latitude": 50.68,
+    "longitude": 10.75,
+    "campsites_along_count": 15,
+    "rating": 4.8,
+    "search_query": "Camping in Thüringen"
+  },
+  {
+    "id": "trail-rothaarsteig",
+    "name": "Rothaarsteig (Weg der Sinne)",
+    "type": "hiking",
+    "region": "Sauerland / Siegerland",
+    "country": "DE",
+    "distance_km": 154,
+    "duration_hours": 42,
+    "difficulty": "medium",
+    "elevation_gain_m": 3900,
+    "description": "Führt über den Hauptgebirgskamm des Rothaargebirges durch dichte Buchenwälder, vorbei an Quellen von Ruhr, Sieg, Lahn und Eder.",
+    "highlights": [
+      "Kahler Asten (841m)",
+      "Bruchhauser Steine",
+      "Hängebrücke Kühhude",
+      "Ruhrquelle & Siegquelle"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Brilon",
+    "end_location": "Dillenburg",
+    "latitude": 51.18,
+    "longitude": 8.48,
+    "campsites_along_count": 17,
+    "rating": 4.7,
+    "search_query": "Camping in Nordrhein-Westfalen"
+  },
+  {
+    "id": "trail-elberadweg",
+    "name": "Elberadweg (Deutschland)",
+    "type": "biking",
+    "region": "Sachsen / Sachsen-Anhalt",
+    "country": "DE",
+    "distance_km": 860,
+    "duration_hours": 55,
+    "difficulty": "easy",
+    "elevation_gain_m": 500,
+    "description": "Mehrfach zum beliebtesten Radweg Deutschlands gewählt. Folgt der Elbe vom Elbsandsteingebirge über Dresden, Dessau, Magdeburg bis an die Nordseemündung in Cuxhaven.",
+    "highlights": [
+      "Barockmetropole Dresden",
+      "Porzellanstadt Meißen",
+      "Lutherstadt Wittenberg",
+      "Bauhaus Dessau",
+      "Cuxhaven Kugelbake"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Schöna (Grenze CZ)",
+    "end_location": "Cuxhaven",
+    "latitude": 51.55,
+    "longitude": 12.8,
+    "campsites_along_count": 52,
+    "rating": 4.9,
+    "search_query": "Camping in Sachsen"
+  },
+  {
+    "id": "trail-weser-radweg",
+    "name": "Weser-Radweg",
+    "type": "biking",
+    "region": "Weserbergland / Niedersachsen",
+    "country": "DE",
+    "distance_km": 520,
+    "duration_hours": 32,
+    "difficulty": "easy",
+    "elevation_gain_m": 420,
+    "description": "Vom Zusammenfluss von Werra und Fulda in Hann. Münden durch das romantische Weserbergland, die Hansestadt Bremen bis an die Nordsee in Cuxhaven.",
+    "highlights": [
+      "Rattenfängerstadt Hameln",
+      "Schloss Hämelschenburg",
+      "Kaiser-Wilhelm-Denkmal Porta Westfalica",
+      "Bremer Stadtmusikanten"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Hann. Münden",
+    "end_location": "Cuxhaven",
+    "latitude": 52.35,
+    "longitude": 9.05,
+    "campsites_along_count": 36,
+    "rating": 4.8,
+    "search_query": "Camping in Niedersachsen"
   }
 ];
 
-export function getNearbyTrails(lat: number, lon: number, maxDistanceKm: number = 45): (Trail & { distance_to_place_km: number })[] {
+export function getNearbyTrails(lat: number, lon: number, maxDistanceKm: number = 55): (Trail & { distance_to_place_km: number })[] {
   function calcDist(lat1: number, lon1: number, lat2: number, lon2: number) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;

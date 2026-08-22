@@ -965,10 +965,14 @@ function EntdeckenContent() {
       document.body.style.overflow = 'hidden';
       setIsLoadingTrailCampsites(true);
 
-      // 1. Fetch exact nearby campsites within 25km radius
-      const nearbyUrl = `/discover/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=25&limit=25`;
+      // 1. Calculate realistic corridor / radius based on trail length (e.g. 8 km for short day hikes)
+      const distKm = selectedTrail.distance_km || 10;
+      const dynamicRadius = distKm < 15 ? 8 : (distKm < 50 ? 12 : 15);
+
+      // 2. Fetch exact nearby campsites within dynamic radius
+      const nearbyUrl = `/discover/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=${dynamicRadius}&limit=15`;
       fetch(nearbyUrl)
-        .then(res => res.ok ? res.json() : fetch(`/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=25&limit=25`).then(r => r.json()))
+        .then(res => res.ok ? res.json() : fetch(`/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=${dynamicRadius}&limit=15`).then(r => r.json()))
         .then(data => {
           if (data && data.places && Array.isArray(data.places)) {
             setTrailCampsites(data.places);
@@ -979,7 +983,7 @@ function EntdeckenContent() {
         .catch(() => setTrailCampsites([]))
         .finally(() => setIsLoadingTrailCampsites(false));
 
-      // 2. Fetch full trail details & geometry / polyline if not already available
+      // 3. Fetch full trail details & geometry / polyline if not already available
       if (selectedTrail.polyline && selectedTrail.polyline.length > 0) {
         setTrailPolyline(selectedTrail.polyline);
         setTrailStartCoords(selectedTrail.start_coords || selectedTrail.polyline[0]);
@@ -2125,7 +2129,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <div>
                         <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Camping-Dichte</span>
                         <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: '#059669' }}>
-                          🏕️ {isLoadingTrailCampsites ? '...' : (trailCampsites.length || selectedTrail.campsites_along_count)} Plätze
+                          🏕️ {isLoadingTrailCampsites ? '...' : `${trailCampsites.length} ${trailCampsites.length === 1 ? 'Platz' : 'Plätze'}`}
                         </p>
                       </div>
                     </div>
@@ -2162,16 +2166,22 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: 0 }}>
                   <div className="detail-card">
                     <h4 style={{ fontSize: '1.05rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      🏕️ Camping- & Stellplätze am Weg ({isLoadingTrailCampsites ? '...' : trailCampsites.length})
+                      {selectedTrail.distance_km < 25 ? '🏕️ Camping & Stellplätze in der Nähe' : '🏕️ Camping & Stellplätze an der Route'} ({isLoadingTrailCampsites ? '...' : trailCampsites.length})
                     </h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '1rem' }}>
-                      Verifizierte Übernachtungsorte im Umkreis von 25 km um diese Tour
+                      {selectedTrail.distance_km < 25 
+                        ? `Verifizierte Übernachtungsorte im Umkreis von bis zu ${selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15)} km` 
+                        : 'Verifizierte Übernachtungsorte im Korridor entlang des Streckenverlaufs'}
                     </p>
 
                     {isLoadingTrailCampsites ? (
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Nahegelegene Plätze werden gesucht...</p>
                     ) : trailCampsites.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Keine Campingplätze im direkten Umkreis von 25 km gefunden.</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>
+                        {selectedTrail.distance_km < 25 
+                          ? `Keine Campingplätze im direkten Umkreis von ${selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15)} km gefunden.` 
+                          : 'Keine Campingplätze im Korridor entlang des Streckenverlaufs gefunden.'}
+                      </p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
                         {trailCampsites.map((p) => (
@@ -2269,9 +2279,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                     >
                       <MapIcon size={16} />
                       <span>
-                        {trailCampsites.length > 0
+                        {trailCampsites.length === 1
+                          ? 'Den 1 Platz auf großer Karte öffnen'
+                          : trailCampsites.length > 1
                           ? `Alle ${trailCampsites.length} Plätze auf großer Karte öffnen`
-                          : `Campingplätze entlang dieser Tour suchen`}
+                          : 'Campingplätze im weiteren Umkreis suchen'}
                       </span>
                     </button>
                   </div>
@@ -2834,7 +2846,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   </div>
                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
                                     <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#059669' }}>
-                                      🏕️ {trail.campsites_along_count} Plätze am Weg
+                                      🏕️ {trail.distance_km < 25 ? 'Camping in der Nähe' : 'Camping an der Route'}
                                     </span>
                                     <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
                                       Details →
@@ -2971,7 +2983,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   {/* Footer */}
                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--gray-100)' }}>
                                     <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                                      🏕️ {(t.campsitesAlong || '{{count}} Plätze am Weg').replace('{{count}}', String(trail.campsites_along_count))}
+                                      🏕️ {trail.distance_km < 25 ? 'Camping in der Nähe' : 'Camping an der Route'}
                                     </span>
                                     <button
                                       onClick={(e) => {

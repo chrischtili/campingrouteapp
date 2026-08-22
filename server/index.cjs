@@ -386,6 +386,18 @@ function sqliteString(value) {
   return `'${String(value || '').replace(/'/g, "''")}'`;
 }
 
+function haversineDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 function ensurePlaceDatabaseReady() {
   if (!placeDatabaseState.available || !fs.existsSync(PLACE_DATABASE_PATH)) {
     return false;
@@ -2065,6 +2077,109 @@ const server = http.createServer(async (req, res) => {
         return;
       } catch (err) {
         sendJson(res, 200, []);
+        return;
+      }
+    }
+
+    // Trail details endpoint
+    if (req.method === 'GET' && (pathname === '/api/trails/details' || pathname === '/discover/api/trails/details')) {
+      const id = (url.searchParams.get('id') || '').trim();
+      const uri = (url.searchParams.get('uri') || '').trim();
+      try {
+        const trailsFilePath = path.join(__dirname, 'trails.json');
+        let trailsList = [];
+        if (fs.existsSync(trailsFilePath)) {
+          trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+        }
+        const trail = trailsList.find(t => (id && t.id === id) || (uri && t.uri === uri));
+        if (trail) {
+          const lat = Number(trail.latitude);
+          const lon = Number(trail.longitude);
+          const dist = trail.distance_km || 10;
+          const delta = (dist / 111.0) * 0.4;
+          const polyline = trail.polyline || [
+            [lat - delta * 0.5, lon - delta * 0.5],
+            [lat - delta * 0.2, lon - delta * 0.1],
+            [lat, lon],
+            [lat + delta * 0.3, lon + delta * 0.2],
+            [lat + delta * 0.5, lon + delta * 0.5]
+          ];
+          sendJson(res, 200, {
+            success: true,
+            trail,
+            polyline,
+            start_coords: trail.start_coords || polyline[0],
+            end_coords: trail.end_coords || polyline[polyline.length - 1]
+          });
+          return;
+        }
+        sendJson(res, 404, { success: false, message: 'Trail not found' });
+        return;
+      } catch (err) {
+        sendJson(res, 500, { success: false, error: err.message });
+        return;
+      }
+    }
+
+    // Nearby campsites for a trail (spatial Haversine query)
+    if (req.method === 'GET' && (pathname === '/api/trails/nearby-campsites' || pathname === '/discover/api/trails/nearby-campsites')) {
+      const lat = parseFloat(url.searchParams.get('lat') || '');
+      const lon = parseFloat(url.searchParams.get('lon') || '');
+      const radiusKm = parseFloat(url.searchParams.get('radius_km') || url.searchParams.get('radius') || '25');
+      const limit = parseInt(url.searchParams.get('limit') || '30', 10);
+
+      if (isNaN(lat) || isNaN(lon)) {
+        sendJson(res, 400, { success: false, message: 'Valid lat and lon required' });
+        return;
+      }
+
+      try {
+        const dbPaths = [
+          PLACE_DATABASE_PATH,
+          path.join(__dirname, '..', 'places.sqlite'),
+          path.join(__dirname, '..', 'entdecken-backend', 'campingroute_eu.db'),
+          path.join(DATA_DIR, 'campingroute_eu.db')
+        ];
+        const dbPath = dbPaths.find(p => fs.existsSync(p));
+        if (!dbPath) {
+          sendJson(res, 200, { success: true, count: 0, places: [] });
+          return;
+        }
+
+        const dLat = radiusKm / 111.0;
+        const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
+        const sql = `SELECT id, name, type, city, address, rating, image_url, latitude, longitude, description, price, website FROM places WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 200;`;
+        
+        let rows = [];
+        try {
+          const output = execFileSync('sqlite3', ['-json', dbPath, sql], {
+            encoding: 'utf8',
+            stdio: ['ignore', 'pipe', 'pipe'],
+            maxBuffer: 4 * 1024 * 1024
+          }).trim();
+          if (output) {
+            rows = JSON.parse(output);
+          }
+        } catch (_) {}
+
+        const withDist = rows.map(r => {
+          const dist = haversineDistanceKm(lat, lon, Number(r.latitude), Number(r.longitude));
+          return {
+            ...r,
+            distance_km: Math.round(dist * 10) / 10
+          };
+        })
+        .filter(r => r.distance_km <= radiusKm)
+        .sort((a, b) => a.distance_km - b.distance_km);
+
+        sendJson(res, 200, {
+          success: true,
+          count: withDist.length,
+          places: withDist.slice(0, limit)
+        });
+        return;
+      } catch (err) {
+        sendJson(res, 500, { success: false, error: err.message });
         return;
       }
     }

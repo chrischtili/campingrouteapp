@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "server": "PORT=3002 node server/index.cjs",
-    "build": "vite build && node scripts/write-version.mjs",
+    "build": "vite build && (cd entdecken-backend && npm run build) && node scripts/write-version.mjs",
     "build:dev": "vite build --mode development && node scripts/write-version.mjs",
     "build:place-index": "node scripts/build-place-index.mjs",
     "build:place-db": "node scripts/build-place-database.mjs",

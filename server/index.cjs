@@ -2035,7 +2035,9 @@ const server = http.createServer(async (req, res) => {
     // Hiking & Biking Trails endpoint
     if (req.method === 'GET' && (pathname === '/api/trails' || pathname === '/discover/api/trails')) {
       const type = (url.searchParams.get('type') || 'all').toLowerCase();
+      const state = (url.searchParams.get('state') || '').trim();
       const region = (url.searchParams.get('region') || '').toLowerCase();
+      const q = (url.searchParams.get('q') || '').toLowerCase().trim();
       try {
         const trailsFilePath = path.join(__dirname, 'trails.json');
         let trailsList = [];
@@ -2045,8 +2047,19 @@ const server = http.createServer(async (req, res) => {
         if (type && type !== 'all') {
           trailsList = trailsList.filter(t => t.type === type || t.type === 'both');
         }
+        if (state && state !== 'all' && state !== 'Alle Bundesländer') {
+          trailsList = trailsList.filter(t => t.state === state || (t.region || '').includes(state));
+        }
         if (region) {
-          trailsList = trailsList.filter(t => (t.region || '').toLowerCase().includes(region));
+          trailsList = trailsList.filter(t => (t.region || '').toLowerCase().includes(region) || (t.state || '').toLowerCase().includes(region));
+        }
+        if (q) {
+          trailsList = trailsList.filter(t => 
+            (t.name || '').toLowerCase().includes(q) ||
+            (t.region || '').toLowerCase().includes(q) ||
+            (t.state || '').toLowerCase().includes(q) ||
+            (t.description || '').toLowerCase().includes(q)
+          );
         }
         sendJson(res, 200, trailsList);
         return;

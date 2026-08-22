@@ -2349,61 +2349,37 @@ const getWebsiteUrl = (place: Place): string | null => {
             <div>
               {/* AI Search Hero Area (nur auf der Startseite) */}
               {!hasSearched && !selectedCountryView && (
-              <div style={{ 
-                textAlign: 'center', 
-                padding: '5rem 1.5rem', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center',
-                backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), url("/hero-bg.jpg")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: '24px',
-                color: 'white',
-                marginBottom: '2.5rem',
-                boxShadow: 'var(--shadow-md)',
-                transition: 'all 0.3s ease-in-out'
-              }}>
+              <div className="hero-banner">
                 {!hasSearched && (
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '1.25rem', letterSpacing: '0.05em', textTransform: 'uppercase', backdropFilter: 'blur(4px)' }}>
                     <Sparkles size={12} />
                     Early Beta — AI Search
                   </div>
                 )}
-                <h1 style={{ 
-                  fontSize: hasSearched ? '2rem' : '2.8rem', 
-                  fontWeight: 800, 
-                  color: 'white', 
-                  letterSpacing: '-0.02em', 
-                  marginBottom: '1rem', 
-                  maxWidth: '700px', 
-                  lineHeight: '1.15',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                  transition: 'all 0.3s ease-in-out'
-                }}>
+                <h1 className="hero-title">
                   {t.heroTitle}
                 </h1>
                 {!hasSearched && (
-                  <p style={{ fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.95)', maxWidth: '600px', lineHeight: '1.6', marginBottom: '2rem', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+                  <p className="hero-subtitle">
                     {t.heroSubtitle}
                   </p>
                 )}
 
                 {/* Natural Language Search Bar */}
-                <form onSubmit={handleSearch} style={{ maxWidth: '720px', width: '100%', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '24px', padding: '0.45rem', display: 'flex', gap: '0.5rem', boxShadow: 'var(--shadow-lg)', marginBottom: '1.5rem' }}>
-                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', paddingLeft: '1rem', position: 'relative' }}>
-                    <Search size={20} style={{ color: 'var(--gray-400)', position: 'absolute', left: '1rem' }} />
+                <form onSubmit={handleSearch} className="hero-search-form">
+                  <div className="hero-search-input-wrapper">
+                    <Search size={20} className="hero-search-icon" />
                     <input 
                       type="text" 
                       placeholder={t.searchPlaceholder}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', padding: '0.8rem 1rem 0.8rem 2rem', fontSize: '1.05rem', color: 'var(--gray-900)' }}
+                      className="hero-search-input"
                     />
                   </div>
-                  <button type="submit" style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0 1.75rem', fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'background 0.2s' }} className="search-submit-btn">
+                  <button type="submit" className="hero-search-btn search-submit-btn">
                     <Sparkles size={16} />
-                    {t.searchBtn}
+                    <span>{t.searchBtn}</span>
                   </button>
                 </form>
 

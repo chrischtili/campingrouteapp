@@ -1156,3 +1156,172 @@
 [data-theme="dark"] .entdecken-root .search-summary-card strong {
   color: #f8fafc !important;
 }
+
+/* Responsive AI Search Hero Section */
+.entdecken-root .hero-banner {
+  text-align: center;
+  padding: 4.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6)), url('/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 24px;
+  color: white;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease-in-out;
+}
+
+.entdecken-root .hero-title {
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+  max-width: 720px;
+  line-height: 1.18;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease-in-out;
+}
+
+.entdecken-root .hero-subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 620px;
+  line-height: 1.55;
+  margin-bottom: 1.75rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.entdecken-root .hero-search-form {
+  max-width: 720px;
+  width: 100%;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--card-border, #e2e8f0);
+  border-radius: 9999px;
+  padding: 0.4rem 0.45rem 0.4rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.entdecken-root .hero-search-form:focus-within {
+  border-color: var(--primary-500, #10b981);
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.35), 0 0 0 3px rgba(16, 185, 129, 0.25);
+}
+
+.entdecken-root .hero-search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.entdecken-root .hero-search-icon {
+  color: var(--gray-400, #9ca3af);
+  flex-shrink: 0;
+}
+
+.entdecken-root .hero-search-input {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: var(--gray-900, #111827);
+  padding: 0.65rem 0;
+}
+
+.dark .entdecken-root .hero-search-input,
+[data-theme="dark"] .entdecken-root .hero-search-input {
+  color: #f8fafc;
+}
+
+.entdecken-root .hero-search-btn {
+  background: var(--primary-700, #047857);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.entdecken-root .hero-search-btn:hover {
+  background: var(--primary-800, #065f46);
+  transform: translateY(-1px);
+}
+
+.entdecken-root .hero-search-btn:active {
+  transform: translateY(0);
+}
+
+/* Mobile Smartphone Optimizations (< 640px) */
+@media (max-width: 640px) {
+  .entdecken-root .hero-banner {
+    padding: 2.75rem 1rem !important;
+    border-radius: 18px !important;
+    margin-bottom: 1.75rem !important;
+  }
+
+  .entdecken-root .hero-title {
+    font-size: 1.75rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .entdecken-root .hero-subtitle {
+    font-size: 0.92rem !important;
+    margin-bottom: 1.25rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .entdecken-root .hero-search-form {
+    border-radius: 18px !important;
+    padding: 0.45rem !important;
+    flex-direction: column !important;
+    gap: 0.45rem !important;
+  }
+
+  .entdecken-root .hero-search-input-wrapper {
+    width: 100% !important;
+    background: rgba(0, 0, 0, 0.03) !important;
+    border-radius: 12px !important;
+    padding: 0.2rem 0.75rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .dark .entdecken-root .hero-search-input-wrapper,
+  [data-theme="dark"] .entdecken-root .hero-search-input-wrapper {
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .entdecken-root .hero-search-input {
+    font-size: 16px !important; /* Prevents auto-zoom in iOS Safari */
+    padding: 0.65rem 0.25rem !important;
+  }
+
+  .entdecken-root .hero-search-btn {
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+    height: 46px !important;
+    box-shadow: 0 4px 12px rgba(4, 120, 87, 0.3) !important;
+  }
+}

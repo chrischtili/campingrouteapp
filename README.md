@@ -1,7 +1,7 @@
 # 🚐 Camping Route - KI Wohnmobil Routenplaner & Entdecken (v0.7.0)
 
 [![Version](https://img.shields.io/badge/version-v0.7.0-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-PolyForm_Noncommercial_1.0.0-blue.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
 **Die smarte Plattform für Wohnmobil-Reisende, Camper & Roadtripper in Europa – mit KI-Routenplaner, interaktivem Entdecken-Portal und MCP-KI-Integration!**
@@ -79,5 +79,5 @@ npm run dev
 ---
 
 ## 📄 Lizenz
-
-MIT © [chrischtili](https://github.com/chrischtili)
+ 
+PolyForm Noncommercial License 1.0.0 © 2026 [chrischtili](https://github.com/chrischtili)

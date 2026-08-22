@@ -171,6 +171,11 @@
   "nearbyCampsitesTitle": "Nearby Campsites",
   "nearbyCampsitesSubtitle": "Accommodations in the area",
   "nearbyAttractionsTitle": "Nearby Attractions",
-  "nearbyAttractionsSubtitle": "Excursions and natural wonders",
-  "noNearbyPlacesFound": "No other places found in the area."
+  "nearbyAttractionsSubtitle": "Sightseeing and scenic spots",
+  "noNearbyPlacesFound": "No other places found in the vicinity.",
+  "viewSplit": "Split",
+  "viewMap": "Full Map",
+  "viewList": "List only",
+  "showMap": "Show map",
+  "showList": "Show list"
 }

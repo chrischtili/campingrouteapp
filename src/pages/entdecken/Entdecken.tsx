@@ -26,7 +26,11 @@ import {
   Trash2,
   ExternalLink,
   Copy,
-  Check
+  Check,
+  Columns as ColumnsIcon,
+  Map as MapIcon,
+  List as ListIcon,
+  Maximize2
 } from 'lucide-react';
 import de from './locales/de.json';
 import en from './locales/en.json';
@@ -469,6 +473,7 @@ function EntdeckenContent() {
   const [countryTab, setCountryTab] = useState<'camping' | 'attractions'>('camping');
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState<'split' | 'map' | 'list'>('split');
   const itemsPerPage = 12;
 
   // Modals state
@@ -784,6 +789,15 @@ function EntdeckenContent() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapPoints, hasSearched, routePolyline, routeInfo]);
+
+  // Re-invalidate map size when view mode changes
+  useEffect(() => {
+    if (resultsLeafletMapRef.current) {
+      setTimeout(() => {
+        resultsLeafletMapRef.current?.invalidateSize();
+      }, 200);
+    }
+  }, [viewMode]);
 
   // Fetch initial data on mount
   useEffect(() => {
@@ -2041,39 +2055,75 @@ const getWebsiteUrl = (place: Place): string | null => {
               {/* Results Grid Section */}
               {(hasSearched || !selectedCountryView) && (
                 <div>
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '1.5rem', borderBottom: '1px solid var(--gray-200)', paddingBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  {hasSearched ? (
-                    <span>
-                      {recommendationTitle ? (
-                        <>
-                          <span style={{ color: 'var(--primary-800)' }}>✨ {recommendationTitle}</span>
-                          <span style={{ fontSize: '0.9rem', color: 'var(--gray-500)', fontWeight: 600, marginLeft: '0.75rem' }}>
-                            ({curatedIds.length > 0 ? `${curatedIds.length} Empfehlungen · ${totalItems} Treffer` : `${totalItems} Treffer`})
-                          </span>
-                        </>
-                      ) : (
-                        `${t.searchResults} (${totalItems})`
-                      )}
-                    </span>
-                  ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <span>{t.featuredTitle}</span>
-                      <select 
-                        value={featuredCountry}
-                        onChange={(e) => setFeaturedCountry(e.target.value)}
-                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '8px', padding: '0.25rem 0.75rem', fontSize: '1rem', fontWeight: 700, color: 'var(--primary-700)', outline: 'none', cursor: 'pointer' }}
-                      >
-                        <option value="ALL">{currentLang === 'en' ? 'All Europe' : currentLang === 'fr' ? "Toute l'Europe" : currentLang === 'it' ? 'Tutta Europa' : currentLang === 'nl' ? 'Heel Europa' : 'Ganz Europa'}</option>
-                        {Object.keys(COUNTRY_FLAGS).map((c) => (
-                          <option key={c} value={c}>{getCountryName(c, currentLang)}</option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                  {hasSearched && (
-                    <button onClick={resetSearch} style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer' }}>{t.resetSearch}</button>
-                  )}
-                </h2>
+                  <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                    <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: 0 }}>
+                    {hasSearched ? (
+                      <span>
+                        {recommendationTitle ? (
+                          <>
+                            <span style={{ color: 'var(--primary-800)' }}>✨ {recommendationTitle}</span>
+                            <span style={{ fontSize: '0.9rem', color: 'var(--gray-500)', fontWeight: 600, marginLeft: '0.75rem' }}>
+                              ({curatedIds.length > 0 ? `${curatedIds.length} Empfehlungen · ${totalItems} Treffer` : `${totalItems} Treffer`})
+                            </span>
+                          </>
+                        ) : (
+                          `${t.searchResults} (${totalItems})`
+                        )}
+                      </span>
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <span>{t.featuredTitle}</span>
+                        <select 
+                          value={featuredCountry}
+                          onChange={(e) => setFeaturedCountry(e.target.value)}
+                          style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '8px', padding: '0.25rem 0.75rem', fontSize: '1rem', fontWeight: 700, color: 'var(--primary-700)', outline: 'none', cursor: 'pointer' }}
+                        >
+                          <option value="ALL">{currentLang === 'en' ? 'All Europe' : currentLang === 'fr' ? "Toute l'Europe" : currentLang === 'it' ? 'Tutta Europa' : currentLang === 'nl' ? 'Heel Europa' : 'Ganz Europa'}</option>
+                          {Object.keys(COUNTRY_FLAGS).map((c) => (
+                            <option key={c} value={c}>{getCountryName(c, currentLang)}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    </h2>
+
+                    {hasSearched && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                        {/* View Mode Segmented Controls */}
+                        <div className="view-mode-toggle-group">
+                          <button
+                            type="button"
+                            onClick={() => setViewMode('split')}
+                            className={`view-mode-btn ${viewMode === 'split' ? 'active' : ''}`}
+                            title={t.viewSplit || 'Geteilt'}
+                          >
+                            <ColumnsIcon size={15} />
+                            <span className="hidden sm:inline">{t.viewSplit || 'Geteilt'}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setViewMode('map')}
+                            className={`view-mode-btn ${viewMode === 'map' ? 'active' : ''}`}
+                            title={t.viewMap || 'Große Karte'}
+                          >
+                            <MapIcon size={15} />
+                            <span className="hidden sm:inline">{t.viewMap || 'Große Karte'}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setViewMode('list')}
+                            className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
+                            title={t.viewList || 'Nur Liste'}
+                          >
+                            <ListIcon size={15} />
+                            <span className="hidden sm:inline">{t.viewList || 'Nur Liste'}</span>
+                          </button>
+                        </div>
+
+                        <button onClick={resetSearch} style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer' }}>{t.resetSearch}</button>
+                      </div>
+                    )}
+                  </div>
 
                 {isSearching ? (
                   /* Loading Spinner */
@@ -2199,7 +2249,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </div>
                     )}
 
-                    <div className="results-layout" style={{ display: 'grid', gap: '2rem', alignItems: 'start' }}>
+                    <div className={`results-layout view-${viewMode}`}>
                       <div className="results-list">
                     {searchSummary && (
                       <div 
@@ -2227,8 +2277,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </div>
                     )}
 
-                    {/* Mini-Map aller Ergebnisse */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.5rem' }}>
+                    {/* Places cards grid */}
+                    <div className="places-cards-grid" style={{ display: 'grid', gridTemplateColumns: viewMode === 'split' ? 'repeat(auto-fill, minmax(220px, 1fr))' : 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
                     {places.map((place) => {
                       const imageUrl = getImageUrl(place);
                       const cleanDescription = getCleanDescription(place);
@@ -2239,67 +2289,101 @@ const getWebsiteUrl = (place: Place): string | null => {
                           key={place.id} 
                           className="place-grid-card" 
                           onClick={() => setSelectedPlace(place)}
-                          onMouseEnter={() => highlightMapMarker(place.id)}
-                          onMouseLeave={() => unhighlightMapMarker(place.id)}
-                          style={{ 
-                            background: 'var(--card-bg)', 
-                            border: isCurated ? '2px solid #059669' : '1px solid var(--card-border)', 
-                            borderRadius: 'var(--radius-md)', 
-                            overflow: 'hidden', 
-                            cursor: 'pointer', 
-                            transition: 'transform 0.2s, box-shadow 0.2s', 
-                            boxShadow: isCurated ? '0 4px 14px rgba(5, 150, 105, 0.18)' : 'var(--shadow-sm)',
-                            position: 'relative'
+                          onMouseEnter={() => highlightMarkerOnMap(place.id)}
+                          onMouseLeave={() => resetMarkerHighlight(place.id)}
+                          style={{
+                            background: 'var(--card-bg)',
+                            border: isCurated ? '2px solid var(--primary-500)' : '1px solid var(--card-border)',
+                            borderRadius: '16px',
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            boxShadow: isCurated ? '0 4px 16px rgba(16, 185, 129, 0.15)' : 'var(--shadow-sm)',
+                            position: 'relative',
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                           }}
                         >
-                          {/* Card Image */}
-                          <div style={{ height: '160px', width: '100%', background: 'var(--gray-100)', position: 'relative', overflow: 'hidden' }}>
+                          {/* Image Box */}
+                          <div style={{ position: 'relative', height: '160px', width: '100%', background: 'var(--gray-200)', overflow: 'hidden' }}>
                             <img 
-                              src={imageUrl || getFallbackImage(place)} 
+                              src={imageUrl} 
                               alt={place.name} 
-                              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                              onError={(e) => { e.currentTarget.src = getFallbackImage(place); }}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80';
+                              }}
                             />
-                            <span className={`place-card-type ${place.type}`} style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', margin: 0, boxShadow: 'var(--shadow-sm)' }}>
-                              {getTypeLabel(place.type)}
+                            {/* Type Badge */}
+                            <span 
+                              style={{ 
+                                position: 'absolute', 
+                                top: '10px', 
+                                left: '10px', 
+                                background: isCurated ? '#059669' : place.type === 'campground' ? '#10b981' : place.type === 'caravan' ? '#3b82f6' : place.type === 'glamping' ? '#8b5cf6' : '#f97316', 
+                                color: 'white', 
+                                padding: '3px 8px', 
+                                borderRadius: '6px', 
+                                fontSize: '0.7rem', 
+                                fontWeight: 800, 
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.04em',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                              }}
+                            >
+                              {isCurated ? (t.topRecommendation || 'Top-Empfehlung') : getTypeLabel(place.type)}
                             </span>
-                            {place.stage_number ? (
-                              <span style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', margin: 0, background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', color: 'white', padding: '0.25rem 0.6rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
-                                <MapPin size={12} />
+
+                            {/* Stage Badge if Route */}
+                            {place.stage_number && (
+                              <span 
+                                style={{ 
+                                  position: 'absolute', 
+                                  top: '10px', 
+                                  right: '10px', 
+                                  background: '#059669', 
+                                  color: 'white', 
+                                  padding: '3px 8px', 
+                                  borderRadius: '6px', 
+                                  fontSize: '0.7rem', 
+                                  fontWeight: 800,
+                                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                }}
+                              >
                                 {(t.stageNumber || 'Etappe {{number}}').replace('{{number}}', String(place.stage_number))}
                               </span>
-                            ) : isCurated ? (
-                              <span style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', margin: 0, background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', color: 'white', padding: '0.25rem 0.6rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
-                                <Sparkles size={12} />
-                                {t.topRecommendation || 'Top-Empfehlung'}
-                              </span>
-                            ) : null}
+                            )}
                           </div>
 
-                          {/* Card Content */}
-                          <div style={{ padding: '1.25rem' }}>
-                            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{place.name}</h3>
-                            <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '0.75rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {place.city || place.address.split(',')[0]}, {getCountryName(place.country, currentLang)}
-                            </p>
-                            
-                            <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', lineHeight: '1.5', height: '2.5rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', marginBottom: '1rem' }}>
-                              {cleanDescription}
-                            </p>
+                          {/* Content Box */}
+                          <div style={{ padding: '1rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div>
+                              <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.25rem', lineHeight: '1.3' }}>
+                                {place.name}
+                              </h3>
+                              <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '0.5rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {place.address || `${place.latitude.toFixed(3)}, ${place.longitude.toFixed(3)}`}
+                              </p>
+                              <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', height: '2.8em' }}>
+                                {cleanDescription}
+                              </p>
+                            </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--card-border)', paddingTop: '0.75rem', fontSize: '0.85rem' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 700, color: '#f59e0b' }}>
-                                <Star size={14} fill="#f59e0b" />
-                                <span>{place.rating}</span>
+                            {/* Footer inside card */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid var(--gray-100)' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#f59e0b', fontSize: '0.85rem', fontWeight: 800 }}>
+                                <Star size={14} fill="#f59e0b" color="#f59e0b" />
+                                <span>{place.rating || '4.5'}</span>
                               </div>
-                              <span style={{ fontWeight: 600, color: 'var(--gray-600)' }}>{place.price}</span>
-                              {place.distance_from_origin_km !== undefined ? (
-                                <span style={{ fontWeight: 700, color: 'var(--primary-700)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                  <Navigation size={12} /> nach {place.distance_from_origin_km} km ({place.drive_time_hours}h)
+                              {place.distance_from_origin_km ? (
+                                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary-700)' }}>
+                                  {(t.distanceAfterOrigin || 'nach {{km}} km ({{h}}h)')
+                                    .replace('{{km}}', String(place.distance_from_origin_km))
+                                    .replace('{{h}}', String(place.drive_hours_from_origin || 0))}
                                 </span>
-                              ) : place.distance_km !== undefined ? (
-                                <span style={{ fontWeight: 600, color: 'var(--primary-700)', fontSize: '0.75rem' }}>
-                                  {place.distance_km} km entfernt
+                              ) : place.distance_km ? (
+                                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--gray-400)' }}>
+                                  {(t.distanceAway || '{{km}} km entfernt').replace('{{km}}', String(place.distance_km))}
                                 </span>
                               ) : null}
                             </div>
@@ -2309,17 +2393,19 @@ const getWebsiteUrl = (place: Place): string | null => {
                     })}
                     </div>
 
-                    {/* Pagination Component */}
+                    {/* Pagination */}
                     {totalItems > itemsPerPage && (
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
-                        {/* Previous Button */}
+                      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
                         <button
                           disabled={currentPage === 1}
-                          onClick={() => handleSearch(undefined, undefined, currentPage - 1)}
+                          onClick={() => {
+                            if (currentPage > 1) {
+                              const newP = currentPage - 1;
+                              setCurrentPage(newP);
+                              fetchPlacesForPage(newP);
+                            }
+                          }}
                           style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
                             width: '36px',
                             height: '36px',
                             borderRadius: '50%',
@@ -2334,8 +2420,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         >
                           &lt;
                         </button>
-
-                        {/* Page Numbers */}
+                        
                         {(() => {
                           const totalPages = Math.ceil(totalItems / itemsPerPage);
                           const pages = [];
@@ -2347,16 +2432,16 @@ const getWebsiteUrl = (place: Place): string | null => {
                             pages.push(
                               <button
                                 key={1}
-                                onClick={() => handleSearch(undefined, undefined, 1)}
+                                onClick={() => { setCurrentPage(1); fetchPlacesForPage(1); }}
                                 style={{
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
                                   border: currentPage === 1 ? 'none' : '1px solid var(--card-border)',
-                                  background: currentPage === 1 ? 'var(--primary-700)' : 'var(--card-bg)',
-                                  color: currentPage === 1 ? 'white' : 'var(--gray-700)',
+                                  background: currentPage === 1 ? 'var(--primary-600)' : 'var(--card-bg)',
+                                  color: currentPage === 1 ? '#ffffff' : 'var(--gray-700)',
                                   cursor: 'pointer',
-                                  fontSize: '0.9rem',
+                                  fontSize: '0.85rem',
                                   fontWeight: 700
                                 }}
                               >
@@ -2372,16 +2457,16 @@ const getWebsiteUrl = (place: Place): string | null => {
                             pages.push(
                               <button
                                 key={i}
-                                onClick={() => handleSearch(undefined, undefined, i)}
+                                onClick={() => { setCurrentPage(i); fetchPlacesForPage(i); }}
                                 style={{
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
                                   border: i === currentPage ? 'none' : '1px solid var(--card-border)',
-                                  background: i === currentPage ? 'var(--primary-700)' : 'var(--card-bg)',
-                                  color: i === currentPage ? 'white' : 'var(--gray-700)',
+                                  background: i === currentPage ? 'var(--primary-600)' : 'var(--card-bg)',
+                                  color: i === currentPage ? '#ffffff' : 'var(--gray-700)',
                                   cursor: 'pointer',
-                                  fontSize: '0.9rem',
+                                  fontSize: '0.85rem',
                                   fontWeight: 700
                                 }}
                               >
@@ -2397,16 +2482,16 @@ const getWebsiteUrl = (place: Place): string | null => {
                             pages.push(
                               <button
                                 key={totalPages}
-                                onClick={() => handleSearch(undefined, undefined, totalPages)}
+                                onClick={() => { setCurrentPage(totalPages); fetchPlacesForPage(totalPages); }}
                                 style={{
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
                                   border: totalPages === currentPage ? 'none' : '1px solid var(--card-border)',
-                                  background: totalPages === currentPage ? 'var(--primary-700)' : 'var(--card-bg)',
-                                  color: totalPages === currentPage ? 'white' : 'var(--gray-700)',
+                                  background: totalPages === currentPage ? 'var(--primary-600)' : 'var(--card-bg)',
+                                  color: totalPages === currentPage ? '#ffffff' : 'var(--gray-700)',
                                   cursor: 'pointer',
-                                  fontSize: '0.9rem',
+                                  fontSize: '0.85rem',
                                   fontWeight: 700
                                 }}
                               >
@@ -2418,14 +2503,16 @@ const getWebsiteUrl = (place: Place): string | null => {
                           return pages;
                         })()}
 
-                        {/* Next Button */}
                         <button
                           disabled={currentPage === Math.ceil(totalItems / itemsPerPage)}
-                          onClick={() => handleSearch(undefined, undefined, currentPage + 1)}
+                          onClick={() => {
+                            if (currentPage < Math.ceil(totalItems / itemsPerPage)) {
+                              const newP = currentPage + 1;
+                              setCurrentPage(newP);
+                              fetchPlacesForPage(newP);
+                            }
+                          }}
                           style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
                             width: '36px',
                             height: '36px',
                             borderRadius: '50%',
@@ -2446,17 +2533,31 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                       <div className="results-map-col">
                         {hasSearched && mapPoints.length > 0 && (
-                          <div style={{ marginBottom: '2rem' }}>
-                            <div ref={resultsMapRef} style={{ height: '320px', borderRadius: '12px', border: '1px solid var(--gray-200)', zIndex: 1 }} />
-                            <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.4rem' }}>
+                          <div className="results-map-wrapper">
+                            <div ref={resultsMapRef} style={{ width: '100%', height: '100%', minHeight: '380px', zIndex: 1 }} />
+                            <div className="map-legend-overlay" style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(6px)', color: '#f8fafc', padding: '8px 14px', borderRadius: '10px', fontSize: '0.78rem', zIndex: 1000, pointerEvents: 'none', border: '1px solid rgba(255,255,255,0.15)', lineHeight: 1.4 }}>
                               🗺️ {routeInfo 
                                 ? `${mapPoints.length} Orte auf der Karte (Routenlinie von ${routeInfo.origin} nach ${routeInfo.destination})` 
                                 : (t.mapLegend || '{{count}} Orte auf der Karte').replace('{{count}}', String(mapPoints.length))}
-                            </p>
+                            </div>
                           </div>
                         )}
                       </div>
                     </div>
+
+                    {/* Mobile Floating Map Toggle Button */}
+                    {hasSearched && mapPoints.length > 0 && (
+                      <div className="mobile-floating-map-wrapper md:hidden">
+                        <button
+                          type="button"
+                          onClick={() => setViewMode(viewMode === 'map' ? 'split' : 'map')}
+                          className="mobile-floating-map-btn"
+                        >
+                          {viewMode === 'map' ? <ListIcon size={18} /> : <MapIcon size={18} />}
+                          <span>{viewMode === 'map' ? (t.showList || 'Liste anzeigen') : (t.showMap || 'Karte anzeigen')}</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

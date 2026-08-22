@@ -172,5 +172,10 @@
   "nearbyCampsitesSubtitle": "Accommodaties in de omgeving",
   "nearbyAttractionsTitle": "Bezienswaardigheden in de buurt",
   "nearbyAttractionsSubtitle": "Uitstapjes en natuurwonderen",
-  "noNearbyPlacesFound": "Geen andere plekken in de omgeving gevonden."
+  "noNearbyPlacesFound": "Geen andere plaatsen gevonden in de omgeving.",
+  "viewSplit": "Gesplitst",
+  "viewMap": "Grote Kaart",
+  "viewList": "Alleen lijst",
+  "showMap": "Kaart tonen",
+  "showList": "Lijst tonen"
 }

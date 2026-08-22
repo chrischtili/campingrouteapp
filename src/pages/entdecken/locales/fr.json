@@ -170,7 +170,12 @@
   "loadingCount": "Chargement...",
   "nearbyCampsitesTitle": "Campings à proximité",
   "nearbyCampsitesSubtitle": "Hébergements dans les environs",
-  "nearbyAttractionsTitle": "Sites d'intérêt à proximité",
-  "nearbyAttractionsSubtitle": "Destinations d'excursion et merveilles naturelles",
-  "noNearbyPlacesFound": "Aucun autre lieu trouvé à proximité."
+  "nearbyAttractionsTitle": "Sites touristiques à proximité",
+  "nearbyAttractionsSubtitle": "Excursions et merveilles naturelles",
+  "noNearbyPlacesFound": "Aucun autre lieu trouvé aux alentours.",
+  "viewSplit": "Divisé",
+  "viewMap": "Grande Carte",
+  "viewList": "Liste seule",
+  "showMap": "Afficher la carte",
+  "showList": "Afficher la liste"
 }

@@ -171,6 +171,11 @@
   "nearbyCampsitesTitle": "Campeggi nelle vicinanze",
   "nearbyCampsitesSubtitle": "Alloggi nei dintorni",
   "nearbyAttractionsTitle": "Attrazioni nelle vicinanze",
-  "nearbyAttractionsSubtitle": "Mete di escursione e meraviglie naturali",
-  "noNearbyPlacesFound": "Nessun altro luogo trovato nelle vicinanze."
+  "nearbyAttractionsSubtitle": "Mete di escursioni e meraviglie naturali",
+  "noNearbyPlacesFound": "Nessun altro luogo trovato nei dintorni.",
+  "viewSplit": "Diviso",
+  "viewMap": "Mappa intera",
+  "viewList": "Solo lista",
+  "showMap": "Mostra mappa",
+  "showList": "Mostra lista"
 }

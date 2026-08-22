@@ -172,5 +172,10 @@
   "nearbyCampsitesSubtitle": "Unterkünfte in der Umgebung",
   "nearbyAttractionsTitle": "Sehenswürdigkeiten in der Nähe",
   "nearbyAttractionsSubtitle": "Ausflugsziele und Naturwunder",
-  "noNearbyPlacesFound": "Keine weiteren Orte im Umkreis gefunden."
+  "noNearbyPlacesFound": "Keine weiteren Orte im Umkreis gefunden.",
+  "viewSplit": "Geteilt",
+  "viewMap": "Große Karte",
+  "viewList": "Nur Liste",
+  "showMap": "Karte anzeigen",
+  "showList": "Liste anzeigen"
 }

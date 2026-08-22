@@ -100,6 +100,32 @@ export async function getDb(): Promise<Database> {
       FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE,
       FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS trails (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      type TEXT NOT NULL DEFAULT 'hiking',
+      region TEXT,
+      state TEXT,
+      country TEXT NOT NULL DEFAULT 'DE',
+      distance_km REAL NOT NULL DEFAULT 10.0,
+      duration_hours REAL,
+      difficulty TEXT DEFAULT 'medium',
+      elevation_gain_m INTEGER,
+      description TEXT,
+      highlights TEXT,
+      image_url TEXT,
+      start_location TEXT,
+      end_location TEXT,
+      latitude REAL NOT NULL,
+      longitude REAL NOT NULL,
+      polyline TEXT,
+      campsites_along_count INTEGER DEFAULT 0,
+      rating REAL DEFAULT 4.8,
+      search_query TEXT,
+      source TEXT DEFAULT 'dzt_opendata',
+      last_updated TEXT
+    );
   `);
 
   // Add any missing columns for existing databases (idempotent migrations)
@@ -124,6 +150,10 @@ export async function getDb(): Promise<Database> {
     CREATE INDEX IF NOT EXISTS idx_places_city ON places(city);
     CREATE INDEX IF NOT EXISTS idx_places_coords ON places(latitude, longitude);
     CREATE INDEX IF NOT EXISTS idx_places_rating ON places(rating DESC);
+    CREATE INDEX IF NOT EXISTS idx_trails_state ON trails(state);
+    CREATE INDEX IF NOT EXISTS idx_trails_country ON trails(country);
+    CREATE INDEX IF NOT EXISTS idx_trails_coords ON trails(latitude, longitude);
+    CREATE INDEX IF NOT EXISTS idx_trails_type ON trails(type);
   `);
 
   // Full-text search (FTS5) table kept in sync via triggers. Used by the keyword

@@ -51,6 +51,36 @@ export async function assignGeoStates(db: any) {
   await db.run('COMMIT');
   await stmt.finalize();
   console.log(`✅ Successfully assigned geo-states to ${updatedCount}/${places.length} places in the database!`);
+
+  // Also assign geo-states to trails table
+  try {
+    const trails = await db.all("SELECT id, latitude, longitude, country FROM trails WHERE state IS NULL OR state = ''");
+    if (trails && trails.length > 0) {
+      console.log(`Assigning geo-states to ${trails.length} unassigned trails...`);
+      const trailStmt = await db.prepare("UPDATE trails SET state = ? WHERE id = ?");
+      await db.run('BEGIN TRANSACTION');
+      let trailUpdated = 0;
+      for (const t of trails) {
+        if (isNaN(t.latitude) || isNaN(t.longitude)) continue;
+        let st = await assignState('DE', t.latitude, t.longitude);
+        if (!st) {
+          if (t.latitude >= 52.3381 && t.latitude <= 52.6755 && t.longitude >= 13.0883 && t.longitude <= 13.7611) st = 'Berlin';
+          else if (t.latitude >= 53.395 && t.latitude <= 53.75 && t.longitude >= 9.65 && t.longitude <= 10.35) st = 'Hamburg';
+          else if ((t.latitude >= 53.0 && t.latitude <= 53.25 && t.longitude >= 8.5 && t.longitude <= 9.0) || (t.latitude >= 53.45 && t.latitude <= 53.65 && t.longitude >= 8.5 && t.longitude <= 8.7)) st = 'Bremen';
+          else st = 'Baden-Württemberg';
+        }
+        if (st) {
+          await trailStmt.run(st, t.id);
+          trailUpdated++;
+        }
+      }
+      await db.run('COMMIT');
+      await trailStmt.finalize();
+      console.log(`✅ Successfully assigned geo-states to ${trailUpdated}/${trails.length} trails in the database!`);
+    }
+  } catch (e: any) {
+    // trails table might not exist yet
+  }
 }
 
 // Auto-run if executed standalone

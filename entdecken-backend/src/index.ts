@@ -288,8 +288,94 @@ function getAllTrailsList(): Trail[] {
   return FAMOUS_TRAILS;
 }
 
+// Helper to load all trails from SQLite trails table or fallback to server/trails.json
+async function getTrailsFromDb(filterParams: {
+  country?: string;
+  state?: string;
+  region?: string;
+  type?: string;
+  difficulty?: string;
+  q?: string;
+}): Promise<Trail[]> {
+  try {
+    const db = await getDb();
+    const conditions: string[] = [];
+    const params: any[] = [];
+
+    if (filterParams.country) {
+      conditions.push('LOWER(country) = LOWER(?)');
+      params.push(filterParams.country);
+    }
+    if (filterParams.state && filterParams.state !== 'all' && filterParams.state !== 'Alle Bundesländer') {
+      conditions.push('(state = ? OR region LIKE ?)');
+      params.push(filterParams.state, `%${filterParams.state}%`);
+    }
+    if (filterParams.region) {
+      conditions.push('(LOWER(region) LIKE LOWER(?) OR LOWER(state) LIKE LOWER(?))');
+      params.push(`%${filterParams.region}%`, `%${filterParams.region}%`);
+    }
+    if (filterParams.type && filterParams.type !== 'all') {
+      conditions.push('(type = ? OR type = ?)');
+      params.push(filterParams.type, 'both');
+    }
+    if (filterParams.difficulty && filterParams.difficulty !== 'all') {
+      conditions.push('difficulty = ?');
+      params.push(filterParams.difficulty);
+    }
+    if (filterParams.q && filterParams.q.trim()) {
+      const term = `%${filterParams.q.trim()}%`;
+      conditions.push('(name LIKE ? OR region LIKE ? OR state LIKE ? OR description LIKE ?)');
+      params.push(term, term, term, term);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    const rows = await db.all(`SELECT * FROM trails ${whereClause} LIMIT 10000`, params);
+
+    if (rows && rows.length > 0) {
+      return rows.map((r: any) => ({
+        ...r,
+        highlights: typeof r.highlights === 'string' ? JSON.parse(r.highlights || '[]') : (r.highlights || []),
+        polyline: typeof r.polyline === 'string' ? JSON.parse(r.polyline || '[]') : r.polyline
+      }));
+    }
+  } catch (e: any) {
+    // Table might not exist yet, fallback to JSON
+  }
+
+  // Fallback to JSON
+  let results: Trail[] = getAllTrailsList();
+  if (filterParams.country) {
+    results = results.filter((t: Trail) => (t.country || "DE").toLowerCase() === filterParams.country!.toLowerCase());
+  }
+  if (filterParams.state && filterParams.state !== "all" && filterParams.state !== "Alle Bundesländer") {
+    results = results.filter((t: Trail) => t.state === filterParams.state || (t.region || "").includes(filterParams.state!));
+  }
+  if (filterParams.region) {
+    results = results.filter((t: Trail) =>
+      (t.region || "").toLowerCase().includes(filterParams.region!.toLowerCase()) ||
+      (t.state || "").toLowerCase().includes(filterParams.region!.toLowerCase())
+    );
+  }
+  if (filterParams.type && filterParams.type !== "all") {
+    results = results.filter((t: Trail) => t.type === filterParams.type || t.type === "both");
+  }
+  if (filterParams.difficulty && filterParams.difficulty !== "all") {
+    results = results.filter((t: Trail) => t.difficulty === filterParams.difficulty);
+  }
+  if (filterParams.q && filterParams.q.trim()) {
+    const qLower = filterParams.q.trim().toLowerCase();
+    results = results.filter((t: Trail) =>
+      (t.name || "").toLowerCase().includes(qLower) ||
+      (t.region || "").toLowerCase().includes(qLower) ||
+      (t.state || "").toLowerCase().includes(qLower) ||
+      (t.description || "").toLowerCase().includes(qLower)
+    );
+  }
+  return results;
+}
+
 // Hiking & Biking Trails endpoint
-app.get("/api/trails", (req, res) => {
+app.get("/api/trails", async (req, res) => {
   const { region, state, type, difficulty, country, q } = req.query as {
     region?: string;
     state?: string;
@@ -298,36 +384,7 @@ app.get("/api/trails", (req, res) => {
     country?: string;
     q?: string;
   };
-  let results = getAllTrailsList();
-
-  if (country) {
-    results = results.filter(t => (t.country || "DE").toLowerCase() === country.toLowerCase());
-  }
-  if (state && state !== "all" && state !== "Alle Bundesländer") {
-    results = results.filter(t => t.state === state || (t.region || "").includes(state));
-  }
-  if (region) {
-    results = results.filter(t =>
-      (t.region || "").toLowerCase().includes(region.toLowerCase()) ||
-      (t.state || "").toLowerCase().includes(region.toLowerCase())
-    );
-  }
-  if (type && type !== "all") {
-    results = results.filter(t => t.type === type || t.type === "both");
-  }
-  if (difficulty && difficulty !== "all") {
-    results = results.filter(t => t.difficulty === difficulty);
-  }
-  if (q && q.trim()) {
-    const qLower = q.trim().toLowerCase();
-    results = results.filter(t =>
-      (t.name || "").toLowerCase().includes(qLower) ||
-      (t.region || "").toLowerCase().includes(qLower) ||
-      (t.state || "").toLowerCase().includes(qLower) ||
-      (t.description || "").toLowerCase().includes(qLower)
-    );
-  }
-
+  const results = await getTrailsFromDb({ region, state, type, difficulty, country, q });
   res.json(results);
 });
 
@@ -340,8 +397,23 @@ app.get("/api/trails/details", async (req, res) => {
     return res.status(400).json({ success: false, message: "Missing trail id or uri" });
   }
 
-  const allTrails = getAllTrailsList();
-  const trail = allTrails.find(t => t.id === id || (uriParam && t.uri === uriParam));
+  let trail: Trail | undefined;
+  try {
+    const db = await getDb();
+    const row = await db.get(`SELECT * FROM trails WHERE id = ? LIMIT 1`, [id]);
+    if (row) {
+      trail = {
+        ...row,
+        highlights: typeof row.highlights === 'string' ? JSON.parse(row.highlights || '[]') : (row.highlights || []),
+        polyline: typeof row.polyline === 'string' ? JSON.parse(row.polyline || '[]') : row.polyline
+      };
+    }
+  } catch {}
+
+  if (!trail) {
+    const allTrails = getAllTrailsList();
+    trail = allTrails.find((t: Trail) => t.id === id || (uriParam && t.uri === uriParam));
+  }
 
   let polyline: [number, number][] = trail?.polyline || [];
   let start_coords = trail?.start_coords;

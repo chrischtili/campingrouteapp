@@ -308,77 +308,9 @@ export async function syncAllTrails() {
   const seenNames = new Set<string>();
   let totalInserted = 0;
 
-  // 1. First, load and migrate any existing trails from server/trails.json into the DB
-  const existingJsonPaths = [
-    path.resolve(process.cwd(), 'server/trails.json'),
-    path.resolve(process.cwd(), '../server/trails.json'),
-    path.resolve(__dirname, '../../../server/trails.json'),
-    path.resolve(__dirname, '../data/trails.json')
-  ];
-
-  for (const jPath of existingJsonPaths) {
-    if (fs.existsSync(jPath)) {
-      try {
-        const rawJson = JSON.parse(fs.readFileSync(jPath, 'utf8'));
-        if (Array.isArray(rawJson) && rawJson.length > 0) {
-          console.log(`📦 Seeding database with ${rawJson.length} trails from ${path.basename(jPath)}...`);
-          await db.run('BEGIN TRANSACTION');
-          for (const t of rawJson) {
-            if (!t.name || !t.latitude || !t.longitude) continue;
-            const normName = t.name.trim().toLowerCase();
-            if (seenNames.has(normName)) continue;
-            seenNames.add(normName);
-            if (t.id) seenIds.add(t.id);
-
-            let stateName = t.state;
-            if (!stateName || stateName === 'Deutschland' || stateName === 'null') {
-              stateName = await assignState('DE', t.latitude, t.longitude);
-            }
-
-            await db.run(
-              `INSERT OR REPLACE INTO trails (
-                id, name, type, region, state, country, distance_km, duration_hours,
-                difficulty, elevation_gain_m, description, highlights, image_url,
-                start_location, end_location, latitude, longitude, polyline,
-                campsites_along_count, rating, search_query, source, last_updated
-              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-              [
-                t.id || `trail-${Math.random().toString(36).slice(2, 9)}`,
-                t.name.trim(),
-                t.type || 'hiking',
-                t.region || stateName || 'Deutschland',
-                stateName || 'Baden-Württemberg',
-                t.country || 'DE',
-                t.distance_km || 10.0,
-                t.duration_hours || 3.0,
-                t.difficulty || 'medium',
-                t.elevation_gain_m || 150,
-                t.description || '',
-                JSON.stringify(Array.isArray(t.highlights) ? t.highlights : []),
-                t.image_url || DEFAULT_TRAIL_IMAGES[0],
-                t.start_location || t.region || 'Startpunkt',
-                t.end_location || t.region || 'Zielpunkt',
-                t.latitude,
-                t.longitude,
-                Array.isArray(t.polyline) && t.polyline.length > 0 ? JSON.stringify(t.polyline) : null,
-                t.campsites_along_count || 12,
-                t.rating || 4.8,
-                t.search_query || `Camping in ${stateName || 'Deutschland'}`,
-                t.source || 'dzt_opendata',
-                new Date().toISOString()
-              ]
-            );
-            totalInserted++;
-          }
-          await db.run('COMMIT');
-          console.log(`✅ Seeded ${totalInserted} trails into database.\n`);
-          break;
-        }
-      } catch (e: any) {
-        console.warn(`Could not read ${jPath}: ${e.message}`);
-      }
-    }
-  }
+  // 1. Clear trails table for clean, fresh Open Data ingestion
+  console.log('🧹 Clearing trails table for fresh Open Data Germany ingestion...');
+  await db.exec('DELETE FROM trails;');
 
   // 2. Fetch fresh live data from DZT Open Data Germany across all targets
   console.log(`📡 Fetching live trails across ${SEARCH_TARGETS.length} cities, regions & districts...`);
@@ -550,7 +482,12 @@ export async function syncAllTrails() {
   }
   console.log(`======================================================\n`);
 
-  for (const tPath of existingJsonPaths) {
+  const backupPaths = [
+    path.resolve(process.cwd(), 'server/trails.json'),
+    path.resolve(__dirname, '../../../server/trails.json')
+  ];
+
+  for (const tPath of backupPaths) {
     try {
       const parentDir = path.dirname(tPath);
       if (!fs.existsSync(parentDir)) fs.mkdirSync(parentDir, { recursive: true });

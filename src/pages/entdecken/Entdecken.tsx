@@ -2205,23 +2205,24 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <div 
                         className="search-summary-card"
                         style={{ 
-                          background: 'linear-gradient(135deg, var(--primary-50) 0%, #ffffff 100%)', 
+                          background: 'linear-gradient(135deg, var(--primary-50) 0%, var(--card-bg) 100%)', 
+                          border: '1px solid var(--card-border)',
                           borderLeft: '4px solid var(--primary-600)',
                           boxShadow: 'var(--shadow-sm)',
-                          borderRadius: '8px', 
+                          borderRadius: '12px', 
                           padding: '1.5rem', 
                           marginBottom: '2rem', 
-                          color: 'var(--gray-700)', 
+                          color: 'var(--gray-800)', 
                           fontSize: '1rem', 
                           lineHeight: '1.6' 
                         }}
                       >
-                        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-800)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-700)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           ✨ {recommendationTitle || t.guideSummaryTitle || 'CampingRoute Reiseführer-Zusammenfassung'}
                         </h3>
                         <div 
-                           dangerouslySetInnerHTML={{ __html: searchSummary }} 
-                          style={{ fontSize: '0.95rem' }}
+                          dangerouslySetInnerHTML={{ __html: searchSummary }} 
+                          style={{ fontSize: '0.95rem', color: 'var(--gray-700)' }}
                         />
                       </div>
                     )}

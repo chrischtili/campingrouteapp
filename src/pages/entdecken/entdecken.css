@@ -965,5 +965,24 @@
   background: #0f172a !important;
 }
 
+.dark .entdecken-root .search-summary-card,
+[data-theme="dark"] .entdecken-root .search-summary-card {
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.45) 0%, #1e293b 100%) !important;
+  border: 1px solid #334155 !important;
+  border-left: 4px solid #22c55e !important;
+  color: #f1f5f9 !important;
+}
 
+.dark .entdecken-root .search-summary-card h3,
+[data-theme="dark"] .entdecken-root .search-summary-card h3 {
+  color: #4ade80 !important;
+}
 
+.dark .entdecken-root .search-summary-card p,
+.dark .entdecken-root .search-summary-card strong,
+.dark .entdecken-root .search-summary-card li,
+.dark .entdecken-root .search-summary-card span,
+[data-theme="dark"] .entdecken-root .search-summary-card p,
+[data-theme="dark"] .entdecken-root .search-summary-card strong {
+  color: #f8fafc !important;
+}

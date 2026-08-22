@@ -21,6 +21,10 @@ export interface Trail {
   search_query?: string;
   distance_to_place_km?: number;
   source?: string;
+  uri?: string;
+  polyline?: [number, number][];
+  start_coords?: [number, number];
+  end_coords?: [number, number];
 }
 
 export const GERMAN_STATES_LIST = [

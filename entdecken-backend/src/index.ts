@@ -32,8 +32,9 @@ import {
   projectPointToRoute
 } from "./search.js";
 
-import { searchDztTrails, searchDztEvents, searchDztPois } from "./dzt.js";
-import { FAMOUS_TRAILS, getNearbyTrails } from "./data/trails.js";
+import { searchDztTrails, searchDztEvents, searchDztPois, getDztEntityDetails } from "./dzt.js";
+import { FAMOUS_TRAILS, getNearbyTrails, Trail } from "./data/trails.js";
+import fs from "fs";
 
 const app = express();
 app.use(cors());
@@ -267,25 +268,163 @@ app.get("/api/places/:id/nearby", async (req, res) => {
   }
 });
 
+// Helper to load all trails from server/trails.json or fallback to FAMOUS_TRAILS
+function getAllTrailsList(): Trail[] {
+  const possiblePaths = [
+    path.resolve(process.cwd(), "server/trails.json"),
+    path.resolve(process.cwd(), "../server/trails.json"),
+    path.resolve(__dirname, "../../server/trails.json"),
+    path.resolve(__dirname, "../trails.json"),
+    path.resolve(__dirname, "data/trails.json")
+  ];
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) {
+      try {
+        const parsed = JSON.parse(fs.readFileSync(p, "utf8"));
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch {}
+    }
+  }
+  return FAMOUS_TRAILS;
+}
+
 // Hiking & Biking Trails endpoint
 app.get("/api/trails", (req, res) => {
-  const { region, type, difficulty, country } = req.query as { region?: string; type?: string; difficulty?: string; country?: string };
-  let results = [...FAMOUS_TRAILS];
+  const { region, state, type, difficulty, country, q } = req.query as {
+    region?: string;
+    state?: string;
+    type?: string;
+    difficulty?: string;
+    country?: string;
+    q?: string;
+  };
+  let results = getAllTrailsList();
 
   if (country) {
-    results = results.filter(t => t.country.toLowerCase() === country.toLowerCase());
+    results = results.filter(t => (t.country || "DE").toLowerCase() === country.toLowerCase());
+  }
+  if (state && state !== "all" && state !== "Alle Bundesländer") {
+    results = results.filter(t => t.state === state || (t.region || "").includes(state));
   }
   if (region) {
-    results = results.filter(t => t.region.toLowerCase().includes(region.toLowerCase()));
+    results = results.filter(t =>
+      (t.region || "").toLowerCase().includes(region.toLowerCase()) ||
+      (t.state || "").toLowerCase().includes(region.toLowerCase())
+    );
   }
-  if (type && type !== 'all') {
-    results = results.filter(t => t.type === type || t.type === 'both');
+  if (type && type !== "all") {
+    results = results.filter(t => t.type === type || t.type === "both");
   }
-  if (difficulty && difficulty !== 'all') {
+  if (difficulty && difficulty !== "all") {
     results = results.filter(t => t.difficulty === difficulty);
+  }
+  if (q && q.trim()) {
+    const qLower = q.trim().toLowerCase();
+    results = results.filter(t =>
+      (t.name || "").toLowerCase().includes(qLower) ||
+      (t.region || "").toLowerCase().includes(qLower) ||
+      (t.state || "").toLowerCase().includes(qLower) ||
+      (t.description || "").toLowerCase().includes(qLower)
+    );
   }
 
   res.json(results);
+});
+
+// Single trail details with live/cached polyline geometry & start/end coords
+app.get("/api/trails/details", async (req, res) => {
+  const id = (req.query.id || req.query.trail_id || "") as string;
+  const uriParam = (req.query.uri || "") as string;
+
+  if (!id && !uriParam) {
+    return res.status(400).json({ success: false, message: "Missing trail id or uri" });
+  }
+
+  const allTrails = getAllTrailsList();
+  const trail = allTrails.find(t => t.id === id || (uriParam && t.uri === uriParam));
+
+  let polyline: [number, number][] = trail?.polyline || [];
+  let start_coords = trail?.start_coords;
+  let end_coords = trail?.end_coords;
+
+  // If no polyline yet and it's a DZT Open Data trail or URI is provided:
+  const dztUri = uriParam || (id.startsWith("dzt-trail-") ? `https://mein.toubiz.de/api/v1/article/${id.replace("dzt-trail-", "")}` : trail?.uri);
+
+  if (polyline.length === 0 && dztUri) {
+    try {
+      const details = await getDztEntityDetails(dztUri);
+      if (details) {
+        if (details.polyline && details.polyline.length > 0) {
+          polyline = details.polyline;
+        }
+        if (details.startCoords) start_coords = details.startCoords;
+        if (details.endCoords) end_coords = details.endCoords;
+      }
+    } catch (err: any) {
+      console.error("[Trails] Error fetching DZT details for", dztUri, err.message);
+    }
+  }
+
+  // Fallback: If still no polyline, generate a plausible 2-point line from start/end if available
+  if (polyline.length === 0 && start_coords && end_coords) {
+    polyline = [start_coords, end_coords];
+  } else if (polyline.length === 0 && trail?.latitude && trail?.longitude) {
+    // Single point fallback or around center
+    polyline = [[trail.latitude, trail.longitude]];
+  }
+
+  res.json({
+    success: true,
+    trail: trail ? { ...trail, polyline, start_coords, end_coords } : null,
+    polyline,
+    start_coords: start_coords || (polyline.length > 0 ? polyline[0] : (trail ? [trail.latitude, trail.longitude] : undefined)),
+    end_coords: end_coords || (polyline.length > 0 ? polyline[polyline.length - 1] : (trail ? [trail.latitude, trail.longitude] : undefined))
+  });
+});
+
+// Nearby campsites along a trail (Spatial query within radius)
+app.get("/api/trails/nearby-campsites", async (req, res) => {
+  try {
+    const lat = parseFloat(req.query.lat as string);
+    const lon = parseFloat(req.query.lon as string);
+    const radiusKm = parseFloat((req.query.radius_km || req.query.radius || "25") as string);
+    const limit = parseInt((req.query.limit || "30") as string, 10);
+
+    if (isNaN(lat) || isNaN(lon)) {
+      return res.status(400).json({ success: false, message: "Valid lat and lon required" });
+    }
+
+    const db = await getDb();
+    const dLat = radiusKm / 111.0;
+    const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
+
+    const rows = await db.all(
+      `SELECT id, name, type, city, address, rating, image_url, latitude, longitude, description, price, website
+       FROM places
+       WHERE type IN ('campground', 'caravan', 'glamping')
+         AND latitude BETWEEN ? AND ?
+         AND longitude BETWEEN ? AND ?`,
+      [lat - dLat, lat + dLat, lon - dLon, lon + dLon]
+    );
+
+    const withDist = rows.map(r => {
+      const dist = haversineDistance(lat, lon, r.latitude, r.longitude);
+      return {
+        ...r,
+        distance_km: Math.round(dist * 10) / 10
+      };
+    })
+    .filter(r => r.distance_km <= radiusKm)
+    .sort((a, b) => a.distance_km - b.distance_km);
+
+    res.json({
+      success: true,
+      count: withDist.length,
+      places: withDist.slice(0, limit)
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // Nearby trails for a campsite or place

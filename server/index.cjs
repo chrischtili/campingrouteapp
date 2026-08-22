@@ -2070,9 +2070,16 @@ const server = http.createServer(async (req, res) => {
     }
 
     // Entdecken-Backend API & MCP (eigener Port, default 3000)
-    if (pathname.startsWith('/discover/api') || pathname.startsWith('/discover/mcp') || pathname === '/discover/sse') {
+    if (
+      pathname.startsWith('/discover/api') ||
+      pathname.startsWith('/discover/mcp') ||
+      pathname === '/discover/sse' ||
+      pathname.startsWith('/api/dzt') ||
+      pathname === '/api/trails/details' ||
+      pathname === '/api/trails/nearby-campsites'
+    ) {
       const targetPort = Number(process.env.DISCOVER_PORT || 3000);
-      const targetPath = pathname.replace(/^\/discover/, '') + url.search;
+      const targetPath = (pathname.startsWith('/discover') ? pathname.replace(/^\/discover/, '') : pathname) + url.search;
       const forwardHeaders = { ...req.headers };
       forwardHeaders.host = `127.0.0.1:${targetPort}`;
 

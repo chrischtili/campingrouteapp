@@ -489,15 +489,22 @@ function EntdeckenContent() {
   const [trailFilter, setTrailFilter] = useState<'all' | 'hiking' | 'biking'>('all');
   const [trailStateFilter, setTrailStateFilter] = useState<string>('Alle Bundesländer');
   const [trailSearchText, setTrailSearchText] = useState<string>('');
+  const [trailViewMode, setTrailViewMode] = useState<'grid' | 'split' | 'map'>('grid');
   const [visibleTrailsCount, setVisibleTrailsCount] = useState<number>(12);
   const [nearbyTrails, setNearbyTrails] = useState<Trail[]>([]);
   const [isLoadingTrails, setIsLoadingTrails] = useState(false);
   const [selectedTrail, setSelectedTrail] = useState<Trail | null>(null);
+  const [trailPolyline, setTrailPolyline] = useState<[number, number][]>([]);
+  const [trailStartCoords, setTrailStartCoords] = useState<[number, number] | null>(null);
+  const [trailEndCoords, setTrailEndCoords] = useState<[number, number] | null>(null);
   const [trailCampsites, setTrailCampsites] = useState<Place[]>([]);
   const [isLoadingTrailCampsites, setIsLoadingTrailCampsites] = useState(false);
   const trailMapContainerRef = useRef<HTMLDivElement | null>(null);
   const trailLeafletMapRef = useRef<L.Map | null>(null);
   const trailWasOpenRef = useRef<boolean>(false);
+  const trailsOverviewMapContainerRef = useRef<HTMLDivElement | null>(null);
+  const trailsOverviewLeafletMapRef = useRef<L.Map | null>(null);
+  const trailsOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
   const stateCounts = useMemo(() => {
     const counts: Record<string, number> = { 'Alle Bundesländer': trails.length };
@@ -946,36 +953,74 @@ function EntdeckenContent() {
     }
   }, [selectedPlace]);
 
-  // Fetch campsites and lock scroll for selected trail
+  // Fetch campsites, trail polyline and lock scroll for selected trail
   useEffect(() => {
     if (selectedTrail) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       setIsLoadingTrailCampsites(true);
 
-      const regionParam = selectedTrail.region.split('/')[0].trim();
-      fetch(`/discover/api/search?q=${encodeURIComponent('Camping in ' + regionParam)}&page=1&limit=20`)
-        .then(res => res.ok ? res.json() : { places: [] })
+      // 1. Fetch exact nearby campsites within 25km radius
+      const nearbyUrl = `/discover/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=25&limit=25`;
+      fetch(nearbyUrl)
+        .then(res => res.ok ? res.json() : fetch(`/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=25&limit=25`).then(r => r.json()))
         .then(data => {
-          const list = (data.places || []).filter((p: Place) => p.type !== 'attraction');
-          setTrailCampsites(list.slice(0, 8));
+          if (data && data.places && Array.isArray(data.places)) {
+            setTrailCampsites(data.places);
+          } else {
+            setTrailCampsites([]);
+          }
         })
         .catch(() => setTrailCampsites([]))
         .finally(() => setIsLoadingTrailCampsites(false));
 
+      // 2. Fetch full trail details & geometry / polyline if not already available
+      if (selectedTrail.polyline && selectedTrail.polyline.length > 0) {
+        setTrailPolyline(selectedTrail.polyline);
+        setTrailStartCoords(selectedTrail.start_coords || selectedTrail.polyline[0]);
+        setTrailEndCoords(selectedTrail.end_coords || selectedTrail.polyline[selectedTrail.polyline.length - 1]);
+      } else {
+        const detailsUrl = `/discover/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`;
+        fetch(detailsUrl)
+          .then(res => res.ok ? res.json() : fetch(`/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`).then(r => r.json()))
+          .then(data => {
+            if (data && data.polyline && data.polyline.length > 0) {
+              setTrailPolyline(data.polyline);
+              setTrailStartCoords(data.start_coords || data.polyline[0]);
+              setTrailEndCoords(data.end_coords || data.polyline[data.polyline.length - 1]);
+            } else {
+              setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
+              setTrailStartCoords([selectedTrail.latitude, selectedTrail.longitude]);
+              setTrailEndCoords([selectedTrail.latitude, selectedTrail.longitude]);
+            }
+          })
+          .catch(() => {
+            setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
+          });
+      }
+
       return () => { document.body.style.overflow = prev; };
     } else {
       setTrailCampsites([]);
+      setTrailPolyline([]);
+      setTrailStartCoords(null);
+      setTrailEndCoords(null);
     }
   }, [selectedTrail]);
 
-  // Trail Map initialization
+  // Trail Detail Map initialization & drawing (Polyline + Start/End + Campsites)
   useEffect(() => {
     const isOpen = !!selectedTrail;
-    if (isOpen && !trailWasOpenRef.current && trailMapContainerRef.current) {
+    if (isOpen && trailMapContainerRef.current) {
+      // Destroy old instance if exists
+      if (trailLeafletMapRef.current) {
+        trailLeafletMapRef.current.remove();
+        trailLeafletMapRef.current = null;
+      }
+
       const map = L.map(trailMapContainerRef.current, {
         center: [selectedTrail.latitude, selectedTrail.longitude],
-        zoom: 10,
+        zoom: 11,
         zoomControl: true,
         attributionControl: true
       });
@@ -983,6 +1028,76 @@ function EntdeckenContent() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
       }).addTo(map);
 
+      trailLeafletMapRef.current = map;
+      setTimeout(() => map.invalidateSize(), 150);
+    } else if (!isOpen && trailLeafletMapRef.current) {
+      trailLeafletMapRef.current.remove();
+      trailLeafletMapRef.current = null;
+    }
+    trailWasOpenRef.current = isOpen;
+  }, [selectedTrail]);
+
+  // Update Polyline, Start/End markers, and campsite markers on Trail Modal Map
+  useEffect(() => {
+    const map = trailLeafletMapRef.current;
+    if (!map || !selectedTrail) return;
+
+    // Clear non-tile layers if any
+    map.eachLayer((layer) => {
+      if (layer instanceof L.Polyline || layer instanceof L.Marker || layer instanceof L.CircleMarker) {
+        map.removeLayer(layer);
+      }
+    });
+
+    const bounds = L.latLngBounds([[selectedTrail.latitude, selectedTrail.longitude]]);
+
+    // 1. Draw Route Polyline (Streckenverlauf) if available
+    if (trailPolyline && trailPolyline.length >= 2) {
+      trailPolyline.forEach(([lat, lon]) => bounds.extend([lat, lon]));
+
+      // White outline casing
+      L.polyline(trailPolyline, {
+        color: '#ffffff',
+        weight: 8,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(map);
+
+      // Vibrant Red/Crimson Track Polyline (Streckenverlauf)
+      L.polyline(trailPolyline, {
+        color: '#e11d48',
+        weight: 4.5,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(map);
+
+      // Start Marker (🟢)
+      const startPt = trailStartCoords || trailPolyline[0];
+      if (startPt) {
+        const startIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: `<div style="background: #10b981; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; box-shadow: 0 3px 8px rgba(0,0,0,0.35); border: 2.5px solid white; font-weight: 800;">🟢</div>`
+        });
+        L.marker(startPt, { icon: startIcon, zIndexOffset: 1000 })
+          .addTo(map)
+          .bindPopup(`<b>Startpunkt:</b> ${escHtml(selectedTrail.start_location)}`);
+      }
+
+      // End Marker (🏁)
+      const endPt = trailEndCoords || trailPolyline[trailPolyline.length - 1];
+      if (endPt) {
+        const endIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: `<div style="background: #dc2626; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; box-shadow: 0 3px 8px rgba(0,0,0,0.35); border: 2.5px solid white; font-weight: 800;">🏁</div>`
+        });
+        L.marker(endPt, { icon: endIcon, zIndexOffset: 1000 })
+          .addTo(map)
+          .bindPopup(`<b>Ziel:</b> ${escHtml(selectedTrail.end_location)}`);
+      }
+    } else {
+      // Single center marker
       const trailIcon = L.divIcon({
         className: 'custom-div-icon',
         html: `<div style="background: #059669; color: white; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); border: 2px solid white;">🥾</div>`
@@ -991,36 +1106,123 @@ function EntdeckenContent() {
         .addTo(map)
         .bindPopup(`<b>${escHtml(selectedTrail.name)}</b><br/>${selectedTrail.start_location} ➔ ${selectedTrail.end_location}`)
         .openPopup();
-
-      trailLeafletMapRef.current = map;
-      setTimeout(() => map.invalidateSize(), 150);
-    } else if (!isOpen && trailWasOpenRef.current && trailLeafletMapRef.current) {
-      trailLeafletMapRef.current.remove();
-      trailLeafletMapRef.current = null;
     }
-    trailWasOpenRef.current = isOpen;
-  }, [selectedTrail]);
 
-  // Add campsite markers to trail map when trailCampsites load
+    // 2. Add campsite markers
+    if (trailCampsites && trailCampsites.length > 0) {
+      trailCampsites.forEach(p => {
+        bounds.extend([p.latitude, p.longitude]);
+        const distLabel = (p as any).distance_km ? ` · 📍 ${(p as any).distance_km} km` : '';
+        L.circleMarker([p.latitude, p.longitude], {
+          radius: 8,
+          color: '#ffffff',
+          weight: 2.5,
+          fillColor: p.type === 'caravan' ? '#2563eb' : '#059669',
+          fillOpacity: 0.95
+        })
+          .addTo(map)
+          .bindPopup(`<b>${escHtml(p.name)}</b><br/>${getTypeLabel(p.type)}${distLabel}<br/>⭐ ${p.rating || '4.5'}`);
+      });
+    }
+
+    map.fitBounds(bounds, { padding: [45, 45], maxZoom: 13 });
+  }, [trailPolyline, trailStartCoords, trailEndCoords, trailCampsites, selectedTrail]);
+
+  // Trails Overview Map Effect (when in map or split view mode)
   useEffect(() => {
-    const map = trailLeafletMapRef.current;
-    if (!map || !selectedTrail || trailCampsites.length === 0) return;
+    if (hasSearched || selectedCountryView) return;
+    if (trailViewMode !== 'split' && trailViewMode !== 'map') {
+      if (trailsOverviewLeafletMapRef.current) {
+        trailsOverviewLeafletMapRef.current.remove();
+        trailsOverviewLeafletMapRef.current = null;
+      }
+      return;
+    }
 
-    const bounds = L.latLngBounds([[selectedTrail.latitude, selectedTrail.longitude]]);
-    trailCampsites.forEach(p => {
-      bounds.extend([p.latitude, p.longitude]);
-      L.circleMarker([p.latitude, p.longitude], {
-        radius: 8,
-        color: '#ffffff',
-        weight: 2,
-        fillColor: p.type === 'caravan' ? '#2563eb' : '#059669',
-        fillOpacity: 0.9
-      })
-        .addTo(map)
-        .bindPopup(`<b>${escHtml(p.name)}</b><br/>${getTypeLabel(p.type)}`);
+    if (!trailsOverviewMapContainerRef.current) return;
+
+    if (!trailsOverviewLeafletMapRef.current) {
+      const map = L.map(trailsOverviewMapContainerRef.current, {
+        center: [51.1657, 10.4515],
+        zoom: 6,
+        zoomControl: true,
+        attributionControl: true
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+      }).addTo(map);
+
+      trailsOverviewLeafletMapRef.current = map;
+    }
+
+    const map = trailsOverviewLeafletMapRef.current;
+    if (!map) return;
+
+    // Clear previous cluster / markers
+    if (trailsOverviewClusterRef.current) {
+      map.removeLayer(trailsOverviewClusterRef.current);
+    }
+
+    const cluster = L.markerClusterGroup({
+      maxClusterRadius: 40,
+      showCoverageOnHover: false
     });
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
-  }, [trailCampsites, selectedTrail]);
+
+    const bounds = L.latLngBounds([]);
+    const trailsToDisplay = filteredTrails.slice(0, 150);
+
+    trailsToDisplay.forEach((trail) => {
+      bounds.extend([trail.latitude, trail.longitude]);
+      const isBiking = trail.type === 'biking';
+      const isHiking = trail.type === 'hiking';
+      const iconEmoji = isBiking ? '🚴' : isHiking ? '🥾' : '🥾';
+      const bgColor = isBiking ? '#2563eb' : '#059669';
+
+      const customIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div style="background: ${bgColor}; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; box-shadow: 0 3px 8px rgba(0,0,0,0.35); border: 2px solid white; cursor: pointer;">${iconEmoji}</div>`
+      });
+
+      const marker = L.marker([trail.latitude, trail.longitude], { icon: customIcon });
+      
+      const popupHtml = document.createElement('div');
+      popupHtml.style.width = '230px';
+      popupHtml.style.fontFamily = 'inherit';
+      popupHtml.innerHTML = `
+        <div style="width: 100%; height: 110px; border-radius: 8px; overflow: hidden; background: #e5e7eb; margin-bottom: 6px;">
+          <img src="${cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'" />
+        </div>
+        <div style="font-size: 0.72rem; font-weight: 800; color: ${bgColor}; text-transform: uppercase;">
+          ${isBiking ? '🚴 Radweg' : '🥾 Wanderweg'} · ${trail.distance_km} km
+        </div>
+        <div style="font-size: 0.9rem; font-weight: 800; color: #111827; margin: 2px 0 4px 0; line-height: 1.2;">
+          ${escHtml(trail.name)}
+        </div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 8px;">
+          ${escHtml(trail.region)} · ${trail.difficulty === 'easy' ? 'Leicht' : trail.difficulty === 'medium' ? 'Mittel' : 'Anspruchsvoll'}
+        </div>
+        <button class="open-trail-popup-btn" style="width: 100%; padding: 7px; background: #059669; color: white; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+          Tour & Plätze ansehen ➔
+        </button>
+      `;
+
+      popupHtml.querySelector('.open-trail-popup-btn')?.addEventListener('click', () => {
+        setSelectedTrail(trail);
+      });
+
+      marker.bindPopup(popupHtml);
+      cluster.addLayer(marker);
+    });
+
+    map.addLayer(cluster);
+    trailsOverviewClusterRef.current = cluster;
+
+    if (bounds.isValid() && trailsToDisplay.length > 0) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
+    }
+
+    setTimeout(() => map.invalidateSize(), 200);
+  }, [filteredTrails, trailViewMode, hasSearched, selectedCountryView]);
 
   // Lock body scroll while the place detail modal is open
   useEffect(() => {
@@ -1917,7 +2119,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                       )}
                       <div>
                         <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Camping-Dichte</span>
-                        <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: '#059669' }}>🏕️ {selectedTrail.campsites_along_count} Plätze</p>
+                        <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: '#059669' }}>
+                          🏕️ {isLoadingTrailCampsites ? '...' : (trailCampsites.length || selectedTrail.campsites_along_count)} Plätze
+                        </p>
                       </div>
                     </div>
 
@@ -1953,18 +2157,18 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: 0 }}>
                   <div className="detail-card">
                     <h4 style={{ fontSize: '1.05rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      🏕️ Camping- & Stellplätze am Weg ({selectedTrail.campsites_along_count})
+                      🏕️ Camping- & Stellplätze am Weg ({isLoadingTrailCampsites ? '...' : trailCampsites.length})
                     </h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '1rem' }}>
-                      Verifizierte Übernachtungsorte direkt an dieser Tour
+                      Verifizierte Übernachtungsorte im Umkreis von 25 km um diese Tour
                     </p>
 
                     {isLoadingTrailCampsites ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Plätze werden geladen...</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Nahegelegene Plätze werden gesucht...</p>
                     ) : trailCampsites.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Keine Einträge direkt gefunden.</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Keine Campingplätze im direkten Umkreis von 25 km gefunden.</p>
                     ) : (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
                         {trailCampsites.map((p) => (
                           <div
                             key={p.id}
@@ -1982,17 +2186,21 @@ const getWebsiteUrl = (place: Place): string | null => {
                             }}
                             className="nearby-place-item hover:border-primary-500"
                           >
-                            <div style={{ width: '38px', height: '38px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--gray-200)' }}>
+                            <div style={{ width: '42px', height: '42px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--gray-200)' }}>
                               <img src={getImageUrl(p) || getFallbackImage(p)} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = getFallbackImage(p); }} />
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <h5 style={{ fontSize: '0.85rem', fontWeight: 800, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--gray-900)' }}>
                                 {p.name}
                               </h5>
-                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', display: 'flex', justifyContent: 'space-between' }}>
-                                <span>{getTypeLabel(p.type)} · {p.city || p.address.split(',')[0]}</span>
-                                <span style={{ color: '#f59e0b', fontWeight: 700 }}>⭐ {p.rating || '4.5'}</span>
-                              </p>
+                              <div style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>{getTypeLabel(p.type)} · {p.city || (p.address ? p.address.split(',')[0] : '')}</span>
+                                {(p as any).distance_km !== undefined ? (
+                                  <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>📍 {(p as any).distance_km} km</span>
+                                ) : (
+                                  <span style={{ color: '#f59e0b', fontWeight: 700 }}>⭐ {p.rating || '4.5'}</span>
+                                )}
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -2002,10 +2210,38 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {/* Action button inside right card */}
                     <button
                       onClick={() => {
-                        const targetQuery = selectedTrail.search_query || `Camping in ${selectedTrail.region}`;
+                        const targetTrail = selectedTrail;
+                        const placesToOpen = trailCampsites;
                         setSelectedTrail(null);
-                        setSearchQuery(targetQuery);
-                        handleSearch(undefined, targetQuery);
+
+                        if (placesToOpen && placesToOpen.length > 0) {
+                          setSearchQuery(`Camping an der Tour: ${targetTrail.name}`);
+                          setPlaces(placesToOpen);
+                          setTotalPlaces(placesToOpen.length);
+                          setHasSearched(true);
+                          setViewMode('split');
+                          setSelectedCountryView(null);
+                          setMapPoints(placesToOpen.map(p => ({
+                            id: p.id,
+                            name: p.name,
+                            type: p.type,
+                            latitude: p.latitude,
+                            longitude: p.longitude,
+                            rating: p.rating,
+                            city: p.city,
+                            country: p.country,
+                            state: p.state,
+                            address: p.address,
+                            image_url: p.image_url,
+                            reviews_count: p.review_count,
+                            price: p.price
+                          })));
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        } else {
+                          const targetQuery = targetTrail.search_query || `Camping in ${targetTrail.region}`;
+                          setSearchQuery(targetQuery);
+                          handleSearch(undefined, targetQuery);
+                        }
                       }}
                       style={{
                         width: '100%',
@@ -2027,7 +2263,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                       className="hover:bg-primary-700"
                     >
                       <MapIcon size={16} />
-                      <span>Alle {selectedTrail.campsites_along_count} Plätze auf großer Karte öffnen</span>
+                      <span>
+                        {trailCampsites.length > 0
+                          ? `Alle ${trailCampsites.length} Plätze auf großer Karte öffnen`
+                          : `Campingplätze entlang dieser Tour suchen`}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -2247,7 +2487,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </p>
                     </div>
 
-                    {/* Search & Type Filters */}
+                    {/* Search & Type Filters & View Mode Switcher */}
                     <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
                       {/* Trail Search Input */}
                       <div style={{ position: 'relative', minWidth: '220px' }}>
@@ -2327,6 +2567,73 @@ const getWebsiteUrl = (place: Place): string | null => {
                           {t.bikingTrails || '🚴 Radwege'}
                         </button>
                       </div>
+
+                      {/* View Mode Switcher */}
+                      <div style={{ display: 'flex', gap: '0.25rem', background: 'var(--gray-100)', padding: '4px', borderRadius: '12px' }}>
+                        <button
+                          onClick={() => { setTrailViewMode('grid'); setTimeout(() => trailsOverviewLeafletMapRef.current?.invalidateSize(), 150); }}
+                          style={{
+                            padding: '0.4rem 0.65rem',
+                            borderRadius: '8px',
+                            border: 'none',
+                            fontSize: '0.8rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                            background: trailViewMode === 'grid' ? 'var(--card-bg)' : 'transparent',
+                            color: trailViewMode === 'grid' ? 'var(--primary-700)' : 'var(--gray-600)',
+                            boxShadow: trailViewMode === 'grid' ? 'var(--shadow-sm)' : 'none'
+                          }}
+                          title="Rasteransicht"
+                        >
+                          <ColumnsIcon size={14} />
+                          <span className="hidden sm:inline">Raster</span>
+                        </button>
+                        <button
+                          onClick={() => { setTrailViewMode('split'); setTimeout(() => trailsOverviewLeafletMapRef.current?.invalidateSize(), 150); }}
+                          style={{
+                            padding: '0.4rem 0.65rem',
+                            borderRadius: '8px',
+                            border: 'none',
+                            fontSize: '0.8rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                            background: trailViewMode === 'split' ? 'var(--card-bg)' : 'transparent',
+                            color: trailViewMode === 'split' ? 'var(--primary-700)' : 'var(--gray-600)',
+                            boxShadow: trailViewMode === 'split' ? 'var(--shadow-sm)' : 'none'
+                          }}
+                          title="Split-Ansicht"
+                        >
+                          <ColumnsIcon size={14} style={{ transform: 'rotate(90deg)' }} />
+                          <span className="hidden sm:inline">Split</span>
+                        </button>
+                        <button
+                          onClick={() => { setTrailViewMode('map'); setTimeout(() => trailsOverviewLeafletMapRef.current?.invalidateSize(), 150); }}
+                          style={{
+                            padding: '0.4rem 0.65rem',
+                            borderRadius: '8px',
+                            border: 'none',
+                            fontSize: '0.8rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                            background: trailViewMode === 'map' ? 'var(--card-bg)' : 'transparent',
+                            color: trailViewMode === 'map' ? 'var(--primary-700)' : 'var(--gray-600)',
+                            boxShadow: trailViewMode === 'map' ? 'var(--shadow-sm)' : 'none'
+                          }}
+                          title="Kartenansicht"
+                        >
+                          <MapIcon size={14} />
+                          <span className="hidden sm:inline">Karte</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -2401,179 +2708,266 @@ const getWebsiteUrl = (place: Place): string | null => {
                     )}
                   </div>
 
-                  {/* Trails Grid */}
+                  {/* Trails Content Layout based on trailViewMode */}
                   {filteredTrails.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '3rem 1rem', background: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--card-border)' }}>
                       <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gray-700)', marginBottom: '0.5rem' }}>Keine Touren gefunden</p>
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)' }}>Probiere einen anderen Suchbegriff oder wähle ein anderes Bundesland.</p>
                     </div>
                   ) : (
-                    <>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
-                        {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
-                          <div
-                            key={trail.id}
-                            onClick={() => setSelectedTrail(trail)}
-                            style={{
-                              background: 'var(--card-bg)',
-                              border: '1px solid var(--card-border)',
-                              borderRadius: '16px',
-                              overflow: 'hidden',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              boxShadow: 'var(--shadow-sm)',
-                              cursor: 'pointer',
-                              transition: 'transform 0.2s, box-shadow 0.2s'
-                            }}
-                            className="hover:scale-102 hover:shadow-md"
-                          >
-                            {/* Image banner */}
-                            <div style={{ position: 'relative', height: '170px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
-                              <img
-                                src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
-                                alt={trail.name}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80';
-                                }}
-                              />
-                              {/* Type Badge */}
-                              <span
-                                style={{
-                                  position: 'absolute',
-                                  top: '10px',
-                                  left: '10px',
-                                  background: trail.type === 'biking' ? '#2563eb' : trail.type === 'hiking' ? '#059669' : '#7c3aed',
-                                  color: 'white',
-                                  padding: '3px 8px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.7rem',
-                                  fontWeight: 800,
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.04em',
-                                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                                }}
-                              >
-                                {trail.type === 'biking' ? '🚴 Radweg' : trail.type === 'hiking' ? '🥾 Wanderweg' : '🥾 & 🚴 Tour'}
-                              </span>
-
-                              {/* Difficulty Badge */}
-                              <span
-                                style={{
-                                  position: 'absolute',
-                                  top: '10px',
-                                  right: '10px',
-                                  background: trail.difficulty === 'easy' ? '#10b981' : trail.difficulty === 'medium' ? '#f59e0b' : '#ef4444',
-                                  color: 'white',
-                                  padding: '3px 8px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.7rem',
-                                  fontWeight: 800,
-                                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                                }}
-                              >
-                                {trail.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : trail.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Anspruchsvoll')}
-                              </span>
-                            </div>
-
-                            {/* Content */}
-                            <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                              <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-700)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                    {trail.region} {trail.state && trail.state !== trail.region ? `· ${trail.state}` : ''}
-                                  </span>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', color: '#f59e0b', fontSize: '0.8rem', fontWeight: 800 }}>
-                                    <Star size={13} fill="#f59e0b" color="#f59e0b" />
-                                    <span>{trail.rating}</span>
-                                  </div>
-                                </div>
-
-                                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem', lineHeight: 1.3 }}>
-                                  {trail.name}
-                                </h3>
-
-                                {/* Trail specs */}
-                                <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.75rem', padding: '0.4rem 0.6rem', background: 'var(--gray-50)', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
-                                  <span><strong>📍 {trail.distance_km} km</strong></span>
-                                  {trail.duration_hours && <span><strong>⏱️ {trail.duration_hours}h</strong></span>}
-                                  {trail.elevation_gain_m && <span><strong>⛰️ +{trail.elevation_gain_m}m</strong></span>}
-                                </div>
-
-                                <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', lineHeight: '1.45', marginBottom: '0.85rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                  {trail.description}
-                                </p>
-
-                                {/* Highlights chips */}
-                                {trail.highlights && trail.highlights.length > 0 && (
-                                  <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                                    {trail.highlights.slice(0, 3).map((hl, idx) => (
-                                      <span key={idx} style={{ fontSize: '0.7rem', padding: '2px 6px', background: 'var(--gray-100)', borderRadius: '4px', color: 'var(--gray-700)', fontWeight: 600 }}>
-                                        ✓ {hl}
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Footer */}
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--gray-100)' }}>
-                                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                                  🏕️ {(t.campsitesAlong || '{{count}} Plätze am Weg').replace('{{count}}', String(trail.campsites_along_count))}
-                                </span>
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedTrail(trail);
-                                  }}
-                                  style={{
-                                    background: 'var(--primary-600)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '0.45rem 0.85rem',
-                                    borderRadius: '8px',
-                                    fontSize: '0.75rem',
-                                    fontWeight: 700,
-                                    cursor: 'pointer',
-                                    transition: 'background 0.2s'
-                                  }}
-                                  className="hover:bg-primary-700"
-                                >
-                                  {t.exploreTrail || 'Details & Plätze'} →
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Load More Button */}
-                      {visibleTrailsCount < filteredTrails.length && (
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-                          <button
-                            onClick={() => setVisibleTrailsCount(prev => prev + 12)}
-                            style={{
-                              background: 'var(--card-bg)',
-                              border: '1px solid var(--card-border)',
-                              padding: '0.75rem 2rem',
-                              borderRadius: '12px',
-                              fontSize: '0.9rem',
-                              fontWeight: 700,
-                              color: 'var(--primary-700)',
-                              cursor: 'pointer',
-                              boxShadow: 'var(--shadow-sm)',
-                              transition: 'all 0.2s ease',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.5rem'
-                            }}
-                            className="hover:border-primary-600 hover:shadow-md"
-                          >
-                            <span>🥾 Weitere {Math.min(12, filteredTrails.length - visibleTrailsCount)} Touren laden (noch {filteredTrails.length - visibleTrailsCount})</span>
-                          </button>
+                    <div>
+                      {/* MAP ONLY VIEW */}
+                      {trailViewMode === 'map' && (
+                        <div style={{ height: '620px', width: '100%', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'relative' }}>
+                          <div ref={trailsOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                         </div>
                       )}
-                    </>
+
+                      {/* SPLIT VIEW (List + Sticky Map) */}
+                      {trailViewMode === 'split' && (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 1fr) minmax(340px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', maxHeight: '720px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                            {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
+                              <div
+                                key={trail.id}
+                                onClick={() => setSelectedTrail(trail)}
+                                style={{
+                                  background: 'var(--card-bg)',
+                                  border: '1px solid var(--card-border)',
+                                  borderRadius: '14px',
+                                  overflow: 'hidden',
+                                  display: 'flex',
+                                  gap: '1rem',
+                                  padding: '0.85rem',
+                                  boxShadow: 'var(--shadow-sm)',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.15s ease'
+                                }}
+                                className="hover:border-primary-500 hover:shadow-md"
+                              >
+                                <div style={{ width: '110px', height: '95px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                  <img
+                                    src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
+                                    alt={trail.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80';
+                                    }}
+                                  />
+                                </div>
+                                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                  <div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: trail.type === 'biking' ? '#2563eb' : '#059669', textTransform: 'uppercase' }}>
+                                        {trail.type === 'biking' ? '🚴 Radweg' : '🥾 Wanderweg'}
+                                      </span>
+                                      <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: trail.difficulty === 'easy' ? '#ecfdf5' : trail.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: trail.difficulty === 'easy' ? '#059669' : trail.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
+                                        {trail.difficulty === 'easy' ? 'Leicht' : trail.difficulty === 'medium' ? 'Mittel' : 'Schwer'}
+                                      </span>
+                                    </div>
+                                    <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                      {trail.name}
+                                    </h4>
+                                    <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
+                                      {trail.region} · <strong>📍 {trail.distance_km} km</strong> {trail.duration_hours ? `· ⏱️ ${trail.duration_hours}h` : ''}
+                                    </p>
+                                  </div>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
+                                    <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#059669' }}>
+                                      🏕️ {trail.campsites_along_count} Plätze am Weg
+                                    </span>
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
+                                      Details →
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                            {visibleTrailsCount < filteredTrails.length && (
+                              <button
+                                onClick={() => setVisibleTrailsCount(prev => prev + 12)}
+                                style={{ padding: '0.6rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer' }}
+                              >
+                                Mehr Touren laden ({filteredTrails.length - visibleTrailsCount} verbleibend)
+                              </button>
+                            )}
+                          </div>
+                          <div style={{ height: '620px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                            <div ref={trailsOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* GRID VIEW */}
+                      {trailViewMode === 'grid' && (
+                        <>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+                            {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
+                              <div
+                                key={trail.id}
+                                onClick={() => setSelectedTrail(trail)}
+                                style={{
+                                  background: 'var(--card-bg)',
+                                  border: '1px solid var(--card-border)',
+                                  borderRadius: '16px',
+                                  overflow: 'hidden',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  boxShadow: 'var(--shadow-sm)',
+                                  cursor: 'pointer',
+                                  transition: 'transform 0.2s, box-shadow 0.2s'
+                                }}
+                                className="hover:scale-102 hover:shadow-md"
+                              >
+                                {/* Image banner */}
+                                <div style={{ position: 'relative', height: '170px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                                  <img
+                                    src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
+                                    alt={trail.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80';
+                                    }}
+                                  />
+                                  {/* Type Badge */}
+                                  <span
+                                    style={{
+                                      position: 'absolute',
+                                      top: '10px',
+                                      left: '10px',
+                                      background: trail.type === 'biking' ? '#2563eb' : trail.type === 'hiking' ? '#059669' : '#7c3aed',
+                                      color: 'white',
+                                      padding: '3px 8px',
+                                      borderRadius: '6px',
+                                      fontSize: '0.7rem',
+                                      fontWeight: 800,
+                                      textTransform: 'uppercase',
+                                      letterSpacing: '0.04em',
+                                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                    }}
+                                  >
+                                    {trail.type === 'biking' ? '🚴 Radweg' : trail.type === 'hiking' ? '🥾 Wanderweg' : '🥾 & 🚴 Tour'}
+                                  </span>
+
+                                  {/* Difficulty Badge */}
+                                  <span
+                                    style={{
+                                      position: 'absolute',
+                                      top: '10px',
+                                      right: '10px',
+                                      background: trail.difficulty === 'easy' ? '#10b981' : trail.difficulty === 'medium' ? '#f59e0b' : '#ef4444',
+                                      color: 'white',
+                                      padding: '3px 8px',
+                                      borderRadius: '6px',
+                                      fontSize: '0.7rem',
+                                      fontWeight: 800,
+                                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                    }}
+                                  >
+                                    {trail.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : trail.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Anspruchsvoll')}
+                                  </span>
+                                </div>
+
+                                {/* Content */}
+                                <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                  <div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                                      <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-700)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                        {trail.region} {trail.state && trail.state !== trail.region ? `· ${trail.state}` : ''}
+                                      </span>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', color: '#f59e0b', fontSize: '0.8rem', fontWeight: 800 }}>
+                                        <Star size={13} fill="#f59e0b" color="#f59e0b" />
+                                        <span>{trail.rating}</span>
+                                      </div>
+                                    </div>
+
+                                    <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem', lineHeight: 1.3 }}>
+                                      {trail.name}
+                                    </h3>
+
+                                    {/* Trail specs */}
+                                    <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.75rem', padding: '0.4rem 0.6rem', background: 'var(--gray-50)', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
+                                      <span><strong>📍 {trail.distance_km} km</strong></span>
+                                      {trail.duration_hours && <span><strong>⏱️ {trail.duration_hours}h</strong></span>}
+                                      {trail.elevation_gain_m && <span><strong>⛰️ +{trail.elevation_gain_m}m</strong></span>}
+                                    </div>
+
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', lineHeight: '1.45', marginBottom: '0.85rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                      {trail.description}
+                                    </p>
+
+                                    {/* Highlights chips */}
+                                    {trail.highlights && trail.highlights.length > 0 && (
+                                      <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                                        {trail.highlights.slice(0, 3).map((hl, idx) => (
+                                          <span key={idx} style={{ fontSize: '0.7rem', padding: '2px 6px', background: 'var(--gray-100)', borderRadius: '4px', color: 'var(--gray-700)', fontWeight: 600 }}>
+                                            ✓ {hl}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Footer */}
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--gray-100)' }}>
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                                      🏕️ {(t.campsitesAlong || '{{count}} Plätze am Weg').replace('{{count}}', String(trail.campsites_along_count))}
+                                    </span>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedTrail(trail);
+                                      }}
+                                      style={{
+                                        background: 'var(--primary-600)',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '0.45rem 0.85rem',
+                                        borderRadius: '8px',
+                                        fontSize: '0.75rem',
+                                        fontWeight: 700,
+                                        cursor: 'pointer',
+                                        transition: 'background 0.2s'
+                                      }}
+                                      className="hover:bg-primary-700"
+                                    >
+                                      {t.exploreTrail || 'Details & Plätze'} →
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Load More Button */}
+                          {visibleTrailsCount < filteredTrails.length && (
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+                              <button
+                                onClick={() => setVisibleTrailsCount(prev => prev + 12)}
+                                style={{
+                                  background: 'var(--card-bg)',
+                                  border: '1px solid var(--card-border)',
+                                  padding: '0.75rem 2rem',
+                                  borderRadius: '12px',
+                                  fontSize: '0.9rem',
+                                  fontWeight: 700,
+                                  color: 'var(--primary-700)',
+                                  cursor: 'pointer',
+                                  boxShadow: 'var(--shadow-sm)',
+                                  transition: 'all 0.2s ease',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '0.5rem'
+                                }}
+                                className="hover:border-primary-600 hover:shadow-md"
+                              >
+                                <span>🥾 Weitere {Math.min(12, filteredTrails.length - visibleTrailsCount)} Touren laden (noch {filteredTrails.length - visibleTrailsCount})</span>
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
                   )}
                 </div>
               )}

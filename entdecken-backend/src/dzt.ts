@@ -160,3 +160,64 @@ export async function searchDztPois(params: {
     return [];
   }
 }
+
+/**
+ * Fetch detailed entity data from DZT Open Data, including coordinates and route polyline (schema:line).
+ */
+export async function getDztEntityDetails(uri: string): Promise<{
+  entity: any;
+  polyline: [number, number][];
+  startCoords?: [number, number];
+  endCoords?: [number, number];
+  startName?: string;
+  endName?: string;
+} | null> {
+  try {
+    const graph = await callDztMcp("get_entity_details", { uri, language: "de" });
+    if (!graph || graph.length === 0) return null;
+    const entity = graph[0];
+
+    let polyline: [number, number][] = [];
+    const geo = entity["https://schema.org/geo"] || entity["schema:geo"] || entity.geo;
+    const lineStr = geo?.["https://schema.org/line"] || geo?.["schema:line"] || geo?.line || (typeof geo === "string" ? geo : null);
+    if (lineStr && typeof lineStr === "string") {
+      const pairs = lineStr.trim().split(/\s+/);
+      polyline = pairs.map(p => {
+        const [lon, lat] = p.split(",").map(Number);
+        return [lat, lon] as [number, number];
+      }).filter(([lat, lon]) => !isNaN(lat) && !isNaN(lon));
+    }
+
+    let startCoords: [number, number] | undefined;
+    let endCoords: [number, number] | undefined;
+
+    const startLoc = entity["https://odta.io/voc/startLocation"] || entity["odta:startLocation"] || entity.startLocation;
+    const startGeo = startLoc?.["https://schema.org/geo"] || startLoc?.["schema:geo"] || startLoc?.geo;
+    if (startGeo) {
+      const lat = Number(startGeo["https://schema.org/latitude"]?.["@value"] || startGeo["schema:latitude"] || startGeo.latitude);
+      const lon = Number(startGeo["https://schema.org/longitude"]?.["@value"] || startGeo["schema:longitude"] || startGeo.longitude);
+      if (!isNaN(lat) && !isNaN(lon)) startCoords = [lat, lon];
+    }
+
+    const endLoc = entity["https://odta.io/voc/endLocation"] || entity["odta:endLocation"] || entity.endLocation;
+    const endGeo = endLoc?.["https://schema.org/geo"] || endLoc?.["schema:geo"] || endLoc?.geo;
+    if (endGeo) {
+      const lat = Number(endGeo["https://schema.org/latitude"]?.["@value"] || endGeo["schema:latitude"] || endGeo.latitude);
+      const lon = Number(endGeo["https://schema.org/longitude"]?.["@value"] || endGeo["schema:longitude"] || endGeo.longitude);
+      if (!isNaN(lat) && !isNaN(lon)) endCoords = [lat, lon];
+    }
+
+    return {
+      entity,
+      polyline,
+      startCoords,
+      endCoords,
+      startName: typeof startLoc?.["https://schema.org/name"] === "object" ? startLoc?.["https://schema.org/name"]?.["@value"] : (startLoc?.["https://schema.org/name"] || startLoc?.["schema:name"] || startLoc?.name),
+      endName: typeof endLoc?.["https://schema.org/name"] === "object" ? endLoc?.["https://schema.org/name"]?.["@value"] : (endLoc?.["https://schema.org/name"] || endLoc?.["schema:name"] || endLoc?.name)
+    };
+  } catch (err: any) {
+    console.error("[DZT] Error fetching entity details:", err.message);
+    return null;
+  }
+}
+

@@ -1,0 +1,3 @@
+[submodule "entdecken-backend/src/scripts"]
+	path = entdecken-backend/src/scripts
+	url = git@github.com:chrischtili/campingroute-core-scripts.git

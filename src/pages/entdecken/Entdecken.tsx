@@ -2217,7 +2217,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         if (placesToOpen && placesToOpen.length > 0) {
                           setSearchQuery(`Camping an der Tour: ${targetTrail.name}`);
                           setPlaces(placesToOpen);
-                          setTotalPlaces(placesToOpen.length);
+                          setTotalItems(placesToOpen.length);
                           setHasSearched(true);
                           setViewMode('split');
                           setSelectedCountryView(null);

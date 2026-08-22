@@ -23,7 +23,7 @@ function runSparql(query: string): Promise<any[]> {
           'x-api-key': DZT_API_KEY,
           'Content-Length': Buffer.byteLength(query)
         },
-        timeout: 90000
+        timeout: 120000
       },
       (res) => {
         let body = '';
@@ -77,8 +77,43 @@ const DEFAULT_TRAIL_IMAGES = [
   'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80'
 ];
 
+// Trail subtypes grouped by activity, queried separately (each is one cheap SPARQL
+// call since odta:Trail + a fixed subtype avoids the cartesian blowup that made a
+// single "SELECT DISTINCT" over all subtypes time out).
+interface TrailTypeGroup {
+  subtype: string;
+  type: 'hiking' | 'biking' | 'both';
+}
+
+const TRAIL_TYPE_GROUPS: TrailTypeGroup[] = [
+  { subtype: 'HikingTrail', type: 'hiking' },
+  { subtype: 'LongDistanceHikeTrail', type: 'hiking' },
+  { subtype: 'WinterHikeTrail', type: 'hiking' },
+  { subtype: 'PilgrimageTrail', type: 'hiking' },
+  { subtype: 'MountaineeringTrail', type: 'hiking' },
+  { subtype: 'AlpineTourTrail', type: 'hiking' },
+  { subtype: 'MountainTourTrail', type: 'hiking' },
+  { subtype: 'NordicWalkingTrail', type: 'hiking' },
+  { subtype: 'TrailRunning', type: 'hiking' },
+  { subtype: 'ViaFerrata', type: 'hiking' },
+  { subtype: 'SightseeingTrail', type: 'hiking' },
+  { subtype: 'PanoramaTrail', type: 'hiking' },
+  { subtype: 'BikeTourTrail', type: 'biking' },
+  { subtype: 'LongDistanceBikeTourTrail', type: 'biking' },
+  { subtype: 'MountainBikeTourTrail', type: 'biking' },
+  { subtype: 'RacingBikeTourTrail', type: 'biking' },
+  { subtype: 'InlineSkatingTrail', type: 'biking' },
+  { subtype: 'ThematicTrail', type: 'hiking' }
+];
+
+// ThematicTrail is a supertype of several others; we query the specific hiking and
+// biking types first, then only add ThematicTrail rows that are not already present.
+function isBikeSubtype(type: string): boolean {
+  return /Bike|Rad|Cycle|InlineSkating|Motor/i.test(type);
+}
+
 export async function syncAllTrails() {
-  console.log('🚀 Starting DZT Open Data Trails Sync via SPARQL (bulk, all trails in one pass)...\n');
+  console.log('🚀 Starting DZT Open Data Trails Sync via SPARQL (odta:Trail subtypes)...\n');
   const db = await getDb();
 
   await db.exec(`
@@ -121,177 +156,145 @@ export async function syncAllTrails() {
   console.log('🧹 Clearing trails table for fresh Open Data Germany ingestion...');
   await db.exec('DELETE FROM trails;');
 
-  // Single bulk SPARQL query over the whole DZT knowledge graph.
   // The MCP tool "get_trails_by_criteria" is capped at 50 results per call with no
   // pagination, so it can never return the full dataset. SPARQL returns everything.
-  const trailsQuery = `
-PREFIX schema: <https://schema.org/>
-PREFIX odta: <https://odta.io/voc/>
-
-SELECT DISTINCT ?id ?name ?desc ?lat ?lon ?image ?locality ?region ?length ?diff
-WHERE {
-  {
-    ?id a schema:TouristTrip ;
-        schema:name ?name .
-  } UNION {
-    ?id a odta:Tour ;
-        schema:name ?name .
-  }
-  OPTIONAL { ?id schema:description ?desc }
-  OPTIONAL {
-    ?id schema:geo ?geo .
-    OPTIONAL { ?geo schema:latitude ?lat ; schema:longitude ?lon . }
-  }
-  OPTIONAL {
-    ?id odta:startLocation ?startLoc .
-    OPTIONAL {
-      ?startLoc schema:geo ?startGeo .
-      ?startGeo schema:latitude ?lat ; schema:longitude ?lon .
-    }
-    OPTIONAL { ?startLoc schema:addressLocality ?locality }
-  }
-  OPTIONAL { ?id schema:image ?image }
-  OPTIONAL { ?id odta:length ?lenObj . OPTIONAL { ?lenObj schema:value ?length } }
-  OPTIONAL { ?id odta:difficulty ?diffObj . OPTIONAL { ?diffObj schema:name ?diff } }
-}
-LIMIT 20000
-`;
-
-  console.log('📡 Fetching all trails from DZT SPARQL endpoint...');
-  let trailsList: any[] = [];
-  try {
-    trailsList = await runSparql(trailsQuery);
-  } catch (err: any) {
-    console.warn(`  ⚠️ Could not fetch trails via SPARQL: ${err.message}`);
-  }
-  console.log(`  ✅ Retrieved ${trailsList.length} trail records from DZT.\n`);
-
+  // The core class is odta:Trail with many subtypes; coordinates live in the
+  // schema:line polyline ("lon,lat,alt lon,lat,alt ...").
   const skippedNoGeo: string[] = [];
   await db.run('BEGIN TRANSACTION');
   let uncommitted = 0;
 
-  for (const item of trailsList) {
-    const rawId = extractString(item.id?.value || item.id?.value);
-    const name = extractString(item.name?.value || item.name).trim();
-    if (!name || !rawId) continue;
-    if (seenIds.has(rawId) || seenNames.has(name.toLowerCase())) continue;
-    seenIds.add(rawId);
-    seenNames.add(name.toLowerCase());
+  for (const group of TRAIL_TYPE_GROUPS) {
+    const query = `
+PREFIX schema: <https://schema.org/>
+PREFIX odta: <https://odta.io/voc/>
 
-    let lat = parseFloat(extractString(item.lat?.value));
-    let lon = parseFloat(extractString(item.lon?.value));
+SELECT ?id ?name ?line ?length ?diff
+WHERE {
+  ?id a odta:${group.subtype} ; schema:name ?name .
+  OPTIONAL { ?id schema:geo ?geo . ?geo schema:line ?line }
+  OPTIONAL { ?id odta:length ?lenObj . ?lenObj schema:value ?length }
+  OPTIONAL { ?id odta:difficulty ?diffObj . ?diffObj schema:name ?diff }
+}
+LIMIT 30000
+`;
 
-    const startLoc = item.startLoc || item.startLocation;
-    if ((!lat || isNaN(lat)) && startLoc) {
-      const sGeo = startLoc['schema:geo'] || startLoc.geo;
-      if (sGeo) {
-        lat = parseFloat(extractString(sGeo['schema:latitude'] || sGeo.latitude));
-        lon = parseFloat(extractString(sGeo['schema:longitude'] || sGeo.longitude));
-      }
-    }
-
-    let polyline: [number, number][] = [];
-    if ((!lat || isNaN(lat)) && (item.line?.value || item['schema:line'])) {
-      const lineStr = extractString(item.line?.value || item['schema:line']);
-      if (lineStr && typeof lineStr === 'string') {
-        const pairs = lineStr.trim().split(/\s+/);
-        polyline = pairs.map(p => {
-          const [c1, c2] = p.split(',').map(Number);
-          return fixLatLng(c1, c2);
-        }).filter(([la, lo]) => la !== 0 && lo !== 0);
-        if ((!lat || isNaN(lat)) && polyline.length > 0) {
-          lat = polyline[0][0];
-          lon = polyline[0][1];
-        }
-      }
-    }
-
-    if (isNaN(lat) || isNaN(lon) || lat === 0) {
-      skippedNoGeo.push(name);
+    process.stdout.write(`  Querying ${group.subtype}... `);
+    let rows: any[] = [];
+    try {
+      rows = await runSparql(query);
+    } catch (err: any) {
+      console.log(`⚠️ error: ${err.message}`);
       continue;
     }
-    const fixed = fixLatLng(lat, lon);
-    lat = fixed[0];
-    lon = fixed[1];
+    console.log(`${rows.length} rows`);
 
-    if (lat < 47.0 || lat > 55.5 || lon < 5.5 || lon > 15.5) continue;
+    for (const item of rows) {
+      const rawId = extractString(item.id?.value || item.id);
+      const name = extractString(item.name?.value || item.name).trim();
+      if (!name || !rawId) continue;
+      const normName = name.toLowerCase();
+      if (seenIds.has(rawId) || seenNames.has(normName)) continue;
+      seenIds.add(rawId);
+      seenNames.add(normName);
 
-    const trailId = `dzt-trail-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
+      // Determine trail type: the subtype group wins; fall back to name inference
+      let trailType = group.type;
+      const lname = normName;
+      if (group.subtype === 'ThematicTrail') {
+        // ThematicTrail overlaps other types; use name heuristics
+        const looksBike = /rad|bike|cycle|radweg|radtour|radfernweg/.test(lname);
+        const looksHike = /wander|steig|pfad|rundweg|lehrpfad|weg|tour|runde/.test(lname);
+        if (looksBike && !looksHike) trailType = 'biking';
+        else if (looksHike) trailType = 'hiking';
+        else trailType = 'hiking';
+      } else if (isBikeSubtype(group.subtype)) {
+        trailType = 'biking';
+      } else if (group.type === 'hiking') {
+        trailType = 'hiking';
+      }
 
-    let stateName = await assignState('DE', lat, lon);
-    if (!stateName) stateName = 'Deutschland';
+      // Coordinates come from the schema:line polyline ("lon,lat,alt lon,lat,alt ...").
+      // We only need the start point; the full linestring is not stored (it would
+      // otherwise make trails.json enormous).
+      let lat = 0;
+      let lon = 0;
+      const lineStr = extractString(item.line?.value || item.line);
+      if (lineStr && typeof lineStr === 'string') {
+        const first = lineStr.trim().split(/\s+/)[0];
+        const parts = (first || '').split(',').map(Number);
+        const [c1, c2] = parts;
+        const fixed = fixLatLng(c1, c2);
+        lat = fixed[0];
+        lon = fixed[1];
+      }
 
-    let distKm = 12;
-    const lenVal = item.length?.value;
-    if (lenVal) {
-      const m = parseFloat(extractString(lenVal));
-      if (!isNaN(m) && m > 0) distKm = Math.round(m / 100) / 10;
-    } else {
-      const rawDesc = extractString(item.desc?.value);
-      const matchKm = (name + ' ' + rawDesc).match(/(\d+(?:[.,]\d+)?)\s*km\b/i);
-      if (matchKm) distKm = parseFloat(matchKm[1].replace(',', '.'));
-    }
+      if (!lat || !lon || lat < 47.0 || lat > 55.5 || lon < 5.5 || lon > 15.5) {
+        skippedNoGeo.push(name);
+        continue;
+      }
 
-    const isBiking = name.toLowerCase().includes('rad') || name.toLowerCase().includes('bike') || name.toLowerCase().includes('cycle');
-    const isHiking = name.toLowerCase().includes('wander') || name.toLowerCase().includes('steig') || name.toLowerCase().includes('pfad') || name.toLowerCase().includes('weg') || name.toLowerCase().includes('tour') || name.toLowerCase().includes('runde');
-    const trailType = isBiking && isHiking ? 'both' : isBiking ? 'biking' : 'hiking';
+      const trailId = `dzt-trail-${rawId.split('/').pop() || Math.random().toString(36).slice(2, 9)}`;
 
-    let diff = 'medium';
-    const diffRaw = extractString(item.diff?.value).toLowerCase();
-    if (diffRaw.includes('leicht') || diffRaw.includes('easy') || distKm < 10) diff = 'easy';
-    else if (diffRaw.includes('schwer') || diffRaw.includes('hard') || distKm > 35) diff = 'hard';
+      let stateName = await assignState('DE', lat, lon);
+      if (!stateName) stateName = 'Deutschland';
 
-    const durationHours = trailType === 'biking' ? Math.max(1, Math.round((distKm / 16) * 10) / 10) : Math.max(1, Math.round((distKm / 3.8) * 10) / 10);
-    let desc = cleanHtml(extractString(item.desc?.value));
-    if (desc.length > 450) desc = desc.slice(0, 447) + '...';
+      let distKm = 12;
+      const lenVal = item.length?.value;
+      if (lenVal) {
+        const m = parseFloat(extractString(lenVal));
+        if (!isNaN(m) && m > 0) distKm = Math.round(m / 100) / 10;
+      }
 
-    const locality = extractString(item.locality?.value) || stateName;
+      let diff = 'medium';
+      const diffRaw = extractString(item.diff?.value).toLowerCase();
+      if (diffRaw.includes('leicht') || diffRaw.includes('easy') || diffRaw.includes('leichte') || distKm < 10) diff = 'easy';
+      else if (diffRaw.includes('schwer') || diffRaw.includes('hard') || diffRaw.includes('anspruch') || distKm > 35) diff = 'hard';
 
-    let imageUrl = extractString(item.image?.value);
-    if (imageUrl && typeof imageUrl === 'string') imageUrl = imageUrl.replace(/^http:\/\//i, 'https://');
-    if (!imageUrl || typeof imageUrl !== 'string' || !imageUrl.startsWith('http')) {
-      imageUrl = DEFAULT_TRAIL_IMAGES[Math.floor(Math.random() * DEFAULT_TRAIL_IMAGES.length)];
-    }
+      const durationHours = trailType === 'biking' ? Math.max(1, Math.round((distKm / 16) * 10) / 10) : Math.max(1, Math.round((distKm / 3.8) * 10) / 10);
+      const desc = '';
+      const locality = stateName;
 
-    await db.run(
-      `INSERT OR REPLACE INTO trails (
-        id, name, type, region, state, country, distance_km, duration_hours,
-        difficulty, elevation_gain_m, description, highlights, image_url,
-        start_location, end_location, latitude, longitude, polyline,
-        campsites_along_count, rating, search_query, source, last_updated
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        trailId,
-        name,
-        trailType,
-        locality,
-        stateName,
-        'DE',
-        distKm,
-        durationHours,
-        diff,
-        Math.round(distKm * (diff === 'hard' ? 28 : diff === 'medium' ? 18 : 8)),
-        desc,
-        JSON.stringify([locality, `${distKm} km Tour`, `${diff === 'easy' ? 'Leichte' : diff === 'medium' ? 'Mittlere' : 'Anspruchsvolle'} Route`, 'Verifizierter DZT Open-Data Trail']),
-        imageUrl,
-        locality,
-        locality,
-        Math.round(lat * 1000) / 1000,
-        Math.round(lon * 1000) / 1000,
-        polyline.length > 0 ? JSON.stringify(polyline) : null,
-        Math.min(48, Math.max(2, Math.round(distKm * 0.12))),
-        4.8,
-        `Camping in ${locality}`,
-        'dzt_opendata',
-        new Date().toISOString()
-      ]
-    );
-    totalInserted++;
-    uncommitted++;
-    if (uncommitted >= 300) {
-      await db.run('COMMIT');
-      await db.run('BEGIN TRANSACTION');
-      uncommitted = 0;
+      await db.run(
+        `INSERT OR REPLACE INTO trails (
+          id, name, type, region, state, country, distance_km, duration_hours,
+          difficulty, elevation_gain_m, description, highlights, image_url,
+          start_location, end_location, latitude, longitude, polyline,
+          campsites_along_count, rating, search_query, source, last_updated
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          trailId,
+          name,
+          trailType,
+          locality,
+          stateName,
+          'DE',
+          distKm,
+          durationHours,
+          diff,
+          Math.round(distKm * (diff === 'hard' ? 28 : diff === 'medium' ? 18 : 8)),
+          desc,
+          JSON.stringify([locality, `${distKm} km Tour`, `${diff === 'easy' ? 'Leichte' : diff === 'medium' ? 'Mittlere' : 'Anspruchsvolle'} Route`, 'Verifizierter DZT Open-Data Trail']),
+          DEFAULT_TRAIL_IMAGES[Math.floor(Math.random() * DEFAULT_TRAIL_IMAGES.length)],
+          locality,
+          locality,
+          Math.round(lat * 1000) / 1000,
+          Math.round(lon * 1000) / 1000,
+          null,
+          Math.min(48, Math.max(2, Math.round(distKm * 0.12))),
+          4.8,
+          `Camping in ${locality}`,
+          'dzt_opendata',
+          new Date().toISOString()
+        ]
+      );
+      totalInserted++;
+      uncommitted++;
+      if (uncommitted >= 300) {
+        await db.run('COMMIT');
+        await db.run('BEGIN TRANSACTION');
+        uncommitted = 0;
+      }
     }
   }
 

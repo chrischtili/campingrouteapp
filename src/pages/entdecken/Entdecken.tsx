@@ -2307,11 +2307,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                           {/* Image Box */}
                           <div style={{ position: 'relative', height: '160px', width: '100%', background: 'var(--gray-200)', overflow: 'hidden' }}>
                             <img 
-                              src={imageUrl} 
+                              src={imageUrl || getFallbackImage(place)} 
                               alt={place.name} 
                               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80';
+                                e.currentTarget.src = getFallbackImage(place);
                               }}
                             />
                             {/* Type Badge */}
@@ -2398,13 +2398,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
                         <button
                           disabled={currentPage === 1}
-                          onClick={() => {
-                            if (currentPage > 1) {
-                              const newP = currentPage - 1;
-                              setCurrentPage(newP);
-                              fetchPlacesForPage(newP);
-                            }
-                          }}
+                          onClick={() => handleSearch(undefined, undefined, currentPage - 1)}
                           style={{
                             width: '36px',
                             height: '36px',
@@ -2432,7 +2426,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             pages.push(
                               <button
                                 key={1}
-                                onClick={() => { setCurrentPage(1); fetchPlacesForPage(1); }}
+                                onClick={() => handleSearch(undefined, undefined, 1)}
                                 style={{
                                   width: '36px',
                                   height: '36px',
@@ -2457,7 +2451,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             pages.push(
                               <button
                                 key={i}
-                                onClick={() => { setCurrentPage(i); fetchPlacesForPage(i); }}
+                                onClick={() => handleSearch(undefined, undefined, i)}
                                 style={{
                                   width: '36px',
                                   height: '36px',
@@ -2482,7 +2476,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             pages.push(
                               <button
                                 key={totalPages}
-                                onClick={() => { setCurrentPage(totalPages); fetchPlacesForPage(totalPages); }}
+                                onClick={() => handleSearch(undefined, undefined, totalPages)}
                                 style={{
                                   width: '36px',
                                   height: '36px',
@@ -2505,13 +2499,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                         <button
                           disabled={currentPage === Math.ceil(totalItems / itemsPerPage)}
-                          onClick={() => {
-                            if (currentPage < Math.ceil(totalItems / itemsPerPage)) {
-                              const newP = currentPage + 1;
-                              setCurrentPage(newP);
-                              fetchPlacesForPage(newP);
-                            }
-                          }}
+                          onClick={() => handleSearch(undefined, undefined, currentPage + 1)}
                           style={{
                             width: '36px',
                             height: '36px',

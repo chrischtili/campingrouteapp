@@ -2289,8 +2289,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                           key={place.id} 
                           className="place-grid-card" 
                           onClick={() => setSelectedPlace(place)}
-                          onMouseEnter={() => highlightMarkerOnMap(place.id)}
-                          onMouseLeave={() => resetMarkerHighlight(place.id)}
+                          onMouseEnter={() => highlightMapMarker(place.id)}
+                          onMouseLeave={() => unhighlightMapMarker(place.id)}
                           style={{
                             background: 'var(--card-bg)',
                             border: isCurated ? '2px solid var(--primary-500)' : '1px solid var(--card-border)',

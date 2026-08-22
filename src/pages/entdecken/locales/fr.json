@@ -177,5 +177,19 @@
   "viewMap": "Grande Carte",
   "viewList": "Liste seule",
   "showMap": "Afficher la carte",
-  "showList": "Afficher la liste"
+  "showList": "Afficher la liste",
+  "trailsTitle": "Sentiers de Randonnée & Vélo",
+  "trailsSubtitle": "Itinéraires de grande randonnée, pistes cyclables et sentiers panoramiques avec campings",
+  "allTrails": "Tous les parcours",
+  "hikingTrails": "🥾 Randonnées",
+  "bikingTrails": "🚴 Véloroutes",
+  "difficultyEasy": "Facile",
+  "difficultyMedium": "Moyen",
+  "difficultyHard": "Difficile",
+  "campsitesAlong": "{{count}} campings le long du parcours",
+  "highlights": "Points forts",
+  "nearbyTrailsTitle": "Sentiers à proximité",
+  "nearbyTrailsSubtitle": "Itinéraires de randonnée et vélo dans les environs",
+  "noNearbyTrails": "Aucun sentier répertorié à proximité immédiate.",
+  "exploreTrail": "Voir le sentier"
 }

@@ -177,5 +177,19 @@
   "viewMap": "Große Karte",
   "viewList": "Nur Liste",
   "showMap": "Karte anzeigen",
-  "showList": "Liste anzeigen"
+  "showList": "Liste anzeigen",
+  "trailsTitle": "Wander- & Radfernwege",
+  "trailsSubtitle": "Zertifizierte Qualitätswanderwege, Flussradwege und Panoramatouren mit Camping-Anbindung",
+  "allTrails": "Alle Touren",
+  "hikingTrails": "🥾 Wandertouren",
+  "bikingTrails": "🚴 Radfernwege",
+  "difficultyEasy": "Leicht",
+  "difficultyMedium": "Mittel",
+  "difficultyHard": "Anspruchsvoll",
+  "campsitesAlong": "{{count}} Plätze am Weg",
+  "highlights": "Highlights",
+  "nearbyTrailsTitle": "Wander- & Radwege ab hier",
+  "nearbyTrailsSubtitle": "Touren und Steige in der direkten Umgebung",
+  "noNearbyTrails": "Keine bekannten Fernwanderwege im direkten Nahbereich.",
+  "exploreTrail": "Tour ansehen"
 }

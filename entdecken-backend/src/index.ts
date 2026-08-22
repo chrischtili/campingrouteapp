@@ -33,6 +33,7 @@ import {
 } from "./search.js";
 
 import { searchDztTrails, searchDztEvents, searchDztPois } from "./dzt.js";
+import { FAMOUS_TRAILS, getNearbyTrails } from "./data/trails.js";
 
 const app = express();
 app.use(cors());
@@ -261,6 +262,43 @@ app.get("/api/places/:id/nearby", async (req, res) => {
     });
 
     res.json(nearbyWithDist);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Hiking & Biking Trails endpoint
+app.get("/api/trails", (req, res) => {
+  const { region, type, difficulty, country } = req.query as { region?: string; type?: string; difficulty?: string; country?: string };
+  let results = [...FAMOUS_TRAILS];
+
+  if (country) {
+    results = results.filter(t => t.country.toLowerCase() === country.toLowerCase());
+  }
+  if (region) {
+    results = results.filter(t => t.region.toLowerCase().includes(region.toLowerCase()));
+  }
+  if (type && type !== 'all') {
+    results = results.filter(t => t.type === type || t.type === 'both');
+  }
+  if (difficulty && difficulty !== 'all') {
+    results = results.filter(t => t.difficulty === difficulty);
+  }
+
+  res.json(results);
+});
+
+// Nearby trails for a campsite or place
+app.get("/api/places/:id/nearby-trails", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const db = await getDb();
+    const place = await db.get("SELECT latitude, longitude FROM places WHERE id = ?", [id]);
+    if (!place || !place.latitude || !place.longitude) {
+      return res.json([]);
+    }
+    const trails = getNearbyTrails(place.latitude, place.longitude, 45);
+    res.json(trails.slice(0, 3));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

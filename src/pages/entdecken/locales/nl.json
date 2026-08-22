@@ -177,5 +177,19 @@
   "viewMap": "Grote Kaart",
   "viewList": "Alleen lijst",
   "showMap": "Kaart tonen",
-  "showList": "Lijst tonen"
+  "showList": "Lijst tonen",
+  "trailsTitle": "Wandel- & Fietsroutes",
+  "trailsSubtitle": "Gecertificeerde kwaliteitsroutes, rivierfietsroutes en panoramische paden met campingverbindingen",
+  "allTrails": "Alle routes",
+  "hikingTrails": "🥾 Wandelroutes",
+  "bikingTrails": "🚴 Fietsroutes",
+  "difficultyEasy": "Eenvoudig",
+  "difficultyMedium": "Gemiddeld",
+  "difficultyHard": "Uitdagend",
+  "campsitesAlong": "{{count}} campings langs de route",
+  "highlights": "Hoogtepunten",
+  "nearbyTrailsTitle": "Routes vanaf deze camping",
+  "nearbyTrailsSubtitle": "Wandel- en fietsroutes in de directe omgeving",
+  "noNearbyTrails": "Geen bekende wandelroutes in de directe omgeving.",
+  "exploreTrail": "Route bekijken"
 }

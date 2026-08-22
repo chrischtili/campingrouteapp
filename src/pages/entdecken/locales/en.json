@@ -177,5 +177,19 @@
   "viewMap": "Full Map",
   "viewList": "List only",
   "showMap": "Show map",
-  "showList": "Show list"
+  "showList": "Show list",
+  "trailsTitle": "Hiking & Cycling Trails",
+  "trailsSubtitle": "Certified quality hiking routes, river cycleways and scenic trails with campsite connections",
+  "allTrails": "All Trails",
+  "hikingTrails": "🥾 Hiking Trails",
+  "bikingTrails": "🚴 Cycling Routes",
+  "difficultyEasy": "Easy",
+  "difficultyMedium": "Moderate",
+  "difficultyHard": "Challenging",
+  "campsitesAlong": "{{count}} campsites along trail",
+  "highlights": "Highlights",
+  "nearbyTrailsTitle": "Trails starting nearby",
+  "nearbyTrailsSubtitle": "Hiking and cycle paths in the immediate area",
+  "noNearbyTrails": "No famous trails located in the immediate vicinity.",
+  "exploreTrail": "View Trail"
 }

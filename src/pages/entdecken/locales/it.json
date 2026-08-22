@@ -177,5 +177,19 @@
   "viewMap": "Mappa intera",
   "viewList": "Solo lista",
   "showMap": "Mostra mappa",
-  "showList": "Mostra lista"
+  "showList": "Mostra lista",
+  "trailsTitle": "Sentieri Escursionistici & Ciclabili",
+  "trailsSubtitle": "Percorsi di qualità certificati, piste ciclabili lungo i fiumi e sentieri panoramici con campeggi",
+  "allTrails": "Tutti i percorsi",
+  "hikingTrails": "🥾 Escursioni",
+  "bikingTrails": "🚴 Piste ciclabili",
+  "difficultyEasy": "Facile",
+  "difficultyMedium": "Medio",
+  "difficultyHard": "Impegnativo",
+  "campsitesAlong": "{{count}} campeggi lungo il percorso",
+  "highlights": "Punti salienti",
+  "nearbyTrailsTitle": "Sentieri nelle vicinanze",
+  "nearbyTrailsSubtitle": "Percorsi escursionistici e ciclabili nei dintorni",
+  "noNearbyTrails": "Nessun sentiero famoso nelle immediate vicinanze.",
+  "exploreTrail": "Vedi percorso"
 }

@@ -808,7 +808,7 @@ function EntdeckenContent() {
   const fetchTrails = async (filter: 'all' | 'hiking' | 'biking' = trailFilter) => {
     setIsLoadingTrails(true);
     try {
-      const res = await fetch(`/discover/api/trails?type=${filter}`);
+      const res = await fetch(`/api/trails?type=${filter}`);
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
@@ -887,7 +887,7 @@ function EntdeckenContent() {
     if (selectedPlace) {
       fetchReviews(selectedPlace.id);
       fetchNearbyPlaces(selectedPlace.id);
-      fetch(`/discover/api/places/${selectedPlace.id}/nearby-trails`)
+      fetch(`/api/places/${selectedPlace.id}/nearby-trails`)
         .then(res => res.ok ? res.json() : [])
         .then(data => {
           if (Array.isArray(data) && data.length > 0) {
@@ -2087,8 +2087,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                             </span>
                             <button
                               onClick={() => {
-                                setSearchQuery(`Campingplätze ${trail.region}`);
-                                handleSearch(undefined, `Campingplätze ${trail.region}`);
+                                const q = trail.search_query || `Camping in ${trail.region}`;
+                                setSearchQuery(q);
+                                handleSearch(undefined, q);
                               }}
                               style={{
                                 background: 'var(--primary-600)',

@@ -19,6 +19,12 @@ export const REGION_BBOXES: { [key: string]: { latMin: number; latMax: number; l
   'Spreewald': { latMin: 51.8, latMax: 52.1, lonMin: 13.7, lonMax: 14.2, country: 'DE' },
   'Mecklenburgische Seenplatte': { latMin: 53.2, latMax: 53.7, lonMin: 12.1, lonMax: 13.5, country: 'DE' },
   'Lüneburger Heide': { latMin: 52.7, latMax: 53.3, lonMin: 9.5, lonMax: 10.8, country: 'DE' },
+  'Mosel': { latMin: 49.7, latMax: 50.4, lonMin: 6.5, lonMax: 7.7, country: 'DE' },
+  'Mittelrhein': { latMin: 50.0, latMax: 50.6, lonMin: 7.4, lonMax: 8.2, country: 'DE' },
+  'Rhein': { latMin: 49.8, latMax: 50.8, lonMin: 7.0, lonMax: 8.5, country: 'DE' },
+  'Altmühltal': { latMin: 48.8, latMax: 49.2, lonMin: 10.7, lonMax: 11.9, country: 'DE' },
+  'Franken': { latMin: 49.3, latMax: 50.5, lonMin: 9.8, lonMax: 12.2, country: 'DE' },
+  'Donau': { latMin: 48.3, latMax: 49.1, lonMin: 8.5, lonMax: 13.5, country: 'DE' },
   // Austria
   'Salzkammergut': { latMin: 47.5, latMax: 48.0, lonMin: 13.2, lonMax: 14.0, country: 'AT' },
   'Wörthersee': { latMin: 46.5, latMax: 46.7, lonMin: 14.0, lonMax: 14.3, country: 'AT' },

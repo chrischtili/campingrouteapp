@@ -83,42 +83,42 @@ const DEFAULT_TRAIL_IMAGES = [
 // single "SELECT DISTINCT" over all subtypes time out).
 interface TrailTypeGroup {
   subtype: string;
+  typePrefix: 'odta' | 'schema';
   type: 'hiking' | 'biking' | 'both';
 }
 
 const TRAIL_TYPE_GROUPS: TrailTypeGroup[] = [
-  { subtype: 'Trail', type: 'hiking' },
-  { subtype: 'HikingTrail', type: 'hiking' },
-  { subtype: 'HikingRoute', type: 'hiking' },
-  { subtype: 'LongDistanceHikeTrail', type: 'hiking' },
-  { subtype: 'WinterHikeTrail', type: 'hiking' },
-  { subtype: 'PilgrimageTrail', type: 'hiking' },
-  { subtype: 'MountaineeringTrail', type: 'hiking' },
-  { subtype: 'AlpineTourTrail', type: 'hiking' },
-  { subtype: 'MountainTourTrail', type: 'hiking' },
-  { subtype: 'NordicWalkingTrail', type: 'hiking' },
-  { subtype: 'TrailRunning', type: 'hiking' },
-  { subtype: 'ViaFerrata', type: 'hiking' },
-  { subtype: 'SightseeingTrail', type: 'hiking' },
-  { subtype: 'NatureTrail', type: 'hiking' },
-  { subtype: 'CityTrail', type: 'hiking' },
-  { subtype: 'CityTour', type: 'hiking' },
-  { subtype: 'PanoramaTrail', type: 'hiking' },
-  { subtype: 'BikeTourTrail', type: 'biking' },
-  { subtype: 'BicycleRoute', type: 'biking' },
-  { subtype: 'LongDistanceBikeTourTrail', type: 'biking' },
-  { subtype: 'MountainBikeTourTrail', type: 'biking' },
-  { subtype: 'RacingBikeTourTrail', type: 'biking' },
-  { subtype: 'GravelBikeTrail', type: 'biking' },
-  { subtype: 'ScenicRoute', type: 'biking' },
-  { subtype: 'InlineSkatingTrail', type: 'biking' },
-  { subtype: 'WaterTrail', type: 'hiking' },
-  { subtype: 'CanoeTrail', type: 'hiking' },
-  { subtype: 'CanoeTour', type: 'hiking' },
-  { subtype: 'ThematicTrail', type: 'hiking' },
-  { subtype: 'RoundTrip', type: 'hiking' },
-  { subtype: 'Tour', type: 'hiking' },
-  { subtype: 'TouristTrip', type: 'hiking' }
+  { subtype: 'HikingTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'HikingRoute', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'LongDistanceHikeTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'WinterHikeTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'PilgrimageTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'MountaineeringTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'AlpineTourTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'MountainTourTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'NordicWalkingTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'TrailRunning', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'ViaFerrata', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'SightseeingTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'NatureTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'CityTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'CityTour', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'PanoramaTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'BikeTourTrail', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'BicycleRoute', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'LongDistanceBikeTourTrail', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'MountainBikeTourTrail', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'RacingBikeTourTrail', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'GravelBikeTrail', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'ScenicRoute', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'InlineSkatingTrail', typePrefix: 'odta', type: 'biking' },
+  { subtype: 'WaterTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'CanoeTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'CanoeTour', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'ThematicTrail', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'RoundTrip', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'Tour', typePrefix: 'odta', type: 'hiking' },
+  { subtype: 'TouristTrip', typePrefix: 'schema', type: 'hiking' }
 ];
 
 function isBikeSubtype(type: string): boolean {
@@ -170,7 +170,7 @@ export async function syncAllTrails() {
   await db.exec('DELETE FROM trails;');
 
   const skippedNoGeo: string[] = [];
-  const batchSize = 1500;
+  const batchSize = 2000;
 
   for (const group of TRAIL_TYPE_GROUPS) {
     let groupInserted = 0;
@@ -179,28 +179,27 @@ export async function syncAllTrails() {
     for (let offset = 0; offset < 50000; offset += batchSize) {
       const query = `
 PREFIX schema: <https://schema.org/>
-PREFIX schema_http: <http://schema.org/>
 PREFIX odta: <https://odta.io/voc/>
-PREFIX odta_http: <http://odta.io/voc/>
 
-SELECT DISTINCT ?id ?name ?lat ?lon ?startLat ?startLon ?line ?length ?diff ?desc ?image ?locality
+SELECT ?id ?name ?lat ?lon ?startLat ?startLon ?line ?length ?diff ?desc ?image ?locality
 WHERE {
-  { ?id a odta:${group.subtype} ; schema:name ?name . }
-  UNION
-  { ?id a schema:${group.subtype} ; schema:name ?name . }
-
-  OPTIONAL { ?id schema:geo ?geo . ?geo schema:latitude ?lat ; schema:longitude ?lon }
-  OPTIONAL { ?id schema:geo ?geoLine . ?geoLine schema:line ?line }
+  ?id a ${group.typePrefix}:${group.subtype} ;
+      schema:name ?name .
+  OPTIONAL {
+    ?id schema:geo ?geo .
+    OPTIONAL { ?geo schema:latitude ?lat ; schema:longitude ?lon . }
+    OPTIONAL { ?geo schema:line ?line . }
+  }
   OPTIONAL {
     ?id odta:startLocation ?startLoc .
     ?startLoc schema:geo ?startGeo .
     ?startGeo schema:latitude ?startLat ; schema:longitude ?startLon .
-    OPTIONAL { ?startLoc schema:addressLocality ?locality }
+    OPTIONAL { ?startLoc schema:addressLocality ?locality . }
   }
-  OPTIONAL { ?id odta:length ?lenObj . ?lenObj schema:value ?length }
-  OPTIONAL { ?id odta:difficulty ?diffObj . ?diffObj schema:name ?diff }
-  OPTIONAL { ?id schema:description ?desc }
-  OPTIONAL { ?id schema:image ?image }
+  OPTIONAL { ?id odta:length ?lenObj . ?lenObj schema:value ?length . }
+  OPTIONAL { ?id odta:difficulty ?diffObj . ?diffObj schema:name ?diff . }
+  OPTIONAL { ?id schema:description ?desc . }
+  OPTIONAL { ?id schema:image ?image . }
 }
 LIMIT ${batchSize} OFFSET ${offset}
 `;

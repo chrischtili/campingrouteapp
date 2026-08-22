@@ -89,6 +89,18 @@ export const DEFAULT_MODELS: { [key: string]: { id: string; label: string; tag?:
   ]
 };
 
+export function safeHighlights(hl: any): string[] {
+  if (Array.isArray(hl)) return hl.map(String);
+  if (typeof hl === 'string' && hl.trim()) {
+    try {
+      const parsed = JSON.parse(hl);
+      if (Array.isArray(parsed)) return parsed.map(String);
+    } catch {}
+    return [hl.trim()];
+  }
+  return [];
+}
+
 interface RouteStage {
   stage_number: number;
   place_id: string;
@@ -863,7 +875,10 @@ function EntdeckenContent() {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          setTrails(data);
+          setTrails(data.map((t: any) => ({
+            ...t,
+            highlights: safeHighlights(t.highlights)
+          })));
           return;
         }
       }
@@ -2170,13 +2185,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </div>
 
                     {/* Highlights */}
-                    {selectedTrail.highlights && selectedTrail.highlights.length > 0 && (
+                    {safeHighlights(selectedTrail.highlights).length > 0 && (
                       <div style={{ marginBottom: '1.25rem' }}>
                         <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>
                           ✨ Besondere Highlights entlang der Strecke
                         </h4>
                         <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
-                          {selectedTrail.highlights.map((hl, idx) => (
+                          {safeHighlights(selectedTrail.highlights).map((hl, idx) => (
                             <span key={idx} style={{ padding: '0.35rem 0.75rem', borderRadius: '8px', background: 'rgba(5, 150, 105, 0.1)', color: 'var(--primary-800)', fontSize: '0.8rem', fontWeight: 700, border: '1px solid rgba(5, 150, 105, 0.2)' }}>
                               ✓ {hl}
                             </span>
@@ -3004,9 +3019,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                                     </p>
 
                                     {/* Highlights chips */}
-                                    {trail.highlights && trail.highlights.length > 0 && (
+                                    {safeHighlights(trail.highlights).length > 0 && (
                                       <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                                        {trail.highlights.slice(0, 3).map((hl, idx) => (
+                                        {safeHighlights(trail.highlights).slice(0, 3).map((hl, idx) => (
                                           <span key={idx} style={{ fontSize: '0.7rem', padding: '2px 6px', background: 'var(--gray-100)', borderRadius: '4px', color: 'var(--gray-700)', fontWeight: 600 }}>
                                             ✓ {hl}
                                           </span>

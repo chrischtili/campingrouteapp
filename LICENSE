@@ -1,21 +1,44 @@
-MIT License
+PolyForm Noncommercial License 1.0.0
+
+<https://polyformproject.org/licenses/noncommercial/1.0.0>
 
 Copyright (c) 2026 Camping Route
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## Purpose
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This license allows you to use the software for noncommercial purposes, but preserves the owner's exclusive rights for commercial use.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## Agreement
+
+In order to receive this license, you have to agree to its rules. The rules of this license are both terms that decide when you have a license, and also obligations for you and everyone who gets a copy or wants to use the software.
+
+## Noncommercial Purpose
+
+You may use this software for noncommercial purposes only.
+
+Noncommercial purposes include:
+- Personal use for your own recreation, research, or study
+- Educational use for teaching or training
+- Evaluation and testing of the software
+
+Noncommercial purposes do NOT include:
+- Any use in running, supporting, or marketing a business, company, or for-profit enterprise
+- Any use to provide services to paying or non-paying users in a commercial context
+- Any resale, sublicensing, distribution, or hosting as a commercial service
+
+## Fair Use
+
+You may also use the software for any purpose that would constitute fair use or fair dealing under applicable copyright law.
+
+## No Other Rights
+
+Except as explicitly stated in this license, the licensor reserves all rights in the software and documentation.
+
+## Notices
+
+You must include this license and copyright notice in all copies or substantial portions of the software.
+
+## No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

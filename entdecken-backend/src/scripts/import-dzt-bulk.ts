@@ -1,5 +1,6 @@
 import { getDb } from '../db/db.js';
 import https from 'https';
+import { assignGeoStates } from './update-all-states.js';
 
 const SPARQL_URL = 'https://proxy.opendatagermany.io/api/ts/v1/kg/sparql';
 const DZT_API_KEY = process.env.DZT_API_KEY || 'b513a9bd29df07836f0d483ff34b3518';
@@ -468,8 +469,12 @@ LIMIT ${batchSize} OFFSET ${offset}
 
   console.log(`🏰 Attractions: ${attrEnriched} existing places enriched & fused, ${attrInserted} new added.`);
 
-  // 3. Final Rebuild of Full-Text Search Index & Triggers
-  console.log('\n🧹 3. Rebuilding full-text search index...');
+  // 3. Automatically assign geo-states to all newly imported places
+  console.log('\n🗺️ 3. Assigning Bundesländer & Provinces based on polygon boundaries...');
+  await assignGeoStates(db);
+
+  // 4. Final Rebuild of Full-Text Search Index & Triggers
+  console.log('\n🧹 4. Rebuilding full-text search index...');
   await db.exec(`
     DELETE FROM places_fts;
     INSERT INTO places_fts(rowid, name, description, address, city, amenities, state)

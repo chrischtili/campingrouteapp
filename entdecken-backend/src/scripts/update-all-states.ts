@@ -1,4 +1,10 @@
 import { getDb } from '../db/db.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Ray-casting point-in-polygon algorithm
 function pointInPolygon(point: [number, number], polygon: [number, number][][]): boolean {
@@ -174,28 +180,20 @@ const BE_PROVINCE_TO_REGION: { [key: string]: string } = {
   "Brussels": "Brüssel-Hauptstadt"
 };
 
-async function run() {
-  const db = await getDb();
-  
-  console.log("Loading GeoJSON files...");
-  
-  // 1. Natural Earth 10m GeoJSON
-  const neRes = await fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces_lakes.geojson");
-  const neGeojson = await neRes.json() as any;
-  
-  // 2. France regions GeoJSON
-  const frRes = await fetch("https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson");
-  const frGeojson = await frRes.json() as any;
-  
-  // 3. Italy regions GeoJSON
-  const itRes = await fetch("https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson");
-  const itGeojson = await itRes.json() as any;
+export async function assignGeoStates(db: any) {
+  // Load GeoJSON data
+  console.log("Loading GeoJSON boundary files...");
+  const naturalEarthPath = path.resolve(__dirname, '../../data/geo/ne_10m_admin_1_states_provinces.json');
+  const frPath = path.resolve(__dirname, '../../data/geo/fr_regions.geojson');
+  const itPath = path.resolve(__dirname, '../../data/geo/it_regions.geojson');
 
-  console.log("GeoJSON files loaded successfully.");
+  const naturalEarth = JSON.parse(fs.readFileSync(naturalEarthPath, 'utf8'));
+  const frGeojson = JSON.parse(fs.readFileSync(frPath, 'utf8'));
+  const itGeojson = JSON.parse(fs.readFileSync(itPath, 'utf8'));
 
-  // Group Natural Earth features by country
+  // Group Natural Earth features by country code
   const neFeaturesByCountry: { [key: string]: any[] } = {};
-  for (const feature of neGeojson.features) {
+  for (const feature of naturalEarth.features) {
     const isoA2 = (feature.properties.iso_a2 || "").toUpperCase();
     const postal = (feature.properties.postal || "").toUpperCase();
     let countryCode = isoA2;
@@ -211,8 +209,8 @@ async function run() {
   }
 
   // Load all places
-  console.log("Loading places from database...");
-  const places = await db.all("SELECT id, name, latitude, longitude, country FROM places");
+  console.log("Loading places from database for state assignment...");
+  const places = await db.all("SELECT id, name, latitude, longitude, country, address FROM places WHERE country IN ('DE', 'AT', 'CH', 'FR', 'IT', 'NL', 'BE', 'ES', 'PT', 'DK', 'SE', 'NO', 'FI')");
   console.log(`Loaded ${places.length} places.`);
 
   let updatedCount = 0;
@@ -244,7 +242,6 @@ async function run() {
     }
 
     // Hardcoded coordinate boundaries for German city-states (Berlin, Bremen, Hamburg)
-    // which are often missing or too low-resolution in standard Natural Earth shapefiles.
     if (place.country === 'DE') {
       const lat = place.latitude;
       const lon = place.longitude;
@@ -311,14 +308,20 @@ async function run() {
     if (stateName) {
       await stmt.run(stateName, place.id);
       updatedCount++;
-      if (updatedCount % 2000 === 0) {
+      if (updatedCount % 5000 === 0) {
         console.log(`Progress: Assigned state to ${updatedCount}/${places.length} places...`);
       }
     }
   }
 
   await stmt.finalize();
-  console.log(`\nSuccessfully assigned geo-states to 100% of matching places (${updatedCount}/${places.length}) in the database!`);
+  console.log(`✅ Successfully assigned geo-states to ${updatedCount}/${places.length} places in the database!`);
 }
 
-run().catch(console.error);
+// Auto-run if executed standalone
+if (process.argv[1]?.includes('update-all-states')) {
+  getDb().then(db => assignGeoStates(db)).then(() => process.exit(0)).catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}

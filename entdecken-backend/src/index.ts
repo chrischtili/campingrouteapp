@@ -549,29 +549,6 @@ app.get("/api/search", async (req, res) => {
       return res.json({ places, summary: "", total: places.length, page, limit });
     }
 
-    // Direct place / city name matching (instant 5ms response, bypasses AI)
-    const directPlaces = await db.all(
-      `SELECT * FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?) ORDER BY rating DESC LIMIT ? OFFSET ?`,
-      [`%${queryStr}%`, queryStr.toLowerCase(), limit, offset]
-    );
-    if (directPlaces.length > 0 && !queryStr.includes(' nach ') && !queryStr.includes(' und ') && !queryStr.includes('route')) {
-      const countRow = await db.get(
-        `SELECT COUNT(*) as total FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?)`,
-        [`%${queryStr}%`, queryStr.toLowerCase()]
-      );
-      const total = countRow?.total || directPlaces.length;
-      const mapPoints = await computeMapPoints(db, `SELECT * FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?)`, [`%${queryStr}%`, queryStr.toLowerCase()]);
-      console.log(`Direct database match for "${queryStr}": found ${total} places.`);
-      return res.json({
-        places: directPlaces,
-        mapPoints,
-        summary: `<p>Gefundene Orte und Reiseziele für <strong>„${queryStr}“</strong>.</p>`,
-        total,
-        page,
-        limit
-      });
-    }
-
     // Match "Sehenswürdigkeiten in [Land]" or "Attraktionen in [Land]"
     const attractionMatch = queryStr.match(/^(Sehenswürdigkeiten|Attraktionen|Ausflugsziele) in (Deutschland|Österreich|Schweiz|Norwegen|Dänemark|Schweden|Italien|Frankreich|Niederlande|Belgien|Luxemburg|Finnland|Spanien|Portugal|Kroatien|Griechenland|Slowenien|Tschechien|Polen|Ungarn|Großbritannien)$/i);
     if (attractionMatch) {
@@ -790,17 +767,41 @@ app.get("/api/search", async (req, res) => {
     if (parsed) {
       intent = parsed;
       console.log(`Deterministic intent for "${queryStr}": ${JSON.stringify(intent)}`);
-    } else if (!aiConfig.apiKey) {
-      console.log(`No AI API key provided for ambiguous query "${queryStr}", using keyword fallback.`);
-      const fallbackResult = await fallbackSearch(db, queryStr, limit, offset);
-      return res.json({
-        places: fallbackResult.places,
-        summary: `<p>💡 <em>Tipp: Für intelligente KI-Kuration, erweiterte Natur-Suchen &amp; Etappen-Routen kannst du oben rechts unter <strong>🔑 KI-Einstellungen</strong> deinen eigenen kostenlosen Key (z. B. Google Gemini oder DeepSeek) hinterlegen.</em></p>`,
-        total: fallbackResult.total,
-        page,
-        limit
-      });
     } else {
+      // Direct place / city name matching for unstructured single place queries (e.g. "Bühlhof", "Elbphilharmonie", "Schloss Neuhausen")
+      const directPlaces = await db.all(
+        `SELECT * FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?) ORDER BY rating DESC LIMIT ? OFFSET ?`,
+        [`%${queryStr}%`, queryStr.toLowerCase(), limit, offset]
+      );
+      if (directPlaces.length > 0 && !queryStr.includes(' nach ') && !queryStr.includes(' und ') && !queryStr.includes('route')) {
+        const countRow = await db.get(
+          `SELECT COUNT(*) as total FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?)`,
+          [`%${queryStr}%`, queryStr.toLowerCase()]
+        );
+        const total = countRow?.total || directPlaces.length;
+        const mapPoints = await computeMapPoints(db, `SELECT * FROM places WHERE name LIKE ? OR (city IS NOT NULL AND LOWER(city) = ?)`, [`%${queryStr}%`, queryStr.toLowerCase()]);
+        console.log(`Direct database match for "${queryStr}": found ${total} places.`);
+        return res.json({
+          places: directPlaces,
+          mapPoints,
+          summary: `<p>Gefundene Orte und Reiseziele für <strong>„${queryStr}“</strong>.</p>`,
+          total,
+          page,
+          limit
+        });
+      }
+
+      if (!aiConfig.apiKey) {
+        console.log(`No AI API key provided for ambiguous query "${queryStr}", using keyword fallback.`);
+        const fallbackResult = await fallbackSearch(db, queryStr, limit, offset);
+        return res.json({
+          places: fallbackResult.places,
+          summary: `<p>💡 <em>Tipp: Für intelligente KI-Kuration, erweiterte Natur-Suchen &amp; Etappen-Routen kannst du oben rechts unter <strong>🔑 KI-Einstellungen</strong> deinen eigenen kostenlosen Key (z. B. Google Gemini oder DeepSeek) hinterlegen.</em></p>`,
+          total: fallbackResult.total,
+          page,
+          limit
+        });
+      } else {
       usedModel = true;
       try {
         const systemInstruction = await buildIntentPrompt(db);
@@ -812,6 +813,7 @@ app.get("/api/search", async (req, res) => {
         intent = {};
       }
       console.log(`AI intent for "${queryStr}": ${JSON.stringify(intent)}`);
+      }
     }
 
     // Code-level safety nets so missing fields never produce empty results.

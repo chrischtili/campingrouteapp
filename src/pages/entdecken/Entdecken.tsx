@@ -1267,7 +1267,7 @@ const getWebsiteUrl = (place: Place): string | null => {
           return (
             <div className="place-modal-container" onClick={(e) => e.stopPropagation()}>
               {/* Mobile Drag/Pull Indicator */}
-              <div className="sm:hidden" style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.6rem', paddingBottom: '0.2rem', background: 'white' }}>
+              <div className="sm:hidden" style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.6rem', paddingBottom: '0.2rem', background: 'var(--card-bg)' }}>
                 <div style={{ width: '40px', height: '4px', borderRadius: '9999px', background: 'var(--gray-300)' }} />
               </div>
 
@@ -1278,7 +1278,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 1100, background: 'rgba(31,41,55,0.9)', color: '#fff', border: 'none', borderRadius: '9999px', width: '38px', height: '38px', fontSize: '1.4rem', fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
               >×</button>
               {/* Breadcrumbs */}
-              <div style={{ background: 'white', borderBottom: '1px solid var(--gray-100)', padding: '0.75rem 1.5rem' }}>
+              <div style={{ background: 'var(--card-bg)', borderBottom: '1px solid var(--card-border)', padding: '0.75rem 1.5rem' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 600, flexWrap: 'wrap' }}>
                   <a href="/" onClick={(e) => { e.preventDefault(); resetSearch(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navHome || 'Startseite'}</a>
                   <span>/</span>
@@ -1296,7 +1296,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </>
                   )}
                   <span>/</span>
-                  <span style={{ color: 'var(--gray-700)' }}>{selectedPlace.name}</span>
+                  <span style={{ color: 'var(--gray-900)' }}>{selectedPlace.name}</span>
                 </div>
               </div>
 
@@ -1517,8 +1517,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                   </div>
 
                   {/* Nearby Places box */}
-                  <div style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.25rem' }}>
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)' }}>
                       {selectedPlace.type === 'attraction' 
                         ? (t.nearbyCampsitesTitle || 'Campingplätze in der Nähe') 
                         : (t.nearbyAttractionsTitle || 'Sehenswürdigkeiten in der Nähe')}
@@ -1545,18 +1545,19 @@ const getWebsiteUrl = (place: Place): string | null => {
                               alignItems: 'center', 
                               padding: '0.6rem', 
                               borderRadius: '10px', 
-                              border: '1px solid var(--gray-100)',
+                              border: '1px solid var(--card-border)',
+                              background: 'var(--gray-50)',
                               cursor: 'pointer',
                               transition: 'all 0.15s ease-in-out'
                             }}
-                            className="hover:border-primary-500 hover:shadow-xs hover:bg-gray-50"
+                            className="nearby-place-item hover:border-primary-500"
                           >
                             <div style={{ 
                               width: '32px', 
                               height: '32px', 
                               borderRadius: '8px', 
-                              background: item.type === 'attraction' ? 'rgba(139, 92, 246, 0.1)' : 'rgba(5, 150, 105, 0.1)', 
-                              color: item.type === 'attraction' ? 'var(--primary-700)' : 'var(--emerald-700)',
+                              background: item.type === 'attraction' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(5, 150, 105, 0.15)', 
+                              color: item.type === 'attraction' ? 'var(--primary-700)' : 'var(--primary-700)',
                               display: 'flex', 
                               alignItems: 'center', 
                               justifyContent: 'center',
@@ -1565,7 +1566,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               {item.type === 'attraction' ? <Compass size={16} /> : <MapPin size={16} />}
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <h5 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-800)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</h5>
+                              <h5 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-900)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</h5>
                               <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', display: 'flex', justifyContent: 'space-between' }}>
                                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: '0.5rem' }}>{item.address.split(',')[0]}</span>
                                 <span style={{ fontWeight: 600, color: 'var(--primary-700)', flexShrink: 0 }}>{item.distance_km} km</span>
@@ -1632,7 +1633,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 )}
 
                 {/* Natural Language Search Bar */}
-                <form onSubmit={handleSearch} style={{ maxWidth: '720px', width: '100%', background: 'white', border: '1px solid var(--gray-200)', borderRadius: '24px', padding: '0.45rem', display: 'flex', gap: '0.5rem', boxShadow: 'var(--shadow-lg)', marginBottom: '1.5rem' }}>
+                <form onSubmit={handleSearch} style={{ maxWidth: '720px', width: '100%', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '24px', padding: '0.45rem', display: 'flex', gap: '0.5rem', boxShadow: 'var(--shadow-lg)', marginBottom: '1.5rem' }}>
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', paddingLeft: '1rem', position: 'relative' }}>
                     <Search size={20} style={{ color: 'var(--gray-400)', position: 'absolute', left: '1rem' }} />
                     <input 
@@ -1640,7 +1641,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       placeholder={t.searchPlaceholder}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{ width: '100%', border: 'none', outline: 'none', padding: '0.8rem 1rem 0.8rem 2rem', fontSize: '1.05rem', color: 'var(--gray-800)' }}
+                      style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', padding: '0.8rem 1rem 0.8rem 2rem', fontSize: '1.05rem', color: 'var(--gray-900)' }}
                     />
                   </div>
                   <button type="submit" style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0 1.75rem', fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'background 0.2s' }} className="search-submit-btn">
@@ -1734,7 +1735,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <div 
                         key={code}
                         onClick={() => openCountryView(code, 'camping')}
-                        style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-sm)' }}
+                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-sm)' }}
                         className="hover:scale-102 hover:shadow-md"
                       >
                         <div style={{ fontSize: '2.5rem', background: 'var(--gray-50)', padding: '0.5rem', borderRadius: '12px', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -1765,7 +1766,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <div 
                           key={code}
                           onClick={() => openCountryView(code, 'attractions')}
-                          style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-sm)' }}
+                          style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-sm)' }}
                           className="hover:scale-102 hover:shadow-md"
                         >
                           <div style={{ fontSize: '2.5rem', background: 'var(--gray-50)', padding: '0.5rem', borderRadius: '12px', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -2060,7 +2061,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <select 
                         value={featuredCountry}
                         onChange={(e) => setFeaturedCountry(e.target.value)}
-                        style={{ background: 'white', border: '1px solid var(--gray-300)', borderRadius: '8px', padding: '0.25rem 0.75rem', fontSize: '1rem', fontWeight: 700, color: 'var(--primary-800)', outline: 'none', cursor: 'pointer' }}
+                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '8px', padding: '0.25rem 0.75rem', fontSize: '1rem', fontWeight: 700, color: 'var(--primary-700)', outline: 'none', cursor: 'pointer' }}
                       >
                         <option value="ALL">{currentLang === 'en' ? 'All Europe' : currentLang === 'fr' ? "Toute l'Europe" : currentLang === 'it' ? 'Tutta Europa' : currentLang === 'nl' ? 'Heel Europa' : 'Ganz Europa'}</option>
                         {Object.keys(COUNTRY_FLAGS).map((c) => (
@@ -2086,8 +2087,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div style={{ 
                       textAlign: 'center', 
                       padding: '3rem 2rem', 
-                      background: 'white', 
-                      border: '1px solid var(--gray-200)', 
+                      background: 'var(--card-bg)', 
+                      border: '1px solid var(--card-border)', 
                       borderRadius: '20px',
                       boxShadow: 'var(--shadow-sm)',
                       maxWidth: '700px',
@@ -2152,7 +2153,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </div>
                   ) : (
                     /* Standard Empty State if key is present but no database results match */
-                    <div style={{ textAlign: 'center', padding: '4rem 1rem', background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-lg)' }}>
+                    <div style={{ textAlign: 'center', padding: '4rem 1rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-lg)' }}>
                       <Info size={48} style={{ color: 'var(--gray-300)', marginBottom: '1rem' }} />
                       <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--gray-900)' }}>{t.noMatchingPlacesTitle || 'Keine passenden Orte gefunden'}</h3>
                       <p style={{ color: 'var(--gray-500)', maxWidth: '440px', margin: '0 auto 1.5rem auto', lineHeight: '1.5' }}>
@@ -2240,8 +2241,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                           onMouseEnter={() => highlightMapMarker(place.id)}
                           onMouseLeave={() => unhighlightMapMarker(place.id)}
                           style={{ 
-                            background: 'white', 
-                            border: isCurated ? '2px solid #059669' : '1px solid var(--gray-200)', 
+                            background: 'var(--card-bg)', 
+                            border: isCurated ? '2px solid #059669' : '1px solid var(--card-border)', 
                             borderRadius: 'var(--radius-md)', 
                             overflow: 'hidden', 
                             cursor: 'pointer', 
@@ -2285,9 +2286,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                               {cleanDescription}
                             </p>
 
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.75rem', fontSize: '0.85rem' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 700, color: '#b45309' }}>
-                                <Star size={14} fill="#b45309" />
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--card-border)', paddingTop: '0.75rem', fontSize: '0.85rem' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 700, color: '#f59e0b' }}>
+                                <Star size={14} fill="#f59e0b" />
                                 <span>{place.rating}</span>
                               </div>
                               <span style={{ fontWeight: 600, color: 'var(--gray-600)' }}>{place.price}</span>
@@ -2321,8 +2322,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                             width: '36px',
                             height: '36px',
                             borderRadius: '50%',
-                            border: '1px solid var(--gray-200)',
-                            background: 'white',
+                            border: '1px solid var(--card-border)',
+                            background: 'var(--card-bg)',
                             color: currentPage === 1 ? 'var(--gray-300)' : 'var(--gray-700)',
                             cursor: currentPage === 1 ? 'default' : 'pointer',
                             fontSize: '0.95rem',
@@ -2350,8 +2351,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
-                                  border: currentPage === 1 ? 'none' : '1px solid var(--gray-200)',
-                                  background: currentPage === 1 ? 'var(--primary-700)' : 'white',
+                                  border: currentPage === 1 ? 'none' : '1px solid var(--card-border)',
+                                  background: currentPage === 1 ? 'var(--primary-700)' : 'var(--card-bg)',
                                   color: currentPage === 1 ? 'white' : 'var(--gray-700)',
                                   cursor: 'pointer',
                                   fontSize: '0.9rem',
@@ -2375,8 +2376,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
-                                  border: i === currentPage ? 'none' : '1px solid var(--gray-200)',
-                                  background: i === currentPage ? 'var(--primary-700)' : 'white',
+                                  border: i === currentPage ? 'none' : '1px solid var(--card-border)',
+                                  background: i === currentPage ? 'var(--primary-700)' : 'var(--card-bg)',
                                   color: i === currentPage ? 'white' : 'var(--gray-700)',
                                   cursor: 'pointer',
                                   fontSize: '0.9rem',
@@ -2400,8 +2401,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
-                                  border: totalPages === currentPage ? 'none' : '1px solid var(--gray-200)',
-                                  background: totalPages === currentPage ? 'var(--primary-700)' : 'white',
+                                  border: totalPages === currentPage ? 'none' : '1px solid var(--card-border)',
+                                  background: totalPages === currentPage ? 'var(--primary-700)' : 'var(--card-bg)',
                                   color: totalPages === currentPage ? 'white' : 'var(--gray-700)',
                                   cursor: 'pointer',
                                   fontSize: '0.9rem',
@@ -2427,8 +2428,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                             width: '36px',
                             height: '36px',
                             borderRadius: '50%',
-                            border: '1px solid var(--gray-200)',
-                            background: 'white',
+                            border: '1px solid var(--card-border)',
+                            background: 'var(--card-bg)',
                             color: currentPage === Math.ceil(totalItems / itemsPerPage) ? 'var(--gray-300)' : 'var(--gray-700)',
                             cursor: currentPage === Math.ceil(totalItems / itemsPerPage) ? 'default' : 'pointer',
                             fontSize: '0.95rem',
@@ -2540,12 +2541,12 @@ const getWebsiteUrl = (place: Place): string | null => {
                         key={item.id}
                         className="place-grid-card"
                         onClick={() => setSelectedPlace(item)}
-                        style={{ background: 'white', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md)', overflow: 'hidden', cursor: 'pointer' }}
+                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', overflow: 'hidden', cursor: 'pointer' }}
                       >
                         <div style={{ padding: '1.25rem' }}>
                           <span className={`place-card-type ${item.type}`}>{getTypeLabel(item.type)}</span>
-                          <h3 className="place-card-title" style={{ marginTop: '0.5rem' }}>{item.name}</h3>
-                          <p className="place-card-country">{item.address}</p>
+                          <h3 className="place-card-title" style={{ marginTop: '0.5rem', color: 'var(--gray-900)' }}>{item.name}</h3>
+                          <p className="place-card-country" style={{ color: 'var(--gray-500)' }}>{item.address}</p>
                         </div>
                       </div>
                     ))}
@@ -2625,9 +2626,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                         justifyContent: 'space-between',
                         width: '100%', 
                         padding: '1rem', 
-                        border: '1px solid var(--gray-200)', 
+                        border: '1px solid var(--card-border)', 
                         borderRadius: 'var(--radius-md)', 
-                        background: 'white',
+                        background: 'var(--card-bg)',
+                        color: 'var(--gray-900)',
                         textAlign: 'left',
                         cursor: 'pointer',
                         fontWeight: 600,
@@ -2939,8 +2941,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.4rem',
-                      background: 'white',
-                      border: '1px solid var(--gray-300)',
+                      background: 'var(--card-bg)',
+                      border: '1px solid var(--card-border)',
                       borderRadius: '8px',
                       padding: '0.6rem 1rem',
                       fontSize: '0.85rem',

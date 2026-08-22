@@ -851,12 +851,26 @@
 
 .dark .entdecken-root .detail-card,
 .dark .entdecken-root .place-card,
+.dark .entdecken-root .place-grid-card,
 .dark .entdecken-root .modal-container,
 .dark .entdecken-root .country-detail-card,
 .dark .entdecken-root .ai-settings-modal {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #f8fafc !important;
+}
+
+.dark .entdecken-root .place-grid-card:hover {
+  border-color: #4ade80 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark .entdecken-root .place-grid-card h3 {
+  color: #f8fafc !important;
+}
+
+.dark .entdecken-root .place-grid-card p {
+  color: #cbd5e1 !important;
 }
 
 .dark .entdecken-root .place-card:hover {
@@ -885,6 +899,21 @@
 
 .dark .entdecken-root .hover-card-btn div div:last-child {
   color: #94a3b8 !important;
+}
+
+.dark .entdecken-root .nearby-place-item {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .entdecken-root .nearby-place-item:hover {
+  background: #1e293b !important;
+  border-color: #4ade80 !important;
+}
+
+.dark .entdecken-root .nearby-place-item h5 {
+  color: #f8fafc !important;
 }
 
 .dark .entdecken-root .place-modal-container {
@@ -924,6 +953,16 @@
 .dark .entdecken-root .country-stats-badge {
   background: #334155 !important;
   color: #e2e8f0 !important;
+}
+
+.dark .entdecken-root .leaflet-popup-content-wrapper,
+.dark .entdecken-root .leaflet-popup-tip {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .entdecken-root .leaflet-container {
+  background: #0f172a !important;
 }
 
 

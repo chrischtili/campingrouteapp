@@ -436,8 +436,22 @@ app.get("/api/places/:id/nearby-trails", async (req, res) => {
     if (!place || !place.latitude || !place.longitude) {
       return res.json([]);
     }
-    const trails = getNearbyTrails(place.latitude, place.longitude, 45);
-    res.json(trails.slice(0, 3));
+    const trailsFilePaths = [
+      path.join(__dirname, "../src/data/trails.json"),
+      path.join(__dirname, "../../server/trails.json"),
+      path.join(__dirname, "data/trails.json")
+    ];
+    let allTrails = FAMOUS_TRAILS;
+    for (const fp of trailsFilePaths) {
+      if (fs.existsSync(fp)) {
+        try {
+          allTrails = JSON.parse(fs.readFileSync(fp, "utf8"));
+          break;
+        } catch (_) {}
+      }
+    }
+    const trails = getNearbyTrails(place.latitude, place.longitude, 50, allTrails);
+    res.json(trails.slice(0, 4));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

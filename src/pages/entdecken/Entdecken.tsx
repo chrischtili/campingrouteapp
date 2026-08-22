@@ -935,23 +935,25 @@ function EntdeckenContent() {
     if (selectedPlace) {
       fetchReviews(selectedPlace.id);
       fetchNearbyPlaces(selectedPlace.id);
-      fetch(`/api/places/${selectedPlace.id}/nearby-trails`)
+
+      // 1. Instant calculation from the full dataset (670+ German Open Data trails)
+      const memoryTrails = getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 50, trails).slice(0, 4);
+      setNearbyTrails(memoryTrails);
+
+      // 2. Also try API endpoint to enrich or supplement
+      fetch(`/discover/api/places/${selectedPlace.id}/nearby-trails`)
         .then(res => res.ok ? res.json() : [])
         .then(data => {
           if (Array.isArray(data) && data.length > 0) {
             setNearbyTrails(data);
-          } else {
-            setNearbyTrails(getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 40).slice(0, 3));
           }
         })
-        .catch(() => {
-          setNearbyTrails(getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 40).slice(0, 3));
-        });
+        .catch(() => {});
     } else {
       setNearbyPlaces([]);
       setNearbyTrails([]);
     }
-  }, [selectedPlace]);
+  }, [selectedPlace, trails]);
 
   // Fetch campsites, trail polyline and lock scroll for selected trail
   useEffect(() => {

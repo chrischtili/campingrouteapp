@@ -234,7 +234,12 @@ export const FAMOUS_TRAILS: Trail[] = [
   }
 ];
 
-export function getNearbyTrails(lat: number, lon: number, maxDistanceKm: number = 55): (Trail & { distance_to_place_km: number })[] {
+export function getNearbyTrails(
+  lat: number,
+  lon: number,
+  maxDistanceKm: number = 55,
+  trailsList: Trail[] = FAMOUS_TRAILS
+): (Trail & { distance_to_place_km: number })[] {
   function calcDist(lat1: number, lon1: number, lat2: number, lon2: number) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -246,7 +251,10 @@ export function getNearbyTrails(lat: number, lon: number, maxDistanceKm: number 
     return Math.round(R * c * 10) / 10;
   }
 
-  return FAMOUS_TRAILS
+  const sourceList = (trailsList && trailsList.length > 0) ? trailsList : FAMOUS_TRAILS;
+
+  return sourceList
+    .filter(t => t && typeof t.latitude === 'number' && typeof t.longitude === 'number')
     .map(t => ({
       ...t,
       distance_to_place_km: calcDist(lat, lon, t.latitude, t.longitude)

@@ -2184,6 +2184,66 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
+    // Nearby trails for a campsite or place
+    const nearbyTrailsMatch = pathname.match(/^\/(?:discover\/)?api\/places\/([^/]+)\/nearby-trails$/);
+    if (req.method === 'GET' && nearbyTrailsMatch) {
+      const placeId = nearbyTrailsMatch[1];
+      try {
+        const dbPaths = [
+          PLACE_DATABASE_PATH,
+          path.join(__dirname, '..', 'places.sqlite'),
+          path.join(__dirname, '..', 'entdecken-backend', 'campingroute_eu.db'),
+          path.join(DATA_DIR, 'campingroute_eu.db')
+        ];
+        const dbPath = dbPaths.find(p => fs.existsSync(p));
+        let lat = null;
+        let lon = null;
+        if (dbPath) {
+          try {
+            const output = execFileSync('sqlite3', ['-json', dbPath, `SELECT latitude, longitude FROM places WHERE id = '${placeId.replace(/'/g, "''")}' LIMIT 1;`], {
+              encoding: 'utf8',
+              stdio: ['ignore', 'pipe', 'pipe'],
+              maxBuffer: 1024 * 1024
+            }).trim();
+            if (output) {
+              const rows = JSON.parse(output);
+              if (rows.length > 0) {
+                lat = Number(rows[0].latitude);
+                lon = Number(rows[0].longitude);
+              }
+            }
+          } catch (_) {}
+        }
+
+        if (lat === null || lon === null) {
+          sendJson(res, 200, []);
+          return;
+        }
+
+        const trailsFilePath = path.join(__dirname, 'trails.json');
+        let trailsList = [];
+        if (fs.existsSync(trailsFilePath)) {
+          trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+        }
+
+        const nearby = trailsList
+          .filter(t => t && typeof t.latitude === 'number' && typeof t.longitude === 'number')
+          .map(t => ({
+            ...t,
+            distance_to_place_km: Math.round(haversineDistanceKm(lat, lon, t.latitude, t.longitude) * 10) / 10
+          }))
+          .filter(t => t.distance_to_place_km <= 50)
+          .sort((a, b) => a.distance_to_place_km - b.distance_to_place_km)
+          .slice(0, 4);
+
+        sendJson(res, 200, nearby);
+        return;
+      } catch (err) {
+        sendJson(res, 200, []);
+        return;
+      }
+    }
+
     // Entdecken-Backend API & MCP (eigener Port, default 3000)
     if (
       pathname.startsWith('/discover/api') ||

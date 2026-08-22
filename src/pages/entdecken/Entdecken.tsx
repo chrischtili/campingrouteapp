@@ -965,6 +965,14 @@ function EntdeckenContent() {
       document.body.style.overflow = 'hidden';
       setIsLoadingTrailCampsites(true);
 
+      // Immediately clear previous trail state so no old markers or bounds are drawn
+      setTrailCampsites([]);
+      setTrailPolyline([]);
+      setTrailStartCoords(null);
+      setTrailEndCoords(null);
+
+      let isCurrent = true;
+
       // 1. Calculate realistic corridor / radius based on trail length (e.g. 8 km for short day hikes)
       const distKm = selectedTrail.distance_km || 10;
       const dynamicRadius = distKm < 15 ? 8 : (distKm < 50 ? 12 : 15);
@@ -974,14 +982,19 @@ function EntdeckenContent() {
       fetch(nearbyUrl)
         .then(res => res.ok ? res.json() : fetch(`/api/trails/nearby-campsites?lat=${selectedTrail.latitude}&lon=${selectedTrail.longitude}&radius=${dynamicRadius}&limit=15`).then(r => r.json()))
         .then(data => {
+          if (!isCurrent) return;
           if (data && data.places && Array.isArray(data.places)) {
             setTrailCampsites(data.places);
           } else {
             setTrailCampsites([]);
           }
         })
-        .catch(() => setTrailCampsites([]))
-        .finally(() => setIsLoadingTrailCampsites(false));
+        .catch(() => {
+          if (isCurrent) setTrailCampsites([]);
+        })
+        .finally(() => {
+          if (isCurrent) setIsLoadingTrailCampsites(false);
+        });
 
       // 3. Fetch full trail details & geometry / polyline if not already available
       if (selectedTrail.polyline && selectedTrail.polyline.length > 0) {
@@ -993,22 +1006,36 @@ function EntdeckenContent() {
         fetch(detailsUrl)
           .then(res => res.ok ? res.json() : fetch(`/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`).then(r => r.json()))
           .then(data => {
-            if (data && data.polyline && data.polyline.length > 0) {
-              setTrailPolyline(data.polyline);
-              setTrailStartCoords(data.start_coords || data.polyline[0]);
-              setTrailEndCoords(data.end_coords || data.polyline[data.polyline.length - 1]);
-            } else {
-              setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
-              setTrailStartCoords([selectedTrail.latitude, selectedTrail.longitude]);
-              setTrailEndCoords([selectedTrail.latitude, selectedTrail.longitude]);
+            if (!isCurrent) return;
+            if (data && data.polyline && Array.isArray(data.polyline) && data.polyline.length > 1) {
+              // Sanity check: polyline points must be within reasonable distance of trail center (< 50km)
+              const validPolyline: [number, number][] = data.polyline.filter(([lat, lon]: [number, number]) => {
+                return typeof lat === 'number' && typeof lon === 'number' &&
+                  Math.abs(lat - selectedTrail.latitude) < 0.8 &&
+                  Math.abs(lon - selectedTrail.longitude) < 1.2;
+              });
+              if (validPolyline.length > 1) {
+                setTrailPolyline(validPolyline);
+                setTrailStartCoords(data.start_coords || validPolyline[0]);
+                setTrailEndCoords(data.end_coords || validPolyline[validPolyline.length - 1]);
+                return;
+              }
             }
+            setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
+            setTrailStartCoords([selectedTrail.latitude, selectedTrail.longitude]);
+            setTrailEndCoords([selectedTrail.latitude, selectedTrail.longitude]);
           })
           .catch(() => {
-            setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
+            if (isCurrent) {
+              setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
+            }
           });
       }
 
-      return () => { document.body.style.overflow = prev; };
+      return () => {
+        isCurrent = false;
+        document.body.style.overflow = prev;
+      };
     } else {
       setTrailCampsites([]);
       setTrailPolyline([]);
@@ -1029,7 +1056,7 @@ function EntdeckenContent() {
 
       const map = L.map(trailMapContainerRef.current, {
         center: [selectedTrail.latitude, selectedTrail.longitude],
-        zoom: 11,
+        zoom: 12,
         zoomControl: true,
         attributionControl: true
       });
@@ -1062,7 +1089,11 @@ function EntdeckenContent() {
 
     // 1. Draw Route Polyline (Streckenverlauf) if available
     if (trailPolyline && trailPolyline.length >= 2) {
-      trailPolyline.forEach(([lat, lon]) => bounds.extend([lat, lon]));
+      trailPolyline.forEach(([lat, lon]) => {
+        if (Math.abs(lat - selectedTrail.latitude) < 0.8 && Math.abs(lon - selectedTrail.longitude) < 1.2) {
+          bounds.extend([lat, lon]);
+        }
+      });
 
       // White outline casing
       L.polyline(trailPolyline, {
@@ -1117,11 +1148,13 @@ function EntdeckenContent() {
         .openPopup();
     }
 
-    // 2. Add campsite markers
+    // 2. Add campsite markers (only close to the selected trail)
     if (trailCampsites && trailCampsites.length > 0) {
       trailCampsites.forEach(p => {
-        bounds.extend([p.latitude, p.longitude]);
-        const distLabel = (p as any).distance_km ? ` · 📍 ${(p as any).distance_km} km` : '';
+        if (Math.abs(p.latitude - selectedTrail.latitude) < 0.5 && Math.abs(p.longitude - selectedTrail.longitude) < 0.8) {
+          bounds.extend([p.latitude, p.longitude]);
+        }
+        const distLabel = (p as any).distance_km !== undefined ? ` · 📍 ${(p as any).distance_km} km` : '';
         L.circleMarker([p.latitude, p.longitude], {
           radius: 8,
           color: '#ffffff',

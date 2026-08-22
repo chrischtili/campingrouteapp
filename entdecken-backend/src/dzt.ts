@@ -177,15 +177,23 @@ export async function getDztEntityDetails(uri: string): Promise<{
     if (!graph || graph.length === 0) return null;
     const entity = graph[0];
 
+    function fixLatLng(v1: number, v2: number): [number, number] {
+      if (isNaN(v1) || isNaN(v2)) return [0, 0];
+      // In Europe/Germany: Lat is 40..60, Lon is -15..35
+      if (v1 >= 35 && v1 <= 70 && v2 >= -15 && v2 <= 40) return [v1, v2];
+      if (v2 >= 35 && v2 <= 70 && v1 >= -15 && v1 <= 40) return [v2, v1];
+      return [v1, v2];
+    }
+
     let polyline: [number, number][] = [];
     const geo = entity["https://schema.org/geo"] || entity["schema:geo"] || entity.geo;
     const lineStr = geo?.["https://schema.org/line"] || geo?.["schema:line"] || geo?.line || (typeof geo === "string" ? geo : null);
     if (lineStr && typeof lineStr === "string") {
       const pairs = lineStr.trim().split(/\s+/);
       polyline = pairs.map(p => {
-        const [lon, lat] = p.split(",").map(Number);
-        return [lat, lon] as [number, number];
-      }).filter(([lat, lon]) => !isNaN(lat) && !isNaN(lon));
+        const [c1, c2] = p.split(",").map(Number);
+        return fixLatLng(c1, c2);
+      }).filter(([lat, lon]) => lat !== 0 && lon !== 0);
     }
 
     let startCoords: [number, number] | undefined;
@@ -196,7 +204,7 @@ export async function getDztEntityDetails(uri: string): Promise<{
     if (startGeo) {
       const lat = Number(startGeo["https://schema.org/latitude"]?.["@value"] || startGeo["schema:latitude"] || startGeo.latitude);
       const lon = Number(startGeo["https://schema.org/longitude"]?.["@value"] || startGeo["schema:longitude"] || startGeo.longitude);
-      if (!isNaN(lat) && !isNaN(lon)) startCoords = [lat, lon];
+      if (!isNaN(lat) && !isNaN(lon)) startCoords = fixLatLng(lat, lon);
     }
 
     const endLoc = entity["https://odta.io/voc/endLocation"] || entity["odta:endLocation"] || entity.endLocation;
@@ -204,7 +212,7 @@ export async function getDztEntityDetails(uri: string): Promise<{
     if (endGeo) {
       const lat = Number(endGeo["https://schema.org/latitude"]?.["@value"] || endGeo["schema:latitude"] || endGeo.latitude);
       const lon = Number(endGeo["https://schema.org/longitude"]?.["@value"] || endGeo["schema:longitude"] || endGeo.longitude);
-      if (!isNaN(lat) && !isNaN(lon)) endCoords = [lat, lon];
+      if (!isNaN(lat) && !isNaN(lon)) endCoords = fixLatLng(lat, lon);
     }
 
     return {

@@ -1991,7 +1991,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       }}
                       className="hover:bg-primary-700"
                     >
-                      <Map size={16} />
+                      <MapIcon size={16} />
                       <span>Alle {selectedTrail.campsites_along_count} Plätze auf großer Karte öffnen</span>
                     </button>
                   </div>

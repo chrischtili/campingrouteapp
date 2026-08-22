@@ -2823,8 +2823,8 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                       {/* SPLIT VIEW (List + Sticky Map) */}
                       {trailViewMode === 'split' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 1fr) minmax(340px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', maxHeight: '720px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 1fr) minmax(360px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxHeight: '720px', overflowY: 'auto', paddingRight: '0.5rem' }}>
                             {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
                               <div
                                 key={trail.id}
@@ -2835,15 +2835,17 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   borderRadius: '14px',
                                   overflow: 'hidden',
                                   display: 'flex',
-                                  gap: '1rem',
-                                  padding: '0.85rem',
+                                  gap: '0.85rem',
+                                  padding: '0.75rem',
                                   boxShadow: 'var(--shadow-sm)',
                                   cursor: 'pointer',
+                                  flexShrink: 0,
+                                  minHeight: '115px',
                                   transition: 'all 0.15s ease'
                                 }}
                                 className="hover:border-primary-500 hover:shadow-md"
                               >
-                                <div style={{ width: '110px', height: '95px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
                                   <img
                                     src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
                                     alt={trail.name}
@@ -2855,7 +2857,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 </div>
                                 <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                   <div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
                                       <span style={{ fontSize: '0.7rem', fontWeight: 800, color: trail.type === 'biking' ? '#2563eb' : '#059669', textTransform: 'uppercase' }}>
                                         {trail.type === 'biking' ? '🚴 Radweg' : '🥾 Wanderweg'}
                                       </span>
@@ -2863,14 +2865,14 @@ const getWebsiteUrl = (place: Place): string | null => {
                                         {trail.difficulty === 'easy' ? 'Leicht' : trail.difficulty === 'medium' ? 'Mittel' : 'Schwer'}
                                       </span>
                                     </div>
-                                    <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
                                       {trail.name}
                                     </h4>
                                     <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
-                                      {trail.region} · <strong>📍 {trail.distance_km} km</strong> {trail.duration_hours ? `· ⏱️ ${trail.duration_hours}h` : ''}
+                                      {trail.region || trail.state} · <strong>📍 {trail.distance_km} km</strong> {trail.duration_hours ? `· ⏱️ ${trail.duration_hours}h` : ''}
                                     </p>
                                   </div>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
                                     <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#059669' }}>
                                       🏕️ {trail.distance_km < 25 ? 'Camping in der Nähe' : 'Camping an der Route'}
                                     </span>
@@ -2884,13 +2886,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                             {visibleTrailsCount < filteredTrails.length && (
                               <button
                                 onClick={() => setVisibleTrailsCount(prev => prev + 12)}
-                                style={{ padding: '0.6rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer' }}
+                                style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
                               >
                                 Mehr Touren laden ({filteredTrails.length - visibleTrailsCount} verbleibend)
                               </button>
                             )}
                           </div>
-                          <div style={{ height: '620px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                          <div style={{ height: '720px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
                             <div ref={trailsOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                           </div>
                         </div>

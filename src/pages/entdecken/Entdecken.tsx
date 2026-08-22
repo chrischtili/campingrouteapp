@@ -2087,7 +2087,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             </span>
                             <button
                               onClick={() => {
-                                setQuery(`Campingplätze ${trail.region}`);
+                                setSearchQuery(`Campingplätze ${trail.region}`);
                                 handleSearch(undefined, `Campingplätze ${trail.region}`);
                               }}
                               style={{

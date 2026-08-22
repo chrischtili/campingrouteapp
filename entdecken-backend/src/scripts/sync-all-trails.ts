@@ -87,6 +87,7 @@ interface TrailTypeGroup {
 }
 
 const TRAIL_TYPE_GROUPS: TrailTypeGroup[] = [
+  { subtype: 'Trail', type: 'hiking' },
   { subtype: 'HikingTrail', type: 'hiking' },
   { subtype: 'HikingRoute', type: 'hiking' },
   { subtype: 'LongDistanceHikeTrail', type: 'hiking' },
@@ -101,6 +102,7 @@ const TRAIL_TYPE_GROUPS: TrailTypeGroup[] = [
   { subtype: 'SightseeingTrail', type: 'hiking' },
   { subtype: 'NatureTrail', type: 'hiking' },
   { subtype: 'CityTrail', type: 'hiking' },
+  { subtype: 'CityTour', type: 'hiking' },
   { subtype: 'PanoramaTrail', type: 'hiking' },
   { subtype: 'BikeTourTrail', type: 'biking' },
   { subtype: 'BicycleRoute', type: 'biking' },
@@ -108,22 +110,23 @@ const TRAIL_TYPE_GROUPS: TrailTypeGroup[] = [
   { subtype: 'MountainBikeTourTrail', type: 'biking' },
   { subtype: 'RacingBikeTourTrail', type: 'biking' },
   { subtype: 'GravelBikeTrail', type: 'biking' },
+  { subtype: 'ScenicRoute', type: 'biking' },
   { subtype: 'InlineSkatingTrail', type: 'biking' },
   { subtype: 'WaterTrail', type: 'hiking' },
   { subtype: 'CanoeTrail', type: 'hiking' },
+  { subtype: 'CanoeTour', type: 'hiking' },
   { subtype: 'ThematicTrail', type: 'hiking' },
+  { subtype: 'RoundTrip', type: 'hiking' },
   { subtype: 'Tour', type: 'hiking' },
   { subtype: 'TouristTrip', type: 'hiking' }
 ];
 
-// ThematicTrail is a supertype of several others; we query the specific hiking and
-// biking types first, then only add ThematicTrail rows that are not already present.
 function isBikeSubtype(type: string): boolean {
-  return /Bike|Rad|Cycle|InlineSkating|Motor|Gravel/i.test(type);
+  return /Bike|Rad|Cycle|InlineSkating|Motor|Gravel|Scenic/i.test(type);
 }
 
 export async function syncAllTrails() {
-  console.log('🚀 Starting DZT Open Data Trails Sync via SPARQL (comprehensive subtypes & multi-coord extraction)...\n');
+  console.log('🚀 Starting Comprehensive DZT Open Data Trails Sync across ALL German Regions...\n');
   const db = await getDb();
 
   await db.exec(`
@@ -167,7 +170,7 @@ export async function syncAllTrails() {
   await db.exec('DELETE FROM trails;');
 
   const skippedNoGeo: string[] = [];
-  const batchSize = 2500;
+  const batchSize = 1500;
 
   for (const group of TRAIL_TYPE_GROUPS) {
     let groupInserted = 0;
@@ -180,7 +183,7 @@ PREFIX schema_http: <http://schema.org/>
 PREFIX odta: <https://odta.io/voc/>
 PREFIX odta_http: <http://odta.io/voc/>
 
-SELECT DISTINCT ?id ?name ?lat ?lon ?startLat ?startLon ?length ?diff ?desc ?image ?locality
+SELECT DISTINCT ?id ?name ?lat ?lon ?startLat ?startLon ?partLat ?partLon ?line ?length ?diff ?desc ?image ?locality
 WHERE {
   { ?id a odta:${group.subtype} ; schema:name|schema_http:name ?name . }
   UNION
@@ -197,6 +200,12 @@ WHERE {
     ?startGeo schema:latitude|schema_http:latitude ?startLat ; schema:longitude|schema_http:longitude ?startLon .
     OPTIONAL { ?startLoc schema:addressLocality|schema_http:addressLocality ?locality }
   }
+  OPTIONAL {
+    ?id schema:hasPart|schema_http:hasPart ?part .
+    ?part schema:geo|schema_http:geo ?partGeo .
+    ?partGeo schema:latitude|schema_http:latitude ?partLat ; schema:longitude|schema_http:longitude ?partLon .
+  }
+  OPTIONAL { ?id schema:geo|schema_http:geo ?geoLine . ?geoLine schema:line|schema_http:line ?line }
   OPTIONAL { ?id odta:length|odta_http:length ?lenObj . ?lenObj schema:value|schema_http:value ?length }
   OPTIONAL { ?id odta:difficulty|odta_http:difficulty ?diffObj . ?diffObj schema:name|schema_http:name ?diff }
   OPTIONAL { ?id schema:description|schema_http:description ?desc }
@@ -225,10 +234,9 @@ LIMIT ${batchSize} OFFSET ${offset}
         seenIds.add(rawId);
         seenNames.add(normName);
 
-        // Determine trail type
         let trailType = group.type;
         const lname = normName;
-        if (group.subtype === 'ThematicTrail' || group.subtype === 'Tour' || group.subtype === 'TouristTrip') {
+        if (group.subtype === 'Trail' || group.subtype === 'ThematicTrail' || group.subtype === 'Tour' || group.subtype === 'TouristTrip' || group.subtype === 'RoundTrip') {
           const looksBike = /rad|bike|cycle|radweg|radtour|radfernweg|mountainbike|veloroute/.test(lname);
           const looksHike = /wander|steig|pfad|rundweg|lehrpfad|weg|tour|runde|hike|trekking|spazier/.test(lname);
           if (looksBike && !looksHike) trailType = 'biking';
@@ -240,7 +248,6 @@ LIMIT ${batchSize} OFFSET ${offset}
           trailType = 'hiking';
         }
 
-        // Coordinate extraction from geo points or startLocation
         let lat = 0;
         let lon = 0;
         if (item.lat && item.lon) {
@@ -257,6 +264,26 @@ LIMIT ${batchSize} OFFSET ${offset}
           const fixed = fixLatLng(sLat, sLon);
           lat = fixed[0];
           lon = fixed[1];
+        }
+
+        if ((!lat || !lon || isNaN(lat) || lat === 0) && item.partLat && item.partLon) {
+          const ptLat = parseFloat(extractString(item.partLat.value || item.partLat));
+          const ptLon = parseFloat(extractString(item.partLon.value || item.partLon));
+          const fixed = fixLatLng(ptLat, ptLon);
+          lat = fixed[0];
+          lon = fixed[1];
+        }
+
+        if ((!lat || !lon || isNaN(lat) || lat === 0) && item.line) {
+          const lineStr = extractString(item.line.value || item.line);
+          if (lineStr && typeof lineStr === 'string') {
+            const first = lineStr.trim().split(/\s+/)[0];
+            const parts = (first || '').split(',').map(Number);
+            const [c1, c2] = parts;
+            const fixed = fixLatLng(c1, c2);
+            lat = fixed[0];
+            lon = fixed[1];
+          }
         }
 
         if (!lat || !lon || lat < 47.0 || lat > 55.5 || lon < 5.5 || lon > 15.5) {

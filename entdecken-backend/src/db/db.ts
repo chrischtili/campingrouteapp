@@ -126,6 +126,29 @@ export async function getDb(): Promise<Database> {
       source TEXT DEFAULT 'dzt_opendata',
       last_updated TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS events (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      description TEXT,
+      full_description TEXT,
+      category TEXT NOT NULL DEFAULT 'all',
+      locality TEXT,
+      postal_code TEXT,
+      street_address TEXT,
+      state TEXT,
+      country TEXT NOT NULL DEFAULT 'DE',
+      latitude REAL,
+      longitude REAL,
+      start_date TEXT NOT NULL,
+      end_date TEXT,
+      types TEXT,
+      image_url TEXT,
+      image_copyright TEXT,
+      url TEXT,
+      source TEXT DEFAULT 'dzt_opendata',
+      last_updated TEXT
+    );
   `);
 
   // Add any missing columns for existing databases (idempotent migrations)
@@ -154,6 +177,9 @@ export async function getDb(): Promise<Database> {
     CREATE INDEX IF NOT EXISTS idx_trails_country ON trails(country);
     CREATE INDEX IF NOT EXISTS idx_trails_coords ON trails(latitude, longitude);
     CREATE INDEX IF NOT EXISTS idx_trails_type ON trails(type);
+    CREATE INDEX IF NOT EXISTS idx_events_state ON events(state);
+    CREATE INDEX IF NOT EXISTS idx_events_category ON events(category);
+    CREATE INDEX IF NOT EXISTS idx_events_start_date ON events(start_date);
   `);
 
   // Full-text search (FTS5) table kept in sync via triggers. Used by the keyword

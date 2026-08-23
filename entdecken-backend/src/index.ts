@@ -113,14 +113,81 @@ app.get("/api/dzt/events", async (req, res) => {
     const region = req.query.region as string;
     const locality = req.query.locality as string;
     const keywords = req.query.keywords as string;
+    const category = req.query.category as string;
     const dateRangeStart = req.query.dateRangeStart as string;
     const dateRangeEnd = req.query.dateRangeEnd as string;
     const type = req.query.type as string;
 
+    const db = await getDb();
+    let query = "SELECT * FROM events WHERE 1=1";
+    const params: any[] = [];
+
+    if (category && category !== "all") {
+      query += " AND category = ?";
+      params.push(category);
+    }
+    if (region && region !== "Alle Bundesländer" && region !== "all") {
+      query += " AND (state = ? OR locality LIKE ?)";
+      params.push(region, `%${region}%`);
+    }
+    if (locality) {
+      query += " AND (locality LIKE ? OR street_address LIKE ?)";
+      params.push(`%${locality}%`, `%${locality}%`);
+    }
+    if (keywords && keywords !== "Wein,Festival,Kultur,Markt,Event") {
+      const kwList = keywords.split(",").map(k => k.trim()).filter(Boolean);
+      if (kwList.length > 0) {
+        const clauses = kwList.map(() => "(name LIKE ? OR description LIKE ? OR locality LIKE ?)");
+        query += " AND (" + clauses.join(" OR ") + ")";
+        kwList.forEach(k => {
+          params.push(`%${k}%`, `%${k}%`, `%${k}%`);
+        });
+      }
+    }
+    if (dateRangeStart) {
+      query += " AND (start_date >= ? OR (end_date IS NOT NULL AND end_date >= ?))";
+      params.push(dateRangeStart, dateRangeStart);
+    }
+    if (dateRangeEnd) {
+      query += " AND start_date <= ?";
+      params.push(dateRangeEnd);
+    }
+
+    query += " ORDER BY start_date ASC LIMIT 60";
+
+    const dbEvents = await db.all(query, params);
+
+    if (dbEvents && dbEvents.length > 0) {
+      return res.json({
+        success: true,
+        source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany (Cached DB)",
+        data: dbEvents.map((e: any) => ({
+          id: e.id,
+          name: e.name,
+          description: e.description,
+          fullDescription: e.full_description,
+          category: e.category,
+          locality: e.locality,
+          postalCode: e.postal_code,
+          streetAddress: e.street_address,
+          state: e.state,
+          latitude: e.latitude,
+          longitude: e.longitude,
+          startDate: e.start_date,
+          endDate: e.end_date,
+          types: e.types ? JSON.parse(e.types) : [],
+          image_url: e.image_url,
+          image_copyright: e.image_copyright,
+          url: e.url
+        }))
+      });
+    }
+
+    // Fallback: If DB query yielded 0 results, query live DZT API
     const events = await searchDztEvents({ region, locality, keywords, dateRangeStart, dateRangeEnd, type });
     res.json({
       success: true,
-      source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany",
+      source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany (Live)",
       data: events.map((e: any) => {
         const rawImg = e["schema:image"];
         const imageObj = Array.isArray(rawImg) ? rawImg[0] : rawImg;

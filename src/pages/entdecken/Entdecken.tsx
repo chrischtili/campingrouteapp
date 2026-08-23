@@ -582,10 +582,53 @@ function EntdeckenContent() {
   const [visibleEventsCount, setVisibleEventsCount] = useState<number>(12);
   const [selectedEvent, setSelectedEvent] = useState<GermanEvent | null>(null);
 
+  const EVENT_FALLBACK_IMAGES: Record<string, string[]> = {
+    wine: [
+      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1528823872057-9c018a7a7553?auto=format&fit=crop&w=800&q=80"
+    ],
+    culture: [
+      "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80"
+    ],
+    festival: [
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80"
+    ],
+    market: [
+      "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=800&q=80"
+    ],
+    sport: [
+      "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80"
+    ],
+    all: [
+      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80"
+    ]
+  };
+
+  const getEventFallback = (event?: GermanEvent | null) => {
+    if (!event) return EVENT_FALLBACK_IMAGES.all[0];
+    const cat = (event as any).category || eventCategory || 'all';
+    const list = EVENT_FALLBACK_IMAGES[cat] || EVENT_FALLBACK_IMAGES.all;
+    let hash = 0;
+    const key = event.id || event.name || 'event';
+    for (let i = 0; i < key.length; i++) {
+      hash = (hash << 5) - hash + key.charCodeAt(i);
+      hash |= 0;
+    }
+    return list[Math.abs(hash) % list.length];
+  };
+
   const fetchEvents = useCallback(async (category = eventCategory, region = eventStateFilter, search = eventSearchText) => {
     setIsLoadingEvents(true);
     try {
       const params = new URLSearchParams();
+      if (category && category !== 'all') {
+        params.append('category', category);
+      }
       if (region && region !== 'Alle Bundesländer' && region !== 'all') {
         params.append('region', region);
       }
@@ -3312,18 +3355,19 @@ const getWebsiteUrl = (place: Place): string | null => {
                             >
                               {/* Event Image */}
                               <div style={{ position: 'relative', height: '170px', background: 'var(--gray-100)', overflow: 'hidden' }}>
-                                {event.image_url ? (
-                                  <img
-                                    src={event.image_url}
-                                    alt={event.name}
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                    loading="lazy"
-                                  />
-                                ) : (
-                                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%)', color: '#7c3aed', fontSize: '2.5rem' }}>
-                                    🎉
-                                  </div>
-                                )}
+                                <img
+                                  src={event.image_url || getEventFallback(event)}
+                                  alt={event.name}
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                  loading="lazy"
+                                  onError={(e) => {
+                                    const target = e.currentTarget as HTMLImageElement;
+                                    const fallback = getEventFallback(event);
+                                    if (target.src !== fallback) {
+                                      target.src = fallback;
+                                    }
+                                  }}
+                                />
                                 {/* Date Badge */}
                                 {dateDisplay && (
                                   <div style={{
@@ -4955,44 +4999,40 @@ const getWebsiteUrl = (place: Place): string | null => {
             style={{ maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto', borderRadius: '20px', padding: 0, background: 'var(--card-bg)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)' }}
           >
             {/* Modal Image Header */}
-            {selectedEvent.image_url ? (
-              <div style={{ position: 'relative', height: '240px', background: 'var(--gray-100)' }}>
-                <img
-                  src={selectedEvent.image_url}
-                  alt={selectedEvent.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <button
-                  onClick={() => setSelectedEvent(null)}
-                  style={{
-                    position: 'absolute',
-                    top: '12px',
-                    right: '12px',
-                    background: 'rgba(15, 23, 42, 0.75)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: '32px',
-                    height: '32px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1rem 0 0' }}>
-                <button
-                  onClick={() => setSelectedEvent(null)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray-400)' }}
-                >
-                  <X size={22} />
-                </button>
-              </div>
-            )}
+            <div style={{ position: 'relative', height: '240px', background: 'var(--gray-100)', overflow: 'hidden' }}>
+              <img
+                src={selectedEvent.image_url || getEventFallback(selectedEvent)}
+                alt={selectedEvent.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                onError={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  const fallback = getEventFallback(selectedEvent);
+                  if (target.src !== fallback) {
+                    target.src = fallback;
+                  }
+                }}
+              />
+              <button
+                onClick={() => setSelectedEvent(null)}
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  background: 'rgba(15, 23, 42, 0.75)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
 
             {/* Modal Body */}
             <div style={{ padding: '1.5rem' }}>

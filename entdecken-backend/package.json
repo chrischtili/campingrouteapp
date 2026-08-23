@@ -19,6 +19,7 @@
     "enrich-dzt": "tsx src/scripts/enrich-dzt.ts",
     "update-states": "tsx src/scripts/update-all-states.ts",
     "sync-trails": "tsx src/scripts/sync-all-trails.ts",
+    "sync-events": "tsx src/sync-events.ts",
     "import-dzt-bulk": "tsx src/scripts/import-dzt-bulk.ts"
   },
   "dependencies": {

@@ -4,9 +4,12 @@
 
 ## Core Services
 
-- [Campsite & Stellplatz Search](https://campingroute.app/discover): Natural language search across 20,000+ European campgrounds, RV parks, and attractions.
+- [Campsite & Stellplatz Search](https://campingroute.app/discover): Natural language search across 37,000+ European campgrounds, RV parks, and attractions.
+- [Farm Shops & Wineries Hub](https://campingroute.app/discover?tab=culinary): 1,500+ direct farm shops, wineries, cheese dairies, and 24h regiomats with nearby campsite mapping.
+- [German Trails & Hiking Routes](https://campingroute.app/discover?tab=trails): 670+ official German long-distance hiking and biking trails connected to verified campgrounds.
+- [German Flagship Events](https://campingroute.app/discover?tab=events): Cultural festivals, wine fairs, and open-air events with nearby overnight stays.
 - [AI Prompt Generator](https://campingroute.app/prompt-generator): Tailor-made camper itinerary prompts for ChatGPT, Claude, and Gemini with GPX export.
-- [Official MCP Server](https://campingroute.app/discover/mcp): Model Context Protocol server exposing 10 structured tools for AI assistants.
+- [Official MCP Server](https://campingroute.app/discover/mcp): Model Context Protocol server exposing structured tools for AI assistants.
 
 ## MCP Tools
 

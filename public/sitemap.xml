@@ -136,6 +136,42 @@
     <lastmod>2026-08-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
+  <!-- Entdecken / Discover Thematic Hubs -->
+  <url>
+    <loc>https://campingroute.app/discover?tab=culinary</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://campingroute.app/discover?tab=culinary"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://campingroute.app/discover?tab=culinary&amp;lng=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://campingroute.app/discover?tab=culinary&amp;lng=fr"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://campingroute.app/discover?tab=culinary&amp;lng=nl"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://campingroute.app/discover?tab=culinary&amp;lng=it"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://campingroute.app/discover?tab=culinary"/>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
+    <loc>https://campingroute.app/discover?tab=trails</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://campingroute.app/discover?tab=trails"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://campingroute.app/discover?tab=trails&amp;lng=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://campingroute.app/discover?tab=trails&amp;lng=fr"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://campingroute.app/discover?tab=trails&amp;lng=nl"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://campingroute.app/discover?tab=trails&amp;lng=it"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://campingroute.app/discover?tab=trails"/>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://campingroute.app/discover?tab=events</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://campingroute.app/discover?tab=events"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://campingroute.app/discover?tab=events&amp;lng=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://campingroute.app/discover?tab=events&amp;lng=fr"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://campingroute.app/discover?tab=events&amp;lng=nl"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://campingroute.app/discover?tab=events&amp;lng=it"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://campingroute.app/discover?tab=events"/>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
 
   <!-- Entdecken Länderseiten -->

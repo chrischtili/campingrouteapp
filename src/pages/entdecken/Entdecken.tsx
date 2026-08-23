@@ -1518,6 +1518,150 @@ function EntdeckenContent() {
     }
   }, [selectedCountryView, countryTab]);
 
+  // Dynamic SEO & Schema.org JSON-LD for Search Engines & AI Web Crawlers
+  useEffect(() => {
+    let pageTitle = 'Camping & Stellplätze in Europa entdecken | CampingRoute';
+    let metaDesc = 'Entdecke über 20.000 verifizierte Campingplätze, Wohnmobilstellplätze, Wanderwege, Weinfeste und Hofläden in Europa.';
+    let jsonLdData: any = null;
+
+    if (selectedCulinarySpot) {
+      pageTitle = `${selectedCulinarySpot.name} (${selectedCulinarySpot.subtypeLabel}) – Camping in der Nähe | CampingRoute`;
+      metaDesc = `${selectedCulinarySpot.name} in ${selectedCulinarySpot.region}: ${selectedCulinarySpot.description} Direktvermarkter mit Camping- & Stellplätzen in der Umgebung.`;
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': selectedCulinarySpot.type === 'winery' ? 'Winery' : 'LocalBusiness',
+        'name': selectedCulinarySpot.name,
+        'description': selectedCulinarySpot.description,
+        'address': {
+          '@type': 'PostalAddress',
+          'streetAddress': selectedCulinarySpot.address,
+          'addressRegion': selectedCulinarySpot.state,
+          'addressCountry': 'DE'
+        },
+        'geo': {
+          '@type': 'GeoCoordinates',
+          'latitude': selectedCulinarySpot.latitude,
+          'longitude': selectedCulinarySpot.longitude
+        },
+        'telephone': selectedCulinarySpot.phone,
+        'url': selectedCulinarySpot.website || 'https://campingroute.app/discover?tab=culinary'
+      };
+    } else if (selectedTrail) {
+      pageTitle = `${selectedTrail.name} (${selectedTrail.distance_km} km) – Wander- & Radweg mit Camping | CampingRoute`;
+      metaDesc = `${selectedTrail.name} in ${selectedTrail.region}: ${selectedTrail.description} Entdecke verifizierte Campingplätze und Stellplätze entlang der Route.`;
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': 'TouristTrip',
+        'name': selectedTrail.name,
+        'description': selectedTrail.description,
+        'touristType': selectedTrail.type === 'biking' ? 'Biking' : 'Hiking',
+        'distance': `${selectedTrail.distance_km} km`,
+        'itinerary': {
+          '@type': 'ItemList',
+          'itemListElement': safeHighlights(selectedTrail.highlights).map((hl, i) => ({
+            '@type': 'ListItem',
+            'position': i + 1,
+            'name': hl
+          }))
+        }
+      };
+    } else if (selectedEvent) {
+      pageTitle = `${selectedEvent.name} – Event & Camping in Deutschland | CampingRoute`;
+      metaDesc = `${selectedEvent.name} in ${selectedEvent.locality || 'Deutschland'}: ${selectedEvent.description || 'Kulturelles Highlight und Veranstaltung mit passenden Camping- und Stellplätzen in der Umgebung.'}`;
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        'name': selectedEvent.name,
+        'description': selectedEvent.description,
+        'startDate': selectedEvent.startDate,
+        'endDate': selectedEvent.endDate,
+        'location': {
+          '@type': 'Place',
+          'name': selectedEvent.locality || selectedEvent.name,
+          'address': selectedEvent.streetAddress || selectedEvent.locality
+        }
+      };
+    } else if (selectedPlace) {
+      pageTitle = `${selectedPlace.name} (${selectedPlace.city || selectedPlace.country}) – Camping & Stellplatz | CampingRoute`;
+      metaDesc = `${selectedPlace.name} in ${selectedPlace.city || selectedPlace.country}: ${selectedPlace.description || 'Verifizierter Camping- und Stellplatz mit Ausflugszielen, Wanderwegen und Hofläden in der Nähe.'}`;
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': selectedPlace.type === 'attraction' ? 'TouristAttraction' : 'Campground',
+        'name': selectedPlace.name,
+        'description': selectedPlace.description,
+        'address': {
+          '@type': 'PostalAddress',
+          'streetAddress': selectedPlace.address,
+          'addressLocality': selectedPlace.city,
+          'addressCountry': selectedPlace.country
+        },
+        'geo': {
+          '@type': 'GeoCoordinates',
+          'latitude': selectedPlace.latitude,
+          'longitude': selectedPlace.longitude
+        },
+        'url': selectedPlace.website || window.location.href
+      };
+    } else if (activeTab === 'culinary') {
+      pageTitle = 'Hofläden, Winzer & 24h-Regiomaten in Deutschland – Camping & Genuss | CampingRoute';
+      metaDesc = 'Finde über 1.500 Winzerstuben, Hofläden, Käsereien und 24h-Regiomaten in Deutschland mit passenden Camping- und Stellplätzen in der Nähe.';
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        'name': 'Hofläden, Winzer & Regiomaten Deutschland',
+        'description': metaDesc,
+        'url': 'https://campingroute.app/discover?tab=culinary'
+      };
+    } else if (activeTab === 'trails') {
+      pageTitle = 'Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute';
+      metaDesc = 'Entdecke über 670 offizielle Fernwanderwege, Radrouten und Etappentouren mit Übernachtungsmöglichkeiten auf Camping- und Stellplätzen.';
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        'name': 'Wander- & Radwege mit Campingplätzen',
+        'description': metaDesc,
+        'url': 'https://campingroute.app/discover?tab=trails'
+      };
+    } else if (activeTab === 'events') {
+      pageTitle = 'Veranstaltungen, Weinfeste & Kultur in Deutschland – Camping & Events | CampingRoute';
+      metaDesc = 'Offizielle Feste, Märkte, Weinfeste und Kultur-Events in ganz Deutschland mit Camping- und Stellplatztipps.';
+      jsonLdData = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        'name': 'Veranstaltungen & Kultur-Events Deutschland',
+        'description': metaDesc,
+        'url': 'https://campingroute.app/discover?tab=events'
+      };
+    }
+
+    document.title = pageTitle;
+    let descMeta = document.querySelector('meta[name="description"]');
+    if (!descMeta) {
+      descMeta = document.createElement('meta');
+      descMeta.setAttribute('name', 'description');
+      document.head.appendChild(descMeta);
+    }
+    descMeta.setAttribute('content', metaDesc);
+
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', metaDesc);
+
+    let scriptTag = document.getElementById('dynamic-jsonld') as HTMLScriptElement;
+    if (jsonLdData) {
+      if (!scriptTag) {
+        scriptTag = document.createElement('script');
+        scriptTag.id = 'dynamic-jsonld';
+        scriptTag.type = 'application/ld+json';
+        document.head.appendChild(scriptTag);
+      }
+      scriptTag.textContent = JSON.stringify(jsonLdData);
+    } else if (scriptTag) {
+      scriptTag.remove();
+    }
+  }, [activeTab, selectedPlace, selectedTrail, selectedCulinarySpot, selectedEvent]);
+
   // Fetch reviews, nearby places, and nearby trails when a place is selected
   useEffect(() => {
     if (selectedPlace) {

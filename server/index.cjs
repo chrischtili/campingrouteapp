@@ -2250,6 +2250,7 @@ const server = http.createServer(async (req, res) => {
       pathname.startsWith('/discover/mcp') ||
       pathname === '/discover/sse' ||
       pathname.startsWith('/api/dzt') ||
+      pathname.startsWith('/api/culinary') ||
       pathname === '/api/trails/details' ||
       pathname === '/api/trails/nearby-campsites'
     ) {

@@ -654,7 +654,13 @@ function EntdeckenContent() {
         if (culinaryStateFilter !== 'Alle Bundesländer') queryParams.append('state', culinaryStateFilter);
         if (culinarySearchText.trim()) queryParams.append('search', culinarySearchText.trim());
 
-        const res = await fetch(`/discover/api/culinary?${queryParams.toString()}`);
+        const qStr = queryParams.toString();
+        const primaryUrl = qStr ? `/discover/api/culinary?${qStr}` : '/discover/api/culinary';
+        const fallbackUrl = qStr ? `/api/culinary?${qStr}` : '/api/culinary';
+
+        const res = await fetch(primaryUrl)
+          .then(r => r.ok ? r : fetch(fallbackUrl));
+
         if (!res.ok) throw new Error('Failed to fetch culinary spots');
         const data = await res.json();
         if (isCurrent && data.spots && Array.isArray(data.spots)) {

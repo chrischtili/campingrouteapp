@@ -581,8 +581,8 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-06-20",
     endDate: "2026-06-28",
     types: ["Segelsport", "Sommerfest", "Festival"],
-    image_url: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80",
-    image_copyright: "Landeshauptstadt Kiel / Open Data",
+    image_url: "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=1200&q=80",
+    image_copyright: "Kieler Woche / Regatta",
     url: "https://www.kieler-woche.de",
     isFlagship: true
   },
@@ -665,7 +665,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-07-17",
     endDate: "2026-07-26",
     types: ["Segelsport", "Strandfest"],
-    image_url: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1505705694340-019e1e335916?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Lübeck und Travemünde Marketing GmbH",
     url: "https://www.travemuender-woche.com",
     isFlagship: true
@@ -690,7 +690,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-06-12",
     endDate: "2026-06-14",
     types: ["Hafenfest", "Maritim", "Tradition"],
-    image_url: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1505705694340-019e1e335916?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Hansestadt Wismar / Open Data",
     url: "https://www.wismar.de",
     isFlagship: true
@@ -711,7 +711,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-08-20",
     endDate: "2026-08-23",
     types: ["Historienspiel", "Schweden", "Kultur"],
-    image_url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Hansestadt Wismar / Open Data",
     url: "https://www.schwedenfest-wismar.de",
     isFlagship: true
@@ -732,7 +732,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-08-06",
     endDate: "2026-08-09",
     types: ["Segelfest", "Maritim", "Festival"],
-    image_url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Hanse Sail Rostock / Tourismuszentrale",
     url: "https://www.hansesail.com",
     isFlagship: true
@@ -753,7 +753,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-05-21",
     endDate: "2026-05-24",
     types: ["Wassersport", "Seenplatte", "Festival"],
-    image_url: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1505705694340-019e1e335916?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Müritz Sail / Waren Tourismus",
     url: "https://www.mueritz-sail.de",
     isFlagship: true
@@ -778,7 +778,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-05-08",
     endDate: "2026-05-10",
     types: ["Hafenfest", "Maritim", "Festival"],
-    image_url: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Hamburg Tourismus GmbH / Open Data",
     url: "https://www.hamburg.de/hafengeburtstag",
     isFlagship: true
@@ -799,7 +799,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-07-24",
     endDate: "2026-08-23",
     types: ["Volksfest", "Kirmes", "Familie"],
-    image_url: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Hamburg Tourismus GmbH",
     url: "https://www.hamburg.de/dom",
     isFlagship: true
@@ -820,7 +820,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-10-16",
     endDate: "2026-11-01",
     types: ["Volksfest", "Tradition"],
-    image_url: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "WFB Wirtschaftsförderung Bremen GmbH",
     url: "https://www.freimarkt.de",
     isFlagship: true
@@ -845,7 +845,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-07-10",
     endDate: "2026-07-19",
     types: ["Kirmes", "Volksfest"],
-    image_url: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Düsseldorf Tourismus GmbH",
     url: "https://www.rheinkirmes-duesseldorf.de",
     isFlagship: true
@@ -866,7 +866,7 @@ export const GERMAN_FLAGSHIP_EVENTS: FlagshipEvent[] = [
     startDate: "2026-08-06",
     endDate: "2026-08-16",
     types: ["Kirmes", "Volksfest"],
-    image_url: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1200&q=80",
+    image_url: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?auto=format&fit=crop&w=1200&q=80",
     image_copyright: "Stadtmarketing Herne",
     url: "https://www.cranger-kirmes.de",
     isFlagship: true

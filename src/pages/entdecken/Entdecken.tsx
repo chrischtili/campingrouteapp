@@ -582,6 +582,75 @@ function EntdeckenContent() {
   const [eventSearchText, setEventSearchText] = useState<string>('');
   const [visibleEventsCount, setVisibleEventsCount] = useState<number>(12);
   const [selectedEvent, setSelectedEvent] = useState<GermanEvent | null>(null);
+  const [eventCampsites, setEventCampsites] = useState<Place[]>([]);
+  const [isLoadingEventCampsites, setIsLoadingEventCampsites] = useState<boolean>(false);
+
+  const openEventDetails = (event: GermanEvent) => {
+    setSelectedEvent(event);
+    try {
+      window.history.pushState({ modal: 'event', eventId: event.id }, '', `#event-${event.id}`);
+    } catch {}
+  };
+
+  const closeEventDetails = () => {
+    setSelectedEvent(null);
+    if (window.location.hash.startsWith('#event-')) {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch {}
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (selectedEvent) {
+        setSelectedEvent(null);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedEvent]);
+
+  // Fetch verified nearby campsites for selected event from SQLite database without AI key
+  useEffect(() => {
+    if (!selectedEvent) {
+      setEventCampsites([]);
+      setIsLoadingEventCampsites(false);
+      return;
+    }
+
+    const lat = selectedEvent.latitude;
+    const lon = selectedEvent.longitude;
+    if (!lat || !lon) {
+      setEventCampsites([]);
+      return;
+    }
+
+    setIsLoadingEventCampsites(true);
+    let isCurrent = true;
+
+    const nearbyUrl = `/discover/api/trails/nearby-campsites?lat=${lat}&lon=${lon}&radius=35&limit=20`;
+    fetch(nearbyUrl)
+      .then(res => res.ok ? res.json() : fetch(`/api/trails/nearby-campsites?lat=${lat}&lon=${lon}&radius=35&limit=20`).then(r => r.json()))
+      .then(data => {
+        if (!isCurrent) return;
+        if (data && data.places && Array.isArray(data.places)) {
+          setEventCampsites(data.places);
+        } else {
+          setEventCampsites([]);
+        }
+      })
+      .catch(() => {
+        if (isCurrent) setEventCampsites([]);
+      })
+      .finally(() => {
+        if (isCurrent) setIsLoadingEventCampsites(false);
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [selectedEvent]);
 
   const EVENT_FALLBACK_IMAGES: Record<string, string[]> = {
     wine: [
@@ -3421,7 +3490,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 {/* Actions */}
                                 <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid var(--gray-100)' }}>
                                   <button
-                                    onClick={() => handleSearch(undefined, `Stellplatz in ${event.locality || event.name}`)}
+                                    onClick={() => openEventDetails(event)}
                                     style={{
                                       flex: 1,
                                       padding: '0.5rem 0.65rem',
@@ -3444,7 +3513,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                     ⛺ {t.campsitesNearEvent || 'Stellplätze in der Nähe'}
                                   </button>
                                   <button
-                                    onClick={() => setSelectedEvent(event)}
+                                    onClick={() => openEventDetails(event)}
                                     style={{
                                       padding: '0.5rem 0.75rem',
                                       borderRadius: '10px',
@@ -4988,11 +5057,11 @@ const getWebsiteUrl = (place: Place): string | null => {
 
       {/* Selected Event Detail Modal */}
       {selectedEvent && (
-        <div className="modal-overlay" onClick={() => setSelectedEvent(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+        <div className="modal-overlay" onClick={closeEventDetails} style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div
             className="modal-content"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto', borderRadius: '20px', padding: 0, background: 'var(--card-bg)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)' }}
+            style={{ maxWidth: '880px', width: '100%', maxHeight: '90vh', overflowY: 'auto', borderRadius: '20px', padding: 0, background: 'var(--card-bg)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)' }}
           >
             {/* Modal Image Header */}
             <div style={{ position: 'relative', height: '240px', background: 'var(--gray-100)', overflow: 'hidden' }}>
@@ -5009,7 +5078,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 }}
               />
               <button
-                onClick={() => setSelectedEvent(null)}
+                onClick={closeEventDetails}
                 style={{
                   position: 'absolute',
                   top: '12px',
@@ -5032,93 +5101,142 @@ const getWebsiteUrl = (place: Place): string | null => {
 
             {/* Modal Body */}
             <div style={{ padding: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-                {selectedEvent.startDate && (
-                  <span style={{ fontSize: '0.75rem', fontWeight: 800, padding: '3px 10px', borderRadius: '9999px', background: 'var(--primary-100)', color: 'var(--primary-800)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                    <Calendar size={12} /> {formatEventDate(selectedEvent.startDate, selectedEvent.endDate)}
-                  </span>
-                )}
-                {selectedEvent.locality && (
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '3px 10px', borderRadius: '9999px', background: 'var(--gray-100)', color: 'var(--gray-800)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                    <MapPin size={12} /> {selectedEvent.locality} {selectedEvent.postalCode ? `(${selectedEvent.postalCode})` : ''}
-                  </span>
-                )}
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                
+                {/* Left Column: Event Information */}
+                <div className="md:col-span-7" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {selectedEvent.startDate && (
+                      <span style={{ fontSize: '0.75rem', fontWeight: 800, padding: '3px 10px', borderRadius: '9999px', background: 'var(--primary-100)', color: 'var(--primary-800)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <Calendar size={12} /> {formatEventDate(selectedEvent.startDate, selectedEvent.endDate)}
+                      </span>
+                    )}
+                    {selectedEvent.locality && (
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '3px 10px', borderRadius: '9999px', background: 'var(--gray-100)', color: 'var(--gray-800)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <MapPin size={12} /> {selectedEvent.locality} {selectedEvent.postalCode ? `(${selectedEvent.postalCode})` : ''}
+                      </span>
+                    )}
+                  </div>
 
-              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 1rem 0', lineHeight: 1.3 }}>
-                {selectedEvent.name}
-              </h2>
+                  <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0.25rem 0', lineHeight: 1.3 }}>
+                    {selectedEvent.name}
+                  </h2>
 
-              {selectedEvent.streetAddress && (
-                <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', margin: '0 0 1rem 0' }}>
-                  📍 <strong>Veranstaltungsort:</strong> {selectedEvent.streetAddress}, {selectedEvent.postalCode} {selectedEvent.locality}
-                </p>
-              )}
+                  {selectedEvent.streetAddress && (
+                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', margin: 0 }}>
+                      📍 <strong>Veranstaltungsort:</strong> {selectedEvent.streetAddress}, {selectedEvent.postalCode} {selectedEvent.locality}
+                    </p>
+                  )}
 
-              <div style={{ fontSize: '0.9rem', color: 'var(--gray-700)', lineHeight: 1.6, whiteSpace: 'pre-line', marginBottom: '1.5rem' }}>
-                {selectedEvent.fullDescription || selectedEvent.description}
-              </div>
+                  <div style={{ fontSize: '0.88rem', color: 'var(--gray-700)', lineHeight: 1.6, whiteSpace: 'pre-line', marginTop: '0.25rem' }}>
+                    {selectedEvent.fullDescription || selectedEvent.description}
+                  </div>
 
-              {/* License & Copyright Info */}
-              {selectedEvent.image_copyright && (
-                <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginBottom: '0.5rem', fontStyle: 'italic' }}>
-                  Bildnachweis: {selectedEvent.image_copyright}
+                  {/* License & Copyright Info */}
+                  {selectedEvent.image_copyright && (
+                    <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginTop: '0.5rem', fontStyle: 'italic' }}>
+                      Bildnachweis: {selectedEvent.image_copyright}
+                    </div>
+                  )}
+                  <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)' }}>
+                    {t.eventLicenseNotice || 'Datenquelle: Deutsche Zentrale für Tourismus (DZT) · Open Data Germany'}
+                  </div>
+
+                  {selectedEvent.url && (
+                    <div style={{ marginTop: '0.75rem' }}>
+                      <a
+                        href={selectedEvent.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.35rem',
+                          padding: '0.6rem 1rem',
+                          borderRadius: '10px',
+                          background: 'var(--gray-100)',
+                          color: 'var(--gray-800)',
+                          textDecoration: 'none',
+                          fontSize: '0.82rem',
+                          fontWeight: 700
+                        }}
+                        className="hover:bg-gray-200"
+                      >
+                        <Globe size={14} /> Offizielle Event-Website <ExternalLink size={12} />
+                      </a>
+                    </div>
+                  )}
                 </div>
-              )}
-              <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginBottom: '1.5rem' }}>
-                {t.eventLicenseNotice || 'Datenquelle: Deutsche Zentrale für Tourismus (DZT) · CC-BY Lizenz'}
-              </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', borderTop: '1px solid var(--gray-100)', paddingTop: '1.25rem' }}>
-                <button
-                  onClick={() => {
-                    const query = `Stellplatz in ${selectedEvent.locality || selectedEvent.name}`;
-                    setSelectedEvent(null);
-                    handleSearch(undefined, query);
-                  }}
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 1.25rem',
-                    borderRadius: '12px',
-                    background: 'var(--primary-600)',
-                    color: 'white',
-                    border: 'none',
-                    fontSize: '0.85rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    boxShadow: 'var(--shadow-sm)'
-                  }}
-                  className="hover:bg-primary-700"
-                >
-                  ⛺ {t.campsitesNearEvent || 'Stellplätze in der Nähe anzeigen'}
-                </button>
-                {selectedEvent.url && (
-                  <a
-                    href={selectedEvent.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      padding: '0.75rem 1.25rem',
-                      borderRadius: '12px',
-                      background: 'var(--gray-100)',
-                      color: 'var(--gray-800)',
-                      textDecoration: 'none',
-                      fontSize: '0.85rem',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem'
-                    }}
-                    className="hover:bg-gray-200"
-                  >
-                    <Globe size={14} /> {t.eventOfficialLink || 'Website'} <ExternalLink size={12} />
-                  </a>
-                )}
+                {/* Right Column: Nearby Campsites from SQLite Database */}
+                <div className="md:col-span-5" style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                  <div style={{ background: 'var(--gray-50)', padding: '1rem', borderRadius: '14px', border: '1px solid var(--gray-200)' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0 0 0.25rem 0', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      🏕️ Camping & Stellplätze in der Nähe ({isLoadingEventCampsites ? '...' : eventCampsites.length})
+                    </h4>
+                    <p style={{ fontSize: '0.76rem', color: 'var(--gray-500)', margin: '0 0 0.75rem 0' }}>
+                      Verifizierte Übernachtungsorte im Umkreis von bis zu 35 km
+                    </p>
+
+                    {isLoadingEventCampsites ? (
+                      <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--gray-500)' }}>
+                        <div className="spinner" style={{ width: '20px', height: '20px', margin: '0 auto 0.5rem auto' }}></div>
+                        <p style={{ fontSize: '0.8rem', fontStyle: 'italic', margin: 0 }}>Suche Stellplätze in der Nähe...</p>
+                      </div>
+                    ) : eventCampsites.length === 0 ? (
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)', fontStyle: 'italic', margin: 0, padding: '1rem 0' }}>
+                        Keine registrierten Campingplätze im direkten 35 km Umkreis gefunden.
+                      </p>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '340px', overflowY: 'auto', paddingRight: '4px' }}>
+                        {eventCampsites.map((p) => (
+                          <div
+                            key={p.id}
+                            onClick={() => {
+                              closeEventDetails();
+                              setSelectedPlace(p);
+                            }}
+                            style={{
+                              display: 'flex',
+                              gap: '0.65rem',
+                              alignItems: 'center',
+                              padding: '0.5rem',
+                              borderRadius: '10px',
+                              border: '1px solid var(--card-border)',
+                              background: 'white',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease-in-out'
+                            }}
+                            className="hover:border-primary-500 hover:shadow-sm"
+                          >
+                            <div style={{ width: '42px', height: '42px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--gray-200)' }}>
+                              <img
+                                src={getImageUrl(p) || getFallbackImage(p)}
+                                alt={p.name}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                onError={(e) => { e.currentTarget.src = getFallbackImage(p); }}
+                              />
+                            </div>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <h5 style={{ fontSize: '0.82rem', fontWeight: 800, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--gray-900)' }}>
+                                {p.name}
+                              </h5>
+                              <div style={{ fontSize: '0.72rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>{getTypeLabel(p.type)} · {p.city || (p.address ? p.address.split(',')[0] : '')}</span>
+                                {typeof (p as any).distance_km === 'number' && (
+                                  <span style={{ fontWeight: 700, color: 'var(--primary-700)', marginLeft: '4px' }}>
+                                    {(p as any).distance_km} km
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

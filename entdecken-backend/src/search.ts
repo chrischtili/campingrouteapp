@@ -532,7 +532,7 @@ export function inferTypesFromQuery(query: string): string[] | null {
   if (/(hofladen|hofläden|bauernhof|direktvermarkter|regiomat|milchtankstelle|hofkäserei|käserei|kaeserei)/.test(lower)) {
     return ['farm_shop'];
   }
-  if (/(genuss|kulinarik|landvergnügen|landvergnuegen)/.test(lower)) {
+  if (/(genuss|kulinarik|erzeuger|biohof)/.test(lower)) {
     return ['winery', 'farm_shop'];
   }
   if (/(sehenswürdigkeit|sehenswuerdigkeit|attraktion|ausflugsziele|sehenswertes)/.test(lower)) {

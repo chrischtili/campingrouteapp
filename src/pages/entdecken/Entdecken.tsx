@@ -635,7 +635,7 @@ function EntdeckenContent() {
     }
   };
 
-  // Culinary / Farm shops & Wineries state (Landvergnügen / Open Data)
+  // Culinary / Farm shops & Wineries state (Open Data & OSM)
   const [culinarySpots, setCulinarySpots] = useState<CulinarySpot[]>(() => CULINARY_SPOTS);
   const [culinaryFilter, setCulinaryFilter] = useState<'all' | 'winery' | 'farm_shop' | 'cheese_dairy' | 'regiomat'>('all');
   const [culinaryStateFilter, setCulinaryStateFilter] = useState<string>('Alle Bundesländer');
@@ -3057,7 +3057,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div onClick={() => handleHubSelect('genuss')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-purple-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🍇</div>
                       <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Hofläden & Winzer</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Weingüter, Bio-Bauernhöfe & 24h-Regiomaten (Landvergnügen-Style).</p>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Weingüter, Bio-Bauernhöfe & 24h-Regiomaten direkt ab Erzeuger.</p>
                     </div>
                     <div onClick={() => handleHubSelect('touren')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-blue-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🥾</div>
@@ -3085,7 +3085,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div>
                       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#9333ea15', color: '#9333ea', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                         <Wine size={13} />
-                        Landvergnügen & Open Data
+                        Regionale Erzeuger & Open Data
                       </div>
                       <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         🍇 Hofläden, Weingüter & Direktvermarkter

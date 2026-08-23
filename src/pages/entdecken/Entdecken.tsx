@@ -767,8 +767,68 @@ function EntdeckenContent() {
     fetchEvents();
   }, [fetchEvents]);
 
+  const getUpcomingEventDates = (startDate?: string, endDate?: string, isRecurring = false) => {
+    if (!startDate) return { startDate, endDate, isRecurringNextYear: false, isPast: false };
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    let start = new Date(startDate);
+    let end = endDate ? new Date(endDate) : new Date(startDate);
+
+    if (isNaN(start.getTime())) return { startDate, endDate, isRecurringNextYear: false, isPast: false };
+
+    let isRecurringNextYear = false;
+    let isPast = false;
+
+    // Check if event has already passed
+    if (end < today) {
+      if (isRecurring) {
+        // Automatically roll forward year for annual/recurring festivals
+        while (end < today) {
+          isRecurringNextYear = true;
+          start.setFullYear(start.getFullYear() + 1);
+          if (endDate && !isNaN(end.getTime())) {
+            end.setFullYear(end.getFullYear() + 1);
+          } else {
+            end = new Date(start);
+          }
+        }
+      } else {
+        isPast = true;
+      }
+    }
+
+    const formatIso = (d: Date) => {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    };
+
+    return {
+      startDate: formatIso(start),
+      endDate: endDate ? formatIso(end) : undefined,
+      isRecurringNextYear,
+      isPast
+    };
+  };
+
   const filteredEvents = useMemo(() => {
-    let list = events;
+    const enriched = events.map(e => {
+      const isRecurring = Boolean((e as any).isFlagship || (e as any).id?.startsWith('flagship-') || (e as any).category === 'wine' || (e as any).category === 'festival' || (e as any).category === 'culture');
+      const dateInfo = getUpcomingEventDates(e.startDate, e.endDate, isRecurring);
+      return {
+        ...e,
+        startDate: dateInfo.startDate || e.startDate,
+        endDate: dateInfo.endDate || e.endDate,
+        isRecurringNextYear: dateInfo.isRecurringNextYear,
+        isPast: dateInfo.isPast
+      };
+    })
+    // Filter out expired one-off events
+    .filter(e => !e.isPast);
+
+    let list = enriched;
     if (eventCategory !== 'all') {
       list = list.filter(e => (e as any).category === eventCategory || !(e as any).category);
     }
@@ -783,7 +843,13 @@ function EntdeckenContent() {
         (e.description || '').toLowerCase().includes(q)
       );
     }
-    return list;
+
+    // Sort chronologically by upcoming start date
+    return list.sort((a, b) => {
+      const da = a.startDate ? new Date(a.startDate).getTime() : 9999999999999;
+      const db = b.startDate ? new Date(b.startDate).getTime() : 9999999999999;
+      return da - db;
+    });
   }, [events, eventCategory, eventStateFilter, eventSearchText]);
 
   const formatEventDate = (start?: string, end?: string) => {

@@ -20,6 +20,7 @@
     "update-states": "tsx src/scripts/update-all-states.ts",
     "sync-trails": "tsx src/scripts/sync-all-trails.ts",
     "sync-events": "tsx src/sync-events.ts",
+    "sync:opendata": "tsx src/scripts/sync-open-data.ts",
     "import-dzt-bulk": "tsx src/scripts/import-dzt-bulk.ts"
   },
   "dependencies": {

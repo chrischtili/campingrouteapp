@@ -136,6 +136,8 @@
     <lastmod>2026-08-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
+  </url>
+
   <!-- Entdecken / Discover Thematic Hubs -->
   <url>
     <loc>https://campingroute.app/discover?tab=culinary</loc>

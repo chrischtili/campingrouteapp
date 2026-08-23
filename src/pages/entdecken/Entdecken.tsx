@@ -1744,8 +1744,7 @@ ${trkpts}
 
   // Trails Overview Map Effect (when in map or split view mode)
   useEffect(() => {
-    if (hasSearched || selectedCountryView) return;
-    if (trailViewMode !== 'split' && trailViewMode !== 'map') {
+    if (hasSearched || selectedCountryView || (trailViewMode !== 'split' && trailViewMode !== 'map')) {
       if (trailsOverviewLeafletMapRef.current) {
         trailsOverviewLeafletMapRef.current.remove();
         trailsOverviewLeafletMapRef.current = null;
@@ -1753,17 +1752,33 @@ ${trkpts}
       return;
     }
 
-    if (!trailsOverviewMapContainerRef.current) return;
+    const container = trailsOverviewMapContainerRef.current;
+    if (!container) return;
+
+    // If existing map points to a detached or different container, remove it first
+    if (trailsOverviewLeafletMapRef.current) {
+      if (trailsOverviewLeafletMapRef.current.getContainer() !== container) {
+        trailsOverviewLeafletMapRef.current.remove();
+        trailsOverviewLeafletMapRef.current = null;
+      }
+    }
 
     if (!trailsOverviewLeafletMapRef.current) {
-      const map = L.map(trailsOverviewMapContainerRef.current, {
+      if ((container as any)._leaflet_id) {
+        delete (container as any)._leaflet_id;
+      }
+
+      const map = L.map(container, {
         center: [51.1657, 10.4515],
         zoom: 6,
         zoomControl: true,
         attributionControl: true
       });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
       }).addTo(map);
 
       trailsOverviewLeafletMapRef.current = map;
@@ -1835,7 +1850,15 @@ ${trkpts}
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
     }
 
-    setTimeout(() => map.invalidateSize(), 200);
+    const t1 = setTimeout(() => map.invalidateSize(), 60);
+    const t2 = setTimeout(() => map.invalidateSize(), 300);
+    const t3 = setTimeout(() => map.invalidateSize(), 800);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, [filteredTrails, trailViewMode, hasSearched, selectedCountryView]);
 
   // Culinary Overview Map Effect (Genuss Hub)
@@ -1848,17 +1871,33 @@ ${trkpts}
       return;
     }
 
-    if (!culinaryOverviewMapContainerRef.current) return;
+    const container = culinaryOverviewMapContainerRef.current;
+    if (!container) return;
+
+    // If existing map points to a detached or different container, remove it first
+    if (culinaryOverviewLeafletMapRef.current) {
+      if (culinaryOverviewLeafletMapRef.current.getContainer() !== container) {
+        culinaryOverviewLeafletMapRef.current.remove();
+        culinaryOverviewLeafletMapRef.current = null;
+      }
+    }
 
     if (!culinaryOverviewLeafletMapRef.current) {
-      const map = L.map(culinaryOverviewMapContainerRef.current, {
+      if ((container as any)._leaflet_id) {
+        delete (container as any)._leaflet_id;
+      }
+
+      const map = L.map(container, {
         center: [51.1657, 10.4515],
         zoom: 6,
         zoomControl: true,
         attributionControl: true
       });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
       }).addTo(map);
 
       culinaryOverviewLeafletMapRef.current = map;
@@ -1935,7 +1974,15 @@ ${trkpts}
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
     }
 
-    setTimeout(() => map.invalidateSize(), 200);
+    const t1 = setTimeout(() => map.invalidateSize(), 60);
+    const t2 = setTimeout(() => map.invalidateSize(), 300);
+    const t3 = setTimeout(() => map.invalidateSize(), 800);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, [filteredCulinarySpots, culinaryViewMode, currentHub, hasSearched, selectedCountryView]);
 
   // Lock body scroll while the place detail modal is open

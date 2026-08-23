@@ -1,6 +1,11 @@
 import { getDb } from './db/db.js';
 import { searchDztEvents } from './dzt.js';
 import { GERMAN_FLAGSHIP_EVENTS } from './data/flagshipEvents.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const CATEGORY_FALLBACK_IMAGES: Record<string, string[]> = {
   wine: [
@@ -265,6 +270,15 @@ export async function syncEventsFromDzt() {
 
   const finalCount = await db.get("SELECT COUNT(*) as count FROM events");
   console.log(`\n✅ Synchronization complete! Total events in database: ${finalCount?.count || 0}`);
+
+  // Persist updated database state into events_seed.json
+  try {
+    const allEvents = await db.all("SELECT * FROM events ORDER BY start_date ASC");
+    const seedPath = path.resolve(__dirname, './data/events_seed.json');
+    fs.writeFileSync(seedPath, JSON.stringify(allEvents, null, 2));
+  } catch (err: any) {
+    console.warn("Could not write events_seed.json:", err.message);
+  }
 }
 
 async function saveEvent(db: any, e: any, defaultCategory: string, defaultState: string | undefined, seenIds: Set<string>) {

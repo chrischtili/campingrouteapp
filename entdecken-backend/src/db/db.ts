@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -210,6 +211,64 @@ export async function getDb(): Promise<Database> {
       VALUES (new.rowid, new.name, new.description, new.address, new.city, new.amenities, new.state);
     END;
   `);
+
+  // Auto-seed events from events_seed.json if events table is empty
+  try {
+    const eventCount = await dbConnection.get("SELECT COUNT(*) as count FROM events");
+    if (!eventCount || eventCount.count === 0) {
+      const candidates = [
+        path.resolve(__dirname, '../data/events_seed.json'),
+        path.resolve(__dirname, '../../src/data/events_seed.json'),
+        path.resolve(__dirname, './data/events_seed.json')
+      ];
+      let seedPath: string | null = null;
+      for (const p of candidates) {
+        if (fs.existsSync(p)) {
+          seedPath = p;
+          break;
+        }
+      }
+      if (seedPath) {
+        const seedData = JSON.parse(fs.readFileSync(seedPath, 'utf-8'));
+        if (Array.isArray(seedData) && seedData.length > 0) {
+          console.log(`[db] Auto-seeding ${seedData.length} events from ${path.basename(seedPath)}...`);
+          for (const e of seedData) {
+            await dbConnection.run(
+              `INSERT OR REPLACE INTO events (
+                id, name, description, full_description, category, locality, postal_code,
+                street_address, state, country, latitude, longitude, start_date, end_date,
+                types, image_url, image_copyright, url, source, last_updated
+              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`,
+              [
+                e.id,
+                e.name,
+                e.description,
+                e.full_description || e.fullDescription || e.description,
+                e.category || 'all',
+                e.locality,
+                e.postal_code || e.postalCode,
+                e.street_address || e.streetAddress,
+                e.state,
+                e.country || 'DE',
+                e.latitude,
+                e.longitude,
+                e.start_date || e.startDate,
+                e.end_date || e.endDate || null,
+                typeof e.types === 'string' ? e.types : JSON.stringify(e.types || []),
+                e.image_url,
+                e.image_copyright,
+                e.url,
+                e.source || 'dzt_opendata'
+              ]
+            );
+          }
+          console.log(`[db] Successfully auto-seeded ${seedData.length} events!`);
+        }
+      }
+    }
+  } catch (err: any) {
+    console.warn('[db] Note on event auto-seeding:', err.message);
+  }
 
   return dbConnection;
 }

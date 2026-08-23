@@ -1414,22 +1414,29 @@ function EntdeckenContent() {
   // Fetch reviews, nearby places, and nearby trails when a place is selected
   useEffect(() => {
     if (selectedPlace) {
-      fetchReviews(selectedPlace.id);
-      fetchNearbyPlaces(selectedPlace.id, selectedPlace.latitude, selectedPlace.longitude, selectedPlace.type);
+      const isCustomInsp = selectedPlace.id.startsWith('insp-');
 
-      // 1. Instant calculation from the full dataset (670+ German Open Data trails)
+      // 1. Instant calculation of trails from the full dataset (670+ German Open Data trails)
       const memoryTrails = getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 50, trails).slice(0, 4);
       setNearbyTrails(memoryTrails);
 
-      // 2. Also try API endpoint to enrich or supplement
-      fetch(`/discover/api/places/${selectedPlace.id}/nearby-trails`)
-        .then(res => res.ok ? res.json() : [])
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            setNearbyTrails(data);
-          }
-        })
-        .catch(() => {});
+      if (isCustomInsp) {
+        setReviews([]);
+        setNearbyPlaces([]);
+      } else {
+        fetchReviews(selectedPlace.id);
+        fetchNearbyPlaces(selectedPlace.id, selectedPlace.latitude, selectedPlace.longitude, selectedPlace.type);
+
+        // Also try API endpoint to enrich or supplement for real DB places
+        fetch(`/discover/api/places/${selectedPlace.id}/nearby-trails`)
+          .then(res => res.ok ? res.json() : [])
+          .then(data => {
+            if (Array.isArray(data) && data.length > 0) {
+              setNearbyTrails(data);
+            }
+          })
+          .catch(() => {});
+      }
     } else {
       setNearbyPlaces([]);
       setNearbyTrails([]);

@@ -1,35 +1,27 @@
-# CampingRoute.app - AI & LLM Manifest
+# CampingRoute
 
-> CampingRoute is a modern European camping route planner, campsite discovery engine, and official Model Context Protocol (MCP) server.
+> CampingRoute is an AI-powered European campsite search, road trip planner, and official Model Context Protocol (MCP) server providing verified campground data, hiking trails, and events.
 
-## Overview
-- Website: https://campingroute.app
-- Discover & Search: https://campingroute.app/discover
-- Prompt Generator: https://campingroute.app/prompt-generator
-- Supported Languages: German (de), English (en), French (fr), Italian (it), Dutch (nl)
-- MCP Endpoint: https://campingroute.app/discover/mcp
+## Core Services
 
-## Features
-- **AI Camping Search**: Natural-language search across 17,000+ campsites, RV pitches, glamping sites, and attractions across 14 European countries (Germany, Austria, Switzerland, Italy, France, Spain, Norway, Sweden, Denmark, Netherlands, Belgium, Croatia, Portugal, Luxembourg).
-- **Route Planning**: Camper-optimized routing, stages, GPX export, vehicle dimensions, toll avoidance.
-- **Model Context Protocol (MCP)**: Streamable HTTP and SSE tools for AI agents and coding assistants.
+- [Campsite & Stellplatz Search](https://campingroute.app/discover): Natural language search across 20,000+ European campgrounds, RV parks, and attractions.
+- [AI Prompt Generator](https://campingroute.app/prompt-generator): Tailor-made camper itinerary prompts for ChatGPT, Claude, and Gemini with GPX export.
+- [Official MCP Server](https://campingroute.app/discover/mcp): Model Context Protocol server exposing 10 structured tools for AI assistants.
 
 ## MCP Tools
-1. `search_places`: Search campsites, motorhome pitches, glamping, or attractions with filters (country, type, query).
-2. `get_place_details`: Retrieve detailed place information, coordinates, amenities, address, and metadata.
-3. `get_reviews`: Fetch community reviews and ratings.
-4. `add_review`: Submit new traveler reviews.
-5. `get_lists`: Fetch user roadtrip collections.
-6. `create_list`: Create a new roadtrip list.
-7. `save_to_list`: Save places to roadtrip lists.
-8. `get_german_trails`: Search official hiking & bike trails in Germany with difficulty & distance via DZT Knowledge Graph.
-9. `get_german_events`: Search official upcoming cultural & local events in Germany via DZT Knowledge Graph.
-10. `get_german_pois`: Search verified official attractions, castles, museums, and nature spots in Germany via DZT Knowledge Graph.
 
-## Data Sources & Attributions
-- OpenStreetMap contributors (ODbL)
-- Wikidata contributors (CC0)
-- German National Tourist Board / Deutsche Zentrale für Tourismus e.V. (DZT) Open Data Knowledge Graph (CC0 / CC BY-SA)
+- [search_places](https://campingroute.app/discover/mcp): Search campgrounds and RV parks with filters for country, type, and amenities.
+- [get_place_details](https://campingroute.app/discover/mcp): Retrieve verified coordinates, contact details, pricing, and sanitary amenities.
+- [get_german_trails](https://campingroute.app/discover/mcp): Search official hiking and cycling trails via DZT Knowledge Graph.
+- [get_german_events](https://campingroute.app/discover/mcp): Search upcoming festivals, wine fairs, and cultural events across Germany.
+- [get_german_pois](https://campingroute.app/discover/mcp): Search verified points of interest, castles, and national parks.
+- [get_reviews](https://campingroute.app/discover/mcp): Retrieve community reviews and ratings for campgrounds.
+- [add_review](https://campingroute.app/discover/mcp): Submit ratings and feedback for visited campsites.
+- [get_lists](https://campingroute.app/discover/mcp): Retrieve user-curated road trip lists.
+- [create_list](https://campingroute.app/discover/mcp): Create a new road trip list.
+- [save_to_list](https://campingroute.app/discover/mcp): Save a campground to a road trip list.
 
-## Full Documentation
-For complete technical schemas and integration guides, see: https://campingroute.app/llms-full.txt
+## Optional
+
+- [Full MCP Schema Documentation](https://campingroute.app/llms-full.txt): Complete tool signatures, JSON Schema parameters, and sample client configurations.
+- [Open Data Attributions](https://campingroute.app/impressum): Attributions for OpenStreetMap (ODbL), Wikidata (CC0), and German National Tourist Board (DZT).

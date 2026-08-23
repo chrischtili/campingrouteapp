@@ -2020,7 +2020,7 @@ const getWebsiteUrl = (place: Place): string | null => {
   };
 
   return (
-    <div className="entdecken-root" style={{ background: 'var(--gray-50)', minHeight: '100vh' }}>
+    <main id="main-content" tabIndex={-1} className="entdecken-root" style={{ background: 'var(--gray-50)', minHeight: '100vh' }}>
 
       {/* Main Container */}
       <div style={{ width: '100%', margin: '0 auto', maxWidth: '1200px', padding: '2rem 1.5rem' }}>
@@ -2052,7 +2052,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               >×</button>
               {/* Breadcrumbs */}
               <div style={{ background: 'var(--card-bg)', borderBottom: '1px solid var(--card-border)', padding: '0.75rem 1.5rem' }}>
-                <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 600, flexWrap: 'wrap' }}>
+                <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--gray-600)', fontWeight: 600, flexWrap: 'wrap' }}>
                   <a href="/" onClick={(e) => { e.preventDefault(); resetSearch(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navHome || 'Startseite'}</a>
                   <span>/</span>
                   <a href="/discover" onClick={(e) => { e.preventDefault(); setSelectedPlace(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navDiscover || 'Entdecken'}</a>
@@ -2100,7 +2100,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <MapPin size={16} className="shrink-0" />
                       <span>{selectedPlace.address}</span>
                     </p>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500, marginTop: '0.75rem' }}>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--gray-600)', fontWeight: 500, marginTop: '0.75rem' }}>
                       Datenquelle:{" "}
                       {(() => {
                         const hasDzt = (selectedPlace.source || '').includes('dzt') || selectedPlace.id?.startsWith('dzt-');
@@ -2151,7 +2151,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.4rem', overflowWrap: 'break-word' }}>{t.placeOverviewTitle}</h3>
                     <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', marginBottom: '1.25rem', overflowWrap: 'break-word' }}>{t.placeOverviewSubtitle}</p>
                     
-                    <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-400)' }}>
+                    <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-600)' }}>
                       <ImageIcon size={28} style={{ margin: '0 auto 0.5rem auto' }} />
                       <p style={{ fontWeight: 600, fontSize: '0.85rem' }}>{t.noVideoReports}</p>
                       <p style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>{t.noVideoReportsSub}</p>
@@ -2173,7 +2173,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       ))}
                     </div>
                     {getAmenityList(selectedPlace).length === 0 && (
-                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)', fontStyle: 'italic', marginTop: '0.4rem' }}>{t.noAmenitiesAvailable}</p>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', fontStyle: 'italic', marginTop: '0.4rem' }}>{t.noAmenitiesAvailable}</p>
                     )}
                   </div>
 
@@ -2185,7 +2185,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </div>
                     
                     {reviews.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', textAlign: 'center', padding: '1.5rem' }}>{t.noReviews}</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', textAlign: 'center', padding: '1.5rem' }}>{t.noReviews}</p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {reviews.map((review) => (
@@ -2198,7 +2198,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               </div>
                             </div>
                             <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', lineHeight: '1.5', overflowWrap: 'break-word' }}>{review.content}</p>
-                            <span style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginTop: '0.2rem', display: 'block' }}>{review.created_at}</span>
+                            <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', marginTop: '0.2rem', display: 'block' }}>{review.created_at}</span>
                           </div>
                         ))}
                       </div>
@@ -2256,7 +2256,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <img src={imageUrl} alt={selectedPlace.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = getFallbackImage(selectedPlace); }} />
                       </div>
                     ) : (
-                      <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-400)' }}>
+                      <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-600)' }}>
                         <Camera size={26} style={{ margin: '0 auto 0.4rem auto' }} />
                         <p style={{ fontSize: '0.78rem', fontWeight: 600 }}>{t.noPhotos}</p>
                         <button style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.78rem', fontWeight: 700, marginTop: '0.4rem', cursor: 'pointer' }}>{t.uploadPhoto}</button>
@@ -2303,7 +2303,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </p>
                     
                     {nearbyPlaces.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', margin: 0 }}>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0 }}>
                         {t.noNearbyPlacesFound || 'Keine weiteren Orte im Umkreis gefunden.'}
                       </p>
                     ) : (
@@ -2361,7 +2361,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </p>
                     
                     {nearbyTrails.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic', margin: 0 }}>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0 }}>
                         {t.noNearbyTrails || 'Keine bekannten Fernwanderwege im direkten Nahbereich.'}
                       </p>
                     ) : (
@@ -2447,7 +2447,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Breadcrumbs */}
               <div style={{ background: 'var(--card-bg)', borderBottom: '1px solid var(--card-border)', padding: '0.75rem 1.5rem' }}>
-                <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 600, flexWrap: 'wrap' }}>
+                <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--gray-600)', fontWeight: 600, flexWrap: 'wrap' }}>
                   <a href="/" onClick={(e) => { e.preventDefault(); setSelectedTrail(null); resetSearch(); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navHome || 'Startseite'}</a>
                   <span>/</span>
                   <a href="/discover" onClick={(e) => { e.preventDefault(); setSelectedTrail(null); }} style={{ color: 'var(--primary-700)', textDecoration: 'none' }}>{t.navDiscover || 'Entdecken'}</a>
@@ -2557,9 +2557,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </p>
 
                     {isLoadingTrailCampsites ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>Nahegelegene Plätze werden gesucht...</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic' }}>Nahegelegene Plätze werden gesucht...</p>
                     ) : trailCampsites.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', fontStyle: 'italic' }}>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic' }}>
                         {selectedTrail.distance_km < 25 
                           ? `Keine Campingplätze im direkten Umkreis von ${selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15)} km gefunden.` 
                           : 'Keine Campingplätze im Korridor entlang des Streckenverlaufs gefunden.'}
@@ -2887,7 +2887,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 {homeCountryTab === 'camping' ? `🏕️ ${count.toLocaleString('de-DE')} Plätze` : `🏛️ ${count.toLocaleString('de-DE')} Ziele`}
                               </span>
                               {secondaryCount > 0 && (
-                                <span style={{ fontSize: '0.7rem', color: 'var(--gray-400)', fontWeight: 600 }}>
+                                <span style={{ fontSize: '0.7rem', color: 'var(--gray-600)', fontWeight: 600 }}>
                                   · {homeCountryTab === 'camping' ? `${secondaryCount.toLocaleString('de-DE')} Ziele` : `${secondaryCount.toLocaleString('de-DE')} Plätze`}
                                 </span>
                               )}
@@ -2917,7 +2917,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
                       {/* Trail Search Input */}
                       <div style={{ position: 'relative', minWidth: '220px' }}>
-                        <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
+                        <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-600)' }} />
                         <input
                           type="text"
                           value={trailSearchText}
@@ -2937,7 +2937,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {trailSearchText && (
                           <button
                             onClick={() => { setTrailSearchText(''); setVisibleTrailsCount(12); }}
-                            style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer', fontSize: '1rem' }}
+                            style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--gray-600)', cursor: 'pointer', fontSize: '1rem' }}
                           >×</button>
                         )}
                       </div>
@@ -2945,6 +2945,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       {/* Bundesland Dropdown Selector */}
                       <div style={{ position: 'relative', minWidth: '190px' }}>
                         <select
+                          id="trail-state-filter"
+                          aria-label="Bundesland für Wander- und Radwege filtern"
                           value={trailStateFilter}
                           onChange={(e) => { setTrailStateFilter(e.target.value); setVisibleTrailsCount(12); }}
                           style={{
@@ -3421,7 +3423,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
                       {/* Event Search */}
                       <div style={{ position: 'relative', minWidth: '220px' }}>
-                        <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
+                        <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-600)' }} />
                         <input
                           type="text"
                           value={eventSearchText}
@@ -3441,7 +3443,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {eventSearchText && (
                           <button
                             onClick={() => { setEventSearchText(''); setVisibleEventsCount(12); }}
-                            style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer', fontSize: '1rem' }}
+                            style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--gray-600)', cursor: 'pointer', fontSize: '1rem' }}
                           >×</button>
                         )}
                       </div>
@@ -3449,6 +3451,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       {/* Bundesland Dropdown */}
                       <div style={{ position: 'relative', minWidth: '190px' }}>
                         <select
+                          id="event-state-filter"
+                          aria-label="Bundesland für Veranstaltungen filtern"
                           value={eventStateFilter}
                           onChange={(e) => { setEventStateFilter(e.target.value); setVisibleEventsCount(12); }}
                           style={{
@@ -3744,7 +3748,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <MapPin size={14} className="shrink-0" style={{ color: countryTab === 'camping' ? 'var(--primary-700)' : 'var(--gray-400)' }} />
+                        <MapPin size={14} className="shrink-0" style={{ color: countryTab === 'camping' ? 'var(--primary-700)' : 'var(--gray-600)' }} />
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.tabCamping}</span>
                         <span className="country-stats-badge" style={{ 
                           background: countryTab === 'camping' ? 'var(--primary-100)' : 'var(--gray-200)', 
@@ -3780,7 +3784,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             transition: 'all 0.15s ease'
                           }}
                         >
-                          <Compass size={14} className="shrink-0" style={{ color: countryTab === 'attractions' ? 'var(--primary-700)' : 'var(--gray-400)' }} />
+                          <Compass size={14} className="shrink-0" style={{ color: countryTab === 'attractions' ? 'var(--primary-700)' : 'var(--gray-600)' }} />
                           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.tabHighlights}</span>
                           <span className="country-stats-badge" style={{ 
                             background: countryTab === 'attractions' ? 'var(--primary-100)' : 'var(--gray-200)', 
@@ -4021,6 +4025,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <span>{t.featuredTitle}</span>
                         <select 
+                          id="featured-country-select"
+                          aria-label="Land für Highlights und Campingplätze auswählen"
                           value={featuredCountry}
                           onChange={(e) => setFeaturedCountry(e.target.value)}
                           style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '8px', padding: '0.25rem 0.75rem', fontSize: '1rem', fontWeight: 700, color: 'var(--primary-700)', outline: 'none', cursor: 'pointer' }}
@@ -4329,7 +4335,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                     .replace('{{h}}', String(place.drive_hours_from_origin || 0))}
                                 </span>
                               ) : place.distance_km ? (
-                                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--gray-400)' }}>
+                                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--gray-600)' }}>
                                   {(t.distanceAway || '{{km}} km entfernt').replace('{{km}}', String(place.distance_km))}
                                 </span>
                               ) : null}
@@ -4390,7 +4396,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               </button>
                             );
                             if (start > 2) {
-                              pages.push(<span key="dots-start" style={{ color: 'var(--gray-400)', padding: '0 0.25rem' }}>...</span>);
+                              pages.push(<span key="dots-start" style={{ color: 'var(--gray-600)', padding: '0 0.25rem' }}>...</span>);
                             }
                           }
 
@@ -4418,7 +4424,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                           if (end < totalPages) {
                             if (end < totalPages - 1) {
-                              pages.push(<span key="dots-end" style={{ color: 'var(--gray-400)', padding: '0 0.25rem' }}>...</span>);
+                              pages.push(<span key="dots-end" style={{ color: 'var(--gray-600)', padding: '0 0.25rem' }}>...</span>);
                             }
                             pages.push(
                               <button
@@ -4570,7 +4576,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{selectedList.description}</p>
 
                 {listItems.length === 0 ? (
-                  <p style={{ color: 'var(--gray-400)', fontSize: '0.9rem' }}>{t.noSavedPlacesInList || 'Noch keine gespeicherten Orte in diesem Roadtrip. Suche in "Entdecken" nach Orten und füge sie hinzu!'}</p>
+                  <p style={{ color: 'var(--gray-600)', fontSize: '0.9rem' }}>{t.noSavedPlacesInList || 'Noch keine gespeicherten Orte in diesem Roadtrip. Suche in "Entdecken" nach Orten und füge sie hinzu!'}</p>
                 ) : (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
                     {listItems.map((item) => (
@@ -4648,7 +4654,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', marginBottom: '1.25rem' }}>{t.selectRoadtripText} <strong>{selectedPlace?.name}</strong>:</p>
               {lists.length === 0 ? (
                 <div>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--gray-400)', marginBottom: '1rem' }}>{t.noRoadtrips}</p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', marginBottom: '1rem' }}>{t.noRoadtrips}</p>
                   <button className="action-button" onClick={() => { setShowSaveToListModal(false); setShowAddListModal(true); }}>{t.createRoadtripListBtn}</button>
                 </div>
               ) : (
@@ -4707,8 +4713,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">{t.ratingLabel}</label>
+                  <label htmlFor="review-rating-select" className="form-label">{t.ratingLabel}</label>
                   <select 
+                    id="review-rating-select"
+                    aria-label="Bewertung in Sternen"
                     className="form-input"
                     value={newReviewVal.rating}
                     onChange={(e) => setNewReviewVal({ ...newReviewVal, rating: parseInt(e.target.value) })}
@@ -4832,11 +4840,13 @@ const getWebsiteUrl = (place: Place): string | null => {
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{t.aiStep2 || '2. Modell-Auswahl'}</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--gray-400)', fontWeight: 500 }}>{t.aiStep2Subtitle || 'Neueste Generationen 2026/2025'}</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--gray-600)', fontWeight: 500 }}>{t.aiStep2Subtitle || 'Neueste Generationen 2026/2025'}</span>
                 </label>
 
                 {!isCustomModel ? (
                   <select
+                    id="ai-model-select"
+                    aria-label="KI-Modell auswählen"
                     className="form-input"
                     value={tempAISettings.model}
                     onChange={(e) => {
@@ -4937,7 +4947,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      color: 'var(--gray-400)',
+                      color: 'var(--gray-600)',
                       padding: 0
                     }}
                     title={showApiKeyMask ? (t.aiHideKey || 'Schlüssel verbergen') : (t.aiShowKey || 'Schlüssel anzeigen')}
@@ -5266,11 +5276,11 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                   {/* License & Copyright Info */}
                   {selectedEvent.image_copyright && (
-                    <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginTop: '0.5rem', fontStyle: 'italic' }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--gray-600)', marginTop: '0.5rem', fontStyle: 'italic' }}>
                       Bildnachweis: {selectedEvent.image_copyright}
                     </div>
                   )}
-                  <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--gray-600)' }}>
                     {t.eventLicenseNotice || 'Datenquelle: Deutsche Zentrale für Tourismus (DZT) · Open Data Germany'}
                   </div>
 
@@ -5316,7 +5326,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <p style={{ fontSize: '0.8rem', fontStyle: 'italic', margin: 0 }}>Suche Stellplätze in der Nähe...</p>
                       </div>
                     ) : eventCampsites.length === 0 ? (
-                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)', fontStyle: 'italic', margin: 0, padding: '1rem 0' }}>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0, padding: '1rem 0' }}>
                         Keine registrierten Campingplätze im direkten 35 km Umkreis gefunden.
                       </p>
                     ) : (
@@ -5374,7 +5384,7 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 
@@ -5382,6 +5392,12 @@ export default function Entdecken() {
   const crumbs = useDiscoverBreadcrumbs();
   return (
     <>
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-emerald-700 focus:text-white focus:font-bold focus:rounded-lg focus:shadow-2xl focus:outline-none"
+      >
+        Zum Hauptinhalt springen
+      </a>
       <Navbar />
       <div className="pt-16">
         <AppBreadcrumbs items={crumbs} />

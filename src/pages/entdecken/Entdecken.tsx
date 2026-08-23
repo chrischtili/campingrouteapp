@@ -2989,8 +2989,8 @@ const getWebsiteUrl = (place: Place): string | null => {
               </div>
               )}
 
-              {/* Unique Brand Info Panel (Forest Green Outdoor Vibe) */}
-              {!hasSearched && !selectedCountryView && (
+              {/* Unique Brand Info Panel (Forest Green Outdoor Vibe) - Nur auf der Übersicht */}
+              {!hasSearched && !selectedCountryView && currentHub === 'all' && (
                 <div style={{ 
                   background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)', 
                   borderRadius: '24px', 
@@ -4420,8 +4420,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
               )}
 
-              {/* Results Grid Section */}
-              {(hasSearched || (!selectedCountryView && currentHub === 'camping')) && (
+              {/* Results Grid Section - nur bei aktiver Suche */}
+              {hasSearched && (
                 <div>
                   <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
                     <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: 0 }}>

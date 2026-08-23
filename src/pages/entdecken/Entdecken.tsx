@@ -2176,9 +2176,22 @@ ${trkpts}
     }
   };
 
-const cleanImageUrl = (url: string | null | undefined) => {
-  if (!url) return '';
-  return url.replace(/^http:\/\//i, 'https://');
+const isValidImageUrl = (url: string | null | undefined): boolean => {
+  if (!url || typeof url !== 'string') return false;
+  const trimmed = url.trim();
+  if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://') && !trimmed.startsWith('/')) return false;
+  
+  // Exclude non-image DZT/Onlim entity or JSON-LD API endpoints
+  if (trimmed.includes('onlim.com/entity') || trimmed.includes('/api/v4/universal') || trimmed.includes('wikidata.org/wiki/')) {
+    return false;
+  }
+  
+  return true;
+};
+
+const cleanImageUrl = (url: string | null | undefined): string | null => {
+  if (!isValidImageUrl(url)) return null;
+  return url!.trim().replace(/^http:\/\//i, 'https://');
 };
 
 // Escape HTML entities so place names are safe inside map popups
@@ -2187,13 +2200,22 @@ const escHtml = (s: string) =>
 
 // Prefer the structured image_url column, fall back to legacy markdown-in-description
 const getImageUrl = (place: Place): string | null => {
-  if (place.image_url) return cleanImageUrl(place.image_url);
+  if (place.image_url && isValidImageUrl(place.image_url)) {
+    return cleanImageUrl(place.image_url);
+  }
   const match = (place.description || '').match(/!\[.*?\]\((.*?)\)/);
-  return cleanImageUrl(match ? match[1] : null);
+  if (match && isValidImageUrl(match[1])) {
+    return cleanImageUrl(match[1]);
+  }
+  return null;
 };
 
 const getCleanDescription = (place: Place): string => {
-  return (place.description || '').replace(/!\[.*?\]\((.*?)\)/g, '').trim();
+  const desc = (place.description || '').replace(/!\[.*?\]\((.*?)\)/g, '').trim();
+  if (desc.startsWith('http://onlim.com/entity/') || desc.startsWith('https://onlim.com/entity/') || desc.startsWith('https://data.bayerncloud.digital/api/')) {
+    return '';
+  }
+  return desc;
 };
 
 const getAmenityList = (place: Place): string[] => {

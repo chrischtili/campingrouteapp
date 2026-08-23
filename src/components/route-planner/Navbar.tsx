@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, Moon, Sun, Coffee } from "lucide-react";
+import { Globe, Menu, X, Moon, Sun, Coffee, ChevronDown, Settings2 } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/ui/theme-provider";
 import { getFinderNavLabels } from "@/lib/finderPageContent";
-import { Settings2 } from "lucide-react";
 
 interface NavbarProps {
   onStartPlanning?: () => void;
@@ -19,6 +18,7 @@ interface NavbarProps {
 
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(true);
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const finderLabels = getFinderNavLabels(i18n.language);
@@ -27,7 +27,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/";
-  const isDiscoverPage = ['/entdecken', '/discover', '/decouvrir', '/scopri', '/ontdekken'].includes(location.pathname);
+  const isDiscoverPage = location.pathname.startsWith('/entdecken') || 
+    location.pathname.startsWith('/discover') || 
+    location.pathname.startsWith('/decouvrir') || 
+    location.pathname.startsWith('/scopri') || 
+    location.pathname.startsWith('/ontdekken');
 
   const openDiscoverAISettings = () => {
     window.dispatchEvent(new CustomEvent("campingroute:open-ai-settings"));
@@ -81,6 +85,16 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     { name: t("navbar.faq", "FAQ"), path: "#faq", isAnchor: true },
   ];
 
+  const discoverSubItems = [
+    { name: "✨ Übersicht", path: "/entdecken", desc: "KI-Suche & Themenwelten" },
+    { name: "🏕️ Camping & Stellplätze", path: "/entdecken/camping", desc: "Über 20.000 geprüfte Plätze" },
+    { name: "🍇 Hofläden & Winzer", path: "/entdecken/genuss", desc: "Bio-Höfe, Weingüter & Regiomaten" },
+    { name: "🥾 Wander- & Radwege", path: "/entdecken/touren", desc: "100+ Fernwege mit Camping am Weg" },
+    { name: "📅 Events & Weinfeste", path: "/entdecken/events", desc: "Feste, Märkte & Traditionen" },
+    { name: "🏰 Sehenswürdigkeiten", path: "/entdecken/highlights", desc: "Burgen, Schlösser & Highlights" },
+    { name: "📁 Meine Listen", path: "/entdecken/listen", desc: "Gespeicherte Reisen & Notizen" },
+  ];
+
   const languages = [
     { code: "de", label: "Deutsch (DE)" },
     { code: "en", label: "English (EN)" },
@@ -126,6 +140,38 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                   : isDiscoverItem
                     ? isDiscoverPage
                     : location.pathname === item.path;
+
+                if (isDiscoverItem) {
+                  return (
+                    <DropdownMenu key={item.path}>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          type="button"
+                          className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors inline-flex items-center gap-1 cursor-pointer outline-none ${
+                            isActive 
+                              ? "text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400" 
+                              : "text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white font-semibold"
+                          }`}
+                        >
+                          <span>{item.name}</span>
+                          <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-64 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900 z-50">
+                        {discoverSubItems.map((sub) => (
+                          <DropdownMenuItem
+                            key={sub.path}
+                            onClick={() => handleNavClick(sub.path)}
+                            className="rounded-xl px-3 py-2 cursor-pointer flex flex-col items-start gap-0.5 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 focus:bg-emerald-50 dark:focus:bg-emerald-950/60"
+                          >
+                            <span className="text-xs font-bold text-gray-900 dark:text-slate-100">{sub.name}</span>
+                            <span className="text-[10px] text-gray-500 dark:text-slate-400">{sub.desc}</span>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  );
+                }
 
                 return (
                   <button
@@ -237,16 +283,46 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
       {/* Mobile Slide-out Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-2">
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              type="button"
-              onClick={() => handleNavClick(item.path)}
-              className="block w-full text-left rounded-xl px-4 py-3 text-sm font-bold text-gray-800 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60"
-            >
-              {item.name}
-            </button>
-          ))}
+          {navItems.map((item) => {
+            const isDiscoverItem = item.path === '/entdecken' || item.path === '/discover';
+            if (isDiscoverItem) {
+              return (
+                <div key={item.path} className="border border-gray-100 dark:border-slate-800 rounded-2xl p-2 bg-gray-50/50 dark:bg-slate-800/30">
+                  <div 
+                    onClick={() => setMobileDiscoverOpen(!mobileDiscoverOpen)}
+                    className="flex items-center justify-between px-3 py-2 text-sm font-bold text-gray-900 dark:text-slate-100 cursor-pointer"
+                  >
+                    <span className="flex items-center gap-1.5">{item.name}</span>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${mobileDiscoverOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                  {mobileDiscoverOpen && (
+                    <div className="pt-1 pb-1 space-y-1 pl-2 border-l-2 border-emerald-500 ml-2 mt-1">
+                      {discoverSubItems.map((sub) => (
+                        <button
+                          key={sub.path}
+                          type="button"
+                          onClick={() => handleNavClick(sub.path)}
+                          className="block w-full text-left rounded-lg px-2.5 py-1.5 text-xs font-bold text-gray-700 hover:bg-emerald-50 hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-slate-850"
+                        >
+                          {sub.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            return (
+              <button
+                key={item.path}
+                type="button"
+                onClick={() => handleNavClick(item.path)}
+                className="block w-full text-left rounded-xl px-4 py-3 text-sm font-bold text-gray-800 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60"
+              >
+                {item.name}
+              </button>
+            );
+          })}
           {isDiscoverPage && (
             <button
               type="button"

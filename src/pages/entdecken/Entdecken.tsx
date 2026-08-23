@@ -1118,10 +1118,30 @@ function EntdeckenContent() {
         ? (t.attractionsInRegion || 'Sehenswürdigkeiten in {{country}}').replace('{{country}}', countryName(c))
         : (t.campingIn || 'Camping in {{country}}').replace('{{country}}', countryName(c));
 
+    const hubName =
+      currentHub === 'camping' ? (t.hubCamping || 'Camping & Stellplätze') :
+      currentHub === 'genuss' ? (t.hubGenuss || 'Hofläden & Winzer') :
+      currentHub === 'touren' ? (t.hubTouren || 'Wander- & Radwege') :
+      currentHub === 'events' ? (t.hubEvents || 'Events & Weinfeste') :
+      currentHub === 'highlights' ? (t.hubHighlights || 'Sehenswürdigkeiten') :
+      currentHub === 'lists' ? (t.hubLists || 'Meine Listen') : null;
+
     const trail: BreadcrumbItem[] = [
-      { label: t.tabExplore || 'Entdecken', path: '/discover', onClick: () => { setSelectedPlace(null); resetSearch(); } },
+      { label: t.tabExplore || 'Entdecken', path: '/discover', onClick: () => { setSelectedPlace(null); setSelectedCulinarySpot(null); setSelectedTrail(null); resetSearch(); handleHubSelect('all'); } },
     ];
-    if (selectedPlace) {
+
+    if (currentHub !== 'all' && hubName) {
+      trail.push({
+        label: hubName,
+        onClick: () => { setSelectedPlace(null); setSelectedCulinarySpot(null); setSelectedTrail(null); handleHubSelect(currentHub); },
+      });
+    }
+
+    if (selectedCulinarySpot) {
+      trail.push({ label: selectedCulinarySpot.name });
+    } else if (selectedTrail) {
+      trail.push({ label: selectedTrail.name });
+    } else if (selectedPlace) {
       const code = selectedPlace.country;
       trail.push({
         label: `${typePlural(selectedPlace.type)} in ${countryName(code)}`,
@@ -1143,7 +1163,7 @@ function EntdeckenContent() {
     }
     setDiscoverBreadcrumbs(trail);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPlace, selectedCountryView, countryTab, hasSearched, searchQuery, currentLang, t]);
+  }, [selectedPlace, selectedCulinarySpot, selectedTrail, currentHub, selectedCountryView, countryTab, hasSearched, searchQuery, currentLang, t]);
 
   // Guess home country from browser locale on mount
   useEffect(() => {
@@ -2966,25 +2986,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <span>{t.searchBtn}</span>
                   </button>
                 </form>
-
-                {/* Suggestions Badges */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', maxWidth: '700px' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>{t.suggestionsTitle}</span>
-                  {(() => {
-                    const country = selectedCountryView || featuredCountry || 'DE';
-                    const activeBadges = BADGES_BY_COUNTRY[country] || FALLBACK_BADGES;
-                    return activeBadges.map((badgeText, idx) => (
-                      <button 
-                        key={idx}
-                        onClick={() => handleSearch(undefined, badgeText)} 
-                        style={{ background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '9999px', padding: '0.4rem 1rem', fontSize: '0.85rem', fontWeight: 600, color: 'white', cursor: 'pointer', transition: 'all 0.2s', backdropFilter: 'blur(4px)' }} 
-                        className="suggestion-badge-hero"
-                      >
-                        {badgeText}
-                      </button>
-                    ));
-                  })()}
-                </div>
               </div>
               )}
 
@@ -3079,7 +3080,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               )}
 
               {/* Genuss Hub: Hofläden, Weingüter & 24h-Regiomaten */}
-              {!hasSearched && !selectedCountryView && (currentHub === 'genuss' || currentHub === 'all') && (
+              {!hasSearched && !selectedCountryView && currentHub === 'genuss' && (
                 <div style={{ marginBottom: '3.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
@@ -3253,7 +3254,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               )}
 
               {/* Unified Country Explorer Section */}
-              {!hasSearched && !selectedCountryView && (currentHub === 'all' || currentHub === 'camping' || currentHub === 'highlights') && (
+              {!hasSearched && !selectedCountryView && (currentHub === 'camping' || currentHub === 'highlights') && (
                 <div style={{ marginBottom: '3.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
@@ -3364,7 +3365,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               )}
 
               {/* Hiking & Cycling Trails Section */}
-              {!hasSearched && !selectedCountryView && (currentHub === 'all' || currentHub === 'touren') && (
+              {!hasSearched && !selectedCountryView && currentHub === 'touren' && (
                 <div style={{ marginBottom: '4rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
@@ -3870,7 +3871,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               )}
 
               {/* Events & Wine Festivals Section (DZT Open Data Germany) */}
-              {!hasSearched && !selectedCountryView && (currentHub === 'all' || currentHub === 'events') && (
+              {!hasSearched && !selectedCountryView && currentHub === 'events' && (
                 <div style={{ marginBottom: '4rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
@@ -4416,58 +4417,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </div>
                     );
                   })()}
-
-                      {countryAttractions.length > 0 && (
-                        <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--gray-100)', paddingTop: '1.5rem' }}>
-                          <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gray-800)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            🏛️ Beliebte Sehenswürdigkeiten & Ausflugsziele
-                          </h3>
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
-                            {countryAttractions.map((attr) => {
-                              const imageUrl = getImageUrl(attr);
-                              const cleanDescription = getCleanDescription(attr);
-                              return (
-                                <div 
-                                  key={attr.id}
-                                  onClick={() => openPlace(attr)}
-                                  style={{ background: 'var(--gray-50)', border: '1px solid var(--gray-200)', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column' }}
-                                  className="hover:scale-102 hover:shadow-md"
-                                >
-                                  <div style={{ height: '140px', width: '100%', background: 'var(--gray-100)', position: 'relative' }}>
-                                    <img 
-                                      src={imageUrl || getFallbackImage(attr)}
-                                      alt={attr.name}
-                                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                      onError={(e) => { e.currentTarget.src = getFallbackImage(attr); }}
-                                    />
-                                    <span style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', background: 'rgba(31, 41, 55, 0.95)', color: 'white', padding: '0.2rem 0.6rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 700 }}>
-                                      Attraktion
-                                    </span>
-                                  </div>
-                                  <div style={{ padding: '1rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                    <div>
-                                      <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0 0 0.25rem 0', color: 'var(--gray-900)' }}>{attr.name}</h4>
-                                      <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0 0 0.5rem 0' }}>{attr.address}</p>
-                                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', lineHeight: '1.4', height: '2.4rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', margin: 0 }}>
-                                        {cleanDescription}
-                                      </p>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.75rem', fontSize: '0.8rem', fontWeight: 700, color: '#b45309' }}>
-                                      <Star size={12} fill="#b45309" />
-                                      <span>{attr.rating}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
                 </div>
               )}
 
               {/* Results Grid Section */}
-              {(hasSearched || !selectedCountryView) && (
+              {(hasSearched || (!selectedCountryView && currentHub === 'camping')) && (
                 <div>
                   <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
                     <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: 0 }}>

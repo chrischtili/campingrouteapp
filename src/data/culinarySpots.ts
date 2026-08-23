@@ -19,7 +19,7 @@ export interface CulinarySpot {
 }
 
 export const CULINARY_SPOTS: CulinarySpot[] = [
-  // --- Rheinland-Pfalz & Saarland ---
+  // --- Rheinland-Pfalz ---
   {
     id: "culinary-hanewald-schwerdt",
     name: "Weingut & Wohnmobilstellplatz Hanewald-Schwerdt",
@@ -78,6 +78,46 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     image_url: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80"
   },
   {
+    id: "culinary-weingut-anselmann",
+    name: "Weingut & Gutsausschank Anselmann Edesheim",
+    type: "winery",
+    subtypeLabel: "Familienweingut & Hofgut",
+    region: "Südliche Weinstraße",
+    state: "Rheinland-Pfalz",
+    country: "DE",
+    latitude: 49.2621,
+    longitude: 8.1342,
+    address: "Staatsstraße 58-60, 67483 Edesheim",
+    description: "Historisches Weingut der Südpfalz mit großer Rebsortenvielfalt, mediterranem Innenhof, Gutsküche und Weinproben.",
+    products: ["Dornfelder", "Sauvignon Blanc", "Gewürztraminer", "Cabernet Dorsa", "Pfälzer Saumagen"],
+    hasCampsite: true,
+    pitchNote: "Wohnmobilstellplatz Edesheim am Schloss in 800m Entfernung.",
+    website: "https://www.weingut-anselmann.de",
+    phone: "+49 6323 94120",
+    image_url: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "culinary-vulkan-brauerei-mendig",
+    name: "Vulkan Brauerei & Hofladen Mendig",
+    type: "farm_shop",
+    subtypeLabel: "Handwerksbrauerei & Eifelladen",
+    region: "Vulkaneifel",
+    state: "Rheinland-Pfalz",
+    country: "DE",
+    latitude: 50.3742,
+    longitude: 7.2842,
+    address: "Laacher-See-Straße 2, 56743 Mendig",
+    description: "Tiefster Bierkeller der Welt im Basaltgestein. Hofladen mit Vulkaneifel-Schinken, handwerklich gebrautem Bio-Bier und Brotzeiten.",
+    products: ["Vulkan Bio-Bier", "Eifeler Schinken", "Brauerkäse", "Biersenf", "Treberbrot"],
+    hasCampsite: true,
+    pitchNote: "Eigener Wohnmobilstellplatz an der Brauerei vorhanden (mit Strom).",
+    website: "https://vulkan-brauerei.de",
+    phone: "+49 2652 520330",
+    image_url: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"
+  },
+
+  // --- Saarland ---
+  {
     id: "culinary-weingut-karl-petgen",
     name: "Weingut Karl Petgen & Saar-Mosel-Vinothek",
     type: "winery",
@@ -95,6 +135,25 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     website: "https://www.petgen.de",
     phone: "+49 6866 244",
     image_url: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "culinary-hofgut-iserstal",
+    name: "Bio-Hofgut Iserstal & Hofladen",
+    type: "farm_shop",
+    subtypeLabel: "Bio-Bauernhof & Angus-Zucht",
+    region: "Bliesgau (UNESCO Biosphäre)",
+    state: "Saarland",
+    country: "DE",
+    latitude: 49.2145,
+    longitude: 7.1842,
+    address: "Iserstal 1, 66440 Blieskastel",
+    description: "Ökologischer Zuchtbetrieb im Biosphärenreservat Bliesgau mit frischem Bio-Rindfleisch, Hofkäse und regionalen Streuobst-Säften.",
+    products: ["Bio-Angus-Rind", "Bliesgau-Honig", "Streuobst-Apfelsaft", "Bauernbutter"],
+    hasCampsite: false,
+    pitchNote: "Wohnmobilstellplatz Blieskastel am Freizeitzentrum in 4 km.",
+    website: "https://www.biosphaere-bliesgau.de",
+    phone: "+49 6842 53820",
+    image_url: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"
   },
 
   // --- Baden-Württemberg ---
@@ -171,6 +230,25 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     website: "https://www.schwaebischealb.de",
     phone: "+49 7391 52040",
     image_url: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "culinary-staatsweingut-weinsberg",
+    name: "Staatsweingut Weinsberg & Vinothek",
+    type: "winery",
+    subtypeLabel: "Älteste Weinbauschule Deutschlands",
+    region: "Heilbronner Land / Neckar",
+    state: "Baden-Württemberg",
+    country: "DE",
+    latitude: 49.1512,
+    longitude: 9.2845,
+    address: "Traubenplatz 5, 74189 Weinsberg",
+    description: "Geburtsstätte von Kerner und Dornfelder. Ausgezeichnete Lemberger, Trollinger und Rieslinge aus Steillagen rund um die Burg Weibertreu.",
+    products: ["Lemberger Großes Gewächs", "Trollinger", "Dornfelder", "Weinsberger Sekt"],
+    hasCampsite: true,
+    pitchNote: "Wohnmobilstellplatz Weinsberg am Stadtseetal nur 1 km entfernt.",
+    website: "https://www.staatsweingut-weinsberg.de",
+    phone: "+49 7134 5040",
+    image_url: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80"
   },
 
   // --- Bayern ---
@@ -250,6 +328,25 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     phone: "+49 8321 82515",
     image_url: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"
   },
+  {
+    id: "culinary-weingut-divino-nordheim",
+    name: "DIVINO Nordheim Franken-Vinothek",
+    type: "winery",
+    subtypeLabel: "Fränkische Winzergenossenschaft",
+    region: "Mainfranken / Mainschleife",
+    state: "Bayern",
+    country: "DE",
+    latitude: 49.8594,
+    longitude: 10.1842,
+    address: "Langgasse 33, 97334 Nordheim am Main",
+    description: "Spitzen-Winzer an der Mainschleife. Prämiert für Silvaner, Weißburgunder und Müller-Thurgau mit Weinbistro direkt an den Weinbergen.",
+    products: ["Nordheimer Vögelein Silvaner", "Bocksbeutel PS", "Weißburgunder", "Fränkischer Secco"],
+    hasCampsite: true,
+    pitchNote: "Großer Wohnmobilstellplatz an der Mainschleife Nordheim mit Mainblick.",
+    website: "https://www.divino-nordheim.de",
+    phone: "+49 9381 80990",
+    image_url: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80"
+  },
 
   // --- Hessen ---
   {
@@ -289,6 +386,25 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     website: "https://www.schlossvollrads.com",
     phone: "+49 6723 660",
     image_url: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "culinary-kelterei-heil",
+    name: "Kelterei Heil & Apfelwein-Hofladen",
+    type: "farm_shop",
+    subtypeLabel: "Traditionskelterei & Hofladen",
+    region: "Taunus / Wetterau",
+    state: "Hessen",
+    country: "DE",
+    latitude: 50.2842,
+    longitude: 8.6214,
+    address: "An der B275, 35789 Weilmünster / Laubuseschbach",
+    description: "Hessische Apfelwein-Kultur: Feiner naturtrüber Apfelwein, sortenreine Streuobst-Säfte, Apfel-Cidre und regionale Wurstwaren.",
+    products: ["Hessischer Apfelwein", "Sortenreiner Apfelsaft", "Apfel-Cidre", "Hessischer Handkäse", "Apfelbalsamico"],
+    hasCampsite: false,
+    pitchNote: "Campingplatz Weilburg an der Lahn nur 8 km entfernt.",
+    website: "https://www.kelterei-heil.de",
+    phone: "+49 6474 91200",
+    image_url: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"
   },
 
   // --- Brandenburg & Berlin ---
@@ -369,6 +485,25 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     website: "https://www.tourismus-altes-land.de",
     image_url: "https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&w=800&q=80"
   },
+  {
+    id: "culinary-kaesehof-butjadingen",
+    name: "Hofkäserei Butjadinger Bauernkäse",
+    type: "cheese_dairy",
+    subtypeLabel: "Nordsee-Käserei & Hofladen",
+    region: "Nordseeküste / Butjadingen",
+    state: "Niedersachsen",
+    country: "DE",
+    latitude: 53.5412,
+    longitude: 8.3214,
+    address: "Kuhweg 4, 26969 Butjadingen",
+    description: "Handgemachter Rohmilchkäse mit Nordsee-Brise: Küstenkäse, Kräutervariationen und Krabbenbrotzeiten im Hofbistro.",
+    products: ["Butjadinger Deichkäse", "Bockshornkleekäse", "Küstenbutter", "Nordsee-Honig"],
+    hasCampsite: false,
+    pitchNote: "Knaus Campingpark Fedderwardersiel direkt am UNESCO Weltnaturerbe Wattenmeer.",
+    website: "https://www.butjadingen.de",
+    phone: "+49 4733 890",
+    image_url: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"
+  },
 
   // --- Schleswig-Holstein & Hamburg ---
   {
@@ -448,8 +583,27 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     website: "https://www.sauerland.com",
     image_url: "https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&w=800&q=80"
   },
+  {
+    id: "culinary-weingut-pieper-drachenfels",
+    name: "Weingut Pieper & Siebengebirgs-Vinothek",
+    type: "winery",
+    subtypeLabel: "Größtes Weingut in NRW",
+    region: "Siebengebirge / Mittelrhein",
+    state: "Nordrhein-Westfalen",
+    country: "DE",
+    latitude: 50.6584,
+    longitude: 7.2214,
+    address: "Fährstraße 8, 53604 Bad Honnef",
+    description: "NRWs renommiertestes Weingut an den Hängen des Drachenfels. Steillagen-Rieslinge, Grauburgunder und Scheurebe.",
+    products: ["Drachenfels Riesling", "Siebengebirgs-Grauburgunder", "Drachenblut Rotwein", "Winzersekt"],
+    hasCampsite: false,
+    pitchNote: "Campingplatz Genoveva und Rhein-Camping Bad Honnef in 2 km.",
+    website: "https://weingut-pieper.de",
+    phone: "+49 2224 3624",
+    image_url: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80"
+  },
 
-  // --- Sachsen & Thüringen ---
+  // --- Sachsen, Sachsen-Anhalt & Thüringen ---
   {
     id: "culinary-weingut-schloss-wackerbarth",
     name: "Schloss Wackerbarth & Erlebnisweingut",
@@ -486,6 +640,65 @@ export const CULINARY_SPOTS: CulinarySpot[] = [
     pitchNote: "Campingplatz Jena Untergries und Saale-Camping Porstendorf nur 10 km entfernt.",
     website: "https://www.thueringen-entdecken.de",
     phone: "+49 36428 5410",
+    image_url: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "culinary-weingut-saale-unstrut-pforta",
+    name: "Landesweingut Kloster Pforta",
+    type: "winery",
+    subtypeLabel: "Traditionsweingut seit 1137",
+    region: "Saale-Unstrut",
+    state: "Sachsen-Anhalt",
+    country: "DE",
+    latitude: 51.1412,
+    longitude: 11.7584,
+    address: "Saaleck-Werkstraße 1, 06628 Naumburg / Bad Kösen",
+    description: "Nördlichstes traditionelles Qualitätsweingebiet Europas. Herausragende Müller-Thurgau, Gutedel und Weißburgunder.",
+    products: ["Saale-Unstrut Weißburgunder", "Gutedel", "Müller-Thurgau Saalhäuser", "Winzerbrände"],
+    hasCampsite: true,
+    pitchNote: "Wohnmobilstellplatz an der Saale Bad Kösen mit Bootsanleger in 1 km.",
+    website: "https://www.kloster-pforta.de",
+    phone: "+49 34463 6370",
+    image_url: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80"
+  },
+
+  // --- Mecklenburg-Vorpommern ---
+  {
+    id: "culinary-sanddorn-erlebnis-insel-usedom",
+    name: "Inselmühle Usedom & Natur-Hofladen",
+    type: "farm_shop",
+    subtypeLabel: "Bio-Ölmühle & Sanddorn-Manufaktur",
+    region: "Insel Usedom / Ostsee",
+    state: "Mecklenburg-Vorpommern",
+    country: "DE",
+    latitude: 53.8745,
+    longitude: 13.9214,
+    address: "Bäderstraße 9, 17406 Usedom",
+    description: "Traditionelle Ölmühle und Feinkost-Hofladen auf Usedom mit Bio-Speiseölen, Sanddorn-Spezialitäten, regionalem Ostsee-Käse und Imkerei.",
+    products: ["Kaltgepresstes Raps- & Leinöl", "Usedomer Sanddornsaft", "Ostsee-Blütenhonig", "Fruchtliköre"],
+    hasCampsite: false,
+    pitchNote: "Naturcamping Usedom und Campingplatz Ostseeblick in unmittelbarer Nähe.",
+    website: "https://www.inselmuehle-usedom.de",
+    phone: "+49 38372 7600",
+    image_url: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "culinary-kaeserei-seenplatte",
+    name: "Müritzer Hofkäserei & Bio-Hofladen",
+    type: "cheese_dairy",
+    subtypeLabel: "Mecklenburger Hofkäserei",
+    region: "Mecklenburgische Seenplatte",
+    state: "Mecklenburg-Vorpommern",
+    country: "DE",
+    latitude: 53.4214,
+    longitude: 12.6842,
+    address: "Dorfstraße 34, 17207 Bollewick / Röbel",
+    description: "Hofkäserei in der berühmten Scheune Bollewick. Handgemachter Müritz-Käse, Ziegenkäse und regionale Räucherwaren.",
+    products: ["Müritzer Bauernkäse", "Bockshornklee-Käse", "Mecklenburger Rauchfleisch", "Sanddornsenf"],
+    hasCampsite: true,
+    pitchNote: "Wohnmobilstellplatz an der Feldsteinscheune Bollewick.",
+    website: "https://www.scheune-bollewick.de",
+    phone: "+49 39931 52009",
     image_url: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"
   }
 ];

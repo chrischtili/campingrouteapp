@@ -623,28 +623,11 @@ function EntdeckenContent() {
     return list[Math.abs(hash) % list.length];
   };
 
-  const fetchEvents = useCallback(async (category = eventCategory, region = eventStateFilter, search = eventSearchText) => {
+  const fetchEvents = useCallback(async () => {
     setIsLoadingEvents(true);
     try {
-      const params = new URLSearchParams();
-      if (category && category !== 'all') {
-        params.append('category', category);
-      }
-      if (region && region !== 'Alle Bundesländer' && region !== 'all') {
-        params.append('region', region);
-      }
-      const keywordMap: Record<string, string> = {
-        all: 'Wein,Festival,Kultur,Markt,Event',
-        wine: 'Wein,Weinprobe,Weinfest,Kulinarik',
-        culture: 'Kultur,Brauchtum,Mittelalter,Theater',
-        festival: 'Festival,Musik,Open Air,Konzert',
-        market: 'Markt,Wochenmarkt,Handwerk,Bauernmarkt',
-        sport: 'Sport,Wandern,Lauf,Rad',
-      };
-      const kw = search.trim() || keywordMap[category] || keywordMap.all;
-      params.append('keywords', kw);
-      
       const today = new Date().toISOString().split('T')[0];
+      const params = new URLSearchParams();
       params.append('dateRangeStart', today);
 
       const res = await fetch(`/discover/api/dzt/events?${params.toString()}`)
@@ -653,36 +636,22 @@ function EntdeckenContent() {
       if (res && res.success && Array.isArray(res.data)) {
         const liveEvents = res.data;
         const liveNames = new Set(liveEvents.map((e: any) => (e.name || '').toLowerCase().trim()));
-        const matchingFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => {
-          if (category !== 'all' && f.category !== category) return false;
-          if (region !== 'Alle Bundesländer' && region !== 'all' && f.state !== region) return false;
-          return !liveNames.has(f.name.toLowerCase().trim());
-        });
-        setEvents([...(matchingFlagships as unknown as GermanEvent[]), ...liveEvents]);
+        const uniqueFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => !liveNames.has(f.name.toLowerCase().trim()));
+        setEvents([...(uniqueFlagships as unknown as GermanEvent[]), ...liveEvents]);
       } else {
-        const matchingFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => {
-          if (category !== 'all' && f.category !== category) return false;
-          if (region !== 'Alle Bundesländer' && region !== 'all' && f.state !== region) return false;
-          return true;
-        });
-        setEvents(matchingFlagships as unknown as GermanEvent[]);
+        setEvents(GERMAN_FLAGSHIP_EVENTS as unknown as GermanEvent[]);
       }
     } catch (err) {
       console.error('Error fetching events:', err);
-      const matchingFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => {
-        if (category !== 'all' && f.category !== category) return false;
-        if (region !== 'Alle Bundesländer' && region !== 'all' && f.state !== region) return false;
-        return true;
-      });
-      setEvents(matchingFlagships as unknown as GermanEvent[]);
+      setEvents(GERMAN_FLAGSHIP_EVENTS as unknown as GermanEvent[]);
     } finally {
       setIsLoadingEvents(false);
     }
-  }, [eventCategory, eventStateFilter, eventSearchText]);
+  }, []);
 
   useEffect(() => {
-    fetchEvents(eventCategory, eventStateFilter, eventSearchText);
-  }, [eventCategory, eventStateFilter, eventSearchText, fetchEvents]);
+    fetchEvents();
+  }, [fetchEvents]);
 
   const filteredEvents = useMemo(() => {
     let list = events;
@@ -3346,10 +3315,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                   </div>
 
                   {/* Events Grid */}
-                  {isLoadingEvents ? (
+                  {filteredEvents.length === 0 && isLoadingEvents ? (
                     <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--gray-500)' }}>
                       <div className="spinner" style={{ width: '28px', height: '28px', margin: '0 auto 0.75rem auto' }}></div>
-                      <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>Lade offizielle Open Data Veranstaltungen...</p>
+                      <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>{t.loadingEvents || 'Lade offizielle Open Data Veranstaltungen...'}</p>
                     </div>
                   ) : filteredEvents.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '2.5rem', background: 'var(--gray-50)', borderRadius: '16px', border: '1px dashed var(--gray-300)' }}>

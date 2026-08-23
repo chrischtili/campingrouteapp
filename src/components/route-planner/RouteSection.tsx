@@ -25,41 +25,6 @@ const createEmptyStage = (destination = ""): RouteStage => ({
   departureTime: "",
 });
 
-const getStageMinimumDate = (stages: RouteStage[], index: number, startDate: string) => {
-  if (index === 0) return startDate;
-  return stages[index - 1]?.departureDate || stages[index - 1]?.arrivalDate || startDate;
-};
-
-const normalizeStageDates = (stages: RouteStage[], startDate: string) => {
-  const normalized: RouteStage[] = [];
-  let currentMinDate = startDate;
-
-  for (let i = 0; i < stages.length; i++) {
-    const stage = { ...stages[i] };
-    if (!stage.detailsEnabled && !stage.booked) {
-      normalized.push(stage);
-      continue;
-    }
-
-    // Arrival must be >= currentMinDate
-    if (currentMinDate && stage.arrivalDate && stage.arrivalDate < currentMinDate) {
-      stage.arrivalDate = currentMinDate;
-    }
-
-    // Departure must be >= Arrival (or currentMinDate if Arrival empty)
-    const departureMin = stage.arrivalDate || currentMinDate;
-    if (departureMin && stage.departureDate && stage.departureDate < departureMin) {
-      stage.departureDate = departureMin;
-    }
-
-    normalized.push(stage);
-    // Next stage must be >= this stage's departure/arrival
-    currentMinDate = stage.departureDate || stage.arrivalDate || currentMinDate;
-  }
-
-  return normalized;
-};
-
 export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const { t } = useTranslation();
   const locale = (typeof navigator !== "undefined" && navigator.language) || "de-DE";
@@ -86,12 +51,11 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = e.target.value;
     const nextEndDate = formData.endDate && formData.endDate < newStartDate ? newStartDate : formData.endDate;
-    const nextStages = normalizeStageDates(formData.stages, newStartDate);
 
     onChange({
       startDate: newStartDate,
       endDate: nextEndDate,
-      stages: nextStages,
+      stages: formData.stages,
     });
   };
 
@@ -105,7 +69,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
     const nextStages = formData.stages.map((stage, currentIndex) => {
       if (currentIndex !== index) return stage;
       const nextStage = { ...stage, ...patch };
-      if (patch.detailsEnabled === false) {
+      if (patch.detailsEnabled === false && !nextStage.booked) {
         nextStage.arrivalDate = "";
         nextStage.arrivalTime = "";
         nextStage.departureDate = "";
@@ -113,15 +77,15 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       }
       return nextStage;
     });
-    const normalizedStages = normalizeStageDates(nextStages, formData.startDate);
-    const latestStageDate = normalizedStages.reduce<string>((latest, stage) => {
+
+    const latestStageDate = nextStages.reduce<string>((latest, stage) => {
       const candidate = stage.departureDate || stage.arrivalDate || "";
       if (!candidate) return latest;
       return !latest || candidate > latest ? candidate : latest;
     }, "");
 
     onChange({
-      stages: normalizedStages,
+      stages: nextStages,
       endDate:
         formData.endDate && latestStageDate && latestStageDate > formData.endDate
           ? latestStageDate
@@ -435,7 +399,8 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                             value={stage.arrivalDate || ""}
                             onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
                             className={cn(inputClass, "pr-8", stage.booked && "border-emerald-500/20")}
-                            min={index === 0 ? formData.startDate : (formData.stages[index-1]?.departureDate || formData.stages[index-1]?.arrivalDate || formData.startDate)}
+                            min={formData.startDate || undefined}
+                            max={formData.endDate || undefined}
                           />
                         </div>
                         
@@ -463,7 +428,8 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                             value={stage.departureDate || ""}
                             onChange={(e) => updateStage(index, { departureDate: e.target.value })}
                             className={cn(inputClass, "pr-8", stage.booked && "border-emerald-500/20")}
-                            min={stage.arrivalDate || (index === 0 ? formData.startDate : (formData.stages[index-1]?.departureDate || formData.stages[index-1]?.arrivalDate || formData.startDate))}
+                            min={stage.arrivalDate || formData.startDate || undefined}
+                            max={formData.endDate || undefined}
                           />
                         </div>
                         

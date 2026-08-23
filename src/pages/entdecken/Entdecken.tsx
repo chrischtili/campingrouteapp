@@ -3259,7 +3259,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         sampleHighlightsList.map((spot) => (
                           <div
                             key={spot.id}
-                            onClick={() => handleSearch(undefined, spot.searchQuery)}
+                            onClick={() => openPlace(spot.place as unknown as Place)}
                             style={{
                               background: 'var(--card-bg)',
                               border: '1px solid var(--card-border)',
@@ -3328,7 +3328,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               </p>
                               <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
                                 <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                                  🏕️ Campingplätze in der Nähe
+                                  🔎 Details & Camping in der Nähe
                                 </span>
                                 <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
                               </div>
@@ -3339,7 +3339,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         sampleCampingList.map((spot) => (
                           <div
                             key={spot.id}
-                            onClick={() => handleSearch(undefined, spot.searchQuery)}
+                            onClick={() => openPlace(spot.place as unknown as Place)}
                             style={{
                               background: 'var(--card-bg)',
                               border: '1px solid var(--card-border)',
@@ -3425,7 +3425,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               </h3>
                               <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
                                 <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                                  🔎 Platz & Umgebung entdecken
+                                  🔎 Details & Platz ansehen
                                 </span>
                                 <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
                               </div>

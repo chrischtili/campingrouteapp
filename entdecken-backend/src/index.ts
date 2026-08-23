@@ -1034,6 +1034,112 @@ app.get("/api/search", async (req, res) => {
       });
     }
 
+    // Direct entity & landmark matcher (e.g. "Camping Hopfensee", "Schloss Neuschwanstein", "Burg Eltz")
+    const cleanEntityQuery = queryStr
+      .replace(/^(camping|campingplatz|stellplatz|campingplätze|stellplätze|sehenswürdigkeiten|attraktionen|ausflugsziele|besuche|urlaub|reisen) (nahe|bei|am|an der|im|in|der|beim|rund um)\s+/i, '')
+      .replace(/^(camping|campingplatz|stellplatz|campingplätze|stellplätze) /i, '')
+      .replace(/^(tour:?\s*)/i, '')
+      .trim();
+
+    if (cleanEntityQuery.length >= 3) {
+      const matchedPlace = await db.get(
+        "SELECT * FROM places WHERE LOWER(name) = ? OR LOWER(name) LIKE ? ORDER BY CASE WHEN LOWER(name) = ? THEN 0 ELSE 1 END, rating DESC LIMIT 1",
+        [cleanEntityQuery.toLowerCase(), `%${cleanEntityQuery.toLowerCase()}%`, cleanEntityQuery.toLowerCase()]
+      );
+
+      if (matchedPlace) {
+        console.log(`Direct entity match for "${queryStr}" -> Place: "${matchedPlace.name}" (${matchedPlace.type})`);
+        const isCampQuery = /camping|stellplatz/i.test(queryStr) || matchedPlace.type !== 'attraction';
+        const searchTargetTypes = isCampQuery ? "('campground', 'caravan', 'glamping')" : "('attraction')";
+
+        const radiusDeg = 0.5; // ~55km radius
+        const sql = `
+          SELECT *, 
+            ((latitude - ?) * (latitude - ?)) + ((longitude - ?) * (longitude - ?)) AS distance_sq
+          FROM places 
+          WHERE latitude BETWEEN ? AND ? 
+            AND longitude BETWEEN ? AND ? 
+            AND type IN ${searchTargetTypes}
+          ORDER BY CASE WHEN id = ? THEN 0 ELSE 1 END, distance_sq ASC 
+          LIMIT ? OFFSET ?
+        `;
+        const params = [
+          matchedPlace.latitude, matchedPlace.latitude, matchedPlace.longitude, matchedPlace.longitude,
+          matchedPlace.latitude - radiusDeg, matchedPlace.latitude + radiusDeg,
+          matchedPlace.longitude - radiusDeg, matchedPlace.longitude + radiusDeg,
+          matchedPlace.id,
+          limit, offset
+        ];
+
+        const places = await db.all(sql, params);
+        if (places.length > 0) {
+          const countSql = `
+            SELECT COUNT(*) AS total 
+            FROM places 
+            WHERE latitude BETWEEN ? AND ? 
+              AND longitude BETWEEN ? AND ? 
+              AND type IN ${searchTargetTypes}
+          `;
+          const countRes = await db.get(countSql, [
+            matchedPlace.latitude - radiusDeg, matchedPlace.latitude + radiusDeg,
+            matchedPlace.longitude - radiusDeg, matchedPlace.longitude + radiusDeg
+          ]);
+          const totalItems = countRes ? countRes.total : places.length;
+          const mapPoints = await computeMapPoints(db, sql, params);
+          const summary = `<p>Gefunden: <strong>${matchedPlace.name}</strong> in ${matchedPlace.city || matchedPlace.state || matchedPlace.country}. Hier sind <strong>${totalItems} Plätze & Reiseziele</strong> in der Region.</p>`;
+
+          return res.json({
+            places,
+            mapPoints,
+            summary,
+            total: totalItems,
+            page,
+            limit
+          });
+        }
+      }
+    }
+
+    // Direct Region Bounding Box Matcher (e.g. "Südtirol", "Dolomiten", "Allgäu", "Ostsee", "Rügen", "Schwarzwald", "Toskana", "Côte d'Azur")
+    for (const [regionName, bbox] of Object.entries(REGION_BBOXES)) {
+      const lowerReg = regionName.toLowerCase();
+      if (
+        cleanQ === lowerReg ||
+        cleanQ.includes(lowerReg) ||
+        cleanQ.includes(`camping ${lowerReg}`) ||
+        cleanQ.includes(`camping in ${lowerReg}`) ||
+        cleanQ.includes(`camping im ${lowerReg}`) ||
+        cleanQ.includes(`camping an der ${lowerReg}`) ||
+        cleanQ.includes(`camping am ${lowerReg}`)
+      ) {
+        console.log(`Direct Region BBox match for "${queryStr}" -> Region: "${regionName}"`);
+        let bboxSql = `latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ? AND type IN ${targetTypes}`;
+        const bboxParams: any[] = [bbox.latMin, bbox.latMax, bbox.lonMin, bbox.lonMax];
+        if (bbox.country) {
+          bboxSql += " AND country = ?";
+          bboxParams.push(bbox.country);
+        }
+
+        const countQuery = `SELECT COUNT(*) AS total FROM places WHERE ${bboxSql}`;
+        const countRes = await db.get(countQuery, bboxParams);
+        const totalItems = countRes ? countRes.total : 0;
+
+        const sql = `SELECT * FROM places WHERE ${bboxSql} ORDER BY rating DESC LIMIT ? OFFSET ?`;
+        const places = await db.all(sql, [...bboxParams, limit, offset]);
+        const mapPoints = await computeMapPoints(db, sql, bboxParams);
+        const summary = `<p>Entdecke die besten ${totalItems} ${typeLabel} in der Region <strong>${regionName}</strong>. Geprüfte Plätze mit Karte und Bewertungen.</p>`;
+
+        return res.json({
+          places,
+          mapPoints,
+          summary,
+          total: totalItems,
+          page,
+          limit
+        });
+      }
+    }
+
     const aiConfig = resolveRequestAI(req);
 
     const cacheKey = queryStr.toLowerCase() + (aiConfig.apiKey ? `:${aiConfig.provider}:${aiConfig.model}` : '');

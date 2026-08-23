@@ -42,7 +42,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 1840,
     highlightTag: '🏔️ Dolomiten-Panorama',
     imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Seiser Alm Südtirol'
+    searchQuery: 'Camping Südtirol'
   },
   {
     id: 'camp-2',
@@ -57,7 +57,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 920,
     highlightTag: '🌊 Direkt an den Kreidefelsen',
     imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Kap Arkona Rügen'
+    searchQuery: 'Camping Rügen'
   },
   {
     id: 'camp-3',
@@ -72,7 +72,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 2340,
     highlightTag: '🏰 Blick auf Neuschwanstein',
     imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Hopfensee Füssen'
+    searchQuery: 'Camping Hopfensee'
   },
   {
     id: 'camp-4',
@@ -87,7 +87,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 780,
     highlightTag: '⛰️ Tiroler Bergkulisse',
     imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Innsbruck Tirol'
+    searchQuery: 'Camping Innsbruck'
   },
   {
     id: 'camp-5',
@@ -102,7 +102,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 1450,
     highlightTag: '🌴 Palmenoase & Strand',
     imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Cote d Azur Frejus'
+    searchQuery: 'Camping Côte d Azur'
   },
   {
     id: 'camp-6',
@@ -117,7 +117,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 650,
     highlightTag: '🏞️ Am türkisen Gletschersee',
     imageUrl: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Olden Nordfjord'
+    searchQuery: 'Camping Geirangerfjord'
   },
   {
     id: 'camp-7',
@@ -132,7 +132,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 3100,
     highlightTag: '🏖️ Eigene Badebucht & Pinien',
     imageUrl: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Rovinj Istrien'
+    searchQuery: 'Camping Istrien'
   },
   {
     id: 'camp-8',
@@ -147,7 +147,7 @@ export const FEATURED_CAMPING_SPOTS: InspirationCampingSpot[] = [
     reviewsCount: 1120,
     highlightTag: '🏄 Mitten in den Nordseedünen',
     imageUrl: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Bloemendaal aan Zee'
+    searchQuery: 'Camping Texel'
   }
 ];
 
@@ -163,7 +163,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Allgäu, Bayern',
     description: 'Das weltberühmte Schloss von König Ludwig II. thront spektakulär vor den majestätischen Ammergauer Alpen.',
     imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping nahe Neuschwanstein Füssen'
+    searchQuery: 'Schloss Neuschwanstein'
   },
   {
     id: 'high-2',
@@ -176,7 +176,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Elbsandsteingebirge, Sachsen',
     description: 'Die berühmteste Felsformation des Elbsandsteingebirges bietet spektakuläre Tiefblicke ins Elbtal.',
     imageUrl: 'https://images.unsplash.com/photo-1578637387939-43c525550085?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Sächsische Schweiz Bastei'
+    searchQuery: 'Sächsische Schweiz'
   },
   {
     id: 'high-3',
@@ -189,7 +189,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Moseltal, Rheinland-Pfalz',
     description: 'Versteckt in einem idyllischen Seitental der Mosel gehört Burg Eltz zu den besterhaltenen Burgen Europas.',
     imageUrl: 'https://images.unsplash.com/photo-1599818816935-7140f7b05423?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Mosel Burg Eltz'
+    searchQuery: 'Burg Eltz'
   },
   {
     id: 'high-4',
@@ -202,7 +202,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Berchtesgadener Land, Bayern',
     description: 'Smaragdgrünes Wasser umgeben von steilen Felswänden und der berühmten Watzmann-Ostwand.',
     imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Königssee Berchtesgaden'
+    searchQuery: 'Königssee'
   },
   {
     id: 'high-5',
@@ -215,7 +215,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Pragsertal, Südtirol',
     description: 'Die Perle der Dolomitenseen mit historischem Bootshaus und smaragdgrünem Bergwasser.',
     imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Pragser Wildsee Braies'
+    searchQuery: 'Dolomiten'
   },
   {
     id: 'high-6',
@@ -228,7 +228,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Normandie, Frankreich',
     description: 'Die weltberühmte Abtei auf einer felsigen Gezeiteninsel im Wattenmeer der Normandie.',
     imageUrl: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Mont Saint Michel Normandie'
+    searchQuery: 'Camping Bretagne'
   },
   {
     id: 'high-7',
@@ -241,7 +241,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Møre og Romsdal, Norwegen',
     description: 'Spektakuläre Felswände, tosende Wasserfälle wie die „Sieben Schwestern“ und die Serpentinenstraße Trollstigen.',
     imageUrl: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Geiranger Fjord'
+    searchQuery: 'Geirangerfjord'
   },
   {
     id: 'high-8',
@@ -254,6 +254,6 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     region: 'Potsdam, Brandenburg',
     description: 'Das Sommerschloss Friedrichs des Großen mit berühmten Weinbergterrassen und weitläufigem Landschaftspark.',
     imageUrl: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
-    searchQuery: 'Camping Potsdam Sanssouci'
+    searchQuery: 'Schloss Sanssouci'
   }
 ];

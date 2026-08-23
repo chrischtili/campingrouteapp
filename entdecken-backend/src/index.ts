@@ -326,17 +326,30 @@ app.get("/api/countries/:country/attractions", async (req, res) => {
   }
 });
 
-// Get nearby places of opposite type
+// Get nearby places of opposite type (or nearby campsites for coordinates)
 app.get("/api/places/:id/nearby", async (req, res) => {
   const id = req.params.id;
+  const lat = req.query.lat ? parseFloat(req.query.lat as string) : null;
+  const lon = req.query.lon ? parseFloat(req.query.lon as string) : null;
+  const typeParam = (req.query.type as string || "").trim();
+
   try {
     const db = await getDb();
-    const place = await db.get("SELECT * FROM places WHERE id = ?", [id]);
-    if (!place) {
-      return res.status(404).json({ error: "Place not found" });
+    let place = await db.get("SELECT * FROM places WHERE id = ?", [id]);
+
+    let targetLat = place?.latitude;
+    let targetLon = place?.longitude;
+    let isAttraction = place ? place.type === 'attraction' : (typeParam === 'attraction');
+
+    if ((targetLat === undefined || targetLon === undefined) && lat !== null && lon !== null && !isNaN(lat) && !isNaN(lon)) {
+      targetLat = lat;
+      targetLon = lon;
     }
 
-    const isAttraction = place.type === 'attraction';
+    if (targetLat === undefined || targetLon === undefined) {
+      return res.json([]);
+    }
+
     const targetTypes = isAttraction 
       ? "('campground', 'caravan', 'glamping')" 
       : "('attraction')";
@@ -348,7 +361,7 @@ app.get("/api/places/:id/nearby", async (req, res) => {
       WHERE type IN ${targetTypes} AND id != ?
       ORDER BY distance_sq ASC 
       LIMIT 4
-    `, [place.latitude, place.latitude, place.longitude, place.longitude, id]);
+    `, [targetLat, targetLat, targetLon, targetLon, id]);
 
     const nearbyWithDist = nearby.map(p => {
       const degDist = Math.sqrt(p.distance_sq);

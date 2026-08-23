@@ -1415,7 +1415,7 @@ function EntdeckenContent() {
   useEffect(() => {
     if (selectedPlace) {
       fetchReviews(selectedPlace.id);
-      fetchNearbyPlaces(selectedPlace.id);
+      fetchNearbyPlaces(selectedPlace.id, selectedPlace.latitude, selectedPlace.longitude, selectedPlace.type);
 
       // 1. Instant calculation from the full dataset (670+ German Open Data trails)
       const memoryTrails = getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 50, trails).slice(0, 4);
@@ -1989,20 +1989,34 @@ function EntdeckenContent() {
   const fetchReviews = async (placeId: string) => {
     try {
       const response = await fetch(`/discover/api/places/${placeId}/reviews`);
+      if (!response.ok) {
+        setReviews([]);
+        return;
+      }
       const data = await response.json();
-      setReviews(data);
+      setReviews(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error('Error fetching reviews:', e);
+      setReviews([]);
     }
   };
 
-  const fetchNearbyPlaces = async (placeId: string) => {
+  const fetchNearbyPlaces = async (placeId: string, lat?: number, lon?: number, type?: string) => {
     try {
-      const response = await fetch(`/discover/api/places/${placeId}/nearby`);
+      let url = `/discover/api/places/${placeId}/nearby`;
+      if (lat !== undefined && lon !== undefined) {
+        url += `?lat=${lat}&lon=${lon}&type=${type || ''}`;
+      }
+      const response = await fetch(url);
+      if (!response.ok) {
+        setNearbyPlaces([]);
+        return;
+      }
       const data = await response.json();
-      setNearbyPlaces(data || []);
+      setNearbyPlaces(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error('Error fetching nearby places:', e);
+      setNearbyPlaces([]);
     }
   };
 

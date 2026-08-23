@@ -2190,28 +2190,52 @@ const server = http.createServer(async (req, res) => {
         const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
         
         let rows = [];
-        try {
-          const sql1 = `SELECT id, name, category as type, category, locality as city, locality, address, lat as latitude, lon as longitude, website, phone, description FROM places WHERE lat BETWEEN ${lat - dLat} AND ${lat + dLat} AND lon BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 300;`;
-          const output = execFileSync('sqlite3', ['-json', dbPath, sql1], {
-            encoding: 'utf8',
-            stdio: ['ignore', 'pipe', 'pipe'],
-            maxBuffer: 4 * 1024 * 1024
-          }).trim();
-          if (output) {
-            rows = JSON.parse(output);
-          }
-        } catch (_) {
+        if (dbPath) {
           try {
-            const sql2 = `SELECT id, name, type, city, address, rating, image_url, latitude, longitude, description, price, website FROM places WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 300;`;
-            const output2 = execFileSync('sqlite3', ['-json', dbPath, sql2], {
+            const sql1 = `SELECT id, name, category as type, category, locality as city, locality, address, lat as latitude, lon as longitude, website, phone, description FROM places WHERE lat BETWEEN ${lat - dLat} AND ${lat + dLat} AND lon BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 300;`;
+            const output = execFileSync('sqlite3', ['-json', dbPath, sql1], {
               encoding: 'utf8',
               stdio: ['ignore', 'pipe', 'pipe'],
               maxBuffer: 4 * 1024 * 1024
             }).trim();
-            if (output2) {
-              rows = JSON.parse(output2);
+            if (output) {
+              rows = JSON.parse(output);
             }
-          } catch (__) {}
+          } catch (_) {
+            try {
+              const sql2 = `SELECT id, name, type, city, address, rating, image_url, latitude, longitude, description, price, website FROM places WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 300;`;
+              const output2 = execFileSync('sqlite3', ['-json', dbPath, sql2], {
+                encoding: 'utf8',
+                stdio: ['ignore', 'pipe', 'pipe'],
+                maxBuffer: 4 * 1024 * 1024
+              }).trim();
+              if (output2) {
+                rows = JSON.parse(output2);
+              }
+            } catch (__) {}
+          }
+        }
+
+        // Infallible fallback: search from in-memory place index
+        if (!rows || rows.length === 0) {
+          const indexEntries = getPlaceIndexEntries();
+          rows = indexEntries.filter(p => {
+            const pLat = Number(p.latitude || p.lat);
+            const pLon = Number(p.longitude || p.lon);
+            return pLat >= (lat - dLat) && pLat <= (lat + dLat) && pLon >= (lon - dLon) && pLon <= (lon + dLon);
+          }).map(p => ({
+            id: p.id,
+            name: p.name,
+            type: p.type || p.category || 'camp_site',
+            category: p.category || p.type || 'camp_site',
+            city: p.city || p.locality || '',
+            locality: p.locality || p.city || '',
+            address: p.address || '',
+            latitude: Number(p.latitude || p.lat),
+            longitude: Number(p.longitude || p.lon),
+            website: p.website || '',
+            description: p.description || ''
+          }));
         }
 
         const withDist = rows.map(r => {

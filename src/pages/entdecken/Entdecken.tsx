@@ -715,9 +715,10 @@ function EntdeckenContent() {
       setCulinaryCampsites([]);
       let isCurrent = true;
 
-      const nearbyUrl = `/api/trails/nearby-campsites?lat=${selectedCulinarySpot.latitude}&lon=${selectedCulinarySpot.longitude}&radius=25&limit=8`;
-      fetch(nearbyUrl)
-        .then(res => res.json())
+      const url1 = `/discover/api/trails/nearby-campsites?lat=${selectedCulinarySpot.latitude}&lon=${selectedCulinarySpot.longitude}&radius=35&limit=8`;
+      const url2 = `/api/trails/nearby-campsites?lat=${selectedCulinarySpot.latitude}&lon=${selectedCulinarySpot.longitude}&radius=35&limit=8`;
+      fetch(url1)
+        .then(res => res.ok ? res.json() : fetch(url2).then(r => r.json()))
         .then(data => {
           if (!isCurrent) return;
           if (data && data.places && Array.isArray(data.places)) {
@@ -742,8 +743,10 @@ function EntdeckenContent() {
   const openNearbyCampsitesForCulinary = (spot: CulinarySpot) => {
     closeCulinarySpot();
     setIsSearching(true);
-    fetch(`/api/trails/nearby-campsites?lat=${spot.latitude}&lon=${spot.longitude}&radius=35&limit=50`)
-      .then(res => res.json())
+    const url1 = `/discover/api/trails/nearby-campsites?lat=${spot.latitude}&lon=${spot.longitude}&radius=40&limit=50`;
+    const url2 = `/api/trails/nearby-campsites?lat=${spot.latitude}&lon=${spot.longitude}&radius=40&limit=50`;
+    fetch(url1)
+      .then(res => res.ok ? res.json() : fetch(url2).then(r => r.json()))
       .then(data => {
         if (data && data.places && Array.isArray(data.places)) {
           setPlaces(data.places);

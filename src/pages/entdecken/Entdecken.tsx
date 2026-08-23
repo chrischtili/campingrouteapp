@@ -601,15 +601,60 @@ function EntdeckenContent() {
     }
   };
 
+  const openPlace = (place: Place) => {
+    setSelectedPlace(place);
+    try {
+      window.history.pushState({ modal: 'place', placeId: place.id }, '', `#place-${place.id}`);
+    } catch {}
+  };
+
+  const closePlace = () => {
+    setSelectedPlace(null);
+    if (window.location.hash.startsWith('#place-')) {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch {}
+    }
+  };
+
+  const openTrail = (trail: Trail) => {
+    setSelectedTrail(trail);
+    try {
+      window.history.pushState({ modal: 'trail', trailId: trail.id }, '', `#trail-${trail.id}`);
+    } catch {}
+  };
+
+  const closeTrail = () => {
+    setSelectedTrail(null);
+    if (window.location.hash.startsWith('#trail-')) {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch {}
+    }
+  };
+
   useEffect(() => {
     const handlePopState = () => {
       if (selectedEvent) {
         setSelectedEvent(null);
+        return;
+      }
+      if (selectedTrail) {
+        setSelectedTrail(null);
+        return;
+      }
+      if (selectedPlace) {
+        setSelectedPlace(null);
+        return;
+      }
+      if (selectedCountryView) {
+        setSelectedCountryView(null);
+        return;
       }
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [selectedEvent]);
+  }, [selectedEvent, selectedTrail, selectedPlace, selectedCountryView]);
 
   // Fetch verified nearby campsites for selected event from SQLite database without AI key
   useEffect(() => {
@@ -1710,6 +1755,9 @@ function EntdeckenContent() {
     setSearchQuery('');
     setCountryTab(tab);
     setSelectedCountryView(code);
+    try {
+      window.history.pushState({ view: 'country', code, tab }, '', `#country-${code}`);
+    } catch {}
     scrollToTop();
     setTimeout(scrollToTop, 60);
   };
@@ -1720,7 +1768,7 @@ function EntdeckenContent() {
       const response = await fetch(`/discover/api/places/${id}`);
       const place = await response.json();
       if (place && place.id) {
-        setSelectedPlace(place);
+        openPlace(place);
       }
     } catch (e) {
       console.error('Fehler beim Öffnen des Ortes:', e);
@@ -1921,7 +1969,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Close button */}
               <button
-                onClick={() => setSelectedPlace(null)}
+                onClick={closePlace}
                 aria-label="Schließen"
                 style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 1100, background: 'rgba(31,41,55,0.9)', color: '#fff', border: 'none', borderRadius: '9999px', width: '38px', height: '38px', fontSize: '1.4rem', fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
               >×</button>
@@ -2186,7 +2234,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {nearbyPlaces.map((item) => (
                           <div 
                             key={item.id} 
-                            onClick={() => setSelectedPlace(item)}
+                            onClick={() => openPlace(item)}
                             style={{ 
                               display: 'flex', 
                               gap: '0.75rem', 
@@ -2245,8 +2293,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                           <div 
                             key={tr.id}
                             onClick={() => {
-                              setSelectedPlace(null);
-                              setSelectedTrail(tr);
+                              closePlace();
+                              openTrail(tr);
                             }}
                             style={{ 
                               display: 'flex', 
@@ -2305,7 +2353,7 @@ const getWebsiteUrl = (place: Place): string | null => {
         {selectedTrail && (
           <div
             className="place-modal-overlay"
-            onClick={() => setSelectedTrail(null)}
+            onClick={closeTrail}
           >
             <div className="place-modal-container" onClick={(e) => e.stopPropagation()}>
               {/* Mobile Drag/Pull Indicator */}
@@ -2315,7 +2363,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Close button */}
               <button
-                onClick={() => setSelectedTrail(null)}
+                onClick={closeTrail}
                 aria-label="Schließen"
                 style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 1100, background: 'rgba(31,41,55,0.9)', color: '#fff', border: 'none', borderRadius: '9999px', width: '38px', height: '38px', fontSize: '1.4rem', fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
               >×</button>
@@ -2444,7 +2492,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {trailCampsites.map((p) => (
                           <div
                             key={p.id}
-                            onClick={() => { setSelectedTrail(null); setSelectedPlace(p); }}
+                            onClick={() => { closeTrail(); openPlace(p); }}
                             style={{
                               display: 'flex',
                               gap: '0.75rem',
@@ -3035,7 +3083,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
                               <div
                                 key={trail.id}
-                                onClick={() => setSelectedTrail(trail)}
+                                onClick={() => openTrail(trail)}
                                 style={{
                                   background: 'var(--card-bg)',
                                   border: '1px solid var(--card-border)',
@@ -3112,7 +3160,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
                               <div
                                 key={trail.id}
-                                onClick={() => setSelectedTrail(trail)}
+                                onClick={() => openTrail(trail)}
                                 style={{
                                   background: 'var(--card-bg)',
                                   border: '1px solid var(--card-border)',
@@ -3837,7 +3885,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               return (
                                 <div 
                                   key={attr.id}
-                                  onClick={() => setSelectedPlace(attr)}
+                                  onClick={() => openPlace(attr)}
                                   style={{ background: 'var(--gray-50)', border: '1px solid var(--gray-200)', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column' }}
                                   className="hover:scale-102 hover:shadow-md"
                                 >
@@ -4110,7 +4158,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <div 
                           key={place.id} 
                           className="place-grid-card" 
-                          onClick={() => setSelectedPlace(place)}
+                          onClick={() => openPlace(place)}
                           onMouseEnter={() => highlightMapMarker(place.id)}
                           onMouseLeave={() => unhighlightMapMarker(place.id)}
                           style={{
@@ -5194,7 +5242,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             key={p.id}
                             onClick={() => {
                               closeEventDetails();
-                              setSelectedPlace(p);
+                              openPlace(p);
                             }}
                             style={{
                               display: 'flex',

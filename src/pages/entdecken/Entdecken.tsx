@@ -51,8 +51,9 @@ import { Footer } from "@/components/route-planner/Footer";
 import { AppBreadcrumbs, type BreadcrumbItem } from "@/components/AppBreadcrumbs";
 import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBreadcrumbs";
 import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "@/data/trails";
+import { GERMAN_FLAGSHIP_EVENTS, type FlagshipEvent } from "@/data/flagshipEvents";
 
-export type { Trail };
+export type { Trail, FlagshipEvent };
 
 export interface GermanEvent {
   id: string;
@@ -573,8 +574,8 @@ function EntdeckenContent() {
     });
   }, [trails, trailFilter, trailStateFilter, trailSearchText]);
 
-  // Events & Wine Festivals State (Open Data Germany / DZT)
-  const [events, setEvents] = useState<GermanEvent[]>([]);
+  // Events & Wine Festivals State (Open Data Germany / DZT + Flagship German Festivals)
+  const [events, setEvents] = useState<GermanEvent[]>(() => GERMAN_FLAGSHIP_EVENTS as unknown as GermanEvent[]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
   const [eventCategory, setEventCategory] = useState<'all' | 'wine' | 'culture' | 'festival' | 'market' | 'sport'>('all');
   const [eventStateFilter, setEventStateFilter] = useState<string>('Alle Bundesländer');
@@ -650,13 +651,30 @@ function EntdeckenContent() {
         .then(r => r.ok ? r.json() : fetch(`/api/dzt/events?${params.toString()}`).then(r => r.json()));
       
       if (res && res.success && Array.isArray(res.data)) {
-        setEvents(res.data);
+        const liveEvents = res.data;
+        const liveNames = new Set(liveEvents.map((e: any) => (e.name || '').toLowerCase().trim()));
+        const matchingFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => {
+          if (category !== 'all' && f.category !== category) return false;
+          if (region !== 'Alle Bundesländer' && region !== 'all' && f.state !== region) return false;
+          return !liveNames.has(f.name.toLowerCase().trim());
+        });
+        setEvents([...(matchingFlagships as unknown as GermanEvent[]), ...liveEvents]);
       } else {
-        setEvents([]);
+        const matchingFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => {
+          if (category !== 'all' && f.category !== category) return false;
+          if (region !== 'Alle Bundesländer' && region !== 'all' && f.state !== region) return false;
+          return true;
+        });
+        setEvents(matchingFlagships as unknown as GermanEvent[]);
       }
     } catch (err) {
       console.error('Error fetching events:', err);
-      setEvents([]);
+      const matchingFlagships = GERMAN_FLAGSHIP_EVENTS.filter(f => {
+        if (category !== 'all' && f.category !== category) return false;
+        if (region !== 'Alle Bundesländer' && region !== 'all' && f.state !== region) return false;
+        return true;
+      });
+      setEvents(matchingFlagships as unknown as GermanEvent[]);
     } finally {
       setIsLoadingEvents(false);
     }
@@ -667,14 +685,23 @@ function EntdeckenContent() {
   }, [eventCategory, eventStateFilter, eventSearchText, fetchEvents]);
 
   const filteredEvents = useMemo(() => {
-    if (!eventSearchText.trim()) return events;
-    const q = eventSearchText.toLowerCase().trim();
-    return events.filter(e => 
-      (e.name || '').toLowerCase().includes(q) ||
-      (e.locality || '').toLowerCase().includes(q) ||
-      (e.description || '').toLowerCase().includes(q)
-    );
-  }, [events, eventSearchText]);
+    let list = events;
+    if (eventCategory !== 'all') {
+      list = list.filter(e => (e as any).category === eventCategory || !(e as any).category);
+    }
+    if (eventStateFilter !== 'Alle Bundesländer' && eventStateFilter !== 'all') {
+      list = list.filter(e => (e as any).state === eventStateFilter || (e.locality || '').includes(eventStateFilter));
+    }
+    if (eventSearchText.trim()) {
+      const q = eventSearchText.toLowerCase().trim();
+      list = list.filter(e => 
+        (e.name || '').toLowerCase().includes(q) ||
+        (e.locality || '').toLowerCase().includes(q) ||
+        (e.description || '').toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [events, eventCategory, eventStateFilter, eventSearchText]);
 
   const formatEventDate = (start?: string, end?: string) => {
     if (!start) return '';

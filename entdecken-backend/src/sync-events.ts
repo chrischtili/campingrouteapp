@@ -1,5 +1,6 @@
 import { getDb } from './db/db.js';
 import { searchDztEvents } from './dzt.js';
+import { GERMAN_FLAGSHIP_EVENTS } from './data/flagshipEvents.js';
 
 const CATEGORY_FALLBACK_IMAGES: Record<string, string[]> = {
   wine: [
@@ -100,7 +101,60 @@ export async function syncEventsFromDzt() {
 
   const seenIds = new Set<string>();
 
-  // 1. Famous highlights & wine festival towns (including Bad Dürkheimer Wurstmarkt)
+  // 1. Seed Iconic German Flagship Mega-Events
+  console.log("\n🇩🇪 Seeding Iconic German Flagship Festivals...");
+  for (const f of GERMAN_FLAGSHIP_EVENTS) {
+    seenIds.add(f.id);
+    await db.run(
+      `INSERT INTO events (
+        id, name, description, full_description, category, locality, postal_code,
+        street_address, state, country, latitude, longitude, start_date, end_date,
+        types, image_url, image_copyright, url, source, last_updated
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open_data_curated', datetime('now'))
+      ON CONFLICT(id) DO UPDATE SET
+        name=excluded.name,
+        description=excluded.description,
+        full_description=excluded.full_description,
+        category=excluded.category,
+        locality=excluded.locality,
+        postal_code=excluded.postal_code,
+        street_address=excluded.street_address,
+        state=excluded.state,
+        country=excluded.country,
+        latitude=excluded.latitude,
+        longitude=excluded.longitude,
+        start_date=excluded.start_date,
+        end_date=excluded.end_date,
+        types=excluded.types,
+        image_url=excluded.image_url,
+        image_copyright=excluded.image_copyright,
+        url=excluded.url,
+        last_updated=datetime('now')`,
+      [
+        f.id,
+        f.name,
+        f.description,
+        f.fullDescription,
+        f.category,
+        f.locality,
+        f.postalCode,
+        f.streetAddress,
+        f.state,
+        f.country,
+        f.latitude,
+        f.longitude,
+        f.startDate,
+        f.endDate || null,
+        JSON.stringify(f.types),
+        f.image_url,
+        f.image_copyright,
+        f.url
+      ]
+    );
+  }
+  console.log(`   Seeded ${GERMAN_FLAGSHIP_EVENTS.length} Iconic German Flagship Events`);
+
+  // 2. Famous highlights & wine festival towns (including Bad Dürkheimer Wurstmarkt)
   console.log("\n🍷 Fetching famous German wine festivals & spots...");
   for (const spot of FAMOUS_EVENT_SPOTS) {
     try {

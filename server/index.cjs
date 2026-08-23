@@ -2042,6 +2042,41 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(204);
       res.end();
       return;
+    // Culinary / Farm shops & Wineries endpoint
+    if (req.method === 'GET' && (pathname === '/api/culinary' || pathname === '/discover/api/culinary')) {
+      const type = (url.searchParams.get('type') || 'all').toLowerCase();
+      const state = (url.searchParams.get('state') || '').trim();
+      const q = (url.searchParams.get('search') || url.searchParams.get('q') || '').toLowerCase().trim();
+      try {
+        const culinaryFilePath = path.join(__dirname, 'culinary.json');
+        let spotsList = [];
+        if (fs.existsSync(culinaryFilePath)) {
+          spotsList = JSON.parse(fs.readFileSync(culinaryFilePath, 'utf8'));
+        }
+        if (type && type !== 'all') {
+          spotsList = spotsList.filter(s => s.type === type);
+        }
+        if (state && state !== 'all' && state !== 'Alle Bundesländer') {
+          spotsList = spotsList.filter(s => (s.state || '').toLowerCase().includes(state.toLowerCase()) || (s.region || '').toLowerCase().includes(state.toLowerCase()));
+        }
+        if (q) {
+          spotsList = spotsList.filter(s =>
+            (s.name || '').toLowerCase().includes(q) ||
+            (s.region || '').toLowerCase().includes(q) ||
+            (s.address || '').toLowerCase().includes(q) ||
+            (s.description || '').toLowerCase().includes(q) ||
+            (s.products || []).some(p => (p || '').toLowerCase().includes(q))
+          );
+        }
+        sendJson(res, 200, {
+          total: spotsList.length,
+          spots: spotsList
+        });
+        return;
+      } catch (err) {
+        sendJson(res, 200, { total: 0, spots: [] });
+        return;
+      }
     }
 
     // Hiking & Biking Trails endpoint

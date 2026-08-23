@@ -80,18 +80,85 @@ const SEARCH_CONFIGS = [
   { category: 'sport', keywords: 'Sport,Wandern,Lauf,Rad,Marathon' }
 ];
 
-const FAMOUS_EVENT_SPOTS = [
+const TOP_GERMAN_TOURISM_TOWNS = [
+  // Baden-Württemberg
+  { locality: "Freiburg im Breisgau", state: "Baden-Württemberg", keywords: "Fest,Wein,Markt,Kultur", category: "wine" },
+  { locality: "Heidelberg", state: "Baden-Württemberg", keywords: "Fest,Kultur,Markt", category: "culture" },
+  { locality: "Konstanz", state: "Baden-Württemberg", keywords: "Fest,Seenachtfest,Markt", category: "festival" },
+  { locality: "Meersburg", state: "Baden-Württemberg", keywords: "Weinfest,Wein,Markt", category: "wine" },
+  { locality: "Baden-Baden", state: "Baden-Württemberg", keywords: "Kultur,Fest,Markt", category: "culture" },
+  { locality: "Ulm", state: "Baden-Württemberg", keywords: "Fest,Markt,Kultur", category: "festival" },
+  { locality: "Ravensburg", state: "Baden-Württemberg", keywords: "Fest,Rutenfest,Markt", category: "festival" },
+  { locality: "Titisee-Neustadt", state: "Baden-Württemberg", keywords: "Fest,Sport,Markt", category: "sport" },
+
+  // Bayern
+  { locality: "Rothenburg ob der Tauber", state: "Bayern", keywords: "Fest,Markt,Mittelalter", category: "culture" },
+  { locality: "Bamberg", state: "Bayern", keywords: "Sandkerwa,Bierfest,Markt,Kultur", category: "festival" },
+  { locality: "Füssen", state: "Bayern", keywords: "Fest,Kultur,Markt", category: "culture" },
+  { locality: "Berchtesgaden", state: "Bayern", keywords: "Fest,Brauchtum,Markt", category: "culture" },
+  { locality: "Garmisch-Partenkirchen", state: "Bayern", keywords: "Fest,Sport,Markt", category: "sport" },
+  { locality: "Lindau (Bodensee)", state: "Bayern", keywords: "Fest,Wein,Markt", category: "wine" },
+  { locality: "Passau", state: "Bayern", keywords: "Fest,Dult,Markt,Kultur", category: "festival" },
+  { locality: "Regensburg", state: "Bayern", keywords: "Dult,Bürgerfest,Markt", category: "festival" },
+  { locality: "Würzburg", state: "Bayern", keywords: "Weinfest,Wein,Volksfest", category: "wine" },
+  { locality: "Oberstdorf", state: "Bayern", keywords: "Fest,Almabtrieb,Sport", category: "culture" },
+
+  // Rheinland-Pfalz
   { locality: "Bad Dürkheim", state: "Rheinland-Pfalz", keywords: "Fest,Wein,Markt", category: "wine" },
-  { locality: "Bernkastel-Kues", state: "Rheinland-Pfalz", keywords: "Weinfest,Wein", category: "wine" },
+  { locality: "Bernkastel-Kues", state: "Rheinland-Pfalz", keywords: "Weinfest,Wein,Markt", category: "wine" },
   { locality: "Neustadt an der Weinstraße", state: "Rheinland-Pfalz", keywords: "Wein,Fest", category: "wine" },
-  { locality: "Rüdesheim am Rhein", state: "Hessen", keywords: "Weinfest,Wein", category: "wine" },
-  { locality: "Würzburg", state: "Bayern", keywords: "Weinfest,Wein", category: "wine" },
-  { locality: "Freiburg im Breisgau", state: "Baden-Württemberg", keywords: "Weinfest,Wein", category: "wine" },
-  { locality: "Stuttgart", state: "Baden-Württemberg", keywords: "Weindorf,Volksfest", category: "wine" },
-  { locality: "Mainz", state: "Rheinland-Pfalz", keywords: "Weinmarkt,Wein", category: "wine" },
-  { locality: "Cochem", state: "Rheinland-Pfalz", keywords: "Weinfest,Wein", category: "wine" },
-  { locality: "Breisach am Rhein", state: "Baden-Württemberg", keywords: "Weinfest,Wein", category: "wine" }
+  { locality: "Cochem", state: "Rheinland-Pfalz", keywords: "Weinfest,Wein,Burg", category: "wine" },
+  { locality: "Sankt Goar", state: "Rheinland-Pfalz", keywords: "Fest,Rhein,Kultur", category: "festival" },
+  { locality: "Speyer", state: "Rheinland-Pfalz", keywords: "Fest,Brezelfest,Kultur", category: "festival" },
+  { locality: "Trier", state: "Rheinland-Pfalz", keywords: "Fest,Altstadtfest,Kultur", category: "culture" },
+  { locality: "Mainz", state: "Rheinland-Pfalz", keywords: "Weinmarkt,Wein,Johannisnacht", category: "wine" },
+  { locality: "Breisach am Rhein", state: "Baden-Württemberg", keywords: "Weinfest,Wein", category: "wine" },
+
+  // Hessen
+  { locality: "Rüdesheim am Rhein", state: "Hessen", keywords: "Weinfest,Wein,Fest", category: "wine" },
+  { locality: "Wiesbaden", state: "Hessen", keywords: "Weinwoche,Wein,Fest", category: "wine" },
+  { locality: "Marburg", state: "Hessen", keywords: "Fest,Stadtfest,Markt", category: "culture" },
+  { locality: "Fulda", state: "Hessen", keywords: "Fest,Kultur,Markt", category: "culture" },
+
+  // Niedersachsen
+  { locality: "Goslar", state: "Niedersachsen", keywords: "Fest,Kaiser-Markt,Kultur", category: "culture" },
+  { locality: "Lüneburg", state: "Niedersachsen", keywords: "Fest,Sülfmeister,Markt", category: "festival" },
+  { locality: "Celle", state: "Niedersachsen", keywords: "Weinmarkt,Fest,Markt", category: "wine" },
+  { locality: "Cuxhaven", state: "Niedersachsen", keywords: "Sommerabend am Meer,Hafenfest", category: "festival" },
+  { locality: "Norderney", state: "Niedersachsen", keywords: "Fest,White Sands,Sport", category: "sport" },
+
+  // Schleswig-Holstein
+  { locality: "Lübeck", state: "Schleswig-Holstein", keywords: "Fest,Markt,Kultur", category: "market" },
+  { locality: "Husum", state: "Schleswig-Holstein", keywords: "Krabbentage,Fest,Markt", category: "market" },
+  { locality: "Glückstadt", state: "Schleswig-Holstein", keywords: "Matjeswoche,Hafenfest", category: "market" },
+  { locality: "Sankt Peter-Ording", state: "Schleswig-Holstein", keywords: "Kitesurf,Fest,Strand", category: "sport" },
+  { locality: "Fehmarn", state: "Schleswig-Holstein", keywords: "Surffestival,Fest,Markt", category: "sport" },
+
+  // Mecklenburg-Vorpommern
+  { locality: "Wismar", state: "Mecklenburg-Vorpommern", keywords: "Hafenfest,Schwedenfest,Markt", category: "festival" },
+  { locality: "Rostock", state: "Mecklenburg-Vorpommern", keywords: "Hanse Sail,Hafenfest", category: "festival" },
+  { locality: "Stralsund", state: "Mecklenburg-Vorpommern", keywords: "Wallensteintage,Hafenfest", category: "culture" },
+  { locality: "Waren (Müritz)", state: "Mecklenburg-Vorpommern", keywords: "Müritz Sail,Volksfest", category: "festival" },
+  { locality: "Zingst", state: "Mecklenburg-Vorpommern", keywords: "Fotofestival,Fest,Markt", category: "culture" },
+
+  // Nordrhein-Westfalen
+  { locality: "Monschau", state: "Nordrhein-Westfalen", keywords: "Fest,Klassik,Markt", category: "culture" },
+  { locality: "Winterberg", state: "Nordrhein-Westfalen", keywords: "Sport,Festival,Markt", category: "sport" },
+  { locality: "Xanten", state: "Nordrhein-Westfalen", keywords: "Römerfest,Mittelalter,Markt", category: "culture" },
+  { locality: "Aachen", state: "Nordrhein-Westfalen", keywords: "CHIO,Markt,Kultur", category: "sport" },
+
+  // Sachsen, Thüringen, Sachsen-Anhalt, Brandenburg
+  { locality: "Dresden", state: "Sachsen", keywords: "Stadtfest,Striezelmarkt,Kultur", category: "culture" },
+  { locality: "Meißen", state: "Sachsen", keywords: "Weinfest,Kultur,Markt", category: "wine" },
+  { locality: "Quedlinburg", state: "Sachsen-Anhalt", keywords: "Kaiserfrühling,Advent,Markt", category: "culture" },
+  { locality: "Wernigerode", state: "Sachsen-Anhalt", keywords: "Rathausfest,Walpurgis,Markt", category: "festival" },
+  { locality: "Weimar", state: "Thüringen", keywords: "Zwiebelmarkt,Kultur,Fest", category: "market" },
+  { locality: "Erfurt", state: "Thüringen", keywords: "Krämerbrückenfest,Markt,Kultur", category: "culture" },
+  { locality: "Lübbenau/Spreewald", state: "Brandenburg", keywords: "Spreewaldfest,Kahnfahrt,Markt", category: "festival" },
+  { locality: "Werder (Havel)", state: "Brandenburg", keywords: "Baumblütenfest,Wein", category: "wine" }
 ];
+
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 export async function syncEventsFromDzt() {
   console.log("=== Starting DZT Events Synchronization ===");
@@ -154,28 +221,29 @@ export async function syncEventsFromDzt() {
   }
   console.log(`   Seeded ${GERMAN_FLAGSHIP_EVENTS.length} Iconic German Flagship Events`);
 
-  // 2. Famous highlights & wine festival towns (including Bad Dürkheimer Wurstmarkt)
-  console.log("\n🍷 Fetching famous German wine festivals & spots...");
-  for (const spot of FAMOUS_EVENT_SPOTS) {
+  // 2. High-Yield German Tourism Towns across all Bundesländer
+  console.log(`\n🏘️ Fetching Open Data Events across ${TOP_GERMAN_TOURISM_TOWNS.length} German Tourism Towns...`);
+  for (const town of TOP_GERMAN_TOURISM_TOWNS) {
     try {
-      const spotEvents = await searchDztEvents({
-        locality: spot.locality,
-        keywords: spot.keywords,
+      const townEvents = await searchDztEvents({
+        locality: town.locality,
+        keywords: town.keywords,
         dateRangeStart: today,
         dateRangeEnd: nextYear
       });
-      if (spotEvents.length > 0) {
-        console.log(`   Found ${spotEvents.length} events in ${spot.locality}`);
-        for (const e of spotEvents) {
-          await saveEvent(db, e, spot.category, spot.state, seenIds);
+      if (townEvents.length > 0) {
+        console.log(`   [${town.state}] ${town.locality}: ${townEvents.length} events found`);
+        for (const e of townEvents) {
+          await saveEvent(db, e, town.category, town.state, seenIds);
         }
       }
+      await sleep(100);
     } catch (err: any) {
-      console.error(`   Error in ${spot.locality}:`, err.message);
+      console.error(`   Error in ${town.locality}:`, err.message);
     }
   }
 
-  // 2. Categories across Germany
+  // 4. Categories across Germany
   for (const cfg of SEARCH_CONFIGS) {
     console.log(`\n🔍 Fetching category: ${cfg.category} (${cfg.keywords})...`);
     
@@ -189,6 +257,7 @@ export async function syncEventsFromDzt() {
       for (const e of generalEvents) {
         await saveEvent(db, e, cfg.category, undefined, seenIds);
       }
+      await sleep(150);
     } catch (err: any) {
       console.error(`   Error in broad search:`, err.message);
     }

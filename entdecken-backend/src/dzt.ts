@@ -41,7 +41,7 @@ export function callDztMcp(toolName: string, args: Record<string, any>): Promise
         "x-api-key": DZT_API_KEY,
         "Content-Length": Buffer.byteLength(payload)
       },
-      timeout: 10000
+      timeout: 20000
     };
 
     const req = https.request(options, (res) => {

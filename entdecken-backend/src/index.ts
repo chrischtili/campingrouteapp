@@ -153,7 +153,7 @@ app.get("/api/dzt/events", async (req, res) => {
       params.push(dateRangeEnd);
     }
 
-    query += " ORDER BY start_date ASC LIMIT 300";
+    query += " ORDER BY start_date ASC LIMIT 1000";
 
     const dbEvents = await db.all(query, params);
 

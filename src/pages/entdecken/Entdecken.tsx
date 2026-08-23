@@ -2311,7 +2311,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-600)' }}>
                       <ImageIcon size={28} style={{ margin: '0 auto 0.5rem auto' }} />
                       <p style={{ fontWeight: 600, fontSize: '0.85rem' }}>{t.noVideoReports}</p>
-                      <p style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>{t.noVideoReportsSub}</p>
+                      <p style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>
+                        {selectedPlace.type === 'attraction' 
+                          ? (t.noVideoReportsSubAttraction || 'Erstelle den ersten Videobeitrag über diesen Ort!') 
+                          : t.noVideoReportsSub}
+                      </p>
                       <button style={{ background: 'var(--primary-700)', color: 'white', border: 'none', borderRadius: '18px', padding: '0.45rem 1.25rem', fontWeight: 700, fontSize: '0.82rem', marginTop: '0.85rem', cursor: 'pointer' }}>{t.addContentBtn}</button>
                     </div>
                   </div>

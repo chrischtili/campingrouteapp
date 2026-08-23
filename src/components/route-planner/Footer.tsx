@@ -148,8 +148,8 @@ export function Footer() {
                 <button
                   type="button"
                   onClick={() => {
+                    navigate("/discover?openMCP=true");
                     window.dispatchEvent(new CustomEvent("campingroute:open-mcp"));
-                    navigate("/discover");
                   }}
                   className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer"
                 >

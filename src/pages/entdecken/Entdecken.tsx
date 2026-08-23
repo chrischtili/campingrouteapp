@@ -987,8 +987,19 @@ function EntdeckenContent() {
   // NOTE: URL history sync is disabled when embedded in campingroute_app - the
   // outer router owns the URL. Navigation here is purely state-based.
 
-  // Open the internal AI settings panel when the navbar button asks for it.
+  // Open the internal AI settings or MCP panel when the navbar button or query param asks for it.
   React.useEffect(() => {
+    // Check URL parameters / hash on initial mount (e.g. from Footer navigation)
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('openMCP') === 'true' || window.location.hash === '#mcp') {
+        setShowMCPModal(true);
+      }
+      if (params.get('openAISettings') === 'true' || window.location.hash === '#ai-settings') {
+        handleOpenAISettings();
+      }
+    } catch {}
+
     const openSettings = () => handleOpenAISettings();
     window.addEventListener('campingroute:open-ai-settings', openSettings);
     const openMCP = () => setShowMCPModal(true);

@@ -79,6 +79,19 @@ const SEARCH_CONFIGS = [
   { category: 'sport', keywords: 'Sport,Wandern,Lauf,Rad,Marathon' }
 ];
 
+const FAMOUS_EVENT_SPOTS = [
+  { locality: "Bad Dürkheim", state: "Rheinland-Pfalz", keywords: "Fest,Wein,Markt", category: "wine" },
+  { locality: "Bernkastel-Kues", state: "Rheinland-Pfalz", keywords: "Weinfest,Wein", category: "wine" },
+  { locality: "Neustadt an der Weinstraße", state: "Rheinland-Pfalz", keywords: "Wein,Fest", category: "wine" },
+  { locality: "Rüdesheim am Rhein", state: "Hessen", keywords: "Weinfest,Wein", category: "wine" },
+  { locality: "Würzburg", state: "Bayern", keywords: "Weinfest,Wein", category: "wine" },
+  { locality: "Freiburg im Breisgau", state: "Baden-Württemberg", keywords: "Weinfest,Wein", category: "wine" },
+  { locality: "Stuttgart", state: "Baden-Württemberg", keywords: "Weindorf,Volksfest", category: "wine" },
+  { locality: "Mainz", state: "Rheinland-Pfalz", keywords: "Weinmarkt,Wein", category: "wine" },
+  { locality: "Cochem", state: "Rheinland-Pfalz", keywords: "Weinfest,Wein", category: "wine" },
+  { locality: "Breisach am Rhein", state: "Baden-Württemberg", keywords: "Weinfest,Wein", category: "wine" }
+];
+
 export async function syncEventsFromDzt() {
   console.log("=== Starting DZT Events Synchronization ===");
   const db = await getDb();
@@ -87,10 +100,31 @@ export async function syncEventsFromDzt() {
 
   const seenIds = new Set<string>();
 
+  // 1. Famous highlights & wine festival towns (including Bad Dürkheimer Wurstmarkt)
+  console.log("\n🍷 Fetching famous German wine festivals & spots...");
+  for (const spot of FAMOUS_EVENT_SPOTS) {
+    try {
+      const spotEvents = await searchDztEvents({
+        locality: spot.locality,
+        keywords: spot.keywords,
+        dateRangeStart: today,
+        dateRangeEnd: nextYear
+      });
+      if (spotEvents.length > 0) {
+        console.log(`   Found ${spotEvents.length} events in ${spot.locality}`);
+        for (const e of spotEvents) {
+          await saveEvent(db, e, spot.category, spot.state, seenIds);
+        }
+      }
+    } catch (err: any) {
+      console.error(`   Error in ${spot.locality}:`, err.message);
+    }
+  }
+
+  // 2. Categories across Germany
   for (const cfg of SEARCH_CONFIGS) {
     console.log(`\n🔍 Fetching category: ${cfg.category} (${cfg.keywords})...`);
     
-    // 1. Broad Germany search
     try {
       const generalEvents = await searchDztEvents({
         keywords: cfg.keywords,
@@ -103,26 +137,6 @@ export async function syncEventsFromDzt() {
       }
     } catch (err: any) {
       console.error(`   Error in broad search:`, err.message);
-    }
-
-    // 2. Regional searches for top tourism states
-    for (const state of ["Baden-Württemberg", "Bayern", "Rheinland-Pfalz", "Hessen", "Sachsen", "Schleswig-Holstein"]) {
-      try {
-        const regionalEvents = await searchDztEvents({
-          keywords: cfg.keywords,
-          region: state,
-          dateRangeStart: today,
-          dateRangeEnd: nextYear
-        });
-        if (regionalEvents.length > 0) {
-          console.log(`   Found ${regionalEvents.length} events in ${state}`);
-          for (const e of regionalEvents) {
-            await saveEvent(db, e, cfg.category, state, seenIds);
-          }
-        }
-      } catch (err: any) {
-        console.error(`   Error in ${state} search:`, err.message);
-      }
     }
   }
 

@@ -33,7 +33,8 @@ import {
   List as ListIcon,
   Maximize2,
   Calendar,
-  Wine
+  Wine,
+  Download
 } from 'lucide-react';
 import de from './locales/de.json';
 import en from './locales/en.json';
@@ -1531,6 +1532,45 @@ function EntdeckenContent() {
     }
   }, [selectedTrail]);
 
+  // GPX Download handler for selectedTrail
+  const handleDownloadGpx = () => {
+    if (!selectedTrail) return;
+    const points = (trailPolyline && trailPolyline.length > 1) 
+      ? trailPolyline 
+      : (selectedTrail.polyline && selectedTrail.polyline.length > 0)
+        ? selectedTrail.polyline
+        : [[selectedTrail.latitude, selectedTrail.longitude]];
+
+    const trkpts = points.map(([lat, lon]) => `      <trkpt lat="${lat.toFixed(6)}" lon="${lon.toFixed(6)}"><ele>0</ele></trkpt>`).join('\n');
+    const gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="CampingRoute.app - Open Data Germany" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
+    <desc>${(selectedTrail.description || '').replace(/[<>&'"]/g, '')}</desc>
+    <author>
+      <name>CampingRoute.app / DZT Open Data Germany</name>
+    </author>
+  </metadata>
+  <trk>
+    <name>${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
+    <type>${selectedTrail.type === 'biking' ? 'Cycling' : 'Hiking'}</type>
+    <trkseg>
+${trkpts}
+    </trkseg>
+  </trk>
+</gpx>`;
+
+    const blob = new Blob([gpxContent], { type: 'application/gpx+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${selectedTrail.name.toLowerCase().replace(/[^a-z0-9äöüß]+/gi, '_')}.gpx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   // Trail Detail Map initialization & drawing (Polyline + Start/End + Campsites)
   useEffect(() => {
     const isOpen = !!selectedTrail;
@@ -2688,6 +2728,31 @@ const getWebsiteUrl = (place: Place): string | null => {
                           🏕️ {isLoadingTrailCampsites ? '...' : `${trailCampsites.length} ${trailCampsites.length === 1 ? 'Platz' : 'Plätze'}`}
                         </p>
                       </div>
+                    </div>
+
+                    {/* GPX Download Action */}
+                    <div style={{ marginBottom: '1.25rem' }}>
+                      <button
+                        onClick={handleDownloadGpx}
+                        style={{
+                          background: '#ecfdf5',
+                          color: '#059669',
+                          border: '1px solid #a7f3d0',
+                          borderRadius: '10px',
+                          padding: '0.65rem 1.1rem',
+                          fontSize: '0.88rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          transition: 'all 0.15s ease-in-out'
+                        }}
+                        className="hover:bg-emerald-100 hover:shadow-sm"
+                      >
+                        <Download size={17} />
+                        <span>📥 GPX-Track herunterladen (Navi / Komoot / Garmin)</span>
+                      </button>
                     </div>
 
                     {/* Highlights */}

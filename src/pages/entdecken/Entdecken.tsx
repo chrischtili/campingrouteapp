@@ -2334,7 +2334,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     )}
                   </div>
 
-                  {/* Nearby Places Section (in Left Column for ample space) */}
+                  {/* Nearby Places Section (Left Column: 2-column wide grid) */}
                   <div className="detail-card">
                     <h3 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)' }}>
                       {selectedPlace.type === 'attraction' 
@@ -2394,79 +2394,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', margin: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: '0.5rem' }}>{item.city || item.address?.split(',')[0] || item.state || ''}</span>
                                 <span style={{ fontWeight: 700, color: 'var(--primary-700)', flexShrink: 0 }}>{item.distance_km} km</span>
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Nearby Trails Section (in Left Column for ample space) */}
-                  <div className="detail-card">
-                    <h3 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      🥾 {t.nearbyTrailsTitle || 'Wander- & Radwege ab hier'}
-                    </h3>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginBottom: '1.1rem' }}>
-                      {t.nearbyTrailsSubtitle || 'Touren und Steige in der direkten Umgebung'}
-                    </p>
-                    
-                    {nearbyTrails.length === 0 ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0 }}>
-                        {t.noNearbyTrails || 'Keine bekannten Fernwanderwege im direkten Nahbereich.'}
-                      </p>
-                    ) : (
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.85rem' }}>
-                        {nearbyTrails.map((tr) => (
-                          <div 
-                            key={tr.id}
-                            onClick={() => {
-                              closePlace();
-                              openTrail(tr);
-                            }}
-                            title={`${tr.name} (${tr.distance_km} km)`}
-                            style={{ 
-                              display: 'flex', 
-                              gap: '0.75rem', 
-                              alignItems: 'center', 
-                              padding: '0.75rem 0.85rem', 
-                              borderRadius: '12px', 
-                              border: '1px solid var(--card-border)',
-                              background: 'var(--gray-50)',
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease-in-out'
-                            }}
-                            className="nearby-place-item hover:border-primary-500 hover:shadow-sm hover:bg-white"
-                          >
-                            <div style={{ 
-                              width: '38px', 
-                              height: '38px', 
-                              borderRadius: '10px', 
-                              background: tr.type === 'biking' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', 
-                              color: tr.type === 'biking' ? '#2563eb' : '#059669',
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              justifyContent: 'center',
-                              flexShrink: 0
-                            }}>
-                              {tr.type === 'biking' ? <Navigation size={18} /> : <Compass size={18} />}
-                            </div>
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.4rem', marginBottom: '0.25rem' }}>
-                                <h5 
-                                  title={tr.name}
-                                  style={{ fontSize: '0.9rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)', lineHeight: '1.25', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}
-                                >
-                                  {tr.name}
-                                </h5>
-                                <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-block', background: tr.difficulty === 'easy' ? '#ecfdf5' : tr.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: tr.difficulty === 'easy' ? '#059669' : tr.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
-                                  {tr.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : tr.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
-                                </span>
-                              </div>
-                              <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
-                                <span>{tr.distance_km} km</span>
-                                <span>·</span>
-                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
                               </p>
                             </div>
                           </div>
@@ -2585,6 +2512,79 @@ const getWebsiteUrl = (place: Place): string | null => {
                         </a>
                       )}
                     </div>
+                  </div>
+
+                  {/* Nearby Trails Section (in Right Column for perfect vertical balance) */}
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      🥾 {t.nearbyTrailsTitle || 'Wander- & Radwege ab hier'}
+                    </h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>
+                      {t.nearbyTrailsSubtitle || 'Touren und Steige in der direkten Umgebung'}
+                    </p>
+                    
+                    {nearbyTrails.length === 0 ? (
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0 }}>
+                        {t.noNearbyTrails || 'Keine bekannten Fernwanderwege im direkten Nahbereich.'}
+                      </p>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {nearbyTrails.map((tr) => (
+                          <div 
+                            key={tr.id}
+                            onClick={() => {
+                              closePlace();
+                              openTrail(tr);
+                            }}
+                            title={`${tr.name} (${tr.distance_km} km)`}
+                            style={{ 
+                              display: 'flex', 
+                              gap: '0.75rem', 
+                              alignItems: 'center', 
+                              padding: '0.65rem 0.75rem', 
+                              borderRadius: '10px', 
+                              border: '1px solid var(--card-border)',
+                              background: 'var(--gray-50)',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease-in-out'
+                            }}
+                            className="nearby-place-item hover:border-primary-500 hover:shadow-sm hover:bg-white"
+                          >
+                            <div style={{ 
+                              width: '34px', 
+                              height: '34px', 
+                              borderRadius: '8px', 
+                              background: tr.type === 'biking' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', 
+                              color: tr.type === 'biking' ? '#2563eb' : '#059669',
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center',
+                              flexShrink: 0
+                            }}>
+                              {tr.type === 'biking' ? <Navigation size={17} /> : <Compass size={17} />}
+                            </div>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                                <h5 
+                                  title={tr.name}
+                                  style={{ fontSize: '0.88rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)', lineHeight: '1.25', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}
+                                >
+                                  {tr.name}
+                                </h5>
+                                <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-block', background: tr.difficulty === 'easy' ? '#ecfdf5' : tr.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: tr.difficulty === 'easy' ? '#059669' : tr.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
+                                  {tr.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : tr.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
+                                </span>
+                              </div>
+                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                <span>{tr.distance_km} km</span>
+                                <span>·</span>
+                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                 </div>

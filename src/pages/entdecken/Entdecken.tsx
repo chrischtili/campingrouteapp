@@ -5131,22 +5131,29 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Available Tools Overview */}
               <div style={{ marginBottom: '1.5rem' }}>
-                <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'block' }}>
-                  {t.mcpToolsHeader || 'Verfügbare MCP-Tools für deine KI (7 Tools)'}
+                <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--gray-700)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>{t.mcpToolsHeader || 'Verfügbare MCP-Tools für deine KI (10 Tools)'}</span>
+                  <span style={{ fontSize: '0.72rem', background: '#f5f3ff', color: '#7c3aed', padding: '2px 8px', borderRadius: '9999px', fontWeight: 800 }}>10 Tools aktiv</span>
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                   {[
-                    { name: 'search_places', desc: t.mcpTool1Desc || 'Sucht europaweit nach Campingplätzen, Stellplätzen & Sehenswürdigkeiten mit Filtern nach Land, Region, Ort, Typ & Merkmalen.' },
-                    { name: 'get_place_details', desc: t.mcpTool2Desc || 'Liefert vollständige Kontaktdaten, Koordinaten, Preise, Sanitär-Ausstattung und Details zu einem Platz.' },
-                    { name: 'get_reviews', desc: t.mcpTool3Desc || 'Ruft echte Reiseberichte und Bewertungen von Campern zu einem Platz ab.' },
-                    { name: 'add_review', desc: t.mcpTool4Desc || 'Schreibt eine neue Bewertung und vergibt Sterne für einen besuchten Platz.' },
-                    { name: 'get_lists', desc: t.mcpTool5Desc || 'Gibt alle erstellten Reiselisten und Favoriten-Sammlungen zurück.' },
-                    { name: 'create_list', desc: t.mcpTool6Desc || 'Erstellt eine neue Reiseliste (z. B. für eine geplante Route oder Favoriten).' },
-                    { name: 'save_to_list', desc: t.mcpTool7Desc || 'Speichert einen Campingplatz oder Spot in einer bestimmten Reiseliste.' }
+                    { name: 'search_places', cat: '🏕️ Camping & Stellplätze', desc: t.mcpTool1Desc || 'Sucht europaweit nach Campingplätzen, Stellplätzen & Sehenswürdigkeiten mit Filtern nach Land, Region, Ort, Typ & Merkmalen.' },
+                    { name: 'get_place_details', cat: '🏕️ Camping & Stellplätze', desc: t.mcpTool2Desc || 'Liefert vollständige Kontaktdaten, Koordinaten, Preise, Sanitär-Ausstattung und Details zu einem Platz.' },
+                    { name: 'get_german_trails', cat: '🥾 Wandern & Radfahren', desc: t.mcpTool8Desc || 'Durchsucht offizielle Wander- und Radfernwege mit GPX-Streckenverlauf, Höhenmetern und nahen Campingplätzen (DZT Knowledge Graph).' },
+                    { name: 'get_german_events', cat: '📅 Events & Weinfeste', desc: t.mcpTool9Desc || 'Findet offizielle deutsche Weinfeste, Festivals, Kultur- und Sportveranstaltungen über ganz Deutschland (DZT Knowledge Graph).' },
+                    { name: 'get_german_pois', cat: '🏰 Sehenswürdigkeiten', desc: t.mcpTool10Desc || 'Liefert verifizierte Sehenswürdigkeiten, Schlösser, Naturparke und Kultur-Highlights für Roadtrips (DZT Knowledge Graph).' },
+                    { name: 'get_reviews', cat: '⭐ Bewertungen', desc: t.mcpTool3Desc || 'Ruft echte Reiseberichte und Bewertungen von Campern zu einem Platz ab.' },
+                    { name: 'add_review', cat: '⭐ Bewertungen', desc: t.mcpTool4Desc || 'Schreibt eine neue Bewertung und vergibt Sterne für einen besuchten Platz.' },
+                    { name: 'get_lists', cat: '📁 Reiselisten', desc: t.mcpTool5Desc || 'Gibt alle erstellten Reiselisten und Favoriten-Sammlungen zurück.' },
+                    { name: 'create_list', cat: '📁 Reiselisten', desc: t.mcpTool6Desc || 'Erstellt eine neue Reiseliste (z. B. für eine geplante Route oder Favoriten).' },
+                    { name: 'save_to_list', cat: '📁 Reiselisten', desc: t.mcpTool7Desc || 'Speichert einen Campingplatz oder Spot in einer bestimmten Reiseliste.' }
                   ].map((tItem) => (
-                    <div key={tItem.name} style={{ background: 'var(--gray-50)', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--gray-200)' }}>
-                      <div style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '0.85rem', color: '#7c3aed' }}>{tItem.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--gray-600)', marginTop: '0.15rem' }}>{tItem.desc}</div>
+                    <div key={tItem.name} style={{ background: 'var(--gray-50)', padding: '0.75rem 1rem', borderRadius: '10px', border: '1px solid var(--gray-200)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                        <span style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: '0.85rem', color: '#7c3aed' }}>{tItem.name}</span>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '2px 6px', borderRadius: '4px', background: 'white', border: '1px solid var(--gray-200)', color: 'var(--gray-600)' }}>{tItem.cat}</span>
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--gray-600)', lineHeight: 1.4 }}>{tItem.desc}</div>
                     </div>
                   ))}
                 </div>

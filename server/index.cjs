@@ -2042,6 +2042,8 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(204);
       res.end();
       return;
+    }
+
     // Culinary / Farm shops & Wineries endpoint
     if (req.method === 'GET' && (pathname === '/api/culinary' || pathname === '/discover/api/culinary')) {
       const type = (url.searchParams.get('type') || 'all').toLowerCase();

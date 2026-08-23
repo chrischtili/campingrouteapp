@@ -643,6 +643,11 @@ function EntdeckenContent() {
   const [culinaryStateFilter, setCulinaryStateFilter] = useState<string>('Alle Bundesländer');
   const [culinarySearchText, setCulinarySearchText] = useState<string>('');
   const [selectedCulinarySpot, setSelectedCulinarySpot] = useState<CulinarySpot | null>(null);
+  const [culinaryViewMode, setCulinaryViewMode] = useState<'split' | 'map' | 'grid'>('split');
+  const [visibleCulinaryCount, setVisibleCulinaryCount] = useState<number>(24);
+  const culinaryOverviewMapContainerRef = useRef<HTMLDivElement | null>(null);
+  const culinaryOverviewLeafletMapRef = useRef<L.Map | null>(null);
+  const culinaryOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
   // Fetch dynamic culinary spots from backend
   useEffect(() => {
@@ -1832,6 +1837,106 @@ ${trkpts}
 
     setTimeout(() => map.invalidateSize(), 200);
   }, [filteredTrails, trailViewMode, hasSearched, selectedCountryView]);
+
+  // Culinary Overview Map Effect (Genuss Hub)
+  useEffect(() => {
+    if (hasSearched || selectedCountryView || currentHub !== 'genuss' || culinaryViewMode === 'grid') {
+      if (culinaryOverviewLeafletMapRef.current) {
+        culinaryOverviewLeafletMapRef.current.remove();
+        culinaryOverviewLeafletMapRef.current = null;
+      }
+      return;
+    }
+
+    if (!culinaryOverviewMapContainerRef.current) return;
+
+    if (!culinaryOverviewLeafletMapRef.current) {
+      const map = L.map(culinaryOverviewMapContainerRef.current, {
+        center: [51.1657, 10.4515],
+        zoom: 6,
+        zoomControl: true,
+        attributionControl: true
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+      }).addTo(map);
+
+      culinaryOverviewLeafletMapRef.current = map;
+    }
+
+    const map = culinaryOverviewLeafletMapRef.current;
+    if (!map) return;
+
+    // Clear previous cluster / markers
+    if (culinaryOverviewClusterRef.current) {
+      map.removeLayer(culinaryOverviewClusterRef.current);
+    }
+
+    const cluster = L.markerClusterGroup({
+      maxClusterRadius: 40,
+      showCoverageOnHover: false
+    });
+
+    const bounds = L.latLngBounds([]);
+    const spotsToDisplay = filteredCulinarySpots.slice(0, 300);
+
+    spotsToDisplay.forEach((spot) => {
+      bounds.extend([spot.latitude, spot.longitude]);
+      const isWinery = spot.type === 'winery';
+      const isCheese = spot.type === 'cheese_dairy';
+      const isRegiomat = spot.type === 'regiomat';
+      const iconEmoji = isWinery ? '🍷' : isCheese ? '🧀' : isRegiomat ? '🥩' : '🚜';
+      const bgColor = isWinery ? '#9333ea' : isCheese ? '#d97706' : isRegiomat ? '#0284c7' : '#16a34a';
+
+      const customIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div style="position: relative; background: ${bgColor}; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 3px 8px rgba(0,0,0,0.35); border: 2px solid white; cursor: pointer;">
+          ${iconEmoji}
+          ${spot.hasCampsite ? '<span style="position: absolute; top: -4px; right: -4px; font-size: 10px; background: #059669; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; border: 1.5px solid white;">🚐</span>' : ''}
+        </div>`
+      });
+
+      const marker = L.marker([spot.latitude, spot.longitude], { icon: customIcon });
+      
+      const popupHtml = document.createElement('div');
+      popupHtml.style.width = '240px';
+      popupHtml.style.fontFamily = 'inherit';
+      popupHtml.innerHTML = `
+        <div style="width: 100%; height: 115px; border-radius: 8px; overflow: hidden; background: #e5e7eb; margin-bottom: 6px;">
+          <img src="${cleanImageUrl(spot.image_url) || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'" />
+        </div>
+        <div style="font-size: 0.72rem; font-weight: 800; color: ${bgColor}; text-transform: uppercase;">
+          ${isWinery ? '🍷 Weingut' : isCheese ? '🧀 Käserei' : isRegiomat ? '🥩 24h-Regiomat' : '🚜 Hofladen'}
+          ${spot.hasCampsite ? ' · 🚐 Stellplatz' : ''}
+        </div>
+        <div style="font-size: 0.92rem; font-weight: 800; color: #111827; margin: 2px 0 4px 0; line-height: 1.2;">
+          ${escHtml(spot.name)}
+        </div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 8px;">
+          ${escHtml(spot.address || spot.region || spot.state)}
+        </div>
+        <button class="open-culinary-popup-btn" style="width: 100%; padding: 7px; background: ${bgColor}; color: white; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+          Öffnen & Details ➔
+        </button>
+      `;
+
+      popupHtml.querySelector('.open-culinary-popup-btn')?.addEventListener('click', () => {
+        openCulinarySpot(spot);
+      });
+
+      marker.bindPopup(popupHtml);
+      cluster.addLayer(marker);
+    });
+
+    map.addLayer(cluster);
+    culinaryOverviewClusterRef.current = cluster;
+
+    if (bounds.isValid() && spotsToDisplay.length > 0) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
+    }
+
+    setTimeout(() => map.invalidateSize(), 200);
+  }, [filteredCulinarySpots, culinaryViewMode, currentHub, hasSearched, selectedCountryView]);
 
   // Lock body scroll while the place detail modal is open
   useEffect(() => {
@@ -3237,160 +3342,336 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </p>
                     </div>
 
-                    {/* State Filter */}
-                    <div style={{ position: 'relative', minWidth: '180px' }}>
-                      <select
-                        aria-label="Bundesland Filter Hofläden und Weingüter"
-                        value={culinaryStateFilter}
-                        onChange={(e) => setCulinaryStateFilter(e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '0.45rem 2rem 0.45rem 0.75rem',
-                          borderRadius: '10px',
-                          border: culinaryStateFilter !== 'Alle Bundesländer' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
-                          background: culinaryStateFilter !== 'Alle Bundesländer' ? 'var(--primary-50)' : 'var(--card-bg)',
-                          color: culinaryStateFilter !== 'Alle Bundesländer' ? 'var(--primary-800)' : 'var(--gray-800)',
-                          fontSize: '0.82rem',
-                          fontWeight: 700,
-                          outline: 'none',
-                          cursor: 'pointer',
-                          appearance: 'none',
-                          WebkitAppearance: 'none'
-                        }}
-                      >
-                        {GERMAN_STATES_LIST.map((st) => (
-                          <option key={st} value={st}>
-                            {st === 'Alle Bundesländer' ? `📍 ${st}` : st}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                    {/* Right Controls: View Mode & State Filter */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                      {/* View Mode Toggle */}
+                      <div className="view-mode-toggle-group">
+                        <button
+                          type="button"
+                          onClick={() => setCulinaryViewMode('split')}
+                          className={`view-mode-btn ${culinaryViewMode === 'split' ? 'active' : ''}`}
+                          title="Geteilt (Liste + Karte)"
+                        >
+                          <ColumnsIcon size={15} />
+                          <span className="hidden sm:inline">Geteilt</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setCulinaryViewMode('map')}
+                          className={`view-mode-btn ${culinaryViewMode === 'map' ? 'active' : ''}`}
+                          title="Große Karte"
+                        >
+                          <MapIcon size={15} />
+                          <span className="hidden sm:inline">Große Karte</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setCulinaryViewMode('grid')}
+                          className={`view-mode-btn ${culinaryViewMode === 'grid' ? 'active' : ''}`}
+                          title="Kacheln"
+                        >
+                          <ListIcon size={15} />
+                          <span className="hidden sm:inline">Kacheln</span>
+                        </button>
+                      </div>
+
+                      {/* State Filter */}
+                      <div style={{ position: 'relative', minWidth: '180px' }}>
+                        <select
+                          aria-label="Bundesland Filter Hofläden und Weingüter"
+                          value={culinaryStateFilter}
+                          onChange={(e) => setCulinaryStateFilter(e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '0.45rem 2rem 0.45rem 0.75rem',
+                            borderRadius: '10px',
+                            border: culinaryStateFilter !== 'Alle Bundesländer' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                            background: culinaryStateFilter !== 'Alle Bundesländer' ? 'var(--primary-50)' : 'var(--card-bg)',
+                            color: culinaryStateFilter !== 'Alle Bundesländer' ? 'var(--primary-800)' : 'var(--gray-800)',
+                            fontSize: '0.82rem',
+                            fontWeight: 700,
+                            outline: 'none',
+                            cursor: 'pointer',
+                            appearance: 'none',
+                            WebkitAppearance: 'none'
+                          }}
+                        >
+                          {GERMAN_STATES_LIST.map((st) => (
+                            <option key={st} value={st}>
+                              {st === 'Alle Bundesländer' ? `📍 ${st}` : st}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Filter Tabs */}
-                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-                    {[
-                      { id: 'all', label: `✨ Alle (${culinaryCategoryCounts.all})` },
-                      { id: 'winery', label: `🍷 Weingüter & Winzer (${culinaryCategoryCounts.winery})` },
-                      { id: 'farm_shop', label: `🚜 Hofläden & Bio-Höfe (${culinaryCategoryCounts.farm_shop})` },
-                      { id: 'cheese_dairy', label: `🧀 Schaukäsereien (${culinaryCategoryCounts.cheese_dairy})` },
-                      { id: 'regiomat', label: `🥩 24h-Regiomaten (${culinaryCategoryCounts.regiomat})` },
-                    ].map((cat) => (
-                      <button
-                        key={cat.id}
-                        onClick={() => setCulinaryFilter(cat.id as any)}
+                  {/* Filter Tabs & Search Bar */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      {[
+                        { id: 'all', label: `✨ Alle (${culinaryCategoryCounts.all})` },
+                        { id: 'winery', label: `🍷 Weingüter & Winzer (${culinaryCategoryCounts.winery})` },
+                        { id: 'farm_shop', label: `🚜 Hofläden & Bio-Höfe (${culinaryCategoryCounts.farm_shop})` },
+                        { id: 'cheese_dairy', label: `🧀 Schaukäsereien (${culinaryCategoryCounts.cheese_dairy})` },
+                        { id: 'regiomat', label: `🥩 24h-Regiomaten (${culinaryCategoryCounts.regiomat})` },
+                      ].map((cat) => (
+                        <button
+                          key={cat.id}
+                          onClick={() => setCulinaryFilter(cat.id as any)}
+                          style={{
+                            padding: '0.45rem 0.9rem',
+                            borderRadius: '9999px',
+                            border: culinaryFilter === cat.id ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                            background: culinaryFilter === cat.id ? 'var(--primary-50)' : 'var(--card-bg)',
+                            color: culinaryFilter === cat.id ? 'var(--primary-800)' : 'var(--gray-700)',
+                            fontSize: '0.82rem',
+                            fontWeight: culinaryFilter === cat.id ? 800 : 600,
+                            cursor: 'pointer',
+                            boxShadow: culinaryFilter === cat.id ? 'var(--shadow-sm)' : 'none',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          {cat.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Quick Search */}
+                    <div style={{ position: 'relative', minWidth: '220px', flex: '1', maxWidth: '340px' }}>
+                      <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
+                      <input
+                        type="text"
+                        placeholder="Erzeuger, Ort, Produkte suchen..."
+                        value={culinarySearchText}
+                        onChange={(e) => setCulinarySearchText(e.target.value)}
                         style={{
-                          padding: '0.45rem 0.9rem',
-                          borderRadius: '9999px',
-                          border: culinaryFilter === cat.id ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
-                          background: culinaryFilter === cat.id ? 'var(--primary-50)' : 'var(--card-bg)',
-                          color: culinaryFilter === cat.id ? 'var(--primary-800)' : 'var(--gray-700)',
+                          width: '100%',
+                          padding: '0.45rem 0.75rem 0.45rem 2rem',
+                          borderRadius: '10px',
+                          border: '1px solid var(--card-border)',
+                          background: 'var(--card-bg)',
                           fontSize: '0.82rem',
-                          fontWeight: culinaryFilter === cat.id ? 800 : 600,
-                          cursor: 'pointer',
-                          boxShadow: culinaryFilter === cat.id ? 'var(--shadow-sm)' : 'none',
-                          transition: 'all 0.15s ease'
+                          outline: 'none'
                         }}
-                      >
-                        {cat.label}
-                      </button>
-                    ))}
+                      />
+                    </div>
                   </div>
 
-                  {/* Culinary Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
-                    {filteredCulinarySpots.map((spot) => (
-                      <div
-                        key={spot.id}
-                        onClick={() => openCulinarySpot(spot)}
-                        style={{
-                          background: 'var(--card-bg)',
-                          border: '1px solid var(--card-border)',
-                          borderRadius: '16px',
-                          overflow: 'hidden',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          boxShadow: 'var(--shadow-sm)',
-                          cursor: 'pointer',
-                          transition: 'transform 0.2s, box-shadow 0.2s'
-                        }}
-                        className="hover:scale-102 hover:shadow-md"
-                      >
-                        <div style={{ position: 'relative', height: '170px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
-                          <img
-                            src={spot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
-                            alt={spot.name}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
-                            }}
-                          />
-                          <span
-                            style={{
-                              position: 'absolute',
-                              top: '10px',
-                              left: '10px',
-                              background: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : spot.type === 'regiomat' ? '#2563eb' : '#059669',
-                              color: 'white',
-                              padding: '3px 8px',
-                              borderRadius: '6px',
-                              fontSize: '0.7rem',
-                              fontWeight: 800,
-                              textTransform: 'uppercase',
-                              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                            }}
-                          >
-                            {spot.subtypeLabel}
-                          </span>
-                          {spot.hasCampsite && (
-                            <span
-                              style={{
-                                position: 'absolute',
-                                top: '10px',
-                                right: '10px',
-                                background: 'rgba(5, 150, 105, 0.95)',
-                                color: 'white',
-                                padding: '3px 8px',
-                                borderRadius: '6px',
-                                fontSize: '0.7rem',
-                                fontWeight: 800,
-                                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                              }}
-                            >
-                              🚐 Stellplatz am Hof
-                            </span>
-                          )}
+                  {/* Culinary Content Layout based on culinaryViewMode */}
+                  {filteredCulinarySpots.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '3rem 1rem', background: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--card-border)' }}>
+                      <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gray-700)', marginBottom: '0.5rem' }}>Keine Erzeuger gefunden</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)' }}>Probiere einen anderen Suchbegriff oder wähle ein anderes Bundesland.</p>
+                    </div>
+                  ) : (
+                    <div>
+                      {/* MAP ONLY VIEW */}
+                      {culinaryViewMode === 'map' && (
+                        <div style={{ height: '640px', width: '100%', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'relative' }}>
+                          <div ref={culinaryOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                         </div>
+                      )}
 
-                        <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.35rem', fontWeight: 600 }}>
-                            <MapPin size={13} />
-                            <span>{spot.region} · {spot.state}</span>
-                          </div>
-                          <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.5rem 0', lineHeight: '1.3' }}>
-                            {spot.name}
-                          </h3>
-                          <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', margin: '0 0 0.85rem 0', lineHeight: '1.45', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                            {spot.description}
-                          </p>
-
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: 'auto' }}>
-                            {spot.products.slice(0, 3).map((p, idx) => (
-                              <span key={idx} style={{ background: 'var(--gray-100)', color: 'var(--gray-700)', padding: '2px 7px', borderRadius: '5px', fontSize: '0.72rem', fontWeight: 600 }}>
-                                {p}
-                              </span>
+                      {/* SPLIT VIEW (List + Sticky Map) */}
+                      {culinaryViewMode === 'split' && (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 1fr) minmax(360px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxHeight: '740px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                            {filteredCulinarySpots.slice(0, visibleCulinaryCount).map((spot) => (
+                              <div
+                                key={spot.id}
+                                onClick={() => openCulinarySpot(spot)}
+                                style={{
+                                  background: 'var(--card-bg)',
+                                  border: '1px solid var(--card-border)',
+                                  borderRadius: '14px',
+                                  overflow: 'hidden',
+                                  display: 'flex',
+                                  gap: '0.85rem',
+                                  padding: '0.75rem',
+                                  boxShadow: 'var(--shadow-sm)',
+                                  cursor: 'pointer',
+                                  flexShrink: 0,
+                                  minHeight: '115px',
+                                  transition: 'all 0.15s ease'
+                                }}
+                                className="hover:border-primary-500 hover:shadow-md"
+                              >
+                                <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                  <img
+                                    src={spot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
+                                    alt={spot.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
+                                    }}
+                                  />
+                                </div>
+                                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                  <div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : spot.type === 'regiomat' ? '#0284c7' : '#16a34a', textTransform: 'uppercase' }}>
+                                        {spot.subtypeLabel}
+                                      </span>
+                                      {spot.hasCampsite && (
+                                        <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: '#ecfdf5', color: '#059669' }}>
+                                          🚐 Stellplatz
+                                        </span>
+                                      )}
+                                    </div>
+                                    <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
+                                      {spot.name}
+                                    </h4>
+                                    <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
+                                      📍 {spot.address || spot.region || spot.state}
+                                    </p>
+                                  </div>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
+                                    <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>
+                                      {spot.products.slice(0, 2).join(' · ')}
+                                    </span>
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
+                                      Details →
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
                             ))}
-                            {spot.products.length > 3 && (
-                              <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', alignSelf: 'center' }}>
-                                +{spot.products.length - 3}
-                              </span>
+                            {visibleCulinaryCount < filteredCulinarySpots.length && (
+                              <button
+                                onClick={() => setVisibleCulinaryCount(prev => prev + 24)}
+                                style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
+                              >
+                                Mehr Orte laden ({filteredCulinarySpots.length - visibleCulinaryCount} verbleibend)
+                              </button>
                             )}
                           </div>
+                          <div style={{ height: '740px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                            <div ref={culinaryOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      )}
+
+                      {/* GRID VIEW */}
+                      {culinaryViewMode === 'grid' && (
+                        <>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
+                            {filteredCulinarySpots.slice(0, visibleCulinaryCount).map((spot) => (
+                              <div
+                                key={spot.id}
+                                onClick={() => openCulinarySpot(spot)}
+                                style={{
+                                  background: 'var(--card-bg)',
+                                  border: '1px solid var(--card-border)',
+                                  borderRadius: '16px',
+                                  overflow: 'hidden',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  boxShadow: 'var(--shadow-sm)',
+                                  cursor: 'pointer',
+                                  transition: 'transform 0.2s, box-shadow 0.2s'
+                                }}
+                                className="hover:scale-102 hover:shadow-md"
+                              >
+                                <div style={{ position: 'relative', height: '170px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                                  <img
+                                    src={spot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
+                                    alt={spot.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
+                                    }}
+                                  />
+                                  <span
+                                    style={{
+                                      position: 'absolute',
+                                      top: '10px',
+                                      left: '10px',
+                                      background: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : spot.type === 'regiomat' ? '#0284c7' : '#16a34a',
+                                      color: 'white',
+                                      padding: '3px 8px',
+                                      borderRadius: '6px',
+                                      fontSize: '0.7rem',
+                                      fontWeight: 800,
+                                      textTransform: 'uppercase',
+                                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                    }}
+                                  >
+                                    {spot.subtypeLabel}
+                                  </span>
+                                  {spot.hasCampsite && (
+                                    <span
+                                      style={{
+                                        position: 'absolute',
+                                        top: '10px',
+                                        right: '10px',
+                                        background: 'rgba(5, 150, 105, 0.95)',
+                                        color: 'white',
+                                        padding: '3px 8px',
+                                        borderRadius: '6px',
+                                        fontSize: '0.7rem',
+                                        fontWeight: 800,
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                      }}
+                                    >
+                                      🚐 Stellplatz am Hof
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.35rem', fontWeight: 600 }}>
+                                    <MapPin size={13} />
+                                    <span>{spot.region} · {spot.state}</span>
+                                  </div>
+                                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.5rem 0', lineHeight: '1.3' }}>
+                                    {spot.name}
+                                  </h3>
+                                  <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', margin: '0 0 0.85rem 0', lineHeight: '1.45', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                    {spot.description}
+                                  </p>
+
+                                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: 'auto' }}>
+                                    {spot.products.slice(0, 3).map((p, idx) => (
+                                      <span key={idx} style={{ background: 'var(--gray-100)', color: 'var(--gray-700)', padding: '2px 7px', borderRadius: '5px', fontSize: '0.72rem', fontWeight: 600 }}>
+                                        {p}
+                                      </span>
+                                    ))}
+                                    {spot.products.length > 3 && (
+                                      <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', alignSelf: 'center' }}>
+                                        +{spot.products.length - 3}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          {visibleCulinaryCount < filteredCulinarySpots.length && (
+                            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                              <button
+                                onClick={() => setVisibleCulinaryCount(prev => prev + 24)}
+                                style={{
+                                  padding: '0.75rem 2rem',
+                                  background: 'var(--card-bg)',
+                                  border: '1.5px solid var(--primary-600)',
+                                  borderRadius: '9999px',
+                                  fontSize: '0.9rem',
+                                  fontWeight: 800,
+                                  color: 'var(--primary-800)',
+                                  cursor: 'pointer',
+                                  boxShadow: 'var(--shadow-sm)'
+                                }}
+                              >
+                                Weitere Hofläden & Winzer laden ({filteredCulinarySpots.length - visibleCulinaryCount} verbleibend)
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 

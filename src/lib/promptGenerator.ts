@@ -180,49 +180,54 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       ].filter(Boolean).join('\n')
     : '';
   const dataSourcePolicy = t('prompt.dataSourcePolicy');
-    const openCampingMapPolicy = lang.startsWith('de')
+  const openCampingMapPolicy = lang.startsWith('de')
     ? [
-        'Such-Regeln für Camping- und Stellplätze:',
-        '- Suche AUSSCHLIESSLICH auf camping.info und stellplatz.info nach passenden Plätzen.',
-        '- Überprüfe zwingend, ob der Platz zur angegebenen Reisezeit geöffnet hat.',
-        '- Ist ein Platz zur geplanten Zeit geschlossen oder kannst du die Öffnungszeiten nicht sicher ermitteln, füge zwingend einen deutlichen Hinweis für den Nutzer hinzu.',
-        '- Verlinke die gefundenen Plätze direkt mit der URL von camping.info oder stellplatz.info.',
-        '- Erfinde niemals Plätze, Links, Adressen oder Telefonnummern.'
+        'Such- und Preis-Regeln für Camping- und Stellplätze:',
+        '- Nutze führende verifizierte Quellen (z. B. camping.info, stellplatz.info, Park4Night, Promobil Mobil Life, ADAC Pincamp, Campercontact sowie offizielle Betreiber-/Gemeindewebsites).',
+        '- Doppelnennungen zwingend vermeiden: Führe jeden Platz pro Etappe nur genau EINMAL auf (auch wenn er in mehreren Stellplatzführern gelistet ist).',
+        '- Preisangabe verpflichtend: Gib für JEDEN vorgeschlagenen Platz (Hauptvorschlag und Alternativen) eine realistische geschätzte Preisspanne pro Nacht an (z. B. "ca. 12–18 € / Nacht inkl. Strom & Kurtaxe" bzw. "kostenlos").',
+        '- Überprüfe zwingend, ob der Platz zur angegebenen Reisezeit geöffnet hat. Ist ein Platz geschlossen oder unklar, füge einen deutlichen Hinweis hinzu.',
+        '- Verlinke die gefundenen Plätze direkt mit der offiziellen Website oder der Portalseite (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact).',
+        '- Erfinde niemals Plätze, Links, Adressen, Preise oder Telefonnummern.'
       ].join('\n')
     : lang.startsWith('nl')
       ? [
-          'Zoekregels voor campings en camperplaatsen:',
-          '- Zoek UITSLUITEND op camping.info en stellplatz.info naar geschikte plaatsen.',
+          'Zoek- en prijsregels voor campings en camperplaatsen:',
+          '- Gebruik toonaangevende geverifieerde bronnen (bijv. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact en officiële websites).',
+          '- Vermijd dubbele vermeldingen: vermeld elke overnachtingsplek per etappe slechts ÉÉN KEER.',
+          '- Prijsopgave verplicht: geef voor ELKE voorgestelde plek een realistische prijsindicatie per nacht (bijv. "ca. 12–18 € / nacht incl. stroom" of "gratis").',
           '- Controleer altijd of de plaats geopend is tijdens de geplande reistijd.',
-          '- Als een plaats tijdens de geplande reistijd gesloten is of als je de openingstijden niet zeker weet, voeg dan altijd een duidelijke waarschuwing voor de gebruiker toe.',
-          '- Link de gevonden plaatsen direct met de URL van camping.info of stellplatz.info.',
-          '- Verzin nooit plaatsen, links, adressen of telefoonnummers.'
+          '- Link direct naar de officiële website of het portaal (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).',
+          '- Verzin nooit plaatsen, links, adressen, prijzen of telefoonnummers.'
         ].join('\n')
       : lang.startsWith('fr')
         ? [
-            'Règles de recherche pour campings et aires de camping-car :',
-            '- Cherche EXCLUSIVEMENT sur camping.info et stellplatz.info des emplacements adaptés.',
+            'Règles de recherche et de prix pour campings et aires de camping-car :',
+            '- Utilise des sources vérifiées réputées (ex. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact et sites officiels).',
+            '- Évite impérativement les doublons : ne mentionne chaque emplacement qu\'UNE SEULE FOIS par étape.',
+            '- Indication de prix obligatoire : indique pour CHAQUE emplacement proposé une fourchette de prix réaliste par nuit (ex. "env. 12–18 € / nuit avec électricité" ou "gratuit").',
             '- Vérifie impérativement si l\'emplacement est ouvert pendant la période de voyage prévue.',
-            '- Si un emplacement est fermé pendant le voyage ou si tu ne peux pas déterminer les heures d\'ouverture avec certitude, ajoute obligatoirement un avertissement clair pour l\'utilisateur.',
-            '- Lie les emplacements trouvés directement avec l\'URL de camping.info ou stellplatz.info.',
-            '- N\'invente jamais de lieux, liens, adresses ou numéros de téléphone.'
+            '- Lie directement vers le site officiel ou la fiche (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).',
+            '- N\'invente jamais de lieux, liens, adresses, prix ou numéros de téléphone.'
           ].join('\n')
         : lang.startsWith('it')
           ? [
-              'Regole di ricerca per campeggi e aree di sosta:',
-              '- Cerca ESCLUSIVAMENTE su camping.info e stellplatz.info posti adeguati.',
-              '- Verifica sempre se il campeggio/area di sosta è aperto durante il periodo di viaggio previsto.',
-              '- Se un posto è chiuso durante il periodo previsto o se non puoi determinare con certezza gli orari di apertura, aggiungi obbligatoriamente un avviso chiaro per l\'utente.',
-              '- Collega i posti trovati direttamente con l\'URL di camping.info o stellplatz.info.',
-              '- Non inventare mai posti, link, indirizzi o numeri di telefono.'
+              'Regole di ricerca e di prezzo per campeggi e aree di sosta:',
+              '- Utilizza fonti verificate affidabili (es. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact e siti ufficiali).',
+              '- Evita rigorosamente i duplicati: elenca ogni posto tappa solo UNA VOLTA.',
+              '- Prezzo obbligatorio: indica per OGNI posto proposto una stima realistica del prezzo a notte (es. "circa 12–18 € / notte con elettricità" o "gratuito").',
+              '- Verifica sempre se il campeggio/area di sosta è aperto durante il periodo previsto.',
+              '- Collega direttamente al sito ufficiale o alla scheda del portale.',
+              '- Non inventare mai posti, link, indirizzi, prezzi o numeri di telefono.'
             ].join('\n')
           : [
-              'Search rules for campsites and motorhome pitches:',
-              '- Search EXCLUSIVELY on camping.info and stellplatz.info for suitable places.',
-              '- Always verify if the place is open during the planned travel time.',
-              '- If a place is closed during the planned travel time or if you cannot determine the opening times with certainty, you MUST add a clear note/warning for the user.',
-              '- Link the found places directly with the URL of camping.info or stellplatz.info.',
-              '- Never invent places, links, addresses or phone numbers.'
+              'Search and pricing rules for campsites and motorhome pitches:',
+              '- Use leading verified sources (e.g. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact, and official websites).',
+              '- Strictly avoid duplicate entries: list each overnight location only ONCE per stage.',
+              '- Mandatory price estimates: for EVERY proposed stop (primary and alternatives), provide a realistic price range per night (e.g. "approx. €12–€18 / night incl. electricity & tourist tax" or "free").',
+              '- Always verify if the place is open during the planned travel period.',
+              '- Link directly to the official website or verified listing.',
+              '- Never invent places, links, addresses, prices, or phone numbers.'
             ].join('\n');
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
   const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
@@ -235,8 +240,8 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const verificationInstruction = t('prompt.verificationInstruction');
   const linkPolicyInstruction = lang.startsWith('de')
-    ? '\n\nLink-Policy: Gib fuer JEDEN genannten Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link an. Verwende ausschließlich direkte Links zu camping.info oder stellplatz.info. Nenne niemals einen Platz ohne Link. Schlage keine allgemeine Suche vor, sondern liefere konkrete Ergebnisse.'
-    : '\n\nLink Policy: Provide a working link for EVERY place mentioned (main suggestion AND alternatives). Exclusively use direct links to camping.info or stellplatz.info. Never name a place without a link. Do not suggest a general search; provide concrete results.';
+    ? '\n\nLink- & Preis-Policy: Gib fuer JEDEN genannten Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link sowie eine realistische Preisspanne pro Nacht an. Verwende direkte Links zur offiziellen Website oder zu etablierten Stellplatzführern (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact). Vermeide Doppelnennungen desselben Platzes unter verschiedenen Namen. Nenne niemals einen Platz ohne Link.'
+    : '\n\nLink & Price Policy: Provide a working link and realistic price estimate per night for EVERY place mentioned (main suggestion AND alternatives). Use direct links to official websites or established guides (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact). Avoid duplicate mentions of the same location. Never name a place without a link.';
   const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
   const logicalScheduleInstruction = buildLogicalScheduleInstruction(lang, data, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')
@@ -419,22 +424,24 @@ export async function callAIAPIInternal(prompt: string, aiSettings: AISettings):
     ? [
         'Wichtig fuer die Websuche:',
         '- Nutze vor der Antwort zwingend die Websuche.',
-        '- Suche pro Etappe und pro Ort mehrfach gezielt auf camping.info und stellplatz.info statt nach dem ersten unsicheren Treffer abzubrechen.',
+        '- Suche pro Etappe und pro Ort gezielt nach verifizierten Stell- und Campingplätzen (z. B. auf camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact).',
+        '- Vermeide Doppelnennungen: Nenne jeden Übernachtungsplatz pro Etappe nur genau einmal.',
         '- Wenn mehrere Kandidaten auftauchen, waehle den mit dem klarsten Ortsbezug, der passendsten Uebernachtungsart und dem kleinsten Umweg.',
         '- Verwende keine Meta-Antworten wie "wenn du moechtest, kann ich ..." oder "ich kann im naechsten Schritt ...". Liefere die bestmoeglichen Ergebnisse direkt.',
-        '- Link-Extraktion: Extrahiere IMMER die direkten URLs aus den Suchergebnissen (von camping.info oder stellplatz.info). Gib keine Links aus, die erst zu einer Google-Suche oder einer anderen Suchmaschine fuehren.',
+        '- Link- und Preis-Extraktion: Extrahiere IMMER direkte URLs (offizielle Website oder führende Stellplatzführer) und gib eine geschätzte Preisspanne pro Nacht an. Gib keine Links aus, die erst zu einer Google-Suche führen.',
         '- Pruefe stets die Oeffnungszeiten zur Reisezeit! Ist dies nicht moeglich oder der Platz geschlossen, weise den Nutzer deutlich darauf hin.',
-        '- Erfinde keine Plaetze, Links, Adressen oder Telefonnummern. Wenn nach mehreren gezielten Suchen nichts Sicheres auffindbar ist, sage das knapp und mache mit dem naechsten Ort weiter.'
+        '- Erfinde keine Plaetze, Links, Adressen, Preise oder Telefonnummern. Wenn nach mehreren gezielten Suchen nichts Sicheres auffindbar ist, sage das knapp und mache mit dem naechsten Ort weiter.'
       ].join('\n')
     : [
         'Important for web search:',
         '- Always use web search before answering.',
-        '- Search repeatedly and specifically on camping.info and stellplatz.info for each leg and each place instead of stopping after the first uncertain hit.',
+        '- Search targeted and specifically on established campsite platforms (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact) for each leg and location.',
+        '- Strictly avoid duplicate entries for the same place.',
         '- If several candidates appear, choose the one with the clearest location match, the best fitting accommodation type and the smallest detour.',
         '- Do not produce meta answers like "if you want, I can..." or "in the next step I can...". Deliver the best possible result directly.',
-        '- Link extraction: ALWAYS extract direct URLs from search results (from camping.info or stellplatz.info). Do not provide links that lead to a Google search or another search engine first.',
+        '- Link and price extraction: ALWAYS extract direct URLs (official site or verified guides) and provide estimated price ranges per night. Do not provide links that lead to a search engine.',
         '- Always check the opening times during the travel period! If this is not possible or the place is closed, point this out clearly to the user.',
-        '- Do not invent places, links, addresses, or phone numbers. After several targeted searches, if nothing reliable is found, say so briefly and continue with the next place.'
+        '- Do not invent places, links, addresses, prices, or phone numbers. After several targeted searches, if nothing reliable is found, say so briefly and continue with the next place.'
       ].join('\n');
   
   switch (aiSettings.aiProvider) {

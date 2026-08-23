@@ -687,6 +687,9 @@ function EntdeckenContent() {
     };
   }, []);
 
+  const [culinaryCampsites, setCulinaryCampsites] = useState<Place[]>([]);
+  const [isLoadingCulinaryCampsites, setIsLoadingCulinaryCampsites] = useState(false);
+
   const openCulinarySpot = (spot: CulinarySpot) => {
     setSelectedCulinarySpot(spot);
     try {
@@ -696,11 +699,64 @@ function EntdeckenContent() {
 
   const closeCulinarySpot = () => {
     setSelectedCulinarySpot(null);
+    setCulinaryCampsites([]);
     if (window.location.hash.startsWith('#culinary-')) {
       try {
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
       } catch {}
     }
+  };
+
+  // Fetch verified campsites near the selected culinary spot
+  useEffect(() => {
+    if (selectedCulinarySpot) {
+      setIsLoadingCulinaryCampsites(true);
+      setCulinaryCampsites([]);
+      let isCurrent = true;
+
+      const nearbyUrl = `/api/trails/nearby-campsites?lat=${selectedCulinarySpot.latitude}&lon=${selectedCulinarySpot.longitude}&radius=25&limit=8`;
+      fetch(nearbyUrl)
+        .then(res => res.json())
+        .then(data => {
+          if (!isCurrent) return;
+          if (data && data.places && Array.isArray(data.places)) {
+            setCulinaryCampsites(data.places);
+          } else {
+            setCulinaryCampsites([]);
+          }
+        })
+        .catch(() => {
+          if (isCurrent) setCulinaryCampsites([]);
+        })
+        .finally(() => {
+          if (isCurrent) setIsLoadingCulinaryCampsites(false);
+        });
+
+      return () => { isCurrent = false; };
+    } else {
+      setCulinaryCampsites([]);
+    }
+  }, [selectedCulinarySpot]);
+
+  const openNearbyCampsitesForCulinary = (spot: CulinarySpot) => {
+    closeCulinarySpot();
+    setIsSearching(true);
+    fetch(`/api/trails/nearby-campsites?lat=${spot.latitude}&lon=${spot.longitude}&radius=35&limit=50`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.places && Array.isArray(data.places)) {
+          setPlaces(data.places);
+          setTotalItems(data.places.length);
+          setHasSearched(true);
+          setSearchQuery(`Camping & Stellplätze nahe ${spot.name}`);
+          setRecommendationTitle(`🏕️ Camping nahe ${spot.name}`);
+          setActiveTab('explore');
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        setIsSearching(false);
+      });
   };
 
   // Dynamic randomized inspirations for Camping and Highlights hubs (4 items per visit)
@@ -3184,17 +3240,69 @@ const getWebsiteUrl = (place: Place): string | null => {
                   </div>
                 </div>
 
-                {/* Pitch notice */}
-                <div style={{ background: selectedCulinarySpot.hasCampsite ? 'rgba(5, 150, 105, 0.08)' : 'var(--gray-100)', border: selectedCulinarySpot.hasCampsite ? '1px solid var(--primary-300)' : '1px solid var(--card-border)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <div style={{ fontSize: '1.5rem' }}>{selectedCulinarySpot.hasCampsite ? '🚐' : '🏕️'}</div>
-                  <div>
-                    <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: selectedCulinarySpot.hasCampsite ? 'var(--primary-900)' : 'var(--gray-800)', margin: '0 0 0.2rem 0' }}>
-                      {selectedCulinarySpot.hasCampsite ? 'Wohnmobilstellplatz direkt vor Ort' : 'Übernachtungsempfehlung für Camper'}
-                    </h4>
-                    <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', margin: 0, lineHeight: '1.4' }}>
-                      {selectedCulinarySpot.pitchNote || 'Mehrere verifizierte Camping- und Stellplätze befinden sich in unmittelbarer Nähe.'}
-                    </p>
+                {/* Pitch notice & Nearby Campsites */}
+                <div style={{ background: selectedCulinarySpot.hasCampsite ? 'rgba(5, 150, 105, 0.08)' : 'var(--gray-100)', border: selectedCulinarySpot.hasCampsite ? '1px solid var(--primary-300)' : '1px solid var(--card-border)', borderRadius: '14px', padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: culinaryCampsites.length > 0 ? '0.75rem' : 0 }}>
+                    <div style={{ fontSize: '1.5rem' }}>{selectedCulinarySpot.hasCampsite ? '🚐' : '🏕️'}</div>
+                    <div>
+                      <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: selectedCulinarySpot.hasCampsite ? 'var(--primary-900)' : 'var(--gray-800)', margin: '0 0 0.2rem 0' }}>
+                        {selectedCulinarySpot.hasCampsite ? 'Wohnmobilstellplatz direkt vor Ort' : 'Übernachtungsempfehlung für Camper'}
+                      </h4>
+                      <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', margin: 0, lineHeight: '1.4' }}>
+                        {selectedCulinarySpot.pitchNote || 'Mehrere verifizierte Camping- und Stellplätze befinden sich in unmittelbarer Nähe.'}
+                      </p>
+                    </div>
                   </div>
+
+                  {/* Inline Nearby Campsites */}
+                  {isLoadingCulinaryCampsites ? (
+                    <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', fontStyle: 'italic', margin: '0.5rem 0 0 0' }}>
+                      Suche verifizierte Stellplätze in der Nähe...
+                    </p>
+                  ) : culinaryCampsites.length > 0 ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                      <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--gray-700)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        Verifizierte Plätze in der Umgebung ({culinaryCampsites.length}):
+                      </div>
+                      {culinaryCampsites.slice(0, 3).map((cp) => (
+                        <div
+                          key={cp.id}
+                          onClick={() => {
+                            closeCulinarySpot();
+                            setSelectedPlace(cp);
+                          }}
+                          style={{
+                            background: 'var(--card-bg)',
+                            border: '1px solid var(--card-border)',
+                            borderRadius: '10px',
+                            padding: '0.55rem 0.85rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: '0.75rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease'
+                          }}
+                          className="hover:border-primary-500 hover:shadow-sm"
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', minWidth: 0 }}>
+                            <span style={{ fontSize: '1.15rem' }}>🏕️</span>
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {cp.name}
+                              </div>
+                              <div style={{ fontSize: '0.74rem', color: 'var(--gray-500)' }}>
+                                {cp.locality || cp.region || selectedCulinarySpot.region}
+                              </div>
+                            </div>
+                          </div>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-700)', flexShrink: 0 }}>
+                            Ansehen →
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
 
                 {/* Address & Actions */}
@@ -3224,14 +3332,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </a>
                     )}
                     <button
-                      onClick={() => {
-                        closeCulinarySpot();
-                        handleSearch(undefined, `Camping nahe ${selectedCulinarySpot.name}`);
-                      }}
+                      onClick={() => openNearbyCampsitesForCulinary(selectedCulinarySpot)}
                       style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-900)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', border: 'none' }}
                     >
                       <MapIcon size={14} />
-                      <span>Plätze in der Nähe</span>
+                      <span>Plätze in der Nähe ({isLoadingCulinaryCampsites ? '...' : culinaryCampsites.length})</span>
                     </button>
                   </div>
                 </div>

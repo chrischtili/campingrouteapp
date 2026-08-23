@@ -34,6 +34,7 @@ import {
 
 import { searchDztTrails, searchDztEvents, searchDztPois, getDztEntityDetails } from "./dzt.js";
 import { FAMOUS_TRAILS, getNearbyTrails, Trail } from "./data/trails.js";
+import { CULINARY_SPOTS, CulinarySpot } from "./data/culinary.js";
 import fs from "fs";
 
 const app = express();
@@ -761,6 +762,76 @@ const SUBDIVISION_QUERIES: { [key: string]: { sql: string; label: string } } = {
   // Netherlands regions
   "Texel": { sql: "latitude BETWEEN 53.0 AND 53.2 AND longitude BETWEEN 4.7 AND 4.9 AND country = 'NL'", label: "Texel" }
 };
+
+// Culinary & Farm shops / Wineries / Cheese Dairies / Regiomats API
+app.get("/api/culinary", async (req, res) => {
+  try {
+    const { type, state, search, lat, lon, radius = 60, limit = 100 } = req.query;
+
+    let spots = [...CULINARY_SPOTS];
+
+    // 1. Filter by category
+    if (type && type !== 'all') {
+      spots = spots.filter(s => s.type === type);
+    }
+
+    // 2. Filter by federal state
+    if (state && state !== 'Alle Bundesländer' && state !== 'all') {
+      const sName = String(state).toLowerCase();
+      spots = spots.filter(s => 
+        (s.state && s.state.toLowerCase().includes(sName)) || 
+        (s.region && s.region.toLowerCase().includes(sName))
+      );
+    }
+
+    // 3. Filter by search query
+    if (search && String(search).trim()) {
+      const q = String(search).toLowerCase().trim();
+      spots = spots.filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        s.region.toLowerCase().includes(q) ||
+        s.address.toLowerCase().includes(q) ||
+        s.description.toLowerCase().includes(q) ||
+        (s.products || []).some(p => p.toLowerCase().includes(q))
+      );
+    }
+
+    // 4. Distance calculation if lat & lon provided
+    if (lat && lon) {
+      const userLat = parseFloat(lat as string);
+      const userLon = parseFloat(lon as string);
+      const maxRadius = parseFloat(radius as string) || 100;
+
+      spots = spots
+        .map(s => {
+          const dist = haversineDistance(userLat, userLon, s.latitude, s.longitude);
+          return { ...s, distance_km: Math.round(dist * 10) / 10 };
+        })
+        .filter(s => s.distance_km <= maxRadius)
+        .sort((a, b) => (a.distance_km || 0) - (b.distance_km || 0));
+    }
+
+    // Calculate facet counts for frontend badges
+    const allSpots = CULINARY_SPOTS;
+    const counts = {
+      all: allSpots.length,
+      winery: allSpots.filter(s => s.type === 'winery').length,
+      farm_shop: allSpots.filter(s => s.type === 'farm_shop').length,
+      cheese_dairy: allSpots.filter(s => s.type === 'cheese_dairy').length,
+      regiomat: allSpots.filter(s => s.type === 'regiomat').length
+    };
+
+    const limitedSpots = limit ? spots.slice(0, parseInt(limit as string, 10)) : spots;
+
+    res.json({
+      total: spots.length,
+      counts,
+      spots: limitedSpots
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to query culinary spots", message: err.message });
+  }
+});
 
 // Dynamic place counts for states and popular regions of a country
 app.post("/api/countries/:country/subdivision-stats", async (req, res) => {

@@ -644,6 +644,41 @@ function EntdeckenContent() {
   const [culinarySearchText, setCulinarySearchText] = useState<string>('');
   const [selectedCulinarySpot, setSelectedCulinarySpot] = useState<CulinarySpot | null>(null);
 
+  // Fetch dynamic culinary spots from backend
+  useEffect(() => {
+    let isCurrent = true;
+    const fetchCulinary = async () => {
+      try {
+        const queryParams = new URLSearchParams();
+        if (culinaryFilter !== 'all') queryParams.append('type', culinaryFilter);
+        if (culinaryStateFilter !== 'Alle Bundesländer') queryParams.append('state', culinaryStateFilter);
+        if (culinarySearchText.trim()) queryParams.append('search', culinarySearchText.trim());
+
+        const res = await fetch(`/discover/api/culinary?${queryParams.toString()}`);
+        if (!res.ok) throw new Error('Failed to fetch culinary spots');
+        const data = await res.json();
+        if (isCurrent && data.spots && Array.isArray(data.spots)) {
+          setCulinarySpots(data.spots);
+        }
+      } catch {
+        // Fallback to locally bundled CULINARY_SPOTS
+      }
+    };
+
+    fetchCulinary();
+    return () => { isCurrent = false; };
+  }, [culinaryFilter, culinaryStateFilter, culinarySearchText]);
+
+  const culinaryCategoryCounts = useMemo(() => {
+    return {
+      all: CULINARY_SPOTS.length,
+      winery: CULINARY_SPOTS.filter(s => s.type === 'winery').length,
+      farm_shop: CULINARY_SPOTS.filter(s => s.type === 'farm_shop').length,
+      cheese_dairy: CULINARY_SPOTS.filter(s => s.type === 'cheese_dairy').length,
+      regiomat: CULINARY_SPOTS.filter(s => s.type === 'regiomat').length
+    };
+  }, []);
+
   const openCulinarySpot = (spot: CulinarySpot) => {
     setSelectedCulinarySpot(spot);
     try {
@@ -3233,11 +3268,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Filter Tabs */}
                   <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
                     {[
-                      { id: 'all', label: `✨ Alle (${culinarySpots.length})` },
-                      { id: 'winery', label: '🍷 Weingüter & Winzer' },
-                      { id: 'farm_shop', label: '🚜 Hofläden & Bio-Höfe' },
-                      { id: 'cheese_dairy', label: '🧀 Schaukäsereien' },
-                      { id: 'regiomat', label: '🥩 24h-Regiomaten' },
+                      { id: 'all', label: `✨ Alle (${culinaryCategoryCounts.all})` },
+                      { id: 'winery', label: `🍷 Weingüter & Winzer (${culinaryCategoryCounts.winery})` },
+                      { id: 'farm_shop', label: `🚜 Hofläden & Bio-Höfe (${culinaryCategoryCounts.farm_shop})` },
+                      { id: 'cheese_dairy', label: `🧀 Schaukäsereien (${culinaryCategoryCounts.cheese_dairy})` },
+                      { id: 'regiomat', label: `🥩 24h-Regiomaten (${culinaryCategoryCounts.regiomat})` },
                     ].map((cat) => (
                       <button
                         key={cat.id}

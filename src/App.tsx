@@ -400,10 +400,15 @@ const App = () => {
               <Route path="/" element={<Index />} />
               <Route path="/prompt-generator" element={<PromptGenerator />} />
               <Route path="/entdecken" element={<Entdecken />} />
+              <Route path="/entdecken/:hub" element={<Entdecken />} />
               <Route path="/discover" element={<Entdecken />} />
+              <Route path="/discover/:hub" element={<Entdecken />} />
               <Route path="/decouvrir" element={<Entdecken />} />
+              <Route path="/decouvrir/:hub" element={<Entdecken />} />
               <Route path="/scopri" element={<Entdecken />} />
+              <Route path="/scopri/:hub" element={<Entdecken />} />
               <Route path="/ontdekken" element={<Entdecken />} />
+              <Route path="/ontdekken/:hub" element={<Entdecken />} />
               <Route path="/campingplatz-finder" element={<CampingplatzFinder />} />
               <Route path="/stellplatz-finder" element={<StellplatzFinder />} />
               <Route path="/impressum" element={<Impressum />} />

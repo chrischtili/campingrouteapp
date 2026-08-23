@@ -1,7 +1,7 @@
 import { Database } from 'sqlite';
 import { TARGET_COUNTRIES, COUNTRY_NAMES } from './db/geo.js';
 
-export const TYPE_VALUES = ['campground', 'caravan', 'glamping', 'attraction'];
+export const TYPE_VALUES = ['campground', 'caravan', 'glamping', 'attraction', 'winery', 'farm_shop'];
 
 // Popular tourism regions -> generous coordinate bounding boxes. Used to turn a
 // detected region name into a deterministic spatial filter (never text matching).
@@ -526,6 +526,15 @@ export function inferCountryFromQuery(query: string): string | null {
 
 export function inferTypesFromQuery(query: string): string[] | null {
   const lower = query.toLowerCase();
+  if (/(weingut|weingüter|winzer|weinberg|weinprobe|weine|vinothek)/.test(lower)) {
+    return ['winery'];
+  }
+  if (/(hofladen|hofläden|bauernhof|direktvermarkter|regiomat|milchtankstelle|hofkäserei|käserei|kaeserei)/.test(lower)) {
+    return ['farm_shop'];
+  }
+  if (/(genuss|kulinarik|landvergnügen|landvergnuegen)/.test(lower)) {
+    return ['winery', 'farm_shop'];
+  }
   if (/(sehenswürdigkeit|sehenswuerdigkeit|attraktion|ausflugsziele|sehenswertes)/.test(lower)) {
     return ['attraction'];
   }

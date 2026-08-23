@@ -41,6 +41,7 @@ import fr from './locales/fr.json';
 import it from './locales/it.json';
 import nl from './locales/nl.json';
 import { useTranslation } from 'react-i18next';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -52,8 +53,9 @@ import { AppBreadcrumbs, type BreadcrumbItem } from "@/components/AppBreadcrumbs
 import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBreadcrumbs";
 import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "@/data/trails";
 import { GERMAN_FLAGSHIP_EVENTS, type FlagshipEvent } from "@/data/flagshipEvents";
+import { CULINARY_SPOTS, type CulinarySpot } from "@/data/culinarySpots";
 
-export type { Trail, FlagshipEvent };
+export type { Trail, FlagshipEvent, CulinarySpot };
 
 export interface GermanEvent {
   id: string;
@@ -633,8 +635,96 @@ function EntdeckenContent() {
     }
   };
 
+  // Culinary / Farm shops & Wineries state (Landvergnügen / Open Data)
+  const [culinarySpots, setCulinarySpots] = useState<CulinarySpot[]>(() => CULINARY_SPOTS);
+  const [culinaryFilter, setCulinaryFilter] = useState<'all' | 'winery' | 'farm_shop' | 'cheese_dairy' | 'regiomat'>('all');
+  const [culinaryStateFilter, setCulinaryStateFilter] = useState<string>('Alle Bundesländer');
+  const [culinarySearchText, setCulinarySearchText] = useState<string>('');
+  const [selectedCulinarySpot, setSelectedCulinarySpot] = useState<CulinarySpot | null>(null);
+
+  const openCulinarySpot = (spot: CulinarySpot) => {
+    setSelectedCulinarySpot(spot);
+    try {
+      window.history.pushState({ modal: 'culinary', spotId: spot.id }, '', `#culinary-${spot.id}`);
+    } catch {}
+  };
+
+  const closeCulinarySpot = () => {
+    setSelectedCulinarySpot(null);
+    if (window.location.hash.startsWith('#culinary-')) {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch {}
+    }
+  };
+
+  const filteredCulinarySpots = useMemo(() => {
+    return culinarySpots.filter(spot => {
+      if (culinaryFilter !== 'all' && spot.type !== culinaryFilter) return false;
+      if (culinaryStateFilter !== 'Alle Bundesländer' && spot.state !== culinaryStateFilter) return false;
+      if (culinarySearchText.trim()) {
+        const q = culinarySearchText.toLowerCase();
+        const matchName = spot.name.toLowerCase().includes(q);
+        const matchRegion = spot.region.toLowerCase().includes(q);
+        const matchState = (spot.state || '').toLowerCase().includes(q);
+        const matchDesc = spot.description.toLowerCase().includes(q);
+        const matchProd = spot.products.some(p => p.toLowerCase().includes(q));
+        if (!matchName && !matchRegion && !matchState && !matchDesc && !matchProd) return false;
+      }
+      return true;
+    });
+  }, [culinarySpots, culinaryFilter, culinaryStateFilter, culinarySearchText]);
+
+  // Router navigation & active hub detection
+  const { hub } = useParams<{ hub?: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentHub = useMemo<'all' | 'camping' | 'genuss' | 'touren' | 'events' | 'highlights' | 'lists'>(() => {
+    if (activeTab === 'lists') return 'lists';
+    if (!hub) return 'all';
+    const h = hub.toLowerCase();
+    if (['camping', 'campingplaetze', 'stellplaetze', 'pitches', 'campgrounds'].includes(h)) return 'camping';
+    if (['genuss', 'weingueter', 'hoflaeden', 'culinary', 'wineries', 'farm-shops'].includes(h)) return 'genuss';
+    if (['touren', 'trails', 'wandern', 'radwege', 'hiking'].includes(h)) return 'touren';
+    if (['events', 'veranstaltungen', 'feste', 'festivals'].includes(h)) return 'events';
+    if (['highlights', 'sehenswuerdigkeiten', 'attractions', 'sights'].includes(h)) return 'highlights';
+    if (['listen', 'lists', 'favoriten', 'saved'].includes(h)) return 'lists';
+    return 'all';
+  }, [hub, activeTab]);
+
+  const handleHubSelect = (targetHub: 'all' | 'camping' | 'genuss' | 'touren' | 'events' | 'highlights' | 'lists') => {
+    setSelectedPlace(null);
+    setSelectedTrail(null);
+    setSelectedEvent(null);
+    setSelectedCulinarySpot(null);
+    setHasSearched(false);
+    setSearchQuery('');
+    
+    const base = location.pathname.startsWith('/discover') ? '/discover' 
+      : location.pathname.startsWith('/decouvrir') ? '/decouvrir'
+      : location.pathname.startsWith('/scopri') ? '/scopri'
+      : location.pathname.startsWith('/ontdekken') ? '/ontdekken'
+      : '/entdecken';
+
+    if (targetHub === 'all') {
+      setActiveTab('explore');
+      navigate(base);
+    } else if (targetHub === 'lists') {
+      setActiveTab('lists');
+      navigate(`${base}/listen`);
+    } else {
+      setActiveTab('explore');
+      navigate(`${base}/${targetHub}`);
+    }
+  };
+
   useEffect(() => {
     const handlePopState = () => {
+      if (selectedCulinarySpot) {
+        setSelectedCulinarySpot(null);
+        return;
+      }
       if (selectedEvent) {
         setSelectedEvent(null);
         return;
@@ -654,7 +744,7 @@ function EntdeckenContent() {
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [selectedEvent, selectedTrail, selectedPlace, selectedCountryView]);
+  }, [selectedCulinarySpot, selectedEvent, selectedTrail, selectedPlace, selectedCountryView]);
 
   // Fetch verified nearby campsites for selected event from SQLite database without AI key
   useEffect(() => {
@@ -2676,11 +2766,173 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         )}
 
+        {/* Culinary Spot Detail Modal Overlay */}
+        {selectedCulinarySpot && (
+          <div
+            className="place-modal-overlay"
+            onClick={closeCulinarySpot}
+          >
+            <div className="place-modal-container" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
+              <div className="sm:hidden" style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.6rem', paddingBottom: '0.2rem', background: 'var(--card-bg)' }}>
+                <div style={{ width: '40px', height: '4px', borderRadius: '9999px', background: 'var(--gray-300)' }} />
+              </div>
+              <button
+                onClick={closeCulinarySpot}
+                aria-label="Schließen"
+                style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 1100, background: 'rgba(31,41,55,0.9)', color: '#fff', border: 'none', borderRadius: '9999px', width: '38px', height: '38px', fontSize: '1.4rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >×</button>
+              
+              <div style={{ position: 'relative', height: '260px', width: '100%', overflow: 'hidden' }}>
+                <img
+                  src={selectedCulinarySpot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
+                  alt={selectedCulinarySpot.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+                <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', right: '1.5rem', color: 'white' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: selectedCulinarySpot.type === 'winery' ? '#9333ea' : selectedCulinarySpot.type === 'cheese_dairy' ? '#d97706' : selectedCulinarySpot.type === 'regiomat' ? '#2563eb' : '#059669', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                    {selectedCulinarySpot.type === 'winery' ? '🍷 Weingut & Winzer' : selectedCulinarySpot.type === 'cheese_dairy' ? '🧀 Schaukäserei & Almladen' : selectedCulinarySpot.type === 'regiomat' ? '🥩 24h-Regiomat' : '🚜 Hofladen & Direktvermarkter'}
+                  </div>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: 900, margin: '0 0 0.3rem 0', textShadow: '0 2px 4px rgba(0,0,0,0.6)' }}>
+                    {selectedCulinarySpot.name}
+                  </h2>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)' }}>
+                    <MapPin size={14} />
+                    <span>{selectedCulinarySpot.region} · {selectedCulinarySpot.state}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ padding: '1.75rem' }}>
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>Über diesen Betrieb</h3>
+                  <p style={{ fontSize: '0.92rem', color: 'var(--gray-700)', lineHeight: '1.6', margin: 0 }}>
+                    {selectedCulinarySpot.description}
+                  </p>
+                </div>
+
+                {/* Products */}
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>Regionale Spezialitäten & Angebote</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                    {selectedCulinarySpot.products.map((p, idx) => (
+                      <span key={idx} style={{ background: 'var(--primary-50)', color: 'var(--primary-800)', border: '1px solid var(--primary-200)', padding: '0.35rem 0.75rem', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 700 }}>
+                        ✓ {p}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Pitch notice */}
+                <div style={{ background: selectedCulinarySpot.hasCampsite ? 'rgba(5, 150, 105, 0.08)' : 'var(--gray-100)', border: selectedCulinarySpot.hasCampsite ? '1px solid var(--primary-300)' : '1px solid var(--card-border)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <div style={{ fontSize: '1.5rem' }}>{selectedCulinarySpot.hasCampsite ? '🚐' : '🏕️'}</div>
+                  <div>
+                    <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: selectedCulinarySpot.hasCampsite ? 'var(--primary-900)' : 'var(--gray-800)', margin: '0 0 0.2rem 0' }}>
+                      {selectedCulinarySpot.hasCampsite ? 'Wohnmobilstellplatz direkt vor Ort' : 'Übernachtungsempfehlung für Camper'}
+                    </h4>
+                    <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', margin: 0, lineHeight: '1.4' }}>
+                      {selectedCulinarySpot.pitchNote || 'Mehrere verifizierte Camping- und Stellplätze befinden sich in unmittelbarer Nähe.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Address & Actions */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--card-border)', paddingTop: '1.25rem' }}>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--gray-600)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <MapPin size={15} />
+                    <span>{selectedCulinarySpot.address}</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {selectedCulinarySpot.phone && (
+                      <a
+                        href={`tel:${selectedCulinarySpot.phone}`}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-100)', color: 'var(--gray-800)', padding: '0.5rem 0.9rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
+                      >
+                        📞 Anrufen
+                      </a>
+                    )}
+                    {selectedCulinarySpot.website && (
+                      <a
+                        href={selectedCulinarySpot.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--primary-600)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
+                      >
+                        <ExternalLink size={14} />
+                        <span>Website</span>
+                      </a>
+                    )}
+                    <button
+                      onClick={() => {
+                        closeCulinarySpot();
+                        handleSearch(undefined, `Camping nahe ${selectedCulinarySpot.name}`);
+                      }}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-900)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', border: 'none' }}
+                    >
+                      <MapIcon size={14} />
+                      <span>Plätze in der Nähe</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Hub / Thematic Portal Navigation Bar */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          overflowX: 'auto',
+          padding: '0.4rem 0.2rem 1.25rem 0.2rem',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }} className="no-scrollbar">
+          {[
+            { id: 'all', label: t.hubAll || '✨ Übersicht' },
+            { id: 'camping', label: t.hubCamping || '🏕️ Camping & Stellplätze' },
+            { id: 'genuss', label: t.hubGenuss || '🍇 Hofläden & Winzer' },
+            { id: 'touren', label: t.hubTouren || '🥾 Wander- & Radwege' },
+            { id: 'events', label: t.hubEvents || '📅 Events & Weinfeste' },
+            { id: 'highlights', label: t.hubHighlights || '🏰 Sehenswürdigkeiten' },
+            { id: 'lists', label: t.hubLists || '📁 Meine Listen' }
+          ].map((hItem) => {
+            const isActive = currentHub === hItem.id;
+            return (
+              <button
+                key={hItem.id}
+                type="button"
+                onClick={() => handleHubSelect(hItem.id as any)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '9999px',
+                  border: isActive ? '2px solid var(--primary-700)' : '1px solid var(--card-border)',
+                  background: isActive ? 'var(--primary-700)' : 'var(--card-bg)',
+                  color: isActive ? '#ffffff' : 'var(--gray-700)',
+                  fontSize: '0.85rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  boxShadow: isActive ? '0 4px 12px rgba(5, 150, 105, 0.25)' : 'var(--shadow-sm)',
+                  transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+              >
+                <span>{hItem.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
         {/* Explore / Search Mode */}
         {activeTab === 'explore' && (
             <div>
               {/* AI Search Hero Area (nur auf der Startseite) */}
-              {!hasSearched && !selectedCountryView && (
+              {!hasSearched && !selectedCountryView && currentHub === 'all' && (
               <div className="hero-banner">
                 {!hasSearched && (
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '1.25rem', letterSpacing: '0.05em', textTransform: 'uppercase', backdropFilter: 'blur(4px)' }}>
@@ -2789,8 +3041,219 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
               )}
 
+              {/* Quick Hub Navigation Cards (in Overview Mode) */}
+              {!hasSearched && !selectedCountryView && currentHub === 'all' && (
+                <div style={{ marginBottom: '3.5rem' }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Compass size={20} className="text-primary-600" />
+                    Themenwelten für Camper entdecken
+                  </h2>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '1rem' }}>
+                    <div onClick={() => handleHubSelect('camping')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-emerald-500">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🏕️</div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Camping & Stellplätze</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Über 20.000 geprüfte Plätze in ganz Europa mit KI-Suche.</p>
+                    </div>
+                    <div onClick={() => handleHubSelect('genuss')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-purple-500">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🍇</div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Hofläden & Winzer</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Weingüter, Bio-Bauernhöfe & 24h-Regiomaten (Landvergnügen-Style).</p>
+                    </div>
+                    <div onClick={() => handleHubSelect('touren')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-blue-500">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🥾</div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Wander- & Radwege</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>100+ Fernwege mit GPX-Tracks & Stellplätzen am Weg.</p>
+                    </div>
+                    <div onClick={() => handleHubSelect('events')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-amber-500">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📅</div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Events & Weinfeste</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Weinfeste, Festivals & Traditionen mit Camping in der Nähe.</p>
+                    </div>
+                    <div onClick={() => handleHubSelect('highlights')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-emerald-500">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🏰</div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Sehenswürdigkeiten</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Burgen, Schlösser, Naturparke und Highlights in Europa.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Genuss Hub: Hofläden, Weingüter & 24h-Regiomaten */}
+              {!hasSearched && !selectedCountryView && (currentHub === 'genuss' || currentHub === 'all') && (
+                <div style={{ marginBottom: '3.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#9333ea15', color: '#9333ea', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                        <Wine size={13} />
+                        Landvergnügen & Open Data
+                      </div>
+                      <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        🍇 Hofläden, Weingüter & Direktvermarkter
+                      </h2>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', margin: 0 }}>
+                        Regionale Winzerstuben, Bio-Bauernhöfe, Almsennereien und 24/7-Regiomaten für deinen kulinarischen Roadtrip-Stopp.
+                      </p>
+                    </div>
+
+                    {/* State Filter */}
+                    <div style={{ position: 'relative', minWidth: '180px' }}>
+                      <select
+                        aria-label="Bundesland Filter Hofläden und Weingüter"
+                        value={culinaryStateFilter}
+                        onChange={(e) => setCulinaryStateFilter(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '0.45rem 2rem 0.45rem 0.75rem',
+                          borderRadius: '10px',
+                          border: culinaryStateFilter !== 'Alle Bundesländer' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                          background: culinaryStateFilter !== 'Alle Bundesländer' ? 'var(--primary-50)' : 'var(--card-bg)',
+                          color: culinaryStateFilter !== 'Alle Bundesländer' ? 'var(--primary-800)' : 'var(--gray-800)',
+                          fontSize: '0.82rem',
+                          fontWeight: 700,
+                          outline: 'none',
+                          cursor: 'pointer',
+                          appearance: 'none',
+                          WebkitAppearance: 'none'
+                        }}
+                      >
+                        {GERMAN_STATES_LIST.map((st) => (
+                          <option key={st} value={st}>
+                            {st === 'Alle Bundesländer' ? `📍 ${st}` : st}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                    </div>
+                  </div>
+
+                  {/* Filter Tabs */}
+                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+                    {[
+                      { id: 'all', label: `✨ Alle (${culinarySpots.length})` },
+                      { id: 'winery', label: '🍷 Weingüter & Winzer' },
+                      { id: 'farm_shop', label: '🚜 Hofläden & Bio-Höfe' },
+                      { id: 'cheese_dairy', label: '🧀 Schaukäsereien' },
+                      { id: 'regiomat', label: '🥩 24h-Regiomaten' },
+                    ].map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => setCulinaryFilter(cat.id as any)}
+                        style={{
+                          padding: '0.45rem 0.9rem',
+                          borderRadius: '9999px',
+                          border: culinaryFilter === cat.id ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                          background: culinaryFilter === cat.id ? 'var(--primary-50)' : 'var(--card-bg)',
+                          color: culinaryFilter === cat.id ? 'var(--primary-800)' : 'var(--gray-700)',
+                          fontSize: '0.82rem',
+                          fontWeight: culinaryFilter === cat.id ? 800 : 600,
+                          cursor: 'pointer',
+                          boxShadow: culinaryFilter === cat.id ? 'var(--shadow-sm)' : 'none',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {cat.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Culinary Grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
+                    {filteredCulinarySpots.map((spot) => (
+                      <div
+                        key={spot.id}
+                        onClick={() => openCulinarySpot(spot)}
+                        style={{
+                          background: 'var(--card-bg)',
+                          border: '1px solid var(--card-border)',
+                          borderRadius: '16px',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          boxShadow: 'var(--shadow-sm)',
+                          cursor: 'pointer',
+                          transition: 'transform 0.2s, box-shadow 0.2s'
+                        }}
+                        className="hover:scale-102 hover:shadow-md"
+                      >
+                        <div style={{ position: 'relative', height: '170px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                          <img
+                            src={spot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
+                            alt={spot.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
+                            }}
+                          />
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: '10px',
+                              left: '10px',
+                              background: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : spot.type === 'regiomat' ? '#2563eb' : '#059669',
+                              color: 'white',
+                              padding: '3px 8px',
+                              borderRadius: '6px',
+                              fontSize: '0.7rem',
+                              fontWeight: 800,
+                              textTransform: 'uppercase',
+                              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                            }}
+                          >
+                            {spot.subtypeLabel}
+                          </span>
+                          {spot.hasCampsite && (
+                            <span
+                              style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                background: 'rgba(5, 150, 105, 0.95)',
+                                color: 'white',
+                                padding: '3px 8px',
+                                borderRadius: '6px',
+                                fontSize: '0.7rem',
+                                fontWeight: 800,
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                              }}
+                            >
+                              🚐 Stellplatz am Hof
+                            </span>
+                          )}
+                        </div>
+
+                        <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.35rem', fontWeight: 600 }}>
+                            <MapPin size={13} />
+                            <span>{spot.region} · {spot.state}</span>
+                          </div>
+                          <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.5rem 0', lineHeight: '1.3' }}>
+                            {spot.name}
+                          </h3>
+                          <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', margin: '0 0 0.85rem 0', lineHeight: '1.45', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                            {spot.description}
+                          </p>
+
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: 'auto' }}>
+                            {spot.products.slice(0, 3).map((p, idx) => (
+                              <span key={idx} style={{ background: 'var(--gray-100)', color: 'var(--gray-700)', padding: '2px 7px', borderRadius: '5px', fontSize: '0.72rem', fontWeight: 600 }}>
+                                {p}
+                              </span>
+                            ))}
+                            {spot.products.length > 3 && (
+                              <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', alignSelf: 'center' }}>
+                                +{spot.products.length - 3}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Unified Country Explorer Section */}
-              {!hasSearched && !selectedCountryView && (
+              {!hasSearched && !selectedCountryView && (currentHub === 'all' || currentHub === 'camping' || currentHub === 'highlights') && (
                 <div style={{ marginBottom: '3.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
@@ -2901,7 +3364,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               )}
 
               {/* Hiking & Cycling Trails Section */}
-              {!hasSearched && !selectedCountryView && (
+              {!hasSearched && !selectedCountryView && (currentHub === 'all' || currentHub === 'touren') && (
                 <div style={{ marginBottom: '4rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
@@ -3407,7 +3870,7 @@ const getWebsiteUrl = (place: Place): string | null => {
               )}
 
               {/* Events & Wine Festivals Section (DZT Open Data Germany) */}
-              {!hasSearched && !selectedCountryView && (
+              {!hasSearched && !selectedCountryView && (currentHub === 'all' || currentHub === 'events') && (
                 <div style={{ marginBottom: '4rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>

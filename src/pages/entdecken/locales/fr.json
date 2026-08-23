@@ -191,5 +191,22 @@
   "nearbyTrailsTitle": "Sentiers à proximité",
   "nearbyTrailsSubtitle": "Itinéraires de randonnée et vélo dans les environs",
   "noNearbyTrails": "Aucun sentier répertorié à proximité immédiate.",
-  "exploreTrail": "Voir le sentier"
+  "exploreTrail": "Voir le sentier",
+  "eventsTitle": "Événements & Fêtes du Vin",
+  "eventsSubtitle": "Événements officiels, fêtes du vin, marchés et temps forts culturels en Allemagne (Open Data Germany)",
+  "allEvents": "Tous les événements",
+  "wineEvents": "🍷 Fêtes du Vin & Gastronomie",
+  "cultureEvents": "🎭 Culture & Traditions",
+  "festivalEvents": "🎪 Festivals & Musique",
+  "marketEvents": "🥖 Marchés & Fêtes locales",
+  "sportEvents": "🏃 Sport & Nature",
+  "searchEventsPlaceholder": "Rechercher un événement, une fête ou un lieu...",
+  "campsitesNearEvent": "⛺ Campings à proximité",
+  "eventDetails": "Voir les détails de l'événement",
+  "noEventsFound": "Aucun événement trouvé pour ces critères.",
+  "eventDate": "Date",
+  "eventLocation": "Lieu de l'événement",
+  "eventOfficialLink": "Site officiel",
+  "eventLicenseNotice": "Source des données : Office National Allemand du Tourisme (DZT) · Licence CC-BY",
+  "showMoreEvents": "Charger plus d'événements"
 }

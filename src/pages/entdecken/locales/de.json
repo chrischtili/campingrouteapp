@@ -191,5 +191,22 @@
   "nearbyTrailsTitle": "Wander- & Radwege ab hier",
   "nearbyTrailsSubtitle": "Touren und Steige in der direkten Umgebung",
   "noNearbyTrails": "Keine bekannten Fernwanderwege im direkten Nahbereich.",
-  "exploreTrail": "Tour ansehen"
+  "exploreTrail": "Tour ansehen",
+  "eventsTitle": "Veranstaltungen & Weinfeste",
+  "eventsSubtitle": "Offizielle Events, Weinfeste, Märkte und Kulturhöhepunkte der Bundesländer (Open Data Germany)",
+  "allEvents": "Alle Events",
+  "wineEvents": "🍷 Weinfeste & Genuss",
+  "cultureEvents": "🎭 Kultur & Brauchtum",
+  "festivalEvents": "🎪 Festivals & Musik",
+  "marketEvents": "🥖 Märkte & Stadtfeste",
+  "sportEvents": "🏃 Sport & Aktiv",
+  "searchEventsPlaceholder": "Event, Fest oder Ort suchen...",
+  "campsitesNearEvent": "⛺ Stellplätze in der Nähe",
+  "eventDetails": "Event-Details ansehen",
+  "noEventsFound": "Keine Veranstaltungen für diesen Filter gefunden.",
+  "eventDate": "Datum",
+  "eventLocation": "Veranstaltungsort",
+  "eventOfficialLink": "Offizielle Website",
+  "eventLicenseNotice": "Datenquelle: Deutsche Zentrale für Tourismus (DZT) · CC-BY Lizenz",
+  "showMoreEvents": "Mehr Veranstaltungen laden"
 }

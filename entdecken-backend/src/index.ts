@@ -115,19 +115,49 @@ app.get("/api/dzt/events", async (req, res) => {
     const keywords = req.query.keywords as string;
     const dateRangeStart = req.query.dateRangeStart as string;
     const dateRangeEnd = req.query.dateRangeEnd as string;
+    const type = req.query.type as string;
 
-    const events = await searchDztEvents({ region, locality, keywords, dateRangeStart, dateRangeEnd });
+    const events = await searchDztEvents({ region, locality, keywords, dateRangeStart, dateRangeEnd, type });
     res.json({
       success: true,
       source: "Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany",
-      data: events.map((e: any) => ({
-        id: e["@id"],
-        name: e["schema:name"],
-        description: e["schema:description"] ? e["schema:description"].replace(/<[^>]*>?/gm, '').slice(0, 350) : undefined,
-        address: e["schema:address"],
-        startDate: e["schema:startDate"],
-        image: e["schema:image"] ? (Array.isArray(e["schema:image"]) ? e["schema:image"][0]?.["schema:contentUrl"] : e["schema:image"]?.["schema:contentUrl"]) : undefined
-      }))
+      data: events.map((e: any) => {
+        const rawImg = e["schema:image"];
+        const imageObj = Array.isArray(rawImg) ? rawImg[0] : rawImg;
+        const imageUrl = typeof imageObj === "object" ? imageObj?.["schema:contentUrl"] : (typeof imageObj === "string" ? imageObj : undefined);
+        const imageCopyright = typeof imageObj === "object" ? (imageObj?.["schema:copyrightHolder"]?.["schema:name"] || imageObj?.["schema:copyrightNotice"] || imageObj?.["schema:license"]) : undefined;
+        
+        const loc = e["schema:location"];
+        const addr = loc?.["schema:address"] || e["schema:address"];
+        const localityName = addr?.["schema:addressLocality"] || addr?.["addressLocality"] || (typeof addr === "string" ? addr : "");
+        const postalCode = addr?.["schema:postalCode"] || addr?.["postalCode"] || "";
+        const streetAddress = addr?.["schema:streetAddress"] || addr?.["streetAddress"] || "";
+
+        const geo = loc?.["schema:geo"] || e["schema:geo"];
+        const lat = geo ? Number(geo["schema:latitude"]?.["@value"] || geo["schema:latitude"] || geo.latitude) : undefined;
+        const lon = geo ? Number(geo["schema:longitude"]?.["@value"] || geo["schema:longitude"] || geo.longitude) : undefined;
+
+        const rawTypes = Array.isArray(e["@type"]) ? e["@type"] : (e["@type"] ? [e["@type"]] : []);
+        const formattedTypes = rawTypes.map((t: string) => String(t).split("/").pop() || t);
+
+        return {
+          id: e["@id"] || e.id || ("evt-" + Math.random().toString(36).substr(2, 9)),
+          name: e["schema:name"] || e.name || "Veranstaltung",
+          description: e["schema:description"] ? e["schema:description"].replace(/<[^>]*>?/gm, "").slice(0, 450) : "",
+          fullDescription: e["schema:description"] || "",
+          locality: localityName,
+          postalCode,
+          streetAddress,
+          latitude: !isNaN(lat!) && lat !== 0 ? lat : undefined,
+          longitude: !isNaN(lon!) && lon !== 0 ? lon : undefined,
+          startDate: e["schema:startDate"] || e.startDate,
+          endDate: e["schema:endDate"] || e.endDate,
+          types: formattedTypes,
+          image_url: imageUrl,
+          image_copyright: imageCopyright,
+          url: e["schema:url"] || e.url || (typeof e["@id"] === "string" && e["@id"].startsWith("http") ? e["@id"] : undefined),
+        };
+      })
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });

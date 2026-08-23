@@ -120,12 +120,15 @@ export async function searchDztEvents(params: {
   type?: string;
 }): Promise<any[]> {
   try {
+    const today = new Date().toISOString().split("T")[0];
     const args: Record<string, any> = {
-      keywords: params.keywords || "Festival,Kultur,Markt"
+      keywords: params.keywords || "Wein,Festival,Kultur,Markt",
+      dateRangeStart: params.dateRangeStart || today,
     };
-    if (params.region) args.region = params.region;
+    if (params.region && params.region !== "Alle Bundesländer" && params.region !== "all") {
+      args.region = params.region;
+    }
     if (params.locality) args.locality = params.locality;
-    if (params.dateRangeStart) args.dateRangeStart = params.dateRangeStart;
     if (params.dateRangeEnd) args.dateRangeEnd = params.dateRangeEnd;
     if (params.type) args.type = params.type;
 

@@ -31,7 +31,9 @@ import {
   Columns as ColumnsIcon,
   Map as MapIcon,
   List as ListIcon,
-  Maximize2
+  Maximize2,
+  Calendar,
+  Wine
 } from 'lucide-react';
 import de from './locales/de.json';
 import en from './locales/en.json';
@@ -51,6 +53,24 @@ import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBr
 import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "@/data/trails";
 
 export type { Trail };
+
+export interface GermanEvent {
+  id: string;
+  name: string;
+  description: string;
+  fullDescription?: string;
+  locality?: string;
+  postalCode?: string;
+  streetAddress?: string;
+  latitude?: number;
+  longitude?: number;
+  startDate?: string;
+  endDate?: string;
+  types?: string[];
+  image_url?: string;
+  image_copyright?: string;
+  url?: string;
+}
 
 export interface AISettings {
   provider: 'gemini' | 'deepseek' | 'openai' | 'claude';
@@ -552,6 +572,85 @@ function EntdeckenContent() {
       return true;
     });
   }, [trails, trailFilter, trailStateFilter, trailSearchText]);
+
+  // Events & Wine Festivals State (Open Data Germany / DZT)
+  const [events, setEvents] = useState<GermanEvent[]>([]);
+  const [isLoadingEvents, setIsLoadingEvents] = useState(false);
+  const [eventCategory, setEventCategory] = useState<'all' | 'wine' | 'culture' | 'festival' | 'market' | 'sport'>('all');
+  const [eventStateFilter, setEventStateFilter] = useState<string>('Alle Bundesländer');
+  const [eventSearchText, setEventSearchText] = useState<string>('');
+  const [visibleEventsCount, setVisibleEventsCount] = useState<number>(12);
+  const [selectedEvent, setSelectedEvent] = useState<GermanEvent | null>(null);
+
+  const fetchEvents = useCallback(async (category = eventCategory, region = eventStateFilter, search = eventSearchText) => {
+    setIsLoadingEvents(true);
+    try {
+      const params = new URLSearchParams();
+      if (region && region !== 'Alle Bundesländer' && region !== 'all') {
+        params.append('region', region);
+      }
+      const keywordMap: Record<string, string> = {
+        all: 'Wein,Festival,Kultur,Markt,Event',
+        wine: 'Wein,Weinprobe,Weinfest,Kulinarik',
+        culture: 'Kultur,Brauchtum,Mittelalter,Theater',
+        festival: 'Festival,Musik,Open Air,Konzert',
+        market: 'Markt,Wochenmarkt,Handwerk,Bauernmarkt',
+        sport: 'Sport,Wandern,Lauf,Rad',
+      };
+      const kw = search.trim() || keywordMap[category] || keywordMap.all;
+      params.append('keywords', kw);
+      
+      const today = new Date().toISOString().split('T')[0];
+      params.append('dateRangeStart', today);
+
+      const res = await fetch(`/discover/api/dzt/events?${params.toString()}`)
+        .then(r => r.ok ? r.json() : fetch(`/api/dzt/events?${params.toString()}`).then(r => r.json()));
+      
+      if (res && res.success && Array.isArray(res.data)) {
+        setEvents(res.data);
+      } else {
+        setEvents([]);
+      }
+    } catch (err) {
+      console.error('Error fetching events:', err);
+      setEvents([]);
+    } finally {
+      setIsLoadingEvents(false);
+    }
+  }, [eventCategory, eventStateFilter, eventSearchText]);
+
+  useEffect(() => {
+    fetchEvents(eventCategory, eventStateFilter, eventSearchText);
+  }, [eventCategory, eventStateFilter, eventSearchText, fetchEvents]);
+
+  const filteredEvents = useMemo(() => {
+    if (!eventSearchText.trim()) return events;
+    const q = eventSearchText.toLowerCase().trim();
+    return events.filter(e => 
+      (e.name || '').toLowerCase().includes(q) ||
+      (e.locality || '').toLowerCase().includes(q) ||
+      (e.description || '').toLowerCase().includes(q)
+    );
+  }, [events, eventSearchText]);
+
+  const formatEventDate = (start?: string, end?: string) => {
+    if (!start) return '';
+    try {
+      const s = new Date(start);
+      if (isNaN(s.getTime())) return start;
+      const sStr = s.toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
+      if (end && end !== start) {
+        const e = new Date(end);
+        if (!isNaN(e.getTime())) {
+          const eStr = e.toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
+          return `${sStr} – ${eStr}`;
+        }
+      }
+      return sStr;
+    } catch {
+      return start;
+    }
+  };
 
   // AI Settings & Custom Key state
   const [showAISettingsModal, setShowAISettingsModal] = useState(false);
@@ -3072,6 +3171,291 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
               )}
 
+              {/* Events & Wine Festivals Section (DZT Open Data Germany) */}
+              {!hasSearched && !selectedCountryView && (
+                <div style={{ marginBottom: '4rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div>
+                      <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        🎉 {t.eventsTitle || 'Veranstaltungen & Weinfeste'} <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '2px 8px', borderRadius: '9999px', background: 'rgba(124, 58, 237, 0.12)', color: '#7c3aed' }}>Open Data Germany (DZT)</span>
+                      </h2>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', margin: 0 }}>
+                        {t.eventsSubtitle || 'Offizielle Events, Weinfeste, Märkte und Kulturhöhepunkte der Bundesländer mit direkter Stellplatzanbindung'}
+                      </p>
+                    </div>
+
+                    {/* Search & Bundesland selector */}
+                    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                      {/* Event Search */}
+                      <div style={{ position: 'relative', minWidth: '220px' }}>
+                        <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
+                        <input
+                          type="text"
+                          value={eventSearchText}
+                          onChange={(e) => { setEventSearchText(e.target.value); setVisibleEventsCount(12); }}
+                          placeholder={t.searchEventsPlaceholder || "Event, Fest oder Ort suchen..."}
+                          style={{
+                            padding: '0.45rem 0.75rem 0.45rem 2rem',
+                            borderRadius: '10px',
+                            border: '1px solid var(--card-border)',
+                            background: 'var(--card-bg)',
+                            fontSize: '0.82rem',
+                            color: 'var(--gray-900)',
+                            outline: 'none',
+                            width: '100%'
+                          }}
+                        />
+                        {eventSearchText && (
+                          <button
+                            onClick={() => { setEventSearchText(''); setVisibleEventsCount(12); }}
+                            style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer', fontSize: '1rem' }}
+                          >×</button>
+                        )}
+                      </div>
+
+                      {/* Bundesland Dropdown */}
+                      <div style={{ position: 'relative', minWidth: '190px' }}>
+                        <select
+                          value={eventStateFilter}
+                          onChange={(e) => { setEventStateFilter(e.target.value); setVisibleEventsCount(12); }}
+                          style={{
+                            width: '100%',
+                            padding: '0.45rem 2rem 0.45rem 0.75rem',
+                            borderRadius: '10px',
+                            border: eventStateFilter !== 'Alle Bundesländer' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                            background: eventStateFilter !== 'Alle Bundesländer' ? 'var(--primary-50)' : 'var(--card-bg)',
+                            color: eventStateFilter !== 'Alle Bundesländer' ? 'var(--primary-800)' : 'var(--gray-800)',
+                            fontSize: '0.82rem',
+                            fontWeight: 700,
+                            outline: 'none',
+                            cursor: 'pointer',
+                            appearance: 'none',
+                            WebkitAppearance: 'none'
+                          }}
+                        >
+                          {GERMAN_STATES_LIST.map((st) => (
+                            <option key={st} value={st}>
+                              {st === 'Alle Bundesländer' ? `📍 ${st}` : st}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Category Pills */}
+                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+                    {[
+                      { id: 'all', label: t.allEvents || 'Alle Events' },
+                      { id: 'wine', label: t.wineEvents || '🍷 Weinfeste & Genuss' },
+                      { id: 'culture', label: t.cultureEvents || '🎭 Kultur & Brauchtum' },
+                      { id: 'festival', label: t.festivalEvents || '🎪 Festivals & Musik' },
+                      { id: 'market', label: t.marketEvents || '🥖 Märkte & Stadtfeste' },
+                      { id: 'sport', label: t.sportEvents || '🏃 Sport & Aktiv' },
+                    ].map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => { setEventCategory(cat.id as any); setVisibleEventsCount(12); }}
+                        style={{
+                          padding: '0.45rem 0.9rem',
+                          borderRadius: '9999px',
+                          border: eventCategory === cat.id ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                          background: eventCategory === cat.id ? 'var(--primary-50)' : 'var(--card-bg)',
+                          color: eventCategory === cat.id ? 'var(--primary-800)' : 'var(--gray-700)',
+                          fontSize: '0.82rem',
+                          fontWeight: eventCategory === cat.id ? 800 : 600,
+                          cursor: 'pointer',
+                          boxShadow: eventCategory === cat.id ? 'var(--shadow-sm)' : 'none',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {cat.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Events Grid */}
+                  {isLoadingEvents ? (
+                    <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--gray-500)' }}>
+                      <div className="spinner" style={{ width: '28px', height: '28px', margin: '0 auto 0.75rem auto' }}></div>
+                      <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>Lade offizielle Open Data Veranstaltungen...</p>
+                    </div>
+                  ) : filteredEvents.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '2.5rem', background: 'var(--gray-50)', borderRadius: '16px', border: '1px dashed var(--gray-300)' }}>
+                      <p style={{ fontWeight: 700, color: 'var(--gray-700)', margin: '0 0 0.25rem 0' }}>
+                        {t.noEventsFound || 'Keine Veranstaltungen für diesen Filter gefunden.'}
+                      </p>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', margin: 0 }}>
+                        Versuche eine andere Kategorie oder wähle ein anderes Bundesland.
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {filteredEvents.slice(0, visibleEventsCount).map((event) => {
+                          const dateDisplay = formatEventDate(event.startDate, event.endDate);
+                          return (
+                            <div
+                              key={event.id}
+                              className="event-card group"
+                              style={{
+                                background: 'var(--card-bg)',
+                                borderRadius: '16px',
+                                border: '1px solid var(--card-border)',
+                                overflow: 'hidden',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                boxShadow: 'var(--shadow-sm)',
+                                transition: 'all 0.25s ease'
+                              }}
+                            >
+                              {/* Event Image */}
+                              <div style={{ position: 'relative', height: '170px', background: 'var(--gray-100)', overflow: 'hidden' }}>
+                                {event.image_url ? (
+                                  <img
+                                    src={event.image_url}
+                                    alt={event.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    loading="lazy"
+                                  />
+                                ) : (
+                                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%)', color: '#7c3aed', fontSize: '2.5rem' }}>
+                                    🎉
+                                  </div>
+                                )}
+                                {/* Date Badge */}
+                                {dateDisplay && (
+                                  <div style={{
+                                    position: 'absolute',
+                                    top: '10px',
+                                    left: '10px',
+                                    background: 'rgba(15, 23, 42, 0.85)',
+                                    backdropFilter: 'blur(6px)',
+                                    color: 'white',
+                                    padding: '4px 10px',
+                                    borderRadius: '8px',
+                                    fontSize: '0.75rem',
+                                    fontWeight: 800,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.35rem',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.25)'
+                                  }}>
+                                    <Calendar size={12} color="#fbbf24" />
+                                    {dateDisplay}
+                                  </div>
+                                )}
+                                {/* Locality Tag */}
+                                {event.locality && (
+                                  <div style={{
+                                    position: 'absolute',
+                                    bottom: '10px',
+                                    left: '10px',
+                                    background: 'rgba(255, 255, 255, 0.95)',
+                                    color: 'var(--gray-900)',
+                                    padding: '3px 8px',
+                                    borderRadius: '6px',
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.25rem',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                                  }}>
+                                    <MapPin size={11} className="text-primary-600" />
+                                    {event.locality}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Event Content */}
+                              <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: 1.3 }}>
+                                  {event.name}
+                                </h3>
+                                <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', margin: '0 0 0.85rem 0', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}>
+                                  {event.description || 'Offizielle Veranstaltung im DZT Tourismus-Kalender.'}
+                                </p>
+
+                                {/* Actions */}
+                                <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid var(--gray-100)' }}>
+                                  <button
+                                    onClick={() => handleSearch(undefined, `Stellplatz in ${event.locality || event.name}`)}
+                                    style={{
+                                      flex: 1,
+                                      padding: '0.5rem 0.65rem',
+                                      borderRadius: '10px',
+                                      background: 'var(--primary-50)',
+                                      border: '1px solid var(--primary-200)',
+                                      color: 'var(--primary-800)',
+                                      fontSize: '0.75rem',
+                                      fontWeight: 800,
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      gap: '0.35rem',
+                                      transition: 'all 0.15s ease'
+                                    }}
+                                    className="hover:bg-primary-100"
+                                    title="Campings & Stellplätze in dieser Umgebung suchen"
+                                  >
+                                    ⛺ {t.campsitesNearEvent || 'Stellplätze in der Nähe'}
+                                  </button>
+                                  <button
+                                    onClick={() => setSelectedEvent(event)}
+                                    style={{
+                                      padding: '0.5rem 0.75rem',
+                                      borderRadius: '10px',
+                                      background: 'var(--gray-100)',
+                                      border: 'none',
+                                      color: 'var(--gray-800)',
+                                      fontSize: '0.75rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '0.25rem'
+                                    }}
+                                    className="hover:bg-gray-200"
+                                  >
+                                    Details <ChevronRight size={13} />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {visibleEventsCount < filteredEvents.length && (
+                        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                          <button
+                            onClick={() => setVisibleEventsCount(prev => prev + 12)}
+                            style={{
+                              background: 'var(--card-bg)',
+                              border: '1px solid var(--card-border)',
+                              padding: '0.75rem 2rem',
+                              borderRadius: '12px',
+                              fontSize: '0.9rem',
+                              fontWeight: 700,
+                              color: 'var(--primary-700)',
+                              cursor: 'pointer',
+                              boxShadow: 'var(--shadow-sm)',
+                              transition: 'all 0.2s ease'
+                            }}
+                            className="hover:border-primary-600 hover:shadow-md"
+                          >
+                            <span>🎉 Weitere {Math.min(12, filteredEvents.length - visibleEventsCount)} Events laden (noch {filteredEvents.length - visibleEventsCount})</span>
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+
               {/* Country Subdivisions Page View */}
               {selectedCountryView && !hasSearched && (
                 <div className="country-detail-card" style={{ background: 'var(--card-bg, white)', border: '1px solid var(--card-border, var(--gray-200))', borderRadius: '16px', padding: '1.25rem sm:padding: 2rem', boxShadow: 'var(--shadow-sm)', marginBottom: '3.5rem', marginTop: '1rem' }}>
@@ -4557,6 +4941,149 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </button>
               </div>
 
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Selected Event Detail Modal */}
+      {selectedEvent && (
+        <div className="modal-overlay" onClick={() => setSelectedEvent(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto', borderRadius: '20px', padding: 0, background: 'var(--card-bg)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)' }}
+          >
+            {/* Modal Image Header */}
+            {selectedEvent.image_url ? (
+              <div style={{ position: 'relative', height: '240px', background: 'var(--gray-100)' }}>
+                <img
+                  src={selectedEvent.image_url}
+                  alt={selectedEvent.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <button
+                  onClick={() => setSelectedEvent(null)}
+                  style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    background: 'rgba(15, 23, 42, 0.75)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '32px',
+                    height: '32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1rem 0 0' }}>
+                <button
+                  onClick={() => setSelectedEvent(null)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray-400)' }}
+                >
+                  <X size={22} />
+                </button>
+              </div>
+            )}
+
+            {/* Modal Body */}
+            <div style={{ padding: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                {selectedEvent.startDate && (
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, padding: '3px 10px', borderRadius: '9999px', background: 'var(--primary-100)', color: 'var(--primary-800)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <Calendar size={12} /> {formatEventDate(selectedEvent.startDate, selectedEvent.endDate)}
+                  </span>
+                )}
+                {selectedEvent.locality && (
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '3px 10px', borderRadius: '9999px', background: 'var(--gray-100)', color: 'var(--gray-800)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <MapPin size={12} /> {selectedEvent.locality} {selectedEvent.postalCode ? `(${selectedEvent.postalCode})` : ''}
+                  </span>
+                )}
+              </div>
+
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 1rem 0', lineHeight: 1.3 }}>
+                {selectedEvent.name}
+              </h2>
+
+              {selectedEvent.streetAddress && (
+                <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', margin: '0 0 1rem 0' }}>
+                  📍 <strong>Veranstaltungsort:</strong> {selectedEvent.streetAddress}, {selectedEvent.postalCode} {selectedEvent.locality}
+                </p>
+              )}
+
+              <div style={{ fontSize: '0.9rem', color: 'var(--gray-700)', lineHeight: 1.6, whiteSpace: 'pre-line', marginBottom: '1.5rem' }}>
+                {selectedEvent.fullDescription || selectedEvent.description}
+              </div>
+
+              {/* License & Copyright Info */}
+              {selectedEvent.image_copyright && (
+                <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginBottom: '0.5rem', fontStyle: 'italic' }}>
+                  Bildnachweis: {selectedEvent.image_copyright}
+                </div>
+              )}
+              <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginBottom: '1.5rem' }}>
+                {t.eventLicenseNotice || 'Datenquelle: Deutsche Zentrale für Tourismus (DZT) · CC-BY Lizenz'}
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', borderTop: '1px solid var(--gray-100)', paddingTop: '1.25rem' }}>
+                <button
+                  onClick={() => {
+                    const query = `Stellplatz in ${selectedEvent.locality || selectedEvent.name}`;
+                    setSelectedEvent(null);
+                    handleSearch(undefined, query);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '0.75rem 1.25rem',
+                    borderRadius: '12px',
+                    background: 'var(--primary-600)',
+                    color: 'white',
+                    border: 'none',
+                    fontSize: '0.85rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                  className="hover:bg-primary-700"
+                >
+                  ⛺ {t.campsitesNearEvent || 'Stellplätze in der Nähe anzeigen'}
+                </button>
+                {selectedEvent.url && (
+                  <a
+                    href={selectedEvent.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: '0.75rem 1.25rem',
+                      borderRadius: '12px',
+                      background: 'var(--gray-100)',
+                      color: 'var(--gray-800)',
+                      textDecoration: 'none',
+                      fontSize: '0.85rem',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem'
+                    }}
+                    className="hover:bg-gray-200"
+                  >
+                    <Globe size={14} /> {t.eventOfficialLink || 'Website'} <ExternalLink size={12} />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -191,5 +191,22 @@
   "nearbyTrailsTitle": "Trails starting nearby",
   "nearbyTrailsSubtitle": "Hiking and cycle paths in the immediate area",
   "noNearbyTrails": "No famous trails located in the immediate vicinity.",
-  "exploreTrail": "View Trail"
+  "exploreTrail": "View Trail",
+  "eventsTitle": "Events & Wine Festivals",
+  "eventsSubtitle": "Official events, wine festivals, markets, and cultural highlights across Germany (Open Data Germany)",
+  "allEvents": "All Events",
+  "wineEvents": "🍷 Wine & Culinary",
+  "cultureEvents": "🎭 Culture & Tradition",
+  "festivalEvents": "🎪 Festivals & Music",
+  "marketEvents": "🥖 Markets & Town Fairs",
+  "sportEvents": "🏃 Sports & Active",
+  "searchEventsPlaceholder": "Search events, festivals, or towns...",
+  "campsitesNearEvent": "⛺ Campsites nearby",
+  "eventDetails": "View Event Details",
+  "noEventsFound": "No events found for this filter.",
+  "eventDate": "Date",
+  "eventLocation": "Location",
+  "eventOfficialLink": "Official Website",
+  "eventLicenseNotice": "Data source: German National Tourist Board (DZT) · CC-BY License",
+  "showMoreEvents": "Load more events"
 }

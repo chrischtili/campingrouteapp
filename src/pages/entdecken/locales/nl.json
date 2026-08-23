@@ -191,5 +191,22 @@
   "nearbyTrailsTitle": "Routes vanaf deze camping",
   "nearbyTrailsSubtitle": "Wandel- en fietsroutes in de directe omgeving",
   "noNearbyTrails": "Geen bekende wandelroutes in de directe omgeving.",
-  "exploreTrail": "Route bekijken"
+  "exploreTrail": "Route bekijken",
+  "eventsTitle": "Evenementen & Wijnfeesten",
+  "eventsSubtitle": "Officiële evenementen, wijnfeesten, markten en culturele hoogtepunten in Duitsland (Open Data Germany)",
+  "allEvents": "Alle evenementen",
+  "wineEvents": "🍷 Wijn & Culinair",
+  "cultureEvents": "🎭 Cultuur & Traditie",
+  "festivalEvents": "🎪 Festivals & Muziek",
+  "marketEvents": "🥖 Markten & Stadsfeesten",
+  "sportEvents": "🏃 Sport & Actief",
+  "searchEventsPlaceholder": "Evenement, feest of plaats zoeken...",
+  "campsitesNearEvent": "⛺ Campings in de buurt",
+  "eventDetails": "Evenementdetails bekijken",
+  "noEventsFound": "Geen evenementen gevonden voor deze filters.",
+  "eventDate": "Datum",
+  "eventLocation": "Locatie",
+  "eventOfficialLink": "Officiële website",
+  "eventLicenseNotice": "Gegevensbron: Duits Nationaal Bureau voor Toerisme (DZT) · CC-BY-licentie",
+  "showMoreEvents": "Meer evenementen laden"
 }

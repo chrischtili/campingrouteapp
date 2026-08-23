@@ -50,6 +50,7 @@ tmp/
 # Entdecken-Backend
 entdecken-backend/node_modules/
 entdecken-backend/dist/
+entdecken-backend/server/
 entdecken-backend/*.db
 entdecken-backend/*.db-wal
 entdecken-backend/*.db-shm

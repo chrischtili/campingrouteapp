@@ -191,5 +191,22 @@
   "nearbyTrailsTitle": "Sentieri nelle vicinanze",
   "nearbyTrailsSubtitle": "Percorsi escursionistici e ciclabili nei dintorni",
   "noNearbyTrails": "Nessun sentiero famoso nelle immediate vicinanze.",
-  "exploreTrail": "Vedi percorso"
+  "exploreTrail": "Vedi percorso",
+  "eventsTitle": "Eventi & Feste del Vino",
+  "eventsSubtitle": "Eventi ufficiali, sagre del vino, mercatini e momenti culturali in Germania (Open Data Germany)",
+  "allEvents": "Tutti gli eventi",
+  "wineEvents": "🍷 Feste del Vino & Gastronomia",
+  "cultureEvents": "🎭 Cultura & Tradizione",
+  "festivalEvents": "🎪 Festival & Musica",
+  "marketEvents": "🥖 Mercati & Feste cittadine",
+  "sportEvents": "🏃 Sport & Attività",
+  "searchEventsPlaceholder": "Cerca evento, sagra o località...",
+  "campsitesNearEvent": "⛺ Campeggi nelle vicinanze",
+  "eventDetails": "Vedi dettagli evento",
+  "noEventsFound": "Nessun evento trovato per questo filtro.",
+  "eventDate": "Data",
+  "eventLocation": "Luogo dell'evento",
+  "eventOfficialLink": "Sito ufficiale",
+  "eventLicenseNotice": "Fonte dati: Ente Nazionale Germanico per il Turismo (DZT) · Licenza CC-BY",
+  "showMoreEvents": "Carica altri eventi"
 }

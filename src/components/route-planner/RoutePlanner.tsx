@@ -36,11 +36,6 @@ const FeaturesSection = lazy(() => import("./FeaturesSection").then(m => ({ defa
 const TestimonialsSection = lazy(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
 const FAQSection = lazy(() => import("./FAQSection").then(m => ({ default: m.FAQSection })));
 
-const getStageMinimumDate = (stages: RouteStage[], index: number, startDate: string) => {
-  if (index === 0) return startDate;
-  return stages[index - 1]?.departureDate || stages[index - 1]?.arrivalDate || startDate;
-};
-
 const createEmptyStage = (destination = ""): RouteStage => ({
   destination,
   booked: false,
@@ -90,45 +85,16 @@ const normalizeStoredAISettings = (settings?: Partial<AISettings>): AISettings =
 
 const normalizePlannerDates = (
   formData: FormData,
-  patch: Partial<FormData>,
+  _patch: Partial<FormData>,
   options: { didStartDateChange?: boolean } = {},
 ): FormData => {
   const nextFormData = { ...formData };
   const shouldNormalizeEndDate = !!options.didStartDateChange;
-  const shouldNormalizeStages =
-    !!options.didStartDateChange ||
-    Object.prototype.hasOwnProperty.call(patch, "stages");
 
   if (nextFormData.startDate && shouldNormalizeEndDate) {
     if (nextFormData.endDate && nextFormData.endDate < nextFormData.startDate) {
       nextFormData.endDate = nextFormData.startDate;
     }
-  }
-
-  if (nextFormData.startDate && shouldNormalizeStages) {
-    nextFormData.stages = nextFormData.stages.map((stage, index, currentStages) => {
-      if (!stage.detailsEnabled) {
-        return stage;
-      }
-
-      const nextStage = { ...stage };
-      const minimumDate = getStageMinimumDate(currentStages, index, nextFormData.startDate);
-
-      if (minimumDate) {
-        if (nextStage.arrivalDate && nextStage.arrivalDate < minimumDate) {
-          nextStage.arrivalDate = minimumDate;
-        }
-      }
-
-      const departureMinimumDate = nextStage.arrivalDate || minimumDate;
-      if (departureMinimumDate) {
-        if (nextStage.departureDate && nextStage.departureDate < departureMinimumDate) {
-          nextStage.departureDate = departureMinimumDate;
-        }
-      }
-
-      return nextStage;
-    });
   }
 
   return nextFormData;

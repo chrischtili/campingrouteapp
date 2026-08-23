@@ -719,6 +719,21 @@ function EntdeckenContent() {
     }
   };
 
+  // React to route changes: reset active filters, modals, and country view so cross-hub links always work smoothly
+  useEffect(() => {
+    setSelectedPlace(null);
+    setSelectedTrail(null);
+    setSelectedEvent(null);
+    setSelectedCulinarySpot(null);
+    setSelectedCountryView(null);
+    setHasSearched(false);
+    setSearchQuery('');
+    if (activeTab === 'lists' && hub !== 'listen' && hub !== 'lists') {
+      setActiveTab('explore');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [hub, location.pathname]);
+
   useEffect(() => {
     const handlePopState = () => {
       if (selectedCulinarySpot) {
@@ -2133,7 +2148,7 @@ const getWebsiteUrl = (place: Place): string | null => {
     <main id="main-content" tabIndex={-1} className="entdecken-root" style={{ background: 'var(--gray-50)', minHeight: '100vh' }}>
 
       {/* Main Container */}
-      <div style={{ width: '100%', margin: '0 auto', maxWidth: '1200px', padding: '2rem 1.5rem' }}>
+      <div style={{ width: '100%', margin: '0 auto', maxWidth: '1200px', padding: '1.25rem 1.5rem 0.5rem 1.5rem' }}>
         
         {/* Breadcrumbs kommen von campingroute_app (AppBreadcrumbs) */}
 
@@ -2946,13 +2961,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <div style={{ 
                   background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)', 
                   borderRadius: '24px', 
-                  padding: '2.5rem', 
+                  padding: '2rem', 
                   color: 'white', 
-                  marginBottom: '3.5rem',
+                  marginBottom: '1.75rem',
                   boxShadow: 'var(--shadow-lg)',
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: '2.5rem',
+                  gap: '2rem',
                   position: 'relative',
                   overflow: 'hidden'
                 }}>
@@ -2996,7 +3011,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Quick Hub Navigation Cards (in Overview Mode) */}
               {!hasSearched && !selectedCountryView && currentHub === 'all' && (
-                <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ marginBottom: '1.25rem' }}>
                   <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Compass size={20} className="text-primary-600" />
                     Themenwelten für Camper entdecken
@@ -3033,7 +3048,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Genuss Hub: Hofläden, Weingüter & 24h-Regiomaten */}
               {!hasSearched && !selectedCountryView && currentHub === 'genuss' && (
-                <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ marginBottom: '1.75rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
                       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#9333ea15', color: '#9333ea', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
@@ -3210,7 +3225,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                 const isHighlightsHub = currentHub === 'highlights';
                 const explorerTab = isHighlightsHub ? 'attractions' : 'camping';
                 return (
-                <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ marginBottom: '1.75rem' }}>
                   <div style={{ marginBottom: '1.25rem' }}>
                     <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {isHighlightsHub ? '🏰 Sehenswürdigkeiten & Highlights in Europa' : '🏕️ Camping & Stellplätze in Europa'}
@@ -3268,7 +3283,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Hiking & Cycling Trails Section */}
               {!hasSearched && !selectedCountryView && currentHub === 'touren' && (
-                <div style={{ marginBottom: '4rem' }}>
+                <div style={{ marginBottom: '1.75rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
                       <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -3774,7 +3789,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               {/* Events & Wine Festivals Section (DZT Open Data Germany) */}
               {!hasSearched && !selectedCountryView && currentHub === 'events' && (
-                <div style={{ marginBottom: '4rem' }}>
+                <div style={{ marginBottom: '1.75rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
                       <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

@@ -1422,11 +1422,13 @@ function EntdeckenContent() {
 
       if (isCustomInsp) {
         setReviews([]);
-        setNearbyPlaces([]);
       } else {
         fetchReviews(selectedPlace.id);
-        fetchNearbyPlaces(selectedPlace.id, selectedPlace.latitude, selectedPlace.longitude, selectedPlace.type);
+      }
 
+      fetchNearbyPlaces(selectedPlace.id, selectedPlace.latitude, selectedPlace.longitude, selectedPlace.type);
+
+      if (!isCustomInsp) {
         // Also try API endpoint to enrich or supplement for real DB places
         fetch(`/discover/api/places/${selectedPlace.id}/nearby-trails`)
           .then(res => res.ok ? res.json() : [])
@@ -2555,14 +2557,14 @@ const getWebsiteUrl = (place: Place): string | null => {
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                                <h5 style={{ fontSize: '0.85rem', fontWeight: 800, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--gray-900)' }}>
+                                <h5 style={{ fontSize: '0.85rem', fontWeight: 800, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--gray-900)', flex: 1, minWidth: 0 }}>
                                   {tr.name}
                                 </h5>
-                                <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', background: tr.difficulty === 'easy' ? '#ecfdf5' : tr.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: tr.difficulty === 'easy' ? '#059669' : tr.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
+                                <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-block', background: tr.difficulty === 'easy' ? '#ecfdf5' : tr.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: tr.difficulty === 'easy' ? '#059669' : tr.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
                                   {tr.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : tr.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
                                 </span>
                               </div>
-                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0' }}>
+                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                 {tr.distance_km} km · <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
                               </p>
                             </div>

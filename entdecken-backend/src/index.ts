@@ -358,8 +358,23 @@ app.get("/api/places/:id/nearby", async (req, res) => {
       SELECT *, 
         ((latitude - ?) * (latitude - ?)) + ((longitude - ?) * (longitude - ?)) AS distance_sq
       FROM places 
-      WHERE type IN ${targetTypes} AND id != ?
-      ORDER BY distance_sq ASC 
+      WHERE type IN ${targetTypes} 
+        AND id != ?
+        AND LOWER(name) NOT LIKE '%defibrillator%'
+        AND LOWER(name) NOT LIKE '%trinkbrunnen%'
+        AND LOWER(name) NOT LIKE '%parking lot%'
+        AND LOWER(name) NOT LIKE '%parkplatz%'
+        AND LOWER(name) NOT LIKE '%toilet%'
+        AND LOWER(name) NOT LIKE '%toiletten%'
+        AND LOWER(name) NOT LIKE '%bankomat%'
+        AND LOWER(name) NOT LIKE '%atm%'
+        AND LOWER(name) NOT LIKE '%kneipp%'
+        AND LOWER(name) NOT LIKE '%altglas%'
+        AND LOWER(name) NOT LIKE '%hundekot%'
+        AND LOWER(name) NOT LIKE '%mülleimer%'
+        AND LOWER(name) NOT LIKE '%container%'
+        AND LOWER(name) NOT LIKE '%briefkasten%'
+      ORDER BY (CASE WHEN rating >= 4.5 THEN 0 WHEN rating >= 4.0 THEN 1 ELSE 2 END), distance_sq ASC 
       LIMIT 4
     `, [targetLat, targetLat, targetLon, targetLon, id]);
 

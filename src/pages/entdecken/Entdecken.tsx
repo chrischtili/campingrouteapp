@@ -2464,23 +2464,24 @@ const getWebsiteUrl = (place: Place): string | null => {
                         {t.noNearbyPlacesFound || 'Keine weiteren Orte im Umkreis gefunden.'}
                       </p>
                     ) : (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         {nearbyPlaces.map((item) => (
                           <div 
                             key={item.id} 
                             onClick={() => openPlace(item)}
+                            title={item.name}
                             style={{ 
                               display: 'flex', 
                               gap: '0.75rem', 
                               alignItems: 'center', 
-                              padding: '0.6rem', 
+                              padding: '0.65rem 0.75rem', 
                               borderRadius: '10px', 
                               border: '1px solid var(--card-border)',
                               background: 'var(--gray-50)',
                               cursor: 'pointer',
                               transition: 'all 0.15s ease-in-out'
                             }}
-                            className="nearby-place-item hover:border-primary-500"
+                            className="nearby-place-item hover:border-primary-500 hover:shadow-sm hover:bg-white"
                           >
                             <div style={{ 
                               width: '32px', 
@@ -2496,10 +2497,15 @@ const getWebsiteUrl = (place: Place): string | null => {
                               {item.type === 'attraction' ? <Compass size={16} /> : <MapPin size={16} />}
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <h5 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-900)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</h5>
-                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', display: 'flex', justifyContent: 'space-between' }}>
-                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: '0.5rem' }}>{item.address.split(',')[0]}</span>
-                                <span style={{ fontWeight: 600, color: 'var(--primary-700)', flexShrink: 0 }}>{item.distance_km} km</span>
+                              <h5 
+                                title={item.name}
+                                style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--gray-900)', margin: '0 0 0.15rem 0', lineHeight: '1.25', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+                              >
+                                {item.name}
+                              </h5>
+                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: '0.5rem' }}>{item.city || item.address?.split(',')[0] || item.state || ''}</span>
+                                <span style={{ fontWeight: 700, color: 'var(--primary-700)', flexShrink: 0 }}>{item.distance_km} km</span>
                               </p>
                             </div>
                           </div>
@@ -2530,17 +2536,19 @@ const getWebsiteUrl = (place: Place): string | null => {
                               closePlace();
                               openTrail(tr);
                             }}
+                            title={`${tr.name} (${tr.distance_km} km)`}
                             style={{ 
                               display: 'flex', 
                               gap: '0.75rem', 
                               alignItems: 'center', 
-                              padding: '0.6rem', 
+                              padding: '0.65rem 0.75rem', 
                               borderRadius: '10px', 
                               border: '1px solid var(--card-border)',
                               background: 'var(--gray-50)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease-in-out'
                             }}
-                            className="nearby-place-item hover:border-primary-500"
+                            className="nearby-place-item hover:border-primary-500 hover:shadow-sm hover:bg-white"
                           >
                             <div style={{ 
                               width: '34px', 
@@ -2556,16 +2564,21 @@ const getWebsiteUrl = (place: Place): string | null => {
                               {tr.type === 'biking' ? <Navigation size={17} /> : <Compass size={17} />}
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                                <h5 style={{ fontSize: '0.85rem', fontWeight: 800, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--gray-900)', flex: 1, minWidth: 0 }}>
+                              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                                <h5 
+                                  title={tr.name}
+                                  style={{ fontSize: '0.88rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)', lineHeight: '1.25', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}
+                                >
                                   {tr.name}
                                 </h5>
                                 <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-block', background: tr.difficulty === 'easy' ? '#ecfdf5' : tr.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: tr.difficulty === 'easy' ? '#059669' : tr.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
                                   {tr.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : tr.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
                                 </span>
                               </div>
-                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0.15rem 0 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {tr.distance_km} km · <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
+                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                <span>{tr.distance_km} km</span>
+                                <span>·</span>
+                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
                               </p>
                             </div>
                           </div>

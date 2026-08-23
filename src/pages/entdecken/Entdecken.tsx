@@ -54,8 +54,9 @@ import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBr
 import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "@/data/trails";
 import { GERMAN_FLAGSHIP_EVENTS, type FlagshipEvent } from "@/data/flagshipEvents";
 import { CULINARY_SPOTS, type CulinarySpot } from "@/data/culinarySpots";
+import { FEATURED_CAMPING_SPOTS, FEATURED_HIGHLIGHTS, type InspirationCampingSpot, type InspirationHighlight } from "@/data/featuredInspirations";
 
-export type { Trail, FlagshipEvent, CulinarySpot };
+export type { Trail, FlagshipEvent, CulinarySpot, InspirationCampingSpot, InspirationHighlight };
 
 export interface GermanEvent {
   id: string;
@@ -657,6 +658,14 @@ function EntdeckenContent() {
       } catch {}
     }
   };
+
+  // Dynamic randomized inspirations for Camping and Highlights hubs (4 items per visit)
+  const [sampleCampingList] = useState<InspirationCampingSpot[]>(() => {
+    return [...FEATURED_CAMPING_SPOTS].sort(() => 0.5 - Math.random()).slice(0, 4);
+  });
+  const [sampleHighlightsList] = useState<InspirationHighlight[]>(() => {
+    return [...FEATURED_HIGHLIGHTS].sort(() => 0.5 - Math.random()).slice(0, 4);
+  });
 
   const filteredCulinarySpots = useMemo(() => {
     return culinarySpots.filter(spot => {
@@ -2145,7 +2154,7 @@ const getWebsiteUrl = (place: Place): string | null => {
   };
 
   return (
-    <main id="main-content" tabIndex={-1} className="entdecken-root" style={{ background: 'var(--gray-50)', minHeight: '100vh' }}>
+    <main id="main-content" tabIndex={-1} className="entdecken-root" style={{ background: 'var(--gray-50)', minHeight: 'auto' }}>
 
       {/* Main Container */}
       <div style={{ width: '100%', margin: '0 auto', maxWidth: '1200px', padding: '1.25rem 1.5rem 0.5rem 1.5rem' }}>
@@ -3226,11 +3235,213 @@ const getWebsiteUrl = (place: Place): string | null => {
                 const explorerTab = isHighlightsHub ? 'attractions' : 'camping';
                 return (
                 <div style={{ marginBottom: '1.75rem' }}>
-                  <div style={{ marginBottom: '1.25rem' }}>
-                    <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      {isHighlightsHub ? '🏰 Sehenswürdigkeiten & Highlights in Europa' : '🏕️ Camping & Stellplätze in Europa'}
+                  
+                  {/* Inspiration Row: Dynamic sample cards */}
+                  <div style={{ marginBottom: '2.5rem' }}>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: isHighlightsHub ? 'rgba(124, 58, 237, 0.1)' : 'rgba(5, 150, 105, 0.1)', color: isHighlightsHub ? '#7c3aed' : '#059669', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
+                        <Sparkles size={13} />
+                        {isHighlightsHub ? 'Ausgewählte Highlights' : 'Ausgewählte Camping-Tipps'}
+                      </div>
+                      <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>
+                        {isHighlightsHub ? '✨ Zur Inspiration: Besondere Sehenswürdigkeiten' : '✨ Zur Inspiration: Beliebte Camping- & Stellplätze'}
+                      </h2>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--gray-600)', margin: 0 }}>
+                        {isHighlightsHub 
+                          ? 'Kleine zufällige Auswahl faszinierender Schlösser, Naturwunder und Reiseziele in Europa'
+                          : 'Kleine zufällige Auswahl handverlesener Camping- und Stellplätze für deine nächste Tour'}
+                      </p>
+                    </div>
+
+                    {/* Cards Grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.25rem' }}>
+                      {isHighlightsHub ? (
+                        sampleHighlightsList.map((spot) => (
+                          <div
+                            key={spot.id}
+                            onClick={() => handleSearch(undefined, spot.searchQuery)}
+                            style={{
+                              background: 'var(--card-bg)',
+                              border: '1px solid var(--card-border)',
+                              borderRadius: '16px',
+                              overflow: 'hidden',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              boxShadow: 'var(--shadow-sm)',
+                              cursor: 'pointer',
+                              transition: 'transform 0.2s, box-shadow 0.2s'
+                            }}
+                            className="hover:scale-102 hover:shadow-md"
+                          >
+                            <div style={{ position: 'relative', height: '165px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                              <img
+                                src={spot.imageUrl}
+                                alt={spot.name}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              />
+                              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%)' }} />
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: '10px',
+                                  left: '10px',
+                                  background: '#7c3aed',
+                                  color: 'white',
+                                  padding: '3px 8px',
+                                  borderRadius: '6px',
+                                  fontSize: '0.7rem',
+                                  fontWeight: 800,
+                                  textTransform: 'uppercase',
+                                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                }}
+                              >
+                                {spot.categoryLabel}
+                              </span>
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: '10px',
+                                  right: '10px',
+                                  background: 'rgba(0,0,0,0.6)',
+                                  backdropFilter: 'blur(4px)',
+                                  color: 'white',
+                                  padding: '3px 7px',
+                                  borderRadius: '6px',
+                                  fontSize: '0.75rem',
+                                  fontWeight: 700
+                                }}
+                              >
+                                {spot.flag} {spot.country}
+                              </span>
+                            </div>
+
+                            <div style={{ padding: '1.15rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.3rem', fontWeight: 600 }}>
+                                <MapPin size={13} />
+                                <span>{spot.region}</span>
+                              </div>
+                              <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: '1.3' }}>
+                                {spot.name}
+                              </h3>
+                              <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: '0 0 0.75rem 0', lineHeight: '1.4', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                {spot.description}
+                              </p>
+                              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
+                                <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                                  🏕️ Campingplätze in der Nähe
+                                </span>
+                                <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        sampleCampingList.map((spot) => (
+                          <div
+                            key={spot.id}
+                            onClick={() => handleSearch(undefined, spot.searchQuery)}
+                            style={{
+                              background: 'var(--card-bg)',
+                              border: '1px solid var(--card-border)',
+                              borderRadius: '16px',
+                              overflow: 'hidden',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              boxShadow: 'var(--shadow-sm)',
+                              cursor: 'pointer',
+                              transition: 'transform 0.2s, box-shadow 0.2s'
+                            }}
+                            className="hover:scale-102 hover:shadow-md"
+                          >
+                            <div style={{ position: 'relative', height: '165px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                              <img
+                                src={spot.imageUrl}
+                                alt={spot.name}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              />
+                              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%)' }} />
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: '10px',
+                                  left: '10px',
+                                  background: '#059669',
+                                  color: 'white',
+                                  padding: '3px 8px',
+                                  borderRadius: '6px',
+                                  fontSize: '0.7rem',
+                                  fontWeight: 800,
+                                  textTransform: 'uppercase',
+                                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                }}
+                              >
+                                {spot.categoryLabel}
+                              </span>
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: '10px',
+                                  right: '10px',
+                                  background: 'rgba(0,0,0,0.6)',
+                                  backdropFilter: 'blur(4px)',
+                                  color: 'white',
+                                  padding: '3px 7px',
+                                  borderRadius: '6px',
+                                  fontSize: '0.75rem',
+                                  fontWeight: 700
+                                }}
+                              >
+                                {spot.flag} {spot.country}
+                              </span>
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  bottom: '10px',
+                                  left: '10px',
+                                  background: 'rgba(0,0,0,0.7)',
+                                  color: '#facc15',
+                                  padding: '2px 7px',
+                                  borderRadius: '6px',
+                                  fontSize: '0.72rem',
+                                  fontWeight: 800
+                                }}
+                              >
+                                {spot.highlightTag}
+                              </span>
+                            </div>
+
+                            <div style={{ padding: '1.15rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.3rem', fontWeight: 600 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                                  <MapPin size={13} />
+                                  <span>{spot.region}</span>
+                                </div>
+                                <span style={{ color: '#d97706', fontWeight: 700 }}>
+                                  ⭐ {spot.rating} ({spot.reviewsCount})
+                                </span>
+                              </div>
+                              <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: '1.3' }}>
+                                {spot.name}
+                              </h3>
+                              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
+                                <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                                  🔎 Platz & Umgebung entdecken
+                                </span>
+                                <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Countries Grid Section */}
+                  <div style={{ marginBottom: '1.25rem', borderTop: '1px solid var(--gray-200)', paddingTop: '1.75rem' }}>
+                    <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      {isHighlightsHub ? '🏰 Alle Sehenswürdigkeiten nach Ländern' : '🌍 Alle Camping-Reiseziele nach Ländern'}
                     </h2>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--gray-500)', margin: 0 }}>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--gray-600)', margin: 0 }}>
                       {isHighlightsHub
                         ? (t.attractionsByCountrySubtitle || 'Entdecke beliebte Parks, Schlösser und Sehenswürdigkeiten')
                         : (t.campgroundsByCountrySubtitle || 'Entdecke geprüfte Camping- und Stellplätze in ganz Europa')}

@@ -742,57 +742,28 @@ function EntdeckenContent() {
 
   const openNearbyCampsitesForCulinary = (spot: CulinarySpot) => {
     closeCulinarySpot();
-    setIsSearching(true);
-    const url1 = `/discover/api/trails/nearby-campsites?lat=${spot.latitude}&lon=${spot.longitude}&radius=35&limit=25`;
-    const url2 = `/api/trails/nearby-campsites?lat=${spot.latitude}&lon=${spot.longitude}&radius=35&limit=25`;
-    fetch(url1)
-      .then(res => res.ok ? res.json() : fetch(url2).then(r => r.json()))
-      .then(data => {
-        const rawList = (data && data.places && Array.isArray(data.places) && data.places.length > 0)
-          ? data.places
-          : (culinaryCampsites && culinaryCampsites.length > 0 ? culinaryCampsites : []);
-        
-        const validPlaces = rawList.map((p: any) => ({
-          ...p,
-          latitude: Number(p.latitude || p.lat),
-          longitude: Number(p.longitude || p.lon),
-          city: p.city || p.locality || '',
-          type: p.type || p.category || 'camp_site'
-        }));
+    const rawList = (culinaryCampsites && culinaryCampsites.length > 0)
+      ? culinaryCampsites
+      : [];
 
-        setPlaces(validPlaces);
-        setTotalItems(validPlaces.length);
-        setMapPoints(validPlaces);
-        setViewMode('split');
-        setCurrentPage(1);
-        setHasSearched(true);
-        setSearchQuery(`Camping & Stellplätze nahe ${spot.name}`);
-        setRecommendationTitle(`🏕️ Camping nahe ${spot.name}`);
-        setActiveTab('explore');
-      })
-      .catch(() => {
-        if (culinaryCampsites && culinaryCampsites.length > 0) {
-          const validPlaces = culinaryCampsites.map((p: any) => ({
-            ...p,
-            latitude: Number(p.latitude || p.lat),
-            longitude: Number(p.longitude || p.lon),
-            city: p.city || p.locality || '',
-            type: p.type || p.category || 'camp_site'
-          }));
-          setPlaces(validPlaces);
-          setTotalItems(validPlaces.length);
-          setMapPoints(validPlaces);
-          setViewMode('split');
-          setCurrentPage(1);
-          setHasSearched(true);
-          setSearchQuery(`Camping & Stellplätze nahe ${spot.name}`);
-          setRecommendationTitle(`🏕️ Camping nahe ${spot.name}`);
-          setActiveTab('explore');
-        }
-      })
-      .finally(() => {
-        setIsSearching(false);
-      });
+    const validPlaces = rawList.map((p: any) => ({
+      ...p,
+      latitude: Number(p.latitude || p.lat),
+      longitude: Number(p.longitude || p.lon),
+      city: p.city || p.locality || '',
+      type: p.type || p.category || 'camp_site'
+    }));
+
+    setPlaces(validPlaces);
+    setTotalItems(validPlaces.length);
+    setMapPoints(validPlaces);
+    setViewMode('split');
+    setCurrentPage(1);
+    setHasSearched(true);
+    setSearchSummary('');
+    setSearchQuery(`Camping & Stellplätze nahe ${spot.name}`);
+    setRecommendationTitle(`🏕️ ${validPlaces.length} Camping- & Stellplätze nahe ${spot.name}`);
+    setActiveTab('explore');
   };
 
   // Dynamic randomized inspirations for Camping and Highlights hubs (4 items per visit)
@@ -5530,125 +5501,126 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {/* Pagination */}
                     {totalItems > itemsPerPage && (
                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
-                        <button
-                          disabled={currentPage === 1}
-                          onClick={() => handleSearch(undefined, undefined, currentPage - 1)}
-                          style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            border: '1px solid var(--card-border)',
-                            background: 'var(--card-bg)',
-                            color: currentPage === 1 ? 'var(--gray-300)' : 'var(--gray-700)',
-                            cursor: currentPage === 1 ? 'default' : 'pointer',
-                            fontSize: '0.95rem',
-                            fontWeight: 700,
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          &lt;
-                        </button>
-                        
                         {(() => {
+                          const onPageClick = (targetPage: number) => {
+                            if (places.length === totalItems && totalItems > 0) {
+                              setCurrentPage(targetPage);
+                            } else {
+                              handleSearch(undefined, undefined, targetPage);
+                            }
+                          };
                           const totalPages = Math.ceil(totalItems / itemsPerPage);
                           const pages = [];
                           const range = 2;
                           const start = Math.max(1, currentPage - range);
                           const end = Math.min(totalPages, currentPage + range);
 
-                          if (start > 1) {
-                            pages.push(
+                          return (
+                            <>
                               <button
-                                key={1}
-                                onClick={() => handleSearch(undefined, undefined, 1)}
+                                disabled={currentPage === 1}
+                                onClick={() => onPageClick(currentPage - 1)}
                                 style={{
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
-                                  border: currentPage === 1 ? 'none' : '1px solid var(--card-border)',
-                                  background: currentPage === 1 ? 'var(--primary-600)' : 'var(--card-bg)',
-                                  color: currentPage === 1 ? '#ffffff' : 'var(--gray-700)',
-                                  cursor: 'pointer',
-                                  fontSize: '0.85rem',
-                                  fontWeight: 700
+                                  border: '1px solid var(--card-border)',
+                                  background: 'var(--card-bg)',
+                                  color: currentPage === 1 ? 'var(--gray-300)' : 'var(--gray-700)',
+                                  cursor: currentPage === 1 ? 'default' : 'pointer',
+                                  fontSize: '0.95rem',
+                                  fontWeight: 700,
+                                  transition: 'all 0.2s'
                                 }}
                               >
-                                1
+                                &lt;
                               </button>
-                            );
-                            if (start > 2) {
-                              pages.push(<span key="dots-start" style={{ color: 'var(--gray-600)', padding: '0 0.25rem' }}>...</span>);
-                            }
-                          }
+                              
+                              {start > 1 && (
+                                <>
+                                  <button
+                                    onClick={() => onPageClick(1)}
+                                    style={{
+                                      width: '36px',
+                                      height: '36px',
+                                      borderRadius: '50%',
+                                      border: currentPage === 1 ? 'none' : '1px solid var(--card-border)',
+                                      background: currentPage === 1 ? 'var(--primary-600)' : 'var(--card-bg)',
+                                      color: currentPage === 1 ? '#ffffff' : 'var(--gray-700)',
+                                      cursor: 'pointer',
+                                      fontSize: '0.85rem',
+                                      fontWeight: 700
+                                    }}
+                                  >
+                                    1
+                                  </button>
+                                  {start > 2 && <span style={{ color: 'var(--gray-600)', padding: '0 0.25rem' }}>...</span>}
+                                </>
+                              )}
 
-                          for (let i = start; i <= end; i++) {
-                            pages.push(
+                              {Array.from({ length: end - start + 1 }, (_, idx) => start + idx).map((i) => (
+                                <button
+                                  key={i}
+                                  onClick={() => onPageClick(i)}
+                                  style={{
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '50%',
+                                    border: i === currentPage ? 'none' : '1px solid var(--card-border)',
+                                    background: i === currentPage ? 'var(--primary-600)' : 'var(--card-bg)',
+                                    color: i === currentPage ? '#ffffff' : 'var(--gray-700)',
+                                    cursor: 'pointer',
+                                    fontSize: '0.85rem',
+                                    fontWeight: 700
+                                  }}
+                                >
+                                  {i}
+                                </button>
+                              ))}
+
+                              {end < totalPages && (
+                                <>
+                                  {end < totalPages - 1 && <span style={{ color: 'var(--gray-600)', padding: '0 0.25rem' }}>...</span>}
+                                  <button
+                                    onClick={() => onPageClick(totalPages)}
+                                    style={{
+                                      width: '36px',
+                                      height: '36px',
+                                      borderRadius: '50%',
+                                      border: totalPages === currentPage ? 'none' : '1px solid var(--card-border)',
+                                      background: totalPages === currentPage ? 'var(--primary-600)' : 'var(--card-bg)',
+                                      color: totalPages === currentPage ? '#ffffff' : 'var(--gray-700)',
+                                      cursor: 'pointer',
+                                      fontSize: '0.85rem',
+                                      fontWeight: 700
+                                    }}
+                                  >
+                                    {totalPages}
+                                  </button>
+                                </>
+                              )}
+
                               <button
-                                key={i}
-                                onClick={() => handleSearch(undefined, undefined, i)}
+                                disabled={currentPage === totalPages}
+                                onClick={() => onPageClick(currentPage + 1)}
                                 style={{
                                   width: '36px',
                                   height: '36px',
                                   borderRadius: '50%',
-                                  border: i === currentPage ? 'none' : '1px solid var(--card-border)',
-                                  background: i === currentPage ? 'var(--primary-600)' : 'var(--card-bg)',
-                                  color: i === currentPage ? '#ffffff' : 'var(--gray-700)',
-                                  cursor: 'pointer',
-                                  fontSize: '0.85rem',
-                                  fontWeight: 700
+                                  border: '1px solid var(--card-border)',
+                                  background: 'var(--card-bg)',
+                                  color: currentPage === totalPages ? 'var(--gray-300)' : 'var(--gray-700)',
+                                  cursor: currentPage === totalPages ? 'default' : 'pointer',
+                                  fontSize: '0.95rem',
+                                  fontWeight: 700,
+                                  transition: 'all 0.2s'
                                 }}
                               >
-                                {i}
+                                &gt;
                               </button>
-                            );
-                          }
-
-                          if (end < totalPages) {
-                            if (end < totalPages - 1) {
-                              pages.push(<span key="dots-end" style={{ color: 'var(--gray-600)', padding: '0 0.25rem' }}>...</span>);
-                            }
-                            pages.push(
-                              <button
-                                key={totalPages}
-                                onClick={() => handleSearch(undefined, undefined, totalPages)}
-                                style={{
-                                  width: '36px',
-                                  height: '36px',
-                                  borderRadius: '50%',
-                                  border: totalPages === currentPage ? 'none' : '1px solid var(--card-border)',
-                                  background: totalPages === currentPage ? 'var(--primary-600)' : 'var(--card-bg)',
-                                  color: totalPages === currentPage ? '#ffffff' : 'var(--gray-700)',
-                                  cursor: 'pointer',
-                                  fontSize: '0.85rem',
-                                  fontWeight: 700
-                                }}
-                              >
-                                {totalPages}
-                              </button>
-                            );
-                          }
-
-                          return pages;
+                            </>
+                          );
                         })()}
-
-                        <button
-                          disabled={currentPage === Math.ceil(totalItems / itemsPerPage)}
-                          onClick={() => handleSearch(undefined, undefined, currentPage + 1)}
-                          style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            border: '1px solid var(--card-border)',
-                            background: 'var(--card-bg)',
-                            color: currentPage === Math.ceil(totalItems / itemsPerPage) ? 'var(--gray-300)' : 'var(--gray-700)',
-                            cursor: currentPage === Math.ceil(totalItems / itemsPerPage) ? 'default' : 'pointer',
-                            fontSize: '0.95rem',
-                            fontWeight: 700,
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          &gt;
-                        </button>
                       </div>
                     )}
                       </div>

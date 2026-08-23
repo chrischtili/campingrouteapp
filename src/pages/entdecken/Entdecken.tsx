@@ -54,7 +54,7 @@ import { AppBreadcrumbs, type BreadcrumbItem } from "@/components/AppBreadcrumbs
 import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBreadcrumbs";
 import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "@/data/trails";
 import { GERMAN_FLAGSHIP_EVENTS, type FlagshipEvent } from "@/data/flagshipEvents";
-import { CULINARY_SPOTS, type CulinarySpot } from "@/data/culinarySpots";
+import { CULINARY_SPOTS, getNearbyCulinarySpots, type CulinarySpot } from "@/data/culinarySpots";
 import { FEATURED_CAMPING_SPOTS, FEATURED_HIGHLIGHTS, type InspirationCampingSpot, type InspirationHighlight } from "@/data/featuredInspirations";
 
 export type { Trail, FlagshipEvent, CulinarySpot, InspirationCampingSpot, InspirationHighlight };
@@ -532,6 +532,7 @@ function EntdeckenContent() {
   const [trailViewMode, setTrailViewMode] = useState<'grid' | 'split' | 'map'>('grid');
   const [visibleTrailsCount, setVisibleTrailsCount] = useState<number>(12);
   const [nearbyTrails, setNearbyTrails] = useState<Trail[]>([]);
+  const [nearbyCulinarySpots, setNearbyCulinarySpots] = useState<(CulinarySpot & { distance_to_place_km?: number })[]>([]);
   const [isLoadingTrails, setIsLoadingTrails] = useState(false);
   const [selectedTrail, setSelectedTrail] = useState<Trail | null>(null);
   const [trailPolyline, setTrailPolyline] = useState<[number, number][]>([]);
@@ -1520,6 +1521,10 @@ function EntdeckenContent() {
       const memoryTrails = getNearbyTrails(selectedPlace.latitude, selectedPlace.longitude, 50, trails).slice(0, 4);
       setNearbyTrails(memoryTrails);
 
+      // 2. Instant calculation of nearby farm shops, wineries & regiomats
+      const memoryCulinary = getNearbyCulinarySpots(selectedPlace.latitude, selectedPlace.longitude, 35, culinarySpots).slice(0, 4);
+      setNearbyCulinarySpots(memoryCulinary);
+
       if (isCustomInsp) {
         setReviews([]);
       } else {
@@ -1538,12 +1543,23 @@ function EntdeckenContent() {
             }
           })
           .catch(() => {});
+
+        // Fetch nearby culinary spots from API
+        fetch(`/api/culinary/nearby?lat=${selectedPlace.latitude}&lon=${selectedPlace.longitude}&radius=35&limit=4`)
+          .then(res => res.ok ? res.json() : { spots: [] })
+          .then(data => {
+            if (data && data.spots && Array.isArray(data.spots) && data.spots.length > 0) {
+              setNearbyCulinarySpots(data.spots);
+            }
+          })
+          .catch(() => {});
       }
     } else {
       setNearbyPlaces([]);
       setNearbyTrails([]);
+      setNearbyCulinarySpots([]);
     }
-  }, [selectedPlace, trails]);
+  }, [selectedPlace, trails, culinarySpots]);
 
   // Fetch campsites, trail polyline and lock scroll for selected trail
   useEffect(() => {
@@ -2891,6 +2907,79 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 <span>{tr.distance_km} km</span>
                                 <span>·</span>
                                 <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Nearby Culinary Spots (Wineries, Farm Shops, Regiomats) */}
+                  <div className="detail-card">
+                    <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      🍇 Hofläden, Winzer & Automaten
+                    </h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>
+                      Regionale Spezialitäten, Weinverkauf und 24h-Regiomaten in der Nähe
+                    </p>
+                    
+                    {nearbyCulinarySpots.length === 0 ? (
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0 }}>
+                        Keine Erzeuger oder Hofläden im direkten 35-km-Nahbereich registriert.
+                      </p>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {nearbyCulinarySpots.map((spot) => (
+                          <div 
+                            key={spot.id}
+                            onClick={() => {
+                              closePlace();
+                              openCulinarySpot(spot);
+                            }}
+                            title={`${spot.name} (${spot.distance_to_place_km || spot.distance_km} km)`}
+                            style={{ 
+                              display: 'flex', 
+                              gap: '0.75rem', 
+                              alignItems: 'center', 
+                              padding: '0.65rem 0.75rem', 
+                              borderRadius: '10px', 
+                              border: '1px solid var(--card-border)', 
+                              background: 'var(--gray-50)', 
+                              cursor: 'pointer', 
+                              transition: 'all 0.15s ease-in-out' 
+                            }}
+                            className="nearby-place-item hover:border-primary-500 hover:shadow-sm hover:bg-white"
+                          >
+                            <div style={{ 
+                              width: '34px', 
+                              height: '34px', 
+                              borderRadius: '8px', 
+                              background: spot.type === 'winery' ? 'rgba(147, 51, 234, 0.15)' : spot.type === 'cheese_dairy' ? 'rgba(217, 119, 6, 0.15)' : spot.type === 'regiomat' ? 'rgba(37, 99, 235, 0.15)' : 'rgba(22, 163, 74, 0.15)', 
+                              fontSize: '17px', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center', 
+                              flexShrink: 0 
+                            }}>
+                              {spot.type === 'winery' ? '🍷' : spot.type === 'cheese_dairy' ? '🧀' : spot.type === 'regiomat' ? '🥩' : '🚜'}
+                            </div>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                                <h5 
+                                  title={spot.name}
+                                  style={{ fontSize: '0.88rem', fontWeight: 800, margin: 0, color: 'var(--gray-900)', lineHeight: '1.25', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}
+                                >
+                                  {spot.name}
+                                </h5>
+                                <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-block', background: spot.type === 'winery' ? '#faf5ff' : spot.type === 'cheese_dairy' ? '#fffbeb' : '#f0fdf4', color: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : '#16a34a' }}>
+                                  {spot.subtypeLabel}
+                                </span>
+                              </div>
+                              <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }}>{spot.products.slice(0, 2).join(' · ')}</span>
+                                <span>·</span>
+                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{spot.distance_to_place_km || spot.distance_km} km vom Platz</span>
                               </p>
                             </div>
                           </div>

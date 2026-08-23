@@ -17,6 +17,36 @@ export interface CulinarySpot {
   phone?: string;
   image_url?: string;
   openingHours?: string;
+  distance_to_place_km?: number;
+}
+
+export function getNearbyCulinarySpots(
+  lat: number,
+  lon: number,
+  maxDistanceKm: number = 35,
+  spotsList: CulinarySpot[] = CULINARY_SPOTS
+): (CulinarySpot & { distance_to_place_km: number })[] {
+  function calcDist(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Math.round(R * c * 10) / 10;
+  }
+
+  const sourceList = (spotsList && spotsList.length > 0) ? spotsList : CULINARY_SPOTS;
+
+  return sourceList
+    .filter(s => s && typeof s.latitude === 'number' && typeof s.longitude === 'number')
+    .map(s => ({
+      ...s,
+      distance_to_place_km: calcDist(lat, lon, s.latitude, s.longitude)
+    }))
+    .filter(s => s.distance_to_place_km <= maxDistanceKm)
+    .sort((a, b) => a.distance_to_place_km - b.distance_to_place_km);
 }
 
 export const CULINARY_SPOTS: CulinarySpot[] = [

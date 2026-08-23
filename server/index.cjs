@@ -2158,7 +2158,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // Nearby campsites for a trail (spatial Haversine query)
+    // Nearby campsites for a trail or culinary spot (spatial Haversine query)
     if (req.method === 'GET' && (pathname === '/api/trails/nearby-campsites' || pathname === '/discover/api/trails/nearby-campsites')) {
       const lat = parseFloat(url.searchParams.get('lat') || '');
       const lon = parseFloat(url.searchParams.get('lon') || '');
@@ -2174,8 +2174,11 @@ const server = http.createServer(async (req, res) => {
         const dbPaths = [
           PLACE_DATABASE_PATH,
           path.join(__dirname, '..', 'places.sqlite'),
+          path.join(__dirname, 'places.sqlite'),
           path.join(__dirname, '..', 'entdecken-backend', 'campingroute_eu.db'),
-          path.join(DATA_DIR, 'campingroute_eu.db')
+          path.join(DATA_DIR, 'campingroute_eu.db'),
+          '/var/www/campingroute.app/places.sqlite',
+          '/var/www/campingroute.app/server/places.sqlite'
         ];
         const dbPath = dbPaths.find(p => fs.existsSync(p));
         if (!dbPath) {
@@ -2185,11 +2188,11 @@ const server = http.createServer(async (req, res) => {
 
         const dLat = radiusKm / 111.0;
         const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
-        const sql = `SELECT id, name, type, city, address, rating, image_url, latitude, longitude, description, price, website FROM places WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 200;`;
         
         let rows = [];
         try {
-          const output = execFileSync('sqlite3', ['-json', dbPath, sql], {
+          const sql1 = `SELECT id, name, category as type, category, locality as city, locality, address, lat as latitude, lon as longitude, website, phone, description FROM places WHERE lat BETWEEN ${lat - dLat} AND ${lat + dLat} AND lon BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 300;`;
+          const output = execFileSync('sqlite3', ['-json', dbPath, sql1], {
             encoding: 'utf8',
             stdio: ['ignore', 'pipe', 'pipe'],
             maxBuffer: 4 * 1024 * 1024
@@ -2197,12 +2200,28 @@ const server = http.createServer(async (req, res) => {
           if (output) {
             rows = JSON.parse(output);
           }
-        } catch (_) {}
+        } catch (_) {
+          try {
+            const sql2 = `SELECT id, name, type, city, address, rating, image_url, latitude, longitude, description, price, website FROM places WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 300;`;
+            const output2 = execFileSync('sqlite3', ['-json', dbPath, sql2], {
+              encoding: 'utf8',
+              stdio: ['ignore', 'pipe', 'pipe'],
+              maxBuffer: 4 * 1024 * 1024
+            }).trim();
+            if (output2) {
+              rows = JSON.parse(output2);
+            }
+          } catch (__) {}
+        }
 
         const withDist = rows.map(r => {
-          const dist = haversineDistanceKm(lat, lon, Number(r.latitude), Number(r.longitude));
+          const rLat = Number(r.latitude || r.lat);
+          const rLon = Number(r.longitude || r.lon);
+          const dist = haversineDistanceKm(lat, lon, rLat, rLon);
           return {
             ...r,
+            latitude: rLat,
+            longitude: rLon,
             distance_km: Math.round(dist * 10) / 10
           };
         })
@@ -2213,6 +2232,49 @@ const server = http.createServer(async (req, res) => {
           success: true,
           count: withDist.length,
           places: withDist.slice(0, limit)
+        });
+        return;
+      } catch (err) {
+        sendJson(res, 500, { success: false, error: err.message });
+        return;
+      }
+    }
+
+    // Nearby culinary spots (wineries, farm shops, cheese dairies, regiomats) for a campsite or coordinate
+    if (req.method === 'GET' && (pathname === '/api/culinary/nearby' || pathname === '/discover/api/culinary/nearby')) {
+      const lat = parseFloat(url.searchParams.get('lat') || '');
+      const lon = parseFloat(url.searchParams.get('lon') || '');
+      const radiusKm = parseFloat(url.searchParams.get('radius_km') || url.searchParams.get('radius') || '25');
+      const limit = parseInt(url.searchParams.get('limit') || '8', 10);
+
+      if (isNaN(lat) || isNaN(lon)) {
+        sendJson(res, 400, { success: false, message: 'Valid lat and lon required' });
+        return;
+      }
+
+      try {
+        const culinaryFilePath = path.join(__dirname, 'culinary.json');
+        let spotsList = [];
+        if (fs.existsSync(culinaryFilePath)) {
+          spotsList = JSON.parse(fs.readFileSync(culinaryFilePath, 'utf8'));
+        }
+
+        const withDist = spotsList.map(s => {
+          const sLat = Number(s.latitude);
+          const sLon = Number(s.longitude);
+          const dist = haversineDistanceKm(lat, lon, sLat, sLon);
+          return {
+            ...s,
+            distance_km: Math.round(dist * 10) / 10
+          };
+        })
+        .filter(s => s.distance_km <= radiusKm)
+        .sort((a, b) => a.distance_km - b.distance_km);
+
+        sendJson(res, 200, {
+          success: true,
+          count: withDist.length,
+          spots: withDist.slice(0, limit)
         });
         return;
       } catch (err) {

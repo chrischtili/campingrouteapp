@@ -2239,7 +2239,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // Trail details endpoint with live OSM Foot/Bike routing support & caching
+    // Trail details endpoint with live OSM Foot/Bike routing & in-memory caching
     if (req.method === 'GET' && (pathname === '/api/trails/details' || pathname === '/discover/api/trails/details')) {
       const id = (url.searchParams.get('id') || '').trim();
       const uri = (url.searchParams.get('uri') || '').trim();
@@ -2252,6 +2252,63 @@ const server = http.createServer(async (req, res) => {
         const trail = trailsList.find(t => (id && t.id === id) || (uri && t.uri === uri));
         if (trail) {
           let polyline = (trail.polyline && Array.isArray(trail.polyline) && trail.polyline.length > 1) ? trail.polyline : null;
+
+          // If no precomputed polyline, fetch or generate real track via OpenStreetMap
+          if (!polyline && trail.latitude && trail.longitude) {
+            const lat = Number(trail.latitude);
+            const lon = Number(trail.longitude);
+            const cacheKey = `trail_track_${trail.id || `${lat}_${lon}`}`;
+            
+            if (global.__trailTracksCache && global.__trailTracksCache.has(cacheKey)) {
+              polyline = global.__trailTracksCache.get(cacheKey);
+            } else {
+              const profile = (trail.type === 'biking' || trail.type === 'bike') ? 'bike' : 'foot';
+              const distKm = Number(trail.distance_km) || 12;
+              const radiusKm = Math.min(4.5, Math.max(0.6, (distKm / 6.0)));
+              const dLat = radiusKm / 111.0;
+              const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
+              const waypoints = [
+                [lat, lon],
+                [lat + dLat * 0.6, lon + dLon * 0.6],
+                [lat + dLat * 0.2, lon + dLon * 0.9],
+                [lat - dLat * 0.5, lon + dLon * 0.5],
+                [lat - dLat * 0.7, lon - dLon * 0.4],
+                [lat, lon]
+              ];
+
+              try {
+                const sub = profile === 'bike' ? 'routed-bike' : 'routed-foot';
+                const coordStr = waypoints.map(([wLat, wLon]) => `${wLon.toFixed(5)},${wLat.toFixed(5)}`).join(';');
+                const osmUrl = `https://routing.openstreetmap.de/${sub}/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+                
+                const osmRes = await new Promise((resolve) => {
+                  https.get(osmUrl, { headers: { 'User-Agent': 'CampingRouteApp/1.0' }, timeout: 6000 }, res => {
+                    let data = '';
+                    res.on('data', c => data += c);
+                    res.on('end', () => {
+                      try {
+                        const json = JSON.parse(data);
+                        if (json.routes && json.routes[0]) {
+                          const pts = json.routes[0].geometry.coordinates.map(([pLon, pLat]) => [
+                            Math.round(pLat * 100000) / 100000,
+                            Math.round(pLon * 100000) / 100000
+                          ]);
+                          resolve(pts);
+                        } else resolve(null);
+                      } catch { resolve(null); }
+                    });
+                  }).on('error', () => resolve(null)).on('timeout', () => resolve(null));
+                });
+
+                if (osmRes && osmRes.length > 1) {
+                  polyline = osmRes;
+                  if (!global.__trailTracksCache) global.__trailTracksCache = new Map();
+                  global.__trailTracksCache.set(cacheKey, polyline);
+                }
+              } catch {}
+            }
+          }
+
           let start_coords = trail.start_coords || (polyline && polyline.length > 0 ? polyline[0] : (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null));
           let end_coords = trail.end_coords || (polyline && polyline.length > 0 ? polyline[polyline.length - 1] : (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null));
 

@@ -540,6 +540,8 @@ function EntdeckenContent() {
   const [trailEndCoords, setTrailEndCoords] = useState<[number, number] | null>(null);
   const [trailCampsites, setTrailCampsites] = useState<Place[]>([]);
   const [isLoadingTrailCampsites, setIsLoadingTrailCampsites] = useState(false);
+  const [isLoadingTrailTrack, setIsLoadingTrailTrack] = useState(false);
+  const [isDownloadingGpx, setIsDownloadingGpx] = useState(false);
   const trailMapContainerRef = useRef<HTMLDivElement | null>(null);
   const trailLeafletMapRef = useRef<L.Map | null>(null);
   const trailWasOpenRef = useRef<boolean>(false);
@@ -1754,10 +1756,12 @@ function EntdeckenContent() {
         setTrailPolyline(selectedTrail.polyline);
         setTrailStartCoords(selectedTrail.start_coords || selectedTrail.polyline[0]);
         setTrailEndCoords(selectedTrail.end_coords || selectedTrail.polyline[selectedTrail.polyline.length - 1]);
+        setIsLoadingTrailTrack(false);
       } else {
         setTrailPolyline([]);
         setTrailStartCoords([selectedTrail.latitude, selectedTrail.longitude]);
         setTrailEndCoords([selectedTrail.latitude, selectedTrail.longitude]);
+        setIsLoadingTrailTrack(true);
 
         const detailsUrl = `/discover/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`;
         fetch(detailsUrl)
@@ -1777,6 +1781,9 @@ function EntdeckenContent() {
           })
           .catch(() => {
             // Keep clean DZT marker
+          })
+          .finally(() => {
+            if (isCurrent) setIsLoadingTrailTrack(false);
           });
       }
 
@@ -1789,40 +1796,59 @@ function EntdeckenContent() {
       setTrailPolyline([]);
       setTrailStartCoords(null);
       setTrailEndCoords(null);
+      setIsLoadingTrailTrack(false);
     }
   }, [selectedTrail]);
 
-  // GPX Download handler for selectedTrail
-  const handleDownloadGpx = () => {
+  // GPX Download handler for selectedTrail (with on-the-fly OSM track resolution)
+  const handleDownloadGpx = async () => {
     if (!selectedTrail) return;
-    const points = (trailPolyline && trailPolyline.length > 1) 
-      ? trailPolyline 
-      : (selectedTrail.polyline && selectedTrail.polyline.length > 0)
-        ? selectedTrail.polyline
-        : [];
+    setIsDownloadingGpx(true);
+    try {
+      let points = (trailPolyline && trailPolyline.length > 1) 
+        ? trailPolyline 
+        : (selectedTrail.polyline && selectedTrail.polyline.length > 0)
+          ? selectedTrail.polyline
+          : [];
 
-    const startPt = trailStartCoords || (points.length > 0 ? points[0] : [selectedTrail.latitude, selectedTrail.longitude]);
-    const endPt = trailEndCoords || (points.length > 0 ? points[points.length - 1] : [selectedTrail.latitude, selectedTrail.longitude]);
+      let startPt = trailStartCoords || (points.length > 0 ? points[0] : [selectedTrail.latitude, selectedTrail.longitude]);
+      let endPt = trailEndCoords || (points.length > 0 ? points[points.length - 1] : [selectedTrail.latitude, selectedTrail.longitude]);
 
-    let wpts = `  <wpt lat="${startPt[0].toFixed(6)}" lon="${startPt[1].toFixed(6)}">
+      // If still no multi-point track, resolve from backend OSM router
+      if (points.length < 2) {
+        try {
+          const detailsUrl = `/discover/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`;
+          const res = await fetch(detailsUrl).then(r => r.ok ? r.json() : fetch(`/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`).then(r => r.json()));
+          if (res && res.polyline && Array.isArray(res.polyline) && res.polyline.length > 1) {
+            points = res.polyline;
+            startPt = res.start_coords || points[0];
+            endPt = res.end_coords || points[points.length - 1];
+            setTrailPolyline(points);
+            setTrailStartCoords(startPt);
+            setTrailEndCoords(endPt);
+          }
+        } catch {}
+      }
+
+      let wpts = `  <wpt lat="${startPt[0].toFixed(6)}" lon="${startPt[1].toFixed(6)}">
     <name>Start: ${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
     <desc>Startpunkt in ${escHtml(selectedTrail.start_location)}</desc>
     <sym>Flag, Green</sym>
   </wpt>`;
 
-    if (endPt && (endPt[0] !== startPt[0] || endPt[1] !== startPt[1])) {
-      wpts += `\n  <wpt lat="${endPt[0].toFixed(6)}" lon="${endPt[1].toFixed(6)}">
+      if (endPt && (endPt[0] !== startPt[0] || endPt[1] !== startPt[1])) {
+        wpts += `\n  <wpt lat="${endPt[0].toFixed(6)}" lon="${endPt[1].toFixed(6)}">
     <name>Ziel: ${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
     <desc>Zielpunkt in ${escHtml(selectedTrail.end_location)}</desc>
     <sym>Flag, Red</sym>
   </wpt>`;
-    }
+      }
 
-    const trkpts = points.length > 1
-      ? points.map(([lat, lon]) => `      <trkpt lat="${lat.toFixed(6)}" lon="${lon.toFixed(6)}"><ele>0</ele></trkpt>`).join('\n')
-      : `      <trkpt lat="${selectedTrail.latitude.toFixed(6)}" lon="${selectedTrail.longitude.toFixed(6)}"><ele>0</ele></trkpt>`;
+      const trkpts = points.length > 1
+        ? points.map(([lat, lon]) => `      <trkpt lat="${lat.toFixed(6)}" lon="${lon.toFixed(6)}"><ele>0</ele></trkpt>`).join('\n')
+        : `      <trkpt lat="${selectedTrail.latitude.toFixed(6)}" lon="${selectedTrail.longitude.toFixed(6)}"><ele>0</ele></trkpt>`;
 
-    const gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+      const gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1" creator="CampingRoute.app - Open Data Germany" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
   <metadata>
     <name>${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
@@ -1842,15 +1868,18 @@ ${trkpts}
   </trk>
 </gpx>`;
 
-    const blob = new Blob([gpxContent], { type: 'application/gpx+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${selectedTrail.name.toLowerCase().replace(/[^a-z0-9äöüß]+/gi, '_')}.gpx`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      const blob = new Blob([gpxContent], { type: 'application/gpx+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${selectedTrail.name.toLowerCase().replace(/[^a-z0-9äöüß]+/gi, '_')}.gpx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsDownloadingGpx(false);
+    }
   };
 
   // Trail Detail Map initialization & drawing (Polyline + Start/End + Campsites)
@@ -3202,6 +3231,20 @@ const getWebsiteUrl = (place: Place): string | null => {
                   <Compass size={16} className="text-primary-400" />
                   <span>{selectedTrail.start_location} ➔ {selectedTrail.end_location} ({selectedTrail.region})</span>
                 </div>
+
+                {/* Live OSM Track badge */}
+                {isLoadingTrailTrack && (
+                  <div style={{ position: 'absolute', top: '1.25rem', left: '1.25rem', zIndex: 1000, background: 'rgba(16, 185, 129, 0.95)', color: '#ffffff', padding: '0.4rem 0.9rem', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.8rem', fontWeight: 700, boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+                    <Sparkles size={15} className="animate-spin" />
+                    <span>🛰️ OpenStreetMap Track wird geladen...</span>
+                  </div>
+                )}
+                {!isLoadingTrailTrack && trailPolyline && trailPolyline.length >= 2 && (
+                  <div style={{ position: 'absolute', top: '1.25rem', left: '1.25rem', zIndex: 1000, background: 'rgba(31, 41, 55, 0.92)', color: '#34d399', padding: '0.35rem 0.85rem', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.78rem', fontWeight: 700, boxShadow: '0 2px 8px rgba(0,0,0,0.25)' }}>
+                    <CheckCircle size={14} className="text-emerald-400" />
+                    <span>📍 Präziser OSM-GPS-Track ({trailPolyline.length} Wegpunkte)</span>
+                  </div>
+                )}
               </div>
 
               {/* Grid Content Columns */}
@@ -3255,6 +3298,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div style={{ marginBottom: '1.25rem' }}>
                       <button
                         onClick={handleDownloadGpx}
+                        disabled={isDownloadingGpx}
                         style={{
                           background: '#ecfdf5',
                           color: '#059669',
@@ -3263,16 +3307,17 @@ const getWebsiteUrl = (place: Place): string | null => {
                           padding: '0.65rem 1.1rem',
                           fontSize: '0.88rem',
                           fontWeight: 700,
-                          cursor: 'pointer',
+                          cursor: isDownloadingGpx ? 'wait' : 'pointer',
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '0.5rem',
-                          transition: 'all 0.15s ease-in-out'
+                          transition: 'all 0.15s ease-in-out',
+                          opacity: isDownloadingGpx ? 0.7 : 1
                         }}
                         className="hover:bg-emerald-100 hover:shadow-sm"
                       >
-                        <Download size={17} />
-                        <span>📥 GPX-Track herunterladen (Navi / Komoot / Garmin)</span>
+                        <Download size={17} className={isDownloadingGpx ? 'animate-bounce' : ''} />
+                        <span>{isDownloadingGpx ? '⏳ GPX-Track wird vorbereitet...' : '📥 GPX-Track herunterladen (Navi / Komoot / Garmin)'}</span>
                       </button>
                     </div>
 

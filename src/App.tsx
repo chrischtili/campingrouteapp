@@ -217,7 +217,45 @@ const App = () => {
 
   // Dynamically update SEO tags based on language
   React.useEffect(() => {
-    const pageSeo = getPromptGeneratorSeo(location.pathname, i18n.language) || getFinderSeo(location.pathname, i18n.language);
+    const isDiscoverPage = location.pathname.startsWith('/entdecken') || 
+                           location.pathname.startsWith('/discover') ||
+                           location.pathname.startsWith('/decouvrir') ||
+                           location.pathname.startsWith('/scopri') ||
+                           location.pathname.startsWith('/ontdekken');
+
+    let pageSeo = getPromptGeneratorSeo(location.pathname, i18n.language) || getFinderSeo(location.pathname, i18n.language);
+    
+    if (!pageSeo && isDiscoverPage) {
+      const p = location.pathname.toLowerCase();
+      const params = new URLSearchParams(location.search);
+      const tab = params.get('tab') || '';
+      if (p.includes('/genuss') || p.includes('/culinary') || p.includes('/weingueter') || p.includes('/hoflaeden') || tab === 'culinary') {
+        pageSeo = {
+          title: 'Hofläden, Winzer & 24h-Regiomaten in Deutschland – Camping & Direktvermarkter | CampingRoute',
+          description: 'Entdecke über 1.500 Winzerstuben, Hofläden, Käsereien und 24h-Regiomaten in Deutschland mit passenden Campingplätzen und Wohnmobilstellplätzen in der Nähe.',
+          keywords: 'Hofladen Camping, Winzer Stellplatz, Weingut Wohnmobil, Regiomat Stellplatz, Direktvermarkter Deutschland, Hofkäserei Stellplatz, Camping beim Winzer'
+        };
+      } else if (p.includes('/touren') || p.includes('/wanderwege') || p.includes('/trails') || tab === 'trails') {
+        pageSeo = {
+          title: 'Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute',
+          description: 'Über 670 offizielle Fernwanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.',
+          keywords: 'Wanderwege Camping, Radwege Campingplatz, Fernwanderwege Deutschland, DZT Touren, Radtour Wohnmobil, Wandern und Camping'
+        };
+      } else if (p.includes('/events') || p.includes('/veranstaltungen') || tab === 'events') {
+        pageSeo = {
+          title: 'Veranstaltungen, Weinfeste & Kultur in Deutschland – Camping & Events | CampingRoute',
+          description: 'Offizielle Feste, Märkte, Weinfeste und Kultur-Events in ganz Deutschland mit Camping- und Stellplatztipps in der direkten Umgebung.',
+          keywords: 'Weinfeste Deutschland, Veranstaltungen Camping, Events Wohnmobil Stellplatz, Kulturfeste Deutschland'
+        };
+      } else {
+        pageSeo = {
+          title: 'Camping & Stellplätze in Europa entdecken – Über 37.000 Orte | CampingRoute',
+          description: 'Entdecke über 37.000 verifizierte Campingplätze, Wohnmobilstellplätze, Glamping-Unterkünfte und Sehenswürdigkeiten in Europa.',
+          keywords: 'Camping entdecken, Stellplätze entdecken, Campingkarte Europa, Wohnmobil Europa Karte'
+        };
+      }
+    }
+
     const seoTitle = pageSeo?.title || t("seo.title");
     const seoDescription = pageSeo?.description || t("seo.description");
     const seoKeywords = pageSeo?.keywords || t("seo.keywords");

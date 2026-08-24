@@ -38,7 +38,8 @@ loadDotEnvFile(path.join(__dirname, '..', '.env'));
 
 const PORT = Number(process.env.PORT || 3001);
 const HOST = process.env.HOST || '0.0.0.0';
-const DIST_DIR = process.env.DIST_DIR || '/home/kopi/route-planner-pro/dist';
+const defaultDist = path.join(__dirname, '..', 'dist');
+const DIST_DIR = process.env.DIST_DIR || (fs.existsSync(defaultDist) ? defaultDist : '/home/kopi/route-planner-pro/dist');
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..');
 const COUNTER_PATH = path.join(DATA_DIR, 'counter.json');
 const FEEDBACK_PATH = path.join(DATA_DIR, 'feedback.json');
@@ -2000,14 +2001,121 @@ async function searchPlaces(query, categories, limit, locationOverride = null) {
   return result;
 }
 
-function serveStatic(req, res, pathname) {
+function getSeoMetadataForPath(pathname, searchParams) {
+  const p = pathname.toLowerCase();
+  const tab = (searchParams.get('tab') || '').toLowerCase();
+  const hub = (searchParams.get('hub') || '').toLowerCase();
+  const country = (searchParams.get('country') || '').toUpperCase();
+
+  if (p.includes('/genuss') || p.includes('/weingueter') || p.includes('/hoflaeden') || p.includes('/culinary') || tab === 'culinary' || hub === 'genuss') {
+    return {
+      title: 'Hofläden, Winzer & 24h-Regiomaten in Deutschland – Camping & Direktvermarkter | CampingRoute',
+      description: 'Entdecke über 1.500 Winzerstuben, Hofläden, Käsereien und 24h-Regiomaten in Deutschland mit passenden Campingplätzen und Wohnmobilstellplätzen in der Nähe.',
+      keywords: 'Hofladen Camping, Winzer Stellplatz, Weingut Wohnmobil, Regiomat Stellplatz, Direktvermarkter Deutschland, Hofkäserei Stellplatz, Camping beim Winzer, Landvergnügen Alternative, Bauernhof Stellplatz',
+      canonical: 'https://campingroute.app/entdecken/genuss',
+      schemaType: 'CollectionPage'
+    };
+  }
+  if (p.includes('/touren') || p.includes('/wanderwege') || p.includes('/trails') || p.includes('/wandern') || p.includes('/radwege') || tab === 'trails' || hub === 'touren') {
+    return {
+      title: 'Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute',
+      description: 'Über 670 offizielle Fernwanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.',
+      keywords: 'Wanderwege Camping, Radwege Campingplatz, Fernwanderwege Deutschland, DZT Touren, Radtour Wohnmobil, Wandern und Camping, GPX Wanderwege Camping',
+      canonical: 'https://campingroute.app/entdecken/touren',
+      schemaType: 'CollectionPage'
+    };
+  }
+  if (p.includes('/events') || p.includes('/veranstaltungen') || p.includes('/feste') || tab === 'events' || hub === 'events') {
+    return {
+      title: 'Veranstaltungen, Weinfeste & Kultur in Deutschland – Camping & Events | CampingRoute',
+      description: 'Offizielle Feste, Märkte, Weinfeste und Kultur-Events in ganz Deutschland mit Camping- und Stellplatztipps in der direkten Umgebung.',
+      keywords: 'Weinfeste Deutschland, Veranstaltungen Camping, Events Wohnmobil Stellplatz, Kulturfeste Deutschland, Märkte Deutschland Camping',
+      canonical: 'https://campingroute.app/entdecken/events',
+      schemaType: 'CollectionPage'
+    };
+  }
+  if (p.includes('/campingplatz-finder')) {
+    return {
+      title: 'Campingplatz Finder: Finde die besten Campingplätze in Europa | CampingRoute',
+      description: 'Finde die schönsten Campingplätze für Zelt, Wohnwagen und Wohnmobil in ganz Europa mit KI-Unterstützung.',
+      keywords: 'Campingplatz Finder, Campingplätze Europa, Campingurlaub suchen, Campingplatzsuche',
+      canonical: 'https://campingroute.app/campingplatz-finder',
+      schemaType: 'WebPage'
+    };
+  }
+  if (p.includes('/stellplatz-finder')) {
+    return {
+      title: 'Wohnmobilstellplatz Finder: Schnelle Stellplatzsuche in Europa | CampingRoute',
+      description: 'Finde Wohnmobilstellplätze und Übernachtungsplätze in ganz Europa für deine Wohnmobil- und Camper-Reise.',
+      keywords: 'Stellplatz Finder, Wohnmobilstellplatz suchen, Wohnmobilstellplätze Europa, Stellplatzsuche',
+      canonical: 'https://campingroute.app/stellplatz-finder',
+      schemaType: 'WebPage'
+    };
+  }
+  if (p.includes('/prompt-generator')) {
+    return {
+      title: 'KI-Prompt-Generator für Wohnmobil- & Camping-Routen | CampingRoute',
+      description: 'Erstelle maßgeschneiderte KI-Prompts für ChatGPT, Claude & Gemini zur perfekten Wohnmobil-Routenplanung inkl. GPX-Export.',
+      keywords: 'Camping KI Prompt Generator, Wohnmobil Prompt Generator, Roadtrip Prompt ChatGPT, KI Routenplaner Prompt',
+      canonical: 'https://campingroute.app/prompt-generator',
+      schemaType: 'WebApplication'
+    };
+  }
+  if (p.startsWith('/entdecken') || p.startsWith('/discover') || p.startsWith('/decouvrir') || p.startsWith('/scopri') || p.startsWith('/ontdekken')) {
+    const countryNames = { DE: 'Deutschland', AT: 'Österreich', CH: 'Schweiz', IT: 'Italien', FR: 'Frankreich', ES: 'Spanien', NO: 'Norwegen', SE: 'Schweden', DK: 'Dänemark', HR: 'Kroatien', NL: 'Niederlande' };
+    const cName = countryNames[country] ? ` in ${countryNames[country]}` : ' in Europa';
+    return {
+      title: `Camping & Stellplätze${cName} entdecken – Über 37.000 Orte | CampingRoute`,
+      description: `Entdecke über 37.000 verifizierte Campingplätze, Wohnmobilstellplätze, Glamping-Unterkünfte und Sehenswürdigkeiten${cName} mit interaktiver Karte.`,
+      keywords: `Camping entdecken, Stellplätze entdecken, Campingkarte${cName}, Wohnmobil Europa Karte`,
+      canonical: country ? `https://campingroute.app/discover?country=${country}` : 'https://campingroute.app/discover',
+      schemaType: 'CollectionPage'
+    };
+  }
+
+  return null;
+}
+
+function injectSeoMetadata(html, seo) {
+  if (!seo) return html;
+  let modified = html;
+  
+  if (seo.title) {
+    modified = modified.replace(/<title>[\s\S]*?<\/title>/i, `<title>${seo.title}</title>`);
+  }
+  if (seo.description) {
+    modified = modified.replace(/<meta\s+name=["']description["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta name="description" content="${seo.description.replace(/"/g, '&quot;')}" />`);
+  }
+  if (seo.keywords) {
+    modified = modified.replace(/<meta\s+name=["']keywords["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta name="keywords" content="${seo.keywords.replace(/"/g, '&quot;')}" />`);
+  }
+  if (seo.canonical) {
+    modified = modified.replace(/<link\s+rel=["']canonical["']\s+href=["'][\s\S]*?["']\s*\/?>/i, `<link rel="canonical" href="${seo.canonical}" />`);
+  }
+  if (seo.title) {
+    modified = modified.replace(/<meta\s+property=["']og:title["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta property="og:title" content="${seo.title.replace(/"/g, '&quot;')}" />`);
+    modified = modified.replace(/<meta\s+name=["']twitter:title["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta name="twitter:title" content="${seo.title.replace(/"/g, '&quot;')}" />`);
+  }
+  if (seo.description) {
+    modified = modified.replace(/<meta\s+property=["']og:description["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta property="og:description" content="${seo.description.replace(/"/g, '&quot;')}" />`);
+    modified = modified.replace(/<meta\s+name=["']twitter:description["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta name="twitter:description" content="${seo.description.replace(/"/g, '&quot;')}" />`);
+  }
+  if (seo.canonical) {
+    modified = modified.replace(/<meta\s+property=["']og:url["']\s+content=["'][\s\S]*?["']\s*\/?>/i, `<meta property="og:url" content="${seo.canonical}" />`);
+  }
+
+  return modified;
+}
+
+function serveStatic(req, res, pathname, url) {
   let filePath = pathname === '/' ? path.join(DIST_DIR, 'index.html') : path.join(DIST_DIR, pathname);
   if (!filePath.startsWith(DIST_DIR)) {
     sendJson(res, 403, { error: 'Forbidden' });
     return;
   }
 
-  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  const isSpaRoute = !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory() || filePath.endsWith('index.html');
+  if (isSpaRoute) {
     filePath = path.join(DIST_DIR, 'index.html');
   }
 
@@ -2018,6 +2126,19 @@ function serveStatic(req, res, pathname) {
       return;
     }
     const ext = path.extname(filePath).toLowerCase();
+
+    if (isSpaRoute && ext === '.html') {
+      const searchParams = url ? url.searchParams : new URLSearchParams();
+      const seo = getSeoMetadataForPath(pathname, searchParams);
+      const htmlStr = content.toString('utf8');
+      const injected = injectSeoMetadata(htmlStr, seo);
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8'
+      });
+      res.end(injected);
+      return;
+    }
+
     res.writeHead(200, {
       'Content-Type': MIME_TYPES[ext] || 'application/octet-stream'
     });
@@ -2507,7 +2628,7 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    serveStatic(req, res, pathname);
+    serveStatic(req, res, pathname, url);
   } catch (error) {
     sendJson(res, 500, { error: error.message || 'Internal Server Error' });
   }

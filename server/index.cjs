@@ -2567,10 +2567,25 @@ const server = http.createServer(async (req, res) => {
           return;
         }
 
-        const trailsFilePath = path.join(__dirname, 'trails.json');
         let trailsList = [];
-        if (fs.existsSync(trailsFilePath)) {
-          trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+        if (ensurePlaceDatabaseReady()) {
+          const dLat = 0.5;
+          const dLon = 0.7;
+          const rows = runSqliteJsonQuery(`SELECT * FROM trails WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 100;`);
+          if (rows && rows.length > 0) {
+            trailsList = rows.map(r => ({
+              ...r,
+              highlights: typeof r.highlights === 'string' ? JSON.parse(r.highlights || '[]') : (r.highlights || []),
+              polyline: typeof r.polyline === 'string' ? JSON.parse(r.polyline || '[]') : r.polyline
+            }));
+          }
+        }
+
+        if (trailsList.length === 0) {
+          const trailsFilePath = path.join(__dirname, 'trails.json');
+          if (fs.existsSync(trailsFilePath)) {
+            trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+          }
         }
 
         const nearby = trailsList

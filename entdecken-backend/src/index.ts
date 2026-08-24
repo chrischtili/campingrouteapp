@@ -569,18 +569,15 @@ app.get("/api/trails/details", async (req, res) => {
     }
   }
 
-  // Fallback: If still no polyline, generate a plausible 2-point line from start/end if available
-  if (polyline.length === 0 && start_coords && end_coords) {
-    polyline = [start_coords, end_coords];
-  } else if (polyline.length === 0 && trail?.latitude && trail?.longitude) {
-    // Single point fallback or around center
-    polyline = [[trail.latitude, trail.longitude]];
+  // If polyline has only 1 point or is not valid, clear it
+  if (polyline.length < 2) {
+    polyline = [];
   }
 
   res.json({
     success: true,
-    trail: trail ? { ...trail, polyline, start_coords, end_coords } : null,
-    polyline,
+    trail: trail ? { ...trail, polyline: polyline.length >= 2 ? polyline : undefined, start_coords, end_coords } : null,
+    polyline: polyline.length >= 2 ? polyline : null,
     start_coords: start_coords || (polyline.length > 0 ? polyline[0] : (trail ? [trail.latitude, trail.longitude] : undefined)),
     end_coords: end_coords || (polyline.length > 0 ? polyline[polyline.length - 1] : (trail ? [trail.latitude, trail.longitude] : undefined))
   });

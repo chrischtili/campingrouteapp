@@ -1766,9 +1766,7 @@ function EntdeckenContent() {
             if (!isCurrent) return;
             if (data && data.polyline && Array.isArray(data.polyline) && data.polyline.length > 1) {
               const validPolyline: [number, number][] = data.polyline.filter(([lat, lon]: [number, number]) => {
-                return typeof lat === 'number' && typeof lon === 'number' &&
-                  Math.abs(lat - selectedTrail.latitude) < 0.8 &&
-                  Math.abs(lon - selectedTrail.longitude) < 1.2;
+                return typeof lat === 'number' && typeof lon === 'number' && !isNaN(lat) && !isNaN(lon) && lat >= 45 && lat <= 56 && lon >= 5 && lon <= 16;
               });
               if (validPolyline.length > 1) {
                 setTrailPolyline(validPolyline);
@@ -1801,18 +1799,40 @@ function EntdeckenContent() {
       ? trailPolyline 
       : (selectedTrail.polyline && selectedTrail.polyline.length > 0)
         ? selectedTrail.polyline
-        : [[selectedTrail.latitude, selectedTrail.longitude]];
+        : [];
 
-    const trkpts = points.map(([lat, lon]) => `      <trkpt lat="${lat.toFixed(6)}" lon="${lon.toFixed(6)}"><ele>0</ele></trkpt>`).join('\n');
+    const startPt = trailStartCoords || (points.length > 0 ? points[0] : [selectedTrail.latitude, selectedTrail.longitude]);
+    const endPt = trailEndCoords || (points.length > 0 ? points[points.length - 1] : [selectedTrail.latitude, selectedTrail.longitude]);
+
+    let wpts = `  <wpt lat="${startPt[0].toFixed(6)}" lon="${startPt[1].toFixed(6)}">
+    <name>Start: ${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
+    <desc>Startpunkt in ${escHtml(selectedTrail.start_location)}</desc>
+    <sym>Flag, Green</sym>
+  </wpt>`;
+
+    if (endPt && (endPt[0] !== startPt[0] || endPt[1] !== startPt[1])) {
+      wpts += `\n  <wpt lat="${endPt[0].toFixed(6)}" lon="${endPt[1].toFixed(6)}">
+    <name>Ziel: ${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
+    <desc>Zielpunkt in ${escHtml(selectedTrail.end_location)}</desc>
+    <sym>Flag, Red</sym>
+  </wpt>`;
+    }
+
+    const trkpts = points.length > 1
+      ? points.map(([lat, lon]) => `      <trkpt lat="${lat.toFixed(6)}" lon="${lon.toFixed(6)}"><ele>0</ele></trkpt>`).join('\n')
+      : `      <trkpt lat="${selectedTrail.latitude.toFixed(6)}" lon="${selectedTrail.longitude.toFixed(6)}"><ele>0</ele></trkpt>`;
+
     const gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="CampingRoute.app - Open Data Germany" xmlns="http://www.topografix.com/GPX/1/1">
+<gpx version="1.1" creator="CampingRoute.app - Open Data Germany" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
   <metadata>
     <name>${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
     <desc>${(selectedTrail.description || '').replace(/[<>&'"]/g, '')}</desc>
     <author>
       <name>CampingRoute.app / DZT Open Data Germany</name>
     </author>
+    <time>${new Date().toISOString()}</time>
   </metadata>
+${wpts}
   <trk>
     <name>${selectedTrail.name.replace(/[<>&'"]/g, '')}</name>
     <type>${selectedTrail.type === 'biking' ? 'Cycling' : 'Hiking'}</type>
@@ -1874,15 +1894,11 @@ ${trkpts}
       }
     });
 
-    const bounds = L.latLngBounds([[selectedTrail.latitude, selectedTrail.longitude]]);
+    let bounds: L.LatLngBounds;
 
     // 1. Draw Route Polyline (Streckenverlauf) if available
     if (trailPolyline && trailPolyline.length >= 2) {
-      trailPolyline.forEach(([lat, lon]) => {
-        if (Math.abs(lat - selectedTrail.latitude) < 0.8 && Math.abs(lon - selectedTrail.longitude) < 1.2) {
-          bounds.extend([lat, lon]);
-        }
-      });
+      bounds = L.latLngBounds(trailPolyline);
 
       // White outline casing
       L.polyline(trailPolyline, {
@@ -1926,6 +1942,7 @@ ${trkpts}
           .bindPopup(`<b>Ziel:</b> ${escHtml(selectedTrail.end_location)}`);
       }
     } else {
+      bounds = L.latLngBounds([[selectedTrail.latitude, selectedTrail.longitude]]);
       // Single center marker
       const trailIcon = L.divIcon({
         className: 'custom-div-icon',
@@ -1955,7 +1972,7 @@ ${trkpts}
 
     // Smoothly fit bounds on trail route without re-jumping when campsites load
     if (trailPolyline && trailPolyline.length >= 2) {
-      map.fitBounds(bounds, { padding: [45, 45], maxZoom: 13, animate: false });
+      map.fitBounds(bounds, { padding: [45, 45], maxZoom: 14, animate: false });
     } else {
       map.setView([selectedTrail.latitude, selectedTrail.longitude], 12, { animate: false });
     }

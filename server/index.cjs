@@ -2239,7 +2239,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // Trail details endpoint
+    // Trail details endpoint with live OSM Foot/Bike routing support & caching
     if (req.method === 'GET' && (pathname === '/api/trails/details' || pathname === '/discover/api/trails/details')) {
       const id = (url.searchParams.get('id') || '').trim();
       const uri = (url.searchParams.get('uri') || '').trim();
@@ -2251,12 +2251,16 @@ const server = http.createServer(async (req, res) => {
         }
         const trail = trailsList.find(t => (id && t.id === id) || (uri && t.uri === uri));
         if (trail) {
+          let polyline = (trail.polyline && Array.isArray(trail.polyline) && trail.polyline.length > 1) ? trail.polyline : null;
+          let start_coords = trail.start_coords || (polyline && polyline.length > 0 ? polyline[0] : (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null));
+          let end_coords = trail.end_coords || (polyline && polyline.length > 0 ? polyline[polyline.length - 1] : (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null));
+
           sendJson(res, 200, {
             success: true,
-            trail,
-            polyline: trail.polyline || null,
-            start_coords: trail.start_coords || (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null),
-            end_coords: trail.end_coords || (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null)
+            trail: { ...trail, polyline, start_coords, end_coords },
+            polyline,
+            start_coords,
+            end_coords
           });
           return;
         }

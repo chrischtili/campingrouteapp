@@ -1,5 +1,1273 @@
 [
   {
+    "id": "flagship-trail-45fmwnn",
+    "name": "Main-Radweg (Vom Weißen Main bis nach Mainz am Rhein)",
+    "type": "biking",
+    "region": "Franken & Hessen",
+    "state": "Bayern",
+    "country": "DE",
+    "distance_km": 597,
+    "duration_hours": 38,
+    "difficulty": "easy",
+    "elevation_gain_m": 850,
+    "description": "Der erste deutsche 5-Sterne-Radfernweg des ADFC! Begleitet den Main von den Quellen in Kulmbach durch das Fränkische Weinland über Bamberg, Schweinfurt, Würzburg, Aschaffenburg und Frankfurt bis zur Mündung in den Rhein bei Mainz.",
+    "highlights": [
+      "Weltkulturerbe Bamberg",
+      "Residenz Würzburg",
+      "Fränkisches Weinland",
+      "Skyline Frankfurt am Main",
+      "Mündung in Mainz"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Kulmbach / Bayreuth",
+    "end_location": "Mainz am Rhein",
+    "latitude": 50.108,
+    "longitude": 11.455,
+    "polyline": [
+      [
+        49.13989189189189,
+        10.59445945945946
+      ],
+      [
+        49.67772972972973,
+        11.132297297297297
+      ],
+      [
+        50.00043243243243,
+        11.670135135135135
+      ],
+      [
+        50.430702702702696,
+        11.347432432432432
+      ],
+      [
+        50.86097297297297,
+        11.992837837837838
+      ],
+      [
+        51.18367567567567,
+        12.423108108108108
+      ]
+    ],
+    "start_coords": [
+      49.13989189189189,
+      10.59445945945946
+    ],
+    "end_coords": [
+      51.18367567567567,
+      12.423108108108108
+    ],
+    "campsites_along_count": 48,
+    "rating": 5,
+    "search_query": "Camping Main-Radweg (Vom Weißen Main bis nach Mainz am Rhein)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-abbqxmw",
+    "name": "Mosel-Radweg (Klassiker Perl bis Koblenz Deutsches Eck)",
+    "type": "biking",
+    "region": "Mosel",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 248,
+    "duration_hours": 15.5,
+    "difficulty": "easy",
+    "elevation_gain_m": 350,
+    "description": "Der weltberühmte Mosel-Radweg führt fast steigungsfrei an den faszinierenden Flussschleifen der Mosel entlang. Von Perl über die Römerstadt Trier, Piesport, Bernkastel-Kues, Traben-Trarbach und Cochem bis zur Mündung am Deutschen Eck in Koblenz.",
+    "highlights": [
+      "Römerstadt Trier (Porta Nigra)",
+      "Bernkastel-Kues",
+      "Reichsburg Cochem",
+      "Steillagenweinbau Calmont",
+      "Deutsches Eck Koblenz"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Perl / Trier",
+    "end_location": "Koblenz (Deutsches Eck)",
+    "latitude": 49.756,
+    "longitude": 6.641,
+    "polyline": [
+      [
+        49.35383783783784,
+        6.283522522522523
+      ],
+      [
+        49.57726126126126,
+        6.5069459459459456
+      ],
+      [
+        49.71131531531532,
+        6.730369369369369
+      ],
+      [
+        49.890054054054055,
+        6.596315315315315
+      ],
+      [
+        50.06879279279279,
+        6.864423423423424
+      ],
+      [
+        50.202846846846846,
+        7.0431621621621625
+      ]
+    ],
+    "start_coords": [
+      49.35383783783784,
+      6.283522522522523
+    ],
+    "end_coords": [
+      50.202846846846846,
+      7.0431621621621625
+    ],
+    "campsites_along_count": 37,
+    "rating": 5,
+    "search_query": "Camping Mosel-Radweg (Klassiker Perl bis Koblenz Deutsches Eck)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-am8r81x",
+    "name": "Liebliches Taubertal – Der Klassiker (Radweg)",
+    "type": "biking",
+    "region": "Taubertal",
+    "state": "Baden-Württemberg",
+    "country": "DE",
+    "distance_km": 101,
+    "duration_hours": 6.5,
+    "difficulty": "easy",
+    "elevation_gain_m": 210,
+    "description": "Einer der bekanntesten und beliebtesten Radfernwege Deutschlands! Von Rothenburg ob der Tauber über Creglingen, Weikersheim, Bad Mergentheim und Tauberbischofsheim bis nach Wertheim am Main.",
+    "highlights": [
+      "Rothenburg ob der Tauber",
+      "Schloss Weikersheim",
+      "Bad Mergentheim",
+      "Burg Wertheim"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Rothenburg ob der Tauber",
+    "end_location": "Wertheim am Main",
+    "latitude": 49.377,
+    "longitude": 10.186,
+    "polyline": [
+      [
+        49.21321621621622,
+        10.040414414414414
+      ],
+      [
+        49.30420720720721,
+        10.131405405405406
+      ],
+      [
+        49.3588018018018,
+        10.222396396396396
+      ],
+      [
+        49.4315945945946,
+        10.167801801801803
+      ],
+      [
+        49.50438738738739,
+        10.27699099099099
+      ],
+      [
+        49.55898198198199,
+        10.349783783783783
+      ]
+    ],
+    "start_coords": [
+      49.21321621621622,
+      10.040414414414414
+    ],
+    "end_coords": [
+      49.55898198198199,
+      10.349783783783783
+    ],
+    "campsites_along_count": 15,
+    "rating": 5,
+    "search_query": "Camping Liebliches Taubertal – Der Klassiker (Radweg)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-sbcmhi0",
+    "name": "Lahntalradweg (Vom Rothaargebirge bis zum Rhein)",
+    "type": "biking",
+    "region": "Lahntal",
+    "state": "Hessen",
+    "country": "DE",
+    "distance_km": 245,
+    "duration_hours": 16,
+    "difficulty": "medium",
+    "elevation_gain_m": 680,
+    "description": "Ausgezeichneter ADFC-4-Sterne-Qualitätsradweg von der Lahnquelle bei Netphen über Marburg, Gießen, Wetzlar, Weilburg, Limburg an der Lahn und Bad Ems bis nach Lahnstein an den Rhein.",
+    "highlights": [
+      "Universitätsstadt Marburg",
+      "Domstadt Limburg",
+      "Schloss Weilburg",
+      "Bad Ems Kaiserbad",
+      "Mündung in den Rhein"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Netphen (Lahnquelle)",
+    "end_location": "Lahnstein am Rhein",
+    "latitude": 50.893,
+    "longitude": 8.239,
+    "polyline": [
+      [
+        50.4957027027027,
+        7.885846846846848
+      ],
+      [
+        50.71642342342342,
+        8.106567567567568
+      ],
+      [
+        50.84885585585586,
+        8.327288288288289
+      ],
+      [
+        51.02543243243243,
+        8.194855855855856
+      ],
+      [
+        51.20200900900901,
+        8.459720720720721
+      ],
+      [
+        51.33444144144144,
+        8.636297297297299
+      ]
+    ],
+    "start_coords": [
+      50.4957027027027,
+      7.885846846846848
+    ],
+    "end_coords": [
+      51.33444144144144,
+      8.636297297297299
+    ],
+    "campsites_along_count": 37,
+    "rating": 5,
+    "search_query": "Camping Lahntalradweg (Vom Rothaargebirge bis zum Rhein)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-6jlwhj6",
+    "name": "Kylltal-Radweg (Vulkaneifel bis Trier an der Mosel)",
+    "type": "biking",
+    "region": "Eifel",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 142,
+    "duration_hours": 9.5,
+    "difficulty": "medium",
+    "elevation_gain_m": 420,
+    "description": "Beliebter Flussradweg entlang der Kyll vom Kronenburger See über Stadtkyll, Gerolstein, Kyllburg und Bitburg bis zur Mündung in die Mosel bei Trier.",
+    "highlights": [
+      "Kronenburger See",
+      "Gerolsteiner Dolomiten",
+      "Kyllburg & Schloss Malberg",
+      "Römerstadt Trier"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Kronenburger See (Stadtkyll)",
+    "end_location": "Trier-Ehrang (Moselmündung)",
+    "latitude": 50.364,
+    "longitude": 6.541,
+    "polyline": [
+      [
+        50.13372972972973,
+        6.336315315315316
+      ],
+      [
+        50.26165765765766,
+        6.464243243243244
+      ],
+      [
+        50.33841441441441,
+        6.592171171171172
+      ],
+      [
+        50.440756756756755,
+        6.515414414414415
+      ],
+      [
+        50.543099099099095,
+        6.668927927927928
+      ],
+      [
+        50.61985585585585,
+        6.7712702702702705
+      ]
+    ],
+    "start_coords": [
+      50.13372972972973,
+      6.336315315315316
+    ],
+    "end_coords": [
+      50.61985585585585,
+      6.7712702702702705
+    ],
+    "campsites_along_count": 21,
+    "rating": 5,
+    "search_query": "Camping Kylltal-Radweg (Vulkaneifel bis Trier an der Mosel)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-sc2zjz0",
+    "name": "Malerweg Elbsandsteingebirge (Gesamtroute & Sächsische Schweiz)",
+    "type": "hiking",
+    "region": "Sächsische Schweiz",
+    "state": "Sachsen",
+    "country": "DE",
+    "distance_km": 112,
+    "duration_hours": 36,
+    "difficulty": "hard",
+    "elevation_gain_m": 4120,
+    "description": "Einer der traditionsreichsten und malerischsten Wanderwege Europas. Führt in 8 Etappen durch die bizarre Felsenwelt der Sächsischen Schweiz vorbei an Basteibrücke, Hockstein, Festung Königstein, Schrammsteinen und Pfaffenstein.",
+    "highlights": [
+      "Basteibrücke & Felsenburg Neurathen",
+      "Schrammsteine",
+      "Festung Königstein",
+      "Kuhstall & Kirnitzschtal"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Liebethal / Pirna",
+    "end_location": "Pirna",
+    "latitude": 50.963,
+    "longitude": 13.94,
+    "polyline": [
+      [
+        50.78137837837838,
+        13.778558558558558
+      ],
+      [
+        50.88227927927928,
+        13.87945945945946
+      ],
+      [
+        50.94281981981982,
+        13.98036036036036
+      ],
+      [
+        51.023540540540544,
+        13.91981981981982
+      ],
+      [
+        51.104261261261264,
+        14.040900900900901
+      ],
+      [
+        51.1648018018018,
+        14.121621621621621
+      ]
+    ],
+    "start_coords": [
+      50.78137837837838,
+      13.778558558558558
+    ],
+    "end_coords": [
+      51.1648018018018,
+      14.121621621621621
+    ],
+    "campsites_along_count": 17,
+    "rating": 5,
+    "search_query": "Camping Malerweg Elbsandsteingebirge (Gesamtroute & Sächsische Schweiz)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-2ryrxay",
+    "name": "Ostseeküsten-Wanderweg E9 (Travemünde bis Usedom)",
+    "type": "hiking",
+    "region": "Ostseeküste",
+    "state": "Mecklenburg-Vorpommern",
+    "country": "DE",
+    "distance_km": 400,
+    "duration_hours": 110,
+    "difficulty": "hard",
+    "elevation_gain_m": 950,
+    "description": "Europäischer Fernwanderweg E9 entlang der gesamten deutschen Ostseeküste. Von der Lübecker Bucht über Wismar, Warnemünde, Fischland-Darß-Zingst, Rügen bis zu den Kaiserbädern auf Usedom.",
+    "highlights": [
+      "Ostseestrände & Steilküsten",
+      "Fischland-Darß-Zingst",
+      "Hansestädte Wismar & Rostock",
+      "Insel Usedom"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Lübeck-Travemünde",
+    "end_location": "Ahlbeck (Usedom)",
+    "latitude": 53.957,
+    "longitude": 10.868,
+    "polyline": [
+      [
+        53.308351351351355,
+        10.291423423423424
+      ],
+      [
+        53.668711711711715,
+        10.651783783783785
+      ],
+      [
+        53.884927927927926,
+        11.012144144144145
+      ],
+      [
+        54.17321621621622,
+        10.795927927927929
+      ],
+      [
+        54.461504504504504,
+        11.22836036036036
+      ],
+      [
+        54.67772072072072,
+        11.51664864864865
+      ]
+    ],
+    "start_coords": [
+      53.308351351351355,
+      10.291423423423424
+    ],
+    "end_coords": [
+      54.67772072072072,
+      11.51664864864865
+    ],
+    "campsites_along_count": 48,
+    "rating": 5,
+    "search_query": "Camping Ostseeküsten-Wanderweg E9 (Travemünde bis Usedom)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-otmz9cb",
+    "name": "Hochuferweg Rügen (Nationalpark Jasmund & Kreidefelsen Königsstuhl)",
+    "type": "hiking",
+    "region": "Rügen",
+    "state": "Mecklenburg-Vorpommern",
+    "country": "DE",
+    "distance_km": 12.5,
+    "duration_hours": 3.5,
+    "difficulty": "medium",
+    "elevation_gain_m": 290,
+    "description": "Der berühmteste Küstenwanderweg Deutschlands! Hoch über den schneeweißen Kreidefelsen und alten UNESCO-Buchenwäldern von Sassnitz über die Victoriasicht und den Königsstuhl bis nach Lohme mit Blick auf das blaue Meer der Ostsee.",
+    "highlights": [
+      "Kreidefelsen Königsstuhl",
+      "Nationalpark Jasmund",
+      "UNESCO-Alte Buchenwälder",
+      "Ostsee Panoramablick"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Sassnitz",
+    "end_location": "Lohme",
+    "latitude": 54.516,
+    "longitude": 13.642,
+    "polyline": [
+      [
+        54.495729729729725,
+        13.62398198198198
+      ],
+      [
+        54.50699099099099,
+        13.635243243243243
+      ],
+      [
+        54.51374774774774,
+        13.646504504504504
+      ],
+      [
+        54.522756756756756,
+        13.639747747747748
+      ],
+      [
+        54.53176576576576,
+        13.65326126126126
+      ],
+      [
+        54.53852252252252,
+        13.66227027027027
+      ]
+    ],
+    "start_coords": [
+      54.495729729729725,
+      13.62398198198198
+    ],
+    "end_coords": [
+      54.53852252252252,
+      13.66227027027027
+    ],
+    "campsites_along_count": 4,
+    "rating": 5,
+    "search_query": "Camping Hochuferweg Rügen (Nationalpark Jasmund & Kreidefelsen Königsstuhl)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-meb3b2u",
+    "name": "Burgenwanderweg Hoher Fläming",
+    "type": "hiking",
+    "region": "Fläming",
+    "state": "Brandenburg",
+    "country": "DE",
+    "distance_km": 147,
+    "duration_hours": 38,
+    "difficulty": "medium",
+    "elevation_gain_m": 1150,
+    "description": "Romantischer Rundwanderweg durch den Naturpark Hoher Fläming südwestlich von Berlin. Verbindet die vier historischen Burgen Burg Eisenhardt (Bad Belzig), Burg Rabenstein, Burg Wiesenburg und das Schloss Bischofsstein.",
+    "highlights": [
+      "Burg Eisenhardt",
+      "Burg Rabenstein",
+      "Schlosspark Wiesenburg",
+      "Naturpark Hoher Fläming"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Bad Belzig",
+    "end_location": "Bad Belzig",
+    "latitude": 52.141,
+    "longitude": 12.593,
+    "polyline": [
+      [
+        51.90262162162162,
+        12.381108108108108
+      ],
+      [
+        52.03505405405405,
+        12.513540540540541
+      ],
+      [
+        52.114513513513515,
+        12.645972972972974
+      ],
+      [
+        52.220459459459455,
+        12.566513513513513
+      ],
+      [
+        52.3264054054054,
+        12.725432432432433
+      ],
+      [
+        52.40586486486486,
+        12.831378378378378
+      ]
+    ],
+    "start_coords": [
+      51.90262162162162,
+      12.381108108108108
+    ],
+    "end_coords": [
+      52.40586486486486,
+      12.831378378378378
+    ],
+    "campsites_along_count": 22,
+    "rating": 5,
+    "search_query": "Camping Burgenwanderweg Hoher Fläming",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-x1hrsae",
+    "name": "SaaleHorizontale (Kalkfelsen & Burgen um Jena)",
+    "type": "hiking",
+    "region": "Saaleland",
+    "state": "Thüringen",
+    "country": "DE",
+    "distance_km": 72,
+    "duration_hours": 21,
+    "difficulty": "hard",
+    "elevation_gain_m": 1980,
+    "description": "Prämierter Qualitätswanderweg auf den Muschelkalk-Hangkanten hoch über dem Saaletal. Bietet grandiose Weitblicke auf die Universitätsstadt Jena, die Dornburger Schlösser und die Kunitzburg.",
+    "highlights": [
+      "Saaletal Jena",
+      "Dornburger Schlösser",
+      "Fuchsturm & Jenzig",
+      "Muschelkalksteilhänge"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Jena",
+    "end_location": "Jena",
+    "latitude": 50.927,
+    "longitude": 11.589,
+    "polyline": [
+      [
+        50.81024324324324,
+        11.485216216216216
+      ],
+      [
+        50.87510810810811,
+        11.550081081081082
+      ],
+      [
+        50.914027027027025,
+        11.614945945945946
+      ],
+      [
+        50.965918918918916,
+        11.576027027027028
+      ],
+      [
+        51.01781081081081,
+        11.653864864864865
+      ],
+      [
+        51.05672972972973,
+        11.705756756756758
+      ]
+    ],
+    "start_coords": [
+      50.81024324324324,
+      11.485216216216216
+    ],
+    "end_coords": [
+      51.05672972972973,
+      11.705756756756758
+    ],
+    "campsites_along_count": 11,
+    "rating": 5,
+    "search_query": "Camping SaaleHorizontale (Kalkfelsen & Burgen um Jena)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-tfa1tgn",
+    "name": "Pfälzer Weinsteig (Vom Haardt-Rebenmeer durch den Pfälzerwald)",
+    "type": "hiking",
+    "region": "Deutsche Weinstraße & Pfalz",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 172,
+    "duration_hours": 48,
+    "difficulty": "hard",
+    "elevation_gain_m": 4900,
+    "description": "Einer der sonnigsten und genussvollsten Prädikatswanderwege Deutschlands. Führt abwechselnd durch die sonnigen Reben der Deutschen Weinstraße und die stillen Kiefernwälder des Pfälzerwaldes von Bockenheim über Bad Dürkheim, Neustadt (Hambacher Schloss) und Landau bis zum Deutschen Weintor in Schweigen-Rechtenbach.",
+    "highlights": [
+      "Hambacher Schloss",
+      "Deutsche Weinstraße",
+      "Kalmit-Gipfel",
+      "Burg Trifels & Rietburg",
+      "Deutsches Weintor"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Bockenheim an der Weinstraße",
+    "end_location": "Schweigen-Rechtenbach (Deutsches Weintor)",
+    "latitude": 49.605,
+    "longitude": 8.183,
+    "polyline": [
+      [
+        49.32608108108108,
+        7.935072072072072
+      ],
+      [
+        49.48103603603603,
+        8.090027027027027
+      ],
+      [
+        49.574009009009,
+        8.244981981981981
+      ],
+      [
+        49.69797297297297,
+        8.152009009009008
+      ],
+      [
+        49.821936936936936,
+        8.337954954954954
+      ],
+      [
+        49.91490990990991,
+        8.461918918918919
+      ]
+    ],
+    "start_coords": [
+      49.32608108108108,
+      7.935072072072072
+    ],
+    "end_coords": [
+      49.91490990990991,
+      8.461918918918919
+    ],
+    "campsites_along_count": 26,
+    "rating": 5,
+    "search_query": "Camping Pfälzer Weinsteig (Vom Haardt-Rebenmeer durch den Pfälzerwald)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-65n1hub",
+    "name": "Pfälzer Höhenweg (Gipfel, Burgen & Donnersberg)",
+    "type": "hiking",
+    "region": "Pfälzer Bergland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 114,
+    "duration_hours": 32,
+    "difficulty": "hard",
+    "elevation_gain_m": 3450,
+    "description": "Herrlicher Weitwanderweg über den höchsten Berg der Pfalz (Donnersberg, 687 m), vorbei an keltischen Ringwällen, Burg Falkenstein und durch die einsamen Täler des Pfälzer Berglandes bis nach Wolfstein.",
+    "highlights": [
+      "Donnersberg (687 m)",
+      "Burg Falkenstein",
+      "Königsberg",
+      "Pfälzer Bergland Panorama"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Winnweiler",
+    "end_location": "Wolfstein",
+    "latitude": 49.571,
+    "longitude": 7.892,
+    "polyline": [
+      [
+        49.386135135135135,
+        7.727675675675676
+      ],
+      [
+        49.488837837837835,
+        7.830378378378379
+      ],
+      [
+        49.55045945945946,
+        7.933081081081081
+      ],
+      [
+        49.63262162162162,
+        7.87145945945946
+      ],
+      [
+        49.71478378378378,
+        7.994702702702703
+      ],
+      [
+        49.776405405405406,
+        8.076864864864865
+      ]
+    ],
+    "start_coords": [
+      49.386135135135135,
+      7.727675675675676
+    ],
+    "end_coords": [
+      49.776405405405406,
+      8.076864864864865
+    ],
+    "campsites_along_count": 17,
+    "rating": 5,
+    "search_query": "Camping Pfälzer Höhenweg (Gipfel, Burgen & Donnersberg)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-k8tzcx9",
+    "name": "Rotweinwanderweg Ahrtal (Der berühmteste Weinwanderweg)",
+    "type": "hiking",
+    "region": "Ahrtal",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 35.6,
+    "duration_hours": 9.5,
+    "difficulty": "medium",
+    "elevation_gain_m": 780,
+    "description": "Deutschlands legendärster Weinwanderweg schlängelt sich durch die steilen Schieferterrassen und Weinberge des Ahrtals. Von der Burgruine Are in Altenahr über Mayschoß, Rech, Dernau und Ahrweiler bis nach Bad Bodendorf.",
+    "highlights": [
+      "Ahrtal Rotwein",
+      "Steillagen & Schieferfelsen",
+      "Burgruine Are",
+      "Historisches Ahrweiler",
+      "Weinstuben & Straußwirtschaften"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Altenahr",
+    "end_location": "Bad Bodendorf",
+    "latitude": 50.517,
+    "longitude": 6.989,
+    "polyline": [
+      [
+        50.459270270270274,
+        6.937684684684685
+      ],
+      [
+        50.49134234234234,
+        6.969756756756756
+      ],
+      [
+        50.51058558558559,
+        7.001828828828828
+      ],
+      [
+        50.53624324324325,
+        6.982585585585586
+      ],
+      [
+        50.5619009009009,
+        7.021072072072072
+      ],
+      [
+        50.58114414414415,
+        7.04672972972973
+      ]
+    ],
+    "start_coords": [
+      50.459270270270274,
+      6.937684684684685
+    ],
+    "end_coords": [
+      50.58114414414415,
+      7.04672972972973
+    ],
+    "campsites_along_count": 5,
+    "rating": 5,
+    "search_query": "Camping Rotweinwanderweg Ahrtal (Der berühmteste Weinwanderweg)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-suco2em",
+    "name": "Der Hochrhöner (Premiumweg durch das Land der offenen Fernen)",
+    "type": "hiking",
+    "region": "Rhön",
+    "state": "Hessen",
+    "country": "DE",
+    "distance_km": 180,
+    "duration_hours": 52,
+    "difficulty": "hard",
+    "elevation_gain_m": 4200,
+    "description": "Ausgezeichneter Top Trail durch das UNESCO-Biosphärenreservat Rhön im Dreiländereck Hessen, Bayern und Thüringen. Führt über die baumfreien Hochflächen der Wasserkuppe, das Rote Moor und den heiligen Berg Kreuzberg.",
+    "highlights": [
+      "Wasserkuppe (950 m)",
+      "Kloster Kreuzberg",
+      "Rotes & Schwarzes Moor",
+      "Land der offenen Fernen"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Bad Kissingen",
+    "end_location": "Bad Salzungen",
+    "latitude": 50.198,
+    "longitude": 10.076,
+    "polyline": [
+      [
+        49.90610810810811,
+        9.81654054054054
+      ],
+      [
+        50.06827027027027,
+        9.978702702702703
+      ],
+      [
+        50.16556756756757,
+        10.140864864864865
+      ],
+      [
+        50.295297297297296,
+        10.043567567567568
+      ],
+      [
+        50.42502702702703,
+        10.238162162162162
+      ],
+      [
+        50.52232432432432,
+        10.367891891891892
+      ]
+    ],
+    "start_coords": [
+      49.90610810810811,
+      9.81654054054054
+    ],
+    "end_coords": [
+      50.52232432432432,
+      10.367891891891892
+    ],
+    "campsites_along_count": 27,
+    "rating": 5,
+    "search_query": "Camping Der Hochrhöner (Premiumweg durch das Land der offenen Fernen)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-4mo42hd",
+    "name": "Salzalpensteig (Chiemsee – Berchtesgaden – Hallstatt)",
+    "type": "hiking",
+    "region": "Chiemsee & Berchtesgadener Land",
+    "state": "Bayern",
+    "country": "DE",
+    "distance_km": 233,
+    "duration_hours": 72,
+    "difficulty": "hard",
+    "elevation_gain_m": 8900,
+    "description": "Grenzüberschreitender Premiumwanderweg auf den historischen Salzspuren von Prien am Chiemsee über Ruhpolding, Inzell und Bad Reichenhall bis zum Hallstätter See im Salzkammergut.",
+    "highlights": [
+      "Chiemsee",
+      "Salzbergwerk Berchtesgaden",
+      "Ruhpolding",
+      "Königssee",
+      "Salzkammergut"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Prien am Chiemsee",
+    "end_location": "Bad Reichenhall / Berchtesgaden",
+    "latitude": 47.857,
+    "longitude": 12.343,
+    "polyline": [
+      [
+        47.47916216216216,
+        12.007144144144144
+      ],
+      [
+        47.68907207207207,
+        12.217054054054055
+      ],
+      [
+        47.815018018018016,
+        12.426963963963964
+      ],
+      [
+        47.98294594594594,
+        12.301018018018018
+      ],
+      [
+        48.15087387387387,
+        12.55290990990991
+      ],
+      [
+        48.27681981981982,
+        12.720837837837838
+      ]
+    ],
+    "start_coords": [
+      47.47916216216216,
+      12.007144144144144
+    ],
+    "end_coords": [
+      48.27681981981982,
+      12.720837837837838
+    ],
+    "campsites_along_count": 35,
+    "rating": 5,
+    "search_query": "Camping Salzalpensteig (Chiemsee – Berchtesgaden – Hallstatt)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-xr2n68p",
+    "name": "Maximiliansweg (Bayerische Alpen – Lindau bis Berchtesgaden)",
+    "type": "hiking",
+    "region": "Bayerische Alpen",
+    "state": "Bayern",
+    "country": "DE",
+    "distance_km": 360,
+    "duration_hours": 115,
+    "difficulty": "hard",
+    "elevation_gain_m": 18000,
+    "description": "Klassischer bayerischer Weitwanderweg auf den Spuren von König Maximilian II. Führt vom Bodensee quer durch die bayerischen Voralpen, Ammergebirge, Estergebirge, Tegernseer Berge und Chiemgauer Alpen bis an den Königssee.",
+    "highlights": [
+      "Bodensee bis Königssee",
+      "Bayerische Alpenkette",
+      "Zugspitzblick",
+      "Watzmann-Panorama"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Lindau (Bodensee)",
+    "end_location": "Berchtesgaden (Königssee)",
+    "latitude": 47.546,
+    "longitude": 9.684,
+    "polyline": [
+      [
+        46.96221621621621,
+        9.16508108108108
+      ],
+      [
+        47.28654054054054,
+        9.489405405405405
+      ],
+      [
+        47.48113513513513,
+        9.81372972972973
+      ],
+      [
+        47.7405945945946,
+        9.619135135135135
+      ],
+      [
+        48.000054054054054,
+        10.008324324324324
+      ],
+      [
+        48.194648648648645,
+        10.267783783783782
+      ]
+    ],
+    "start_coords": [
+      46.96221621621621,
+      9.16508108108108
+    ],
+    "end_coords": [
+      48.194648648648645,
+      10.267783783783782
+    ],
+    "campsites_along_count": 48,
+    "rating": 5,
+    "search_query": "Camping Maximiliansweg (Bayerische Alpen – Lindau bis Berchtesgaden)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-le5hrd0",
+    "name": "Wandertrilogie Allgäu – Himmelsstürmer Route",
+    "type": "hiking",
+    "region": "Allgäu",
+    "state": "Bayern",
+    "country": "DE",
+    "distance_km": 358,
+    "duration_hours": 110,
+    "difficulty": "hard",
+    "elevation_gain_m": 13500,
+    "description": "Die anspruchsvollste Route der Wandertrilogie Allgäu führt durch die alpine Gebirgswelt über schroffe Gipfelgrate von Oberstdorf, Bad Hindelang, Pfronten und Tannheimer Tal.",
+    "highlights": [
+      "Allgäuer Hochalpen",
+      "Nebelhorn & Fellhorn",
+      "Breitachklamm",
+      "Alpiner Weitwanderweg"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Oberstdorf",
+    "end_location": "Pfronten",
+    "latitude": 47.409,
+    "longitude": 10.279,
+    "polyline": [
+      [
+        46.82845945945946,
+        9.762963963963964
+      ],
+      [
+        47.15098198198198,
+        10.085486486486486
+      ],
+      [
+        47.344495495495494,
+        10.408009009009008
+      ],
+      [
+        47.602513513513514,
+        10.214495495495495
+      ],
+      [
+        47.86053153153153,
+        10.601522522522522
+      ],
+      [
+        48.054045045045044,
+        10.859540540540541
+      ]
+    ],
+    "start_coords": [
+      46.82845945945946,
+      9.762963963963964
+    ],
+    "end_coords": [
+      48.054045045045044,
+      10.859540540540541
+    ],
+    "campsites_along_count": 48,
+    "rating": 5,
+    "search_query": "Camping Wandertrilogie Allgäu – Himmelsstürmer Route",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-gagieoc",
+    "name": "Wandertrilogie Allgäu – Wasserläufer Route",
+    "type": "hiking",
+    "region": "Allgäu",
+    "state": "Bayern",
+    "country": "DE",
+    "distance_km": 384,
+    "duration_hours": 98,
+    "difficulty": "hard",
+    "elevation_gain_m": 8600,
+    "description": "Die Wasserläufer-Route führt durch das Herz des Allgäus zu rauschenden Wasserfällen, eiszeitlichen Mooren und tiefblauen Bergseen zwischen Oberstaufen, Füssen, Scheidegg und Marktoberdorf.",
+    "highlights": [
+      "Allgäuer Voralpen",
+      "Forggensee & Hopfensee",
+      "Schloss Neuschwanstein",
+      "Scheidegger Wasserfälle"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Oberstaufen",
+    "end_location": "Füssen",
+    "latitude": 47.555,
+    "longitude": 10.021,
+    "polyline": [
+      [
+        46.932297297297296,
+        9.467486486486488
+      ],
+      [
+        47.278243243243246,
+        9.813432432432434
+      ],
+      [
+        47.48581081081081,
+        10.15937837837838
+      ],
+      [
+        47.762567567567565,
+        9.951810810810812
+      ],
+      [
+        48.039324324324326,
+        10.366945945945947
+      ],
+      [
+        48.24689189189189,
+        10.643702702702704
+      ]
+    ],
+    "start_coords": [
+      46.932297297297296,
+      9.467486486486488
+    ],
+    "end_coords": [
+      48.24689189189189,
+      10.643702702702704
+    ],
+    "campsites_along_count": 48,
+    "rating": 5,
+    "search_query": "Camping Wandertrilogie Allgäu – Wasserläufer Route",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-w8wt8xv",
+    "name": "Westerwald-Steig (Top Trail of Germany)",
+    "type": "hiking",
+    "region": "Westerwald",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 235,
+    "duration_hours": 65,
+    "difficulty": "hard",
+    "elevation_gain_m": 5400,
+    "description": "Zertifizierter Qualitätsweg von Herborn in Hessen quer durch den gesamten Hohen Westerwald, die Kroppacher Schweiz und das Wiedtal bis nach Bad Hönningen an den Rhein.",
+    "highlights": [
+      "Westerwald",
+      "Kroppacher Schweiz",
+      "Fuchskaute",
+      "Wiedtal",
+      "Rheinblick Bad Hönningen"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Herborn",
+    "end_location": "Bad Hönningen am Rhein",
+    "latitude": 50.684,
+    "longitude": 8.303,
+    "polyline": [
+      [
+        50.30291891891892,
+        7.964261261261262
+      ],
+      [
+        50.51463063063063,
+        8.175972972972973
+      ],
+      [
+        50.64165765765765,
+        8.387684684684686
+      ],
+      [
+        50.81102702702702,
+        8.260657657657658
+      ],
+      [
+        50.980396396396394,
+        8.514711711711712
+      ],
+      [
+        51.10742342342342,
+        8.684081081081082
+      ]
+    ],
+    "start_coords": [
+      50.30291891891892,
+      7.964261261261262
+    ],
+    "end_coords": [
+      51.10742342342342,
+      8.684081081081082
+    ],
+    "campsites_along_count": 35,
+    "rating": 5,
+    "search_query": "Camping Westerwald-Steig (Top Trail of Germany)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.351Z"
+  },
+  {
+    "id": "flagship-trail-e0gmjhk",
+    "name": "Harzer Hexen-Stieg (Top Trail & Brocken-Überquerung)",
+    "type": "hiking",
+    "region": "Harz",
+    "state": "Niedersachsen",
+    "country": "DE",
+    "distance_km": 97,
+    "duration_hours": 26,
+    "difficulty": "hard",
+    "elevation_gain_m": 2350,
+    "description": "Einer der bekanntesten und beliebtesten Fernwanderwege Deutschlands! Quer durch den Nationalpark Harz über den Brocken-Gipfel (1.141 m), vorbei am Oberharzer Wasserregal und durch das spektakuläre Bodetal von Osterode nach Thale.",
+    "highlights": [
+      "Harz",
+      "Brocken-Gipfel",
+      "Bodetal-Schlucht",
+      "UNESCO-Welterbe Wasserregal",
+      "Top Trail of Germany"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Osterode am Harz",
+    "end_location": "Thale (Bodetal)",
+    "latitude": 51.728,
+    "longitude": 10.252,
+    "polyline": [
+      [
+        51.570702702702704,
+        10.11218018018018
+      ],
+      [
+        51.65809009009009,
+        10.199567567567568
+      ],
+      [
+        51.710522522522524,
+        10.286954954954956
+      ],
+      [
+        51.780432432432434,
+        10.234522522522523
+      ],
+      [
+        51.850342342342344,
+        10.339387387387388
+      ],
+      [
+        51.90277477477478,
+        10.409297297297298
+      ]
+    ],
+    "start_coords": [
+      51.570702702702704,
+      10.11218018018018
+    ],
+    "end_coords": [
+      51.90277477477478,
+      10.409297297297298
+    ],
+    "campsites_along_count": 15,
+    "rating": 5,
+    "search_query": "Camping Harzer Hexen-Stieg (Top Trail & Brocken-Überquerung)",
+    "source": "dzt_opendata_curated",
+    "last_updated": "2026-08-24T11:42:00.350Z"
+  },
+  {
     "id": "dzt-trail-dahner-rzsb6px",
     "name": "Queichtal-Radweg (Hauenstein - Annweiler - Landau - Germersheim)",
     "type": "biking",

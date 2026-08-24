@@ -238,7 +238,7 @@ const App = () => {
       } else if (p.includes('/touren') || p.includes('/wanderwege') || p.includes('/trails') || tab === 'trails') {
         pageSeo = {
           title: 'Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute',
-          description: 'Über 16.000 offizielle Wanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.',
+          description: 'Über 19.000 offizielle Wanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.',
           keywords: 'Wanderwege Camping, Radwege Campingplatz, Fernwanderwege Deutschland, DZT Touren, Radtour Wohnmobil, Wandern und Camping'
         };
       } else if (p.includes('/events') || p.includes('/veranstaltungen') || tab === 'events') {

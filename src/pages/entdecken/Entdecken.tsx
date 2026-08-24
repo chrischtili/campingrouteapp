@@ -1766,7 +1766,7 @@ function EntdeckenContent() {
         const detailsUrl = `/discover/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`;
         fetch(detailsUrl)
           .then(res => res.ok ? res.json() : fetch(`/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`).then(r => r.json()))
-          .then(data => {
+          .then(async (data) => {
             if (!isCurrent) return;
             if (data && data.polyline && Array.isArray(data.polyline) && data.polyline.length > 1) {
               const validPolyline: [number, number][] = data.polyline.filter(([lat, lon]: [number, number]) => {
@@ -1776,11 +1776,87 @@ function EntdeckenContent() {
                 setTrailPolyline(validPolyline);
                 setTrailStartCoords(data.start_coords || validPolyline[0]);
                 setTrailEndCoords(data.end_coords || validPolyline[validPolyline.length - 1]);
+                return;
               }
             }
+
+            // Direct Browser OSM fallback if backend did not have a precomputed polyline
+            if (selectedTrail.latitude && selectedTrail.longitude) {
+              const lat = selectedTrail.latitude;
+              const lon = selectedTrail.longitude;
+              const profile = (selectedTrail.type === 'biking') ? 'routed-bike' : 'routed-foot';
+              const distKm = selectedTrail.distance_km || 8;
+              const radiusKm = Math.min(4.5, Math.max(0.6, (distKm / 6.0)));
+              const dLat = radiusKm / 111.0;
+              const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
+              const waypoints = [
+                [lat, lon],
+                [lat + dLat * 0.6, lon + dLon * 0.6],
+                [lat + dLat * 0.2, lon + dLon * 0.9],
+                [lat - dLat * 0.5, lon + dLon * 0.5],
+                [lat - dLat * 0.7, lon - dLon * 0.4],
+                [lat, lon]
+              ];
+              const coordStr = waypoints.map(([wLat, wLon]) => `${wLon.toFixed(5)},${wLat.toFixed(5)}`).join(';');
+              const osmUrl = `https://routing.openstreetmap.de/${profile}/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+              
+              try {
+                const osmRes = await fetch(osmUrl, { signal: AbortSignal.timeout(5000) });
+                if (osmRes.ok) {
+                  const json = await osmRes.json();
+                  if (json.routes && json.routes[0]?.geometry?.coordinates) {
+                    const pts: [number, number][] = json.routes[0].geometry.coordinates.map(([pLon, pLat]: [number, number]) => [
+                      Math.round(pLat * 100000) / 100000,
+                      Math.round(pLon * 100000) / 100000
+                    ]);
+                    if (isCurrent && pts.length > 1) {
+                      setTrailPolyline(pts);
+                      setTrailStartCoords(pts[0]);
+                      setTrailEndCoords(pts[pts.length - 1]);
+                    }
+                  }
+                }
+              } catch {}
+            }
           })
-          .catch(() => {
-            // Keep clean DZT marker
+          .catch(async () => {
+            // Browser OSM fallback on network error
+            if (isCurrent && selectedTrail.latitude && selectedTrail.longitude) {
+              const lat = selectedTrail.latitude;
+              const lon = selectedTrail.longitude;
+              const profile = (selectedTrail.type === 'biking') ? 'routed-bike' : 'routed-foot';
+              const distKm = selectedTrail.distance_km || 8;
+              const radiusKm = Math.min(4.5, Math.max(0.6, (distKm / 6.0)));
+              const dLat = radiusKm / 111.0;
+              const dLon = radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0));
+              const waypoints = [
+                [lat, lon],
+                [lat + dLat * 0.6, lon + dLon * 0.6],
+                [lat + dLat * 0.2, lon + dLon * 0.9],
+                [lat - dLat * 0.5, lon + dLon * 0.5],
+                [lat - dLat * 0.7, lon - dLon * 0.4],
+                [lat, lon]
+              ];
+              const coordStr = waypoints.map(([wLat, wLon]) => `${wLon.toFixed(5)},${wLat.toFixed(5)}`).join(';');
+              const osmUrl = `https://routing.openstreetmap.de/${profile}/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+              try {
+                const osmRes = await fetch(osmUrl, { signal: AbortSignal.timeout(5000) });
+                if (osmRes.ok) {
+                  const json = await osmRes.json();
+                  if (json.routes && json.routes[0]?.geometry?.coordinates) {
+                    const pts: [number, number][] = json.routes[0].geometry.coordinates.map(([pLon, pLat]: [number, number]) => [
+                      Math.round(pLat * 100000) / 100000,
+                      Math.round(pLon * 100000) / 100000
+                    ]);
+                    if (isCurrent && pts.length > 1) {
+                      setTrailPolyline(pts);
+                      setTrailStartCoords(pts[0]);
+                      setTrailEndCoords(pts[pts.length - 1]);
+                    }
+                  }
+                }
+              } catch {}
+            }
           })
           .finally(() => {
             if (isCurrent) setIsLoadingTrailTrack(false);

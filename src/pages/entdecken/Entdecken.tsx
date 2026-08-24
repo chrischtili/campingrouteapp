@@ -4250,6 +4250,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 src={spot.imageUrl}
                                 alt={spot.name}
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80';
+                                }}
                               />
                               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%)' }} />
                               <span

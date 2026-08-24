@@ -406,16 +406,65 @@ function ensurePlaceDatabaseReady() {
   return true;
 }
 
-function runSqliteJsonQuery(sql) {
-  if (!ensurePlaceDatabaseReady()) {
+function getSqliteTrailsDbPath() {
+  const candidates = [
+    path.join(__dirname, '..', 'entdecken-backend', 'campingroute_eu.db'),
+    path.join(__dirname, '..', 'campingroute_eu.db'),
+    path.join(__dirname, '..', 'places.sqlite'),
+    path.join(__dirname, 'places.sqlite'),
+    PLACE_DATABASE_PATH,
+    '/home/kopi/route-planner-pro/entdecken-backend/campingroute_eu.db',
+    '/home/kopi/route-planner-pro/places.sqlite'
+  ];
+  for (const p of candidates) {
+    if (p && fs.existsSync(p)) {
+      try {
+        const out = execFileSync('sqlite3', [p, 'SELECT COUNT(*) FROM trails;'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+        if (Number(out) > 0) return p;
+      } catch {}
+    }
+  }
+  for (const p of candidates) {
+    if (p && fs.existsSync(p)) return p;
+  }
+  return PLACE_DATABASE_PATH;
+}
+
+function getSqliteCulinaryDbPath() {
+  const candidates = [
+    path.join(__dirname, '..', 'entdecken-backend', 'campingroute_eu.db'),
+    path.join(__dirname, '..', 'campingroute_eu.db'),
+    path.join(__dirname, '..', 'places.sqlite'),
+    path.join(__dirname, 'places.sqlite'),
+    PLACE_DATABASE_PATH,
+    '/home/kopi/route-planner-pro/entdecken-backend/campingroute_eu.db',
+    '/home/kopi/route-planner-pro/places.sqlite'
+  ];
+  for (const p of candidates) {
+    if (p && fs.existsSync(p)) {
+      try {
+        const out = execFileSync('sqlite3', [p, 'SELECT COUNT(*) FROM culinary_spots;'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+        if (Number(out) > 0) return p;
+      } catch {}
+    }
+  }
+  for (const p of candidates) {
+    if (p && fs.existsSync(p)) return p;
+  }
+  return PLACE_DATABASE_PATH;
+}
+
+function runSqliteJsonQuery(sql, customDbPath = null) {
+  const targetDb = customDbPath || PLACE_DATABASE_PATH;
+  if (!fs.existsSync(targetDb)) {
     return [];
   }
 
   try {
-    const output = execFileSync('sqlite3', ['-json', PLACE_DATABASE_PATH, sql], {
+    const output = execFileSync('sqlite3', ['-json', targetDb, sql], {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'pipe'],
-      maxBuffer: 8 * 1024 * 1024,
+      maxBuffer: 16 * 1024 * 1024,
     }).trim();
 
     if (!output) {
@@ -425,7 +474,7 @@ function runSqliteJsonQuery(sql) {
     const rows = JSON.parse(output);
     return Array.isArray(rows) ? rows : [];
   } catch (error) {
-    console.warn(`[places] sqlite query failed (${PLACE_DATABASE_PATH}): ${error instanceof Error ? error.message : String(error)}`);
+    console.warn(`[sqlite] query failed (${targetDb}): ${error instanceof Error ? error.message : String(error)}`);
     return [];
   }
 }
@@ -2172,7 +2221,8 @@ const server = http.createServer(async (req, res) => {
       const q = (url.searchParams.get('search') || url.searchParams.get('q') || '').toLowerCase().trim();
       try {
         let spotsList = [];
-        if (ensurePlaceDatabaseReady()) {
+        const culinaryDb = getSqliteCulinaryDbPath();
+        if (fs.existsSync(culinaryDb)) {
           let whereClauses = [];
           if (type && type !== 'all') {
             whereClauses.push(`type = '${type.replace(/'/g, "''")}'`);
@@ -2185,7 +2235,7 @@ const server = http.createServer(async (req, res) => {
             whereClauses.push(`(LOWER(name) LIKE '%${escapedQ}%' OR LOWER(region) LIKE '%${escapedQ}%' OR LOWER(address) LIKE '%${escapedQ}%' OR LOWER(description) LIKE '%${escapedQ}%' OR LOWER(products) LIKE '%${escapedQ}%')`);
           }
           const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
-          const rows = runSqliteJsonQuery(`SELECT * FROM culinary_spots ${whereSql} ORDER BY has_campsite DESC, name ASC LIMIT 300;`);
+          const rows = runSqliteJsonQuery(`SELECT * FROM culinary_spots ${whereSql} ORDER BY has_campsite DESC, name ASC LIMIT 300;`, culinaryDb);
           if (rows && rows.length > 0) {
             spotsList = rows.map(r => ({
               ...r,
@@ -2234,7 +2284,8 @@ const server = http.createServer(async (req, res) => {
       const q = (url.searchParams.get('q') || '').toLowerCase().trim();
       try {
         let trailsList = [];
-        if (ensurePlaceDatabaseReady()) {
+        const trailsDb = getSqliteTrailsDbPath();
+        if (fs.existsSync(trailsDb)) {
           let whereClauses = [];
           if (type && type !== 'all') {
             whereClauses.push(`(type = '${type.replace(/'/g, "''")}' OR type = 'both')`);
@@ -2251,7 +2302,7 @@ const server = http.createServer(async (req, res) => {
           }
           const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
           const sql = `SELECT * FROM trails ${whereSql} ORDER BY campsites_along_count DESC, rating DESC LIMIT 500;`;
-          const rows = runSqliteJsonQuery(sql);
+          const rows = runSqliteJsonQuery(sql, trailsDb);
           if (rows && rows.length > 0) {
             trailsList = rows.map(r => ({
               ...r,
@@ -2299,8 +2350,9 @@ const server = http.createServer(async (req, res) => {
       const uri = (url.searchParams.get('uri') || '').trim();
       try {
         let trail = null;
-        if (ensurePlaceDatabaseReady() && id) {
-          const rows = runSqliteJsonQuery(`SELECT * FROM trails WHERE id = '${id.replace(/'/g, "''")}' LIMIT 1;`);
+        const trailsDb = getSqliteTrailsDbPath();
+        if (fs.existsSync(trailsDb) && id) {
+          const rows = runSqliteJsonQuery(`SELECT * FROM trails WHERE id = '${id.replace(/'/g, "''")}' LIMIT 1;`, trailsDb);
           if (rows && rows[0]) {
             trail = {
               ...rows[0],

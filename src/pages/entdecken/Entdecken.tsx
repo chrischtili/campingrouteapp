@@ -3736,27 +3736,30 @@ const getWebsiteUrl = (place: Place): string | null => {
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      background: 'rgba(255, 255, 255, 0.22)',
+                      gap: '0.6rem',
+                      background: 'linear-gradient(135deg, rgba(22, 101, 52, 0.9) 0%, rgba(5, 150, 105, 0.85) 100%)',
                       color: 'white',
-                      padding: '0.4rem 0.95rem',
+                      padding: '0.45rem 1.15rem',
                       borderRadius: '9999px',
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
+                      fontSize: '0.78rem',
+                      fontWeight: 800,
                       marginBottom: '1.25rem',
-                      letterSpacing: '0.05em',
+                      letterSpacing: '0.04em',
                       textTransform: 'uppercase',
-                      backdropFilter: 'blur(4px)',
-                      border: '1px solid rgba(255,255,255,0.4)',
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.15)'
+                      backdropFilter: 'blur(8px)',
+                      border: '1.5px solid rgba(250, 204, 21, 0.7)',
+                      cursor: 'pointer'
                     }}
-                    className="hover:scale-105 hover:bg-white/30 transition-transform active:scale-95"
+                    className="beta-feedback-badge-glow group hover:scale-105 transition-transform active:scale-95 shadow-xl"
                     title="Feedback & Feature-Wünsche zur Entdecken-Beta teilen"
                   >
-                    <Sparkles size={12} className="text-yellow-300" />
-                    <span>Early Beta — Feedback & Ideen teilen</span>
-                    <MessageSquareHeart size={13} className="text-emerald-300 ml-1" />
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-80"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400"></span>
+                    </span>
+                    <Sparkles size={13} className="text-yellow-300 animate-pulse" />
+                    <span>Early Beta — Feedback & Ideen erwünscht</span>
+                    <MessageSquareHeart size={14} className="text-emerald-200 ml-0.5 group-hover:scale-125 transition-transform" />
                   </button>
                 )}
                 <h1 className="hero-title">
@@ -6852,12 +6855,16 @@ const getWebsiteUrl = (place: Place): string | null => {
         <button
           type="button"
           onClick={() => setShowDiscoverFeedbackModal(true)}
-          className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#166534] text-white shadow-xl hover:bg-[#14532d] hover:scale-105 active:scale-95 transition-all text-xs font-bold border border-emerald-400/30 cursor-pointer"
+          className="beta-feedback-pulse-btn group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#166534] text-white shadow-2xl hover:bg-[#14532d] hover:scale-105 active:scale-95 transition-all text-xs font-extrabold border-2 border-emerald-400/50 cursor-pointer"
           title="Feedback & Ideen zur Entdecken-Beta teilen"
         >
-          <MessageSquareHeart className="w-4 h-4 text-emerald-300" />
-          <span className="hidden sm:inline">Beta Feedback</span>
-          <span className="sm:hidden">Feedback</span>
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-80"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+          </span>
+          <MessageSquareHeart className="w-4 h-4 text-emerald-200 group-hover:scale-110 transition-transform" />
+          <span className="hidden sm:inline tracking-wide font-bold">Beta Feedback</span>
+          <span className="sm:hidden tracking-wide font-bold">Feedback</span>
         </button>
       </div>
 

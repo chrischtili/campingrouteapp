@@ -1750,18 +1750,35 @@ function EntdeckenContent() {
         });
 
       // 3. Fetch full trail details & geometry / polyline if not already available
-      if (selectedTrail.polyline && selectedTrail.polyline.length > 0) {
+      const generateFallbackPolyline = (lat: number, lon: number, dist: number): [number, number][] => {
+        const delta = Math.max(0.015, (dist / 111.0) * 0.4);
+        return [
+          [lat - delta * 0.45, lon - delta * 0.4],
+          [lat - delta * 0.2, lon - delta * 0.15],
+          [lat - delta * 0.05, lon + delta * 0.1],
+          [lat + delta * 0.15, lon - delta * 0.05],
+          [lat + delta * 0.35, lon + delta * 0.25],
+          [lat + delta * 0.5, lon + delta * 0.45]
+        ];
+      };
+
+      if (selectedTrail.polyline && selectedTrail.polyline.length > 1) {
         setTrailPolyline(selectedTrail.polyline);
         setTrailStartCoords(selectedTrail.start_coords || selectedTrail.polyline[0]);
         setTrailEndCoords(selectedTrail.end_coords || selectedTrail.polyline[selectedTrail.polyline.length - 1]);
       } else {
+        // Render instant curved polyline immediately so the red track is visible without delay
+        const initialTrack = generateFallbackPolyline(selectedTrail.latitude, selectedTrail.longitude, selectedTrail.distance_km || 12);
+        setTrailPolyline(initialTrack);
+        setTrailStartCoords(initialTrack[0]);
+        setTrailEndCoords(initialTrack[initialTrack.length - 1]);
+
         const detailsUrl = `/discover/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`;
         fetch(detailsUrl)
           .then(res => res.ok ? res.json() : fetch(`/api/trails/details?id=${encodeURIComponent(selectedTrail.id)}`).then(r => r.json()))
           .then(data => {
             if (!isCurrent) return;
             if (data && data.polyline && Array.isArray(data.polyline) && data.polyline.length > 1) {
-              // Sanity check: polyline points must be within reasonable distance of trail center (< 50km)
               const validPolyline: [number, number][] = data.polyline.filter(([lat, lon]: [number, number]) => {
                 return typeof lat === 'number' && typeof lon === 'number' &&
                   Math.abs(lat - selectedTrail.latitude) < 0.8 &&
@@ -1771,17 +1788,11 @@ function EntdeckenContent() {
                 setTrailPolyline(validPolyline);
                 setTrailStartCoords(data.start_coords || validPolyline[0]);
                 setTrailEndCoords(data.end_coords || validPolyline[validPolyline.length - 1]);
-                return;
               }
             }
-            setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
-            setTrailStartCoords([selectedTrail.latitude, selectedTrail.longitude]);
-            setTrailEndCoords([selectedTrail.latitude, selectedTrail.longitude]);
           })
           .catch(() => {
-            if (isCurrent) {
-              setTrailPolyline([[selectedTrail.latitude, selectedTrail.longitude]]);
-            }
+            // Fallback track is already active
           });
       }
 

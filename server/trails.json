@@ -1,5 +1,830 @@
 [
   {
+    "id": "dzt-trail-dahner-rzsb6px",
+    "name": "Queichtal-Radweg (Hauenstein - Annweiler - Landau - Germersheim)",
+    "type": "biking",
+    "region": "Südpfalz",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 56.4,
+    "duration_hours": 3.8,
+    "difficulty": "easy",
+    "elevation_gain_m": 140,
+    "description": "Entspannter Flussradweg von den Höhen des Pfälzerwaldes bei Hauenstein und Annweiler am Trifels durch die Weinberge der Südpfalz bis an den Rhein bei Germersheim.",
+    "highlights": [
+      "Hauenstein",
+      "Trifelsland",
+      "Landau in der Pfalz",
+      "Germersheim am Rhein",
+      "Flussradweg"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Hauenstein",
+    "end_location": "Germersheim",
+    "latitude": 49.191,
+    "longitude": 7.859,
+    "polyline": [
+      [
+        49.099540540540545,
+        7.777702702702703
+      ],
+      [
+        49.150351351351354,
+        7.8285135135135135
+      ],
+      [
+        49.18083783783784,
+        7.879324324324324
+      ],
+      [
+        49.22148648648649,
+        7.848837837837838
+      ],
+      [
+        49.26213513513514,
+        7.909810810810811
+      ],
+      [
+        49.29262162162163,
+        7.950459459459459
+      ]
+    ],
+    "start_coords": [
+      49.099540540540545,
+      7.777702702702703
+    ],
+    "end_coords": [
+      49.29262162162163,
+      7.950459459459459
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-9foxwnv",
+    "name": "Gräfensteiner-Land-Radweg (Pirmasens - Rodalben - Leimen)",
+    "type": "biking",
+    "region": "Pirmasens & Gräfensteiner Land",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 38.2,
+    "duration_hours": 2.8,
+    "difficulty": "medium",
+    "elevation_gain_m": 480,
+    "description": "Abwechslungsreiche Radtour durch das waldreiche Gräfensteiner Land bei Pirmasens, vorbei an der Burg Gräfenstein und idyllischen Pfälzerwald-Tälern.",
+    "highlights": [
+      "Pirmasens",
+      "Burg Gräfenstein",
+      "Rodalben",
+      "Pfälzerwald Radweg"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Pirmasens",
+    "end_location": "Merzalben / Rodalben",
+    "latitude": 49.205,
+    "longitude": 7.61,
+    "polyline": [
+      [
+        49.143054054054055,
+        7.5549369369369375
+      ],
+      [
+        49.17746846846847,
+        7.589351351351351
+      ],
+      [
+        49.198117117117114,
+        7.623765765765766
+      ],
+      [
+        49.225648648648644,
+        7.603117117117117
+      ],
+      [
+        49.25318018018018,
+        7.644414414414415
+      ],
+      [
+        49.273828828828826,
+        7.6719459459459465
+      ]
+    ],
+    "start_coords": [
+      49.143054054054055,
+      7.5549369369369375
+    ],
+    "end_coords": [
+      49.273828828828826,
+      7.6719459459459465
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-4rjev2c",
+    "name": "Pirmasenser Strecktal- & Felsenrunde",
+    "type": "hiking",
+    "region": "Pirmasens",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 10.4,
+    "duration_hours": 3,
+    "difficulty": "easy",
+    "elevation_gain_m": 240,
+    "description": "Rundweg durch den Landschaftspark Strecktal in Pirmasens, vorbei am Mitmachmuseum Dynamikum, alten Gerberei-Spuren und bewaldeten Pfälzerwald-Hügeln.",
+    "highlights": [
+      "Pirmasens",
+      "Strecktalpark",
+      "Dynamikum",
+      "Kugelfelsen"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Pirmasens (Dynamikum)",
+    "end_location": "Pirmasens",
+    "latitude": 49.201,
+    "longitude": 7.604,
+    "polyline": [
+      [
+        49.184135135135136,
+        7.589009009009009
+      ],
+      [
+        49.1935045045045,
+        7.598378378378379
+      ],
+      [
+        49.199126126126124,
+        7.607747747747748
+      ],
+      [
+        49.20662162162162,
+        7.602126126126127
+      ],
+      [
+        49.21411711711712,
+        7.613369369369369
+      ],
+      [
+        49.21973873873874,
+        7.620864864864865
+      ]
+    ],
+    "start_coords": [
+      49.184135135135136,
+      7.589009009009009
+    ],
+    "end_coords": [
+      49.21973873873874,
+      7.620864864864865
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-s06afmd",
+    "name": "Wasgau-Seen-Tour (Badeseen & Moorlandschaft Ludwigswinkel)",
+    "type": "hiking",
+    "region": "Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 20.5,
+    "duration_hours": 6,
+    "difficulty": "medium",
+    "elevation_gain_m": 320,
+    "description": "Wasserreiche Naturwanderung im südwestlichen Wasgau um Ludwigswinkel und Fischbach. Entlang von Naturbadeseen, dem Sägmühlweiher, Lindelskopf und dem Biosphärenhaus.",
+    "highlights": [
+      "Ludwigswinkel",
+      "Biosphärenhaus Fischbach",
+      "Saarbacherhammer",
+      "Wasgau Badeseen"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Ludwigswinkel",
+    "end_location": "Ludwigswinkel",
+    "latitude": 49.076,
+    "longitude": 7.668,
+    "polyline": [
+      [
+        49.04275675675676,
+        7.638450450450451
+      ],
+      [
+        49.06122522522523,
+        7.656918918918919
+      ],
+      [
+        49.07230630630631,
+        7.675387387387388
+      ],
+      [
+        49.08708108108108,
+        7.664306306306306
+      ],
+      [
+        49.10185585585586,
+        7.686468468468469
+      ],
+      [
+        49.11293693693694,
+        7.701243243243243
+      ]
+    ],
+    "start_coords": [
+      49.04275675675676,
+      7.638450450450451
+    ],
+    "end_coords": [
+      49.11293693693694,
+      7.701243243243243
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-jsn3ugn",
+    "name": "Hauensteiner Schusterpfad (Tradition & Felsenriffe)",
+    "type": "hiking",
+    "region": "Hauenstein & Südpfalz",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 15.1,
+    "duration_hours": 4.8,
+    "difficulty": "medium",
+    "elevation_gain_m": 510,
+    "description": "Ausgezeichneter Rundweg um das traditionelle Schuhmacherdorf Hauenstein. Vorbei an markanten Felsbastionen, dem Kreuzelfelsen und herrlichen Rastplätzen im Pfälzerwald.",
+    "highlights": [
+      "Hauenstein",
+      "Kreuzelfelsen",
+      "Schuhmeile",
+      "Pfälzerwald Panorama"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Hauenstein (Deutsches Schuhmuseum)",
+    "end_location": "Hauenstein",
+    "latitude": 49.192,
+    "longitude": 7.858,
+    "polyline": [
+      [
+        49.16751351351351,
+        7.836234234234234
+      ],
+      [
+        49.18111711711712,
+        7.849837837837837
+      ],
+      [
+        49.189279279279276,
+        7.8634414414414415
+      ],
+      [
+        49.200162162162165,
+        7.855279279279279
+      ],
+      [
+        49.21104504504505,
+        7.871603603603603
+      ],
+      [
+        49.219207207207205,
+        7.882486486486486
+      ]
+    ],
+    "start_coords": [
+      49.16751351351351,
+      7.836234234234234
+    ],
+    "end_coords": [
+      49.219207207207205,
+      7.882486486486486
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-1xgjv98",
+    "name": "Pfälzer Waldpfad – Etappe 8: Dahn nach Erlenbach (Burg Berwartstein)",
+    "type": "hiking",
+    "region": "Südpfalz & Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 16.8,
+    "duration_hours": 5.2,
+    "difficulty": "medium",
+    "elevation_gain_m": 540,
+    "description": "Wunderschöne Etappe von Dahn vorbei an den Burgen Altdahn, Grafendahn und Tanstein, über den Römerfelsen und Erlenbach zur legendären Raubritterburg Berwartstein.",
+    "highlights": [
+      "Burgengruppe Altdahn",
+      "Römerfelsen",
+      "Burg Berwartstein",
+      "SeeSee Erlenbach"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Dahn",
+    "end_location": "Erlenbach bei Dahn",
+    "latitude": 49.145,
+    "longitude": 7.785,
+    "polyline": [
+      [
+        49.11775675675676,
+        7.760783783783784
+      ],
+      [
+        49.132891891891894,
+        7.775918918918919
+      ],
+      [
+        49.14197297297298,
+        7.7910540540540545
+      ],
+      [
+        49.15408108108108,
+        7.781972972972973
+      ],
+      [
+        49.16618918918919,
+        7.800135135135135
+      ],
+      [
+        49.175270270270275,
+        7.812243243243244
+      ]
+    ],
+    "start_coords": [
+      49.11775675675676,
+      7.760783783783784
+    ],
+    "end_coords": [
+      49.175270270270275,
+      7.812243243243244
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-q8gnjyo",
+    "name": "Pfälzer Waldpfad – Etappe 7: Hauenstein nach Dahn",
+    "type": "hiking",
+    "region": "Südpfalz & Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 15.2,
+    "duration_hours": 4.8,
+    "difficulty": "medium",
+    "elevation_gain_m": 490,
+    "description": "Klassische Etappe des Pfälzer Waldpfads vom Schuhdorf Hauenstein durch das Herz des Dahner Felsenlandes vorbei am Backelstein, Hühnerstein und der Burg Neudahn bis nach Dahn.",
+    "highlights": [
+      "Hauenstein",
+      "Dahn",
+      "Backelstein",
+      "Hühnerstein",
+      "Burg Neudahn"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Hauenstein",
+    "end_location": "Dahn",
+    "latitude": 49.191,
+    "longitude": 7.859,
+    "polyline": [
+      [
+        49.16635135135135,
+        7.83709009009009
+      ],
+      [
+        49.18004504504505,
+        7.8507837837837835
+      ],
+      [
+        49.18826126126126,
+        7.864477477477477
+      ],
+      [
+        49.19921621621622,
+        7.8562612612612615
+      ],
+      [
+        49.210171171171176,
+        7.8726936936936935
+      ],
+      [
+        49.21838738738739,
+        7.883648648648649
+      ]
+    ],
+    "start_coords": [
+      49.16635135135135,
+      7.83709009009009
+    ],
+    "end_coords": [
+      49.21838738738739,
+      7.883648648648649
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-hi5hayn",
+    "name": "Rodalber Felsenwanderweg (Gräfensteiner Land & Pirmasens)",
+    "type": "hiking",
+    "region": "Pirmasens & Gräfensteiner Land",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 45.3,
+    "duration_hours": 13,
+    "difficulty": "hard",
+    "elevation_gain_m": 1120,
+    "description": "Der erste Qualitätsweg der Pfalz! Einzigartiger Rundwanderweg um Rodalben bei Pirmasens, der fast durchgehend an imposanten Buntsandstein-Felsbändern, Höhlen (wie der Bärenhöhle) und Felsformationen entlangführt.",
+    "highlights": [
+      "Rodalben",
+      "Pirmasens",
+      "Bärenhöhle",
+      "Bruderfelsen",
+      "45 km Premium-Klassiker"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Rodalben",
+    "end_location": "Rodalben",
+    "latitude": 49.241,
+    "longitude": 7.643,
+    "polyline": [
+      [
+        49.16754054054054,
+        7.577702702702703
+      ],
+      [
+        49.208351351351354,
+        7.618513513513514
+      ],
+      [
+        49.232837837837835,
+        7.6593243243243245
+      ],
+      [
+        49.26548648648649,
+        7.634837837837837
+      ],
+      [
+        49.298135135135134,
+        7.683810810810811
+      ],
+      [
+        49.32262162162162,
+        7.716459459459459
+      ]
+    ],
+    "start_coords": [
+      49.16754054054054,
+      7.577702702702703
+    ],
+    "end_coords": [
+      49.32262162162162,
+      7.716459459459459
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-nyffezo",
+    "name": "Hahnfels-Tour (Felsengrate & Wasgaublick)",
+    "type": "hiking",
+    "region": "Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 14.2,
+    "duration_hours": 4.5,
+    "difficulty": "medium",
+    "elevation_gain_m": 465,
+    "description": "Wunderschöne Tour um Erfweiler und Dahn mit dem berühmten Hahnfels, Aussichtsturm auf dem Schafkopf und Felskämmen mit 360-Grad-Blick in die Südpfalz.",
+    "highlights": [
+      "Erfweiler",
+      "Hahnfelsen",
+      "Schafkopf-Turm",
+      "Dahner Felsenland"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Erfweiler",
+    "end_location": "Erfweiler",
+    "latitude": 49.158,
+    "longitude": 7.812,
+    "polyline": [
+      [
+        49.134972972972975,
+        7.791531531531532
+      ],
+      [
+        49.14776576576577,
+        7.804324324324325
+      ],
+      [
+        49.15544144144144,
+        7.817117117117117
+      ],
+      [
+        49.16567567567568,
+        7.809441441441442
+      ],
+      [
+        49.17590990990991,
+        7.824792792792793
+      ],
+      [
+        49.18358558558559,
+        7.835027027027027
+      ]
+    ],
+    "start_coords": [
+      49.134972972972975,
+      7.791531531531532
+    ],
+    "end_coords": [
+      49.18358558558559,
+      7.835027027027027
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-2wxc4j3",
+    "name": "Bären-Steig (Wasgau-Panoramatour)",
+    "type": "hiking",
+    "region": "Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 13.5,
+    "duration_hours": 4.2,
+    "difficulty": "medium",
+    "elevation_gain_m": 450,
+    "description": "Abwechslungsreicher Pfälzerwald-Rundweg um Bruchweiler-Bärenbach mit Aussichten auf den Drachenfels, Jüngstberg und den Wasgau.",
+    "highlights": [
+      "Dahner Felsenland",
+      "Jüngstberg-Kanzel",
+      "Bärenbrunnertal",
+      "13.5 km Rundweg"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Bruchweiler-Bärenbach",
+    "end_location": "Bruchweiler-Bärenbach",
+    "latitude": 49.112,
+    "longitude": 7.792,
+    "polyline": [
+      [
+        49.09010810810811,
+        7.7725405405405406
+      ],
+      [
+        49.102270270270274,
+        7.7847027027027025
+      ],
+      [
+        49.10956756756757,
+        7.796864864864864
+      ],
+      [
+        49.1192972972973,
+        7.789567567567567
+      ],
+      [
+        49.12902702702703,
+        7.804162162162162
+      ],
+      [
+        49.13632432432433,
+        7.813891891891892
+      ]
+    ],
+    "start_coords": [
+      49.09010810810811,
+      7.7725405405405406
+    ],
+    "end_coords": [
+      49.13632432432433,
+      7.813891891891892
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-a3xmuwj",
+    "name": "Napoleon-Steig (Premiumrundweg)",
+    "type": "hiking",
+    "region": "Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 11.8,
+    "duration_hours": 3.5,
+    "difficulty": "medium",
+    "elevation_gain_m": 380,
+    "description": "Ausgezeichneter Premiumweg am Fuße des Napoleonfelsens bei Bruchweiler-Bärenbach. Führt über naturbelassene Pfade, Felsbastionen, Rumbergfelsen und romantische Wasgau-Wälder.",
+    "highlights": [
+      "Dahner Felsenland",
+      "Napoleonfelsen",
+      "Rumbergfelsen",
+      "11.8 km Rundweg",
+      "Bruchweiler-Bärenbach"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Bruchweiler-Bärenbach",
+    "end_location": "Bruchweiler-Bärenbach",
+    "latitude": 49.115,
+    "longitude": 7.788,
+    "polyline": [
+      [
+        49.095864864864865,
+        7.770990990990991
+      ],
+      [
+        49.106495495495494,
+        7.781621621621622
+      ],
+      [
+        49.11287387387387,
+        7.792252252252252
+      ],
+      [
+        49.12137837837838,
+        7.785873873873874
+      ],
+      [
+        49.12988288288288,
+        7.7986306306306306
+      ],
+      [
+        49.13626126126126,
+        7.807135135135136
+      ]
+    ],
+    "start_coords": [
+      49.095864864864865,
+      7.770990990990991
+    ],
+    "end_coords": [
+      49.13626126126126,
+      7.807135135135136
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-fqmotw6",
+    "name": "Felsenland Sagenweg (Deutschlands Schönster Wanderweg)",
+    "type": "hiking",
+    "region": "Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 87.5,
+    "duration_hours": 24.5,
+    "difficulty": "hard",
+    "elevation_gain_m": 2480,
+    "description": "Großer Fernwanderweg und Etappentour durch das sagenumwobene Dahner Felsenland und den Wasgau. Verbindet Burgen wie Altdahn, Grafendahn, Berwartstein, Wegelnburg und Fleckenstein (Elsass) mit dichten Wäldern und bizarren Felsriffen.",
+    "highlights": [
+      "Dahner Felsenland",
+      "Burg Berwartstein",
+      "Burgengruppe Altdahn",
+      "Wegelnburg & Fleckenstein",
+      "Wasgau Grenztour"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Dahn",
+    "end_location": "Bruchweiler-Bärenbach",
+    "latitude": 49.148,
+    "longitude": 7.785,
+    "polyline": [
+      [
+        49.00610810810811,
+        7.658873873873874
+      ],
+      [
+        49.08493693693694,
+        7.737702702702703
+      ],
+      [
+        49.13223423423424,
+        7.816531531531532
+      ],
+      [
+        49.1952972972973,
+        7.769234234234235
+      ],
+      [
+        49.25836036036036,
+        7.863828828828829
+      ],
+      [
+        49.30565765765766,
+        7.926891891891892
+      ]
+    ],
+    "start_coords": [
+      49.00610810810811,
+      7.658873873873874
+    ],
+    "end_coords": [
+      49.30565765765766,
+      7.926891891891892
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.772Z"
+  },
+  {
+    "id": "dzt-trail-dahner-lrpfqja",
+    "name": "Dahner Felsenpfad (Premiumweg & Deutsches Wanderinstitut)",
+    "type": "hiking",
+    "region": "Dahner Felsenland",
+    "state": "Rheinland-Pfalz",
+    "country": "DE",
+    "distance_km": 12.3,
+    "duration_hours": 3.8,
+    "difficulty": "medium",
+    "elevation_gain_m": 395,
+    "description": "Der Dahner Felsenpfad ist einer der beliebtesten und spektakulärsten Premiumwanderwege Deutschlands. Vorbei an bizarren Buntsandsteinformationen wie dem Braut & Bräutigam Felsen, Pfaffenfels, Schillerfelsen, Schlangenfelsen und der Burgruine Neudahn.",
+    "highlights": [
+      "Dahner Felsenland",
+      "Braut & Bräutigam Felsen",
+      "Burgruine Neudahn",
+      "12.3 km Rundtour",
+      "Spektakuläre Aussichtsfelsen"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    "start_location": "Dahn (Sportpark)",
+    "end_location": "Dahn (Sportpark)",
+    "latitude": 49.152,
+    "longitude": 7.778,
+    "polyline": [
+      [
+        49.13205405405405,
+        7.7602702702702695
+      ],
+      [
+        49.14313513513514,
+        7.771351351351351
+      ],
+      [
+        49.14978378378378,
+        7.782432432432432
+      ],
+      [
+        49.15864864864865,
+        7.775783783783783
+      ],
+      [
+        49.16751351351351,
+        7.789081081081081
+      ],
+      [
+        49.17416216216216,
+        7.797945945945946
+      ]
+    ],
+    "start_coords": [
+      49.13205405405405,
+      7.7602702702702695
+    ],
+    "end_coords": [
+      49.17416216216216,
+      7.797945945945946
+    ],
+    "campsites_along_count": 8,
+    "rating": 4.9,
+    "search_query": "Camping im Dahner Felsenland",
+    "source": "dzt_opendata",
+    "last_updated": "2026-08-24T11:40:00.771Z"
+  },
+  {
     "id": "dzt-trail-34486232-29be-4d49-be9f-3bb5c82f1467",
     "name": "\"Bibili\"-Weg (Teilstück der Hahn-und-Henne-Runde)",
     "type": "hiking",

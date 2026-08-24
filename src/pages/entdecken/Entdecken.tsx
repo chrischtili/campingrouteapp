@@ -1750,16 +1750,49 @@ function EntdeckenContent() {
         });
 
       // 3. Fetch full trail details & geometry / polyline if not already available
-      const generateFallbackPolyline = (lat: number, lon: number, dist: number): [number, number][] => {
-        const delta = Math.max(0.015, (dist / 111.0) * 0.4);
-        return [
-          [lat - delta * 0.45, lon - delta * 0.4],
-          [lat - delta * 0.2, lon - delta * 0.15],
-          [lat - delta * 0.05, lon + delta * 0.1],
-          [lat + delta * 0.15, lon - delta * 0.05],
-          [lat + delta * 0.35, lon + delta * 0.25],
-          [lat + delta * 0.5, lon + delta * 0.45]
-        ];
+      const generateFallbackPolyline = (t: Trail): [number, number][] => {
+        const lat = t.latitude || 50.0;
+        const lon = t.longitude || 8.0;
+        const dist = t.distance_km || 12;
+        const name = t.name || '';
+        const desc = t.description || '';
+        const combined = (name + ' ' + desc).toLowerCase();
+        
+        const isCircular = combined.includes('rund') || combined.includes('loop') || combined.includes('schleife') ||
+                           combined.includes('pfad') || combined.includes('steig') || combined.includes('felsen') ||
+                           combined.includes('tour') || (t.start_location && t.start_location === t.end_location);
+
+        let seed = 0;
+        for (let i = 0; i < name.length; i++) seed = (seed * 31 + name.charCodeAt(i)) % 10000;
+        const radius = Math.max(0.012, (dist / (2 * Math.PI * 111.0)) * 1.3);
+
+        if (isCircular) {
+          const pointsCount = Math.min(14, Math.max(8, Math.round(dist * 0.7)));
+          const pts: [number, number][] = [];
+          const angleOffset = (seed % 360) * (Math.PI / 180);
+          for (let i = 0; i < pointsCount; i++) {
+            const angle = (i / pointsCount) * 2 * Math.PI + angleOffset;
+            const varFactor = 0.75 + 0.45 * Math.sin(angle * 2 + (seed % 7));
+            const pLat = lat + Math.sin(angle) * radius * varFactor;
+            const pLon = lon + (Math.cos(angle) * radius * varFactor) / Math.cos(lat * Math.PI / 180);
+            pts.push([Math.round(pLat * 10000) / 10000, Math.round(pLon * 10000) / 10000]);
+          }
+          pts.push([...pts[0]]); // Closed circular loop
+          return pts;
+        } else {
+          const pointsCount = Math.min(16, Math.max(6, Math.round(dist * 0.4)));
+          const pts: [number, number][] = [];
+          const delta = (dist / 111.0) * 0.65;
+          const bearingAngle = ((seed % 8) * 45) * (Math.PI / 180);
+          for (let i = 0; i < pointsCount; i++) {
+            const progress = (i / (pointsCount - 1)) - 0.5;
+            const meander = 0.25 * Math.sin(i * 1.5 + (seed % 5)) * delta;
+            const pLat = lat + (progress * delta * Math.cos(bearingAngle)) - (meander * Math.sin(bearingAngle));
+            const pLon = lon + ((progress * delta * Math.sin(bearingAngle)) + (meander * Math.cos(bearingAngle))) / Math.cos(lat * Math.PI / 180);
+            pts.push([Math.round(pLat * 10000) / 10000, Math.round(pLon * 10000) / 10000]);
+          }
+          return pts;
+        }
       };
 
       if (selectedTrail.polyline && selectedTrail.polyline.length > 1) {
@@ -1767,8 +1800,8 @@ function EntdeckenContent() {
         setTrailStartCoords(selectedTrail.start_coords || selectedTrail.polyline[0]);
         setTrailEndCoords(selectedTrail.end_coords || selectedTrail.polyline[selectedTrail.polyline.length - 1]);
       } else {
-        // Render instant curved polyline immediately so the red track is visible without delay
-        const initialTrack = generateFallbackPolyline(selectedTrail.latitude, selectedTrail.longitude, selectedTrail.distance_km || 12);
+        // Render instant curved polyline / circular loop immediately so the red track is visible without delay
+        const initialTrack = generateFallbackPolyline(selectedTrail);
         setTrailPolyline(initialTrack);
         setTrailStartCoords(initialTrack[0]);
         setTrailEndCoords(initialTrack[initialTrack.length - 1]);

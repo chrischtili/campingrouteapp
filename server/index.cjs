@@ -2251,23 +2251,12 @@ const server = http.createServer(async (req, res) => {
         }
         const trail = trailsList.find(t => (id && t.id === id) || (uri && t.uri === uri));
         if (trail) {
-          const lat = Number(trail.latitude);
-          const lon = Number(trail.longitude);
-          const dist = trail.distance_km || 10;
-          const delta = (dist / 111.0) * 0.4;
-          const polyline = trail.polyline || [
-            [lat - delta * 0.5, lon - delta * 0.5],
-            [lat - delta * 0.2, lon - delta * 0.1],
-            [lat, lon],
-            [lat + delta * 0.3, lon + delta * 0.2],
-            [lat + delta * 0.5, lon + delta * 0.5]
-          ];
           sendJson(res, 200, {
             success: true,
             trail,
-            polyline,
-            start_coords: trail.start_coords || polyline[0],
-            end_coords: trail.end_coords || polyline[polyline.length - 1]
+            polyline: trail.polyline || null,
+            start_coords: trail.start_coords || (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null),
+            end_coords: trail.end_coords || (trail.latitude && trail.longitude ? [Number(trail.latitude), Number(trail.longitude)] : null)
           });
           return;
         }

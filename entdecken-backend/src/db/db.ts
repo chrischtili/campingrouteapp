@@ -150,6 +150,29 @@ export async function getDb(): Promise<Database> {
       source TEXT DEFAULT 'dzt_opendata',
       last_updated TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS culinary_spots (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      type TEXT NOT NULL DEFAULT 'farm_shop',
+      subtype_label TEXT,
+      region TEXT,
+      state TEXT,
+      country TEXT NOT NULL DEFAULT 'DE',
+      latitude REAL NOT NULL,
+      longitude REAL NOT NULL,
+      address TEXT,
+      description TEXT,
+      products TEXT,
+      has_campsite INTEGER DEFAULT 0,
+      image_url TEXT,
+      source TEXT DEFAULT 'osm_dzt',
+      last_updated TEXT
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_culinary_type ON culinary_spots(type);
+    CREATE INDEX IF NOT EXISTS idx_culinary_state ON culinary_spots(state);
+    CREATE INDEX IF NOT EXISTS idx_culinary_lat_lon ON culinary_spots(latitude, longitude);
   `);
 
   // Add any missing columns for existing databases (idempotent migrations)

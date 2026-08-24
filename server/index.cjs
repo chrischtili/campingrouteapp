@@ -2165,32 +2165,56 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // Culinary / Farm shops & Wineries endpoint
+    // Culinary / Farm shops & Wineries endpoint (SQLite with direct JSON response)
     if (req.method === 'GET' && (pathname === '/api/culinary' || pathname === '/discover/api/culinary')) {
       const type = (url.searchParams.get('type') || 'all').toLowerCase();
       const state = (url.searchParams.get('state') || '').trim();
       const q = (url.searchParams.get('search') || url.searchParams.get('q') || '').toLowerCase().trim();
       try {
-        const culinaryFilePath = path.join(__dirname, 'culinary.json');
         let spotsList = [];
-        if (fs.existsSync(culinaryFilePath)) {
-          spotsList = JSON.parse(fs.readFileSync(culinaryFilePath, 'utf8'));
+        if (ensurePlaceDatabaseReady()) {
+          let whereClauses = [];
+          if (type && type !== 'all') {
+            whereClauses.push(`type = '${type.replace(/'/g, "''")}'`);
+          }
+          if (state && state !== 'all' && state !== 'Alle Bundesländer') {
+            whereClauses.push(`(LOWER(state) LIKE '%${state.toLowerCase().replace(/'/g, "''")}%' OR LOWER(region) LIKE '%${state.toLowerCase().replace(/'/g, "''")}%')`);
+          }
+          if (q) {
+            const escapedQ = q.replace(/'/g, "''");
+            whereClauses.push(`(LOWER(name) LIKE '%${escapedQ}%' OR LOWER(region) LIKE '%${escapedQ}%' OR LOWER(address) LIKE '%${escapedQ}%' OR LOWER(description) LIKE '%${escapedQ}%' OR LOWER(products) LIKE '%${escapedQ}%')`);
+          }
+          const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
+          const rows = runSqliteJsonQuery(`SELECT * FROM culinary_spots ${whereSql} ORDER BY has_campsite DESC, name ASC LIMIT 300;`);
+          if (rows && rows.length > 0) {
+            spotsList = rows.map(r => ({
+              ...r,
+              products: typeof r.products === 'string' ? JSON.parse(r.products || '[]') : (r.products || []),
+              hasCampsite: Boolean(r.has_campsite)
+            }));
+          }
         }
-        if (type && type !== 'all') {
-          spotsList = spotsList.filter(s => s.type === type);
+
+        if (spotsList.length === 0) {
+          const culinaryFilePath = path.join(__dirname, 'culinary.json');
+          if (fs.existsSync(culinaryFilePath)) {
+            spotsList = JSON.parse(fs.readFileSync(culinaryFilePath, 'utf8'));
+            if (type && type !== 'all') spotsList = spotsList.filter(s => s.type === type);
+            if (state && state !== 'all' && state !== 'Alle Bundesländer') {
+              spotsList = spotsList.filter(s => (s.state || '').toLowerCase().includes(state.toLowerCase()) || (s.region || '').toLowerCase().includes(state.toLowerCase()));
+            }
+            if (q) {
+              spotsList = spotsList.filter(s =>
+                (s.name || '').toLowerCase().includes(q) ||
+                (s.region || '').toLowerCase().includes(q) ||
+                (s.address || '').toLowerCase().includes(q) ||
+                (s.description || '').toLowerCase().includes(q) ||
+                (s.products || []).some(p => (p || '').toLowerCase().includes(q))
+              );
+            }
+          }
         }
-        if (state && state !== 'all' && state !== 'Alle Bundesländer') {
-          spotsList = spotsList.filter(s => (s.state || '').toLowerCase().includes(state.toLowerCase()) || (s.region || '').toLowerCase().includes(state.toLowerCase()));
-        }
-        if (q) {
-          spotsList = spotsList.filter(s =>
-            (s.name || '').toLowerCase().includes(q) ||
-            (s.region || '').toLowerCase().includes(q) ||
-            (s.address || '').toLowerCase().includes(q) ||
-            (s.description || '').toLowerCase().includes(q) ||
-            (s.products || []).some(p => (p || '').toLowerCase().includes(q))
-          );
-        }
+
         sendJson(res, 200, {
           total: spotsList.length,
           spots: spotsList
@@ -2501,10 +2525,25 @@ const server = http.createServer(async (req, res) => {
       }
 
       try {
-        const culinaryFilePath = path.join(__dirname, 'culinary.json');
         let spotsList = [];
-        if (fs.existsSync(culinaryFilePath)) {
-          spotsList = JSON.parse(fs.readFileSync(culinaryFilePath, 'utf8'));
+        if (ensurePlaceDatabaseReady()) {
+          const dLat = (radiusKm / 111.0) * 1.1;
+          const dLon = (radiusKm / (111.0 * Math.cos(lat * Math.PI / 180.0))) * 1.1;
+          const rows = runSqliteJsonQuery(`SELECT * FROM culinary_spots WHERE latitude BETWEEN ${lat - dLat} AND ${lat + dLat} AND longitude BETWEEN ${lon - dLon} AND ${lon + dLon} LIMIT 100;`);
+          if (rows && rows.length > 0) {
+            spotsList = rows.map(r => ({
+              ...r,
+              products: typeof r.products === 'string' ? JSON.parse(r.products || '[]') : (r.products || []),
+              hasCampsite: Boolean(r.has_campsite)
+            }));
+          }
+        }
+
+        if (spotsList.length === 0) {
+          const culinaryFilePath = path.join(__dirname, 'culinary.json');
+          if (fs.existsSync(culinaryFilePath)) {
+            spotsList = JSON.parse(fs.readFileSync(culinaryFilePath, 'utf8'));
+          }
         }
 
         const withDist = spotsList.map(s => {

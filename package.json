@@ -12,6 +12,7 @@
     "build:place-db": "node scripts/build-place-database.mjs",
     "import:places": "node scripts/import-geofabrik-places.mjs",
     "import:trails-db": "node scripts/import-trails-to-sqlite.mjs",
+    "import:all-db": "node scripts/import-all-to-sqlite.mjs",
     "sync:trails": "cd entdecken-backend && npm run sync-trails",
     "sync:events": "cd entdecken-backend && npm run sync-events",
     "import:dzt": "cd entdecken-backend && npm run import-dzt-bulk",

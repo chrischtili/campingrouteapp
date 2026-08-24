@@ -822,7 +822,23 @@ app.get("/api/culinary", async (req, res) => {
   try {
     const { type, state, search, lat, lon, radius = 60, limit = 100 } = req.query;
 
-    let spots = [...CULINARY_SPOTS];
+    let spots: CulinarySpot[] = [];
+    try {
+      const db = await getDb();
+      const rows = await db.all(`SELECT * FROM culinary_spots ORDER BY has_campsite DESC, name ASC`);
+      if (rows && rows.length > 0) {
+        spots = rows.map((r: any) => ({
+          ...r,
+          subtypeLabel: r.subtype_label,
+          hasCampsite: Boolean(r.has_campsite),
+          products: typeof r.products === 'string' ? JSON.parse(r.products || '[]') : (r.products || [])
+        }));
+      }
+    } catch {}
+
+    if (spots.length === 0) {
+      spots = [...CULINARY_SPOTS];
+    }
 
     // 1. Filter by category
     if (type && type !== 'all') {

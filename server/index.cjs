@@ -2202,36 +2202,66 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // Hiking & Biking Trails endpoint
+    // Hiking & Biking Trails endpoint (SQLite with JSON fallback)
     if (req.method === 'GET' && (pathname === '/api/trails' || pathname === '/discover/api/trails')) {
       const type = (url.searchParams.get('type') || 'all').toLowerCase();
       const state = (url.searchParams.get('state') || '').trim();
       const region = (url.searchParams.get('region') || '').toLowerCase();
       const q = (url.searchParams.get('q') || '').toLowerCase().trim();
       try {
-        const trailsFilePath = path.join(__dirname, 'trails.json');
         let trailsList = [];
-        if (fs.existsSync(trailsFilePath)) {
-          trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+        if (ensurePlaceDatabaseReady()) {
+          let whereClauses = [];
+          if (type && type !== 'all') {
+            whereClauses.push(`(type = '${type.replace(/'/g, "''")}' OR type = 'both')`);
+          }
+          if (state && state !== 'all' && state !== 'Alle Bundesländer') {
+            whereClauses.push(`(state = '${state.replace(/'/g, "''")}' OR region LIKE '%${state.replace(/'/g, "''")}%')`);
+          }
+          if (region) {
+            whereClauses.push(`(LOWER(region) LIKE '%${region.replace(/'/g, "''")}%' OR LOWER(state) LIKE '%${region.replace(/'/g, "''")}%')`);
+          }
+          if (q) {
+            const escapedQ = q.replace(/'/g, "''");
+            whereClauses.push(`(LOWER(name) LIKE '%${escapedQ}%' OR LOWER(region) LIKE '%${escapedQ}%' OR LOWER(state) LIKE '%${escapedQ}%' OR LOWER(description) LIKE '%${escapedQ}%')`);
+          }
+          const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
+          const sql = `SELECT * FROM trails ${whereSql} ORDER BY campsites_along_count DESC, rating DESC LIMIT 500;`;
+          const rows = runSqliteJsonQuery(sql);
+          if (rows && rows.length > 0) {
+            trailsList = rows.map(r => ({
+              ...r,
+              highlights: typeof r.highlights === 'string' ? JSON.parse(r.highlights || '[]') : (r.highlights || []),
+              polyline: typeof r.polyline === 'string' ? JSON.parse(r.polyline || '[]') : r.polyline
+            }));
+          }
         }
-        if (type && type !== 'all') {
-          trailsList = trailsList.filter(t => t.type === type || t.type === 'both');
+
+        if (!trailsList || trailsList.length === 0) {
+          const trailsFilePath = path.join(__dirname, 'trails.json');
+          if (fs.existsSync(trailsFilePath)) {
+            trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+            if (type && type !== 'all') {
+              trailsList = trailsList.filter(t => t.type === type || t.type === 'both');
+            }
+            if (state && state !== 'all' && state !== 'Alle Bundesländer') {
+              trailsList = trailsList.filter(t => t.state === state || (t.region || '').includes(state));
+            }
+            if (region) {
+              trailsList = trailsList.filter(t => (t.region || '').toLowerCase().includes(region) || (t.state || '').toLowerCase().includes(region));
+            }
+            if (q) {
+              trailsList = trailsList.filter(t => 
+                (t.name || '').toLowerCase().includes(q) ||
+                (t.region || '').toLowerCase().includes(q) ||
+                (t.state || '').toLowerCase().includes(q) ||
+                (t.description || '').toLowerCase().includes(q)
+              );
+            }
+          }
         }
-        if (state && state !== 'all' && state !== 'Alle Bundesländer') {
-          trailsList = trailsList.filter(t => t.state === state || (t.region || '').includes(state));
-        }
-        if (region) {
-          trailsList = trailsList.filter(t => (t.region || '').toLowerCase().includes(region) || (t.state || '').toLowerCase().includes(region));
-        }
-        if (q) {
-          trailsList = trailsList.filter(t => 
-            (t.name || '').toLowerCase().includes(q) ||
-            (t.region || '').toLowerCase().includes(q) ||
-            (t.state || '').toLowerCase().includes(q) ||
-            (t.description || '').toLowerCase().includes(q)
-          );
-        }
-        sendJson(res, 200, trailsList);
+
+        sendJson(res, 200, trailsList || []);
         return;
       } catch (err) {
         sendJson(res, 200, []);
@@ -2239,17 +2269,31 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // Trail details endpoint with live OSM Foot/Bike routing & in-memory caching
+    // Trail details endpoint with live OSM Foot/Bike routing, SQLite persistence & in-memory caching
     if (req.method === 'GET' && (pathname === '/api/trails/details' || pathname === '/discover/api/trails/details')) {
       const id = (url.searchParams.get('id') || '').trim();
       const uri = (url.searchParams.get('uri') || '').trim();
       try {
-        const trailsFilePath = path.join(__dirname, 'trails.json');
-        let trailsList = [];
-        if (fs.existsSync(trailsFilePath)) {
-          trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+        let trail = null;
+        if (ensurePlaceDatabaseReady() && id) {
+          const rows = runSqliteJsonQuery(`SELECT * FROM trails WHERE id = '${id.replace(/'/g, "''")}' LIMIT 1;`);
+          if (rows && rows[0]) {
+            trail = {
+              ...rows[0],
+              highlights: typeof rows[0].highlights === 'string' ? JSON.parse(rows[0].highlights || '[]') : (rows[0].highlights || []),
+              polyline: typeof rows[0].polyline === 'string' ? JSON.parse(rows[0].polyline || '[]') : rows[0].polyline
+            };
+          }
         }
-        const trail = trailsList.find(t => (id && t.id === id) || (uri && t.uri === uri));
+
+        if (!trail) {
+          const trailsFilePath = path.join(__dirname, 'trails.json');
+          if (fs.existsSync(trailsFilePath)) {
+            const trailsList = JSON.parse(fs.readFileSync(trailsFilePath, 'utf8'));
+            trail = trailsList.find(t => (id && t.id === id) || (uri && t.uri === uri));
+          }
+        }
+
         if (trail) {
           let polyline = (trail.polyline && Array.isArray(trail.polyline) && trail.polyline.length > 1) ? trail.polyline : null;
 
@@ -2304,6 +2348,14 @@ const server = http.createServer(async (req, res) => {
                   polyline = osmRes;
                   if (!global.__trailTracksCache) global.__trailTracksCache = new Map();
                   global.__trailTracksCache.set(cacheKey, polyline);
+
+                  // Persist polyline into SQLite trails table if available
+                  if (ensurePlaceDatabaseReady() && trail.id) {
+                    try {
+                      const polylineJson = JSON.stringify(polyline).replace(/'/g, "''");
+                      execFileSync('sqlite3', [PLACE_DATABASE_PATH, `UPDATE trails SET polyline = '${polylineJson}' WHERE id = '${trail.id.replace(/'/g, "''")}';`]);
+                    } catch {}
+                  }
                 }
               } catch {}
             }
@@ -2321,6 +2373,7 @@ const server = http.createServer(async (req, res) => {
           });
           return;
         }
+
         sendJson(res, 404, { success: false, message: 'Trail not found' });
         return;
       } catch (err) {

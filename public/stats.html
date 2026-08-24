@@ -339,6 +339,13 @@
             color: var(--primary-dark);
         }
 
+        .feedback-badge.discover-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-weight: 700;
+        }
+
         .feedback-message {
             color: var(--text);
             white-space: pre-wrap;
@@ -590,13 +597,20 @@
             }
 
             feedbackListEl.innerHTML = items.map((item) => {
-                const ratingLabel = item.rating === 'helpful' ? 'Hilfreich' : 'Nicht hilfreich';
+                const ratingLabel = item.rating === 'helpful' ? 'Hilfreich / Positiv' : 'Verbesserung / Problem';
                 const ratingClass = item.rating === 'helpful' ? 'helpful' : 'not-helpful';
-                const modeLabel = item.mode === 'route' ? 'Route' : 'Prompt';
+                let modeLabel = 'Prompt';
+                let modeClass = 'meta';
+                if (item.mode === 'discover') {
+                    modeLabel = item.page || (item.hub ? `Entdecken: ${item.hub}` : 'Entdecken');
+                    modeClass = 'discover-badge';
+                } else if (item.mode === 'route') {
+                    modeLabel = 'Route';
+                }
                 const createdAt = item.createdAt
                     ? new Date(item.createdAt).toLocaleString('de-DE')
                     : '-';
-                const provider = item.provider || 'unbekannt';
+                const provider = item.provider || (item.mode === 'discover' ? 'Entdecken Beta' : 'unbekannt');
                 const message = item.message && item.message.trim()
                     ? item.message
                         .replace(/&/g, '&amp;')
@@ -609,7 +623,8 @@
                         <div class="feedback-item-header">
                             <div class="feedback-badges">
                                 <span class="feedback-badge ${ratingClass}">${ratingLabel}</span>
-                                <span class="feedback-badge meta">${modeLabel}</span>
+                                <span class="feedback-badge ${modeClass}">${modeLabel}</span>
+                                ${item.page && item.mode !== 'discover' ? `<span class="feedback-badge meta">${item.page}</span>` : ''}
                                 <span class="feedback-badge meta">${provider}</span>
                             </div>
                             <div style="color: var(--text-light); font-size: 0.85rem;">${createdAt}</div>

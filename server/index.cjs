@@ -633,20 +633,23 @@ function getCounter() {
 
 function saveFeedback(payload) {
   const store = readJson(FEEDBACK_PATH, { feedback: [] });
+  const mode = ['discover', 'route', 'prompt'].includes(payload?.mode) ? payload.mode : 'prompt';
   const entry = {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     rating: payload.rating === 'helpful' ? 'helpful' : 'not_helpful',
-    message: typeof payload.message === 'string' ? payload.message.slice(0, 800) : '',
-    mode: payload.mode === 'route' ? 'route' : 'prompt',
+    message: typeof payload.message === 'string' ? payload.message.slice(0, 1000) : '',
+    mode,
+    hub: typeof payload.hub === 'string' ? payload.hub.slice(0, 60) : '',
+    page: typeof payload.page === 'string' ? payload.page.slice(0, 100) : (mode === 'discover' ? 'Entdecken' : ''),
     language: typeof payload.language === 'string' ? payload.language.slice(0, 16) : 'unknown',
-    provider: typeof payload.provider === 'string' ? payload.provider.slice(0, 40) : 'unknown',
-    model: typeof payload.model === 'string' ? payload.model.slice(0, 80) : 'unknown',
+    provider: typeof payload.provider === 'string' ? payload.provider.slice(0, 40) : (mode === 'discover' ? 'Entdecken Beta' : 'unknown'),
+    model: typeof payload.model === 'string' ? payload.model.slice(0, 80) : '',
     routeType: typeof payload.routeType === 'string' ? payload.routeType.slice(0, 40) : '',
     createdAt: new Date().toISOString()
   };
   store.feedback = Array.isArray(store.feedback) ? store.feedback : [];
   store.feedback.unshift(entry);
-  store.feedback = store.feedback.slice(0, 1000);
+  store.feedback = store.feedback.slice(0, 2000);
   writeJson(FEEDBACK_PATH, store);
   return entry;
 }
@@ -658,6 +661,7 @@ function getFeedbackSummary() {
   const comments = items.filter((item) => item.message && item.message.trim()).length;
   const route = items.filter((item) => item.mode === 'route').length;
   const prompt = items.filter((item) => item.mode === 'prompt').length;
+  const discover = items.filter((item) => item.mode === 'discover').length;
   const history = items.reduce((acc, item) => {
     const key = item.createdAt ? toLocalDateKey(new Date(item.createdAt)) : todayKey();
     acc[key] = Number(acc[key] || 0) + 1;
@@ -673,10 +677,11 @@ function getFeedbackSummary() {
       comments,
       route,
       prompt,
+      discover,
       today,
       history
     },
-    latest: items.slice(0, 25),
+    latest: items.slice(0, 50),
     meta: {
       timestamp: new Date().toISOString()
     }

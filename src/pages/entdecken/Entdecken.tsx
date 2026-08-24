@@ -34,7 +34,8 @@ import {
   Maximize2,
   Calendar,
   Wine,
-  Download
+  Download,
+  MessageSquareHeart
 } from 'lucide-react';
 import de from './locales/de.json';
 import en from './locales/en.json';
@@ -52,6 +53,7 @@ import { Navbar } from "@/components/route-planner/Navbar";
 import { Footer } from "@/components/route-planner/Footer";
 import { AppBreadcrumbs, type BreadcrumbItem } from "@/components/AppBreadcrumbs";
 import { setDiscoverBreadcrumbs, useDiscoverBreadcrumbs } from "@/lib/discoverBreadcrumbs";
+import { DiscoverFeedbackModal } from "@/components/entdecken/DiscoverFeedbackModal";
 import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "@/data/trails";
 import { GERMAN_FLAGSHIP_EVENTS, type FlagshipEvent } from "@/data/flagshipEvents";
 import { CULINARY_SPOTS, getNearbyCulinarySpots, type CulinarySpot } from "@/data/culinarySpots";
@@ -521,6 +523,7 @@ function EntdeckenContent() {
 
   // Modals state
   const [showAddListModal, setShowAddListModal] = useState(false);
+  const [showDiscoverFeedbackModal, setShowDiscoverFeedbackModal] = useState(false);
   const [newListVal, setNewListVal] = useState({ name: '', description: '' });
   const [showSaveToListModal, setShowSaveToListModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -3727,10 +3730,34 @@ const getWebsiteUrl = (place: Place): string | null => {
               {!hasSearched && !selectedCountryView && currentHub === 'all' && (
               <div className="hero-banner">
                 {!hasSearched && (
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '1.25rem', letterSpacing: '0.05em', textTransform: 'uppercase', backdropFilter: 'blur(4px)' }}>
-                    <Sparkles size={12} />
-                    Early Beta — AI Search
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowDiscoverFeedbackModal(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      background: 'rgba(255, 255, 255, 0.22)',
+                      color: 'white',
+                      padding: '0.4rem 0.95rem',
+                      borderRadius: '9999px',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      marginBottom: '1.25rem',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
+                      backdropFilter: 'blur(4px)',
+                      border: '1px solid rgba(255,255,255,0.4)',
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.15)'
+                    }}
+                    className="hover:scale-105 hover:bg-white/30 transition-transform active:scale-95"
+                    title="Feedback & Feature-Wünsche zur Entdecken-Beta teilen"
+                  >
+                    <Sparkles size={12} className="text-yellow-300" />
+                    <span>Early Beta — Feedback & Ideen teilen</span>
+                    <MessageSquareHeart size={13} className="text-emerald-300 ml-1" />
+                  </button>
                 )}
                 <h1 className="hero-title">
                   {t.heroTitle}
@@ -6819,6 +6846,34 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         </div>
       )}
+
+      {/* Floating Beta Feedback Button across all Entdecken hub pages */}
+      <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 999 }}>
+        <button
+          type="button"
+          onClick={() => setShowDiscoverFeedbackModal(true)}
+          className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#166534] text-white shadow-xl hover:bg-[#14532d] hover:scale-105 active:scale-95 transition-all text-xs font-bold border border-emerald-400/30 cursor-pointer"
+          title="Feedback & Ideen zur Entdecken-Beta teilen"
+        >
+          <MessageSquareHeart className="w-4 h-4 text-emerald-300" />
+          <span className="hidden sm:inline">Beta Feedback</span>
+          <span className="sm:hidden">Feedback</span>
+        </button>
+      </div>
+
+      <DiscoverFeedbackModal
+        open={showDiscoverFeedbackModal}
+        onClose={() => setShowDiscoverFeedbackModal(false)}
+        currentHub={currentHub}
+        hubLabel={
+          currentHub === 'camping' ? 'Camping & Stellplätze' :
+          currentHub === 'genuss' ? 'Hofläden & Winzer' :
+          currentHub === 'touren' ? 'Wander- & Radwege' :
+          currentHub === 'events' ? 'Events & Weinfeste' :
+          currentHub === 'highlights' ? 'Sehenswürdigkeiten' :
+          currentHub === 'listen' ? 'Meine Listen' : 'Übersicht & KI-Suche'
+        }
+      />
     </main>
   );
 }

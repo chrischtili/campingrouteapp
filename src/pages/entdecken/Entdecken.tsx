@@ -3177,8 +3177,8 @@ const getWebsiteUrl = (place: Place): string | null => {
               </div>
 
               {/* Map Banner */}
-              <div style={{ position: 'relative', height: '320px', width: '100%', borderBottom: '1px solid var(--gray-200)', background: 'var(--gray-200)' }}>
-                <div ref={trailMapContainerRef} style={{ height: '100%', width: '100%' }}></div>
+              <div style={{ position: 'relative', height: '320px', width: '100%', borderBottom: '1px solid var(--gray-200)', background: 'var(--gray-200)', overflow: 'hidden', contain: 'paint' }}>
+                <div ref={trailMapContainerRef} style={{ height: '100%', width: '100%', position: 'relative', zIndex: 1 }}></div>
                 
                 {/* Floating location badge */}
                 <div style={{ position: 'absolute', bottom: '1.25rem', left: '1.25rem', zIndex: 1000, background: 'rgba(31, 41, 55, 0.95)', color: 'white', padding: '0.45rem 1rem', borderRadius: '18px', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: 600, boxShadow: 'var(--shadow-md)' }}>

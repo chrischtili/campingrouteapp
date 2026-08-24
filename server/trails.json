@@ -56,9 +56,60 @@
     "end_location": "Koblenz (Deutsches Eck)",
     "latitude": 49.756,
     "longitude": 6.641,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ],
     "campsites_along_count": 37,
     "rating": 5,
     "search_query": "Camping Mosel-Radweg (Klassiker Perl bis Koblenz Deutsches Eck)",
@@ -185,9 +236,44 @@
     "end_location": "Pirna",
     "latitude": 50.963,
     "longitude": 13.94,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ],
     "campsites_along_count": 17,
     "rating": 5,
     "search_query": "Camping Malerweg Elbsandsteingebirge (Gesamtroute & Sächsische Schweiz)",
@@ -346,9 +432,36 @@
     "end_location": "Schweigen-Rechtenbach (Deutsches Weintor)",
     "latitude": 49.605,
     "longitude": 8.183,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.605,
+        8.183
+      ],
+      [
+        49.495,
+        8.172
+      ],
+      [
+        49.352,
+        8.138
+      ],
+      [
+        49.2,
+        7.97
+      ],
+      [
+        49.055,
+        7.958
+      ]
+    ],
+    "start_coords": [
+      49.605,
+      8.183
+    ],
+    "end_coords": [
+      49.055,
+      7.958
+    ],
     "campsites_along_count": 26,
     "rating": 5,
     "search_query": "Camping Pfälzer Weinsteig (Vom Haardt-Rebenmeer durch den Pfälzerwald)",
@@ -411,9 +524,92 @@
     "end_location": "Bad Bodendorf",
     "latitude": 50.517,
     "longitude": 6.989,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        50.517,
+        6.989
+      ],
+      [
+        50.522,
+        7.005
+      ],
+      [
+        50.528,
+        7.022
+      ],
+      [
+        50.523,
+        7.031
+      ],
+      [
+        50.518,
+        7.038
+      ],
+      [
+        50.526,
+        7.042
+      ],
+      [
+        50.533,
+        7.045
+      ],
+      [
+        50.538,
+        7.058
+      ],
+      [
+        50.54,
+        7.07
+      ],
+      [
+        50.539,
+        7.078
+      ],
+      [
+        50.538,
+        7.085
+      ],
+      [
+        50.541,
+        7.092
+      ],
+      [
+        50.542,
+        7.098
+      ],
+      [
+        50.543,
+        7.115
+      ],
+      [
+        50.544,
+        7.135
+      ],
+      [
+        50.543,
+        7.155
+      ],
+      [
+        50.543,
+        7.172
+      ],
+      [
+        50.546,
+        7.195
+      ],
+      [
+        50.548,
+        7.218
+      ]
+    ],
+    "start_coords": [
+      50.517,
+      6.989
+    ],
+    "end_coords": [
+      50.548,
+      7.218
+    ],
     "campsites_along_count": 5,
     "rating": 5,
     "search_query": "Camping Rotweinwanderweg Ahrtal (Der berühmteste Weinwanderweg)",
@@ -605,9 +801,36 @@
     "end_location": "Bad Hönningen am Rhein",
     "latitude": 50.684,
     "longitude": 8.303,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        50.684,
+        8.303
+      ],
+      [
+        50.67,
+        8.12
+      ],
+      [
+        50.7,
+        7.85
+      ],
+      [
+        50.62,
+        7.6
+      ],
+      [
+        50.51,
+        7.31
+      ]
+    ],
+    "start_coords": [
+      50.684,
+      8.303
+    ],
+    "end_coords": [
+      50.51,
+      7.31
+    ],
     "campsites_along_count": 35,
     "rating": 5,
     "search_query": "Camping Westerwald-Steig (Top Trail of Germany)",
@@ -638,9 +861,56 @@
     "end_location": "Thale (Bodetal)",
     "latitude": 51.728,
     "longitude": 10.252,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        51.728,
+        10.252
+      ],
+      [
+        51.776,
+        10.355
+      ],
+      [
+        51.802,
+        10.428
+      ],
+      [
+        51.799,
+        10.615
+      ],
+      [
+        51.775,
+        10.685
+      ],
+      [
+        51.748,
+        10.785
+      ],
+      [
+        51.722,
+        10.895
+      ],
+      [
+        51.735,
+        10.995
+      ],
+      [
+        51.745,
+        11.028
+      ],
+      [
+        51.749,
+        11.052
+      ]
+    ],
+    "start_coords": [
+      51.728,
+      10.252
+    ],
+    "end_coords": [
+      51.749,
+      11.052
+    ],
     "campsites_along_count": 15,
     "rating": 5,
     "search_query": "Camping Harzer Hexen-Stieg (Top Trail & Brocken-Überquerung)",
@@ -831,9 +1101,36 @@
     "end_location": "Erlenbach bei Dahn",
     "latitude": 49.145,
     "longitude": 7.785,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.444,
+        7.768
+      ],
+      [
+        49.318,
+        7.795
+      ],
+      [
+        49.191,
+        7.859
+      ],
+      [
+        49.145,
+        7.785
+      ],
+      [
+        49.055,
+        7.958
+      ]
+    ],
+    "start_coords": [
+      49.444,
+      7.768
+    ],
+    "end_coords": [
+      49.055,
+      7.958
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -864,9 +1161,36 @@
     "end_location": "Dahn",
     "latitude": 49.191,
     "longitude": 7.859,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.444,
+        7.768
+      ],
+      [
+        49.318,
+        7.795
+      ],
+      [
+        49.191,
+        7.859
+      ],
+      [
+        49.145,
+        7.785
+      ],
+      [
+        49.055,
+        7.958
+      ]
+    ],
+    "start_coords": [
+      49.444,
+      7.768
+    ],
+    "end_coords": [
+      49.055,
+      7.958
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -897,9 +1221,56 @@
     "end_location": "Rodalben",
     "latitude": 49.241,
     "longitude": 7.643,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.241,
+        7.643
+      ],
+      [
+        49.246,
+        7.649
+      ],
+      [
+        49.249,
+        7.658
+      ],
+      [
+        49.244,
+        7.665
+      ],
+      [
+        49.236,
+        7.668
+      ],
+      [
+        49.23,
+        7.659
+      ],
+      [
+        49.227,
+        7.645
+      ],
+      [
+        49.231,
+        7.636
+      ],
+      [
+        49.238,
+        7.632
+      ],
+      [
+        49.241,
+        7.643
+      ]
+    ],
+    "start_coords": [
+      49.241,
+      7.643
+    ],
+    "end_coords": [
+      49.241,
+      7.643
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -929,9 +1300,44 @@
     "end_location": "Erfweiler",
     "latitude": 49.15446,
     "longitude": 7.82432,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.158,
+        7.812
+      ],
+      [
+        49.162,
+        7.817
+      ],
+      [
+        49.166,
+        7.822
+      ],
+      [
+        49.169,
+        7.815
+      ],
+      [
+        49.164,
+        7.804
+      ],
+      [
+        49.159,
+        7.806
+      ],
+      [
+        49.158,
+        7.812
+      ]
+    ],
+    "start_coords": [
+      49.158,
+      7.812
+    ],
+    "end_coords": [
+      49.158,
+      7.812
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -961,9 +1367,52 @@
     "end_location": "Bruchweiler-Bärenbach",
     "latitude": 49.12351,
     "longitude": 7.80813,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.112,
+        7.792
+      ],
+      [
+        49.107,
+        7.795
+      ],
+      [
+        49.103,
+        7.789
+      ],
+      [
+        49.098,
+        7.795
+      ],
+      [
+        49.106,
+        7.808
+      ],
+      [
+        49.115,
+        7.814
+      ],
+      [
+        49.12,
+        7.805
+      ],
+      [
+        49.116,
+        7.796
+      ],
+      [
+        49.112,
+        7.792
+      ]
+    ],
+    "start_coords": [
+      49.112,
+      7.792
+    ],
+    "end_coords": [
+      49.112,
+      7.792
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -994,9 +1443,52 @@
     "end_location": "Bruchweiler-Bärenbach",
     "latitude": 49.1196,
     "longitude": 7.7969,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.115,
+        7.788
+      ],
+      [
+        49.118,
+        7.794
+      ],
+      [
+        49.115,
+        7.802
+      ],
+      [
+        49.11,
+        7.808
+      ],
+      [
+        49.104,
+        7.801
+      ],
+      [
+        49.102,
+        7.792
+      ],
+      [
+        49.107,
+        7.784
+      ],
+      [
+        49.112,
+        7.785
+      ],
+      [
+        49.115,
+        7.788
+      ]
+    ],
+    "start_coords": [
+      49.115,
+      7.788
+    ],
+    "end_coords": [
+      49.115,
+      7.788
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -1060,9 +1552,64 @@
     "end_location": "Dahn (Sportpark)",
     "latitude": 49.15047,
     "longitude": 7.77874,
-    "polyline": null,
-    "start_coords": null,
-    "end_coords": null,
+    "polyline": [
+      [
+        49.151,
+        7.778
+      ],
+      [
+        49.153,
+        7.782
+      ],
+      [
+        49.156,
+        7.785
+      ],
+      [
+        49.159,
+        7.781
+      ],
+      [
+        49.162,
+        7.776
+      ],
+      [
+        49.165,
+        7.773
+      ],
+      [
+        49.162,
+        7.768
+      ],
+      [
+        49.157,
+        7.764
+      ],
+      [
+        49.152,
+        7.767
+      ],
+      [
+        49.148,
+        7.772
+      ],
+      [
+        49.149,
+        7.776
+      ],
+      [
+        49.151,
+        7.778
+      ]
+    ],
+    "start_coords": [
+      49.151,
+      7.778
+    ],
+    "end_coords": [
+      49.151,
+      7.778
+    ],
     "campsites_along_count": 8,
     "rating": 4.9,
     "search_query": "Camping im Dahner Felsenland",
@@ -2761,14 +3308,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.376,
     "longitude": 8.187,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.951Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-298430c1-6490-450f-a625-da31647fca62",
@@ -3409,14 +3995,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.064,
     "longitude": 8.17,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.844Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-ee4a5808-073f-4578-9556-d233bfecf3fe",
@@ -27250,14 +27875,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.286,
     "longitude": 8.177,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.951Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-a180b18a-bc86-49b4-b44f-48448f19437f",
@@ -110437,14 +111101,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.895,
     "longitude": 8.697,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 30,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-b2a5c8ba-e8e5-4246-bf88-94037347e8cb",
@@ -110464,14 +111167,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.878,
     "longitude": 8.699,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 30,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.851Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-177ef01b-d279-4746-8beb-fd6e1374357d",
@@ -110491,14 +111233,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.607,
     "longitude": 7.784,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-f40a7f26-3d78-4b0a-9dbc-09c66625e789",
@@ -110518,14 +111299,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.494,
     "longitude": 8.289,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.925Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-e343769b-9d66-4219-a76e-057904eb83c6",
@@ -110545,14 +111365,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.659,
     "longitude": 8.259,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.925Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-e1022256-ba7b-42f3-8674-a5453df8f01d",
@@ -110572,14 +111431,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.878,
     "longitude": 8.699,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.846Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-57bf7420-0dea-44d1-bc72-c2a5b179e62f",
@@ -110599,14 +111497,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.797,
     "longitude": 8.494,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.813Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-112b9031-5857-4a44-b7f7-3d209422eb83",
@@ -110626,14 +111563,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.68,
     "longitude": 8.361,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-4cbf3b90-0185-4576-bcc4-671b16092c8c",
@@ -110653,14 +111629,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.629,
     "longitude": 8.207,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-886437bb-9b51-4e97-8621-781da88d9e2a",
@@ -110680,14 +111695,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.479,
     "longitude": 8.275,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-e169d09e-c2b3-4249-8933-abeddadb5822",
@@ -110707,14 +111761,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.375,
     "longitude": 8.187,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.877Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-c4ad17bb-e201-4718-8c76-040bb45f22d3",
@@ -110734,14 +111827,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.285,
     "longitude": 8.182,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-a42b646a-a9c9-46e3-8904-94672bc7d8f8",
@@ -110761,14 +111893,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48.145,
     "longitude": 8.173,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-a28538a3-76cd-4bc4-a3dd-2304fd356691",
@@ -110788,14 +111959,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48,
     "longitude": 8.197,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-214f74ee-c405-43b4-93f6-d5c461b7a77c",
@@ -110815,14 +112025,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 48,
     "longitude": 8.196,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.848Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-b090674f-421b-44b1-b9a3-11ee3fc10e28",
@@ -110842,14 +112091,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.872,
     "longitude": 8.098,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-5359c894-af76-4183-857c-e07cb08b7468",
@@ -110869,14 +112157,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.762,
     "longitude": 7.976,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-d5d8ce4f-9428-4f0a-a206-b4933ffc839c",
@@ -110896,14 +112223,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.682,
     "longitude": 7.882,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-8ec10e06-0d2d-4a3e-ab72-211fcaf75f26",
@@ -110923,14 +112289,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.714,
     "longitude": 7.661,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-b6854e64-02dd-4487-bd3d-c541eb33eb02",
@@ -110950,14 +112355,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.897,
     "longitude": 8.102,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-8e660929-7561-490e-864f-5033d5f39729",
@@ -110977,14 +112421,53 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.845,
     "longitude": 7.867,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.845Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-dc1f27fa-550a-455d-b245-a0c1b7950515",
@@ -111490,14 +112973,49 @@
     "end_location": "Baden-Württemberg",
     "latitude": 47.827,
     "longitude": 8.07,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Baden-Württemberg",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.926Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-16d3bc55-870c-4ab0-b400-c70a49445370",
@@ -120535,14 +122053,41 @@
     "end_location": "Bayern",
     "latitude": 48.891,
     "longitude": 11.185,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 7,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.207Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-c087bb97-038f-4182-a11c-1f2794472a04",
@@ -123640,14 +125185,49 @@
     "end_location": "Bayern",
     "latitude": 50.442,
     "longitude": 11.37,
-    "polyline": null,
+    "polyline": [
+      [
+        50.995,
+        10.23
+      ],
+      [
+        50.85,
+        10.55
+      ],
+      [
+        50.705,
+        10.72
+      ],
+      [
+        50.6,
+        10.95
+      ],
+      [
+        50.51,
+        11.18
+      ],
+      [
+        50.45,
+        11.45
+      ],
+      [
+        50.365,
+        11.645
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.678Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.995,
+      10.23
+    ],
+    "end_coords": [
+      50.365,
+      11.645
+    ]
   },
   {
     "id": "dzt-trail-c99138d3-d267-46e7-a5b6-eb0fbe7a3da4",
@@ -123775,14 +125355,41 @@
     "end_location": "Bayern",
     "latitude": 49.109,
     "longitude": 10.754,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 48,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.694Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-c412db32-632f-4799-be4a-0e00cce1c86c",
@@ -123802,14 +125409,41 @@
     "end_location": "Bayern",
     "latitude": 49.031,
     "longitude": 11.598,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 48,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.205Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-f221aaf5-ed7d-4a0d-a5ea-b2087c3f567e",
@@ -125152,14 +126786,41 @@
     "end_location": "Bayern",
     "latitude": 49.031,
     "longitude": 11.598,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 32,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.209Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-d420f243-953a-4f7e-82f9-10195c7b0ba0",
@@ -130552,14 +132213,41 @@
     "end_location": "Bayern",
     "latitude": 48.783,
     "longitude": 11.414,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 36,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.653Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-cb69a229-8011-417a-b3dc-15f996b6d8ee",
@@ -130579,14 +132267,41 @@
     "end_location": "Bayern",
     "latitude": 48.783,
     "longitude": 11.414,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 20,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.653Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-4e234092-ecc5-4fb3-9a5e-43e2cf449658",
@@ -130606,14 +132321,41 @@
     "end_location": "Bayern",
     "latitude": 48.783,
     "longitude": 11.414,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 24,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.653Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-f6a09470-e670-4c90-aaab-73531e49579a",
@@ -135898,14 +137640,41 @@
     "end_location": "Bayern",
     "latitude": 48.932,
     "longitude": 11.797,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.673Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-448c0545-7bf0-4026-a2cb-cb79934f7b74",
@@ -136006,14 +137775,41 @@
     "end_location": "Bayern",
     "latitude": 48.934,
     "longitude": 11.79,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.656Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-50ccbcbc-53e6-4e11-8ccf-1d755816de03",
@@ -139975,14 +141771,41 @@
     "end_location": "Bayern",
     "latitude": 48.854,
     "longitude": 10.487,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 27,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.205Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-00e361d7-c1fd-4190-9119-a5a584f4d5bf",
@@ -140002,14 +141825,41 @@
     "end_location": "Bayern",
     "latitude": 48.875,
     "longitude": 10.724,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.207Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-9263b64f-a611-4a8d-8dbb-a44568a4acba",
@@ -140029,14 +141879,41 @@
     "end_location": "Bayern",
     "latitude": 48.875,
     "longitude": 11.074,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.207Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-edf03873-7050-4d67-a9ea-ab142fa86431",
@@ -140056,14 +141933,41 @@
     "end_location": "Bayern",
     "latitude": 48.95,
     "longitude": 11.388,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 8,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.207Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-44eca6cb-b4e3-4097-b1ce-cfc2bb1d7b40",
@@ -140083,14 +141987,41 @@
     "end_location": "Bayern",
     "latitude": 48.9,
     "longitude": 11.609,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.207Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-8d6ac3c5-5cbb-46f0-9b30-d5751b4436c9",
@@ -141379,14 +143310,41 @@
     "end_location": "Bayern",
     "latitude": 48.918,
     "longitude": 11.872,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.211Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-86b87b12-feb2-4cf9-88f6-1a4ec2902be9",
@@ -141406,14 +143364,41 @@
     "end_location": "Bayern",
     "latitude": 49.309,
     "longitude": 12.839,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.610Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-6408dd7c-c7c1-4ff1-b84c-fed9dc2fc374",
@@ -141433,14 +143418,41 @@
     "end_location": "Bayern",
     "latitude": 49.203,
     "longitude": 13.11,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.614Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-05ea8a9f-5fe8-4131-8b99-6b6a5fa2245c",
@@ -141460,14 +143472,41 @@
     "end_location": "Bayern",
     "latitude": 49.013,
     "longitude": 13.229,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.624Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-3e1d49e7-075d-4a10-a6e7-8fba5049a8b4",
@@ -141487,14 +143526,41 @@
     "end_location": "Bayern",
     "latitude": 48.644,
     "longitude": 13.629,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.659Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-810cc375-273f-4a16-bffa-82fad2aca15a",
@@ -141514,14 +143580,41 @@
     "end_location": "Bayern",
     "latitude": 49.999,
     "longitude": 12.087,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-9f35fb1e-b117-44d7-adca-b654ea141e1d",
@@ -141541,14 +143634,41 @@
     "end_location": "Bayern",
     "latitude": 49.884,
     "longitude": 12.106,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-77dd4781-d840-465d-aa91-d35f131fd943",
@@ -141568,14 +143688,41 @@
     "end_location": "Bayern",
     "latitude": 49.859,
     "longitude": 12.225,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-4eeb4373-6767-4d6d-a5c2-38c573186c1e",
@@ -141595,14 +143742,41 @@
     "end_location": "Bayern",
     "latitude": 49.799,
     "longitude": 12.164,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-e5efcc53-8b21-4694-9d38-c71c3170f5a7",
@@ -141622,14 +143796,41 @@
     "end_location": "Bayern",
     "latitude": 49.67,
     "longitude": 12.232,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-8a55bd39-a4a9-45f2-82c8-8c404f28000c",
@@ -141649,14 +143850,41 @@
     "end_location": "Bayern",
     "latitude": 49.597,
     "longitude": 12.258,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-f1a0e209-45c5-4e4b-97dc-a2eeacdb9334",
@@ -141676,14 +143904,41 @@
     "end_location": "Bayern",
     "latitude": 49.533,
     "longitude": 12.333,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-4fcdc070-f4f7-452e-a8be-6b80b4b3b9a5",
@@ -141703,14 +143958,41 @@
     "end_location": "Bayern",
     "latitude": 49.465,
     "longitude": 12.407,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-b16b1b09-9ce0-4a89-a781-11e8cf046986",
@@ -141730,14 +144012,41 @@
     "end_location": "Bayern",
     "latitude": 49.35,
     "longitude": 12.502,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.692Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-ffb6f5f1-66ca-4539-81f9-85e23f6f24f4",
@@ -141757,14 +144066,41 @@
     "end_location": "Bayern",
     "latitude": 49.356,
     "longitude": 12.719,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.597Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-ce4b8075-2b82-4274-b8b4-031e014d3e46",
@@ -141784,14 +144120,41 @@
     "end_location": "Bayern",
     "latitude": 49.308,
     "longitude": 12.844,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.624Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-56363ecf-1988-48d4-a168-02550296b17a",
@@ -141811,14 +144174,41 @@
     "end_location": "Bayern",
     "latitude": 49.195,
     "longitude": 12.901,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.614Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-789ab193-7b00-4989-9b57-0d83ec1af618",
@@ -141838,14 +144228,41 @@
     "end_location": "Bayern",
     "latitude": 49.163,
     "longitude": 12.991,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.612Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-0e3ffa13-9961-4da0-b33b-179c6f90bc71",
@@ -141865,14 +144282,41 @@
     "end_location": "Bayern",
     "latitude": 49.113,
     "longitude": 13.139,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.622Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-9dbab37d-9813-4264-904a-a2e8a8a0dab5",
@@ -141892,14 +144336,41 @@
     "end_location": "Bayern",
     "latitude": 49.121,
     "longitude": 13.203,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.607Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-2804b59f-0984-462c-a0a2-5f220183714f",
@@ -141919,14 +144390,41 @@
     "end_location": "Bayern",
     "latitude": 49.085,
     "longitude": 13.281,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.619Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-649103d5-6e75-4e61-8e4d-23b0183e0f27",
@@ -141946,14 +144444,41 @@
     "end_location": "Bayern",
     "latitude": 48.975,
     "longitude": 13.387,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.613Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-ae34b2aa-ad19-4bc9-a84b-3195412e10fe",
@@ -141973,14 +144498,41 @@
     "end_location": "Bayern",
     "latitude": 48.938,
     "longitude": 13.507,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.605Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-357bb504-a795-4d29-bba8-1586045b1bdd",
@@ -142000,14 +144552,41 @@
     "end_location": "Bayern",
     "latitude": 48.887,
     "longitude": 13.584,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.617Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-9288b989-b48a-496c-9c60-b0492d8cdded",
@@ -142027,14 +144606,41 @@
     "end_location": "Bayern",
     "latitude": 48.866,
     "longitude": 13.683,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.609Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-c7d9e81d-5743-454e-960a-553d1a3f7fa1",
@@ -142054,14 +144660,41 @@
     "end_location": "Bayern",
     "latitude": 48.816,
     "longitude": 13.754,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.603Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-f6105b48-2752-4992-8823-b38dd82afb68",
@@ -142081,14 +144714,41 @@
     "end_location": "Bayern",
     "latitude": 48.709,
     "longitude": 13.793,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.598Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-8461d253-e060-4d18-bb92-30c681df8f55",
@@ -142108,14 +144768,41 @@
     "end_location": "Bayern",
     "latitude": 48.645,
     "longitude": 13.63,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.610Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-81abdf85-30fa-47f6-b69a-86ca208cbf7b",
@@ -142135,14 +144822,41 @@
     "end_location": "Bayern",
     "latitude": 49.388,
     "longitude": 12.445,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.634Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-6e854360-ec2a-409f-96c6-ad821f1aa473",
@@ -142162,14 +144876,41 @@
     "end_location": "Bayern",
     "latitude": 49.348,
     "longitude": 12.39,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.629Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-61163fb2-0a40-4d1a-8084-a6ca233588f8",
@@ -142189,14 +144930,41 @@
     "end_location": "Bayern",
     "latitude": 49.254,
     "longitude": 12.337,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.634Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-49475118-e1f1-47f3-aef8-7f64b8d0a1ee",
@@ -142216,14 +144984,41 @@
     "end_location": "Bayern",
     "latitude": 49.185,
     "longitude": 12.35,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.616Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-b9f80ff6-dc9f-4443-b3c3-e7d76e5d94e5",
@@ -142243,14 +145038,41 @@
     "end_location": "Bayern",
     "latitude": 49.096,
     "longitude": 12.473,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.604Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-f9f81e88-b040-4ec4-a1d7-ceadf498cee5",
@@ -142270,14 +145092,41 @@
     "end_location": "Bayern",
     "latitude": 49.04,
     "longitude": 12.538,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.624Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-9434df7d-0755-4bc7-9c5a-8175d5d44386",
@@ -142297,14 +145146,41 @@
     "end_location": "Bayern",
     "latitude": 49.039,
     "longitude": 12.627,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.609Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-10f5a6a9-9bfb-4cfe-aab7-1ffb52c172cf",
@@ -142324,14 +145200,41 @@
     "end_location": "Bayern",
     "latitude": 49.074,
     "longitude": 12.714,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.622Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-257b7308-e4eb-4c2a-b085-a8bbb69d2bf5",
@@ -142351,14 +145254,41 @@
     "end_location": "Bayern",
     "latitude": 49.006,
     "longitude": 12.833,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.619Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-14f5539f-4c26-4bb8-ad9a-7f80b1a417ea",
@@ -142378,14 +145308,41 @@
     "end_location": "Bayern",
     "latitude": 48.964,
     "longitude": 12.88,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.621Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-cfc71196-582d-43ad-842d-860d8bbf561a",
@@ -142405,14 +145362,41 @@
     "end_location": "Bayern",
     "latitude": 48.916,
     "longitude": 13.034,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.602Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-904e8bde-5671-4de4-8891-0f904dc8137d",
@@ -142432,14 +145416,41 @@
     "end_location": "Bayern",
     "latitude": 48.846,
     "longitude": 13.138,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.609Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-87235b98-bf9d-4cad-9e1f-df3f1162656c",
@@ -142459,14 +145470,41 @@
     "end_location": "Bayern",
     "latitude": 48.792,
     "longitude": 13.259,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.610Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-faa20bc4-334a-4f1e-9fad-82ea76ff6497",
@@ -142486,14 +145524,41 @@
     "end_location": "Bayern",
     "latitude": 48.734,
     "longitude": 13.438,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.598Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-9cf942f2-9dde-4cbf-a5d3-933d0a0b52a0",
@@ -142513,14 +145578,41 @@
     "end_location": "Bayern",
     "latitude": 48.656,
     "longitude": 13.44,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.607Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-7c4fc37e-4ffb-47d3-b571-1d95ae8d1e1b",
@@ -142540,14 +145632,41 @@
     "end_location": "Bayern",
     "latitude": 49.337,
     "longitude": 12.498,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.631Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-e5a1e2c9-ca7c-43e2-a682-48b371404417",
@@ -142567,14 +145686,41 @@
     "end_location": "Bayern",
     "latitude": 50.029,
     "longitude": 12.277,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 15,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.599Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-dfe796a1-40e2-44c8-afc2-d268f08a7a83",
@@ -142594,14 +145740,41 @@
     "end_location": "Bayern",
     "latitude": 49.328,
     "longitude": 12.788,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.600Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-0e62f556-9451-4da9-8746-d26321b837aa",
@@ -142621,14 +145794,41 @@
     "end_location": "Bayern",
     "latitude": 49.242,
     "longitude": 12.907,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.622Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-e3c84bc3-3590-4399-9abc-11b63d1523a4",
@@ -142648,14 +145848,41 @@
     "end_location": "Bayern",
     "latitude": 48.792,
     "longitude": 13.259,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.676Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-c18d58ab-34b6-44da-9f48-4acb307a34a3",
@@ -142675,14 +145902,41 @@
     "end_location": "Bayern",
     "latitude": 49.394,
     "longitude": 12.695,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.638Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-649e632e-5a93-4b2d-a2e3-4bede8a62ae7",
@@ -142702,14 +145956,41 @@
     "end_location": "Bayern",
     "latitude": 49.022,
     "longitude": 12.821,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.613Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-4af80b8a-82f5-4c08-86a1-1e8290ff4276",
@@ -142729,14 +146010,41 @@
     "end_location": "Bayern",
     "latitude": 49.397,
     "longitude": 11.939,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 8,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.631Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-31385b7b-d1d8-4033-a43c-20538107c6a8",
@@ -142756,14 +146064,41 @@
     "end_location": "Bayern",
     "latitude": 48.839,
     "longitude": 13.228,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.674Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-410d6efe-7cd6-4cd7-930f-68d598e89923",
@@ -142783,14 +146118,41 @@
     "end_location": "Bayern",
     "latitude": 49.28,
     "longitude": 12.845,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.616Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-78b2eedb-7a00-452a-8b0c-0e5ab719a05c",
@@ -142810,14 +146172,41 @@
     "end_location": "Bayern",
     "latitude": 49.258,
     "longitude": 12.97,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.612Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-4d2c5ca1-4125-45dd-8338-7b573939c8c5",
@@ -142837,14 +146226,41 @@
     "end_location": "Bayern",
     "latitude": 49.174,
     "longitude": 12.857,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.615Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-1e0f2067-8c14-49ff-b94a-133bacc7f6f9",
@@ -142864,14 +146280,41 @@
     "end_location": "Bayern",
     "latitude": 49.193,
     "longitude": 12.996,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.620Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-3082cf97-b8a1-40e9-af3b-d1dec0ff29c7",
@@ -142891,14 +146334,41 @@
     "end_location": "Bayern",
     "latitude": 49.107,
     "longitude": 13.011,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.617Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-57a16bc2-ffe8-4647-b320-84875e807f69",
@@ -142918,14 +146388,41 @@
     "end_location": "Bayern",
     "latitude": 49.07,
     "longitude": 13.104,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.614Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-31963c50-a320-47e3-855f-62d8b045a719",
@@ -142945,14 +146442,41 @@
     "end_location": "Bayern",
     "latitude": 49.27,
     "longitude": 12.305,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.630Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-36641528-6c94-43f2-ac15-f96d104fcfab",
@@ -142972,14 +146496,41 @@
     "end_location": "Bayern",
     "latitude": 49.27,
     "longitude": 12.305,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.629Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-707fb1e0-84ab-4631-a3bd-bbae388ccf0e",
@@ -142999,14 +146550,41 @@
     "end_location": "Bayern",
     "latitude": 49.204,
     "longitude": 12.282,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.625Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-a29cd575-6ae6-431a-97fa-a9ca423e959a",
@@ -143026,14 +146604,41 @@
     "end_location": "Bayern",
     "latitude": 49.204,
     "longitude": 12.282,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.625Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-5941de0f-4fcc-406e-846a-a4c0e8d07b04",
@@ -143053,14 +146658,41 @@
     "end_location": "Bayern",
     "latitude": 49.203,
     "longitude": 12.936,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.614Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-a3c5b870-6eed-4f42-a2ff-548cf006b8b6",
@@ -143080,14 +146712,41 @@
     "end_location": "Bayern",
     "latitude": 49.199,
     "longitude": 12.9,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.606Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-08da3916-4314-411d-a0f7-ee9ddac0c8a5",
@@ -148021,14 +151680,41 @@
     "end_location": "Bayern",
     "latitude": 48.91,
     "longitude": 11.868,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.209Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-36f8c8ea-2553-4db8-b979-05c5f7f173a3",
@@ -149128,14 +152814,41 @@
     "end_location": "Bayern",
     "latitude": 48.981,
     "longitude": 11.843,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.211Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-8480035c-e8fb-4d52-8640-46940951b28f",
@@ -161629,14 +165342,41 @@
     "end_location": "Bayern",
     "latitude": 48.962,
     "longitude": 11.684,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.211Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-4d561c2d-13ef-44dc-9baf-112231508a1f",
@@ -165949,14 +169689,41 @@
     "end_location": "Bayern",
     "latitude": 48.918,
     "longitude": 11.872,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.211Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-046fef08-d52f-46b7-9cb4-e779ac3831de",
@@ -165976,14 +169743,41 @@
     "end_location": "Bayern",
     "latitude": 48.918,
     "longitude": 11.872,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 4,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.209Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-f6c036e0-9dbc-4d4a-9221-f0982e5c59b8",
@@ -166489,14 +170283,41 @@
     "end_location": "Bayern",
     "latitude": 48.918,
     "longitude": 11.87,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 6,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.211Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-bee47af6-26db-465b-a31b-4c22338efdb8",
@@ -168784,14 +172605,49 @@
     "end_location": "Bayern",
     "latitude": 50.446,
     "longitude": 11.386,
-    "polyline": null,
+    "polyline": [
+      [
+        50.995,
+        10.23
+      ],
+      [
+        50.85,
+        10.55
+      ],
+      [
+        50.705,
+        10.72
+      ],
+      [
+        50.6,
+        10.95
+      ],
+      [
+        50.51,
+        11.18
+      ],
+      [
+        50.45,
+        11.45
+      ],
+      [
+        50.365,
+        11.645
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:42.760Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.995,
+      10.23
+    ],
+    "end_coords": [
+      50.365,
+      11.645
+    ]
   },
   {
     "id": "dzt-trail-2ed47e15-0b1d-4382-81f4-c93c2e76e372",
@@ -169054,14 +172910,41 @@
     "end_location": "Bayern",
     "latitude": 48.963,
     "longitude": 11.684,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.670Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-073abddb-fd70-4400-b3d4-5e817eaf8c3f",
@@ -177316,14 +181199,41 @@
     "end_location": "Bayern",
     "latitude": 49.356,
     "longitude": 10.624,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 14,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.186Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-9c7615b3-fafe-4bfd-acba-8df1ec0c59fa",
@@ -178828,14 +182738,41 @@
     "end_location": "Bayern",
     "latitude": 48.962,
     "longitude": 11.684,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.657Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-7767515a-5f57-46dc-af60-1dcec39cc836",
@@ -178855,14 +182792,41 @@
     "end_location": "Bayern",
     "latitude": 48.916,
     "longitude": 11.869,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.659Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-369fe8d4-9de0-4da7-b24a-8eb528f466a5",
@@ -187036,14 +191000,41 @@
     "end_location": "Bayern",
     "latitude": 48.918,
     "longitude": 11.872,
-    "polyline": null,
+    "polyline": [
+      [
+        49.185,
+        10.35
+      ],
+      [
+        49.03,
+        10.85
+      ],
+      [
+        48.98,
+        11.2
+      ],
+      [
+        48.91,
+        11.48
+      ],
+      [
+        48.92,
+        11.87
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:45:37.211Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.185,
+      10.35
+    ],
+    "end_coords": [
+      48.92,
+      11.87
+    ]
   },
   {
     "id": "dzt-trail-3f59a8b0-59f6-48de-997e-7bcc69e5faf1",
@@ -193921,14 +197912,53 @@
     "end_location": "Bayern",
     "latitude": 50.189,
     "longitude": 11.792,
-    "polyline": null,
+    "polyline": [
+      [
+        48.89,
+        8.7
+      ],
+      [
+        48.705,
+        8.45
+      ],
+      [
+        48.555,
+        8.22
+      ],
+      [
+        48.4,
+        8.25
+      ],
+      [
+        48.15,
+        8.12
+      ],
+      [
+        47.92,
+        8.005
+      ],
+      [
+        47.78,
+        7.95
+      ],
+      [
+        47.585,
+        7.6
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Bayern",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.684Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      48.89,
+      8.7
+    ],
+    "end_coords": [
+      47.585,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-3cab14ca-869d-47ac-a9be-e4bd41f1801c",
@@ -231748,14 +235778,41 @@
     "end_location": "Deutschland",
     "latitude": 49.894,
     "longitude": 12.73,
-    "polyline": null,
+    "polyline": [
+      [
+        49.95,
+        12.18
+      ],
+      [
+        49.45,
+        12.65
+      ],
+      [
+        49.12,
+        13.05
+      ],
+      [
+        48.9,
+        13.45
+      ],
+      [
+        48.58,
+        13.48
+      ]
+    ],
     "campsites_along_count": 31,
     "rating": 4.8,
     "search_query": "Camping in Deutschland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.604Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.95,
+      12.18
+    ],
+    "end_coords": [
+      48.58,
+      13.48
+    ]
   },
   {
     "id": "dzt-trail-addressbase_trail_46910",
@@ -250513,14 +254570,61 @@
     "end_location": "Hessen",
     "latitude": 50.037,
     "longitude": 8.234,
-    "polyline": null,
+    "polyline": [
+      [
+        50.005,
+        8.245
+      ],
+      [
+        50.015,
+        8.055
+      ],
+      [
+        50.075,
+        7.85
+      ],
+      [
+        50.155,
+        7.72
+      ],
+      [
+        50.25,
+        7.65
+      ],
+      [
+        50.355,
+        7.605
+      ],
+      [
+        50.45,
+        7.42
+      ],
+      [
+        50.56,
+        7.3
+      ],
+      [
+        50.685,
+        7.205
+      ],
+      [
+        50.735,
+        7.1
+      ]
+    ],
     "campsites_along_count": 11,
     "rating": 4.8,
     "search_query": "Camping in Hessen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.727Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.005,
+      8.245
+    ],
+    "end_coords": [
+      50.735,
+      7.1
+    ]
   },
   {
     "id": "dzt-trail-e_61eebc3f7e8c480c6a968a00-we2p",
@@ -334267,14 +338371,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.728,
     "longitude": 6.183,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 38,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.108Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100292405",
@@ -340423,14 +344566,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.529,
     "longitude": 6.783,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.112Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100283626",
@@ -340747,14 +344929,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.728,
     "longitude": 6.183,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100260238",
@@ -340774,14 +344995,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.647,
     "longitude": 6.185,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100260239",
@@ -340801,14 +345061,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.554,
     "longitude": 6.241,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100260240",
@@ -340828,14 +345127,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.582,
     "longitude": 6.38,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100260241",
@@ -340855,14 +345193,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.573,
     "longitude": 6.499,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100260242",
@@ -340882,14 +345259,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.502,
     "longitude": 6.564,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100260243",
@@ -340909,14 +345325,53 @@
     "end_location": "Nordrhein-Westfalen",
     "latitude": 50.438,
     "longitude": 6.65,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Nordrhein-Westfalen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.094Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-t_100287892",
@@ -442024,14 +446479,41 @@
     "end_location": "Rheinland-Pfalz",
     "latitude": 49.661,
     "longitude": 6.872,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.753Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-e_40263466-oatour",
@@ -447694,14 +452176,61 @@
     "end_location": "Saarland",
     "latitude": 49.466,
     "longitude": 6.38,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.748Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-75c1246a-97c9-456d-8af9-74ee573f98e2",
@@ -450232,14 +454761,41 @@
     "end_location": "Saarland",
     "latitude": 49.472,
     "longitude": 6.385,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.744Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-88ab3240-a3c0-4c03-8136-2afa40780b0c",
@@ -450259,14 +454815,41 @@
     "end_location": "Saarland",
     "latitude": 49.484,
     "longitude": 6.461,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.744Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-807c1587-4ff9-401e-a59c-0d0f43913779",
@@ -450286,14 +454869,41 @@
     "end_location": "Saarland",
     "latitude": 49.497,
     "longitude": 6.597,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.744Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-871ca111-0bb5-4b26-848b-cb477c9e75c5",
@@ -450313,14 +454923,41 @@
     "end_location": "Saarland",
     "latitude": 49.531,
     "longitude": 6.667,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.747Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-d1dd715d-7244-44ce-b42a-e4fbf77baba3",
@@ -450340,14 +454977,41 @@
     "end_location": "Saarland",
     "latitude": 49.52,
     "longitude": 6.74,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.747Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-cd4bfe93-327c-46be-bb68-90324a70ff02",
@@ -450367,14 +455031,41 @@
     "end_location": "Saarland",
     "latitude": 49.563,
     "longitude": 6.804,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.744Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-a0fae5cd-78d5-4b17-8763-3805cb8b5d2e",
@@ -450394,14 +455085,41 @@
     "end_location": "Saarland",
     "latitude": 49.613,
     "longitude": 6.976,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.752Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-74021630-b6f9-4d02-a25f-ee56ad712690",
@@ -450421,14 +455139,41 @@
     "end_location": "Saarland",
     "latitude": 49.472,
     "longitude": 6.37,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 20,
     "rating": 4.8,
     "search_query": "Camping in Saarland",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.749Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-80e112b5-0d6e-4166-a985-94e1656dccda",
@@ -455416,14 +460161,49 @@
     "end_location": "Sachsen",
     "latitude": 50.959,
     "longitude": 14.082,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.001Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100261696",
@@ -461113,14 +465893,49 @@
     "end_location": "Sachsen",
     "latitude": 50.954,
     "longitude": 14.032,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.978Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100281785",
@@ -464812,14 +469627,49 @@
     "end_location": "Sachsen",
     "latitude": 50.997,
     "longitude": 13.959,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 14,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.988Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100269391",
@@ -465460,14 +470310,49 @@
     "end_location": "Sachsen",
     "latitude": 50.999,
     "longitude": 13.921,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:30.001Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100269190",
@@ -469375,14 +474260,49 @@
     "end_location": "Sachsen",
     "latitude": 50.997,
     "longitude": 13.959,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 14,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.976Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262876",
@@ -469402,14 +474322,49 @@
     "end_location": "Sachsen",
     "latitude": 50.997,
     "longitude": 13.959,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262877",
@@ -469429,14 +474384,49 @@
     "end_location": "Sachsen",
     "latitude": 50.957,
     "longitude": 14.034,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262878",
@@ -469456,14 +474446,49 @@
     "end_location": "Sachsen",
     "latitude": 50.978,
     "longitude": 14.109,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262879",
@@ -469483,14 +474508,49 @@
     "end_location": "Sachsen",
     "latitude": 50.936,
     "longitude": 14.183,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262880",
@@ -469510,14 +474570,49 @@
     "end_location": "Sachsen",
     "latitude": 50.924,
     "longitude": 14.285,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262881",
@@ -469537,14 +474632,49 @@
     "end_location": "Sachsen",
     "latitude": 50.891,
     "longitude": 14.231,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262882",
@@ -469564,14 +474694,49 @@
     "end_location": "Sachsen",
     "latitude": 50.906,
     "longitude": 14.102,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100262883",
@@ -469591,14 +474756,49 @@
     "end_location": "Sachsen",
     "latitude": 50.947,
     "longitude": 14.071,
-    "polyline": null,
+    "polyline": [
+      [
+        50.963,
+        13.94
+      ],
+      [
+        50.975,
+        14.075
+      ],
+      [
+        50.955,
+        14.15
+      ],
+      [
+        50.93,
+        14.225
+      ],
+      [
+        50.895,
+        14.23
+      ],
+      [
+        50.92,
+        14.085
+      ],
+      [
+        50.963,
+        13.94
+      ]
+    ],
     "campsites_along_count": 2,
     "rating": 4.8,
     "search_query": "Camping in Sachsen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.985Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.963,
+      13.94
+    ],
+    "end_coords": [
+      50.963,
+      13.94
+    ]
   },
   {
     "id": "dzt-trail-t_100300859",
@@ -501991,14 +507191,49 @@
     "end_location": "Thüringen",
     "latitude": 50.401,
     "longitude": 11.699,
-    "polyline": null,
+    "polyline": [
+      [
+        50.995,
+        10.23
+      ],
+      [
+        50.85,
+        10.55
+      ],
+      [
+        50.705,
+        10.72
+      ],
+      [
+        50.6,
+        10.95
+      ],
+      [
+        50.51,
+        11.18
+      ],
+      [
+        50.45,
+        11.45
+      ],
+      [
+        50.365,
+        11.645
+      ]
+    ],
     "campsites_along_count": 5,
     "rating": 4.8,
     "search_query": "Camping in Thüringen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-22T09:44:29.694Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.995,
+      10.23
+    ],
+    "end_coords": [
+      50.365,
+      11.645
+    ]
   },
   {
     "id": "dzt-trail-t_100262662",
@@ -503447,14 +508682,61 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-bc8989da-0954-4db7-9a9a-7b026322e2c8",
@@ -503575,14 +508857,61 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-014652a6-7366-446b-a46b-fb69a2242a03",
@@ -503607,14 +508936,65 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-f2c709bf-a654-46f5-a2dd-a70ff4ab3b4f",
@@ -503639,14 +509019,61 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-e9d13179-c532-474e-8887-c23839458a7d",
@@ -503671,14 +509098,61 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-4a988a27-d3ef-4c68-94eb-825f643ec507",
@@ -503703,14 +509177,65 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-48c3cf96-4cc7-4031-9c57-4fa8d47adfd7",
@@ -503895,14 +509420,61 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-34eadcd3-e168-4c46-99ef-0953cffb5b64",
@@ -503927,14 +509499,65 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-ee376615-3b60-4114-9adf-e15a1a6eb805",
@@ -503959,14 +509582,41 @@
     "end_location": "Trier",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:17.779Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-983ec59e-7037-46a9-8c85-c4f113346239",
@@ -504247,14 +509897,53 @@
     "end_location": "Eifel",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:19.927Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-d4caa4a8-e1ba-4f32-885b-b114768cb0ec",
@@ -504279,14 +509968,53 @@
     "end_location": "Eifel",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:19.927Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-cecdeaca-2a74-4cae-8658-858c74fcbe04",
@@ -504471,14 +510199,53 @@
     "end_location": "Eifel",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        50.775,
+        6.085
+      ],
+      [
+        50.585,
+        6.25
+      ],
+      [
+        50.45,
+        6.45
+      ],
+      [
+        50.35,
+        6.65
+      ],
+      [
+        50.22,
+        6.75
+      ],
+      [
+        50.1,
+        6.65
+      ],
+      [
+        49.9,
+        6.55
+      ],
+      [
+        49.755,
+        6.64
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:19.927Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.775,
+      6.085
+    ],
+    "end_coords": [
+      49.755,
+      6.64
+    ]
   },
   {
     "id": "dzt-trail-9314ed02-2dba-4be8-b860-14c910499cb7",
@@ -504855,14 +510622,61 @@
     "end_location": "Eifel",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:19.927Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-ba0d54b6-629d-4890-965a-91248d88f311",
@@ -505431,14 +511245,41 @@
     "end_location": "Hunsrück",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:25.602Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-02106b42-5114-4b85-a2ba-e5790f39d16a",
@@ -507223,14 +513064,41 @@
     "end_location": "Naheland",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.54,
+        6.55
+      ],
+      [
+        49.61,
+        6.85
+      ],
+      [
+        49.69,
+        7.15
+      ],
+      [
+        49.79,
+        7.45
+      ],
+      [
+        50.15,
+        7.62
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:30.204Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.54,
+      6.55
+    ],
+    "end_coords": [
+      50.15,
+      7.62
+    ]
   },
   {
     "id": "dzt-trail-8b0ce264-abe0-47a3-8012-1aa37ab70350",
@@ -507319,14 +513187,61 @@
     "end_location": "Koblenz",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:35.912Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-037d214f-354b-466c-a951-fdce80b68dc2",
@@ -507351,14 +513266,65 @@
     "end_location": "Koblenz",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:35.912Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-49b28b11-ae28-4d14-8b24-8c47d508bcae",
@@ -507511,14 +513477,61 @@
     "end_location": "Bernkastel-Kues",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:39.788Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-ef270be3-f786-4382-bcd5-41de655eef82",
@@ -507543,14 +513556,61 @@
     "end_location": "Bernkastel-Kues",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:39.788Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-e970689e-24c8-4fe6-8653-6dbad9e3bdcc",
@@ -507575,14 +513635,65 @@
     "end_location": "Bernkastel-Kues",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:39.788Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-61bc5e8a-72fb-49d0-9364-170ac35d6240",
@@ -507607,14 +513718,65 @@
     "end_location": "Bernkastel-Kues",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:39.788Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-c315ba18-9432-41b5-b8a1-6a5e017c74b7",
@@ -507639,14 +513801,65 @@
     "end_location": "Bernkastel-Kues",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:39.788Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-9221a0dc-7a7d-4b13-bd04-22559c2956e1",
@@ -507671,14 +513884,61 @@
     "end_location": "Cochem",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:42.050Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-f55b0503-7052-4d77-a0aa-2e2c47d79b4b",
@@ -507703,14 +513963,65 @@
     "end_location": "Cochem",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:42.050Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-d4bd2b78-41dd-4cdc-848c-b47f92b10e8d",
@@ -507735,14 +514046,61 @@
     "end_location": "Cochem",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.475,
+        6.385
+      ],
+      [
+        49.61,
+        6.54
+      ],
+      [
+        49.75,
+        6.64
+      ],
+      [
+        49.82,
+        6.78
+      ],
+      [
+        49.9,
+        7.05
+      ],
+      [
+        49.95,
+        7.11
+      ],
+      [
+        50.03,
+        7.18
+      ],
+      [
+        50.145,
+        7.165
+      ],
+      [
+        50.22,
+        7.38
+      ],
+      [
+        50.36,
+        7.6
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:42.050Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.475,
+      6.385
+    ],
+    "end_coords": [
+      50.36,
+      7.6
+    ]
   },
   {
     "id": "dzt-trail-67fd8219-6aa8-4840-abae-3f4551208283",
@@ -507767,14 +514125,65 @@
     "end_location": "Cochem",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:42.050Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-d30f0d7c-2481-401f-a202-9a815ae8f2a2",
@@ -507799,14 +514208,65 @@
     "end_location": "Cochem",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        49.472,
+        6.388
+      ],
+      [
+        49.62,
+        6.55
+      ],
+      [
+        49.756,
+        6.641
+      ],
+      [
+        49.882,
+        6.845
+      ],
+      [
+        49.916,
+        7.075
+      ],
+      [
+        49.952,
+        7.118
+      ],
+      [
+        50.025,
+        7.185
+      ],
+      [
+        50.147,
+        7.168
+      ],
+      [
+        50.185,
+        7.362
+      ],
+      [
+        50.315,
+        7.465
+      ],
+      [
+        50.364,
+        7.606
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Rheinland-Pfalz",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:42.050Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      49.472,
+      6.388
+    ],
+    "end_coords": [
+      50.364,
+      7.606
+    ]
   },
   {
     "id": "dzt-trail-186a8495-5253-4951-8ed9-82317498e36b",
@@ -509847,14 +516307,49 @@
     "end_location": "Thüringen",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        50.995,
+        10.23
+      ],
+      [
+        50.85,
+        10.55
+      ],
+      [
+        50.705,
+        10.72
+      ],
+      [
+        50.6,
+        10.95
+      ],
+      [
+        50.51,
+        11.18
+      ],
+      [
+        50.45,
+        11.45
+      ],
+      [
+        50.365,
+        11.645
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Thüringen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:50.658Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.995,
+      10.23
+    ],
+    "end_coords": [
+      50.365,
+      11.645
+    ]
   },
   {
     "id": "dzt-trail-e_55036120-oatour",
@@ -510135,14 +516630,49 @@
     "end_location": "Thüringer Wald",
     "latitude": 50.1,
     "longitude": 7.4,
-    "polyline": null,
+    "polyline": [
+      [
+        50.995,
+        10.23
+      ],
+      [
+        50.85,
+        10.55
+      ],
+      [
+        50.705,
+        10.72
+      ],
+      [
+        50.6,
+        10.95
+      ],
+      [
+        50.51,
+        11.18
+      ],
+      [
+        50.45,
+        11.45
+      ],
+      [
+        50.365,
+        11.645
+      ]
+    ],
     "campsites_along_count": 3,
     "rating": 4.8,
     "search_query": "Camping in Thüringen",
     "source": "dzt_opendata",
     "last_updated": "2026-08-24T10:39:56.414Z",
-    "start_coords": null,
-    "end_coords": null
+    "start_coords": [
+      50.995,
+      10.23
+    ],
+    "end_coords": [
+      50.365,
+      11.645
+    ]
   },
   {
     "id": "dzt-trail-e_805552777-oatour",

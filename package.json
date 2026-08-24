@@ -15,6 +15,7 @@
     "import:all-db": "node scripts/import-all-to-sqlite.mjs",
     "sync:trails": "cd entdecken-backend && npm run sync-trails",
     "sync:events": "cd entdecken-backend && npm run sync-events",
+    "sync:opendata": "cd entdecken-backend && npm run sync:opendata",
     "import:dzt": "cd entdecken-backend && npm run import-dzt-bulk",
     "refresh:place-index": "node scripts/refresh-place-index.mjs",
     "lint": "eslint .",

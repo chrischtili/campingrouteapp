@@ -50,14 +50,14 @@ const PAGES = [
       "dist/discover/hiking/index.html"
     ],
     title: "Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute",
-    description: "Über 670 offizielle Fernwanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.",
+    description: "Über 16.000 offizielle Wanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.",
     keywords: "Wanderwege Camping, Radwege Campingplatz, Fernwanderwege Deutschland, DZT Touren, Radtour Wohnmobil, Wandern und Camping, GPX Wanderwege Camping",
     canonical: "https://campingroute.app/entdecken/touren",
     schema: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": "Wander- & Radwege mit Campingplätzen",
-      "description": "Über 670 offizielle Fernwanderwege, Radrouten und Rundtouren mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.",
+      "description": "Über 16.000 offizielle Wanderwege, Radrouten und Rundtouren mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.",
       "url": "https://campingroute.app/entdecken/touren"
     }
   },

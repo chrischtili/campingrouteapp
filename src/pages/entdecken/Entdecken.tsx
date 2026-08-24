@@ -1614,7 +1614,7 @@ function EntdeckenContent() {
       };
     } else if (activeTab === 'trails') {
       pageTitle = 'Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute';
-      metaDesc = 'Entdecke über 670 offizielle Fernwanderwege, Radrouten und Etappentouren mit Übernachtungsmöglichkeiten auf Camping- und Stellplätzen.';
+      metaDesc = 'Entdecke über 16.000 offizielle Wanderwege, Radrouten und Etappentouren mit Übernachtungsmöglichkeiten auf Camping- und Stellplätzen.';
       jsonLdData = {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',

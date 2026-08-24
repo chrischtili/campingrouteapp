@@ -42,7 +42,7 @@ places-*.sqlite
 server/*
 !server/index.cjs
 !server/culinary.json
-server/trails.json
+!server/trails.json
 COUNTER_SERVER_DOKUMENTATION.md
 public/version.json
 feedback.json

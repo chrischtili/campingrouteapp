@@ -106,7 +106,8 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   return (
     <header 
       id="main-nav"
-      className="fixed top-0 left-0 right-0 z-50 w-full border-b border-gray-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors"
+      className="fixed top-0 left-0 right-0 z-[1000] w-full border-b border-gray-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors"
+      style={{ zIndex: 1000 }}
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
@@ -157,7 +158,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                           <ChevronDown className="h-3.5 w-3.5 opacity-70" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-64 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900 z-50">
+                      <DropdownMenuContent align="start" className="w-64 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900 z-[99999]" style={{ zIndex: 99999 }}>
                         {discoverSubItems.map((sub) => (
                           <DropdownMenuItem
                             key={sub.path}

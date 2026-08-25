@@ -58,7 +58,21 @@
       "hint": "Je bestemming wordt direct meegenomen naar de prompt-assistent.",
       "popularPrefix": "Populair",
       "loading": "Plaatsen laden…",
-      "proof": "Veel gebruikers merken dat de uiteindelijke prompt veel betere routes oplevert dan een losse AI-vraag."
+      "proof": "Ontdek meer dan 20.000 campings, routes, boerderijwinkels en evenementen in onze nieuwe Ontdekken-sectie."
+    },
+    "cards": {
+      "discover": {
+        "badge": "Nieuw",
+        "title": "CampingRoute Ontdekken",
+        "text": "20.000+ campings, 19.000 routes met gps-tracks, boerderijwinkels, evenementen & AI-zoekfunctie.",
+        "cta": "Ontdekken verkennen"
+      },
+      "mcp": {
+        "badge": "MCP Server",
+        "title": "AI Model Context Protocol",
+        "text": "Verbind je AI-assistent (Claude, Cursor, ChatGPT) direct met onze camping- en routegegevens.",
+        "cta": "MCP-configuratie & documentatie"
+      }
     },
     "finders": {
       "badge": "Direct zoeken",

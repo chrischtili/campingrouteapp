@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getFinderNavLabels } from "@/lib/finderPageContent";
+import { McpServerModal } from "@/components/mcp/McpServerModal";
 
 export function Footer() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const finderLabels = getFinderNavLabels(i18n.language);
   const [releaseVersion, setReleaseVersion] = useState("0.6.1");
+  const [showMcpModal, setShowMcpModal] = useState(false);
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   
   useEffect(() => {
@@ -147,10 +149,7 @@ export function Footer() {
               <li>
                 <button
                   type="button"
-                  onClick={() => {
-                    navigate("/discover?openMCP=true");
-                    window.dispatchEvent(new CustomEvent("campingroute:open-mcp"));
-                  }}
+                  onClick={() => setShowMcpModal(true)}
                   className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   <Cpu className="w-3.5 h-3.5" />
@@ -202,6 +201,8 @@ export function Footer() {
           </button>
         </div>
       </div>
+
+      <McpServerModal open={showMcpModal} onClose={() => setShowMcpModal(false)} />
     </footer>
   );
 }

@@ -58,7 +58,21 @@
       "hint": "Your destination will be carried straight into the prompt assistant.",
       "popularPrefix": "Popular",
       "loading": "Loading places…",
-      "proof": "Many users report that the finished prompt produces much better routes than a generic AI request."
+      "proof": "Discover over 20,000 campsites, stopovers, trails, farm shops and events in our new Discover section."
+    },
+    "cards": {
+      "discover": {
+        "badge": "New",
+        "title": "CampingRoute Discover",
+        "text": "20,000+ campsites, 19,000 trails with GPS tracks, farm shops, events & AI search.",
+        "cta": "Explore Discover"
+      },
+      "mcp": {
+        "badge": "MCP Server",
+        "title": "AI Model Context Protocol",
+        "text": "Connect your AI assistant (Claude, Cursor, ChatGPT) directly with our campsites & route data.",
+        "cta": "MCP Setup & Docs"
+      }
     },
     "finders": {
       "badge": "Direct search",

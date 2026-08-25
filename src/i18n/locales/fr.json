@@ -58,7 +58,21 @@
       "hint": "Ta destination est reprise directement dans l’assistant de prompt.",
       "popularPrefix": "Populaire",
       "loading": "Chargement des lieux…",
-      "proof": "Beaucoup d’utilisateurs disent qu’un prompt finalisé produit de bien meilleurs itinéraires qu’une simple demande IA."
+      "proof": "Découvrez plus de 20 000 campings, itinéraires, producteurs locaux et événements dans notre nouvel espace Découvrir."
+    },
+    "cards": {
+      "discover": {
+        "badge": "Nouveau",
+        "title": "CampingRoute Découvrir",
+        "text": "20 000+ campings, 19 000 itinéraires GPS, producteurs locaux, événements & recherche IA.",
+        "cta": "Explorer Découvrir"
+      },
+      "mcp": {
+        "badge": "Serveur MCP",
+        "title": "Protocole Model Context IA",
+        "text": "Connectez votre assistant IA (Claude, Cursor, ChatGPT) directement à nos données de camping et d'itinéraires.",
+        "cta": "Guide et configuration MCP"
+      }
     },
     "finders": {
       "badge": "Recherche directe",

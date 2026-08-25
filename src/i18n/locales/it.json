@@ -58,7 +58,21 @@
       "hint": "La destinazione viene trasferita direttamente nell’assistente prompt.",
       "popularPrefix": "Popolare",
       "loading": "Caricamento dei luoghi…",
-      "proof": "Molti utenti raccontano che il prompt finale produce itinerari molto migliori rispetto a una richiesta IA generica."
+      "proof": "Scopri oltre 20.000 campeggi, itinerari, botteghe agricole ed eventi nella nostra nuova sezione Scopri."
+    },
+    "cards": {
+      "discover": {
+        "badge": "Nuovo",
+        "title": "CampingRoute Scopri",
+        "text": "20.000+ campeggi, 19.000 percorsi GPS, botteghe agricole, eventi & ricerca IA.",
+        "cta": "Esplora Scopri"
+      },
+      "mcp": {
+        "badge": "Server MCP",
+        "title": "Protocollo Model Context IA",
+        "text": "Connetti il tuo assistente IA (Claude, Cursor, ChatGPT) direttamente ai nostri dati su campeggi e itinerari.",
+        "cta": "Configurazione e guida MCP"
+      }
     },
     "finders": {
       "badge": "Ricerca diretta",

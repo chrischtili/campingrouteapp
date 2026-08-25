@@ -58,7 +58,21 @@
       "hint": "Dein Ziel wird direkt in den Prompt-Assistenten übernommen.",
       "popularPrefix": "Beliebt",
       "loading": "Orte werden geladen …",
-      "proof": "Viele Nutzer berichten: Mit dem fertigen Prompt entstehen deutlich bessere Routen als mit einer freien KI-Anfrage."
+      "proof": "Entdecke über 20.000 Camping- und Stellplätze, Touren, Hofläden und Events in unserem neuen Entdecken-Bereich."
+    },
+    "cards": {
+      "discover": {
+        "badge": "Neu",
+        "title": "CampingRoute Entdecken",
+        "text": "20.000+ Campingplätze, 19.000 Touren mit GPS-Tracks, Hofläden, Events & KI-Suche.",
+        "cta": "Jetzt Entdecken erkunden"
+      },
+      "mcp": {
+        "badge": "MCP Server",
+        "title": "KI Model Context Protocol",
+        "text": "Verbinde deinen KI-Assistenten (Claude, Cursor, ChatGPT) direkt mit unseren Camping- & Routendaten.",
+        "cta": "MCP-Setup & Anleitung"
+      }
     },
     "finders": {
       "badge": "Direktsuche",

@@ -1311,15 +1311,11 @@ function EntdeckenContent() {
     } else if (selectedCountryView && !hasSearched) {
       trail.push({ label: parentLabel(selectedCountryView) });
     } else if (hasSearched) {
-      if (selectedCountryView) {
-        trail.push({
-          label: parentLabel(selectedCountryView),
-          onClick: () => openCountryView(selectedCountryView, countryTab),
-        });
+      if (searchQuery) {
+        trail.push({ label: searchQuery });
       } else {
         trail.push({ label: t.searchResults || 'Suchergebnisse' });
       }
-      if (searchQuery) trail.push({ label: searchQuery });
     }
     setDiscoverBreadcrumbs(trail);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2560,9 +2556,6 @@ ${trkpts}
       setRouteInfo(data.route || null);
       setRoutePolyline(data.routePolyline || null);
       setTotalItems(data.total || 0);
-      if (searchPlaces.length > 0 && !selectedCountryView) {
-        setSelectedCountryView(searchPlaces[0].country);
-      }
       setTimeout(scrollToTop, 50);
     } catch (e) {
       console.error('Error executing AI search:', e);

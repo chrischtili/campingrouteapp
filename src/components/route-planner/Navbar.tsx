@@ -346,7 +346,6 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <Coffee className="h-4.5 w-4.5 text-emerald-700 dark:text-emerald-400" />
             <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
           </a>
-          </div>
         </div>
       )}
 

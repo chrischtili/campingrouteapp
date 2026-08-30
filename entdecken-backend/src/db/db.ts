@@ -87,11 +87,13 @@ export async function getDb(): Promise<Database> {
 
     CREATE TABLE IF NOT EXISTS lists (
       id TEXT PRIMARY KEY,
+      device_id TEXT,
       name TEXT NOT NULL,
       description TEXT,
       is_private INTEGER DEFAULT 1,
       created_at TEXT NOT NULL
     );
+    CREATE INDEX IF NOT EXISTS idx_lists_device_id ON lists(device_id);
 
     CREATE TABLE IF NOT EXISTS list_items (
       list_id TEXT NOT NULL,
@@ -187,6 +189,19 @@ export async function getDb(): Promise<Database> {
         console.warn(`[db] Could not add column ${col.name}: ${e.message}`);
       }
     }
+  }
+
+  // Idempotent migration for lists table (device_id)
+  try {
+    const listCols = await dbConnection.all("PRAGMA table_info(lists)");
+    const listColNames = new Set(listCols.map((c: any) => c.name));
+    if (!listColNames.has('device_id')) {
+      await dbConnection.run("ALTER TABLE lists ADD COLUMN device_id TEXT");
+      await dbConnection.run("CREATE INDEX IF NOT EXISTS idx_lists_device_id ON lists(device_id)");
+      console.log("[db] Added column 'device_id' to lists table.");
+    }
+  } catch (e: any) {
+    console.warn(`[db] Could not migrate lists table: ${e.message}`);
   }
 
   // Performance indexes for the queries used by the app and the AI

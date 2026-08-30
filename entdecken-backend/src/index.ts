@@ -2145,11 +2145,34 @@ app.post("/api/places/:id/reviews", async (req, res) => {
   }
 });
 
-// Get all travel lists
+// Helper to extract device ID
+function getDeviceId(req: any): string | null {
+  const headerId = req.headers['x-device-id'] || req.headers['x-session-id'];
+  const queryId = req.query?.device_id || req.query?.session_id;
+  const bodyId = req.body?.device_id || req.body?.session_id;
+  const raw = headerId || queryId || bodyId;
+  return typeof raw === 'string' && raw.trim().length > 0 ? raw.trim() : null;
+}
+
+// Get all travel lists for the current device/user
 app.get("/api/lists", async (req, res) => {
   try {
     const db = await getDb();
-    const lists = await db.all("SELECT * FROM lists ORDER BY created_at DESC");
+    const deviceId = getDeviceId(req);
+
+    let query = "SELECT * FROM lists";
+    const params: any[] = [];
+
+    if (deviceId) {
+      query += " WHERE device_id = ?";
+      params.push(deviceId);
+    } else {
+      // If no device ID is provided (e.g. legacy), only return unassigned/public demo lists
+      query += " WHERE device_id IS NULL OR device_id = ''";
+    }
+
+    query += " ORDER BY created_at DESC";
+    const lists = await db.all(query, params);
     
     const listsWithCounts = await Promise.all(
       lists.map(async (list) => {
@@ -2166,11 +2189,13 @@ app.get("/api/lists", async (req, res) => {
   }
 });
 
-// Create a new list
+// Create a new list for the current device/user
 app.post("/api/lists", async (req, res) => {
   try {
     const db = await getDb();
     const { name, description } = req.body;
+    const deviceId = getDeviceId(req);
+
     if (!name) {
       return res.status(400).json({ error: "List name is required." });
     }
@@ -2179,12 +2204,32 @@ app.post("/api/lists", async (req, res) => {
     const createdAt = new Date().toISOString();
 
     await db.run(
-      "INSERT INTO lists (id, name, description, is_private, created_at) VALUES (?, ?, ?, 1, ?)",
-      [listId, name, description || "", createdAt]
+      "INSERT INTO lists (id, device_id, name, description, is_private, created_at) VALUES (?, ?, ?, ?, 1, ?)",
+      [listId, deviceId, name, description || "", createdAt]
     );
 
     const newList = await db.get("SELECT * FROM lists WHERE id = ?", [listId]);
     res.status(201).json(newList);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete an entire list
+app.delete("/api/lists/:id", async (req, res) => {
+  try {
+    const db = await getDb();
+    const listId = req.params.id;
+    const deviceId = getDeviceId(req);
+
+    if (deviceId) {
+      await db.run("DELETE FROM lists WHERE id = ? AND device_id = ?", [listId, deviceId]);
+    } else {
+      await db.run("DELETE FROM lists WHERE id = ?", [listId]);
+    }
+    await db.run("DELETE FROM list_items WHERE list_id = ?", [listId]);
+
+    res.json({ success: true });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

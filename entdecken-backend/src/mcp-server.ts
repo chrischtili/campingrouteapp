@@ -250,7 +250,16 @@ export async function executeMcpTool(name: string, args: any): Promise<any> {
       }
 
       case "get_lists": {
-        const lists = await db.all("SELECT * FROM lists ORDER BY created_at DESC");
+        const { device_id } = (args || {}) as any;
+        let query = "SELECT * FROM lists";
+        const params: any[] = [];
+        if (device_id) {
+          query += " WHERE device_id = ?";
+          params.push(device_id);
+        }
+        query += " ORDER BY created_at DESC";
+        const lists = await db.all(query, params);
+
         // Pull items count for each list
         const listsWithCounts = await Promise.all(
           lists.map(async (list) => {
@@ -272,13 +281,13 @@ export async function executeMcpTool(name: string, args: any): Promise<any> {
       }
 
       case "create_list": {
-        const { name, description } = (args || {}) as any;
+        const { name, description, device_id } = (args || {}) as any;
         const listId = crypto.randomUUID();
         const createdAt = new Date().toISOString();
         
         await db.run(
-          "INSERT INTO lists (id, name, description, is_private, created_at) VALUES (?, ?, ?, 1, ?)",
-          [listId, name, description || "", createdAt]
+          "INSERT INTO lists (id, device_id, name, description, is_private, created_at) VALUES (?, ?, ?, ?, 1, ?)",
+          [listId, device_id || null, name, description || "", createdAt]
         );
 
         return {

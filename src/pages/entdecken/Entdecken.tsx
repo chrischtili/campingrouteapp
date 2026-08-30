@@ -2603,11 +2603,31 @@ ${trkpts}
     }
   };
 
+  // Anonymous client device ID (100% GDPR compliant, stored in localStorage)
+  const getOrCreateDeviceId = (): string => {
+    try {
+      const KEY = 'campingroute_device_id';
+      let id = localStorage.getItem(KEY);
+      if (!id || id.length < 8) {
+        id = 'cr_' + (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2) + Date.now().toString(36));
+        localStorage.setItem(KEY, id);
+      }
+      return id;
+    } catch {
+      return 'cr_anonymous_session';
+    }
+  };
+
   const fetchLists = async () => {
     try {
-      const response = await fetch('/discover/api/lists');
+      const deviceId = getOrCreateDeviceId();
+      const response = await fetch('/discover/api/lists', {
+        headers: {
+          'x-device-id': deviceId
+        }
+      });
       const data = await response.json();
-      setLists(data);
+      setLists(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error('Error fetching lists:', e);
     }
@@ -2615,9 +2635,14 @@ ${trkpts}
 
   const fetchListItems = async (listId: string) => {
     try {
-      const response = await fetch(`/discover/api/lists/${listId}/items`);
+      const deviceId = getOrCreateDeviceId();
+      const response = await fetch(`/discover/api/lists/${listId}/items`, {
+        headers: {
+          'x-device-id': deviceId
+        }
+      });
       const data = await response.json();
-      setListItems(data);
+      setListItems(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error('Error fetching list items:', e);
     }
@@ -2628,10 +2653,17 @@ ${trkpts}
     if (!newListVal.name) return;
 
     try {
+      const deviceId = getOrCreateDeviceId();
       const response = await fetch('/discover/api/lists', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newListVal),
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-device-id': deviceId
+        },
+        body: JSON.stringify({
+          ...newListVal,
+          device_id: deviceId
+        }),
       });
 
       if (response.ok) {
@@ -2644,14 +2676,59 @@ ${trkpts}
     }
   };
 
+  const handleDeleteList = async (listId: string) => {
+    if (!window.confirm(t.confirmDeleteList || 'Möchtest du diese Reiseliste wirklich löschen?')) return;
+    try {
+      const deviceId = getOrCreateDeviceId();
+      const response = await fetch(`/discover/api/lists/${listId}`, {
+        method: 'DELETE',
+        headers: {
+          'x-device-id': deviceId
+        }
+      });
+      if (response.ok) {
+        setSelectedList(null);
+        fetchLists();
+      }
+    } catch (e) {
+      console.error('Error deleting list:', e);
+    }
+  };
+
+  const handleRemoveFromList = async (listId: string, placeId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    try {
+      const deviceId = getOrCreateDeviceId();
+      const response = await fetch(`/discover/api/lists/${listId}/items/${placeId}`, {
+        method: 'DELETE',
+        headers: {
+          'x-device-id': deviceId
+        }
+      });
+      if (response.ok) {
+        fetchListItems(listId);
+        fetchLists();
+      }
+    } catch (e) {
+      console.error('Error removing item from list:', e);
+    }
+  };
+
   const handleSaveToList = async (listId: string) => {
     if (!selectedPlace) return;
 
     try {
+      const deviceId = getOrCreateDeviceId();
       const response = await fetch(`/discover/api/lists/${listId}/items`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ place_id: selectedPlace.id }),
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-device-id': deviceId
+        },
+        body: JSON.stringify({ 
+          place_id: selectedPlace.id,
+          device_id: deviceId
+        }),
       });
 
       if (response.ok) {
@@ -6020,23 +6097,45 @@ const getWebsiteUrl = (place: Place): string | null => {
               </>
             ) : (
               <div>
-                <button 
-                  onClick={() => setSelectedList(null)}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    color: 'var(--primary-700)', 
-                    fontWeight: 700, 
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.25rem',
-                    marginBottom: '1rem',
-                    fontSize: '0.95rem'
-                  }}
-                >
-                  {t.backToLists}
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <button 
+                    onClick={() => setSelectedList(null)}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      color: 'var(--primary-700)', 
+                      fontWeight: 700, 
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      fontSize: '0.95rem'
+                    }}
+                  >
+                    {t.backToLists}
+                  </button>
+
+                  <button
+                    onClick={() => handleDeleteList(selectedList.id)}
+                    style={{
+                      background: 'none',
+                      border: '1px solid #fee2e2',
+                      color: '#dc2626',
+                      borderRadius: '8px',
+                      padding: '0.35rem 0.75rem',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem'
+                    }}
+                    className="hover:bg-red-50"
+                  >
+                    <Trash2 size={14} />
+                    <span>{t.deleteList || 'Liste löschen'}</span>
+                  </button>
+                </div>
                 <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.25rem' }}>{selectedList.name}</h2>
                 <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{selectedList.description}</p>
 
@@ -6049,10 +6148,20 @@ const getWebsiteUrl = (place: Place): string | null => {
                         key={item.id}
                         className="place-grid-card"
                         onClick={() => setSelectedPlace(item)}
-                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', overflow: 'hidden', cursor: 'pointer' }}
+                        style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 'var(--radius-md)', overflow: 'hidden', cursor: 'pointer', position: 'relative' }}
                       >
                         <div style={{ padding: '1.25rem' }}>
-                          <span className={`place-card-type ${item.type}`}>{getTypeLabel(item.type)}</span>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span className={`place-card-type ${item.type}`}>{getTypeLabel(item.type)}</span>
+                            <button
+                              onClick={(e) => handleRemoveFromList(selectedList.id, item.id, e)}
+                              title="Aus Liste entfernen"
+                              style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', padding: '2px' }}
+                              className="hover:text-red-600"
+                            >
+                              <X size={15} />
+                            </button>
+                          </div>
                           <h3 className="place-card-title" style={{ marginTop: '0.5rem', color: 'var(--gray-900)' }}>{item.name}</h3>
                           <p className="place-card-country" style={{ color: 'var(--gray-500)' }}>{item.address}</p>
                         </div>

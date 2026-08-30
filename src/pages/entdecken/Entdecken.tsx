@@ -6322,7 +6322,10 @@ const getWebsiteUrl = (place: Place): string | null => {
               {lists.length === 0 ? (
                 <div>
                   <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', marginBottom: '1rem' }}>{t.noRoadtrips}</p>
-                  <button className="action-button" onClick={() => { setShowSaveToListModal(false); setShowAddListModal(true); }}>{t.createRoadtripListBtn}</button>
+                  <button className="action-button" onClick={() => { setShowSaveToListModal(false); setShowAddListModal(true); }}>
+                    <Plus size={16} style={{ marginRight: '0.4rem' }} />
+                    {t.createRoadtripListBtn}
+                  </button>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -6351,6 +6354,32 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <ChevronRight size={16} />
                     </button>
                   ))}
+
+                  <div style={{ borderTop: '1px solid var(--gray-100)', paddingTop: '0.75rem', marginTop: '0.25rem' }}>
+                    <button
+                      type="button"
+                      onClick={() => { setShowSaveToListModal(false); setShowAddListModal(true); }}
+                      style={{
+                        width: '100%',
+                        background: 'none',
+                        border: '1px dashed var(--primary-500)',
+                        color: 'var(--primary-700)',
+                        borderRadius: '10px',
+                        padding: '0.65rem 1rem',
+                        fontSize: '0.85rem',
+                        fontWeight: 700,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.4rem',
+                        cursor: 'pointer'
+                      }}
+                      className="hover:bg-primary-50"
+                    >
+                      <Plus size={16} />
+                      <span>{t.createRoadtrip || '+ Neuen Roadtrip erstellen'}</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

@@ -2176,19 +2176,15 @@ app.get("/api/lists", async (req, res) => {
     const db = await getDb();
     const deviceId = getDeviceId(req);
 
-    let query = "SELECT * FROM lists";
-    const params: any[] = [];
-
-    if (deviceId) {
-      query += " WHERE device_id = ?";
-      params.push(deviceId);
-    } else {
-      // If no device ID is provided (e.g. legacy), only return unassigned/public demo lists
-      query += " WHERE device_id IS NULL OR device_id = ''";
+    if (!deviceId) {
+      // If client has no device ID, return empty array (do NOT leak legacy global lists)
+      return res.json([]);
     }
 
-    query += " ORDER BY created_at DESC";
-    const lists = await db.all(query, params);
+    const lists = await db.all(
+      "SELECT * FROM lists WHERE device_id = ? ORDER BY created_at DESC",
+      [deviceId]
+    );
     
     const listsWithCounts = await Promise.all(
       lists.map(async (list) => {

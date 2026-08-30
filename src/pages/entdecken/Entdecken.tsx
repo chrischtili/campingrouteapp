@@ -4790,10 +4790,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   <div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
                                       <span style={{ fontSize: '0.7rem', fontWeight: 800, color: trail.type === 'biking' ? '#2563eb' : '#059669', textTransform: 'uppercase' }}>
-                                        {trail.type === 'biking' ? '🚴 Radweg' : '🥾 Wanderweg'}
+                                        {trail.type === 'biking' ? (t.bikingTrails || '🚴 Radweg') : (t.hikingTrails || '🥾 Wanderweg')}
                                       </span>
                                       <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: trail.difficulty === 'easy' ? '#ecfdf5' : trail.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: trail.difficulty === 'easy' ? '#059669' : trail.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
-                                        {trail.difficulty === 'easy' ? 'Leicht' : trail.difficulty === 'medium' ? 'Mittel' : 'Schwer'}
+                                        {trail.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : trail.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
                                       </span>
                                     </div>
                                     <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
@@ -4805,10 +4805,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   </div>
                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
                                     <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#059669' }}>
-                                      🏕️ {trail.distance_km < 25 ? 'Camping in der Nähe' : 'Camping an der Route'}
+                                      {trail.distance_km < 25 ? ((t as any).trailCampsitesNearTitle || '🏕️ Camping in der Nähe') : ((t as any).trailCampsitesAlongTitle || '🏕️ Camping an der Route')}
                                     </span>
                                     <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
-                                      Details →
+                                      {(t as any).culinaryView || 'Details →'}
                                     </span>
                                   </div>
                                 </div>
@@ -4819,7 +4819,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                 onClick={() => setVisibleTrailsCount(prev => prev + 12)}
                                 style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
                               >
-                                Mehr Touren laden ({filteredTrails.length - visibleTrailsCount} verbleibend)
+                                {(t as any).showMoreEvents || 'Mehr Touren laden'}
                               </button>
                             )}
                           </div>
@@ -4877,7 +4877,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                       boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
                                     }}
                                   >
-                                    {trail.type === 'biking' ? '🚴 Radweg' : trail.type === 'hiking' ? '🥾 Wanderweg' : '🥾 & 🚴 Tour'}
+                                    {trail.type === 'biking' ? (t.bikingTrails || '🚴 Radweg') : (t.hikingTrails || '🥾 Wanderweg')}
                                   </span>
 
                                   {/* Difficulty Badge */}
@@ -4942,7 +4942,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                                   {/* Footer */}
                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--gray-100)' }}>
                                     <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                                      🏕️ {trail.distance_km < 25 ? 'Camping in der Nähe' : 'Camping an der Route'}
+                                      {trail.distance_km < 25 ? ((t as any).trailCampsitesNearTitle || '🏕️ Camping in der Nähe') : ((t as any).trailCampsitesAlongTitle || '🏕️ Camping an der Route')}
                                     </span>
                                     <button
                                       onClick={(e) => {

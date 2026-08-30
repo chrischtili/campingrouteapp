@@ -228,8 +228,8 @@ export default function McpServerPage() {
               
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-300/80 bg-emerald-100/60 dark:border-emerald-700/60 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-extrabold tracking-wide uppercase shadow-xs">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Model Context Protocol (MCP)</span>
-                <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">v1.0 Live</span>
+                <span>{t("mcpPage.badge", "Model Context Protocol (MCP)")}</span>
+                <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">{t("mcpPage.badgeLive", "v1.0 Live")}</span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
@@ -237,21 +237,21 @@ export default function McpServerPage() {
               </h1>
 
               <p className="text-base sm:text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl font-medium">
-                Verbinde <strong className="text-slate-900 dark:text-white">Claude Desktop, Cursor IDE, Antigravity</strong> oder deine eigenen KI-Agenten direkt mit unserer europäischen Camping-, Wander-, Genuss- und Event-Datenbank.
+                {t("mcpPage.subtitle", "Verbinde Claude Desktop, Cursor IDE, Antigravity oder deine eigenen KI-Agenten direkt mit unserer europäischen Camping-, Wander-, Genuss- und Event-Datenbank.")}
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-xs">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span>20.000+ Verifizierte Plätze</span>
+                  <span>{t("mcpPage.pillVerifiedPlaces", "20.000+ Verifizierte Plätze")}</span>
                 </div>
                 <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-xs">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span>DZT Wander- & Radwege</span>
+                  <span>{t("mcpPage.pillTrails", "DZT Wander- & Radwege")}</span>
                 </div>
                 <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-xs">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span>SSE Live Endpoint</span>
+                  <span>{t("mcpPage.pillLiveEndpoint", "SSE Live Endpoint")}</span>
                 </div>
               </div>
 
@@ -259,7 +259,7 @@ export default function McpServerPage() {
               <div className="pt-4">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 rounded-2xl bg-slate-900 text-white shadow-xl border border-slate-800">
                   <div className="flex items-center gap-2.5 px-3 py-2 text-xs font-mono text-emerald-400 select-all overflow-x-auto">
-                    <span className="text-slate-500 font-sans font-bold">SSE Endpoint:</span>
+                    <span className="text-slate-500 font-sans font-bold">{t("mcpPage.endpointLabel", "SSE Endpoint:")}</span>
                     <span>{endpointUrl}</span>
                   </div>
                   <Button
@@ -269,12 +269,12 @@ export default function McpServerPage() {
                     {copiedSection === "hero-url" ? (
                       <>
                         <Check className="w-4 h-4 mr-1.5" />
-                        <span>Kopiert!</span>
+                        <span>{t("mcpPage.copied", "Kopiert!")}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-4 h-4 mr-1.5" />
-                        <span>URL kopieren</span>
+                        <span>{t("mcpPage.copyUrl", "URL kopieren")}</span>
                       </>
                     )}
                   </Button>
@@ -289,10 +289,10 @@ export default function McpServerPage() {
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
-                  Integration Guide
+                  {t("mcpPage.integrationGuide", "Integration Guide")}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
-                  In 60 Sekunden mit deiner KI verbinden
+                  {t("mcpPage.integrationTitle", "In 60 Sekunden mit deiner KI verbinden")}
                 </h2>
               </div>
               
@@ -352,10 +352,10 @@ export default function McpServerPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                        Konfiguration für Claude Desktop
+                        {t("mcpPage.claudeTitle", "Konfiguration für Claude Desktop")}
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Füge folgenden Eintrag in deine <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-emerald-600 font-bold">claude_desktop_config.json</code> ein:
+                        {t("mcpPage.claudeDesc", "Füge folgenden Eintrag in deine claude_desktop_config.json ein:")}
                       </p>
                     </div>
                     <Button
@@ -364,7 +364,7 @@ export default function McpServerPage() {
                       className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl"
                     >
                       {copiedSection === "claude-json" ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
-                      {copiedSection === "claude-json" ? "Kopiert!" : "JSON Kopieren"}
+                      {copiedSection === "claude-json" ? t("mcpPage.copied", "Kopiert!") : t("mcpPage.copyJson", "JSON Kopieren")}
                     </Button>
                   </div>
                   <pre className="p-4 rounded-2xl bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800">
@@ -381,10 +381,10 @@ export default function McpServerPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                        Konfiguration für Cursor IDE
+                        {t("mcpPage.cursorTitle", "Konfiguration für Cursor IDE")}
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Trage den SSE-Server unter <strong>Cursor Settings ➔ Features ➔ MCP Servers</strong> oder in <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-emerald-600 font-bold">.cursor/mcp.json</code> ein:
+                        {t("mcpPage.cursorDesc", "Trage den SSE-Server unter Cursor Settings ➔ Features ➔ MCP Servers oder in .cursor/mcp.json ein:")}
                       </p>
                     </div>
                     <Button
@@ -393,7 +393,7 @@ export default function McpServerPage() {
                       className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl"
                     >
                       {copiedSection === "cursor-json" ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
-                      {copiedSection === "cursor-json" ? "Kopiert!" : "JSON Kopieren"}
+                      {copiedSection === "cursor-json" ? t("mcpPage.copied", "Kopiert!") : t("mcpPage.copyJson", "JSON Kopieren")}
                     </Button>
                   </div>
                   <pre className="p-4 rounded-2xl bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800">
@@ -407,10 +407,10 @@ export default function McpServerPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                        Antigravity / Gemini CLI MCP Konfiguration
+                        {t("mcpPage.antigravityTitle", "Antigravity / Gemini CLI MCP Konfiguration")}
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Integriere den Server in deiner <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-emerald-600 font-bold">~/.gemini/antigravity/mcp_config.json</code>:
+                        {t("mcpPage.antigravityDesc", "Integriere den Server in deiner ~/.gemini/antigravity/mcp_config.json:")}
                       </p>
                     </div>
                     <Button
@@ -419,7 +419,7 @@ export default function McpServerPage() {
                       className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl"
                     >
                       {copiedSection === "antigravity-json" ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
-                      {copiedSection === "antigravity-json" ? "Kopiert!" : "JSON Kopieren"}
+                      {copiedSection === "antigravity-json" ? t("mcpPage.copied", "Kopiert!") : t("mcpPage.copyJson", "JSON Kopieren")}
                     </Button>
                   </div>
                   <pre className="p-4 rounded-2xl bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800">
@@ -433,10 +433,10 @@ export default function McpServerPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                        SSE Live-Verbindung testen (cURL)
+                        {t("mcpPage.curlTitle", "cURL & direkte SSE-Verbindung testen")}
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Verbinde dich direkt mit dem SSE-Stream über das Terminal oder ein Skript:
+                        {t("mcpPage.curlDesc", "Teste den Live-Stream direkt über das Terminal:")}
                       </p>
                     </div>
                     <Button
@@ -445,7 +445,7 @@ export default function McpServerPage() {
                       className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl"
                     >
                       {copiedSection === "curl-code" ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
-                      {copiedSection === "curl-code" ? "Kopiert!" : "Befehl Kopieren"}
+                      {copiedSection === "curl-code" ? t("mcpPage.copied", "Kopiert!") : t("mcpPage.copyCmd", "Befehl Kopieren")}
                     </Button>
                   </div>
                   <pre className="p-4 rounded-2xl bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800">
@@ -461,23 +461,23 @@ export default function McpServerPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
-                  Tool Directory
+                  {t("mcpPage.toolsDirectory", "MCP Tools Katalog")}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
-                  Verfügbare MCP-Tools ({MCP_TOOLS_CATALOG.length})
+                  {t("mcpPage.toolsTitle", "10 Spezialisierte Camping- & Reise-Tools")}
                 </h2>
               </div>
 
               {/* Category Filter Pills */}
               <div className="flex flex-wrap gap-1.5">
                 {[
-                  { id: "all", label: "Alle Tools" },
-                  { id: "camping", label: "🏕️ Camping" },
-                  { id: "trails", label: "🥾 Wandern & Rad" },
-                  { id: "events", label: "📅 Events" },
-                  { id: "highlights", label: "🏰 Sights" },
-                  { id: "reviews", label: "⭐ Bewertungen" },
-                  { id: "lists", label: "📁 Listen" },
+                  { id: "all", label: t("mcpPage.catAll", "✨ Alle (10)") },
+                  { id: "camping", label: t("mcpPage.catCamping", "🏕️ Camping (2)") },
+                  { id: "trails", label: t("mcpPage.catTrails", "🥾 Wandern & Rad (1)") },
+                  { id: "events", label: t("mcpPage.catEvents", "📅 Events & Weinfeste (1)") },
+                  { id: "highlights", label: t("mcpPage.catPois", "🏰 POIs & Kultur (1)") },
+                  { id: "reviews", label: t("mcpPage.catReviews", "⭐ Bewertungen (2)") },
+                  { id: "lists", label: t("mcpPage.catLists", "📁 Listen (3)") },
                 ].map(cat => (
                   <button
                     key={cat.id}
@@ -530,7 +530,7 @@ export default function McpServerPage() {
 
                       <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                         <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                          Beispiel-Prompt an die KI:
+                          {t("mcpPage.examplePrompt", "Beispiel-Prompt an die KI:")}
                         </div>
                         <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-xs font-medium text-slate-700 dark:text-slate-200 italic border border-slate-100 dark:border-slate-700/50">
                           "{tool.examplePrompt}"
@@ -550,12 +550,12 @@ export default function McpServerPage() {
                         {copiedSection === `tool-${tool.name}` ? (
                           <>
                             <Check className="w-3.5 h-3.5" />
-                            <span>Kopiert</span>
+                            <span>{t("mcpPage.copied", "Kopiert!")}</span>
                           </>
                         ) : (
                           <>
                             <Copy className="w-3.5 h-3.5" />
-                            <span>Name kopieren</span>
+                            <span>{t("mcpPage.copyName", "Name kopieren")}</span>
                           </>
                         )}
                       </button>
@@ -570,21 +570,21 @@ export default function McpServerPage() {
           <section className="rounded-3xl border border-emerald-300/40 bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-3 text-center md:text-left">
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                Bereit für den nächsten Roadtrip?
+                {t("mcpPage.ctaTitle", "Bereit für den nächsten Roadtrip?")}
               </h3>
               <p className="text-emerald-100 text-sm sm:text-base max-w-xl">
-                Erstelle mit unserem 7-Schritte-Prompt-Assistenten maßgeschneiderte Camping-Routen oder durchstöbere das interaktive Entdecken-Portal.
+                {t("mcpPage.ctaDesc", "Erstelle mit unserem 7-Schritte-Prompt-Assistenten maßgeschneiderte Camping-Routen oder durchstöbere das interaktive Entdecken-Portal.")}
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
               <Link to="/prompt-generator">
                 <Button className="bg-white text-emerald-900 hover:bg-emerald-50 font-bold px-6 py-3 h-auto rounded-xl shadow-md">
-                  Zum Prompt-Assistenten
+                  {t("mcpPage.ctaPromptBtn", "Zum Prompt-Assistenten")}
                 </Button>
               </Link>
               <Link to="/entdecken">
                 <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 font-bold px-6 py-3 h-auto rounded-xl">
-                  Entdecken-Portal
+                  {t("mcpPage.ctaDiscoverBtn", "Entdecken-Portal")}
                 </Button>
               </Link>
             </div>

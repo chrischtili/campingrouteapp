@@ -819,6 +819,7 @@ function EntdeckenContent() {
     setSelectedTrail(null);
     setSelectedEvent(null);
     setSelectedCulinarySpot(null);
+    setSelectedCountryView(null);
     setHasSearched(false);
     setSearchQuery('');
     
@@ -1266,13 +1267,33 @@ function EntdeckenContent() {
       currentHub === 'lists' ? (t.hubLists || 'Meine Listen') : null;
 
     const trail: BreadcrumbItem[] = [
-      { label: t.tabExplore || 'Entdecken', path: '/discover', onClick: () => { setSelectedPlace(null); setSelectedCulinarySpot(null); setSelectedTrail(null); resetSearch(); handleHubSelect('all'); } },
+      { 
+        label: t.tabExplore || 'Entdecken', 
+        path: '/discover', 
+        onClick: () => { 
+          setSelectedPlace(null); 
+          setSelectedCulinarySpot(null); 
+          setSelectedTrail(null); 
+          setSelectedEvent(null);
+          setSelectedCountryView(null);
+          resetSearch(); 
+          handleHubSelect('all'); 
+        } 
+      },
     ];
 
     if (currentHub !== 'all' && hubName) {
       trail.push({
         label: hubName,
-        onClick: () => { setSelectedPlace(null); setSelectedCulinarySpot(null); setSelectedTrail(null); handleHubSelect(currentHub); },
+        onClick: () => { 
+          setSelectedPlace(null); 
+          setSelectedCulinarySpot(null); 
+          setSelectedTrail(null); 
+          setSelectedEvent(null);
+          setSelectedCountryView(null);
+          resetSearch();
+          handleHubSelect(currentHub); 
+        },
       });
     }
 

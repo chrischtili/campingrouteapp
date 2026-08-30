@@ -2610,6 +2610,8 @@ ${trkpts}
       console.error('Error fetching reviews:', e);
       setReviews([]);
     }
+  };
+
   const fetchNearbyPlaces = async (placeId: string, lat?: number, lon?: number, type?: string) => {
     try {
       let url = `/discover/api/places/${placeId}/nearby`;

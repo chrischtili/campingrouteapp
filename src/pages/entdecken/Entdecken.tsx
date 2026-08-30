@@ -2147,9 +2147,8 @@ ${trkpts}
         attributionControl: true
       });
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>-Mitwirkende',
         maxZoom: 19
       }).addTo(map);
 
@@ -2266,9 +2265,8 @@ ${trkpts}
         attributionControl: true
       });
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>-Mitwirkende',
         maxZoom: 19
       }).addTo(map);
 
@@ -6175,12 +6173,17 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                       <div className="results-map-col">
                         {hasSearched && mapPoints.length > 0 && (
-                          <div className="results-map-wrapper">
-                            <div ref={resultsMapRef} style={{ width: '100%', height: '100%', minHeight: '380px', zIndex: 1 }} />
-                            <div className="map-legend-overlay" style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(6px)', color: '#f8fafc', padding: '8px 14px', borderRadius: '10px', fontSize: '0.78rem', zIndex: 1000, pointerEvents: 'none', border: '1px solid rgba(255,255,255,0.15)', lineHeight: 1.4 }}>
-                              🗺️ {routeInfo 
-                                ? `${mapPoints.length} Orte auf der Karte (Routenlinie von ${routeInfo.origin} nach ${routeInfo.destination})` 
-                                : (t.mapLegend || '{{count}} Orte auf der Karte').replace('{{count}}', String(mapPoints.length))}
+                          <div>
+                            <div className="results-map-wrapper">
+                              <div ref={resultsMapRef} style={{ width: '100%', height: '100%', minHeight: '380px', zIndex: 1 }} />
+                            </div>
+                            <div style={{ marginTop: '10px', background: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--gray-700)', padding: '9px 14px', borderRadius: '12px', fontSize: '0.78rem', lineHeight: 1.45, boxShadow: 'var(--shadow-sm)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <span>🗺️</span>
+                              <span>
+                                {routeInfo 
+                                  ? `${mapPoints.length} Orte auf der Karte (Routenlinie von ${routeInfo.origin} nach ${routeInfo.destination})` 
+                                  : (t.mapLegend || '{{count}} Orte auf der Karte').replace('{{count}}', String(mapPoints.length))}
+                              </span>
                             </div>
                           </div>
                         )}

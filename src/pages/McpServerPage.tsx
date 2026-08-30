@@ -197,8 +197,7 @@ export default function McpServerPage() {
   const antigravityConfig = JSON.stringify({
     mcpServers: {
       campingroute: {
-        command: "npx",
-        args: ["-y", "@modelcontextprotocol/server-sse", endpointUrl]
+        serverUrl: endpointUrl
       }
     }
   }, null, 2);

@@ -26,6 +26,7 @@
       "useSystem": "Use system theme"
     },
     "discover": "Discover",
+    "mcp": "MCP Server",
     "aiSettings": "AI Settings",
     "toggleTheme": "Toggle theme",
     "openMenu": "Open menu"
@@ -1641,6 +1642,8 @@
     "catLists": "📁 Lists (3)",
     "examplePrompt": "Example prompt for your AI:",
     "copyName": "Copy name",
+    "copyToolId": "Tool ID",
+    "copyPrompt": "Copy Prompt",
     "ctaTitle": "Ready for your next road trip?",
     "ctaDesc": "Generate tailored camping routes with our 7-step prompt assistant or explore the interactive discovery hub.",
     "ctaPromptBtn": "Go to Prompt Assistant",

@@ -26,6 +26,7 @@
       "useSystem": "Systeemthema gebruiken"
     },
     "discover": "Ontdekken",
+    "mcp": "MCP-server",
     "aiSettings": "AI-instellingen",
     "toggleTheme": "Thema wisselen",
     "openMenu": "Menu openen"
@@ -1639,6 +1640,8 @@
     "catLists": "📁 Lijsten (3)",
     "examplePrompt": "Voorbeeldprompt voor AI:",
     "copyName": "Naam kopiëren",
+    "copyToolId": "Tool-ID",
+    "copyPrompt": "Prompt kopiëren",
     "ctaTitle": "Klaar voor je volgende roadtrip?",
     "ctaDesc": "Genereer routes op maat met onze 7-staps promptassistent of verken het interactieve portaal.",
     "ctaPromptBtn": "Naar de promptassistent",

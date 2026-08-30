@@ -26,6 +26,7 @@
       "useSystem": "Usa tema di sistema"
     },
     "discover": "Scopri",
+    "mcp": "Server MCP",
     "aiSettings": "Impostazioni IA",
     "toggleTheme": "Cambia tema",
     "openMenu": "Apri menu"
@@ -1639,6 +1640,8 @@
     "catLists": "📁 Liste (3)",
     "examplePrompt": "Esempio di prompt per l'IA:",
     "copyName": "Copia nome",
+    "copyToolId": "ID strumento",
+    "copyPrompt": "Copia prompt",
     "ctaTitle": "Pronto per il prossimo viaggio?",
     "ctaDesc": "Crea itinerari personalizzati con il nostro assistente prompt in 7 passi o esplora il portale Scopri interattivo.",
     "ctaPromptBtn": "Vai all'assistente prompt",

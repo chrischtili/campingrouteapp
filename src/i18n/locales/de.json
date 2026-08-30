@@ -26,6 +26,7 @@
       "useSystem": "Systemdesign verwenden"
     },
     "discover": "Entdecken",
+    "mcp": "MCP-Server",
     "aiSettings": "KI-Einstellungen",
     "toggleTheme": "Theme umschalten",
     "openMenu": "Menü öffnen"
@@ -1642,6 +1643,8 @@
     "catLists": "📁 Listen (3)",
     "examplePrompt": "Beispiel-Prompt an die KI:",
     "copyName": "Name kopieren",
+    "copyToolId": "Tool-ID",
+    "copyPrompt": "Prompt kopieren",
     "ctaTitle": "Bereit für den nächsten Roadtrip?",
     "ctaDesc": "Erstelle mit unserem 7-Schritte-Prompt-Assistenten maßgeschneiderte Camping-Routen oder durchstöbere das interaktive Entdecken-Portal.",
     "ctaPromptBtn": "Zum Prompt-Assistenten",

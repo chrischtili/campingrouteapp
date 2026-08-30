@@ -538,27 +538,49 @@ export default function McpServerPage() {
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-3 flex items-center justify-between">
-                      <code className="text-[10px] text-slate-400 font-mono truncate max-w-[240px]">
-                        {tool.params}
-                      </code>
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(tool.name, `tool-${tool.name}`)}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer"
-                      >
-                        {copiedSection === `tool-${tool.name}` ? (
-                          <>
-                            <Check className="w-3.5 h-3.5" />
-                            <span>{t("mcpPage.copied", "Kopiert!")}</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3.5 h-3.5" />
-                            <span>{t("mcpPage.copyName", "Name kopieren")}</span>
-                          </>
-                        )}
-                      </button>
+                    <div className="mt-4 pt-3 flex items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800">
+                      <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono truncate max-w-[200px]" title={tool.params}>
+                        <span>params:</span>
+                        <span className="truncate">{tool.params}</span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(tool.name, `tool-name-${tool.name}`)}
+                          className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
+                          title="Tool-ID für Konfigurationen kopieren"
+                        >
+                          {copiedSection === `tool-name-${tool.name}` ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                              <span className="text-emerald-600 dark:text-emerald-400">{t("mcpPage.copied", "Kopiert!")}</span>
+                            </>
+                          ) : (
+                            <>
+                              <Code2 className="w-3.5 h-3.5" />
+                              <span>{t("mcpPage.copyToolId", "Tool-ID")}</span>
+                            </>
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(tool.examplePrompt, `tool-prompt-${tool.name}`)}
+                          className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer"
+                          title="Beispiel-Prompt für die KI in die Zwischenablage kopieren"
+                        >
+                          {copiedSection === `tool-prompt-${tool.name}` ? (
+                            <>
+                              <Check className="w-3.5 h-3.5" />
+                              <span>{t("mcpPage.copied", "Kopiert!")}</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5" />
+                              <span>{t("mcpPage.copyPrompt", "Prompt kopieren")}</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

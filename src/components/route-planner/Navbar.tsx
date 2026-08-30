@@ -81,6 +81,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   const navItems = [
     { name: t("navbar.planNow", "Prompt-Assistent"), path: "/prompt-generator", isAnchor: false },
     { name: t("navbar.discover", "Entdecken"), path: "/entdecken", isAnchor: false },
+    { name: t("navbar.mcp", "MCP-Server"), path: "/mcp", isAnchor: false },
     { name: t("navbar.features", "Features"), path: "#features", isAnchor: true },
     { name: t("navbar.faq", "FAQ"), path: "#faq", isAnchor: true },
   ];
@@ -93,6 +94,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
     { name: "📅 Events & Weinfeste", path: "/entdecken/events", desc: "Feste, Märkte & Traditionen" },
     { name: "🏰 Sehenswürdigkeiten", path: "/entdecken/highlights", desc: "Burgen, Schlösser & Highlights" },
     { name: "📁 Meine Listen", path: "/entdecken/listen", desc: "Gespeicherte Reisen & Notizen" },
+    { name: "🔌 MCP Server (API)", path: "/mcp", desc: "Claude, Cursor & KI-Tools" },
   ];
 
   const languages = [

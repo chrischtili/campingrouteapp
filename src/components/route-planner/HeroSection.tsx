@@ -127,9 +127,8 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
               </Link>
 
               {/* Card 2: MCP Server */}
-              <button
-                type="button"
-                onClick={() => setShowMcpModal(true)}
+              <Link
+                to="/mcp"
                 className="group relative flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-50/90 via-sky-50/60 to-indigo-50/40 dark:from-slate-900/80 dark:via-slate-900/60 dark:to-indigo-950/30 border border-slate-300/80 dark:border-slate-700/80 shadow-sm hover:shadow-xl hover:border-emerald-500 hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 text-left cursor-pointer"
               >
                 <div className="space-y-2">
@@ -162,7 +161,7 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
                     <ChevronRight className="h-3.5 w-3.5" />
                   </div>
                 </div>
-              </button>
+              </Link>
 
             </div>
           </div>

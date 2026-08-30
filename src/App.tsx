@@ -4,11 +4,11 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { getFinderSeo, getFinderPageContent } from "@/lib/finderPageContent";
+import { getFinderSeo, getFinderPageContent, getDiscoverSeo } from "@/lib/finderPageContent";
 import { getPromptGeneratorSeo } from "@/lib/promptGeneratorPageContent";
 import { getSchemaLocale, generateFAQPageSchema, generateHowToSchema, generateWebApplicationSchema } from "@/lib/seoSchema";
 
@@ -226,34 +226,7 @@ const App = () => {
     let pageSeo = getPromptGeneratorSeo(location.pathname, i18n.language) || getFinderSeo(location.pathname, i18n.language);
     
     if (!pageSeo && isDiscoverPage) {
-      const p = location.pathname.toLowerCase();
-      const params = new URLSearchParams(location.search);
-      const tab = params.get('tab') || '';
-      if (p.includes('/genuss') || p.includes('/culinary') || p.includes('/weingueter') || p.includes('/hoflaeden') || tab === 'culinary') {
-        pageSeo = {
-          title: 'Hofläden, Winzer & 24h-Regiomaten in Deutschland – Camping & Direktvermarkter | CampingRoute',
-          description: 'Entdecke über 1.500 Winzerstuben, Hofläden, Käsereien und 24h-Regiomaten in Deutschland mit passenden Campingplätzen und Wohnmobilstellplätzen in der Nähe.',
-          keywords: 'Hofladen Camping, Winzer Stellplatz, Weingut Wohnmobil, Regiomat Stellplatz, Direktvermarkter Deutschland, Hofkäserei Stellplatz, Camping beim Winzer'
-        };
-      } else if (p.includes('/touren') || p.includes('/wanderwege') || p.includes('/trails') || tab === 'trails') {
-        pageSeo = {
-          title: 'Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute',
-          description: 'Über 19.000 offizielle Wanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.',
-          keywords: 'Wanderwege Camping, Radwege Campingplatz, Fernwanderwege Deutschland, DZT Touren, Radtour Wohnmobil, Wandern und Camping'
-        };
-      } else if (p.includes('/events') || p.includes('/veranstaltungen') || tab === 'events') {
-        pageSeo = {
-          title: 'Veranstaltungen, Weinfeste & Kultur in Deutschland – Camping & Events | CampingRoute',
-          description: 'Offizielle Feste, Märkte, Weinfeste und Kultur-Events in ganz Deutschland mit Camping- und Stellplatztipps in der direkten Umgebung.',
-          keywords: 'Weinfeste Deutschland, Veranstaltungen Camping, Events Wohnmobil Stellplatz, Kulturfeste Deutschland'
-        };
-      } else {
-        pageSeo = {
-          title: 'Camping & Stellplätze in Europa entdecken – Über 37.000 Orte | CampingRoute',
-          description: 'Entdecke über 37.000 verifizierte Campingplätze, Wohnmobilstellplätze, Glamping-Unterkünfte und Sehenswürdigkeiten in Europa.',
-          keywords: 'Camping entdecken, Stellplätze entdecken, Campingkarte Europa, Wohnmobil Europa Karte'
-        };
-      }
+      pageSeo = getDiscoverSeo(location.pathname, location.search, i18n.language);
     }
 
     const seoTitle = pageSeo?.title || t("seo.title");
@@ -453,6 +426,8 @@ const App = () => {
               <Route path="/datenschutz" element={<Datenschutz />} />
               {/* Admin-Seite (nicht verlinkt, nur per direkter URL aufrufbar) */}
               <Route path="/admin-stats" element={<AdminStats />} />
+              {/* Alias & Redirects */}
+              <Route path="/app" element={<Navigate to="/prompt-generator" replace />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

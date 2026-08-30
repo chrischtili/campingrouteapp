@@ -133,7 +133,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             </Link>
 
             {/* Desktop Tab Navigation Links */}
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden lg:flex items-center gap-5 xl:gap-6 shrink min-w-0">
               {navItems.map((item) => {
                 const isDiscoverItem = item.path === '/entdecken' || item.path === '/discover';
                 const isActive = item.isAnchor 
@@ -148,7 +148,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                       <DropdownMenuTrigger asChild>
                         <button
                           type="button"
-                          className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors inline-flex items-center gap-1 cursor-pointer outline-none ${
+                          className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors inline-flex items-center gap-1 cursor-pointer outline-none shrink-0 ${
                             isActive 
                               ? "text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400" 
                               : "text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white font-semibold"
@@ -179,7 +179,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                     key={item.path}
                     type="button"
                     onClick={() => handleNavClick(item.path)}
-                    className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors ${
+                    className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors shrink-0 ${
                       isActive 
                         ? "text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400" 
                         : "text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white font-semibold"
@@ -193,27 +193,27 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           </div>
 
           {/* Right: Coffee Link, Theme Toggle, Language & Mobile Burger Menu */}
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             
             {/* Buy Me A Coffee Link */}
             <a
               href="https://www.buymeacoffee.com/campingroute"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
+              className="hidden xl:inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
               title={t("planner.summary.save.coffeeHint", "Kaffee spendieren")}
             >
               <Coffee className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
               <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
             </a>
 
-            {/* KI-Einstellungen (nur auf der Entdecken-Seite, ab sm Bildschirmgröße) */}
+            {/* KI-Einstellungen (nur auf der Entdecken-Seite) */}
             {isDiscoverPage && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={openDiscoverAISettings}
-                className="hidden sm:inline-flex h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
+                className="hidden md:inline-flex h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
                 title={t("navbar.aiSettings", "KI-Einstellungen")}
               >
                 <Settings2 className="h-4 w-4" />
@@ -271,7 +271,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden h-10 w-10 text-gray-800 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-xl ml-1.5 border border-gray-200/70 dark:border-slate-800 active:scale-95 transition-all shadow-xs"
+              className="lg:hidden h-10 w-10 text-gray-800 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-xl ml-1.5 border border-gray-200/70 dark:border-slate-800 active:scale-95 transition-all shadow-xs"
               aria-label={t("navbar.openMenu", "Menü öffnen")}
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -283,7 +283,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
       {/* Mobile Slide-out Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-2">
+        <div className="lg:hidden border-t border-gray-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-2">
           {navItems.map((item) => {
             const isDiscoverItem = item.path === '/entdecken' || item.path === '/discover';
             if (isDiscoverItem) {

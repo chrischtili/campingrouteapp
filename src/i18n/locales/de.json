@@ -1601,6 +1601,9 @@
     "home": "Startseite"
   },
   "nav": {
-    "discover": "Entdecken"
+    "discover": "Entdecken",
+    "planner": "Prompt-Assistent",
+    "campsites": "Campingplatz-Finder",
+    "pitches": "Stellplatz-Finder"
   }
 }

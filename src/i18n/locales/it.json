@@ -1598,6 +1598,9 @@
     "home": "Home"
   },
   "nav": {
-    "discover": "Scopri"
+    "discover": "Scopri",
+    "planner": "Assistente prompt",
+    "campsites": "Ricerca campeggi",
+    "pitches": "Ricerca aree sosta"
   }
 }

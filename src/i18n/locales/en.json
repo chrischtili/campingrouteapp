@@ -1600,6 +1600,9 @@
     "home": "Home"
   },
   "nav": {
-    "discover": "Discover"
+    "discover": "Discover",
+    "planner": "Prompt Assistant",
+    "campsites": "Campsite Finder",
+    "pitches": "Pitch Finder"
   }
 }

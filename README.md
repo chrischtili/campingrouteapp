@@ -1,28 +1,35 @@
-# 🚐 Camping Route - KI Wohnmobil Routenplaner & Entdecken (v0.7.0)
+# 🚐 Camping Route - KI Wohnmobil Routenplaner & Entdecken (v0.7.1)
 
-[![Version](https://img.shields.io/badge/version-v0.7.0-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.7.1-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
 [![License](https://img.shields.io/badge/license-PolyForm_Noncommercial_1.0.0-blue.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Die smarte Plattform für Wohnmobil-Reisende, Camper & Roadtripper in Europa – mit KI-Routenplaner, interaktivem Entdecken-Portal und MCP-KI-Integration!**
+**Die smarte Plattform für Wohnmobil-Reisende, Camper & Roadtripper in Europa – mit KI-Routenplaner, interaktivem Entdecken-Portal, Themenwelten und MCP-KI-Integration!**
 
 👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
 
 ---
 
-## 🌟 Neu in Version 0.7.0
+## 🌟 Neu in Version 0.7.1
 
-- 🧭 **Neues „Entdecken“-Portal (`/entdecken`)**:
-  - Interaktive Kartensuche für verifizierte Camping- & Stellplätze in ganz Europa (aus OpenStreetMap mit geprüfter Webadresse).
-  - Sehenswürdigkeiten & Highlights direkt aus Wikidata mit Bildern und Hintergrundinfos.
-  - Schnelle Länderfilter (Deutschland 🇩🇪, Österreich 🇦🇹, Schweiz 🇨🇭, Italien 🇮🇹, Frankreich 🇫🇷, Schweden 🇸🇪, Niederlande 🇳🇱, Dänemark 🇩🇰).
+- 🧭 **Themenwelten für Camper & Roadtripper (`/entdecken`)**:
+  - 🏕️ **Camping- & Wohnmobilstellplätze**: Über 20.000 verifizierte Orte mit KI-Suche und direkter Routenübernahme.
+  - 🍇 **Hofläden & Winzer**: Weingüter, Bio-Bauernhöfe, Käsereien & 24h-Regiomaten direkt ab Erzeuger mit Stellplätzen in der Nähe.
+  - 🥾 **Wander- & Radwege**: Offizielle Fernwander- und Radrouten (u.a. DZT Knowledge Graph) mit GPX-Tracks & Campingplätzen entlang der Strecke.
+  - 📅 **Events & Weinfeste**: Weinfeste, Märkte, Festivals & Kultur in ganz Deutschland.
+  - 🏰 **Sehenswürdigkeiten**: Schlösser, Burgen, Naturparke und Highlights in ganz Europa.
+- 🌐 **Vollständige Mehrsprachigkeit & SEO-Optimierung**:
+  - 5 Sprachen (Deutsch 🇩🇪, English 🇬🇧, Français 🇫🇷, Italiano 🇮🇹, Nederlands 🇳🇱) vollständig integriert.
+  - Dynamische, lokalisierte Metatags (Titel, Description, Keywords, OpenGraph & hreflang) für alle Entdecken-Hubs und Finder-Seiten.
+  - Automatische Breadcrumb-Navigation auf allen Unterseiten.
+- 📱 **Responsives Header-Layout & UI-Polishing**:
+  - Optimierte Navigation für mobile Geräte, Tablets und Desktops ohne Überlappungen.
+  - Schneller Alias-Redirect von `/app` auf den `/prompt-generator`.
 - 🤖 **Bring Your Own Key (BYOK) KI-Architektur**:
-  - Volle Kontrolle über KI-Kosten: Eigener API-Key (Gemini, OpenAI, Anthropic, Mistral, Perplexity, OpenRouter) im Browser hinterlegbar.
+  - Eigener API-Key (Gemini, OpenAI, Anthropic, Mistral, Perplexity, OpenRouter) sicher im Browser hinterlegbar.
   - Smarte 0€-Deterministische Suche für klare Suchanfragen ohne API-Kosten.
 - 🔌 **Model Context Protocol (MCP) Server**:
-  - Integrierter MCP-Server zur direkten Anbindung an Cursor, Claude Desktop oder KI-Agenten, um Camping- & Routendaten abzufragen.
-- 🎨 **Modernes UI-Design & Breadcrumb-Navigation**:
-  - Elegantes Dark/Light-Theme, nahtlose Breadcrumb-Navigation und 100% DSGVO-konforme lokale Schriftarten (`@fontsource/plus-jakarta-sans`).
+  - Integrierter MCP-Server zur direkten Anbindung an Cursor, Claude Desktop, Safari MCP oder KI-Agenten, um Camping- & Routendaten live abzufragen.
 
 ---
 

@@ -9,7 +9,7 @@ export function Footer() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const finderLabels = getFinderNavLabels(i18n.language);
-  const [releaseVersion, setReleaseVersion] = useState("0.6.1");
+  const [releaseVersion, setReleaseVersion] = useState("0.7.1");
   const [showMcpModal, setShowMcpModal] = useState(false);
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   

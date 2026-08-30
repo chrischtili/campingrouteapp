@@ -761,3 +761,201 @@ export function getFinderSeo(pathname: string, language: string) {
 
   return null;
 }
+
+const discoverSeoContent: Record<
+  "de" | "en" | "fr" | "it" | "nl",
+  {
+    overview: { title: string; description: string; keywords: string };
+    genuss: { title: string; description: string; keywords: string };
+    touren: { title: string; description: string; keywords: string };
+    events: { title: string; description: string; keywords: string };
+    camping: { title: string; description: string; keywords: string };
+    highlights: { title: string; description: string; keywords: string };
+  }
+> = {
+  de: {
+    overview: {
+      title: "Camping & Stellplätze in Europa entdecken – Über 37.000 Orte | CampingRoute",
+      description: "Entdecke über 37.000 verifizierte Campingplätze, Wohnmobilstellplätze, Glamping-Unterkünfte und Sehenswürdigkeiten in ganz Europa mit KI-Suche.",
+      keywords: "Camping entdecken, Stellplätze entdecken, Campingkarte Europa, Wohnmobil Europa Karte, Campingurlaub planen",
+    },
+    genuss: {
+      title: "Hofläden, Winzer & 24h-Regiomaten in Deutschland – Camping & Direktvermarkter | CampingRoute",
+      description: "Entdecke über 1.500 Winzerstuben, Hofläden, Käsereien und 24h-Regiomaten in Deutschland mit passenden Campingplätzen und Wohnmobilstellplätzen in der Nähe.",
+      keywords: "Hofladen Camping, Winzer Stellplatz, Weingut Wohnmobil, Regiomat Stellplatz, Direktvermarkter Deutschland, Hofkäserei Stellplatz, Camping beim Winzer",
+    },
+    touren: {
+      title: "Wander- & Radwege mit Campingplätzen in Deutschland | CampingRoute",
+      description: "Über 19.000 offizielle Wanderwege, Radrouten und Rundtouren des DZT Knowledge Graphs mit Übernachtungs- und Campingmöglichkeiten entlang der Strecke.",
+      keywords: "Wanderwege Camping, Radwege Campingplatz, Fernwanderwege Deutschland, DZT Touren, Radtour Wohnmobil, Wandern und Camping",
+    },
+    events: {
+      title: "Veranstaltungen, Weinfeste & Kultur in Deutschland – Camping & Events | CampingRoute",
+      description: "Offizielle Feste, Märkte, Weinfeste und Kultur-Events in ganz Deutschland mit Camping- und Stellplatztipps in der direkten Umgebung.",
+      keywords: "Weinfeste Deutschland, Veranstaltungen Camping, Events Wohnmobil Stellplatz, Kulturfeste Deutschland",
+    },
+    camping: {
+      title: "Campingplätze & Wohnmobilstellplätze in Europa | CampingRoute",
+      description: "Finde über 20.000 verifizierte Campingplätze und Wohnmobilstellplätze in Europa mit Filtern, Bewertungen und KI-Suche.",
+      keywords: "Campingplätze Europa, Stellplätze Wohnmobil, Campingplatzsuche, Stellplatzsuche Europa",
+    },
+    highlights: {
+      title: "Sehenswürdigkeiten & Ausflugsziele in Europa – Camping & Kultur | CampingRoute",
+      description: "Entdecke Burgen, Schlösser, Naturparke und beliebte Sehenswürdigkeiten in Europa mit Stellplätzen und Campingmöglichkeiten in der Nähe.",
+      keywords: "Sehenswürdigkeiten Europa, Schlösser Burgen Camping, Ausflugsziele Roadtrip, Kultur Camping",
+    },
+  },
+  en: {
+    overview: {
+      title: "Discover Campsites & Pitches in Europe – Over 37,000 Places | CampingRoute",
+      description: "Explore over 37,000 verified campsites, motorhome pitches, glamping spots, and attractions across Europe with AI search.",
+      keywords: "discover camping, motorhome pitches, Europe camping map, RV Europe map, camping holiday planner",
+    },
+    genuss: {
+      title: "Farm Shops, Wineries & 24/7 Vending in Germany – Camping & Local Produce | CampingRoute",
+      description: "Discover over 1,500 wineries, farm shops, cheese dairies, and 24/7 vending machines in Germany with nearby campsites and motorhome pitches.",
+      keywords: "farm shop camping, winery pitch, RV vineyard, 24/7 vending machine pitch, direct farm marketing Germany",
+    },
+    touren: {
+      title: "Hiking & Cycling Trails with Campsites in Germany | CampingRoute",
+      description: "Over 19,000 official hiking trails, cycle routes, and circular tours from the DZT Knowledge Graph with campsites along the way.",
+      keywords: "hiking trails camping, cycle paths campsite, long-distance trails Germany, RV cycling trip, hiking and camping",
+    },
+    events: {
+      title: "Events, Wine Festivals & Culture in Germany – Camping & Events | CampingRoute",
+      description: "Official festivals, markets, wine tastings, and cultural events throughout Germany with camping and stopover recommendations nearby.",
+      keywords: "wine festivals Germany, events camping, festivals motorhome pitch, cultural events Germany",
+    },
+    camping: {
+      title: "Campsites & Motorhome Pitches in Europe | CampingRoute",
+      description: "Find over 20,000 verified campsites and motorhome pitches in Europe with filters, reviews, and AI search.",
+      keywords: "campsites Europe, motorhome pitches, campsite search, RV pitches Europe",
+    },
+    highlights: {
+      title: "Attractions & Sights in Europe – Camping & Culture | CampingRoute",
+      description: "Explore castles, palaces, natural parks, and tourist landmarks across Europe with stopovers and campsites nearby.",
+      keywords: "attractions Europe, castles palaces camping, road trip destinations, culture camping",
+    },
+  },
+  fr: {
+    overview: {
+      title: "Découvrir les campings et aires en Europe – Plus de 37 000 lieux | CampingRoute",
+      description: "Explorez plus de 37 000 campings vérifiés, aires de camping-car, glampings et sites touristiques en Europe avec recherche IA.",
+      keywords: "découvrir camping, aires camping-car, carte camping Europe, vacances camping",
+    },
+    genuss: {
+      title: "Vente directe, domaines viticoles & producteurs en Allemagne | CampingRoute",
+      description: "Découvrez plus de 1 500 domaines viticoles, fermes bio, fromageries et distributeurs 24/7 avec campings et aires à proximité.",
+      keywords: "camping à la ferme, aire vigneron, camping-car domaine viticole, producteurs locaux Allemagne",
+    },
+    touren: {
+      title: "Sentiers de randonnée et pistes cyclables avec campings | CampingRoute",
+      description: "Plus de 19 000 sentiers de randonnée et véloroutes avec hébergements et campings le long du parcours.",
+      keywords: "randonnée camping, pistes cyclables camping, grands itinéraires, voyage vélo camping-car",
+    },
+    events: {
+      title: "Événements, fêtes du vin et culture en Allemagne | CampingRoute",
+      description: "Fêtes officielles, marchés et événements culturels en Allemagne avec conseils de camping et d'aires à proximité.",
+      keywords: "fêtes du vin Allemagne, événements camping, festivals camping-car",
+    },
+    camping: {
+      title: "Campings et aires de camping-car en Europe | CampingRoute",
+      description: "Trouvez plus de 20 000 campings et aires vérifiés en Europe avec filtres, avis et recherche IA.",
+      keywords: "campings Europe, aires camping-car, recherche camping Europe",
+    },
+    highlights: {
+      title: "Sites touristiques et châteaux en Europe – Camping & Culture | CampingRoute",
+      description: "Découvrez châteaux, monuments et parcs naturels en Europe avec campings et aires à proximité.",
+      keywords: "monuments Europe, châteaux camping, road trip Europe, culture camping",
+    },
+  },
+  it: {
+    overview: {
+      title: "Scopri campeggi e aree sosta in Europa – Oltre 37.000 luoghi | CampingRoute",
+      description: "Esplora oltre 37.000 campeggi verificati, aree camper, glamping e attrazioni in Europa con ricerca IA.",
+      keywords: "scopri campeggi, aree sosta camper, mappa campeggio Europa, vacanze camper",
+    },
+    genuss: {
+      title: "Fattorie, cantine vinicole e vendita diretta in Germania | CampingRoute",
+      description: "Scopri oltre 1.500 cantine vinicole, fattorie biologiche, caseifici e distributori 24/7 con campeggi e aree sosta vicini.",
+      keywords: "agricampeggio, sosta in cantina, camper produttori locali, fattorie camper",
+    },
+    touren: {
+      title: "Sentieri escursionistici e piste ciclabili con campeggi | CampingRoute",
+      description: "Oltre 19.000 sentieri escursionistici e percorsi ciclabili con possibilità di pernottamento e campeggio.",
+      keywords: "sentieri trekking campeggio, cicloturismo camper, itinerari escursionismo",
+    },
+    events: {
+      title: "Eventi, feste del vino e cultura in Germania | CampingRoute",
+      description: "Feste tradizionali, mercati ed eventi culturali in Germania con suggerimenti di campeggi e aree sosta.",
+      keywords: "feste del vino Germania, eventi campeggio, festival camper",
+    },
+    camping: {
+      title: "Campeggi e aree sosta per camper in Europa | CampingRoute",
+      description: "Trova oltre 20.000 campeggi e aree sosta verificati in Europa con filtri, recensioni e ricerca IA.",
+      keywords: "campeggi Europa, aree sosta camper, ricerca campeggi Europa",
+    },
+    highlights: {
+      title: "Attrazioni e castelli in Europa – Campeggio & Cultura | CampingRoute",
+      description: "Scopri castelli, parchi naturali e luoghi imperdibili in Europa con aree sosta e campeggi vicini.",
+      keywords: "attrazioni Europa, castelli campeggio, itinerari turistici camper",
+    },
+  },
+  nl: {
+    overview: {
+      title: "Campings & camperplaatsen in Europa ontdekken – Meer dan 37.000 locaties | CampingRoute",
+      description: "Ontdek meer dan 37.000 geverifieerde campings, camperplaatsen, glampings en bezienswaardigheden in heel Europa met AI-zoekfunctie.",
+      keywords: "camping ontdekken, camperplaatsen Europa, campingkaart Europa, kampeervakantie plannen",
+    },
+    genuss: {
+      title: "Boerderijwinkels, wijnhuizen & 24/7 automaten in Duitsland | CampingRoute",
+      description: "Ontdek meer dan 1.500 wijnhuizen, boerderijwinkels, kaasmakerijen en 24/7 automaten met campings en camperplaatsen in de buurt.",
+      keywords: "boerderij camping, camperplaats wijngaard, streekproducten Duitsland, kamperen bij de boer",
+    },
+    touren: {
+      title: "Wandel- & fietsroutes met campings in Duitsland | CampingRoute",
+      description: "Meer dan 19.000 officiële wandelpaden en fietsroutes met overnachtings- en kampeermogelijkheden langs de route.",
+      keywords: "wandelroutes camping, fietsroutes camperplaats, langeafstandsroutes Duitsland, fietsen en kamperen",
+    },
+    events: {
+      title: "Evenementen, wijnfeesten & cultuur in Duitsland | CampingRoute",
+      description: "Officiële feesten, markten, wijnfeesten en culturele evenementen in heel Duitsland met campingtips in de buurt.",
+      keywords: "wijnfeesten Duitsland, evenementen camping, festivals camperplaats",
+    },
+    camping: {
+      title: "Campings en camperplaatsen in Europa | CampingRoute",
+      description: "Vind meer dan 20.000 geverifieerde campings en camperplaatsen in Europa met filters, reviews en AI-zoekfunctie.",
+      keywords: "campings Europa, camperplaatsen, camping zoeken Europa",
+    },
+    highlights: {
+      title: "Bezienswaardigheden & kastelen in Europa – Camping & Cultuur | CampingRoute",
+      description: "Ontdek kastelen, natuurparken en populaire bezienswaardigheden in Europa met camperplaatsen en campings in de buurt.",
+      keywords: "bezienswaardigheden Europa, kastelen camping, roadtrip bestemmingen Europa",
+    },
+  },
+};
+
+export function getDiscoverSeo(pathname: string, search: string, language: string) {
+  const locale = getLocale(language);
+  const p = pathname.toLowerCase();
+  const params = new URLSearchParams(search);
+  const tab = params.get("tab") || "";
+
+  if (p.includes("/genuss") || p.includes("/culinary") || p.includes("/weingueter") || p.includes("/hoflaeden") || tab === "culinary") {
+    return discoverSeoContent[locale].genuss;
+  }
+  if (p.includes("/touren") || p.includes("/wanderwege") || p.includes("/trails") || tab === "trails") {
+    return discoverSeoContent[locale].touren;
+  }
+  if (p.includes("/events") || p.includes("/veranstaltungen") || tab === "events") {
+    return discoverSeoContent[locale].events;
+  }
+  if (p.includes("/camping") || tab === "camping") {
+    return discoverSeoContent[locale].camping;
+  }
+  if (p.includes("/highlights") || tab === "highlights") {
+    return discoverSeoContent[locale].highlights;
+  }
+
+  return discoverSeoContent[locale].overview;
+}

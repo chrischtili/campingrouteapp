@@ -3758,7 +3758,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400"></span>
                     </span>
                     <Sparkles size={13} className="text-yellow-300 animate-pulse" />
-                    <span>Early Beta — Feedback & Ideen erwünscht</span>
+                    <span>{t.earlyBetaBadge || "Early Beta — Feedback & Ideen erwünscht"}</span>
                     <MessageSquareHeart size={14} className="text-emerald-200 ml-0.5 group-hover:scale-125 transition-transform" />
                   </button>
                 )}
@@ -3849,33 +3849,33 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <div style={{ marginBottom: '1.25rem' }}>
                   <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Compass size={20} className="text-primary-600" />
-                    Themenwelten für Camper entdecken
+                    {t.themeWorldsTitle || "Themenwelten für Camper entdecken"}
                   </h2>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '1rem' }}>
                     <div onClick={() => handleHubSelect('camping')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-emerald-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🏕️</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Camping & Stellplätze</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Über 20.000 geprüfte Plätze in ganz Europa mit KI-Suche.</p>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubCamping || "Camping & Stellplätze"}</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldCampingDesc || "Über 20.000 geprüfte Plätze in ganz Europa mit KI-Suche."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('genuss')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-purple-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🍇</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Hofläden & Winzer</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Weingüter, Bio-Bauernhöfe & 24h-Regiomaten direkt ab Erzeuger.</p>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubGenuss || "Hofläden & Winzer"}</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldGenussDesc || "Weingüter, Bio-Bauernhöfe & 24h-Regiomaten direkt ab Erzeuger."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('touren')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-blue-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🥾</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Wander- & Radwege</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>100+ Fernwege mit GPX-Tracks & Stellplätzen am Weg.</p>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubTouren || "Wander- & Radwege"}</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldTourenDesc || "100+ Fernwege mit GPX-Tracks & Stellplätzen am Weg."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('events')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-amber-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📅</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Events & Weinfeste</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Weinfeste, Festivals & Traditionen mit Camping in der Nähe.</p>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubEvents || "Events & Weinfeste"}</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldEventsDesc || "Weinfeste, Festivals & Traditionen mit Camping in der Nähe."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('highlights')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-emerald-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🏰</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>Sehenswürdigkeiten</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>Burgen, Schlösser, Naturparke und Highlights in Europa.</p>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubHighlights || "Sehenswürdigkeiten"}</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldHighlightsDesc || "Burgen, Schlösser, Naturparke und Highlights in Europa."}</p>
                     </div>
                   </div>
                 </div>

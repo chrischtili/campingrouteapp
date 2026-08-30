@@ -191,7 +191,7 @@ export async function getDb(): Promise<Database> {
     }
   }
 
-  // Idempotent migration for lists table (device_id)
+  // Idempotent migration for lists table (device_id & share_code)
   try {
     const listCols = await dbConnection.all("PRAGMA table_info(lists)");
     const listColNames = new Set(listCols.map((c: any) => c.name));
@@ -199,6 +199,11 @@ export async function getDb(): Promise<Database> {
       await dbConnection.run("ALTER TABLE lists ADD COLUMN device_id TEXT");
       await dbConnection.run("CREATE INDEX IF NOT EXISTS idx_lists_device_id ON lists(device_id)");
       console.log("[db] Added column 'device_id' to lists table.");
+    }
+    if (!listColNames.has('share_code')) {
+      await dbConnection.run("ALTER TABLE lists ADD COLUMN share_code TEXT");
+      await dbConnection.run("CREATE UNIQUE INDEX IF NOT EXISTS idx_lists_share_code ON lists(share_code)");
+      console.log("[db] Added column 'share_code' to lists table.");
     }
   } catch (e: any) {
     console.warn(`[db] Could not migrate lists table: ${e.message}`);

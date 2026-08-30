@@ -1470,12 +1470,30 @@ function EntdeckenContent() {
     }
   };
 
-  // Fetch initial data on mount
+  // Fetch initial data on mount & handle ?trip= sharing code
   useEffect(() => {
     fetchLists();
     fetchCountryStats();
     fetchAttractionStats();
     fetchTrails();
+
+    // Check if a shared trip code or ID is in the URL (e.g. ?trip=CR-ABC123)
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tripCode = params.get('trip') || params.get('list');
+      if (tripCode && tripCode.trim()) {
+        fetch(`/discover/api/lists/share/${tripCode.trim()}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.list) {
+              setActiveTab('lists');
+              setSelectedList(data.list);
+              setListItems(data.items || []);
+            }
+          })
+          .catch(() => {});
+      }
+    } catch {}
 
     // Track discover visit
     fetch('/api/count-discover', { method: 'POST' }).catch(() => {});
@@ -6053,27 +6071,66 @@ const getWebsiteUrl = (place: Place): string | null => {
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
             {!selectedList ? (
               <>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                   <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>{t.roadtripTitle}</h2>
-                  <button 
-                    onClick={() => setShowAddListModal(true)}
-                    style={{ 
-                      background: 'var(--primary-700)', 
-                      color: 'white', 
-                      border: 'none', 
-                      borderRadius: '9999px',
-                      padding: '0.6rem 1.25rem',
-                      fontSize: '0.9rem',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <Plus size={18} />
-                    {t.createRoadtrip}
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <button 
+                      onClick={async () => {
+                        const code = window.prompt('Gib deinen 6-stelligen Roadtrip-Code ein (z.B. CR-8X4K2):');
+                        if (!code || !code.trim()) return;
+                        try {
+                          const res = await fetch(`/discover/api/lists/share/${code.trim()}`);
+                          const data = await res.json();
+                          if (data.success && data.list) {
+                            setSelectedList(data.list);
+                            setListItems(data.items || []);
+                            fetchLists();
+                          } else {
+                            alert('Kein Roadtrip mit diesem Code gefunden.');
+                          }
+                        } catch (e) {
+                          alert('Fehler beim Laden des Roadtrips.');
+                        }
+                      }}
+                      style={{ 
+                        background: 'var(--card-bg)', 
+                        color: 'var(--primary-700)', 
+                        border: '1px solid var(--primary-500)', 
+                        borderRadius: '9999px',
+                        padding: '0.6rem 1.1rem',
+                        fontSize: '0.85rem',
+                        fontWeight: 700,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        cursor: 'pointer'
+                      }}
+                      className="hover:bg-primary-50"
+                      title="Einen geteilten Roadtrip mit Code öffnen"
+                    >
+                      <Download size={16} />
+                      <span>{t.importRoadtripBtn || 'Code eingeben'}</span>
+                    </button>
+                    <button 
+                      onClick={() => setShowAddListModal(true)}
+                      style={{ 
+                        background: 'var(--primary-700)', 
+                        color: 'white', 
+                        border: 'none', 
+                        borderRadius: '9999px',
+                        padding: '0.6rem 1.25rem',
+                        fontSize: '0.9rem',
+                        fontWeight: 700,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <Plus size={18} />
+                      {t.createRoadtrip}
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
@@ -6115,26 +6172,62 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {t.backToLists}
                   </button>
 
-                  <button
-                    onClick={() => handleDeleteList(selectedList.id)}
-                    style={{
-                      background: 'none',
-                      border: '1px solid #fee2e2',
-                      color: '#dc2626',
-                      borderRadius: '8px',
-                      padding: '0.35rem 0.75rem',
-                      fontSize: '0.8rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem'
-                    }}
-                    className="hover:bg-red-50"
-                  >
-                    <Trash2 size={14} />
-                    <span>{t.deleteList || 'Liste löschen'}</span>
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(`/discover/api/lists/${selectedList.id}/share`, { method: 'POST' });
+                          const data = await res.json();
+                          if (data.share_code) {
+                            const shareUrl = `${window.location.origin}${window.location.pathname}?trip=${data.share_code}`;
+                            navigator.clipboard.writeText(shareUrl);
+                            alert(`🔗 Roadtrip-Link kopiert!\n\nCode: ${data.share_code}\nLink: ${shareUrl}\n\nDamit kannst du deinen Roadtrip auf jedem Gerät öffnen oder mit Freunden teilen.`);
+                          }
+                        } catch (e) {
+                          console.error(e);
+                        }
+                      }}
+                      style={{
+                        background: 'var(--card-bg)',
+                        border: '1px solid var(--primary-500)',
+                        color: 'var(--primary-700)',
+                        borderRadius: '8px',
+                        padding: '0.35rem 0.75rem',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
+                      }}
+                      className="hover:bg-primary-50"
+                      title="Generiert einen geheimen Link zum Teilen oder Wiederherstellen auf jedem Gerät"
+                    >
+                      <Share2 size={14} />
+                      <span>{t.shareRoadtripBtn || 'Roadtrip teilen & sichern'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteList(selectedList.id)}
+                      style={{
+                        background: 'none',
+                        border: '1px solid #fee2e2',
+                        color: '#dc2626',
+                        borderRadius: '8px',
+                        padding: '0.35rem 0.75rem',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
+                      }}
+                      className="hover:bg-red-50"
+                    >
+                      <Trash2 size={14} />
+                      <span>{t.deleteList || 'Liste löschen'}</span>
+                    </button>
+                  </div>
                 </div>
                 <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.25rem' }}>{selectedList.name}</h2>
                 <p style={{ fontSize: '0.95rem', color: 'var(--gray-500)', marginBottom: '1.5rem' }}>{selectedList.description}</p>

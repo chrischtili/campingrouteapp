@@ -2286,6 +2286,67 @@ app.delete("/api/lists/:id/items/:placeId", async (req, res) => {
   }
 });
 
+// Share a list (generates short 6-digit sync/sharing code)
+app.post("/api/lists/:id/share", async (req, res) => {
+  try {
+    const db = await getDb();
+    const listId = req.params.id;
+
+    const list = await db.get("SELECT * FROM lists WHERE id = ?", [listId]);
+    if (!list) {
+      return res.status(404).json({ error: "List not found" });
+    }
+
+    let shareCode = list.share_code;
+    if (!shareCode) {
+      // Generate readable 6-character alphanumeric code (e.g. CR-9K2P4)
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      shareCode = code;
+      await db.run("UPDATE lists SET share_code = ? WHERE id = ?", [shareCode, listId]);
+    }
+
+    res.json({ success: true, share_code: shareCode, list_id: listId });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Import/Open a shared list by share_code or list_id
+app.get("/api/lists/share/:code", async (req, res) => {
+  try {
+    const db = await getDb();
+    const code = req.params.code.trim().toUpperCase();
+
+    const list = await db.get("SELECT * FROM lists WHERE UPPER(share_code) = ? OR id = ?", [code, req.params.code]);
+    if (!list) {
+      return res.status(404).json({ error: "Roadtrip list not found for this code" });
+    }
+
+    const items = await db.all(`
+      SELECT p.*, li.added_at 
+      FROM list_items li
+      JOIN places p ON li.place_id = p.id
+      WHERE li.list_id = ?
+      ORDER BY li.added_at DESC
+    `, [list.id]);
+
+    res.json({
+      success: true,
+      list: {
+        ...list,
+        item_count: items.length
+      },
+      items
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get items in a specific list
 app.get("/api/lists/:id/items", async (req, res) => {
   try {

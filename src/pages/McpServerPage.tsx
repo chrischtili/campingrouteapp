@@ -598,15 +598,17 @@ export default function McpServerPage() {
                 {t("mcpPage.ctaDesc", "Erstelle mit unserem 7-Schritte-Prompt-Assistenten maßgeschneiderte Camping-Routen oder durchstöbere das interaktive Entdecken-Portal.")}
               </p>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+            <div className="flex flex-wrap items-center justify-center gap-3.5 shrink-0">
               <Link to="/prompt-generator">
-                <Button className="bg-white text-emerald-900 hover:bg-emerald-50 font-bold px-6 py-3 h-auto rounded-xl shadow-md">
-                  {t("mcpPage.ctaPromptBtn", "Zum Prompt-Assistenten")}
+                <Button className="!bg-white !text-emerald-950 hover:!bg-emerald-50 font-black text-sm px-6 py-3.5 h-auto rounded-xl shadow-lg border border-white hover:scale-105 transition-all">
+                  <Sparkles className="w-4 h-4 text-emerald-700 mr-2 shrink-0" />
+                  <span>{t("mcpPage.ctaPromptBtn", "Zum Prompt-Assistenten")}</span>
                 </Button>
               </Link>
               <Link to="/entdecken">
-                <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 font-bold px-6 py-3 h-auto rounded-xl">
-                  {t("mcpPage.ctaDiscoverBtn", "Entdecken-Portal")}
+                <Button className="!bg-emerald-900/80 hover:!bg-emerald-950 !text-white font-bold text-sm px-6 py-3.5 h-auto rounded-xl shadow-md border border-emerald-300/40 hover:scale-105 transition-all backdrop-blur-sm">
+                  <Compass className="w-4 h-4 text-emerald-300 mr-2 shrink-0" />
+                  <span>{t("mcpPage.ctaDiscoverBtn", "Entdecken-Portal")}</span>
                 </Button>
               </Link>
             </div>

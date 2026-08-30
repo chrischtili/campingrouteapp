@@ -849,7 +849,10 @@ function EntdeckenContent() {
     setSelectedCountryView(null);
     setHasSearched(false);
     setSearchQuery('');
-    if (activeTab === 'lists' && hub !== 'listen' && hub !== 'lists') {
+    const h = (hub || '').toLowerCase();
+    if (h === 'listen' || h === 'lists' || h === 'favoriten' || h === 'saved') {
+      setActiveTab('lists');
+    } else {
       setActiveTab('explore');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1492,6 +1495,13 @@ function EntdeckenContent() {
             }
           })
           .catch(() => {});
+      }
+
+      // Check if a search query is in the URL (e.g. ?q=Bodensee)
+      const qParam = params.get('q') || params.get('search');
+      if (qParam && qParam.trim()) {
+        setSearchQuery(qParam.trim());
+        handleSearch(undefined, qParam.trim());
       }
     } catch {}
 

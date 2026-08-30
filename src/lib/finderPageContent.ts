@@ -959,3 +959,36 @@ export function getDiscoverSeo(pathname: string, search: string, language: strin
 
   return discoverSeoContent[locale].overview;
 }
+
+export function getMcpSeo(language: string) {
+  const locale = getLocale(language);
+  const mcpSeo: Record<"de" | "en" | "fr" | "it" | "nl", { title: string; description: string; keywords: string }> = {
+    de: {
+      title: "CampingRoute MCP-Server – Model Context Protocol für KI-Assistenten | CampingRoute",
+      description: "Verbinde Claude Desktop, Cursor, Antigravity oder eigene KI-Agenten über das Model Context Protocol (MCP) mit 20.000+ Campingplätzen, Touren und Events.",
+      keywords: "MCP Server Camping, Model Context Protocol, Claude Desktop MCP, Cursor MCP Camping, AI Camping Tools",
+    },
+    en: {
+      title: "CampingRoute MCP Server – Model Context Protocol for AI Assistants | CampingRoute",
+      description: "Connect Claude Desktop, Cursor, Antigravity, or custom AI agents via Model Context Protocol (MCP) with 20,000+ campsites, trails, and events.",
+      keywords: "MCP server camping, Model Context Protocol, Claude Desktop MCP, Cursor MCP, AI outdoor tools",
+    },
+    fr: {
+      title: "Serveur MCP CampingRoute – Model Context Protocol pour assistants IA | CampingRoute",
+      description: "Connectez Claude Desktop, Cursor ou des agents IA au serveur MCP CampingRoute pour accéder à 20 000+ campings, itinéraires et événements.",
+      keywords: "serveur MCP camping, Model Context Protocol, Claude Desktop MCP, outils IA plein air",
+    },
+    it: {
+      title: "Server MCP CampingRoute – Model Context Protocol per assistenti IA | CampingRoute",
+      description: "Collega Claude Desktop, Cursor o agenti IA al server MCP CampingRoute con oltre 20.000 campeggi, sentieri ed eventi in Europa.",
+      keywords: "server MCP campeggio, Model Context Protocol, Claude Desktop MCP, strumenti IA viaggi",
+    },
+    nl: {
+      title: "CampingRoute MCP-Server – Model Context Protocol voor AI-assistenten | CampingRoute",
+      description: "Verbind Claude Desktop, Cursor of AI-agents via het Model Context Protocol (MCP) met meer dan 20.000 campings, routes en evenementen.",
+      keywords: "MCP server camping, Model Context Protocol, Claude Desktop MCP, AI tools kamperen",
+    },
+  };
+  return mcpSeo[locale];
+}
+

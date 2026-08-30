@@ -1604,6 +1604,7 @@
     "discover": "Entdecken",
     "planner": "Prompt-Assistent",
     "campsites": "Campingplatz-Finder",
-    "pitches": "Stellplatz-Finder"
+    "pitches": "Stellplatz-Finder",
+    "mcp": "MCP-Server"
   }
 }

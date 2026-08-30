@@ -1603,6 +1603,7 @@
     "discover": "Discover",
     "planner": "Prompt Assistant",
     "campsites": "Campsite Finder",
-    "pitches": "Pitch Finder"
+    "pitches": "Pitch Finder",
+    "mcp": "MCP Server"
   }
 }

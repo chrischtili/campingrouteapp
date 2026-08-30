@@ -33,6 +33,8 @@ export function AppBreadcrumbs({ items, className = "" }: AppBreadcrumbsProps) {
       breadcrumbItems.push({ label: t("nav.campsites", "Campingplatz-Finder") });
     } else if (path === "/stellplatz-finder") {
       breadcrumbItems.push({ label: t("nav.pitches", "Stellplatz-Finder") });
+    } else if (path === "/mcp" || path === "/mcp-server") {
+      breadcrumbItems.push({ label: t("nav.mcp", "MCP-Server") });
     }
   }
 

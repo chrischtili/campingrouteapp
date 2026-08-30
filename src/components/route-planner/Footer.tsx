@@ -147,14 +147,13 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => setShowMcpModal(true)}
-                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+                <Link
+                  to="/mcp"
+                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
                 >
                   <Cpu className="w-3.5 h-3.5" />
                   <span>{t("footer.mcpServerLink", "MCP-Server für KI-Assistenten")}</span>
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

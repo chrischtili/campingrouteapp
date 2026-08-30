@@ -1601,6 +1601,7 @@
     "discover": "Ontdekken",
     "planner": "Prompt-assistent",
     "campsites": "Campingzoeker",
-    "pitches": "Camperplaatszoeker"
+    "pitches": "Camperplaatszoeker",
+    "mcp": "MCP-server"
   }
 }

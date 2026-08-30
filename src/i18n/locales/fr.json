@@ -1601,6 +1601,7 @@
     "discover": "Découvrir",
     "planner": "Assistant de prompt",
     "campsites": "Recherche de campings",
-    "pitches": "Recherche d'aires de stationnement"
+    "pitches": "Recherche d'aires de stationnement",
+    "mcp": "Serveur MCP"
   }
 }

@@ -8,7 +8,7 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { getFinderSeo, getFinderPageContent, getDiscoverSeo } from "@/lib/finderPageContent";
+import { getFinderSeo, getFinderPageContent, getDiscoverSeo, getMcpSeo } from "@/lib/finderPageContent";
 import { getPromptGeneratorSeo } from "@/lib/promptGeneratorPageContent";
 import { getSchemaLocale, generateFAQPageSchema, generateHowToSchema, generateWebApplicationSchema } from "@/lib/seoSchema";
 
@@ -78,6 +78,7 @@ const CampingplatzFinder = lazyWithReload(() => import("./pages/CampingplatzFind
 const StellplatzFinder = lazyWithReload(() => import("./pages/StellplatzFinder"));
 const PromptGenerator = lazyWithReload(() => import("./pages/PromptGenerator"));
 const Entdecken = lazyWithReload(() => import("./pages/entdecken/Entdecken"));
+const McpServerPage = lazyWithReload(() => import("./pages/McpServerPage"));
 
 // Dynamische Importe für UI-Komponenten
 const Toaster = lazyWithReload(() =>
@@ -225,7 +226,9 @@ const App = () => {
 
     let pageSeo = getPromptGeneratorSeo(location.pathname, i18n.language) || getFinderSeo(location.pathname, i18n.language);
     
-    if (!pageSeo && isDiscoverPage) {
+    if (location.pathname === '/mcp' || location.pathname === '/mcp-server') {
+      pageSeo = getMcpSeo(i18n.language);
+    } else if (!pageSeo && isDiscoverPage) {
       pageSeo = getDiscoverSeo(location.pathname, location.search, i18n.language);
     }
 
@@ -422,6 +425,8 @@ const App = () => {
               <Route path="/ontdekken/:hub" element={<Entdecken />} />
               <Route path="/campingplatz-finder" element={<CampingplatzFinder />} />
               <Route path="/stellplatz-finder" element={<StellplatzFinder />} />
+              <Route path="/mcp" element={<McpServerPage />} />
+              <Route path="/mcp-server" element={<McpServerPage />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               {/* Admin-Seite (nicht verlinkt, nur per direkter URL aufrufbar) */}

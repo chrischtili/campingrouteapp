@@ -2854,7 +2854,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <span>{selectedPlace.address}</span>
                     </p>
                     <p style={{ fontSize: '0.75rem', color: 'var(--gray-600)', fontWeight: 500, marginTop: '0.75rem' }}>
-                      Datenquelle:{" "}
+                      {(t as any).dataSourceLabel || 'Datenquelle'}:{" "}
                       {(() => {
                         const hasDzt = (selectedPlace.source || '').includes('dzt') || selectedPlace.id?.startsWith('dzt-');
                         const osmMatch = (selectedPlace.osm_id || selectedPlace.id || '').match(/^(?:osm-)?(node|way|relation)-(\d+)$/);
@@ -2895,7 +2895,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                         return osmLink;
                       })()}
-                      {selectedPlace.website ? ' · verifizierte Website' : ''}
+                      {selectedPlace.website ? ` · ${(t as any).verifiedWebsite || 'verifizierte Website'}` : ''}
                     </p>
                   </div>
 
@@ -3178,7 +3178,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
                                 <span>{tr.distance_km} km</span>
                                 <span>·</span>
-                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km vom Platz</span>
+                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>{tr.distance_to_place_km} km {(t as any).fromPlace || 'vom Platz'}</span>
                               </p>
                             </div>
                           </div>
@@ -3190,15 +3190,15 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Nearby Culinary Spots (Wineries, Farm Shops, Regiomats) */}
                   <div className="detail-card">
                     <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      🍇 Hofläden, Winzer & Automaten
+                      {(t as any).nearbyCulinaryTitle || '🍇 Hofläden, Winzer & Automaten'}
                     </h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '0.85rem' }}>
-                      Regionale Spezialitäten, Weinverkauf und 24h-Regiomaten in der Nähe
+                      {(t as any).nearbyCulinarySubtitle || 'Regionale Spezialitäten, Weinverkauf und 24h-Regiomaten in der Nähe'}
                     </p>
                     
                     {nearbyCulinarySpots.length === 0 ? (
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0 }}>
-                        Keine Erzeuger oder Hofläden im direkten 35-km-Nahbereich registriert.
+                        {(t as any).noNearbyCulinary || 'Keine Erzeuger oder Hofläden im direkten 35-km-Nahbereich registriert.'}
                       </p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -3350,23 +3350,23 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {/* Trail Specs Grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '0.75rem', margin: '1.25rem 0', padding: '1rem', background: 'var(--gray-50)', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
                       <div>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Gesamtlänge</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>{(t as any).trailTotalLength || 'Gesamtlänge'}</span>
                         <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: 'var(--gray-900)' }}>📍 {selectedTrail.distance_km} km</p>
                       </div>
                       {selectedTrail.duration_hours && (
                         <div>
-                          <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Reine Gehzeit</span>
-                          <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: 'var(--gray-900)' }}>⏱️ {selectedTrail.duration_hours} Std.</p>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>{(t as any).trailDuration || 'Reine Gehzeit'}</span>
+                          <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: 'var(--gray-900)' }}>⏱️ {selectedTrail.duration_hours} h</p>
                         </div>
                       )}
                       {selectedTrail.elevation_gain_m && (
                         <div>
-                          <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Höhenmeter</span>
-                          <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: 'var(--gray-900)' }}>⛰️ +{selectedTrail.elevation_gain_m} hm</p>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>{(t as any).trailElevation || 'Höhenmeter'}</span>
+                          <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: 'var(--gray-900)' }}>⛰️ +{selectedTrail.elevation_gain_m} m</p>
                         </div>
                       )}
                       <div>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Camping-Dichte</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>{(t as any).trailCampingDensity || 'Camping-Dichte'}</span>
                         <p style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0.15rem 0 0 0', color: '#059669' }}>
                           🏕️ {isLoadingTrailCampsites ? '...' : `${trailCampsites.length} ${trailCampsites.length === 1 ? 'Platz' : 'Plätze'}`}
                         </p>
@@ -3396,7 +3396,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         className="hover:bg-emerald-100 hover:shadow-sm"
                       >
                         <Download size={17} className={isDownloadingGpx ? 'animate-bounce' : ''} />
-                        <span>{isDownloadingGpx ? '⏳ GPX-Track wird vorbereitet...' : '📥 GPX-Track herunterladen (Navi / Komoot / Garmin)'}</span>
+                        <span>{isDownloadingGpx ? ((t as any).trailPreparingGpx || '⏳ GPX-Track wird vorbereitet...') : ((t as any).trailDownloadGpx || '📥 GPX-Track herunterladen (Navi / Komoot / Garmin)')}</span>
                       </button>
                     </div>
 
@@ -3404,7 +3404,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {safeHighlights(selectedTrail.highlights).length > 0 && (
                       <div style={{ marginBottom: '1.25rem' }}>
                         <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>
-                          ✨ Besondere Highlights entlang der Strecke
+                          {(t as any).trailHighlightsTitle || '✨ Besondere Highlights entlang der Strecke'}
                         </h4>
                         <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
                           {safeHighlights(selectedTrail.highlights).map((hl, idx) => (
@@ -3419,7 +3419,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {/* Description */}
                     <div>
                       <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem' }}>
-                        📖 Routenbeschreibung & Charakteristik
+                        {(t as any).trailDescriptionTitle || '📖 Routenbeschreibung & Charakteristik'}
                       </h4>
                       <p style={{ fontSize: '0.9rem', color: 'var(--gray-700)', lineHeight: '1.6', margin: 0 }}>
                         {selectedTrail.description}
@@ -3432,21 +3432,21 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: 0 }}>
                   <div className="detail-card">
                     <h4 style={{ fontSize: '1.05rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      {selectedTrail.distance_km < 25 ? '🏕️ Camping & Stellplätze in der Nähe' : '🏕️ Camping & Stellplätze an der Route'} ({isLoadingTrailCampsites ? '...' : trailCampsites.length})
+                      {selectedTrail.distance_km < 25 ? ((t as any).trailCampsitesNearTitle || '🏕️ Camping & Stellplätze in der Nähe') : ((t as any).trailCampsitesAlongTitle || '🏕️ Camping & Stellplätze an der Route')} ({isLoadingTrailCampsites ? '...' : trailCampsites.length})
                     </h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', marginBottom: '1rem' }}>
                       {selectedTrail.distance_km < 25 
-                        ? `Verifizierte Übernachtungsorte im Umkreis von bis zu ${selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15)} km` 
-                        : 'Verifizierte Übernachtungsorte im Korridor entlang des Streckenverlaufs'}
+                        ? (((t as any).trailCampsitesNearSub || 'Verifizierte Übernachtungsorte im Umkreis von bis zu {{km}} km').replace('{{km}}', String(selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15))))
+                        : ((t as any).trailCampsitesAlongSub || 'Verifizierte Übernachtungsorte im Korridor entlang des Streckenverlaufs')}
                     </p>
 
                     {isLoadingTrailCampsites ? (
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic' }}>Nahegelegene Plätze werden gesucht...</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic' }}>{(t as any).trailSearchingCampsites || 'Nahegelegene Plätze werden gesucht...'}</p>
                     ) : trailCampsites.length === 0 ? (
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontStyle: 'italic' }}>
                         {selectedTrail.distance_km < 25 
-                          ? `Keine Campingplätze im direkten Umkreis von ${selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15)} km gefunden.` 
-                          : 'Keine Campingplätze im Korridor entlang des Streckenverlaufs gefunden.'}
+                          ? (((t as any).trailNoCampsitesNear || 'Keine Campingplätze im direkten Umkreis von {{km}} km gefunden.').replace('{{km}}', String(selectedTrail.distance_km < 15 ? 8 : (selectedTrail.distance_km < 50 ? 12 : 15))))
+                          : ((t as any).trailNoCampsitesAlong || 'Keine Campingplätze im Korridor entlang des Streckenverlaufs gefunden.')}
                       </p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '380px', overflowY: 'auto', paddingRight: '4px' }}>
@@ -3546,10 +3546,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                       <MapIcon size={16} />
                       <span>
                         {trailCampsites.length === 1
-                          ? 'Den 1 Platz auf großer Karte öffnen'
+                          ? ((t as any).trailOpenMapSingle || 'Den 1 Platz auf großer Karte öffnen')
                           : trailCampsites.length > 1
-                          ? `Alle ${trailCampsites.length} Plätze auf großer Karte öffnen`
-                          : 'Campingplätze im weiteren Umkreis suchen'}
+                          ? (((t as any).trailOpenMapMultiple || 'Alle {{count}} Plätze auf großer Karte öffnen').replace('{{count}}', String(trailCampsites.length)))
+                          : ((t as any).searchPlaceholder || 'Campingplätze im weiteren Umkreis suchen')}
                       </span>
                     </button>
                   </div>
@@ -3599,7 +3599,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
               <div style={{ padding: '1.75rem' }}>
                 <div style={{ marginBottom: '1.25rem' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>Über diesen Betrieb</h3>
+                  <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>{(t as any).culinaryAboutTitle || 'Über diesen Betrieb'}</h3>
                   <p style={{ fontSize: '0.92rem', color: 'var(--gray-700)', lineHeight: '1.6', margin: 0 }}>
                     {selectedCulinarySpot.description}
                   </p>
@@ -3607,7 +3607,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                 {/* Products */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>Regionale Spezialitäten & Angebote</h3>
+                  <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.5rem' }}>{(t as any).culinaryProductsTitle || 'Regionale Spezialitäten & Angebote'}</h3>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {selectedCulinarySpot.products.map((p, idx) => (
                       <span key={idx} style={{ background: 'var(--primary-50)', color: 'var(--primary-800)', border: '1px solid var(--primary-200)', padding: '0.35rem 0.75rem', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 700 }}>
@@ -3623,10 +3623,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                     <div style={{ fontSize: '1.5rem' }}>{selectedCulinarySpot.hasCampsite ? '🚐' : '🏕️'}</div>
                     <div>
                       <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: selectedCulinarySpot.hasCampsite ? 'var(--primary-900)' : 'var(--gray-800)', margin: '0 0 0.2rem 0' }}>
-                        {selectedCulinarySpot.hasCampsite ? 'Wohnmobilstellplatz direkt vor Ort' : 'Übernachtungsempfehlung für Camper'}
+                        {selectedCulinarySpot.hasCampsite ? ((t as any).culinaryPitchOnSite || 'Wohnmobilstellplatz direkt vor Ort') : ((t as any).culinaryPitchRecommendation || 'Übernachtungsempfehlung für Camper')}
                       </h4>
                       <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', margin: 0, lineHeight: '1.4' }}>
-                        {selectedCulinarySpot.pitchNote || 'Mehrere verifizierte Camping- und Stellplätze befinden sich in unmittelbarer Nähe.'}
+                        {selectedCulinarySpot.pitchNote || (t as any).culinaryPitchDefaultNote || 'Mehrere verifizierte Camping- und Stellplätze befinden sich in unmittelbarer Nähe.'}
                       </p>
                     </div>
                   </div>
@@ -3634,12 +3634,12 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Inline Nearby Campsites */}
                   {isLoadingCulinaryCampsites ? (
                     <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', fontStyle: 'italic', margin: '0.5rem 0 0 0' }}>
-                      Suche verifizierte Stellplätze in der Nähe...
+                      {(t as any).culinarySearchingCampsites || 'Suche verifizierte Stellplätze in der Nähe...'}
                     </p>
                   ) : culinaryCampsites.length > 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
                       <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--gray-700)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                        Verifizierte Plätze in der Umgebung ({culinaryCampsites.length}):
+                        {((t as any).culinaryVerifiedNearby || 'Verifizierte Plätze in der Umgebung ({{count}}):').replace('{{count}}', String(culinaryCampsites.length))}
                       </div>
                       {culinaryCampsites.slice(0, 3).map((cp) => (
                         <div
@@ -3674,7 +3674,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             </div>
                           </div>
                           <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-700)', flexShrink: 0 }}>
-                            Ansehen →
+                            {(t as any).culinaryView || 'Ansehen →'}
                           </span>
                         </div>
                       ))}
@@ -3694,7 +3694,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         href={`tel:${selectedCulinarySpot.phone}`}
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-100)', color: 'var(--gray-800)', padding: '0.5rem 0.9rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
                       >
-                        📞 Anrufen
+                        {(t as any).culinaryCall || '📞 Anrufen'}
                       </a>
                     )}
                     {selectedCulinarySpot.website && (
@@ -3705,7 +3705,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--primary-600)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
                       >
                         <ExternalLink size={14} />
-                        <span>Website</span>
+                        <span>{t.websiteLink || 'Website'}</span>
                       </a>
                     )}
                     <button
@@ -3713,7 +3713,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                       style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-900)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', border: 'none' }}
                     >
                       <MapIcon size={14} />
-                      <span>Plätze in der Nähe ({isLoadingCulinaryCampsites ? '...' : culinaryCampsites.length})</span>
+                      <span>{((t as any).culinaryPlacesNearby || 'Plätze in der Nähe ({{count}})').replace('{{count}}', String(isLoadingCulinaryCampsites ? '...' : culinaryCampsites.length))}</span>
                     </button>
                   </div>
                 </div>
@@ -6731,7 +6731,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                   {selectedEvent.streetAddress && (
                     <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', margin: 0 }}>
-                      📍 <strong>Veranstaltungsort:</strong> {selectedEvent.streetAddress}, {selectedEvent.postalCode} {selectedEvent.locality}
+                      📍 <strong>{(t as any).eventVenue || 'Veranstaltungsort'}:</strong> {selectedEvent.streetAddress}, {selectedEvent.postalCode} {selectedEvent.locality}
                     </p>
                   )}
 
@@ -6742,7 +6742,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* License & Copyright Info */}
                   {selectedEvent.image_copyright && (
                     <div style={{ fontSize: '0.72rem', color: 'var(--gray-600)', marginTop: '0.5rem', fontStyle: 'italic' }}>
-                      Bildnachweis: {selectedEvent.image_copyright}
+                      {(t as any).eventImageCredit || 'Bildnachweis'}: {selectedEvent.image_copyright}
                     </div>
                   )}
                   <div style={{ fontSize: '0.72rem', color: 'var(--gray-600)' }}>
@@ -6769,7 +6769,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         }}
                         className="hover:bg-gray-200"
                       >
-                        <Globe size={14} /> Offizielle Event-Website <ExternalLink size={12} />
+                        <Globe size={14} /> {(t as any).eventOfficialWebsite || 'Offizielle Event-Website'} <ExternalLink size={12} />
                       </a>
                     </div>
                   )}
@@ -6779,20 +6779,20 @@ const getWebsiteUrl = (place: Place): string | null => {
                 <div className="md:col-span-5" style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
                   <div style={{ background: 'var(--gray-50)', padding: '1rem', borderRadius: '14px', border: '1px solid var(--gray-200)' }}>
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0 0 0.25rem 0', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      🏕️ Camping & Stellplätze in der Nähe ({isLoadingEventCampsites ? '...' : eventCampsites.length})
+                      {((t as any).eventNearbyCamping || '🏕️ Camping & Stellplätze in der Nähe ({{count}})').replace('{{count}}', String(isLoadingEventCampsites ? '...' : eventCampsites.length))}
                     </h4>
                     <p style={{ fontSize: '0.76rem', color: 'var(--gray-500)', margin: '0 0 0.75rem 0' }}>
-                      Verifizierte Übernachtungsorte im Umkreis von bis zu 35 km
+                      {(t as any).eventNearbyCampingSub || 'Verifizierte Übernachtungsorte im Umkreis von bis zu 35 km'}
                     </p>
 
                     {isLoadingEventCampsites ? (
                       <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--gray-500)' }}>
                         <div className="spinner" style={{ width: '20px', height: '20px', margin: '0 auto 0.5rem auto' }}></div>
-                        <p style={{ fontSize: '0.8rem', fontStyle: 'italic', margin: 0 }}>Suche Stellplätze in der Nähe...</p>
+                        <p style={{ fontSize: '0.8rem', fontStyle: 'italic', margin: 0 }}>{(t as any).eventSearchingCamping || 'Suche Stellplätze in der Nähe...'}</p>
                       </div>
                     ) : eventCampsites.length === 0 ? (
                       <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0, padding: '1rem 0' }}>
-                        Keine registrierten Campingplätze im direkten 35 km Umkreis gefunden.
+                        {(t as any).eventNoCampingFound || 'Keine registrierten Campingplätze im direkten 35 km Umkreis gefunden.'}
                       </p>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '340px', overflowY: 'auto', paddingRight: '4px' }}>

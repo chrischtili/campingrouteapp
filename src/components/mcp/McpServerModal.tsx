@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Cpu, Sparkles, Copy, Check, X, Terminal, ExternalLink } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -177,15 +178,24 @@ export function McpServerModal({ open, onClose }: McpServerModalProps) {
 
         {/* Footer */}
         <div className="flex items-center justify-between px-6 py-3.5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
-          <a
-            href="/llms.txt"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 inline-flex items-center gap-1 transition-colors"
-          >
-            <span>llms.txt Dokumentation</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/mcp"
+              onClick={onClose}
+              className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline inline-flex items-center gap-1 transition-colors"
+            >
+              <span>Vollständige MCP-Seite öffnen</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+            <a
+              href="/llms.txt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 items-center gap-1 transition-colors"
+            >
+              <span>llms.txt</span>
+            </a>
+          </div>
           <button
             type="button"
             onClick={onClose}

@@ -28,8 +28,10 @@
 - 🤖 **Bring Your Own Key (BYOK) KI-Architektur**:
   - Eigener API-Key (Gemini, OpenAI, Anthropic, Mistral, Perplexity, OpenRouter) sicher im Browser hinterlegbar.
   - Smarte 0€-Deterministische Suche für klare Suchanfragen ohne API-Kosten.
-- 🔌 **Model Context Protocol (MCP) Server**:
-  - Integrierter MCP-Server zur direkten Anbindung an Cursor, Claude Desktop, Safari MCP oder KI-Agenten, um Camping- & Routendaten live abzufragen.
+- 🔌 **Model Context Protocol (MCP) Server & Landingpage (`/mcp`)**:
+  - Dedizierte interaktive Dokumentationsseite `/mcp` mit 1-Klick-Setups für Claude Desktop, Cursor IDE, Antigravity und Python/cURL.
+  - Vollständiger Tool-Katalog aller 10 MCP-Tools (Camping, Wanderwege, Events, Sights, Reviews, Reiselisten).
+  - Integrierter SSE-Live-Endpoint (`/discover/mcp`) zur direkten Anbindung an KI-Agenten.
 
 ---
 

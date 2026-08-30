@@ -1615,6 +1615,7 @@
     "pillVerifiedPlaces": "20,000+ Verified Places",
     "pillTrails": "DZT Hiking & Cycling Routes",
     "pillLiveEndpoint": "SSE Live Endpoint",
+    "pillRateLimit": "Fair Use: 60 Req / 5 Min",
     "endpointLabel": "SSE Endpoint:",
     "copyUrl": "Copy URL",
     "copied": "Copied!",

@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 import express from "express";
+import rateLimit from "express-rate-limit";
 import https from "https";
 import cors from "cors";
 import { getDb } from "./db/db.js";
@@ -41,6 +42,21 @@ import fs from "fs";
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// MCP Rate Limiting: 60 requests per 300 seconds (5 minutes) per IP address
+export const mcpRateLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 300 seconds (5 minutes)
+  max: 60, // Limit each IP to 60 requests per windowMs
+  standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: {
+    jsonrpc: "2.0",
+    error: {
+      code: -32000,
+      message: "Rate limit exceeded (max 60 requests per 5 minutes). Please slow down."
+    }
+  }
+});
 
 export function resolveRequestAI(req: express.Request): AIProviderConfig {
   const customProvider = (req.headers['x-ai-provider'] || req.query.ai_provider) as string;
@@ -2304,7 +2320,7 @@ if (isStdioMode) {
   
   const mcpTransports = new Map<string, SSEServerTransport>();
 
-  app.get("/mcp", async (req, res) => {
+  app.get("/mcp", mcpRateLimiter, async (req, res) => {
     console.log("New SSE connection established for MCP client");
     const proto = req.headers["x-forwarded-proto"] || "https";
     const host = req.headers["x-forwarded-host"] || req.headers.host || "campingroute.app";
@@ -2415,8 +2431,8 @@ if (isStdioMode) {
     res.status(400).send("Invalid JSON-RPC or Session not found");
   };
 
-  app.post("/mcp", handleMcpPost);
-  app.post("/messages", handleMcpPost);
+  app.post("/mcp", mcpRateLimiter, handleMcpPost);
+  app.post("/messages", mcpRateLimiter, handleMcpPost);
 
   // Ensure all places in target countries have their state assigned from GPS coords
   try {

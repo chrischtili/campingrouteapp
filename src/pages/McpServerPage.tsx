@@ -252,6 +252,10 @@ export default function McpServerPage() {
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span>{t("mcpPage.pillLiveEndpoint", "SSE Live Endpoint")}</span>
                 </div>
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-xs" title="60 Requests / 5 Minuten pro IP">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>{t("mcpPage.pillRateLimit", "Rate Limit: 60 Req / 5 Min")}</span>
+                </div>
               </div>
 
               {/* Endpoint Fast-Copy Bar */}

@@ -1613,6 +1613,7 @@
     "pillVerifiedPlaces": "20.000+ Geverifieerde plaatsen",
     "pillTrails": "DZT Wandel- & Fietsroutes",
     "pillLiveEndpoint": "SSE Live Endpoint",
+    "pillRateLimit": "Fair Use: 60 req / 5 min",
     "endpointLabel": "SSE Endpoint:",
     "copyUrl": "URL kopiëren",
     "copied": "Gekopieerd!",

@@ -2600,8 +2600,6 @@ ${trkpts}
       console.error('Error fetching reviews:', e);
       setReviews([]);
     }
-  };
-
   const fetchNearbyPlaces = async (placeId: string, lat?: number, lon?: number, type?: string) => {
     try {
       let url = `/discover/api/places/${placeId}/nearby`;
@@ -2621,147 +2619,140 @@ ${trkpts}
     }
   };
 
-  // Anonymous client device ID (100% GDPR compliant, stored in localStorage)
-  const getOrCreateDeviceId = (): string => {
+  // --- 100% Pure LocalStorage Roadtrip Lists (Zero server leakage, complete privacy) ---
+  const STORAGE_KEY_LISTS = 'campingroute_saved_lists';
+  const STORAGE_KEY_ITEMS = 'campingroute_saved_list_items';
+
+  interface LocalList {
+    id: string;
+    name: string;
+    description?: string;
+    created_at: string;
+    item_count?: number;
+  }
+
+  interface LocalListItem {
+    list_id: string;
+    place_id: string;
+    place: Place;
+    added_at: string;
+  }
+
+  const getLocalLists = (): LocalList[] => {
     try {
-      const KEY = 'campingroute_device_id';
-      let id = localStorage.getItem(KEY);
-      if (!id || id.length < 8) {
-        id = 'cr_' + (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2) + Date.now().toString(36));
-        localStorage.setItem(KEY, id);
-      }
-      return id;
+      const raw = localStorage.getItem(STORAGE_KEY_LISTS);
+      return raw ? JSON.parse(raw) : [];
     } catch {
-      return 'cr_anonymous_session';
+      return [];
     }
   };
 
-  const fetchLists = async () => {
+  const saveLocalLists = (items: LocalList[]) => {
     try {
-      const deviceId = getOrCreateDeviceId();
-      const response = await fetch('/discover/api/lists', {
-        headers: {
-          'x-device-id': deviceId
-        }
-      });
-      const data = await response.json();
-      setLists(Array.isArray(data) ? data : []);
-    } catch (e) {
-      console.error('Error fetching lists:', e);
-    }
+      localStorage.setItem(STORAGE_KEY_LISTS, JSON.stringify(items));
+    } catch {}
   };
 
-  const fetchListItems = async (listId: string) => {
+  const getLocalListItems = (): LocalListItem[] => {
     try {
-      const deviceId = getOrCreateDeviceId();
-      const response = await fetch(`/discover/api/lists/${listId}/items`, {
-        headers: {
-          'x-device-id': deviceId
-        }
-      });
-      const data = await response.json();
-      setListItems(Array.isArray(data) ? data : []);
-    } catch (e) {
-      console.error('Error fetching list items:', e);
+      const raw = localStorage.getItem(STORAGE_KEY_ITEMS);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
     }
   };
 
-  const handleCreateList = async (e: React.FormEvent) => {
+  const saveLocalListItems = (items: LocalListItem[]) => {
+    try {
+      localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(items));
+    } catch {}
+  };
+
+  const fetchLists = () => {
+    const localLists = getLocalLists();
+    const allItems = getLocalListItems();
+    const listsWithCounts = localLists.map(l => ({
+      ...l,
+      item_count: allItems.filter(it => it.list_id === l.id).length
+    }));
+    setLists(listsWithCounts);
+  };
+
+  const fetchListItems = (listId: string) => {
+    const allItems = getLocalListItems();
+    const filtered = allItems.filter(it => it.list_id === listId).map(it => ({
+      ...it.place,
+      added_at: it.added_at
+    }));
+    setListItems(filtered);
+  };
+
+  const handleCreateList = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newListVal.name) return;
+    if (!newListVal.name || !newListVal.name.trim()) return;
 
-    try {
-      const deviceId = getOrCreateDeviceId();
-      const response = await fetch('/discover/api/lists', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-device-id': deviceId
-        },
-        body: JSON.stringify({
-          ...newListVal,
-          device_id: deviceId
-        }),
-      });
+    const current = getLocalLists();
+    const newList: LocalList = {
+      id: 'list_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6),
+      name: newListVal.name.trim(),
+      description: newListVal.description?.trim() || '',
+      created_at: new Date().toISOString()
+    };
 
-      if (response.ok) {
-        setNewListVal({ name: '', description: '' });
-        setShowAddListModal(false);
-        fetchLists();
-      }
-    } catch (e) {
-      console.error('Error creating list:', e);
-    }
+    saveLocalLists([newList, ...current]);
+    setNewListVal({ name: '', description: '' });
+    setShowAddListModal(false);
+    fetchLists();
   };
 
-  const handleDeleteList = async (listId: string) => {
-    if (!window.confirm(t.confirmDeleteList || 'Möchtest du diese Reiseliste wirklich löschen?')) return;
-    try {
-      const deviceId = getOrCreateDeviceId();
-      const response = await fetch(`/discover/api/lists/${listId}`, {
-        method: 'DELETE',
-        headers: {
-          'x-device-id': deviceId
-        }
-      });
-      if (response.ok) {
-        setSelectedList(null);
-        fetchLists();
-      }
-    } catch (e) {
-      console.error('Error deleting list:', e);
+  const handleDeleteList = (listId: string) => {
+    if (!window.confirm('Möchtest du diese Roadtrip-Liste wirklich unwiderruflich löschen?')) return;
+    const current = getLocalLists();
+    saveLocalLists(current.filter(l => l.id !== listId));
+    
+    const items = getLocalListItems();
+    saveLocalListItems(items.filter(it => it.list_id !== listId));
+
+    if (selectedList?.id === listId) {
+      setSelectedList(null);
+      setListItems([]);
     }
+    fetchLists();
   };
 
-  const handleRemoveFromList = async (listId: string, placeId: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    try {
-      const deviceId = getOrCreateDeviceId();
-      const response = await fetch(`/discover/api/lists/${listId}/items/${placeId}`, {
-        method: 'DELETE',
-        headers: {
-          'x-device-id': deviceId
-        }
-      });
-      if (response.ok) {
-        fetchListItems(listId);
-        fetchLists();
-      }
-    } catch (e) {
-      console.error('Error removing item from list:', e);
-    }
-  };
-
-  const handleSaveToList = async (listId: string) => {
+  const handleSaveToList = (listId: string) => {
     if (!selectedPlace) return;
-
-    try {
-      const deviceId = getOrCreateDeviceId();
-      const response = await fetch(`/discover/api/lists/${listId}/items`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-device-id': deviceId
-        },
-        body: JSON.stringify({ 
-          place_id: selectedPlace.id,
-          device_id: deviceId
-        }),
-      });
-
-      if (response.ok) {
-        setShowSaveToListModal(false);
-        fetchLists();
-        alert(t.savedSuccessAlert || `Ort erfolgreich im Roadtrip gespeichert!`);
-      }
-    } catch (e) {
-      console.error('Error saving to list:', e);
+    const items = getLocalListItems();
+    const exists = items.some(it => it.list_id === listId && it.place_id === selectedPlace.id);
+    
+    if (!exists) {
+      const newItem: LocalListItem = {
+        list_id: listId,
+        place_id: selectedPlace.id,
+        place: selectedPlace,
+        added_at: new Date().toISOString()
+      };
+      saveLocalListItems([newItem, ...items]);
     }
+
+    setShowSaveToListModal(false);
+    fetchLists();
+    if (selectedList && selectedList.id === listId) {
+      fetchListItems(listId);
+    }
+    alert(`✓ "${selectedPlace.name}" wurde zum Roadtrip hinzugefügt!`);
+  };
+
+  const handleRemoveFromList = (listId: string, placeId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const items = getLocalListItems();
+    saveLocalListItems(items.filter(it => !(it.list_id === listId && it.place_id === placeId)));
+    fetchLists();
+    fetchListItems(listId);
   };
 
   const handleAddReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPlace || !newReviewVal.author || !newReviewVal.content) return;
 
     try {
       const response = await fetch(`/discover/api/places/${selectedPlace.id}/reviews`, {

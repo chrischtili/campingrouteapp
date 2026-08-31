@@ -933,10 +933,11 @@ function EntdeckenContent() {
       if (local) {
         setSelectedTrail(local);
       } else {
-        fetch(`/api/trails/details?id=${encodeURIComponent(trailId)}`)
+        fetch(`/discover/api/trails/details?id=${encodeURIComponent(trailId)}`)
           .then(r => r.json())
           .then(data => {
-            if (data && data.name) setSelectedTrail(data);
+            const trailObj = data.trail || data;
+            if (trailObj && trailObj.name) setSelectedTrail(trailObj);
           })
           .catch(() => {});
       }
@@ -985,10 +986,11 @@ function EntdeckenContent() {
         if (local) {
           setSelectedTrail(local);
         } else {
-          fetch(`/api/trails/details?id=${encodeURIComponent(trailId)}`)
+          fetch(`/discover/api/trails/details?id=${encodeURIComponent(trailId)}`)
             .then(r => r.json())
             .then(data => {
-              if (data && data.name) setSelectedTrail(data);
+              const trailObj = data.trail || data;
+              if (trailObj && trailObj.name) setSelectedTrail(trailObj);
             })
             .catch(() => {});
         }

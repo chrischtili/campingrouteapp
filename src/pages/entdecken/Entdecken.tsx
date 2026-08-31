@@ -746,7 +746,7 @@ function EntdeckenContent() {
   const hubOverviewLeafletMapRef = useRef<L.Map | null>(null);
   const hubOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
-  // Fetch dynamic culinary spots from backend
+  // Fetch dynamic culinary spots from backend & merge with bundled local database
   useEffect(() => {
     let isCurrent = true;
     const fetchCulinary = async () => {
@@ -762,8 +762,11 @@ function EntdeckenContent() {
         const res = await fetch(url);
         if (!res.ok) throw new Error('Failed to fetch culinary spots');
         const data = await res.json();
-        if (isCurrent && data.spots && Array.isArray(data.spots)) {
-          setCulinarySpots(data.spots);
+        if (isCurrent && data.spots && Array.isArray(data.spots) && data.spots.length > 0) {
+          // Merge API spots with local dataset
+          const existingIds = new Set(data.spots.map((s: CulinarySpot) => s.id));
+          const localRemaining = CULINARY_SPOTS.filter(s => !existingIds.has(s.id));
+          setCulinarySpots([...data.spots, ...localRemaining]);
         }
       } catch {
         // Graceful fallback: locally bundled CULINARY_SPOTS are used
@@ -2430,7 +2433,7 @@ ${trkpts}
     });
 
     const bounds = L.latLngBounds([]);
-    const spotsToDisplay = filteredCulinarySpots.slice(0, 300);
+    const spotsToDisplay = filteredCulinarySpots;
 
     spotsToDisplay.forEach((spot) => {
       bounds.extend([spot.latitude, spot.longitude]);
@@ -2552,7 +2555,7 @@ ${trkpts}
     });
 
     const bounds = L.latLngBounds([]);
-    const placesToDisplay = places.slice(0, 300);
+    const placesToDisplay = places;
 
     placesToDisplay.forEach((place) => {
       bounds.extend([place.latitude, place.longitude]);

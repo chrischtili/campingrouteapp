@@ -730,7 +730,7 @@ function EntdeckenContent() {
   };
 
   // Culinary / Farm shops & Wineries state (Open Data & OSM)
-  const [culinarySpots, setCulinarySpots] = useState<CulinarySpot[]>(() => CULINARY_SPOTS);
+  const [culinarySpots] = useState<CulinarySpot[]>(() => CULINARY_SPOTS);
   const [culinaryFilter, setCulinaryFilter] = useState<'all' | 'winery' | 'farm_shop' | 'cheese_dairy' | 'regiomat'>('all');
   const [culinaryStateFilter, setCulinaryStateFilter] = useState<string>('Alle Bundesländer');
   const [culinarySearchText, setCulinarySearchText] = useState<string>('');
@@ -745,41 +745,6 @@ function EntdeckenContent() {
   const hubOverviewMapContainerRef = useRef<HTMLDivElement | null>(null);
   const hubOverviewLeafletMapRef = useRef<L.Map | null>(null);
   const hubOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
-
-  // Fetch dynamic culinary spots from backend & merge with bundled local database
-  useEffect(() => {
-    let isCurrent = true;
-    const fetchCulinary = async () => {
-      try {
-        const queryParams = new URLSearchParams();
-        if (culinaryFilter !== 'all') queryParams.append('type', culinaryFilter);
-        if (culinaryStateFilter !== 'Alle Bundesländer') queryParams.append('state', culinaryStateFilter);
-        if (culinarySearchText.trim()) queryParams.append('search', culinarySearchText.trim());
-
-        const qStr = queryParams.toString();
-        const url = qStr ? `/discover/api/culinary?${qStr}` : '/discover/api/culinary';
-
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('Failed to fetch culinary spots');
-        const data = await res.json();
-        if (isCurrent && data.spots && Array.isArray(data.spots) && data.spots.length > 0) {
-          // Merge API spots with local dataset
-          const existingIds = new Set(data.spots.map((s: CulinarySpot) => s.id));
-          const localRemaining = CULINARY_SPOTS.filter(s => !existingIds.has(s.id));
-          setCulinarySpots([...data.spots, ...localRemaining]);
-        } else if (isCurrent) {
-          setCulinarySpots(CULINARY_SPOTS);
-        }
-      } catch {
-        if (isCurrent) {
-          setCulinarySpots(CULINARY_SPOTS);
-        }
-      }
-    };
-
-    fetchCulinary();
-    return () => { isCurrent = false; };
-  }, [culinaryFilter, culinaryStateFilter, culinarySearchText]);
 
   const culinaryCategoryCounts = useMemo(() => {
     return {

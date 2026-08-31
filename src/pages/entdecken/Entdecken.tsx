@@ -453,8 +453,13 @@ const isValidImageUrl = (url: string | null | undefined): boolean => {
   const trimmed = url.trim();
   if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://') && !trimmed.startsWith('/')) return false;
   
-  // Exclude non-image DZT/Onlim entity or JSON-LD API endpoints
-  if (trimmed.includes('onlim.com/entity') || trimmed.includes('/api/v4/universal') || trimmed.includes('wikidata.org/wiki/')) {
+  // Exclude non-image DZT/Onlim entity or JSON-LD API endpoints and offline legacy image hosts
+  if (
+    trimmed.includes('onlim.com/entity') || 
+    trimmed.includes('/api/v4/universal') || 
+    trimmed.includes('wikidata.org/wiki/') ||
+    trimmed.includes('tash.infomaxnet.de')
+  ) {
     return false;
   }
   
@@ -618,7 +623,7 @@ function EntdeckenContent() {
   const [trailFilter, setTrailFilter] = useState<'all' | 'hiking' | 'biking'>('all');
   const [trailStateFilter, setTrailStateFilter] = useState<string>('Alle Bundesländer');
   const [trailSearchText, setTrailSearchText] = useState<string>('');
-  const [trailViewMode, setTrailViewMode] = useState<'grid' | 'split' | 'map'>('grid');
+  const [trailViewMode, setTrailViewMode] = useState<'grid' | 'split' | 'map'>('split');
   const [visibleTrailsCount, setVisibleTrailsCount] = useState<number>(12);
   const [nearbyTrails, setNearbyTrails] = useState<Trail[]>([]);
   const [nearbyCulinarySpots, setNearbyCulinarySpots] = useState<(CulinarySpot & { distance_to_place_km?: number })[]>([]);

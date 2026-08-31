@@ -327,7 +327,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Allgäu, Bayern',
     description: 'Das weltberühmte Schloss von König Ludwig II. thront spektakulär vor den majestätischen Ammergauer Alpen.',
-    imageUrl: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Neuschwanstein_Castle_2024-02.jpg/1200px-Neuschwanstein_Castle_2024-02.jpg',
     searchQuery: 'Schloss Neuschwanstein',
     place: {
       id: 'dzt-neuschwanstein-q4152',
@@ -345,7 +345,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'svneuschwanstein@bsv.bayern.de',
       website: 'https://www.neuschwanstein.de',
       address: 'Neuschwansteinstraße 20, 87645 Schwangau, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Neuschwanstein_Castle_2024-02.jpg/1200px-Neuschwanstein_Castle_2024-02.jpg'
     }
   },
   {
@@ -358,7 +358,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Elbsandsteingebirge, Sachsen',
     description: 'Die berühmteste Felsformation des Elbsandsteingebirges bietet spektakuläre Tiefblicke ins Elbtal.',
-    imageUrl: 'https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/2015-05-13_Basteibr%C3%BCcke-.jpg/1200px-2015-05-13_Basteibr%C3%BCcke-.jpg',
     searchQuery: 'Sächsische Schweiz',
     place: {
       id: 'dzt-bastei-rathen',
@@ -376,7 +376,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'info@saechsische-schweiz.de',
       website: 'https://www.saechsische-schweiz.de',
       address: 'Bastei, 01847 Lohmen, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/2015-05-13_Basteibr%C3%BCcke-.jpg/1200px-2015-05-13_Basteibr%C3%BCcke-.jpg'
     }
   },
   {
@@ -389,7 +389,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Moseltal, Rheinland-Pfalz',
     description: 'Versteckt in einem idyllischen Seitental der Mosel gehört Burg Eltz zu den besterhaltenen Burgen Europas.',
-    imageUrl: 'https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Wierschem%2C_Burg_Eltz%2C_2012-08_CN-01.jpg/1200px-Wierschem%2C_Burg_Eltz%2C_2012-08_CN-01.jpg',
     searchQuery: 'Burg Eltz',
     place: {
       id: 'dzt-burg-eltz-q153426',
@@ -407,7 +407,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'burg@eltz.de',
       website: 'https://www.burg-eltz.de',
       address: 'Burg Eltz 1, 56294 Wierschem, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Wierschem%2C_Burg_Eltz%2C_2012-08_CN-01.jpg/1200px-Wierschem%2C_Burg_Eltz%2C_2012-08_CN-01.jpg'
     }
   },
   {
@@ -420,7 +420,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Berchtesgadener Land, Bayern',
     description: 'Smaragdgrünes Wasser umgeben von steilen Felswänden und der berühmten Watzmann-Ostwand.',
-    imageUrl: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/K%C3%B6nigsee_in_Bayern.jpg/1200px-K%C3%B6nigsee_in_Bayern.jpg',
     searchQuery: 'Königssee',
     place: {
       id: 'dzt-koenigssee-bartholomae',
@@ -438,7 +438,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'koenigssee@seenschifffahrt.de',
       website: 'https://www.seenschifffahrt.de/de/koenigssee/',
       address: 'Seestraße 33, 83471 Schönau am Königssee, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/K%C3%B6nigsee_in_Bayern.jpg/1200px-K%C3%B6nigsee_in_Bayern.jpg'
     }
   },
   {
@@ -451,7 +451,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇮🇹',
     region: 'Pragsertal, Südtirol',
     description: 'Die Perle der Dolomitenseen mit historischem Bootshaus und smaragdgrünem Bergwasser.',
-    imageUrl: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Pragser_Wildsee_Seekofel_von_Bucht.jpg/1200px-Pragser_Wildsee_Seekofel_von_Bucht.jpg',
     searchQuery: 'Dolomiten',
     place: {
       id: 'insp-high-5',
@@ -469,7 +469,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'info@pragsertal.info',
       website: 'https://www.drei-zinnen.info',
       address: 'St. Veit 27, 39030 Prags, Südtirol, Italien',
-      image_url: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Pragser_Wildsee_Seekofel_von_Bucht.jpg/1200px-Pragser_Wildsee_Seekofel_von_Bucht.jpg'
     }
   },
   {
@@ -482,7 +482,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇫🇷',
     region: 'Normandie, Frankreich',
     description: 'Die weltberühmte Abtei auf einer felsigen Gezeiteninsel im Wattenmeer der Normandie.',
-    imageUrl: 'https://images.unsplash.com/photo-1568849676085-51415703900f?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Mont-Saint-Michel_vu_du_ciel.jpg/1200px-Mont-Saint-Michel_vu_du_ciel.jpg',
     searchQuery: 'Camping Bretagne',
     place: {
       id: 'insp-high-6',
@@ -500,7 +500,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'contact@ot-montsaintmichel.com',
       website: 'https://www.ot-montsaintmichel.com',
       address: 'Grande Rue, 50170 Le Mont-Saint-Michel, Frankreich',
-      image_url: 'https://images.unsplash.com/photo-1568849676085-51415703900f?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Mont-Saint-Michel_vu_du_ciel.jpg/1200px-Mont-Saint-Michel_vu_du_ciel.jpg'
     }
   },
   {
@@ -513,7 +513,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇳🇴',
     region: 'Møre og Romsdal, Norwegen',
     description: 'Spektakuläre Felswände, tosende Wasserfälle wie die „Sieben Schwestern“ und die Serpentinenstraße Trollstigen.',
-    imageUrl: 'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Geirangerfjord_.jpg/1200px-Geirangerfjord_.jpg',
     searchQuery: 'Geirangerfjord',
     place: {
       id: 'insp-high-7',
@@ -531,7 +531,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'tourist@geiranger.no',
       website: 'https://www.visittorvest.no',
       address: 'Geirangervegen 2, 6216 Geiranger, Norwegen',
-      image_url: 'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Geirangerfjord_.jpg/1200px-Geirangerfjord_.jpg'
     }
   },
   {
@@ -544,7 +544,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Potsdam, Brandenburg',
     description: 'Das Sommerschloss Friedrichs des Großen mit berühmten Weinbergterrassen und weitläufigem Landschaftspark.',
-    imageUrl: 'https://images.unsplash.com/photo-1599837565318-67429bde7162?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Reflection_of_Sanssouci_Palace.jpg/1200px-Reflection_of_Sanssouci_Palace.jpg',
     searchQuery: 'Schloss Sanssouci',
     place: {
       id: 'dzt-sanssouci-potsdam',
@@ -562,7 +562,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'info@spsg.de',
       website: 'https://www.spsg.de',
       address: 'Maulbeerallee, 14469 Potsdam, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1599837565318-67429bde7162?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Reflection_of_Sanssouci_Palace.jpg/1200px-Reflection_of_Sanssouci_Palace.jpg'
     }
   }
 ];

@@ -3733,8 +3733,8 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         )}
 
-        {/* Trail Detail Modal Overlay (Only when in Grid / Non-Split View) */}
-        {selectedTrail && trailViewMode !== 'split' && (
+        {/* Trail Detail Modal Overlay (Disabled) */}
+        {false && selectedTrail && (
           <div
             className="place-modal-overlay"
             onClick={closeTrail}
@@ -4024,8 +4024,8 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         )}
 
-        {/* Culinary Spot Detail Modal Overlay (Only when in Grid / Non-Split View) */}
-        {selectedCulinarySpot && culinaryViewMode !== 'split' && (
+        {/* Culinary Spot Detail Modal Overlay (Disabled) */}
+        {false && selectedCulinarySpot && (
           <div
             className="place-modal-overlay"
             onClick={closeCulinarySpot}

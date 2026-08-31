@@ -1410,7 +1410,9 @@ function EntdeckenContent() {
       });
     }
 
-    if (selectedCulinarySpot) {
+    if (selectedEvent) {
+      trail.push({ label: selectedEvent.name });
+    } else if (selectedCulinarySpot) {
       trail.push({ label: selectedCulinarySpot.name });
     } else if (selectedTrail) {
       trail.push({ label: selectedTrail.name });
@@ -1463,7 +1465,7 @@ function EntdeckenContent() {
     }
     setDiscoverBreadcrumbs(trail);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPlace, selectedCulinarySpot, selectedTrail, currentHub, selectedCountryView, countryTab, hasSearched, searchQuery, currentLang, t]);
+  }, [selectedEvent, selectedPlace, selectedCulinarySpot, selectedTrail, currentHub, selectedCountryView, countryTab, hasSearched, searchQuery, currentLang, t]);
 
   // Guess home country from browser locale on mount
   useEffect(() => {

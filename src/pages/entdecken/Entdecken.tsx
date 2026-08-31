@@ -2552,13 +2552,7 @@ ${trkpts}
     });
 
     const bounds = L.latLngBounds([]);
-    const placesToDisplay = places.filter(p => {
-      if (hubRegionFilter === 'all') return true;
-      const addr = (p.address || '').toLowerCase();
-      const city = (p.city || '').toLowerCase();
-      const reg = hubRegionFilter.toLowerCase();
-      return addr.includes(reg) || city.includes(reg);
-    }).slice(0, 300);
+    const placesToDisplay = places.slice(0, 300);
 
     placesToDisplay.forEach((place) => {
       bounds.extend([place.latitude, place.longitude]);
@@ -4575,12 +4569,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                     if (place.type !== 'attraction') return false;
                   } else {
                     if (place.type === 'attraction') return false;
-                  }
-                  if (hubRegionFilter !== 'all') {
-                    const addr = (place.address || '').toLowerCase();
-                    const city = (place.city || '').toLowerCase();
-                    const reg = hubRegionFilter.toLowerCase();
-                    if (!addr.includes(reg) && !city.includes(reg)) return false;
                   }
                   if (searchQuery.trim()) {
                     const q = searchQuery.toLowerCase().trim();

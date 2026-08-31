@@ -1,62 +1,51 @@
-# 🚐 Camping Route - KI Wohnmobil Routenplaner & Entdecken (v0.7.1)
+# 🚐 CampingRoute – Der KI-Prompt-Assistent für Wohnmobil- & Camping-Touren (v0.8.0)
 
-[![Version](https://img.shields.io/badge/version-v0.7.1-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Version](https://img.shields.io/badge/version-v0.8.0-emerald.svg)](https://github.com/chrischtili/campingrouteapp)
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/campingroute-app-mcp)
 [![License](https://img.shields.io/badge/license-PolyForm_Noncommercial_1.0.0-blue.svg)](https://github.com/chrischtili/campingrouteapp/blob/main/LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://campingroute.app)
 
-**Die smarte Plattform für Wohnmobil-Reisende, Camper & Roadtripper in Europa – mit KI-Routenplaner, interaktivem Entdecken-Portal, Themenwelten und MCP-KI-Integration!**
+**Die fokussierte Plattform für Wohnmobil-Reisende, Camper & Roadtripper in Europa – mit strukturiertem KI-Prompt-Assistenten und offizieller MCP-Server-Integration für deine bevorzugten KI-Tools (ChatGPT, Claude, Gemini, Cursor IDE, Antigravity)!**
 
-👉 **Live Demo**: [https://campingroute.app](https://campingroute.app)
-
----
-
-## 🌟 Neu in Version 0.7.1
-
-- 🧭 **Themenwelten für Camper & Roadtripper (`/entdecken`)**:
-  - 🏕️ **Camping- & Wohnmobilstellplätze**: Über 20.000 verifizierte Orte mit KI-Suche und direkter Routenübernahme.
-  - 🍇 **Hofläden & Winzer**: Weingüter, Bio-Bauernhöfe, Käsereien & 24h-Regiomaten direkt ab Erzeuger mit Stellplätzen in der Nähe.
-  - 🥾 **Wander- & Radwege**: Offizielle Fernwander- und Radrouten (u.a. DZT Knowledge Graph) mit GPX-Tracks & Campingplätzen entlang der Strecke.
-  - 📅 **Events & Weinfeste**: Weinfeste, Märkte, Festivals & Kultur in ganz Deutschland.
-  - 🏰 **Sehenswürdigkeiten**: Schlösser, Burgen, Naturparke und Highlights in ganz Europa.
-- 🌐 **Vollständige Mehrsprachigkeit & SEO-Optimierung**:
-  - 5 Sprachen (Deutsch 🇩🇪, English 🇬🇧, Français 🇫🇷, Italiano 🇮🇹, Nederlands 🇳🇱) vollständig integriert.
-  - Dynamische, lokalisierte Metatags (Titel, Description, Keywords, OpenGraph & hreflang) für alle Entdecken-Hubs und Finder-Seiten.
-  - Automatische Breadcrumb-Navigation auf allen Unterseiten.
-- 📱 **Responsives Header-Layout & UI-Polishing**:
-  - Optimierte Navigation für mobile Geräte, Tablets und Desktops ohne Überlappungen.
-  - Schneller Alias-Redirect von `/app` auf den `/prompt-generator`.
-- 🤖 **Bring Your Own Key (BYOK) KI-Architektur**:
-  - Eigener API-Key (Gemini, OpenAI, Anthropic, Mistral, Perplexity, OpenRouter) sicher im Browser hinterlegbar.
-  - Smarte 0€-Deterministische Suche für klare Suchanfragen ohne API-Kosten.
-- 🔌 **Model Context Protocol (MCP) Server & Landingpage (`/mcp`)**:
-  - Dedizierte interaktive Dokumentationsseite `/mcp` mit 1-Klick-Setups für Claude Desktop, Cursor IDE, Antigravity und Python/cURL.
-  - Vollständiger Tool-Katalog aller 10 MCP-Tools (Camping, Wanderwege, Events, Sights, Reviews, Reiselisten).
-  - Integrierter SSE-Live-Endpoint (`/discover/mcp`) zur direkten Anbindung an KI-Agenten.
+👉 **Live-Anwendung**: [https://campingroute.app](https://campingroute.app)  
+🔌 **MCP Server Listing**: [https://mcpservers.org/servers/campingroute-app-mcp](https://mcpservers.org/servers/campingroute-app-mcp)
 
 ---
 
-## 📦 Kern-Features
+## 🌟 Neu in Version 0.8.0
+
+- 🎯 **Fokussierter Prompt-Assistent als Startseite**:
+  - Direkt auf den Punkt: Route, Zwischenziele, Fahrzeugmaße (Höhe, Länge, Gewicht), Autarkie-Kriterien, Mautpräferenzen und Interessen in einem nahtlosen Flow.
+  - Generiert perfekt strukturierte Prompts inklusive Etappenplanung, Zeitfenstern, Stellplatzvorschlägen und GPX-Code-Blöcken.
+- 🔌 **Model Context Protocol (MCP) Server**:
+  - Gelistet auf [mcpservers.org](https://mcpservers.org/servers/campingroute-app-mcp).
+  - Bindet über 20.000 verifizierte Campingplätze, offizielle DZT Wander- & Radwege, POIs, Schlösser, Events & Weinfeste direkt in Claude Desktop, Cursor IDE oder Antigravity ein.
+- 🌐 **Vollständige Mehrsprachigkeit (i18n)**:
+  - 5 Sprachen (Deutsch 🇩🇪, English 🇬🇧, Français 🇫🇷, Italiano 🇮🇹, Nederlands 🇳🇱).
+  - Dynamische, lokalisierte SEO-Metatags, Breadcrumb-Navigation und dedizierte Sitemap.
+- 💬 **Dedizierte Feedback-Seite & Datenschutz**:
+  - Keine störenden Popups: Eigene Feedback-Seite unter `/feedback`.
+  - Maximale Datensparsamkeit: Lokale Erstellung der Prompts im Browser ohne Übermittlung sensibler Reisedaten an Dritte.
+
+---
+
+## 📦 Kern-Funktionen
 
 ### 🎯 KI-Prompt-Assistent & Routenplaner
-- 7-Schritte-Assistent für optimal strukturierte Reise- und Routen-Prompts.
-- Fahrzeugspezifische Filter (Länge, Höhe, Gesamtgewicht, Führerscheinklasse, Maut-/Fährenpräferenzen).
-- Kompatibel mit allen gängigen KI-Modellen (ChatGPT, Gemini, Claude, Mistral, Perplexity).
+- Maßgeschneiderte Prompts für ChatGPT, Gemini, Claude, Mistral oder Perplexity.
+- Exakte Berücksichtigung von Fahrzeugbeschränkungen (z. B. 3,5t Limit, Durchfahrtshöhen).
+- GPX-kompatible Routenplanung für Garmin, OsmAnd, Locus Map etc.
 
-### 📍 GPX-Export & Offline-Nutzung
-- Direkter Download strukturierter GPX-Dateien (Wegpunkte, Tracks und Etappen für Garmin, OsmAnd, Locus Map).
-- Lokale Speicherung im Browser ohne Registrierungszwang.
-- Druck- und PDF-optimierte Reiseunterlagen.
-
-### 🏕️ Entdecken & Spot-Finder
-- Suche nach Kriterien (Lage am See, Berge, Hundefreundlich, Ver- & Entsorgung, Strom).
-- Detailansichten mit direkten Links zur Website, Kontaktdaten und Anfahrtsinformationen.
+### 🔌 MCP Server für Entwickler & KI-Clients
+- **SSE-Live-Endpoint**: `https://campingroute.app/discover/mcp`
+- 1-Klick-Konfiguration für Claude Desktop, Cursor IDE und Antigravity / Gemini CLI.
 
 ---
 
 ## 💻 Tech Stack & Architektur
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, Leaflet / OpenStreetMap
-- **Backend**: Node.js / Express (Port 3002 für API & Static Dist, Port 3000 für Entdecken-Suche & MCP)
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, Lucide Icons, Framer Motion
+- **Backend**: Node.js / Express (Port 3002 für Static Dist & API, Port 3000 für MCP SSE Server)
 - **Datenbanken**: SQLite (`places.sqlite`, `campingroute_eu.db`) + Geodaten-Indizes
 - **Internationalisierung**: react-i18next (DE, EN, NL, FR, IT)
 
@@ -72,16 +61,16 @@ cd campingrouteapp
 # 2. Frontend-Abhängigkeiten installieren
 npm install
 
-# 3. Entdecken-Backend Abhängigkeiten installieren
+# 3. Entdecken-/MCP-Backend Abhängigkeiten installieren
 cd entdecken-backend
 npm install
 cd ..
 
 # 4. Entwicklungs-Server starten
-# Terminal 1: Entdecken-Backend
+# Terminal 1: Backend (MCP Server & SQLite APIs)
 cd entdecken-backend && npm run dev
 
-# Terminal 2: Frontend
+# Terminal 2: Frontend (Vite)
 npm run dev
 ```
 

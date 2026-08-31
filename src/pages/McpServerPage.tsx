@@ -204,10 +204,25 @@ export default function McpServerPage() {
             <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 blur-3xl pointer-events-none" />
             <div className="relative max-w-3xl space-y-6">
               
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-300/80 bg-emerald-100/60 dark:border-emerald-700/60 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-extrabold tracking-wide uppercase shadow-xs">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>{t("mcpPage.badge", "Model Context Protocol (MCP)")}</span>
-                <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">{t("mcpPage.badgeLive", "v1.0 Live")}</span>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-300/80 bg-emerald-100/60 dark:border-emerald-700/60 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-extrabold tracking-wide uppercase shadow-xs">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>{t("mcpPage.badge", "Model Context Protocol (MCP)")}</span>
+                  <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">{t("mcpPage.badgeLive", "v1.0 Live")}</span>
+                </div>
+                <a
+                  href="https://mcpservers.org/servers/campingroute-app-mcp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center hover:opacity-90 transition-opacity"
+                  title="Official Listing on mcpservers.org"
+                >
+                  <img
+                    src="https://mcpservers.org/badge.svg"
+                    alt="Listed on mcpservers.org"
+                    className="h-6"
+                  />
+                </a>
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">

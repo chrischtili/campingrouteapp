@@ -4348,14 +4348,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                 return (
                 <div style={{ marginBottom: '1.75rem' }}>
                   
-                  {/* Hub Top Bar with Title, Category Pills & Quick Search (identical to Hofläden/Genuss) */}
+                  {/* Hub Top Bar with Title & Quick Search */}
                   <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '20px', padding: '1.5rem', marginBottom: '1.75rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-                      <div>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: isHighlightsHub ? 'rgba(124, 58, 237, 0.1)' : 'rgba(5, 150, 105, 0.1)', color: isHighlightsHub ? '#7c3aed' : '#059669', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-                          <Sparkles size={13} />
-                          {isHighlightsHub ? '🏰 Sehenswürdigkeiten & Highlights' : '🏕️ 20.000+ Camping- & Stellplätze'}
-                        </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+                      <div style={{ flex: '1', minWidth: '280px' }}>
                         <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           {isHighlightsHub ? '🏰 Sehenswürdigkeiten & Highlights entdecken' : '🏕️ Campingplätze & Wohnmobilstellplätze'}
                         </h2>
@@ -4364,71 +4360,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                             ? 'Finde faszinierende Schlösser, Naturwunder, Aussichtspunkte und Ausflugsziele in Europa.' 
                             : 'Finde die schönsten Campingplätze, Wohnmobilstellplätze und Glamping-Ziele für deine Tour.'}
                         </p>
-                      </div>
-                    </div>
-
-                    {/* Filter Pills & Quick Search Bar */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                        {isHighlightsHub ? (
-                          [
-                            { label: '✨ Alle Highlights', query: 'Sehenswürdigkeiten in Europa' },
-                            { label: '🏰 Schlösser & Burgen', query: 'Schlösser und Burgen' },
-                            { label: '🌲 Naturwunder & Berge', query: 'Naturwunder und Nationalparks' },
-                            { label: '🌊 Seen & Küsten', query: 'Seen und Strände' },
-                          ].map((cat, idx) => (
-                            <button
-                              key={idx}
-                              onClick={() => {
-                                setSearchQuery(cat.query);
-                                handleSearch(undefined, cat.query);
-                              }}
-                              style={{
-                                padding: '0.45rem 0.9rem',
-                                borderRadius: '9999px',
-                                border: '1px solid var(--card-border)',
-                                background: 'var(--card-bg)',
-                                color: 'var(--gray-700)',
-                                fontSize: '0.82rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'all 0.15s ease'
-                              }}
-                              className="hover:bg-purple-50 hover:border-purple-400 hover:text-purple-700"
-                            >
-                              {cat.label}
-                            </button>
-                          ))
-                        ) : (
-                          [
-                            { label: '✨ Alle Plätze', query: 'Campingplätze in Europa' },
-                            { label: '🏕️ Campingplätze', query: 'Campingplätze mit Pool und Restaurant' },
-                            { label: '🚐 Wohnmobilstellplätze', query: 'Wohnmobilstellplätze ruhig mit Ver- und Entsorgung' },
-                            { label: '⛺ Glamping & Natur', query: 'Glamping Naturcamping am See' },
-                          ].map((cat, idx) => (
-                            <button
-                              key={idx}
-                              onClick={() => {
-                                setSearchQuery(cat.query);
-                                handleSearch(undefined, cat.query);
-                              }}
-                              style={{
-                                padding: '0.45rem 0.9rem',
-                                borderRadius: '9999px',
-                                border: '1px solid var(--card-border)',
-                                background: 'var(--card-bg)',
-                                color: 'var(--gray-700)',
-                                fontSize: '0.82rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'all 0.15s ease'
-                              }}
-                              className="hover:bg-emerald-50 hover:border-emerald-500 hover:text-emerald-800"
-                            >
-                              {cat.label}
-                            </button>
-                          ))
-                        )}
                       </div>
 
                       {/* Quick Search Bar */}
@@ -4439,7 +4370,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             handleSearch(undefined, searchQuery.trim());
                           }
                         }}
-                        style={{ position: 'relative', minWidth: '240px', flex: '1', maxWidth: '380px' }}
+                        style={{ position: 'relative', minWidth: '260px', flex: '1', maxWidth: '380px' }}
                       >
                         <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
                         <input
@@ -4449,11 +4380,11 @@ const getWebsiteUrl = (place: Place): string | null => {
                           onChange={(e) => setSearchQuery(e.target.value)}
                           style={{
                             width: '100%',
-                            padding: '0.5rem 2.2rem 0.5rem 2.2rem',
+                            padding: '0.55rem 2.4rem 0.55rem 2.2rem',
                             borderRadius: '12px',
                             border: '1.5px solid var(--card-border)',
                             background: 'var(--card-bg)',
-                            fontSize: '0.84rem',
+                            fontSize: '0.86rem',
                             outline: 'none',
                             transition: 'border-color 0.15s ease'
                           }}
@@ -4471,7 +4402,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               color: 'white',
                               border: 'none',
                               borderRadius: '8px',
-                              padding: '4px 7px',
+                              padding: '5px 8px',
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
@@ -4479,7 +4410,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             }}
                             title="Suchen"
                           >
-                            <Sparkles size={12} />
+                            <Sparkles size={13} />
                           </button>
                         )}
                       </form>

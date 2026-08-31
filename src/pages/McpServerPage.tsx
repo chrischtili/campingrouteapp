@@ -540,78 +540,27 @@ export default function McpServerPage() {
                         </div>
                       </div>
                     </div>
-
-                    <div className="mt-4 pt-3 flex items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800">
-                      <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono truncate max-w-[200px]" title={tool.params}>
-                        <span>params:</span>
-                        <span className="truncate">{tool.params}</span>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(tool.name, `tool-name-${tool.name}`)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
-                          title="Tool-ID für Konfigurationen kopieren"
-                        >
-                          {copiedSection === `tool-name-${tool.name}` ? (
-                            <>
-                              <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                              <span className="text-emerald-600 dark:text-emerald-400">{t("mcpPage.copied", "Kopiert!")}</span>
-                            </>
-                          ) : (
-                            <>
-                              <Code2 className="w-3.5 h-3.5" />
-                              <span>{t("mcpPage.copyToolId", "Tool-ID")}</span>
-                            </>
-                          )}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(tool.examplePrompt, `tool-prompt-${tool.name}`)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer"
-                          title="Beispiel-Prompt für die KI in die Zwischenablage kopieren"
-                        >
-                          {copiedSection === `tool-prompt-${tool.name}` ? (
-                            <>
-                              <Check className="w-3.5 h-3.5" />
-                              <span>{t("mcpPage.copied", "Kopiert!")}</span>
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="w-3.5 h-3.5" />
-                              <span>{t("mcpPage.copyPrompt", "Prompt kopieren")}</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 );
               })}
             </div>
           </section>
 
-          {/* Interactive CTA to Prompt Assistant & Discover */}
+          {/* Interactive CTA to Prompt Assistant */}
           <section className="rounded-3xl border border-emerald-300/40 bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-3 text-center md:text-left">
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                 {t("mcpPage.ctaTitle", "Bereit für den nächsten Roadtrip?")}
               </h3>
               <p className="text-emerald-100 text-sm sm:text-base max-w-xl">
-                {t("mcpPage.ctaDesc", "Erstelle mit unserem 7-Schritte-Prompt-Assistenten maßgeschneiderte Camping-Routen oder durchstöbere das interaktive Entdecken-Portal.")}
+                {t("mcpPage.ctaDesc", "Erstelle mit unserem Prompt-Assistenten maßgeschneiderte KI-Prompts für perfekte Camping- und Wohnmobiltouren.")}
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3.5 shrink-0">
-              <Link to="/prompt-generator">
+              <Link to="/">
                 <Button className="!bg-white !text-emerald-950 hover:!bg-emerald-50 font-black text-sm px-6 py-3.5 h-auto rounded-xl shadow-lg border border-white hover:scale-105 transition-all">
                   <Sparkles className="w-4 h-4 text-emerald-700 mr-2 shrink-0" />
                   <span>{t("mcpPage.ctaPromptBtn", "Zum Prompt-Assistenten")}</span>
-                </Button>
-              </Link>
-              <Link to="/entdecken">
-                <Button className="!bg-emerald-900/80 hover:!bg-emerald-950 !text-white font-bold text-sm px-6 py-3.5 h-auto rounded-xl shadow-md border border-emerald-300/40 hover:scale-105 transition-all backdrop-blur-sm">
-                  <Compass className="w-4 h-4 text-emerald-300 mr-2 shrink-0" />
-                  <span>{t("mcpPage.ctaDiscoverBtn", "Entdecken-Portal")}</span>
                 </Button>
               </Link>
             </div>

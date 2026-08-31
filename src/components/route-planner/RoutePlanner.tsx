@@ -1651,107 +1651,103 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
           <AppBreadcrumbs />
         </div>
 
-        <section className={`relative overflow-hidden pb-12 pt-8 sm:pt-10 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
-          <div className="relative mx-auto max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              className={`overflow-hidden ${
-                isMobile
-                  ? "rounded-none border-0 bg-transparent px-0 py-6 shadow-none dark:bg-transparent"
-                  : "rounded-3xl border border-gray-200/80 bg-white px-6 py-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:px-8 sm:py-10 lg:px-12 lg:py-14"
-              }`}
-            >
-              <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
-                <div className="space-y-7">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-white/65 px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-primary shadow-sm dark:bg-white/8">
-                    <span className="h-2 w-2 rounded-full bg-primary" />
-                    {promptPageContent.badge}
-                  </div>
-
-                  <div className="space-y-5">
-                    <h1 className="max-w-4xl text-3xl font-extrabold tracking-tight text-foreground dark:text-white sm:text-4xl lg:text-5xl">
-                      {promptPageContent.title} <span className="text-primary">{promptPageContent.accent}</span>
-                    </h1>
-                    <p className="max-w-3xl text-lg leading-relaxed text-foreground/76 dark:text-white/72">
-                      {promptPageContent.lead}
-                    </p>
-                  </div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: 22 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
-                  className={
-                    isMobile
-                      ? "rounded-none border-0 bg-transparent p-0 shadow-none backdrop-blur-0"
-                      : "rounded-[2.25rem] border border-white/60 bg-white/72 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6"
-                  }
+        <section className="relative overflow-hidden px-4 pt-10 pb-10 sm:pt-14 sm:pb-12 text-foreground dark:text-white">
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-4xl space-y-6 text-center">
+              <motion.span
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider"
+              >
+                <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <span>{t("planner.badge", "KI-Prompt-Assistent")}</span>
+              </motion.span>
+              <div className="space-y-4">
+                <h1 className="text-3xl font-black tracking-tight text-foreground dark:text-white sm:text-4xl md:text-5xl">
+                  {t("planner.launcher.title", "Der Prompt-Assistent für Camping- und Roadtrips")}
+                </h1>
+                <p className="mx-auto max-w-3xl text-base leading-relaxed text-foreground/74 dark:text-white/66 sm:text-lg">
+                  {t("planner.launcher.description", "Öffne den Assistenten, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen.")}
+                </p>
+              </div>
+              <div className="flex items-center justify-center pt-2">
+                <Button
+                  type="button"
+                  onClick={scrollToPlannerContent}
+                  className="planner-primary-button relative inline-flex h-12 min-w-[200px] items-center justify-center overflow-hidden rounded-2xl bg-emerald-600 px-6 font-bold !text-white shadow-md shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98]"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="rounded-2xl bg-primary/12 p-3 text-primary">
-                      <Sparkles className="h-6 w-6" />
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-black uppercase tracking-[0.22em] text-primary">{promptPageContent.badge}</div>
-                      <div className="text-2xl font-black tracking-tight text-foreground dark:text-white">{promptPageContent.quickFactsTitle}</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 space-y-4">
-                    {promptPageContent.quickFacts.map((fact) => (
-                      <div
-                        key={fact.title}
-                        className="rounded-[1.5rem] border border-border/70 bg-background/78 px-4 py-4 shadow-sm dark:border-white/10 dark:bg-white/[0.03]"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="mt-0.5 rounded-xl bg-primary/10 p-2 text-primary">
-                            <MapIcon className="h-4 w-4" />
-                          </div>
-                          <div>
-                            <div className="text-base font-bold text-foreground dark:text-white">{fact.title}</div>
-                            <p className="mt-1 text-sm leading-6 text-foreground/66 dark:text-white/62">{fact.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
+                  <span className="relative z-10 flex items-center gap-2 text-base font-bold !text-white">
+                    <Sparkles className="h-5 w-5 !text-white" />
+                    {t("planner.cta", "Prompt-Assistent")}
+                  </span>
+                </Button>
               </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section className={`py-8 ${isMobile ? "px-3" : "px-4 sm:px-6 lg:px-8"}`}>
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-6 space-y-3">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-primary">
-                <Compass className="h-3.5 w-3.5" />
-                {promptPageContent.stepsTitle}
-              </div>
-              <h2 className="text-3xl font-black tracking-tight text-foreground dark:text-white sm:text-4xl">{promptPageContent.stepsTitle}</h2>
-              <p className="max-w-3xl text-base leading-8 text-foreground/64 dark:text-white/62">{promptPageContent.stepsLead}</p>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-3">
-              {promptPageContent.steps.map((step, index) => (
-                <motion.article
-                  key={step.title}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ delay: index * 0.06 }}
-                  className="rounded-[2rem] border border-border/70 bg-white/76 p-6 shadow-[0_20px_42px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/6"
-                >
-                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/12 text-base font-black text-primary">
-                    {index + 1}.
+            <div className="mt-12 text-left">
+              <div 
+                className="relative overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl text-white"
+                style={{ background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' }}
+              >
+                {/* Decorative background circle */}
+                <div className="pointer-events-none absolute -bottom-12 -right-12 h-52 w-52 rounded-full bg-white/[0.03]" />
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 relative z-10">
+                  {/* Step 1 */}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                      <MessageSquare className="h-6 w-6" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                        SCHRITT 01
+                      </span>
+                      <h2 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Wohnmobil & Route wählen
+                      </h2>
+                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                        Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-black tracking-tight text-foreground dark:text-white">{step.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-foreground/64 dark:text-white/60">{step.description}</p>
-                </motion.article>
-              ))}
+
+                  {/* Step 2 */}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                      <Compass className="h-6 w-6" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                        SCHRITT 02
+                      </span>
+                      <h2 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Smarte KI-Prompts generieren
+                      </h2>
+                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                        Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#facc15]/15 text-[#facc15]">
+                      <Heart className="h-6 w-6" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
+                        SCHRITT 03
+                      </span>
+                      <h2 className="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Stellplätze & GPX exportieren
+                      </h2>
+                      <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
+                        Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

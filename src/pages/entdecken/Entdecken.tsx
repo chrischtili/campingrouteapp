@@ -757,7 +757,7 @@ function EntdeckenContent() {
         if (culinarySearchText.trim()) queryParams.append('search', culinarySearchText.trim());
 
         const qStr = queryParams.toString();
-        const url = qStr ? `/api/culinary?${qStr}` : '/api/culinary';
+        const url = qStr ? `/discover/api/culinary?${qStr}` : '/discover/api/culinary';
 
         const res = await fetch(url);
         if (!res.ok) throw new Error('Failed to fetch culinary spots');
@@ -767,9 +767,13 @@ function EntdeckenContent() {
           const existingIds = new Set(data.spots.map((s: CulinarySpot) => s.id));
           const localRemaining = CULINARY_SPOTS.filter(s => !existingIds.has(s.id));
           setCulinarySpots([...data.spots, ...localRemaining]);
+        } else if (isCurrent) {
+          setCulinarySpots(CULINARY_SPOTS);
         }
       } catch {
-        // Graceful fallback: locally bundled CULINARY_SPOTS are used
+        if (isCurrent) {
+          setCulinarySpots(CULINARY_SPOTS);
+        }
       }
     };
 
@@ -2719,7 +2723,7 @@ ${trkpts}
         };
         const cName = countryNameMap[countryVal] || countryVal;
         const queryTerm = isAttraction ? `Sehenswürdigkeiten in ${cName}` : `Camping in ${cName}`;
-        url = `/discover/api/search?q=${encodeURIComponent(queryTerm)}&limit=100`;
+        url = `/discover/api/search?q=${encodeURIComponent(queryTerm)}&limit=2000`;
       }
       const response = await fetch(url);
       const data = await response.json();
@@ -4686,7 +4690,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                               if (newRegion !== 'all') {
                                 const cleanReg = newRegion.replace(/ \(Kanton\)/gi, '').replace(/ \(Luxemburg\)/gi, '').replace(/ \(Wallonien\)/gi, '').replace(/ \(Lappland\)/gi, '');
                                 const queryTerm = isHighlightsHub ? `Sehenswürdigkeiten in ${cleanReg}` : `Camping in ${cleanReg}`;
-                                fetch(`/discover/api/search?q=${encodeURIComponent(queryTerm)}&limit=100`)
+                                fetch(`/discover/api/search?q=${encodeURIComponent(queryTerm)}&limit=2000`)
                                   .then(r => r.json())
                                   .then(data => {
                                     if (data && data.places && data.places.length > 0) {

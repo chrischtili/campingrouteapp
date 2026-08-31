@@ -923,15 +923,41 @@ function EntdeckenContent() {
     }
   };
 
-  // React to route changes: reset active filters, modals, and country view so cross-hub links always work smoothly
+  // React to route changes & resolve deep-link hashes
   useEffect(() => {
-    setSelectedPlace(null);
-    setSelectedTrail(null);
-    setSelectedEvent(null);
-    setSelectedCulinarySpot(null);
-    setSelectedCountryView(null);
-    setHasSearched(false);
-    setSearchQuery('');
+    // Check if a direct deep-link hash is present (e.g. #trail-123, #place-456, #culinary-789, #event-abc)
+    const hash = window.location.hash || '';
+    if (hash.startsWith('#trail-')) {
+      const trailId = hash.replace('#trail-', '');
+      const local = FAMOUS_TRAILS.find(t => t.id === trailId);
+      if (local) {
+        setSelectedTrail(local);
+      } else {
+        fetch(`/api/trails/details?id=${encodeURIComponent(trailId)}`)
+          .then(r => r.json())
+          .then(data => {
+            if (data && data.name) setSelectedTrail(data);
+          })
+          .catch(() => {});
+      }
+    } else if (hash.startsWith('#culinary-')) {
+      const spotId = hash.replace('#culinary-', '');
+      const spot = CULINARY_SPOTS.find(s => s.id === spotId);
+      if (spot) setSelectedCulinarySpot(spot);
+    } else if (hash.startsWith('#event-')) {
+      const eventId = hash.replace('#event-', '');
+      const evt = GERMAN_FLAGSHIP_EVENTS.find((e: any) => e.id === eventId);
+      if (evt) setSelectedEvent(evt as unknown as GermanEvent);
+    } else if (hash.startsWith('#place-')) {
+      const placeId = hash.replace('#place-', '');
+      fetch(`/discover/api/place/${encodeURIComponent(placeId)}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data && data.name) setSelectedPlace(data);
+        })
+        .catch(() => {});
+    }
+
     const h = (hub || '').toLowerCase();
     if (h === 'listen' || h === 'lists' || h === 'favoriten' || h === 'saved') {
       setActiveTab('lists');
@@ -942,30 +968,55 @@ function EntdeckenContent() {
   }, [hub, location.pathname]);
 
   useEffect(() => {
-    const handlePopState = () => {
-      if (selectedCulinarySpot) {
-        setSelectedCulinarySpot(null);
+    const handleHashAndPop = () => {
+      const hash = window.location.hash || '';
+      if (!hash) {
+        if (selectedCulinarySpot) setSelectedCulinarySpot(null);
+        if (selectedEvent) setSelectedEvent(null);
+        if (selectedTrail) setSelectedTrail(null);
+        if (selectedPlace) setSelectedPlace(null);
+        if (selectedCountryView) setSelectedCountryView(null);
         return;
       }
-      if (selectedEvent) {
-        setSelectedEvent(null);
-        return;
-      }
-      if (selectedTrail) {
-        setSelectedTrail(null);
-        return;
-      }
-      if (selectedPlace) {
-        setSelectedPlace(null);
-        return;
-      }
-      if (selectedCountryView) {
-        setSelectedCountryView(null);
-        return;
+
+      if (hash.startsWith('#trail-')) {
+        const trailId = hash.replace('#trail-', '');
+        const local = FAMOUS_TRAILS.find(t => t.id === trailId);
+        if (local) {
+          setSelectedTrail(local);
+        } else {
+          fetch(`/api/trails/details?id=${encodeURIComponent(trailId)}`)
+            .then(r => r.json())
+            .then(data => {
+              if (data && data.name) setSelectedTrail(data);
+            })
+            .catch(() => {});
+        }
+      } else if (hash.startsWith('#culinary-')) {
+        const spotId = hash.replace('#culinary-', '');
+        const spot = CULINARY_SPOTS.find(s => s.id === spotId);
+        if (spot) setSelectedCulinarySpot(spot);
+      } else if (hash.startsWith('#event-')) {
+        const eventId = hash.replace('#event-', '');
+        const evt = GERMAN_FLAGSHIP_EVENTS.find((e: any) => e.id === eventId);
+        if (evt) setSelectedEvent(evt as unknown as GermanEvent);
+      } else if (hash.startsWith('#place-')) {
+        const placeId = hash.replace('#place-', '');
+        fetch(`/discover/api/place/${encodeURIComponent(placeId)}`)
+          .then(r => r.json())
+          .then(data => {
+            if (data && data.name) setSelectedPlace(data);
+          })
+          .catch(() => {});
       }
     };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+
+    window.addEventListener('popstate', handleHashAndPop);
+    window.addEventListener('hashchange', handleHashAndPop);
+    return () => {
+      window.removeEventListener('popstate', handleHashAndPop);
+      window.removeEventListener('hashchange', handleHashAndPop);
+    };
   }, [selectedCulinarySpot, selectedEvent, selectedTrail, selectedPlace, selectedCountryView]);
 
   // Fetch verified nearby campsites for selected event from SQLite database without AI key

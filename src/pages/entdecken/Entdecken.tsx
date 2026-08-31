@@ -747,14 +747,28 @@ function EntdeckenContent() {
   const hubOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
   const culinaryCategoryCounts = useMemo(() => {
+    const baseSpots = culinarySpots.filter(spot => {
+      if (culinaryStateFilter !== 'Alle Bundesländer' && spot.state !== culinaryStateFilter) return false;
+      if (culinarySearchText.trim()) {
+        const q = culinarySearchText.toLowerCase();
+        const matchName = spot.name.toLowerCase().includes(q);
+        const matchRegion = spot.region.toLowerCase().includes(q);
+        const matchState = (spot.state || '').toLowerCase().includes(q);
+        const matchDesc = spot.description.toLowerCase().includes(q);
+        const matchProd = spot.products.some(p => p.toLowerCase().includes(q));
+        if (!matchName && !matchRegion && !matchState && !matchDesc && !matchProd) return false;
+      }
+      return true;
+    });
+
     return {
-      all: CULINARY_SPOTS.length,
-      winery: CULINARY_SPOTS.filter(s => s.type === 'winery').length,
-      farm_shop: CULINARY_SPOTS.filter(s => s.type === 'farm_shop').length,
-      cheese_dairy: CULINARY_SPOTS.filter(s => s.type === 'cheese_dairy').length,
-      regiomat: CULINARY_SPOTS.filter(s => s.type === 'regiomat').length
+      all: baseSpots.length,
+      winery: baseSpots.filter(s => s.type === 'winery').length,
+      farm_shop: baseSpots.filter(s => s.type === 'farm_shop').length,
+      cheese_dairy: baseSpots.filter(s => s.type === 'cheese_dairy').length,
+      regiomat: baseSpots.filter(s => s.type === 'regiomat').length
     };
-  }, []);
+  }, [culinarySpots, culinaryStateFilter, culinarySearchText]);
 
   const [culinaryCampsites, setCulinaryCampsites] = useState<Place[]>([]);
   const [isLoadingCulinaryCampsites, setIsLoadingCulinaryCampsites] = useState(false);

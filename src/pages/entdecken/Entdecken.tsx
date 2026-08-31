@@ -3765,8 +3765,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </div>
                     </div>
 
-                    {/* Actions: GPX Download & Share */}
-                    <div style={{ marginBottom: '1.25rem', display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                    {/* GPX Download Action */}
+                    <div style={{ marginBottom: '1.25rem' }}>
                       <button
                         onClick={handleDownloadGpx}
                         disabled={isDownloadingGpx}
@@ -3788,30 +3788,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         className="hover:bg-emerald-100 hover:shadow-sm"
                       >
                         <Download size={17} className={isDownloadingGpx ? 'animate-bounce' : ''} />
-                        <span>{isDownloadingGpx ? ((t as any).trailPreparingGpx || '⏳ GPX-Track wird vorbereitet...') : ((t as any).trailDownloadGpx || '📥 GPX-Track herunterladen')}</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => shareItem(selectedTrail.name, `/entdecken/touren#trail-${selectedTrail.id}`, `${selectedTrail.name} (${selectedTrail.distance_km} km) – Wander- & Radfernweg auf CampingRoute`)}
-                        style={{
-                          background: 'var(--card-bg)',
-                          color: 'var(--gray-800)',
-                          border: '1px solid var(--card-border)',
-                          borderRadius: '10px',
-                          padding: '0.65rem 1rem',
-                          fontSize: '0.88rem',
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          transition: 'all 0.15s ease-in-out'
-                        }}
-                        className="hover:bg-gray-100"
-                        title={t.shareBtn || 'Tour teilen'}
-                      >
-                        <Share2 size={16} />
-                        <span>{t.shareBtn || 'Teilen'}</span>
+                        <span>{isDownloadingGpx ? ((t as any).trailPreparingGpx || '⏳ GPX-Track wird vorbereitet...') : ((t as any).trailDownloadGpx || '📥 GPX-Track herunterladen (Navi / Komoot / Garmin)')}</span>
                       </button>
                     </div>
 
@@ -4123,15 +4100,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <span>{t.websiteLink || 'Website'}</span>
                       </a>
                     )}
-                    <button
-                      type="button"
-                      onClick={() => shareItem(selectedCulinarySpot.name, `/entdecken/genuss#culinary-${selectedCulinarySpot.id}`, `${selectedCulinarySpot.name} (${selectedCulinarySpot.subtypeLabel}) – Direktvermarkter auf CampingRoute`)}
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--card-bg)', color: 'var(--gray-900)', border: '1px solid var(--card-border)', padding: '0.5rem 0.9rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer' }}
-                      title={t.shareBtn || 'Teilen'}
-                    >
-                      <Share2 size={14} />
-                      <span>{t.shareBtn || 'Teilen'}</span>
-                    </button>
                     <button
                       type="button"
                       onClick={() => openNearbyCampsitesForCulinary(selectedCulinarySpot)}
@@ -7602,8 +7570,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {t.eventLicenseNotice || 'Datenquelle: Deutsche Zentrale für Tourismus (DZT) · Open Data Germany'}
                   </div>
 
-                  <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                    {selectedEvent.url && (
+                  {selectedEvent.url && (
+                    <div style={{ marginTop: '0.75rem' }}>
                       <a
                         href={selectedEvent.url}
                         target="_blank"
@@ -7624,30 +7592,8 @@ const getWebsiteUrl = (place: Place): string | null => {
                       >
                         <Globe size={14} /> {(t as any).eventOfficialWebsite || 'Offizielle Event-Website'} <ExternalLink size={12} />
                       </a>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => shareItem(selectedEvent.name, `/entdecken/events#event-${selectedEvent.id}`, `${selectedEvent.name} in ${selectedEvent.locality || selectedEvent.state} – Event & Weinfest auf CampingRoute`)}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.4rem',
-                        padding: '0.6rem 1rem',
-                        borderRadius: '10px',
-                        background: 'var(--card-bg)',
-                        color: 'var(--gray-800)',
-                        border: '1px solid var(--card-border)',
-                        fontSize: '0.82rem',
-                        fontWeight: 700,
-                        cursor: 'pointer'
-                      }}
-                      className="hover:bg-gray-100"
-                      title={t.shareBtn || 'Event teilen'}
-                    >
-                      <Share2 size={14} />
-                      <span>{t.shareBtn || 'Teilen'}</span>
-                    </button>
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Right Column: Nearby Campsites from SQLite Database */}

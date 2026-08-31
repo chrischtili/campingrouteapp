@@ -1063,14 +1063,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
             >
               {promptPageContent.plannerTitle}
             </motion.p>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.18 }}
-              className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-foreground/64 dark:text-white/60 sm:text-base"
-            >
-              {promptPageContent.plannerLead}
-            </motion.p>
           </div>
 
           <Accordion

@@ -535,11 +535,12 @@ export default function McpServerPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3.5 shrink-0">
-              <Link to="/">
-                <Button className="!bg-white !text-emerald-950 hover:!bg-emerald-50 font-black text-sm px-6 py-3.5 h-auto rounded-xl shadow-lg border border-white hover:scale-105 transition-all">
-                  <Sparkles className="w-4 h-4 text-emerald-700 mr-2 shrink-0" />
-                  <span>{t("mcpPage.ctaPromptBtn", "Zum Prompt-Assistenten")}</span>
-                </Button>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-emerald-950 hover:bg-emerald-50 px-6 py-3.5 text-sm font-black shadow-lg hover:scale-105 transition-all cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span className="text-emerald-950 font-black">{t("mcpPage.ctaPromptBtn", "Zum Prompt-Assistenten")}</span>
               </Link>
             </div>
           </section>

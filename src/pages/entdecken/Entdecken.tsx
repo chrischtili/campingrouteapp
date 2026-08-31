@@ -35,7 +35,9 @@ import {
   Calendar,
   Wine,
   Download,
-  MessageSquareHeart
+  MessageSquareHeart,
+  Phone,
+  Bookmark
 } from 'lucide-react';
 import de from './locales/de.json';
 import en from './locales/en.json';

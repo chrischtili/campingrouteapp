@@ -421,12 +421,6 @@
                         <div class="label">Hauptseite heute</div>
                     </div>
 
-                    <div class="stat-card emphasis discover">
-                        <h3>Entdecken heute</h3>
-                        <div class="value" id="today-discover-visits">-</div>
-                        <div class="label">Aufrufe Entdecken-Seite</div>
-                    </div>
-
                     <div class="stat-card emphasis prompts">
                         <h3>Prompts heute</h3>
                         <div class="value" id="prompt-generations-today">-</div>
@@ -461,12 +455,6 @@
                         <h3>Gesamtbesuche</h3>
                         <div class="value" id="total-visits">-</div>
                         <div class="label">Seit Beginn der Aufzeichnung</div>
-                    </div>
-
-                    <div class="stat-card neutral discover">
-                        <h3>Entdecken gesamt</h3>
-                        <div class="value" id="total-discover-visits">-</div>
-                        <div class="label">Aufrufe Entdecken-Seite gesamt</div>
                     </div>
 
                     <div class="stat-card neutral prompts">
@@ -562,8 +550,6 @@
         // Daten Elemente
         const totalVisitsEl = document.getElementById('total-visits');
         const todayVisitsEl = document.getElementById('today-visits');
-        const totalDiscoverVisitsEl = document.getElementById('total-discover-visits');
-        const todayDiscoverVisitsEl = document.getElementById('today-discover-visits');
         const avgVisitsEl = document.getElementById('avg-visits');
         const promptGenerationsEl = document.getElementById('prompt-generations');
         const promptGenerationsTodayEl = document.getElementById('prompt-generations-today');
@@ -749,8 +735,6 @@
 
                 totalVisitsEl.textContent = visits.toLocaleString('de-DE');
                 todayVisitsEl.textContent = todayVisits.toLocaleString('de-DE');
-                totalDiscoverVisitsEl.textContent = discoverVisits.toLocaleString('de-DE');
-                todayDiscoverVisitsEl.textContent = todayDiscoverVisits.toLocaleString('de-DE');
                 avgVisitsEl.textContent = averageVisits.toFixed(1).replace('.', ',');
                 promptGenerationsEl.textContent = promptGenerations.toLocaleString('de-DE');
                 promptGenerationsTodayEl.textContent = promptToday.toLocaleString('de-DE');
@@ -819,11 +803,10 @@
             ctx.fillStyle = '#333';
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('Besuche, Entdecken-Aufrufe, Prompts & Feedback (7 Tage)', canvas.width / 2, 25);
+            ctx.fillText('Besuche, Prompts & Feedback (7 Tage)', canvas.width / 2, 25);
 
             const maxValue = Math.max(
                 ...visitValues,
-                ...discoverValues,
                 ...promptValues,
                 ...feedbackValues,
                 10
@@ -839,7 +822,6 @@
 
             const legendItems = [
                 { label: 'Besuche (Gesamt)', color: 'rgba(74, 155, 142, 0.95)' },
-                { label: 'Entdecken', color: 'rgba(5, 150, 105, 0.95)' },
                 { label: 'Prompts', color: 'rgba(255, 159, 67, 0.95)' },
                 { label: 'Feedback', color: 'rgba(220, 53, 69, 0.95)' },
             ];
@@ -854,10 +836,10 @@
                 ctx.fillText(item.label, x + 26, 40);
             });
 
-            const barSeries = [visitValues, discoverValues, promptValues, feedbackValues];
-            const innerGroupWidth = Math.max(26, groupWidth * 0.72);
-            const gap = 4;
-            const barWidth = Math.max(4, Math.min(14, (innerGroupWidth - gap * 3) / 4));
+            const barSeries = [visitValues, promptValues, feedbackValues];
+            const innerGroupWidth = Math.max(26, groupWidth * 0.68);
+            const gap = 5;
+            const barWidth = Math.max(5, Math.min(18, (innerGroupWidth - gap * 2) / 3));
 
             barSeries.forEach((values, seriesIndex) => {
                 values.forEach((value, index) => {

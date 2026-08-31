@@ -385,61 +385,65 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                           {t("planner.route.stage.bookedNote", "✨ Fixer Aufenthalt: Die KI wird diesen Zeitraum als unveränderlich betrachten.")}
                         </div>
                       )}
-                      <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 w-full min-w-0">
-                        <Label className={cn(fieldLabelClass, "mb-0 truncate")}>
-                          {stage.destination?.trim() ? `${t("planner.route.arrival")} ${stage.destination.trim()}` : t("planner.route.stage.arrivalDate", { num: index + 1 })}
-                        </Label>
-                        <Label className={cn(fieldLabelClass, "mb-0 truncate")}>
-                          {stage.destination?.trim() ? `${t("planner.route.arrivalTime")} ${stage.destination.trim()}` : t("planner.route.stage.arrivalTime", { num: index + 1 })}
-                        </Label>
-                        
-                        <div className="relative min-w-0">
-                          <input
-                            type="date"
-                            value={stage.arrivalDate || ""}
-                            onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
-                            className={cn(inputClass, "pr-8 max-w-full", stage.booked && "border-emerald-500/20")}
-                            min={formData.startDate || undefined}
-                            max={formData.endDate || undefined}
-                          />
-                        </div>
-                        
-                        <div className="relative min-w-0">
-                          <input
-                            type="time"
-                            value={stage.arrivalTime || ""}
-                            onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
-                            className={cn(timeInputClass, "max-w-full", stage.booked && "border-emerald-500/20")}
-                          />
+                      <div className="space-y-4 w-full min-w-0">
+                        {/* Arrival at stage */}
+                        <div className="space-y-1.5 w-full min-w-0">
+                          <Label className={cn(fieldLabelClass, "mb-1")}>
+                            {stage.destination?.trim() ? `${t("planner.route.arrival")} ${stage.destination.trim()}` : t("planner.route.stage.arrivalDate", { num: index + 1 })}
+                          </Label>
+                          <div className="grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-2 w-full min-w-0">
+                            <div className="relative w-full min-w-0">
+                              <input
+                                type="date"
+                                value={stage.arrivalDate || ""}
+                                onChange={(e) => updateStage(index, { arrivalDate: e.target.value })}
+                                className={cn(inputClass, "pr-10 max-w-full", stage.booked && "border-emerald-500/20")}
+                                min={formData.startDate || undefined}
+                                max={formData.endDate || undefined}
+                              />
+                              <Calendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
+                            </div>
+                            <div className="relative w-full min-w-0">
+                              <input
+                                type="time"
+                                value={stage.arrivalTime || ""}
+                                onChange={(e) => updateStage(index, { arrivalTime: e.target.value })}
+                                className={cn(timeInputClass, "max-w-full", stage.booked && "border-emerald-500/20")}
+                                step={300}
+                              />
+                              <Clock className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="col-span-2 mt-2"></div>
-
-                        <Label className={cn(fieldLabelClass, "mb-0 truncate")}>
-                          {stage.destination?.trim() ? `${t("planner.route.departure")} ${stage.destination.trim()}` : t("planner.route.stage.departureDate", { num: index + 1 })}
-                        </Label>
-                        <Label className={cn(fieldLabelClass, "mb-0 truncate")}>
-                          {stage.destination?.trim() ? `${t("planner.route.departureTime")} ${stage.destination.trim()}` : t("planner.route.stage.departureTime", { num: index + 1 })}
-                        </Label>
-                        
-                        <div className="relative min-w-0">
-                          <input
-                            type="date"
-                            value={stage.departureDate || ""}
-                            onChange={(e) => updateStage(index, { departureDate: e.target.value })}
-                            className={cn(inputClass, "pr-8 max-w-full", stage.booked && "border-emerald-500/20")}
-                            min={stage.arrivalDate || formData.startDate || undefined}
-                            max={formData.endDate || undefined}
-                          />
-                        </div>
-                        
-                        <div className="relative min-w-0">
-                          <input
-                            type="time"
-                            value={stage.departureTime || ""}
-                            onChange={(e) => updateStage(index, { departureTime: e.target.value })}
-                            className={cn(timeInputClass, "max-w-full", stage.booked && "border-emerald-500/20")}
-                          />
+                        {/* Departure from stage */}
+                        <div className="space-y-1.5 w-full min-w-0">
+                          <Label className={cn(fieldLabelClass, "mb-1")}>
+                            {stage.destination?.trim() ? `${t("planner.route.departure")} ${stage.destination.trim()}` : t("planner.route.stage.departureDate", { num: index + 1 })}
+                          </Label>
+                          <div className="grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-2 w-full min-w-0">
+                            <div className="relative w-full min-w-0">
+                              <input
+                                type="date"
+                                value={stage.departureDate || ""}
+                                onChange={(e) => updateStage(index, { departureDate: e.target.value })}
+                                className={cn(inputClass, "pr-10 max-w-full", stage.booked && "border-emerald-500/20")}
+                                min={stage.arrivalDate || formData.startDate || undefined}
+                                max={formData.endDate || undefined}
+                              />
+                              <Calendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
+                            </div>
+                            <div className="relative w-full min-w-0">
+                              <input
+                                type="time"
+                                value={stage.departureTime || ""}
+                                onChange={(e) => updateStage(index, { departureTime: e.target.value })}
+                                className={cn(timeInputClass, "max-w-full", stage.booked && "border-emerald-500/20")}
+                                step={300}
+                              />
+                              <Clock className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35 pointer-events-none" />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

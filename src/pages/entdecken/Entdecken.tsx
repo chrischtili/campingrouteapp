@@ -613,6 +613,7 @@ function EntdeckenContent() {
   const [showSaveToListModal, setShowSaveToListModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [featuredCountry, setFeaturedCountry] = useState<string>('DE');
+  const [hubRegionFilter, setHubRegionFilter] = useState<string>('all');
   const [trails, setTrails] = useState<Trail[]>(() => FAMOUS_TRAILS);
   const [trailFilter, setTrailFilter] = useState<'all' | 'hiking' | 'biking'>('all');
   const [trailStateFilter, setTrailStateFilter] = useState<string>('Alle Bundesländer');
@@ -739,6 +740,11 @@ function EntdeckenContent() {
   const culinaryOverviewMapContainerRef = useRef<HTMLDivElement | null>(null);
   const culinaryOverviewLeafletMapRef = useRef<L.Map | null>(null);
   const culinaryOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
+
+  // Dedicated Leaflet Map references for Camping and Highlights Hub Overview
+  const hubOverviewMapContainerRef = useRef<HTMLDivElement | null>(null);
+  const hubOverviewLeafletMapRef = useRef<L.Map | null>(null);
+  const hubOverviewClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
   // Fetch dynamic culinary spots from backend
   useEffect(() => {
@@ -1664,14 +1670,16 @@ function EntdeckenContent() {
     }
   }, [selectedCountryView]);
 
-  // Fetch subdivision counts when selectedCountryView or countryTab changes
+  // Fetch subdivision counts when selectedCountryView, featuredCountry, or countryTab changes
   useEffect(() => {
-    if (selectedCountryView && REGIONS_BY_COUNTRY[selectedCountryView]) {
+    const activeCountryCode = selectedCountryView || (featuredCountry !== 'ALL' ? featuredCountry : null);
+    if (activeCountryCode && REGIONS_BY_COUNTRY[activeCountryCode]) {
+      const activeType = currentHub === 'highlights' ? 'attraction' : (countryTab === 'camping' ? 'camping' : 'attraction');
       const body = {
-        ...REGIONS_BY_COUNTRY[selectedCountryView],
-        type: countryTab === 'camping' ? 'camping' : 'attraction'
+        ...REGIONS_BY_COUNTRY[activeCountryCode],
+        type: activeType
       };
-      fetch(`/discover/api/countries/${selectedCountryView}/subdivision-stats`, {
+      fetch(`/discover/api/countries/${activeCountryCode}/subdivision-stats`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -1682,7 +1690,7 @@ function EntdeckenContent() {
     } else {
       setSubdivisionStats({});
     }
-  }, [selectedCountryView, countryTab]);
+  }, [selectedCountryView, featuredCountry, currentHub, countryTab]);
 
   // Dynamic SEO & Schema.org JSON-LD for Search Engines & AI Web Crawlers
   useEffect(() => {
@@ -2487,6 +2495,127 @@ ${trkpts}
       clearTimeout(t3);
     };
   }, [filteredCulinarySpots, culinaryViewMode, currentHub, hasSearched, selectedCountryView]);
+
+  // Dedicated Leaflet Map Effect for Camping and Highlights Hubs (Split and Map views)
+  useEffect(() => {
+    const isCampingOrHighlights = currentHub === 'camping' || currentHub === 'highlights';
+    if (hasSearched || selectedCountryView || !isCampingOrHighlights || viewMode === 'list') {
+      if (hubOverviewLeafletMapRef.current) {
+        hubOverviewLeafletMapRef.current.remove();
+        hubOverviewLeafletMapRef.current = null;
+      }
+      return;
+    }
+
+    const container = hubOverviewMapContainerRef.current;
+    if (!container) return;
+
+    if (hubOverviewLeafletMapRef.current) {
+      if (hubOverviewLeafletMapRef.current.getContainer() !== container) {
+        hubOverviewLeafletMapRef.current.remove();
+        hubOverviewLeafletMapRef.current = null;
+      }
+    }
+
+    if (!hubOverviewLeafletMapRef.current) {
+      if ((container as any)._leaflet_id) {
+        delete (container as any)._leaflet_id;
+      }
+
+      const map = L.map(container, {
+        center: [51.1657, 10.4515],
+        zoom: 6,
+        zoomControl: true,
+        attributionControl: true
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>-Mitwirkende',
+        maxZoom: 19
+      }).addTo(map);
+
+      hubOverviewLeafletMapRef.current = map;
+    }
+
+    const map = hubOverviewLeafletMapRef.current;
+    if (!map) return;
+
+    if (hubOverviewClusterRef.current) {
+      map.removeLayer(hubOverviewClusterRef.current);
+    }
+
+    const cluster = L.markerClusterGroup({
+      maxClusterRadius: 40,
+      showCoverageOnHover: false
+    });
+
+    const bounds = L.latLngBounds([]);
+    const placesToDisplay = places.filter(p => {
+      if (hubRegionFilter === 'all') return true;
+      const addr = (p.address || '').toLowerCase();
+      const city = (p.city || '').toLowerCase();
+      const reg = hubRegionFilter.toLowerCase();
+      return addr.includes(reg) || city.includes(reg);
+    }).slice(0, 300);
+
+    placesToDisplay.forEach((place) => {
+      bounds.extend([place.latitude, place.longitude]);
+      const isAttraction = place.type === 'attraction' || currentHub === 'highlights';
+      const bgColor = isAttraction ? '#ea580c' : place.type === 'campground' ? '#059669' : place.type === 'caravan' ? '#2563eb' : '#7c3aed';
+      const iconEmoji = isAttraction ? '🏛️' : place.type === 'caravan' ? '🚐' : place.type === 'glamping' ? '✨' : '⛺';
+
+      const customIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div style="background: ${bgColor}; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; box-shadow: 0 3px 8px rgba(0,0,0,0.35); border: 2px solid white; cursor: pointer;">
+          ${iconEmoji}
+        </div>`
+      });
+
+      const marker = L.marker([place.latitude, place.longitude], { icon: customIcon });
+
+      const popupHtml = document.createElement('div');
+      popupHtml.style.width = '240px';
+      popupHtml.style.fontFamily = 'inherit';
+      popupHtml.innerHTML = `
+        <div style="font-size: 0.72rem; font-weight: 800; color: ${bgColor}; text-transform: uppercase;">
+          ${isAttraction ? '🏛️ Sehenswürdigkeit' : getTypeLabel(place.type)}
+        </div>
+        <div style="font-size: 0.92rem; font-weight: 800; color: #111827; margin: 2px 0 4px 0; line-height: 1.2;">
+          ${escHtml(place.name)}
+        </div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 8px;">
+          ${escHtml(place.address || place.city || place.country || '')}
+        </div>
+        <button class="open-hub-place-popup-btn" style="width: 100%; padding: 7px; background: ${bgColor}; color: white; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+          Details & Camping ansehen ➔
+        </button>
+      `;
+
+      popupHtml.querySelector('.open-hub-place-popup-btn')?.addEventListener('click', () => {
+        openPlace(place);
+      });
+
+      marker.bindPopup(popupHtml);
+      cluster.addLayer(marker);
+    });
+
+    map.addLayer(cluster);
+    hubOverviewClusterRef.current = cluster;
+
+    if (bounds.isValid() && placesToDisplay.length > 0) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
+    }
+
+    const t1 = setTimeout(() => map.invalidateSize(), 60);
+    const t2 = setTimeout(() => map.invalidateSize(), 300);
+    const t3 = setTimeout(() => map.invalidateSize(), 800);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [places, viewMode, currentHub, hasSearched, selectedCountryView, hubRegionFilter]);
 
   // Lock body scroll while the place detail modal is open
   useEffect(() => {
@@ -4419,101 +4548,232 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
               )}
 
-              {/* Unified Country Explorer Section */}
+              {/* Unified Hub Explorer Section for Camping & Highlights (Split / Map / Grid View with Country & Region Dropdowns) */}
               {!hasSearched && !selectedCountryView && (currentHub === 'camping' || currentHub === 'highlights') && (() => {
                 const isHighlightsHub = currentHub === 'highlights';
-                const explorerTab = isHighlightsHub ? 'attractions' : 'camping';
+                const currentCountryRegions = featuredCountry !== 'ALL' && REGIONS_BY_COUNTRY[featuredCountry] ? REGIONS_BY_COUNTRY[featuredCountry] : null;
+                const availableRegionsList = currentCountryRegions ? [...currentCountryRegions.states, ...currentCountryRegions.popular] : [];
+
+                const filteredPlacesList = places.filter(place => {
+                  if (isHighlightsHub) {
+                    if (place.type !== 'attraction') return false;
+                  } else {
+                    if (place.type === 'attraction') return false;
+                  }
+                  if (hubRegionFilter !== 'all') {
+                    const addr = (place.address || '').toLowerCase();
+                    const city = (place.city || '').toLowerCase();
+                    const reg = hubRegionFilter.toLowerCase();
+                    if (!addr.includes(reg) && !city.includes(reg)) return false;
+                  }
+                  if (searchQuery.trim()) {
+                    const q = searchQuery.toLowerCase().trim();
+                    const nameMatch = (place.name || '').toLowerCase().includes(q);
+                    const cityMatch = (place.city || '').toLowerCase().includes(q);
+                    const addrMatch = (place.address || '').toLowerCase().includes(q);
+                    const descMatch = (place.description || '').toLowerCase().includes(q);
+                    if (!nameMatch && !cityMatch && !addrMatch && !descMatch) return false;
+                  }
+                  return true;
+                });
+
                 return (
-                <div style={{ marginBottom: '1.75rem' }}>
+                <div style={{ marginBottom: '2rem' }}>
                   
-                  {/* Hub Top Bar with Title & Quick Search */}
-                  <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '20px', padding: '1.5rem', marginBottom: '1.75rem', boxShadow: 'var(--shadow-sm)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-                      <div style={{ flex: '1', minWidth: '280px' }}>
-                        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          {isHighlightsHub ? '🏰 Sehenswürdigkeiten & Highlights entdecken' : '🏕️ Campingplätze & Wohnmobilstellplätze'}
-                        </h2>
-                        <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', margin: 0 }}>
-                          {isHighlightsHub 
-                            ? 'Finde faszinierende Schlösser, Naturwunder, Aussichtspunkte und Ausflugsziele in Europa.' 
-                            : 'Finde die schönsten Campingplätze, Wohnmobilstellplätze und Glamping-Ziele für deine Tour.'}
-                        </p>
+                  {/* Hub Header & Top Controls */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: isHighlightsHub ? '#7c3aed15' : '#05966915', color: isHighlightsHub ? '#7c3aed' : '#059669', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                        <Sparkles size={13} />
+                        {isHighlightsHub ? 'Highlights & Sehenswürdigkeiten' : 'Camping & Stellplätze in Europa'}
+                      </div>
+                      <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {isHighlightsHub ? '🏰 Sehenswürdigkeiten & Highlights' : '🏕️ Camping- & Wohnmobilstellplätze'}
+                      </h2>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--gray-600)', margin: 0 }}>
+                        {isHighlightsHub 
+                          ? 'Finde faszinierende Schlösser, Naturwunder, Aussichtspunkte und Ausflugsziele in ganz Europa.' 
+                          : 'Finde die schönsten Campingplätze, Wohnmobilstellplätze und Glamping-Ziele für deine Tour.'}
+                      </p>
+                    </div>
+
+                    {/* Right Controls: View Mode & Dropdowns */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap' }}>
+                      {/* View Mode Toggle */}
+                      <div className="view-mode-toggle-group">
+                        <button
+                          type="button"
+                          onClick={() => { setViewMode('split'); setTimeout(() => hubOverviewLeafletMapRef.current?.invalidateSize(), 150); }}
+                          className={`view-mode-btn ${viewMode === 'split' ? 'active' : ''}`}
+                          title="Geteilt (Liste + Karte)"
+                        >
+                          <ColumnsIcon size={15} />
+                          <span className="hidden sm:inline">Geteilt</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => { setViewMode('map'); setTimeout(() => hubOverviewLeafletMapRef.current?.invalidateSize(), 150); }}
+                          className={`view-mode-btn ${viewMode === 'map' ? 'active' : ''}`}
+                          title="Große Karte"
+                        >
+                          <MapIcon size={15} />
+                          <span className="hidden sm:inline">Große Karte</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setViewMode('list')}
+                          className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
+                          title="Kacheln"
+                        >
+                          <ListIcon size={15} />
+                          <span className="hidden sm:inline">Kacheln</span>
+                        </button>
                       </div>
 
-                      {/* Quick Search Bar */}
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          if (searchQuery.trim()) {
-                            handleSearch(undefined, searchQuery.trim());
-                          }
-                        }}
-                        style={{ position: 'relative', minWidth: '260px', flex: '1', maxWidth: '380px' }}
-                      >
-                        <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
-                        <input
-                          type="text"
-                          placeholder={isHighlightsHub ? 'Schloss, Berg, Region suchen...' : 'Ort, Region oder Platz suchen...'}
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
+                      {/* Country Dropdown */}
+                      <div style={{ position: 'relative', minWidth: '150px' }}>
+                        <select
+                          aria-label="Land auswählen"
+                          value={featuredCountry}
+                          onChange={(e) => {
+                            const newCountry = e.target.value;
+                            setFeaturedCountry(newCountry);
+                            setHubRegionFilter('all');
+                          }}
                           style={{
                             width: '100%',
-                            padding: '0.55rem 2.4rem 0.55rem 2.2rem',
-                            borderRadius: '12px',
-                            border: '1.5px solid var(--card-border)',
-                            background: 'var(--card-bg)',
-                            fontSize: '0.86rem',
+                            padding: '0.45rem 2rem 0.45rem 0.75rem',
+                            borderRadius: '10px',
+                            border: featuredCountry !== 'ALL' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                            background: featuredCountry !== 'ALL' ? 'var(--primary-50)' : 'var(--card-bg)',
+                            color: featuredCountry !== 'ALL' ? 'var(--primary-800)' : 'var(--gray-800)',
+                            fontSize: '0.82rem',
+                            fontWeight: 700,
                             outline: 'none',
-                            transition: 'border-color 0.15s ease'
+                            cursor: 'pointer',
+                            appearance: 'none',
+                            WebkitAppearance: 'none'
                           }}
-                          className="focus:border-emerald-500"
-                        />
-                        {searchQuery && (
-                          <button
-                            type="submit"
+                        >
+                          <option value="ALL">🌍 {currentLang === 'en' ? 'All Europe' : currentLang === 'fr' ? "Toute l'Europe" : currentLang === 'it' ? 'Tutta Europa' : currentLang === 'nl' ? 'Heel Europa' : 'Ganz Europa'}</option>
+                          {Object.keys(COUNTRY_FLAGS).map((c) => (
+                            <option key={c} value={c}>
+                              {COUNTRY_FLAGS[c]} {getCountryName(c, currentLang)}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                      </div>
+
+                      {/* Province / State / Region Dropdown */}
+                      {availableRegionsList.length > 0 && (
+                        <div style={{ position: 'relative', minWidth: '170px' }}>
+                          <select
+                            aria-label="Region oder Bundesland filtern"
+                            value={hubRegionFilter}
+                            onChange={(e) => setHubRegionFilter(e.target.value)}
                             style={{
-                              position: 'absolute',
-                              right: '6px',
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              background: 'var(--primary-700)',
-                              color: 'white',
-                              border: 'none',
-                              borderRadius: '8px',
-                              padding: '5px 8px',
+                              width: '100%',
+                              padding: '0.45rem 2rem 0.45rem 0.75rem',
+                              borderRadius: '10px',
+                              border: hubRegionFilter !== 'all' ? '1.5px solid var(--primary-600)' : '1px solid var(--card-border)',
+                              background: hubRegionFilter !== 'all' ? 'var(--primary-50)' : 'var(--card-bg)',
+                              color: hubRegionFilter !== 'all' ? 'var(--primary-800)' : 'var(--gray-800)',
+                              fontSize: '0.82rem',
+                              fontWeight: 700,
+                              outline: 'none',
                               cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center'
+                              appearance: 'none',
+                              WebkitAppearance: 'none'
                             }}
-                            title="Suchen"
                           >
-                            <Sparkles size={13} />
-                          </button>
-                        )}
-                      </form>
+                            <option value="all">📍 Alle Regionen ({availableRegionsList.length})</option>
+                            {availableRegionsList.map((reg) => {
+                              const count = subdivisionStats[reg];
+                              const countLabel = count !== undefined ? ` (${count})` : '';
+                              return (
+                                <option key={reg} value={reg}>
+                                  {reg.replace(/ \(Kanton\)/gi, '').replace(/ \(Luxemburg\)/gi, '').replace(/ \(Wallonien\)/gi, '').replace(/ \(Lappland\)/gi, '')}{countLabel}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--gray-500)' }} />
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  {/* Inspiration Row: Dynamic sample cards */}
-                  <div style={{ marginBottom: '2.5rem' }}>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: isHighlightsHub ? 'rgba(124, 58, 237, 0.1)' : 'rgba(5, 150, 105, 0.1)', color: isHighlightsHub ? '#7c3aed' : '#059669', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-                        <Sparkles size={13} />
+                  {/* Filter & Quick Search Bar */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '0.85rem', color: 'var(--gray-600)', fontWeight: 600 }}>
+                      <span>
+                        Zeige {filteredPlacesList.length} {isHighlightsHub ? 'Sehenswürdigkeiten' : 'Plätze'}
+                        {featuredCountry !== 'ALL' ? ` in ${getCountryName(featuredCountry, currentLang)}` : ' in Europa'}
+                        {hubRegionFilter !== 'all' ? ` (${hubRegionFilter})` : ''}
+                      </span>
+                      {hubRegionFilter !== 'all' && (
+                        <button
+                          onClick={() => setHubRegionFilter('all')}
+                          style={{
+                            background: 'var(--primary-100)',
+                            color: 'var(--primary-800)',
+                            border: 'none',
+                            borderRadius: '9999px',
+                            padding: '2px 8px',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.25rem'
+                          }}
+                        >
+                          📍 {hubRegionFilter} ×
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Quick Search */}
+                    <div style={{ position: 'relative', minWidth: '220px', flex: '1', maxWidth: '340px' }}>
+                      <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
+                      <input
+                        type="text"
+                        placeholder={isHighlightsHub ? 'Name, Ort, Highlight suchen...' : 'Platzname, Ort, Region suchen...'}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '0.45rem 0.75rem 0.45rem 2rem',
+                          borderRadius: '10px',
+                          border: '1px solid var(--card-border)',
+                          background: 'var(--card-bg)',
+                          fontSize: '0.82rem',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Inspiration Row: Dynamic Curated sample cards */}
+                  <div style={{ marginBottom: '2rem' }}>
+                    <div style={{ marginBottom: '0.85rem' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: isHighlightsHub ? 'rgba(124, 58, 237, 0.1)' : 'rgba(5, 150, 105, 0.1)', color: isHighlightsHub ? '#7c3aed' : '#059669', padding: '0.25rem 0.65rem', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.25rem' }}>
+                        <Sparkles size={12} />
                         {isHighlightsHub ? 'Ausgewählte Highlights' : 'Ausgewählte Camping-Tipps'}
                       </div>
-                      <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>
+                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.15rem 0' }}>
                         {isHighlightsHub ? '✨ Zur Inspiration: Besondere Sehenswürdigkeiten' : '✨ Zur Inspiration: Beliebte Camping- & Stellplätze'}
-                      </h2>
-                      <p style={{ fontSize: '0.88rem', color: 'var(--gray-600)', margin: 0 }}>
+                      </h3>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--gray-500)', margin: 0 }}>
                         {isHighlightsHub 
                           ? 'Kleine zufällige Auswahl faszinierender Schlösser, Naturwunder und Reiseziele in Europa'
                           : 'Kleine zufällige Auswahl handverlesener Camping- und Stellplätze für deine nächste Tour'}
                       </p>
                     </div>
 
-                    {/* Cards Grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.25rem' }}>
+                    {/* Curated Cards Grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
                       {isHighlightsHub ? (
                         sampleHighlightsList.map((spot) => (
                           <div
@@ -4522,7 +4782,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             style={{
                               background: 'var(--card-bg)',
                               border: '1px solid var(--card-border)',
-                              borderRadius: '16px',
+                              borderRadius: '14px',
                               overflow: 'hidden',
                               display: 'flex',
                               flexDirection: 'column',
@@ -4532,7 +4792,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             }}
                             className="hover:scale-102 hover:shadow-md"
                           >
-                            <div style={{ position: 'relative', height: '165px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                            <div style={{ position: 'relative', height: '145px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
                               <img
                                 src={spot.imageUrl}
                                 alt={spot.name}
@@ -4545,13 +4805,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <span
                                 style={{
                                   position: 'absolute',
-                                  top: '10px',
-                                  left: '10px',
+                                  top: '8px',
+                                  left: '8px',
                                   background: '#7c3aed',
                                   color: 'white',
-                                  padding: '3px 8px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.7rem',
+                                  padding: '2px 7px',
+                                  borderRadius: '5px',
+                                  fontSize: '0.68rem',
                                   fontWeight: 800,
                                   textTransform: 'uppercase',
                                   boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -4562,14 +4822,14 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <span
                                 style={{
                                   position: 'absolute',
-                                  top: '10px',
-                                  right: '10px',
+                                  top: '8px',
+                                  right: '8px',
                                   background: 'rgba(0,0,0,0.6)',
                                   backdropFilter: 'blur(4px)',
                                   color: 'white',
-                                  padding: '3px 7px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.75rem',
+                                  padding: '2px 6px',
+                                  borderRadius: '5px',
+                                  fontSize: '0.72rem',
                                   fontWeight: 700
                                 }}
                               >
@@ -4577,22 +4837,22 @@ const getWebsiteUrl = (place: Place): string | null => {
                               </span>
                             </div>
 
-                            <div style={{ padding: '1.15rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.3rem', fontWeight: 600 }}>
-                                <MapPin size={13} />
+                            <div style={{ padding: '0.9rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', color: 'var(--gray-600)', marginBottom: '0.25rem', fontWeight: 600 }}>
+                                <MapPin size={12} />
                                 <span>{spot.region}</span>
                               </div>
-                              <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: '1.3' }}>
+                              <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.3rem 0', lineHeight: '1.3' }}>
                                 {spot.name}
-                              </h3>
-                              <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: '0 0 0.75rem 0', lineHeight: '1.4', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                              </h4>
+                              <p style={{ fontSize: '0.78rem', color: 'var(--gray-600)', margin: '0 0 0.6rem 0', lineHeight: '1.4', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                                 {spot.description}
                               </p>
-                              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
-                                <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                                  🔎 Details & Camping in der Nähe
+                              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.5rem' }}>
+                                <span style={{ fontSize: '0.75rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                                  🔎 Details & Camping
                                 </span>
-                                <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
+                                <ChevronRight size={14} style={{ color: 'var(--primary-700)' }} />
                               </div>
                             </div>
                           </div>
@@ -4605,7 +4865,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             style={{
                               background: 'var(--card-bg)',
                               border: '1px solid var(--card-border)',
-                              borderRadius: '16px',
+                              borderRadius: '14px',
                               overflow: 'hidden',
                               display: 'flex',
                               flexDirection: 'column',
@@ -4615,7 +4875,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                             }}
                             className="hover:scale-102 hover:shadow-md"
                           >
-                            <div style={{ position: 'relative', height: '165px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                            <div style={{ position: 'relative', height: '145px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
                               <img
                                 src={spot.imageUrl}
                                 alt={spot.name}
@@ -4625,13 +4885,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <span
                                 style={{
                                   position: 'absolute',
-                                  top: '10px',
-                                  left: '10px',
+                                  top: '8px',
+                                  left: '8px',
                                   background: '#059669',
                                   color: 'white',
-                                  padding: '3px 8px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.7rem',
+                                  padding: '2px 7px',
+                                  borderRadius: '5px',
+                                  fontSize: '0.68rem',
                                   fontWeight: 800,
                                   textTransform: 'uppercase',
                                   boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -4642,14 +4902,14 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <span
                                 style={{
                                   position: 'absolute',
-                                  top: '10px',
-                                  right: '10px',
+                                  top: '8px',
+                                  right: '8px',
                                   background: 'rgba(0,0,0,0.6)',
                                   backdropFilter: 'blur(4px)',
                                   color: 'white',
-                                  padding: '3px 7px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.75rem',
+                                  padding: '2px 6px',
+                                  borderRadius: '5px',
+                                  fontSize: '0.72rem',
                                   fontWeight: 700
                                 }}
                               >
@@ -4658,13 +4918,13 @@ const getWebsiteUrl = (place: Place): string | null => {
                               <span
                                 style={{
                                   position: 'absolute',
-                                  bottom: '10px',
-                                  left: '10px',
+                                  bottom: '8px',
+                                  left: '8px',
                                   background: 'rgba(0,0,0,0.7)',
                                   color: '#facc15',
-                                  padding: '2px 7px',
-                                  borderRadius: '6px',
-                                  fontSize: '0.72rem',
+                                  padding: '2px 6px',
+                                  borderRadius: '5px',
+                                  fontSize: '0.68rem',
                                   fontWeight: 800
                                 }}
                               >
@@ -4672,24 +4932,24 @@ const getWebsiteUrl = (place: Place): string | null => {
                               </span>
                             </div>
 
-                            <div style={{ padding: '1.15rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.3rem', fontWeight: 600 }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                                  <MapPin size={13} />
+                            <div style={{ padding: '0.9rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.35rem', fontSize: '0.72rem', color: 'var(--gray-600)', marginBottom: '0.25rem', fontWeight: 600 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                  <MapPin size={12} />
                                   <span>{spot.region}</span>
                                 </div>
                                 <span style={{ color: '#d97706', fontWeight: 700 }}>
                                   ⭐ {spot.rating} ({spot.reviewsCount})
                                 </span>
                               </div>
-                              <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: '1.3' }}>
+                              <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.3rem 0', lineHeight: '1.3' }}>
                                 {spot.name}
-                              </h3>
-                              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
-                                <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                              </h4>
+                              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.5rem' }}>
+                                <span style={{ fontSize: '0.75rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
                                   🔎 Details & Platz ansehen
                                 </span>
-                                <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
+                                <ChevronRight size={14} style={{ color: 'var(--primary-700)' }} />
                               </div>
                             </div>
                           </div>
@@ -4698,58 +4958,169 @@ const getWebsiteUrl = (place: Place): string | null => {
                     </div>
                   </div>
 
-                  {/* Countries Grid Section */}
-                  <div style={{ marginBottom: '1.25rem', borderTop: '1px solid var(--gray-200)', paddingTop: '1.75rem' }}>
-                    <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      {isHighlightsHub ? '🏰 Alle Sehenswürdigkeiten nach Ländern' : '🌍 Alle Camping-Reiseziele nach Ländern'}
-                    </h2>
-                    <p style={{ fontSize: '0.88rem', color: 'var(--gray-600)', margin: 0 }}>
-                      {isHighlightsHub
-                        ? (t.attractionsByCountrySubtitle || 'Entdecke beliebte Parks, Schlösser und Sehenswürdigkeiten')
-                        : (t.campgroundsByCountrySubtitle || 'Entdecke geprüfte Camping- und Stellplätze in ganz Europa')}
-                    </p>
-                  </div>
+                  {/* Main Content Layout based on viewMode (Split / Map / Grid) */}
+                  {filteredPlacesList.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '3rem 1rem', background: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--card-border)' }}>
+                      <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gray-700)', marginBottom: '0.5rem' }}>
+                        {isHighlightsHub ? 'Keine Sehenswürdigkeiten für diese Auswahl gefunden' : 'Keine Campingplätze für diese Auswahl gefunden'}
+                      </p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)' }}>
+                        Wähle ein anderes Land oder setze den Regionsfilter zurück.
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      {/* MAP ONLY VIEW */}
+                      {viewMode === 'map' && (
+                        <div style={{ height: '640px', width: '100%', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'relative' }}>
+                          <div ref={hubOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
+                        </div>
+                      )}
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1rem' }}>
-                    {Object.keys(COUNTRY_FLAGS).map((code) => {
-                      const count = isHighlightsHub ? (attractionStats[code] || 0) : (countryStats[code] || 0);
-                      if (isHighlightsHub && count === 0) return null;
-
-                      return (
-                        <div 
-                          key={code}
-                          onClick={() => openCountryView(code, explorerTab)}
-                          style={{
-                            background: 'var(--card-bg)',
-                            border: '1px solid var(--card-border)',
-                            borderRadius: '14px',
-                            padding: '1rem 1.15rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.9rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease',
-                            boxShadow: 'var(--shadow-sm)'
-                          }}
-                          className="hover:scale-102 hover:shadow-md hover:border-primary-400"
-                        >
-                          <div style={{ fontSize: '2.3rem', background: 'var(--gray-50)', padding: '0.35rem', borderRadius: '10px', width: '54px', height: '54px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            {COUNTRY_FLAGS[code]}
+                      {/* SPLIT VIEW (List + Sticky Map) */}
+                      {viewMode === 'split' && (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 1fr) minmax(360px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxHeight: '740px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                            {filteredPlacesList.map((place) => {
+                              const isAttraction = place.type === 'attraction' || isHighlightsHub;
+                              const bgColor = isAttraction ? '#ea580c' : place.type === 'campground' ? '#059669' : place.type === 'caravan' ? '#2563eb' : '#7c3aed';
+                              return (
+                                <div
+                                  key={place.id}
+                                  onClick={() => openPlace(place)}
+                                  style={{
+                                    background: 'var(--card-bg)',
+                                    border: '1px solid var(--card-border)',
+                                    borderRadius: '14px',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    gap: '0.85rem',
+                                    padding: '0.75rem',
+                                    boxShadow: 'var(--shadow-sm)',
+                                    cursor: 'pointer',
+                                    flexShrink: 0,
+                                    minHeight: '115px',
+                                    transition: 'all 0.15s ease'
+                                  }}
+                                  className="hover:border-primary-500 hover:shadow-md"
+                                >
+                                  <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                    <PlaceCardImage place={place} currentLang={currentLang} />
+                                  </div>
+                                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                    <div>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                        <span style={{ fontSize: '0.7rem', fontWeight: 800, color: bgColor, textTransform: 'uppercase' }}>
+                                          {isAttraction ? '🏛️ Sehenswürdigkeit' : getTypeLabel(place.type)}
+                                        </span>
+                                        {place.rating && (
+                                          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#d97706' }}>
+                                            ⭐ {place.rating}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
+                                        {place.name}
+                                      </h4>
+                                      <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
+                                        📍 {place.address || place.city || place.country || ''}
+                                      </p>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
+                                      <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>
+                                        {place.city || place.country}
+                                      </span>
+                                      <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
+                                        Details →
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.2rem 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {getCountryName(code, currentLang)}
-                            </h4>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-                              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--primary-700)' }}>
-                                {isHighlightsHub ? `🏛️ ${count.toLocaleString('de-DE')} Ziele` : `🏕️ ${count.toLocaleString('de-DE')} Plätze`}
-                              </span>
-                            </div>
+                          <div style={{ height: '740px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                            <div ref={hubOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      )}
+
+                      {/* GRID VIEW */}
+                      {viewMode === 'list' && (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.25rem' }}>
+                          {filteredPlacesList.map((place) => {
+                            const isAttraction = place.type === 'attraction' || isHighlightsHub;
+                            const bgColor = isAttraction ? '#ea580c' : place.type === 'campground' ? '#059669' : place.type === 'caravan' ? '#2563eb' : '#7c3aed';
+                            return (
+                              <div
+                                key={place.id}
+                                onClick={() => openPlace(place)}
+                                style={{
+                                  background: 'var(--card-bg)',
+                                  border: '1px solid var(--card-border)',
+                                  borderRadius: '16px',
+                                  overflow: 'hidden',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  boxShadow: 'var(--shadow-sm)',
+                                  cursor: 'pointer',
+                                  transition: 'transform 0.2s, box-shadow 0.2s'
+                                }}
+                                className="hover:scale-102 hover:shadow-md"
+                              >
+                                <div style={{ position: 'relative', height: '160px', width: '100%', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                                  <PlaceCardImage place={place} currentLang={currentLang} />
+                                  <span
+                                    style={{
+                                      position: 'absolute',
+                                      top: '10px',
+                                      left: '10px',
+                                      background: bgColor,
+                                      color: 'white',
+                                      padding: '3px 8px',
+                                      borderRadius: '6px',
+                                      fontSize: '0.7rem',
+                                      fontWeight: 800,
+                                      textTransform: 'uppercase',
+                                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                    }}
+                                  >
+                                    {isAttraction ? '🏛️ Sehenswürdigkeit' : getTypeLabel(place.type)}
+                                  </span>
+                                </div>
+
+                                <div style={{ padding: '1.15rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem', fontSize: '0.75rem', color: 'var(--gray-600)', marginBottom: '0.3rem', fontWeight: 600 }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                                      <MapPin size={13} />
+                                      <span>{place.city || place.country}</span>
+                                    </div>
+                                    {place.rating && (
+                                      <span style={{ color: '#d97706', fontWeight: 700 }}>
+                                        ⭐ {place.rating}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: '1.3' }}>
+                                    {place.name}
+                                  </h3>
+                                  <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: '0 0 0.75rem 0', lineHeight: '1.4', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                    {getCleanDescription(place)}
+                                  </p>
+                                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--gray-100)', paddingTop: '0.65rem' }}>
+                                    <span style={{ fontSize: '0.78rem', color: 'var(--primary-700)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                                      🔎 Details & Platz ansehen
+                                    </span>
+                                    <ChevronRight size={15} style={{ color: 'var(--primary-700)' }} />
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
                 );
               })()}

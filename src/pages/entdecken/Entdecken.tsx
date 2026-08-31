@@ -1648,10 +1648,12 @@ function EntdeckenContent() {
     fetch('/api/count-discover', { method: 'POST' }).catch(() => {});
   }, []);
 
-  // Sync featured places with chosen featuredCountry
+  // Sync featured places with chosen featuredCountry & currentHub
   useEffect(() => {
-    fetchFeaturedPlaces(featuredCountry);
-  }, [featuredCountry]);
+    if (currentHub === 'camping' || currentHub === 'highlights') {
+      fetchFeaturedPlaces(featuredCountry, currentHub);
+    }
+  }, [featuredCountry, currentHub]);
 
   // Sync trails when filter changes
   useEffect(() => {
@@ -2704,10 +2706,24 @@ ${trkpts}
     }
   }, [selectedList]);
 
-  const fetchFeaturedPlaces = async (countryCode?: string) => {
+  const fetchFeaturedPlaces = async (countryCode?: string, targetHub?: string) => {
     try {
       const countryVal = countryCode || featuredCountry;
-      const url = countryVal === 'ALL' ? '/discover/api/search' : `/discover/api/search?country=${countryVal}`;
+      const hubVal = targetHub || currentHub;
+      const isAttraction = hubVal === 'highlights';
+      let url = '/discover/api/search';
+
+      if (countryVal !== 'ALL') {
+        const countryNameMap: { [key: string]: string } = {
+          DE: 'Deutschland', AT: 'Österreich', CH: 'Schweiz', IT: 'Italien', FR: 'Frankreich',
+          ES: 'Spanien', HR: 'Kroatien', NO: 'Norwegen', SE: 'Schweden', DK: 'Dänemark',
+          NL: 'Niederlande', BE: 'Belgien', LU: 'Luxemburg', FI: 'Finnland', PT: 'Portugal',
+          GR: 'Griechenland', SI: 'Slowenien', CZ: 'Tschechien', PL: 'Polen', HU: 'Ungarn', GB: 'Großbritannien'
+        };
+        const cName = countryNameMap[countryVal] || countryVal;
+        const queryTerm = isAttraction ? `Sehenswürdigkeiten in ${cName}` : `Camping in ${cName}`;
+        url = `/discover/api/search?q=${encodeURIComponent(queryTerm)}&limit=100`;
+      }
       const response = await fetch(url);
       const data = await response.json();
       setPlaces(data.places || []);
@@ -4671,7 +4687,24 @@ const getWebsiteUrl = (place: Place): string | null => {
                           <select
                             aria-label="Region oder Bundesland filtern"
                             value={hubRegionFilter}
-                            onChange={(e) => setHubRegionFilter(e.target.value)}
+                            onChange={(e) => {
+                              const newRegion = e.target.value;
+                              setHubRegionFilter(newRegion);
+                              if (newRegion !== 'all') {
+                                const cleanReg = newRegion.replace(/ \(Kanton\)/gi, '').replace(/ \(Luxemburg\)/gi, '').replace(/ \(Wallonien\)/gi, '').replace(/ \(Lappland\)/gi, '');
+                                const queryTerm = isHighlightsHub ? `Sehenswürdigkeiten in ${cleanReg}` : `Camping in ${cleanReg}`;
+                                fetch(`/discover/api/search?q=${encodeURIComponent(queryTerm)}&limit=100`)
+                                  .then(r => r.json())
+                                  .then(data => {
+                                    if (data && data.places && data.places.length > 0) {
+                                      setPlaces(data.places);
+                                    }
+                                  })
+                                  .catch(() => {});
+                              } else {
+                                fetchFeaturedPlaces(featuredCountry, currentHub);
+                              }
+                            }}
                             style={{
                               width: '100%',
                               padding: '0.45rem 2rem 0.45rem 0.75rem',

@@ -256,9 +256,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
       {/* 3. Stages */}
       <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
-        <div className="flex items-center justify-between w-full mb-6">
-          <div className="flex items-center gap-3">
-            <Route className="w-5 h-5 text-primary" />
+        <div className="flex flex-wrap items-center justify-between gap-3 w-full mb-6">
+          <div className="flex items-center gap-2.5">
+            <Route className="w-5 h-5 text-primary shrink-0" />
             <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.route.stages.title")}</span>
           </div>
           <Button
@@ -266,9 +266,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             variant="outline"
             onClick={addStage}
             size="sm"
-            className="rounded-full border-emerald-600/30 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-extrabold h-9 px-4 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-500"
+            className="rounded-full border-emerald-600/30 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-extrabold h-9 px-3.5 shrink-0 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-500"
           >
-            <Plus className="w-3.5 h-3.5 mr-1" /> {t("planner.route.stages.addSimple")}
+            <Plus className="w-3.5 h-3.5 mr-1 shrink-0" /> {t("planner.route.stages.addSimple")}
           </Button>
         </div>
 

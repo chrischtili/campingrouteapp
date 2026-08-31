@@ -1,6 +1,7 @@
 // In-memory cache for Wikipedia thumbnail URLs
 const wikiImageCache = new Map<string, string | null>();
 const pendingRequests = new Map<string, Promise<string | null>>();
+let rateLimitedUntil = 0;
 
 /**
  * Fetch a high-quality authentic thumbnail from Wikipedia/Wikimedia Commons
@@ -11,6 +12,11 @@ export async function fetchWikiAttractionImage(
   lang: string = 'de'
 ): Promise<string | null> {
   if (!name || typeof name !== 'string') return null;
+
+  // If Wikipedia recently returned a 429 Too Many Requests, back off gracefully
+  if (Date.now() < rateLimitedUntil) {
+    return null;
+  }
 
   // Clean noise terms
   const cleanName = name
@@ -41,6 +47,13 @@ export async function fetchWikiAttractionImage(
         }
       });
 
+      if (response.status === 429) {
+        // Back off for 2 minutes to respect Wikimedia API rate limits
+        rateLimitedUntil = Date.now() + 120000;
+        wikiImageCache.set(cacheKey, null);
+        return null;
+      }
+
       if (!response.ok) {
         wikiImageCache.set(cacheKey, null);
         return null;
@@ -54,27 +67,6 @@ export async function fetchWikiAttractionImage(
         if (thumb && typeof thumb === 'string') {
           wikiImageCache.set(cacheKey, thumb);
           return thumb;
-        }
-      }
-
-      // If not found in primary lang and primary lang was not 'en', try English Wikipedia
-      if (lang !== 'en') {
-        const enEndpoint = `https://en.wikipedia.org/w/api.php?action=query&format=json&generator=search&gsrsearch=${encodeURIComponent(
-          cleanName
-        )}&gsrlimit=1&prop=pageimages&pithumbsize=800&origin=*`;
-
-        const enRes = await fetch(enEndpoint, { headers: { 'Accept': 'application/json' } });
-        if (enRes.ok) {
-          const enData = await enRes.json();
-          const enPages = enData?.query?.pages;
-          if (enPages) {
-            const enPageId = Object.keys(enPages)[0];
-            const enThumb = enPages[enPageId]?.thumbnail?.source;
-            if (enThumb && typeof enThumb === 'string') {
-              wikiImageCache.set(cacheKey, enThumb);
-              return enThumb;
-            }
-          }
         }
       }
 

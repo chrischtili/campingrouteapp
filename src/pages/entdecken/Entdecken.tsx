@@ -520,34 +520,15 @@ function getFallbackImage(place: Place): string {
   }
 }
 
-function PlaceCardImage({ place, currentLang = 'de', style, className }: { place: Place; currentLang?: string; style?: React.CSSProperties; className?: string }) {
+function PlaceCardImage({ place, style, className }: { place: Place; currentLang?: string; style?: React.CSSProperties; className?: string }) {
   const directUrl = getImageUrl(place);
   const fallback = getFallbackImage(place);
   const [src, setSrc] = useState<string>(directUrl || fallback);
-  const [hasResolvedWiki, setHasResolvedWiki] = useState<boolean>(false);
 
   useEffect(() => {
-    let active = true;
     const direct = getImageUrl(place);
-    if (direct) {
-      setSrc(direct);
-      return;
-    }
-
-    // If it is an attraction without direct image, query Wikipedia
-    if (place.type === 'attraction' && !hasResolvedWiki) {
-      fetchWikiAttractionImage(place.name, currentLang).then((wikiUrl) => {
-        if (active && wikiUrl) {
-          setSrc(wikiUrl);
-          setHasResolvedWiki(true);
-        }
-      });
-    } else {
-      setSrc(fallback);
-    }
-
-    return () => { active = false; };
-  }, [place, currentLang, hasResolvedWiki, fallback]);
+    setSrc(direct || fallback);
+  }, [place, fallback]);
 
   return (
     <img
@@ -556,18 +537,10 @@ function PlaceCardImage({ place, currentLang = 'de', style, className }: { place
       loading="lazy"
       style={style || { width: '100%', height: '100%', objectFit: 'cover' }}
       className={className}
-      onError={() => {
-        if (place.type === 'attraction' && !hasResolvedWiki) {
-          fetchWikiAttractionImage(place.name, currentLang).then((wikiUrl) => {
-            if (wikiUrl) {
-              setSrc(wikiUrl);
-              setHasResolvedWiki(true);
-              return;
-            }
-            setSrc(fallback);
-          });
-        } else {
-          setSrc(fallback);
+      onError={(e) => {
+        const target = e.currentTarget as HTMLImageElement;
+        if (target.src !== fallback) {
+          target.src = fallback;
         }
       }}
     />
@@ -704,6 +677,7 @@ function EntdeckenContent() {
 
   const openPlace = (place: Place) => {
     setSelectedPlace(place);
+    setViewMode('split');
     try {
       window.history.pushState({ modal: 'place', placeId: place.id }, '', `#place-${place.id}`);
     } catch {}
@@ -720,6 +694,7 @@ function EntdeckenContent() {
 
   const openTrail = (trail: Trail) => {
     setSelectedTrail(trail);
+    setTrailViewMode('split');
     try {
       window.history.pushState({ modal: 'trail', trailId: trail.id }, '', `#trail-${trail.id}`);
     } catch {}
@@ -780,6 +755,7 @@ function EntdeckenContent() {
 
   const openCulinarySpot = (spot: CulinarySpot) => {
     setSelectedCulinarySpot(spot);
+    setCulinaryViewMode('split');
     try {
       window.history.pushState({ modal: 'culinary', spotId: spot.id }, '', `#culinary-${spot.id}`);
     } catch {}
@@ -1931,11 +1907,15 @@ function EntdeckenContent() {
     }
   }, [selectedPlace, trails, culinarySpots]);
 
-  // Fetch campsites, trail polyline and lock scroll for selected trail
+  // Fetch campsites, trail polyline for selected trail
   useEffect(() => {
     if (selectedTrail) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
+      const isSplit = trailViewMode === 'split';
+      let prev = '';
+      if (!isSplit) {
+        prev = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
       setIsLoadingTrailCampsites(true);
 
       // Immediately clear previous trail state so no old markers or bounds are drawn
@@ -2083,7 +2063,9 @@ function EntdeckenContent() {
 
       return () => {
         isCurrent = false;
-        document.body.style.overflow = prev;
+        if (prev) {
+          document.body.style.overflow = prev;
+        }
       };
     } else {
       setTrailCampsites([]);
@@ -2401,10 +2383,75 @@ ${trkpts}
       cluster.addLayer(marker);
     });
 
+    // If a trail is selected in split mode, draw its route polyline and nearby campsites directly on this overview map
+    if (selectedTrail) {
+      if (trailPolyline && trailPolyline.length >= 2) {
+        bounds.extend(trailPolyline);
+
+        // Track polyline background casing
+        L.polyline(trailPolyline, {
+          color: '#ffffff',
+          weight: 7,
+          opacity: 0.95,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }).addTo(map);
+
+        // Crimson route line
+        L.polyline(trailPolyline, {
+          color: '#e11d48',
+          weight: 4.5,
+          opacity: 0.95,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }).addTo(map);
+
+        const startPt = trailStartCoords || trailPolyline[0];
+        const endPt = trailEndCoords || trailPolyline[trailPolyline.length - 1];
+
+        if (startPt) {
+          const startIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="background: #10b981; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; border: 2px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.3);">🟢</div>`
+          });
+          L.marker(startPt, { icon: startIcon }).bindPopup(`<strong>Start:</strong> ${escHtml(selectedTrail.name)}`).addTo(map);
+        }
+
+        if (endPt && (endPt[0] !== startPt[0] || endPt[1] !== startPt[1])) {
+          const endIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="background: #ef4444; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; border: 2px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.3);">🏁</div>`
+          });
+          L.marker(endPt, { icon: endIcon }).bindPopup(`<strong>Ziel:</strong> ${escHtml(selectedTrail.name)}`).addTo(map);
+        }
+      } else {
+        bounds.extend([selectedTrail.latitude, selectedTrail.longitude]);
+      }
+
+      // Add campsite markers along the selected trail
+      if (trailCampsites && trailCampsites.length > 0) {
+        trailCampsites.forEach((cs) => {
+          bounds.extend([cs.latitude, cs.longitude]);
+          const csIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="background: #059669; color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.35); cursor: pointer;">🏕️</div>`
+          });
+          const csMarker = L.marker([cs.latitude, cs.longitude], { icon: csIcon });
+          csMarker.bindPopup(`<strong>${escHtml(cs.name)}</strong><br/><span style="font-size:0.75rem; color:#666;">${cs.city || ''}</span>`);
+          csMarker.on('click', () => openPlace(cs));
+          cluster.addLayer(csMarker);
+        });
+      }
+    }
+
     map.addLayer(cluster);
     trailsOverviewClusterRef.current = cluster;
 
-    if (bounds.isValid() && trailsToDisplay.length > 0) {
+    if (selectedTrail && trailPolyline && trailPolyline.length >= 2) {
+      map.fitBounds(L.latLngBounds(trailPolyline), { padding: [40, 40], maxZoom: 13 });
+    } else if (selectedTrail) {
+      map.setView([selectedTrail.latitude, selectedTrail.longitude], 11);
+    } else if (bounds.isValid() && trailsToDisplay.length > 0) {
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
     }
 
@@ -2417,7 +2464,7 @@ ${trkpts}
       clearTimeout(t2);
       clearTimeout(t3);
     };
-  }, [filteredTrails, trailViewMode, hasSearched, selectedCountryView]);
+  }, [filteredTrails, trailViewMode, hasSearched, selectedCountryView, selectedTrail, trailPolyline, trailCampsites]);
 
   // Culinary Overview Map Effect (Genuss Hub)
   useEffect(() => {
@@ -2524,10 +2571,31 @@ ${trkpts}
       cluster.addLayer(marker);
     });
 
+    // If a culinary spot is selected, add its campsite markers and center map
+    if (selectedCulinarySpot) {
+      bounds.extend([selectedCulinarySpot.latitude, selectedCulinarySpot.longitude]);
+
+      if (culinaryCampsites && culinaryCampsites.length > 0) {
+        culinaryCampsites.forEach((cs) => {
+          bounds.extend([cs.latitude, cs.longitude]);
+          const csIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="background: #059669; color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.35); cursor: pointer;">🏕️</div>`
+          });
+          const csMarker = L.marker([cs.latitude, cs.longitude], { icon: csIcon });
+          csMarker.bindPopup(`<strong>${escHtml(cs.name)}</strong><br/><span style="font-size:0.75rem; color:#666;">${cs.city || ''}</span>`);
+          csMarker.on('click', () => openPlace(cs));
+          cluster.addLayer(csMarker);
+        });
+      }
+    }
+
     map.addLayer(cluster);
     culinaryOverviewClusterRef.current = cluster;
 
-    if (bounds.isValid() && spotsToDisplay.length > 0) {
+    if (selectedCulinarySpot) {
+      map.setView([selectedCulinarySpot.latitude, selectedCulinarySpot.longitude], 12);
+    } else if (bounds.isValid() && spotsToDisplay.length > 0) {
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
     }
 
@@ -2540,7 +2608,7 @@ ${trkpts}
       clearTimeout(t2);
       clearTimeout(t3);
     };
-  }, [filteredCulinarySpots, culinaryViewMode, currentHub, hasSearched, selectedCountryView]);
+  }, [filteredCulinarySpots, culinaryViewMode, currentHub, hasSearched, selectedCountryView, selectedCulinarySpot, culinaryCampsites]);
 
   // Dedicated Leaflet Map Effect for Camping and Highlights Hubs (Split and Map views)
   useEffect(() => {
@@ -2642,7 +2710,9 @@ ${trkpts}
     map.addLayer(cluster);
     hubOverviewClusterRef.current = cluster;
 
-    if (bounds.isValid() && placesToDisplay.length > 0) {
+    if (selectedPlace) {
+      map.setView([selectedPlace.latitude, selectedPlace.longitude], 12);
+    } else if (bounds.isValid() && placesToDisplay.length > 0) {
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
     }
 
@@ -2655,16 +2725,16 @@ ${trkpts}
       clearTimeout(t2);
       clearTimeout(t3);
     };
-  }, [places, viewMode, currentHub, hasSearched, selectedCountryView, hubRegionFilter]);
+  }, [places, viewMode, currentHub, hasSearched, selectedCountryView, hubRegionFilter, selectedPlace]);
 
-  // Lock body scroll while the place detail modal is open
+  // Lock body scroll while the place detail modal is open (only in non-split mode)
   useEffect(() => {
-    if (selectedPlace) {
+    if (selectedPlace && (viewMode !== 'split' || hasSearched || selectedCountryView)) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       return () => { document.body.style.overflow = prev; };
     }
-  }, [selectedPlace]);
+  }, [selectedPlace, viewMode, hasSearched, selectedCountryView]);
 
   // Create/tear down the modal map only when the modal opens/closes.
   // The map instance is kept alive while pivoting between nearby places so the
@@ -3180,8 +3250,8 @@ const getWebsiteUrl = (place: Place): string | null => {
         
         {/* Breadcrumbs kommen von campingroute_app (AppBreadcrumbs) */}
 
-        {/* Place Detail Modal Overlay */}
-        {selectedPlace && (
+        {/* Place Detail Modal Overlay (Only when in non-split view or on general search) */}
+        {selectedPlace && (viewMode !== 'split' || hasSearched || selectedCountryView) && (
           <div
             className="place-modal-overlay"
             onClick={() => setSelectedPlace(null)}
@@ -3661,8 +3731,8 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         )}
 
-        {/* Trail Detail Modal Overlay */}
-        {selectedTrail && (
+        {/* Trail Detail Modal Overlay (Only when in Grid / Non-Split View) */}
+        {selectedTrail && trailViewMode !== 'split' && (
           <div
             className="place-modal-overlay"
             onClick={closeTrail}
@@ -3952,8 +4022,8 @@ const getWebsiteUrl = (place: Place): string | null => {
           </div>
         )}
 
-        {/* Culinary Spot Detail Modal Overlay */}
-        {selectedCulinarySpot && (
+        {/* Culinary Spot Detail Modal Overlay (Only when in Grid / Non-Split View) */}
+        {selectedCulinarySpot && culinaryViewMode !== 'split' && (
           <div
             className="place-modal-overlay"
             onClick={closeCulinarySpot}
@@ -4424,80 +4494,305 @@ const getWebsiteUrl = (place: Place): string | null => {
                         </div>
                       )}
 
-                      {/* SPLIT VIEW (List + Sticky Map) */}
+                      {/* SPLIT VIEW (List or Selected Spot Detail + Sticky Map) */}
                       {culinaryViewMode === 'split' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 1fr) minmax(360px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxHeight: '740px', overflowY: 'auto', paddingRight: '0.5rem' }}>
-                            {filteredCulinarySpots.slice(0, visibleCulinaryCount).map((spot) => (
-                              <div
-                                key={spot.id}
-                                onClick={() => openCulinarySpot(spot)}
-                                style={{
-                                  background: 'var(--card-bg)',
-                                  border: '1px solid var(--card-border)',
-                                  borderRadius: '14px',
-                                  overflow: 'hidden',
-                                  display: 'flex',
-                                  gap: '0.85rem',
-                                  padding: '0.75rem',
-                                  boxShadow: 'var(--shadow-sm)',
-                                  cursor: 'pointer',
-                                  flexShrink: 0,
-                                  minHeight: '115px',
-                                  transition: 'all 0.15s ease'
-                                }}
-                                className="hover:border-primary-500 hover:shadow-md"
-                              >
-                                <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                        <div className="entdecken-split-container">
+                          <div className="entdecken-split-list">
+                            {selectedCulinarySpot ? (
+                              <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                {/* Top Bar */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.85rem' }}>
+                                  <button
+                                    type="button"
+                                    onClick={closeCulinarySpot}
+                                    style={{
+                                      background: 'var(--primary-50)',
+                                      color: 'var(--primary-800)',
+                                      border: '1px solid var(--primary-200)',
+                                      borderRadius: '10px',
+                                      padding: '0.45rem 0.85rem',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 800,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '0.35rem'
+                                    }}
+                                    className="hover:bg-primary-100"
+                                  >
+                                    ← Alle Hofläden & Winzer
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => shareItem(selectedCulinarySpot.name, `/entdecken/genuss#culinary-${selectedCulinarySpot.id}`, `${selectedCulinarySpot.name} (${selectedCulinarySpot.subtypeLabel}) in ${selectedCulinarySpot.region} – Entdecken auf CampingRoute`)}
+                                    style={{
+                                      background: 'var(--card-bg)',
+                                      color: 'var(--gray-800)',
+                                      border: '1px solid var(--card-border)',
+                                      borderRadius: '10px',
+                                      padding: '0.45rem 0.75rem',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '0.35rem'
+                                    }}
+                                    className="hover:bg-gray-100"
+                                    title="Ort teilen"
+                                  >
+                                    <Share2 size={14} />
+                                    <span>Teilen</span>
+                                  </button>
+                                </div>
+
+                                {/* Image Header */}
+                                <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', background: 'var(--gray-200)' }}>
                                   <img
-                                    src={spot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
-                                    alt={spot.name}
+                                    src={selectedCulinarySpot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
+                                    alt={selectedCulinarySpot.name}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     onError={(e) => {
                                       (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
                                     }}
                                   />
-                                </div>
-                                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                  <div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : spot.type === 'regiomat' ? '#0284c7' : '#16a34a', textTransform: 'uppercase' }}>
-                                        {spot.subtypeLabel}
+                                  <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '0.4rem' }}>
+                                    <span style={{ background: selectedCulinarySpot.type === 'winery' ? '#9333ea' : selectedCulinarySpot.type === 'cheese_dairy' ? '#d97706' : selectedCulinarySpot.type === 'regiomat' ? '#0284c7' : '#16a34a', color: 'white', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase' }}>
+                                      {selectedCulinarySpot.subtypeLabel}
+                                    </span>
+                                    {selectedCulinarySpot.hasCampsite && (
+                                      <span style={{ background: '#059669', color: 'white', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800 }}>
+                                        🚐 Stellplatz direkt am Hof
                                       </span>
-                                      {spot.hasCampsite && (
-                                        <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: '#ecfdf5', color: '#059669' }}>
-                                          🚐 Stellplatz
-                                        </span>
-                                      )}
-                                    </div>
-                                    <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
-                                      {spot.name}
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Title & Address */}
+                                <div>
+                                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', lineHeight: 1.3 }}>
+                                    {selectedCulinarySpot.name}
+                                  </h3>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', color: 'var(--gray-600)', fontWeight: 600 }}>
+                                    <MapPin size={13} className="text-primary-600 shrink-0" />
+                                    <span>{selectedCulinarySpot.address || selectedCulinarySpot.region} · {selectedCulinarySpot.state}</span>
+                                  </div>
+                                </div>
+
+                                {/* Products */}
+                                {selectedCulinarySpot.products && selectedCulinarySpot.products.length > 0 && (
+                                  <div>
+                                    <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem' }}>
+                                      🧺 Angebotene Erzeugnisse & Spezialitäten
                                     </h4>
-                                    <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
-                                      📍 {spot.address || spot.region || spot.state}
+                                    <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                      {selectedCulinarySpot.products.map((p, idx) => (
+                                        <span key={idx} style={{ padding: '0.25rem 0.6rem', borderRadius: '6px', background: 'var(--primary-50)', color: 'var(--primary-800)', fontSize: '0.75rem', fontWeight: 700, border: '1px solid var(--primary-200)' }}>
+                                          ✓ {p}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Opening Hours & Description */}
+                                {selectedCulinarySpot.openingHours && (
+                                  <div style={{ padding: '0.75rem', background: 'var(--gray-50)', borderRadius: '10px', border: '1px solid var(--card-border)' }}>
+                                    <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--gray-700)', marginBottom: '0.2rem' }}>🕒 Öffnungszeiten / Hinweis:</div>
+                                    <div style={{ fontSize: '0.82rem', color: 'var(--gray-800)' }}>{selectedCulinarySpot.openingHours}</div>
+                                  </div>
+                                )}
+
+                                {selectedCulinarySpot.description && (
+                                  <div>
+                                    <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>
+                                      📖 Über diesen Betrieb
+                                    </h4>
+                                    <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', lineHeight: '1.5', margin: 0 }}>
+                                      {selectedCulinarySpot.description}
                                     </p>
                                   </div>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
-                                    <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>
-                                      {spot.products.slice(0, 2).join(' · ')}
-                                    </span>
-                                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
-                                      Details →
-                                    </span>
-                                  </div>
+                                )}
+
+                                {/* Direct Action Buttons (Website / Phone) */}
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                  {selectedCulinarySpot.website && (
+                                    <a
+                                      href={selectedCulinarySpot.website.startsWith('http') ? selectedCulinarySpot.website : `https://${selectedCulinarySpot.website}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{
+                                        flex: 1,
+                                        minWidth: '130px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.35rem',
+                                        padding: '0.55rem 0.85rem',
+                                        borderRadius: '10px',
+                                        background: 'var(--gray-100)',
+                                        color: 'var(--gray-800)',
+                                        textDecoration: 'none',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 700
+                                      }}
+                                      className="hover:bg-gray-200"
+                                    >
+                                      <Globe size={14} /> Website <ExternalLink size={12} />
+                                    </a>
+                                  )}
+                                  {selectedCulinarySpot.phone && (
+                                    <a
+                                      href={`tel:${selectedCulinarySpot.phone}`}
+                                      style={{
+                                        flex: 1,
+                                        minWidth: '130px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.35rem',
+                                        padding: '0.55rem 0.85rem',
+                                        borderRadius: '10px',
+                                        background: 'var(--primary-50)',
+                                        color: 'var(--primary-800)',
+                                        textDecoration: 'none',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 700
+                                      }}
+                                      className="hover:bg-primary-100"
+                                    >
+                                      <Phone size={14} /> Anrufen
+                                    </a>
+                                  )}
+                                </div>
+
+                                {/* Campsites in surrounding area */}
+                                <div style={{ borderTop: '1px solid var(--card-border)', paddingTop: '0.85rem' }}>
+                                  <h4 style={{ fontSize: '0.88rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                                    🏕️ Camping & Stellplätze in der Nähe ({isLoadingCulinaryCampsites ? '...' : culinaryCampsites.length})
+                                  </h4>
+                                  <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: '0 0 0.65rem 0' }}>
+                                    Übernachtungsmöglichkeiten im Umkreis von bis zu 25 km
+                                  </p>
+
+                                  {isLoadingCulinaryCampsites ? (
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', fontStyle: 'italic' }}>Plätze werden geladen...</p>
+                                  ) : culinaryCampsites.length === 0 ? (
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', fontStyle: 'italic' }}>Keine Campingplätze im Nahbereich registriert.</p>
+                                  ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '260px', overflowY: 'auto' }}>
+                                      {culinaryCampsites.map((p) => (
+                                        <div
+                                          key={p.id}
+                                          onClick={() => openPlace(p)}
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.65rem',
+                                            padding: '0.5rem',
+                                            borderRadius: '10px',
+                                            border: '1px solid var(--card-border)',
+                                            background: 'var(--gray-50)',
+                                            cursor: 'pointer'
+                                          }}
+                                          className="hover:border-primary-500"
+                                        >
+                                          <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--gray-200)' }}>
+                                            <img src={getImageUrl(p) || getFallbackImage(p)} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.currentTarget as HTMLImageElement).src = getFallbackImage(p); }} />
+                                          </div>
+                                          <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                              {p.name}
+                                            </div>
+                                            <div style={{ fontSize: '0.72rem', color: 'var(--gray-500)', display: 'flex', justifyContent: 'space-between' }}>
+                                              <span>{getTypeLabel(p.type)} · {p.city || ''}</span>
+                                              {(p as any).distance_km !== undefined ? (
+                                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>📍 {(p as any).distance_km} km</span>
+                                              ) : (
+                                                <span style={{ color: '#d97706', fontWeight: 700 }}>⭐ {p.rating || '4.5'}</span>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
-                            ))}
-                            {visibleCulinaryCount < filteredCulinarySpots.length && (
-                              <button
-                                onClick={() => setVisibleCulinaryCount(prev => prev + 24)}
-                                style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
-                              >
-                                Mehr Orte laden ({filteredCulinarySpots.length - visibleCulinaryCount} verbleibend)
-                              </button>
+                            ) : (
+                              <>
+                                {filteredCulinarySpots.slice(0, visibleCulinaryCount).map((spot) => (
+                                  <div
+                                    key={spot.id}
+                                    onClick={() => openCulinarySpot(spot)}
+                                    style={{
+                                      background: 'var(--card-bg)',
+                                      border: '1px solid var(--card-border)',
+                                      borderRadius: '14px',
+                                      overflow: 'hidden',
+                                      display: 'flex',
+                                      gap: '0.85rem',
+                                      padding: '0.75rem',
+                                      boxShadow: 'var(--shadow-sm)',
+                                      cursor: 'pointer',
+                                      flexShrink: 0,
+                                      minHeight: '115px',
+                                      transition: 'all 0.15s ease'
+                                    }}
+                                    className="hover:border-primary-500 hover:shadow-md"
+                                  >
+                                    <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                      <img
+                                        src={spot.image_url || 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'}
+                                        alt={spot.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
+                                        }}
+                                      />
+                                    </div>
+                                    <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                      <div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                          <span style={{ fontSize: '0.7rem', fontWeight: 800, color: spot.type === 'winery' ? '#9333ea' : spot.type === 'cheese_dairy' ? '#d97706' : spot.type === 'regiomat' ? '#0284c7' : '#16a34a', textTransform: 'uppercase' }}>
+                                            {spot.subtypeLabel}
+                                          </span>
+                                          {spot.hasCampsite && (
+                                            <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: '#ecfdf5', color: '#059669' }}>
+                                              🚐 Stellplatz
+                                            </span>
+                                          )}
+                                        </div>
+                                        <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
+                                          {spot.name}
+                                        </h4>
+                                        <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
+                                          📍 {spot.address || spot.region || spot.state}
+                                        </p>
+                                      </div>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
+                                        <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>
+                                          {spot.products.slice(0, 2).join(' · ')}
+                                        </span>
+                                        <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
+                                          Details →
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                                {visibleCulinaryCount < filteredCulinarySpots.length && (
+                                  <button
+                                    onClick={() => setVisibleCulinaryCount(prev => prev + 24)}
+                                    style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
+                                  >
+                                    Mehr Orte laden ({filteredCulinarySpots.length - visibleCulinaryCount} verbleibend)
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
-                          <div style={{ height: '740px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                          <div className="entdecken-split-map-sticky">
                             <div ref={culinaryOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                           </div>
                         </div>
@@ -5065,69 +5360,234 @@ const getWebsiteUrl = (place: Place): string | null => {
                         </div>
                       )}
 
-                      {/* SPLIT VIEW (List + Sticky Map) */}
+                      {/* SPLIT VIEW (List or Selected Place Detail + Sticky Map) */}
                       {viewMode === 'split' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 1fr) minmax(360px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxHeight: '740px', overflowY: 'auto', paddingRight: '0.5rem' }}>
-                            {filteredPlacesList.map((place) => {
-                              const isAttraction = place.type === 'attraction' || isHighlightsHub;
-                              const bgColor = isAttraction ? '#ea580c' : place.type === 'campground' ? '#059669' : place.type === 'caravan' ? '#2563eb' : '#7c3aed';
-                              return (
-                                <div
-                                  key={place.id}
-                                  onClick={() => openPlace(place)}
-                                  style={{
-                                    background: 'var(--card-bg)',
-                                    border: '1px solid var(--card-border)',
-                                    borderRadius: '14px',
-                                    overflow: 'hidden',
-                                    display: 'flex',
-                                    gap: '0.85rem',
-                                    padding: '0.75rem',
-                                    boxShadow: 'var(--shadow-sm)',
-                                    cursor: 'pointer',
-                                    flexShrink: 0,
-                                    minHeight: '115px',
-                                    transition: 'all 0.15s ease'
-                                  }}
-                                  className="hover:border-primary-500 hover:shadow-md"
-                                >
-                                  <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
-                                    <PlaceCardImage place={place} currentLang={currentLang} />
-                                  </div>
-                                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                    <div>
-                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                                        <span style={{ fontSize: '0.7rem', fontWeight: 800, color: bgColor, textTransform: 'uppercase' }}>
-                                          {isAttraction ? '🏛️ Sehenswürdigkeit' : getTypeLabel(place.type)}
-                                        </span>
-                                        {place.rating && (
-                                          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#d97706' }}>
-                                            ⭐ {place.rating}
-                                          </span>
-                                        )}
-                                      </div>
-                                      <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
-                                        {place.name}
-                                      </h4>
-                                      <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
-                                        📍 {place.address || place.city || place.country || ''}
-                                      </p>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
-                                      <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>
-                                        {place.city || place.country}
+                        <div className="entdecken-split-container">
+                          <div className="entdecken-split-list">
+                            {selectedPlace ? (
+                              <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                {/* Top Bar */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.85rem' }}>
+                                  <button
+                                    type="button"
+                                    onClick={closePlace}
+                                    style={{
+                                      background: 'var(--primary-50)',
+                                      color: 'var(--primary-800)',
+                                      border: '1px solid var(--primary-200)',
+                                      borderRadius: '10px',
+                                      padding: '0.45rem 0.85rem',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 800,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '0.35rem'
+                                    }}
+                                    className="hover:bg-primary-100"
+                                  >
+                                    ← {isHighlightsHub ? 'Alle Sehenswürdigkeiten' : 'Alle Campingplätze'}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => shareItem(selectedPlace.name, `/entdecken/${currentHub}#place-${selectedPlace.id}`, `${selectedPlace.name} in ${selectedPlace.city || selectedPlace.country} – Entdecken auf CampingRoute`)}
+                                    style={{
+                                      background: 'var(--card-bg)',
+                                      color: 'var(--gray-800)',
+                                      border: '1px solid var(--card-border)',
+                                      borderRadius: '10px',
+                                      padding: '0.45rem 0.75rem',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '0.35rem'
+                                    }}
+                                    className="hover:bg-gray-100"
+                                    title="Eintrag teilen"
+                                  >
+                                    <Share2 size={14} />
+                                    <span>Teilen</span>
+                                  </button>
+                                </div>
+
+                                {/* Image Header */}
+                                <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                                  <img
+                                    src={getImageUrl(selectedPlace) || getFallbackImage(selectedPlace)}
+                                    alt={selectedPlace.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => {
+                                      (e.currentTarget as HTMLImageElement).src = getFallbackImage(selectedPlace);
+                                    }}
+                                  />
+                                  <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '0.4rem' }}>
+                                    <span style={{ background: isHighlightsHub || selectedPlace.type === 'attraction' ? '#ea580c' : '#059669', color: 'white', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase' }}>
+                                      {isHighlightsHub || selectedPlace.type === 'attraction' ? '🏛️ Sehenswürdigkeit' : getTypeLabel(selectedPlace.type)}
+                                    </span>
+                                    {selectedPlace.rating && (
+                                      <span style={{ background: 'rgba(0,0,0,0.7)', color: '#facc15', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800 }}>
+                                        ⭐ {selectedPlace.rating} ({selectedPlace.reviewsCount || 0})
                                       </span>
-                                      <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
-                                        Details →
-                                      </span>
-                                    </div>
+                                    )}
                                   </div>
                                 </div>
-                              );
-                            })}
+
+                                {/* Title & Address */}
+                                <div>
+                                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', lineHeight: 1.3 }}>
+                                    {selectedPlace.name}
+                                  </h3>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', color: 'var(--gray-600)', fontWeight: 600 }}>
+                                    <MapPin size={13} className="text-primary-600 shrink-0" />
+                                    <span>{selectedPlace.address || selectedPlace.city || selectedPlace.country}</span>
+                                  </div>
+                                </div>
+
+                                {/* Description */}
+                                {getCleanDescription(selectedPlace) && (
+                                  <div>
+                                    <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>
+                                      📖 Beschreibung
+                                    </h4>
+                                    <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', lineHeight: '1.5', margin: 0 }}>
+                                      {getCleanDescription(selectedPlace)}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {/* Amenities / Ausstattungen */}
+                                {getAmenityList(selectedPlace).length > 0 && (
+                                  <div>
+                                    <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>
+                                      ✨ Ausstattungen & Services
+                                    </h4>
+                                    <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                      {getAmenityList(selectedPlace).map((am, idx) => (
+                                        <span key={idx} style={{ padding: '0.25rem 0.55rem', borderRadius: '6px', background: 'var(--gray-100)', color: 'var(--gray-700)', fontSize: '0.74rem', fontWeight: 600 }}>
+                                          ✓ {am}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Direct Action Buttons */}
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                  {getWebsiteUrl(selectedPlace) && (
+                                    <a
+                                      href={getWebsiteUrl(selectedPlace)!}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{
+                                        flex: 1,
+                                        minWidth: '130px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.35rem',
+                                        padding: '0.55rem 0.85rem',
+                                        borderRadius: '10px',
+                                        background: 'var(--primary-50)',
+                                        color: 'var(--primary-800)',
+                                        textDecoration: 'none',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 700
+                                      }}
+                                      className="hover:bg-primary-100"
+                                    >
+                                      <Globe size={14} /> Offizielle Website <ExternalLink size={12} />
+                                    </a>
+                                  )}
+                                  {selectedPlace.phone && (
+                                    <a
+                                      href={`tel:${selectedPlace.phone}`}
+                                      style={{
+                                        flex: 1,
+                                        minWidth: '130px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.35rem',
+                                        padding: '0.55rem 0.85rem',
+                                        borderRadius: '10px',
+                                        background: 'var(--gray-100)',
+                                        color: 'var(--gray-800)',
+                                        textDecoration: 'none',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 700
+                                      }}
+                                      className="hover:bg-gray-200"
+                                    >
+                                      <Phone size={14} /> Anrufen
+                                    </a>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                {filteredPlacesList.map((place) => {
+                                  const isAttraction = place.type === 'attraction' || isHighlightsHub;
+                                  const bgColor = isAttraction ? '#ea580c' : place.type === 'campground' ? '#059669' : place.type === 'caravan' ? '#2563eb' : '#7c3aed';
+                                  return (
+                                    <div
+                                      key={place.id}
+                                      onClick={() => openPlace(place)}
+                                      style={{
+                                        background: 'var(--card-bg)',
+                                        border: '1px solid var(--card-border)',
+                                        borderRadius: '14px',
+                                        overflow: 'hidden',
+                                        display: 'flex',
+                                        gap: '0.85rem',
+                                        padding: '0.75rem',
+                                        boxShadow: 'var(--shadow-sm)',
+                                        cursor: 'pointer',
+                                        flexShrink: 0,
+                                        minHeight: '115px',
+                                        transition: 'all 0.15s ease'
+                                      }}
+                                      className="hover:border-primary-500 hover:shadow-md"
+                                    >
+                                      <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                        <PlaceCardImage place={place} currentLang={currentLang} />
+                                      </div>
+                                      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                        <div>
+                                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                            <span style={{ fontSize: '0.7rem', fontWeight: 800, color: bgColor, textTransform: 'uppercase' }}>
+                                              {isAttraction ? '🏛️ Sehenswürdigkeit' : getTypeLabel(place.type)}
+                                            </span>
+                                            {place.rating && (
+                                              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#d97706' }}>
+                                                ⭐ {place.rating}
+                                              </span>
+                                            )}
+                                          </div>
+                                          <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
+                                            {place.name}
+                                          </h4>
+                                          <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
+                                            📍 {place.address || place.city || place.country || ''}
+                                          </p>
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
+                                          <span style={{ fontSize: '0.72rem', color: 'var(--gray-600)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>
+                                            {place.city || place.country}
+                                          </span>
+                                          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
+                                            Details →
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </>
+                            )}
                           </div>
-                          <div style={{ height: '740px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                          <div className="entdecken-split-map-sticky">
                             <div ref={hubOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                           </div>
                         </div>
@@ -5468,78 +5928,293 @@ const getWebsiteUrl = (place: Place): string | null => {
                         </div>
                       )}
 
-                      {/* SPLIT VIEW (List + Sticky Map) */}
+                      {/* SPLIT VIEW (List or Selected Trail Detail + Sticky Map) */}
                       {trailViewMode === 'split' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 1fr) minmax(360px, 1fr)', gap: '1.5rem', alignItems: 'start' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxHeight: '720px', overflowY: 'auto', paddingRight: '0.5rem' }}>
-                            {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
-                              <div
-                                key={trail.id}
-                                onClick={() => openTrail(trail)}
-                                style={{
-                                  background: 'var(--card-bg)',
-                                  border: '1px solid var(--card-border)',
-                                  borderRadius: '14px',
-                                  overflow: 'hidden',
-                                  display: 'flex',
-                                  gap: '0.85rem',
-                                  padding: '0.75rem',
-                                  boxShadow: 'var(--shadow-sm)',
-                                  cursor: 'pointer',
-                                  flexShrink: 0,
-                                  minHeight: '115px',
-                                  transition: 'all 0.15s ease'
-                                }}
-                                className="hover:border-primary-500 hover:shadow-md"
-                              >
-                                <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                        <div className="entdecken-split-container">
+                          <div className="entdecken-split-list">
+                            {selectedTrail ? (
+                              <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                {/* Navigation Top Bar */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.85rem' }}>
+                                  <button
+                                    type="button"
+                                    onClick={closeTrail}
+                                    style={{
+                                      background: 'var(--primary-50)',
+                                      color: 'var(--primary-800)',
+                                      border: '1px solid var(--primary-200)',
+                                      borderRadius: '10px',
+                                      padding: '0.45rem 0.85rem',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 800,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '0.35rem'
+                                    }}
+                                    className="hover:bg-primary-100"
+                                  >
+                                    ← {(t as any).backToOverview || 'Alle Touren'}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => shareItem(selectedTrail.name, `/entdecken/touren#trail-${selectedTrail.id}`, `${selectedTrail.name} (${selectedTrail.distance_km} km) – Wander- & Radfernweg auf CampingRoute`)}
+                                    style={{
+                                      background: 'var(--card-bg)',
+                                      color: 'var(--gray-800)',
+                                      border: '1px solid var(--card-border)',
+                                      borderRadius: '10px',
+                                      padding: '0.45rem 0.75rem',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '0.35rem'
+                                    }}
+                                    className="hover:bg-gray-100"
+                                    title="Tour teilen"
+                                  >
+                                    <Share2 size={14} />
+                                    <span>{(t as any).shareBtn || 'Teilen'}</span>
+                                  </button>
+                                </div>
+
+                                {/* Trail Image Header */}
+                                <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', background: 'var(--gray-200)' }}>
                                   <img
-                                    src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
-                                    alt={trail.name}
+                                    src={cleanImageUrl(selectedTrail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
+                                    alt={selectedTrail.name}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     onError={(e) => {
                                       (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80';
                                     }}
                                   />
+                                  <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '0.4rem' }}>
+                                    <span style={{ background: selectedTrail.type === 'biking' ? '#2563eb' : '#059669', color: 'white', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase' }}>
+                                      {selectedTrail.type === 'biking' ? '🚴 Radfernweg' : '🥾 Wanderweg'}
+                                    </span>
+                                    <span style={{ background: selectedTrail.difficulty === 'easy' ? '#10b981' : selectedTrail.difficulty === 'medium' ? '#f59e0b' : '#ef4444', color: 'white', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800 }}>
+                                      {selectedTrail.difficulty === 'easy' ? 'Leicht' : selectedTrail.difficulty === 'medium' ? 'Mittel' : 'Anspruchsvoll'}
+                                    </span>
+                                  </div>
                                 </div>
-                                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+
+                                {/* Title & Region */}
+                                <div>
+                                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', lineHeight: 1.3 }}>
+                                    {selectedTrail.name}
+                                  </h3>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', color: 'var(--gray-500)', fontWeight: 600 }}>
+                                    <MapPin size={13} className="text-primary-600 shrink-0" />
+                                    <span>{selectedTrail.start_location ? `${selectedTrail.start_location} ➔ ${selectedTrail.end_location} (${selectedTrail.region})` : `${selectedTrail.region} · Deutschland`}</span>
+                                  </div>
+                                </div>
+
+                                {/* Key Specs Grid */}
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '0.6rem', padding: '0.85rem', background: 'var(--gray-50)', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
                                   <div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: trail.type === 'biking' ? '#2563eb' : '#059669', textTransform: 'uppercase' }}>
-                                        {trail.type === 'biking' ? (t.bikingTrails || '🚴 Radweg') : (t.hikingTrails || '🥾 Wanderweg')}
-                                      </span>
-                                      <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: trail.difficulty === 'easy' ? '#ecfdf5' : trail.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: trail.difficulty === 'easy' ? '#059669' : trail.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
-                                        {trail.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : trail.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
-                                      </span>
+                                    <span style={{ fontSize: '0.68rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Länge</span>
+                                    <p style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0.1rem 0 0 0', color: 'var(--gray-900)' }}>📍 {selectedTrail.distance_km} km</p>
+                                  </div>
+                                  {selectedTrail.duration_hours ? (
+                                    <div>
+                                      <span style={{ fontSize: '0.68rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Gehzeit</span>
+                                      <p style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0.1rem 0 0 0', color: 'var(--gray-900)' }}>⏱️ {selectedTrail.duration_hours} h</p>
                                     </div>
-                                    <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
-                                      {trail.name}
+                                  ) : null}
+                                  {selectedTrail.elevation_gain_m ? (
+                                    <div>
+                                      <span style={{ fontSize: '0.68rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Höhenmeter</span>
+                                      <p style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0.1rem 0 0 0', color: 'var(--gray-900)' }}>⛰️ +{selectedTrail.elevation_gain_m} m</p>
+                                    </div>
+                                  ) : null}
+                                  <div>
+                                    <span style={{ fontSize: '0.68rem', color: 'var(--gray-500)', textTransform: 'uppercase', fontWeight: 700 }}>Camping</span>
+                                    <p style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0.1rem 0 0 0', color: '#059669' }}>🏕️ {isLoadingTrailCampsites ? '...' : `${trailCampsites.length} Plätze`}</p>
+                                  </div>
+                                </div>
+
+                                {/* GPX Download Button */}
+                                <div>
+                                  <button
+                                    onClick={handleDownloadGpx}
+                                    disabled={isDownloadingGpx}
+                                    style={{
+                                      width: '100%',
+                                      background: '#ecfdf5',
+                                      color: '#059669',
+                                      border: '1.5px solid #a7f3d0',
+                                      borderRadius: '10px',
+                                      padding: '0.65rem 1rem',
+                                      fontSize: '0.85rem',
+                                      fontWeight: 800,
+                                      cursor: isDownloadingGpx ? 'wait' : 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      gap: '0.45rem'
+                                    }}
+                                    className="hover:bg-emerald-100"
+                                  >
+                                    <Download size={16} className={isDownloadingGpx ? 'animate-bounce' : ''} />
+                                    <span>{isDownloadingGpx ? '⏳ GPX-Track wird vorbereitet...' : '📥 GPX-Track herunterladen (Navi / Garmin)'}</span>
+                                  </button>
+                                </div>
+
+                                {/* Highlights */}
+                                {safeHighlights(selectedTrail.highlights).length > 0 && (
+                                  <div>
+                                    <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.4rem' }}>
+                                      ✨ Highlights am Weg
                                     </h4>
-                                    <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
-                                      {trail.region || trail.state} · <strong>📍 {trail.distance_km} km</strong> {trail.duration_hours ? `· ⏱️ ${trail.duration_hours}h` : ''}
+                                    <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                      {safeHighlights(selectedTrail.highlights).map((hl, idx) => (
+                                        <span key={idx} style={{ padding: '0.25rem 0.6rem', borderRadius: '6px', background: 'rgba(5, 150, 105, 0.1)', color: 'var(--primary-800)', fontSize: '0.75rem', fontWeight: 700, border: '1px solid rgba(5, 150, 105, 0.2)' }}>
+                                          ✓ {hl}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Description */}
+                                {selectedTrail.description && (
+                                  <div>
+                                    <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>
+                                      📖 Beschreibung
+                                    </h4>
+                                    <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', lineHeight: '1.5', margin: 0 }}>
+                                      {selectedTrail.description}
                                     </p>
                                   </div>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
-                                    <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#059669' }}>
-                                      {trail.distance_km < 25 ? ((t as any).trailCampsitesNearTitle || '🏕️ Camping in der Nähe') : ((t as any).trailCampsitesAlongTitle || '🏕️ Camping an der Route')}
-                                    </span>
-                                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
-                                      {(t as any).culinaryView || 'Details →'}
-                                    </span>
-                                  </div>
+                                )}
+
+                                {/* Campsites along trail */}
+                                <div style={{ borderTop: '1px solid var(--card-border)', paddingTop: '0.85rem' }}>
+                                  <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                                    🏕️ Camping & Stellplätze an der Tour ({isLoadingTrailCampsites ? '...' : trailCampsites.length})
+                                  </h4>
+                                  <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', margin: '0 0 0.65rem 0' }}>
+                                    Verifizierte Übernachtungsorte direkt am oder nahe des Streckenverlaufs
+                                  </p>
+
+                                  {isLoadingTrailCampsites ? (
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', fontStyle: 'italic' }}>Plätze werden geladen...</p>
+                                  ) : trailCampsites.length === 0 ? (
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)', fontStyle: 'italic' }}>Keine Campingplätze im Nahbereich registriert.</p>
+                                  ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '280px', overflowY: 'auto' }}>
+                                      {trailCampsites.map((p) => (
+                                        <div
+                                          key={p.id}
+                                          onClick={() => openPlace(p)}
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.65rem',
+                                            padding: '0.5rem',
+                                            borderRadius: '10px',
+                                            border: '1px solid var(--card-border)',
+                                            background: 'var(--gray-50)',
+                                            cursor: 'pointer'
+                                          }}
+                                          className="hover:border-primary-500"
+                                        >
+                                          <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--gray-200)' }}>
+                                            <img src={getImageUrl(p) || getFallbackImage(p)} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.currentTarget as HTMLImageElement).src = getFallbackImage(p); }} />
+                                          </div>
+                                          <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                              {p.name}
+                                            </div>
+                                            <div style={{ fontSize: '0.72rem', color: 'var(--gray-500)', display: 'flex', justifyContent: 'space-between' }}>
+                                              <span>{getTypeLabel(p.type)} · {p.city || ''}</span>
+                                              {(p as any).distance_km !== undefined ? (
+                                                <span style={{ color: 'var(--primary-700)', fontWeight: 700 }}>📍 {(p as any).distance_km} km</span>
+                                              ) : (
+                                                <span style={{ color: '#d97706', fontWeight: 700 }}>⭐ {p.rating || '4.5'}</span>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
-                            ))}
-                            {visibleTrailsCount < filteredTrails.length && (
-                              <button
-                                onClick={() => setVisibleTrailsCount(prev => prev + 12)}
-                                style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
-                              >
-                                {(t as any).showMoreEvents || 'Mehr Touren laden'}
-                              </button>
+                            ) : (
+                              <>
+                                {filteredTrails.slice(0, visibleTrailsCount).map((trail) => (
+                                  <div
+                                    key={trail.id}
+                                    onClick={() => openTrail(trail)}
+                                    style={{
+                                      background: 'var(--card-bg)',
+                                      border: '1px solid var(--card-border)',
+                                      borderRadius: '14px',
+                                      overflow: 'hidden',
+                                      display: 'flex',
+                                      gap: '0.85rem',
+                                      padding: '0.75rem',
+                                      boxShadow: 'var(--shadow-sm)',
+                                      cursor: 'pointer',
+                                      flexShrink: 0,
+                                      minHeight: '115px',
+                                      transition: 'all 0.15s ease'
+                                    }}
+                                    className="hover:border-primary-500 hover:shadow-md"
+                                  >
+                                    <div style={{ width: '115px', minHeight: '100px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--gray-200)' }}>
+                                      <img
+                                        src={cleanImageUrl(trail.image_url) || 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80'}
+                                        alt={trail.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80';
+                                        }}
+                                      />
+                                    </div>
+                                    <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                      <div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                          <span style={{ fontSize: '0.7rem', fontWeight: 800, color: trail.type === 'biking' ? '#2563eb' : '#059669', textTransform: 'uppercase' }}>
+                                            {trail.type === 'biking' ? (t.bikingTrails || '🚴 Radweg') : (t.hikingTrails || '🥾 Wanderweg')}
+                                          </span>
+                                          <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '1px 6px', borderRadius: '4px', background: trail.difficulty === 'easy' ? '#ecfdf5' : trail.difficulty === 'medium' ? '#fef3c7' : '#fee2e2', color: trail.difficulty === 'easy' ? '#059669' : trail.difficulty === 'medium' ? '#b45309' : '#dc2626' }}>
+                                            {trail.difficulty === 'easy' ? (t.difficultyEasy || 'Leicht') : trail.difficulty === 'medium' ? (t.difficultyMedium || 'Mittel') : (t.difficultyHard || 'Schwer')}
+                                          </span>
+                                        </div>
+                                        <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
+                                          {trail.name}
+                                        </h4>
+                                        <p style={{ fontSize: '0.74rem', color: 'var(--gray-500)', margin: 0 }}>
+                                          {trail.region || trail.state} · <strong>📍 {trail.distance_km} km</strong> {trail.duration_hours ? `· ⏱️ ${trail.duration_hours}h` : ''}
+                                        </p>
+                                      </div>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.4rem' }}>
+                                        <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#059669' }}>
+                                          {trail.distance_km < 25 ? ((t as any).trailCampsitesNearTitle || '🏕️ Camping in der Nähe') : ((t as any).trailCampsitesAlongTitle || '🏕️ Camping an der Route')}
+                                        </span>
+                                        <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-600)' }}>
+                                          {(t as any).culinaryView || 'Details →'}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                                {visibleTrailsCount < filteredTrails.length && (
+                                  <button
+                                    onClick={() => setVisibleTrailsCount(prev => prev + 12)}
+                                    style={{ padding: '0.65rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--primary-700)', cursor: 'pointer', flexShrink: 0 }}
+                                  >
+                                    {(t as any).showMoreEvents || 'Mehr Touren laden'}
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
-                          <div style={{ height: '720px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-md)', position: 'sticky', top: '1.5rem' }}>
+                          <div className="entdecken-split-map-sticky">
                             <div ref={trailsOverviewMapContainerRef} style={{ height: '100%', width: '100%' }} />
                           </div>
                         </div>
@@ -6355,7 +7030,7 @@ const getWebsiteUrl = (place: Place): string | null => {
 
                     <div className={`results-layout view-${viewMode}`}>
                       <div className="results-list">
-                    {searchSummary && (
+                    {searchSummary && !selectedPlace && (
                       <div 
                         className="search-summary-card"
                         style={{ 
@@ -6381,7 +7056,193 @@ const getWebsiteUrl = (place: Place): string | null => {
                       </div>
                     )}
 
-                    {/* Places cards grid */}
+                    {/* Integrated Place Detail Card when selected in Split/Results mode */}
+                    {selectedPlace && viewMode === 'split' ? (
+                      <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+                        {/* Top Bar */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.85rem' }}>
+                          <button
+                            type="button"
+                            onClick={closePlace}
+                            style={{
+                              background: 'var(--primary-50)',
+                              color: 'var(--primary-800)',
+                              border: '1px solid var(--primary-200)',
+                              borderRadius: '10px',
+                              padding: '0.45rem 0.85rem',
+                              fontSize: '0.82rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.35rem'
+                            }}
+                            className="hover:bg-primary-100"
+                          >
+                            ← Zurück zur Suchliste
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => shareItem(selectedPlace.name, `/entdecken#place-${selectedPlace.id}`, `${selectedPlace.name} in ${selectedPlace.city || selectedPlace.country} – Entdecken auf CampingRoute`)}
+                            style={{
+                              background: 'var(--card-bg)',
+                              color: 'var(--gray-800)',
+                              border: '1px solid var(--card-border)',
+                              borderRadius: '10px',
+                              padding: '0.45rem 0.75rem',
+                              fontSize: '0.82rem',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.35rem'
+                            }}
+                            className="hover:bg-gray-100"
+                            title="Eintrag teilen"
+                          >
+                            <Share2 size={14} />
+                            <span>Teilen</span>
+                          </button>
+                        </div>
+
+                        {/* Image Header */}
+                        <div style={{ position: 'relative', height: '200px', borderRadius: '12px', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                          <img
+                            src={getImageUrl(selectedPlace) || getFallbackImage(selectedPlace)}
+                            alt={selectedPlace.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).src = getFallbackImage(selectedPlace);
+                            }}
+                          />
+                          <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '0.4rem' }}>
+                            <span style={{ background: selectedPlace.type === 'attraction' ? '#ea580c' : '#059669', color: 'white', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase' }}>
+                              {selectedPlace.type === 'attraction' ? '🏛️ Sehenswürdigkeit' : getTypeLabel(selectedPlace.type)}
+                            </span>
+                            {selectedPlace.rating && (
+                              <span style={{ background: 'rgba(0,0,0,0.7)', color: '#facc15', padding: '3px 8px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 800 }}>
+                                ⭐ {selectedPlace.rating} ({selectedPlace.reviewsCount || 0})
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Title & Address */}
+                        <div>
+                          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.35rem 0', lineHeight: 1.3 }}>
+                            {selectedPlace.name}
+                          </h3>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', color: 'var(--gray-600)', fontWeight: 600 }}>
+                            <MapPin size={13} className="text-primary-600 shrink-0" />
+                            <span>{selectedPlace.address || selectedPlace.city || selectedPlace.country}</span>
+                          </div>
+                        </div>
+
+                        {/* Description */}
+                        {getCleanDescription(selectedPlace) && (
+                          <div>
+                            <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>
+                              📖 Beschreibung
+                            </h4>
+                            <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', lineHeight: '1.5', margin: 0 }}>
+                              {getCleanDescription(selectedPlace)}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Amenities / Ausstattungen */}
+                        {getAmenityList(selectedPlace).length > 0 && (
+                          <div>
+                            <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.35rem' }}>
+                              ✨ Ausstattung & Highlights
+                            </h4>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                              {getAmenityList(selectedPlace).map((am, i) => (
+                                <span key={i} style={{ background: 'var(--gray-100)', color: 'var(--gray-800)', padding: '3px 8px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600 }}>
+                                  {am}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Action buttons */}
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', borderTop: '1px solid var(--card-border)', paddingTop: '0.85rem' }}>
+                          <button
+                            type="button"
+                            onClick={() => openSaveToList(selectedPlace)}
+                            style={{
+                              flex: 1,
+                              minWidth: '130px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '0.35rem',
+                              padding: '0.55rem 0.85rem',
+                              borderRadius: '10px',
+                              background: 'var(--primary-600)',
+                              color: 'white',
+                              border: 'none',
+                              fontSize: '0.8rem',
+                              fontWeight: 800,
+                              cursor: 'pointer'
+                            }}
+                            className="hover:bg-primary-700"
+                          >
+                            <Bookmark size={14} /> Speichern
+                          </button>
+                          {selectedPlace.website && (
+                            <a
+                              href={selectedPlace.website.startsWith('http') ? selectedPlace.website : `https://${selectedPlace.website}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                flex: 1,
+                                minWidth: '130px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '0.35rem',
+                                padding: '0.55rem 0.85rem',
+                                borderRadius: '10px',
+                                background: 'var(--gray-100)',
+                                color: 'var(--gray-800)',
+                                textDecoration: 'none',
+                                fontSize: '0.8rem',
+                                fontWeight: 700
+                              }}
+                              className="hover:bg-gray-200"
+                            >
+                              <Globe size={14} /> Website <ExternalLink size={12} />
+                            </a>
+                          )}
+                          {selectedPlace.phone && (
+                            <a
+                              href={`tel:${selectedPlace.phone}`}
+                              style={{
+                                flex: 1,
+                                minWidth: '130px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '0.35rem',
+                                padding: '0.55rem 0.85rem',
+                                borderRadius: '10px',
+                                background: 'var(--gray-100)',
+                                color: 'var(--gray-800)',
+                                textDecoration: 'none',
+                                fontSize: '0.8rem',
+                                fontWeight: 700
+                              }}
+                              className="hover:bg-gray-200"
+                            >
+                              <Phone size={14} /> Anrufen
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                    /* Places cards grid */
                     <div className="places-cards-grid" style={{ display: 'grid', gridTemplateColumns: viewMode === 'split' ? 'repeat(auto-fill, minmax(220px, 1fr))' : 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
                     {places.map((place) => {
                       const imageUrl = getImageUrl(place);
@@ -6489,9 +7350,10 @@ const getWebsiteUrl = (place: Place): string | null => {
                       );
                     })}
                     </div>
+                    )}
 
                     {/* Pagination */}
-                    {totalItems > itemsPerPage && (
+                    {!selectedPlace && totalItems > itemsPerPage && (
                       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
                         {(() => {
                           const onPageClick = (targetPage: number) => {
@@ -7544,6 +8406,27 @@ const getWebsiteUrl = (place: Place): string | null => {
                         <MapPin size={12} /> {selectedEvent.locality} {selectedEvent.postalCode ? `(${selectedEvent.postalCode})` : ''}
                       </span>
                     )}
+                    <button
+                      type="button"
+                      onClick={() => shareItem(selectedEvent.name, `/entdecken/events#event-${selectedEvent.id}`, `${selectedEvent.name} in ${selectedEvent.locality || 'Deutschland'} – Entdecken auf CampingRoute`)}
+                      style={{
+                        background: 'white',
+                        color: 'var(--gray-800)',
+                        border: '1px solid var(--card-border)',
+                        borderRadius: '9999px',
+                        padding: '3px 10px',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.3rem'
+                      }}
+                      className="hover:bg-gray-100"
+                      title="Event teilen"
+                    >
+                      <Share2 size={12} /> Teilen
+                    </button>
                   </div>
 
                   <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0.25rem 0', lineHeight: 1.3 }}>

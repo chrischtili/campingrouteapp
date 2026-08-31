@@ -1274,8 +1274,61 @@
   transform: translateY(0);
 }
 
+/* Responsive Split View Layout for Mobile & Tablet */
+.entdecken-split-container {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) minmax(360px, 1.1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.entdecken-split-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: 780px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.entdecken-split-map-sticky {
+  height: 780px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .entdecken-split-container {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 1.25rem !important;
+  }
+
+  .entdecken-split-list {
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+
+  .entdecken-split-map-sticky {
+    position: relative !important;
+    top: 0 !important;
+    height: 380px !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+  }
+}
+
 /* Mobile Smartphone Optimizations (< 640px) */
 @media (max-width: 640px) {
+  .entdecken-split-map-sticky {
+    height: 320px !important;
+  }
   .entdecken-root .hero-banner {
     padding: 2.75rem 1rem !important;
     border-radius: 18px !important;

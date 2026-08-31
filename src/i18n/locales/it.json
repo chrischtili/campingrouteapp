@@ -590,9 +590,9 @@
     "title": "Tutto per il tuo itinerario in un unico posto",
     "cta": "Assistente prompt",
     "launcher": {
-      "title": "Assistente prompt, ricerca aree e pianificazione in un unico posto",
-      "description": "Apri l’assistente, cerca aree adatte e completa poi dettagli del percorso e prompt IA nello stesso flusso.",
-      "hint": "Il cercaposti si apre direttamente nel pannello dell’assistente."
+      "title": "L’assistente prompt per il campeggio e i road trip",
+      "description": "Apri l’assistente e raccogli tutte le informazioni sul tuo percorso, veicolo e preferenze per creare il prompt IA perfetto.",
+      "hint": "Crea il tuo prompt IA su misura in pochi passaggi."
     },
     "loading": {
       "ai": "🤖 Genero itinerario...",

@@ -590,9 +590,9 @@
     "title": "Tout pour ton itinéraire en un seul endroit",
     "cta": "Assistant de prompt",
     "launcher": {
-      "title": "Assistant de prompt, recherche d’emplacements et itinéraire au même endroit",
-      "description": "Ouvre l’assistant, cherche des emplacements adaptés puis complète ton itinéraire et le prompt IA dans le même flux.",
-      "hint": "Le chercheur d’emplacements s’ouvre directement dans le panneau de l’assistant."
+      "title": "L’assistant de prompt pour le camping et les road trips",
+      "description": "Ouvre l’assistant et rassemble toutes les informations pour ton itinéraire, ton véhicule et tes préférences pour obtenir le prompt IA parfait.",
+      "hint": "Crée ton prompt IA sur mesure en quelques étapes."
     },
     "loading": {
       "ai": "🤖 Génération de l’itinéraire...",

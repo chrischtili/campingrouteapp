@@ -591,8 +591,8 @@
     "cta": "Prompt Assistant",
     "launcher": {
       "title": "The prompt assistant for camping and road trips",
-      "description": "Open the assistant, search suitable places if needed and then complete your route details and AI prompt in one strong flow.",
-      "hint": "Place search is available directly inside the assistant."
+      "description": "Open the assistant and compile all information about your route, vehicle, and preferences for the perfect AI prompt.",
+      "hint": "Create your tailored AI prompt in just a few steps."
     },
     "loading": {
       "ai": "🤖 Generating route...",
@@ -1411,12 +1411,12 @@
         "description": "If you enable local saving, your form inputs and settings (e.g., chosen language) are stored only in your browser and are automatically deleted after 30 days. API keys are never stored. This data is never transmitted to our servers."
       },
       "ai": {
-        "title": "AI Integration (OpenAI, Gemini, Mistral)",
-        "description": "If you use direct AI generation, your form data (start, destination, vehicle, preferences) is converted into text (prompt) and sent directly to your chosen AI provider (OpenAI, Google Gemini, or Mistral AI) using your own API key. We do not store this traffic or log API keys. The privacy policies of the AI provider you use apply."
+        "title": "AI Integration",
+        "description": "CampingRoute generates a structured prompt that you can use in your favorite AI tool. If you use direct AI generation, your input is sent directly to your selected AI provider. We never store API keys or user profiles. The privacy policies of the respective AI providers apply."
       },
-      "places": {
-        "title": "Place search & OSM data",
-        "description": "If you use the place finder on the home page or inside the route planner, your search term and technically necessary connection data are forwarded server-side to Geoapify or, as a fallback, to public Nominatim and Overpass services based on OpenStreetMap in order to find places as well as matching campsites and stopovers. We use these search requests only to answer your search directly and do not keep a permanent search history on our side. If you open the map view, your browser also loads map tiles from the configured map provider, which receives technically necessary connection data such as your IP address."
+      "mcp": {
+        "title": "MCP Server for AI Assistants",
+        "description": "When you or your local AI client (e.g. Claude Desktop, Cursor IDE, Antigravity) connects to our MCP server (Model Context Protocol), tool requests sent by your AI client are processed server-side to query campsite data, trails or POIs. No personal profiles or search histories are stored."
       },
       "feedback": {
         "title": "Feedback after generation",

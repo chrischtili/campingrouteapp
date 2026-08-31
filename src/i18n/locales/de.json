@@ -591,8 +591,8 @@
     "cta": "Prompt-Assistent",
     "launcher": {
       "title": "Der Prompt-Assistent für Camping- und Roadtrips",
-      "description": "Öffne den Assistenten, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen.",
-      "hint": "Die Platzsuche ist direkt im Assistenten verfügbar."
+      "description": "Öffne den Assistenten und stelle alle Angaben für deine Route, dein Fahrzeug und deine Wünsche für den perfekten KI-Prompt zusammen.",
+      "hint": "Erstelle in wenigen Schritten deinen maßgeschneiderten KI-Prompt."
     },
     "loading": {
       "ai": "🤖 Generiere Route...",
@@ -1414,9 +1414,9 @@
         "title": "KI-Integration",
         "description": "CampingRoute erzeugt einen strukturierten Prompt, den du in deiner bevorzugten KI nutzt. Wenn du die direkte KI-Generierung verwendest, werden deine Eingaben direkt an den von dir ausgewählten KI-Anbieter übermittelt. Wir speichern dabei keine API-Schlüssel und keine zentralen Nutzungsprofile. Für die Verarbeitung durch den jeweils gewählten KI-Anbieter gelten ergänzend dessen eigene Datenschutzbestimmungen."
       },
-      "places": {
-        "title": "Platzsuche & OSM-Daten",
-        "description": "Wenn du den Platzfinder auf der Startseite bzw. im Routenplaner nutzt, werden dein Suchbegriff und technisch notwendige Verbindungsdaten serverseitig an Geoapify für die Ortssuche und Geokodierung weitergeleitet. Für die eigentliche Suche nach Camping- und Stellplätzen nutzen wir primär unsere lokale Datenbasis auf Grundlage von OpenStreetMap-Daten; nur im Ausnahmefall greifen wir ergänzend auf öffentliche Nominatim- und Overpass-Dienste zurück. Wir verwenden diese Suchanfragen ausschließlich zur direkten Beantwortung deiner Suche und legen dabei keinen dauerhaften personenbezogenen Suchverlauf bei uns an. Wenn du zusätzlich die Kartenansicht nutzt, lädt dein Browser Kartenkacheln derzeit von OpenStreetMap; dabei erhält der Kartenanbieter technisch notwendige Verbindungsdaten wie deine IP-Adresse. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO."
+      "mcp": {
+        "title": "MCP-Server für KI-Assistenten",
+        "description": "Wenn du oder dein lokaler KI-Client (z. B. Claude Desktop, Cursor IDE, Antigravity) unseren MCP-Server (Model Context Protocol) anbindet, werden die von deinem KI-Client übermittelten Tool-Aufrufe serverseitig verarbeitet, um Campingdaten, Wanderwege oder POIs abzufragen. Es werden dabei keine personenbezogenen Profile oder Suchhistorien gespeichert. Die Anfragen dienen rein der Beantwortung des jeweiligen Tool-Aufrufs."
       },
       "feedback": {
         "title": "Feedback nach Generierung",

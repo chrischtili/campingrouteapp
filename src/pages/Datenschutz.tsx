@@ -71,8 +71,8 @@ export default function Datenschutz() {
                     <p className="mt-2 text-foreground/70 dark:text-white/60 text-xs sm:text-sm leading-relaxed">{t("privacy.dataProcessing.ai.description")}</p>
                   </div>
                   <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 dark:border-slate-800 dark:bg-slate-800/50">
-                    <h3 className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">{t("privacy.dataProcessing.places.title")}</h3>
-                    <p className="mt-2 text-foreground/70 dark:text-white/60 text-xs sm:text-sm leading-relaxed">{t("privacy.dataProcessing.places.description")}</p>
+                    <h3 className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">{t("privacy.dataProcessing.mcp.title")}</h3>
+                    <p className="mt-2 text-foreground/70 dark:text-white/60 text-xs sm:text-sm leading-relaxed">{t("privacy.dataProcessing.mcp.description")}</p>
                   </div>
                   <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 dark:border-slate-800 dark:bg-slate-800/50">
                     <h3 className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">{t("privacy.dataProcessing.feedback.title")}</h3>

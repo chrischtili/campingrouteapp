@@ -590,9 +590,9 @@
     "title": "Alles voor je route op één plek",
     "cta": "Prompt-assistent",
     "launcher": {
-      "title": "Prompt-assistent, plaatszoeker en routeplanning op één plek",
-      "description": "Open de assistent, zoek geschikte plekken en rond daarna je routedetails en AI-prompt in één flow af.",
-      "hint": "De plaatszoeker opent direct in het assistentpaneel."
+      "title": "De prompt-assistent voor camping- en roadtrips",
+      "description": "Open de assistent en verzamel alle gegevens voor je route, je voertuig en je wensen voor de perfecte AI-prompt.",
+      "hint": "Maak in enkele stappen je op maat gemaakte AI-prompt."
     },
     "loading": {
       "ai": "🤖 Route genereren...",

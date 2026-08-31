@@ -138,27 +138,6 @@ export const MCP_TOOLS_CATALOG = [
     },
     params: '{ "place_id": 12890 }',
     examplePrompt: "Gibt es aktuelle Erfahrungsberichte zur Ruhe und Sanitärqualität dieses Campingplatzes?"
-  },
-  {
-    name: "get_lists",
-    cat: "lists",
-    icon: BookmarkCheck,
-    title: {
-      de: "Reiselisten & Favoriten abfragen",
-      en: "Get Travel Lists & Bookmarks",
-      fr: "Listes de voyage & favoris",
-      it: "Liste di viaggio e preferiti",
-      nl: "Reislijsten & favorieten"
-    },
-    desc: {
-      de: "Gibt alle gespeicherten Roadtrip-Listen, Merklisten und Favoriten für die weitere Routenplanung zurück.",
-      en: "Returns all saved road trip lists, bookmarks, and favorite spots for further itinerary planning.",
-      fr: "Renvoie toutes les listes de road trip et favoris enregistrés pour la planification.",
-      it: "Restituisce tutte le liste di viaggio e le raccolte salvate per l'itinerario.",
-      nl: "Geeft alle opgeslagen reislijsten en favorieten terug voor verdere routeplanning."
-    },
-    params: '{ "list_id": "norwegen-2026" }',
-    examplePrompt: "Zeige mir alle gespeicherten Plätze aus meiner Liste 'Norwegen Sommer 2026'."
   }
 ];
 
@@ -480,7 +459,6 @@ export default function McpServerPage() {
                   { id: "events", label: `${t("mcpPage.catEventsPrefix", "📅 Events & Weinfeste")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "events").length})` },
                   { id: "highlights", label: `${t("mcpPage.catPoisPrefix", "🏰 POIs & Kultur")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "highlights").length})` },
                   { id: "reviews", label: `${t("mcpPage.catReviewsPrefix", "⭐ Bewertungen")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "reviews").length})` },
-                  { id: "lists", label: `${t("mcpPage.catListsPrefix", "📁 Listen")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "lists").length})` },
                 ].map(cat => (
                   <button
                     key={cat.id}

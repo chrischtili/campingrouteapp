@@ -156,7 +156,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-8">
             <Users className="w-5 h-5 text-primary" />
-            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.accommodation.group.travelers")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.accommodation.group.travelers")}</span>
           </div>
           <FormSlider
             id="numberOfTravelers"
@@ -173,7 +173,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-8">
             <Wallet className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.group.budget")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.accommodation.group.budget")}</span>
           </div>
           <FormSlider
             id="avgCampsitePriceMax"
@@ -192,7 +192,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <Home className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.categories.type.label")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.accommodation.categories.type.label")}</span>
           </div>
           <div className="flex flex-wrap gap-2 w-full">
             <BadgeToggleGroup
@@ -206,10 +206,10 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onChange({ quietPlaces: !formData.quietPlaces })}
-              className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 border-2 ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border ${
                 formData.quietPlaces
-                  ? "bg-primary border-primary text-white shadow-sm"
-                  : "bg-white/40 border-slate-200 text-slate-600 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-white/70 dark:hover:bg-white/10"
+                  ? "bg-emerald-600 border-emerald-600 text-white shadow-sm"
+                  : "bg-white border-slate-300 text-slate-800 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700"
               }`}
             >
               {t("planner.accommodation.quietPlaces.label")}
@@ -220,7 +220,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <Settings className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.accommodation.categories.facilities.label")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.accommodation.categories.facilities.label")}</span>
           </div>
           <BadgeToggleGroup
             name="facilities"
@@ -233,7 +233,7 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <Heart className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.interests.title")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.interests.title")}</span>
           </div>
           <BadgeToggleGroup
             name="activities"
@@ -246,14 +246,14 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <MessageSquare className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.interests.additional.label")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.interests.additional.label")}</span>
           </div>
           <textarea
             id="additionalInfo"
             placeholder={t("planner.interests.additional.placeholder")}
             value={formData.additionalInfo}
             onChange={(e) => onChange({ additionalInfo: (e.target as HTMLTextAreaElement).value })}
-            className={inputClass}
+            className="w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-bold text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
           />
         </div>
       </div>

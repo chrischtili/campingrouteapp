@@ -33,7 +33,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
     levelingJacks: "",
   };
 
-  const fieldLabelClass = "text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2 mb-3";
+  const fieldLabelClass = "text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-3";
   const glassPanelStyle = undefined;
 
   const vehicleTypeOptions = [
@@ -139,8 +139,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                 <Ruler className="w-4 h-4" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-foreground dark:text-white">{t("planner.vehicle.group.dimensions")}</span>
-                <span className="text-[10px] text-foreground/50 dark:text-white/40">
+                <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.vehicle.group.dimensions")}</span>
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
                   {formData.vehicleLength}m × {formData.vehicleWidth}m × {formData.vehicleHeight}m
                 </span>
               </div>
@@ -199,8 +199,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                     <Zap className="w-4 h-4" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground dark:text-white">{t("planner.vehicle.group.power")}</span>
-                    <span className="text-[10px] text-foreground/50 dark:text-white/40">
+                    <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.vehicle.group.power")}</span>
+                    <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
                       {formData.solarPower}W · {formData.batteryCapacity}Ah · {formData.autonomyDays} Tage
                     </span>
                   </div>
@@ -222,8 +222,8 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
                     <Settings className="w-4 h-4" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground dark:text-white">{t("planner.vehicle.group.systems")}</span>
-                    <span className="text-[10px] text-foreground/50 dark:text-white/40">
+                    <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.vehicle.group.systems")}</span>
+                    <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
                       {formData.fuelType ? t(`planner.vehicle.fuel.options.${formData.fuelType}`) : t("planner.vehicle.fuel.label")} · {formData.toiletteSystem ? t(`planner.vehicle.toilet.options.${formData.toiletteSystem}`) : t("planner.vehicle.toilet.label")}
                     </span>
                   </div>

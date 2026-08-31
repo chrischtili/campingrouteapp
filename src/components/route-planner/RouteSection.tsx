@@ -31,9 +31,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
 
   const inputClass = "w-full h-11 sm:h-12 px-4 rounded-xl transition-all outline-none font-bold text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs";
   const timeInputClass = `${inputClass} pr-10`;
-  const fieldLabelClass = "text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2 mb-2";
+  const fieldLabelClass = "text-sm font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-2.5";
   const requiredError = "text-xs font-semibold text-red-500 mt-1";
-  const clearValueClass = "mt-2 inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors dark:text-slate-400 dark:hover:text-white";
+  const clearValueClass = "mt-2 inline-flex items-center gap-1 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors dark:text-slate-300 dark:hover:text-white";
   const switchClass = "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
   const glassPanelStyle = undefined;
 
@@ -173,12 +173,12 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="flex items-center gap-3 mb-6">
           <Calendar className="w-5 h-5 text-primary" />
           <div className="flex flex-col gap-1">
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">
               {formData.startPoint ? `${t("planner.route.departure")} ${formData.startPoint}` : t("planner.route.departure")} 
               {" · "} 
               {getArrivalLabel()}
             </span>
-            <p className="text-[9px] text-foreground/40 dark:text-white/30 leading-tight">
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 leading-tight">
               {isReturnTrip 
                 ? t("planner.route.dates.tripWindowNoteRoundTrip", "Rundreise-Modus: Setze hier den Gesamtzeitraum von der Abfahrt bis zur finalen Rückkehr fest.")
                 : t("planner.route.dates.tripWindowNote", "Lege hier den Zeitraum für deine Reise fest.")}
@@ -259,21 +259,21 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="flex items-center justify-between w-full mb-6">
           <div className="flex items-center gap-3">
             <Route className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.route.stages.title")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.route.stages.title")}</span>
           </div>
           <Button
             type="button"
             variant="outline"
             onClick={addStage}
             size="sm"
-            className="rounded-full border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold h-8 px-3"
+            className="rounded-full border-emerald-600/30 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-extrabold h-9 px-4 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-500"
           >
-            <Plus className="w-3 h-3 mr-1" /> {t("planner.route.stages.addSimple")}
+            <Plus className="w-3.5 h-3.5 mr-1" /> {t("planner.route.stages.addSimple")}
           </Button>
         </div>
 
         {formData.stages.length === 0 ? (
-          <div className="w-full py-8 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl text-xs text-foreground/40 dark:text-white/30">
+          <div className="w-full py-8 text-center border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl text-xs font-semibold text-slate-500 dark:text-slate-400">
             {t("planner.route.stages.empty")}
           </div>
         ) : (
@@ -456,9 +456,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <MapIcon className="w-5 h-5 text-primary" />
-            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.route.targetRegions.label")}</span>
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.route.targetRegions.label")}</span>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
             {t("planner.route.targetRegions.hint")}
           </p>
           <textarea
@@ -466,7 +466,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             placeholder={t("planner.route.targetRegions.placeholder")}
             value={formData.targetRegions}
             onChange={(e) => onChange({ targetRegions: e.target.value })}
-            className="w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
+            className="w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-bold text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
           />
         </div>
 
@@ -474,21 +474,21 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left flex-1" style={glassPanelStyle}>
             <div className="flex items-center gap-3 mb-4">
               <Info className="w-5 h-5 text-primary" />
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.route.additional.label")}</span>
+              <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.route.additional.label")}</span>
             </div>
             <textarea
               id="routeAdditionalInfo"
               placeholder={t("planner.route.additional.placeholder")}
               value={formData.routeAdditionalInfo}
               onChange={(e) => onChange({ routeAdditionalInfo: e.target.value })}
-              className="w-full h-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
+              className="w-full h-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-bold text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
             />
           </div>
 
           <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex items-center justify-between gap-4 text-left" style={glassPanelStyle}>
             <div className="space-y-1">
-              <div className="text-xs font-bold text-slate-800 dark:text-white">{t("planner.route.preferScenicLongerStops.label")}</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400">{t("planner.route.preferScenicLongerStops.description")}</div>
+              <div className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.route.preferScenicLongerStops.label")}</div>
+              <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("planner.route.preferScenicLongerStops.description")}</div>
             </div>
             <Switch
               checked={formData.preferScenicLongerStops}
@@ -503,7 +503,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
         <div className="flex items-center gap-3 mb-8">
           <Sparkles className="w-5 h-5 text-primary" />
-          <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.route.maxDistance")} · {t("planner.route.travelPace.label")}</span>
+          <span className="text-sm font-extrabold text-slate-900 dark:text-white">{t("planner.route.maxDistance")} · {t("planner.route.travelPace.label")}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
@@ -567,7 +567,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
                 selectedValues={formData.travelPace ? [formData.travelPace] : []}
                 onChange={(_name, value, checked) => onChange({ travelPace: checked ? value : "" })}
               />
-              <p className="text-[10px] text-foreground/50 dark:text-white/40 italic">
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
                 {t("planner.route.travelPace.note")}
               </p>
             </div>

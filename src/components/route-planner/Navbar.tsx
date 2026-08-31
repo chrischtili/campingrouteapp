@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, Moon, Sun, Coffee, ChevronDown, Settings2, Search, Sparkles } from "lucide-react";
+import { Globe, Menu, X, Moon, Sun, Coffee, Cpu, Sparkles } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/ui/theme-provider";
-import { getFinderNavLabels } from "@/lib/finderPageContent";
 
 interface NavbarProps {
   onStartPlanning?: () => void;
@@ -18,24 +17,14 @@ interface NavbarProps {
 
 export function Navbar({ onStartPlanning }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(true);
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
-  const finderLabels = getFinderNavLabels(i18n.language);
   const { setTheme, resolvedTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isHomePage = location.pathname === "/";
-  const isDiscoverPage = location.pathname.startsWith('/entdecken') || 
-    location.pathname.startsWith('/discover') || 
-    location.pathname.startsWith('/decouvrir') || 
-    location.pathname.startsWith('/scopri') || 
-    location.pathname.startsWith('/ontdekken');
-
-  const openDiscoverAISettings = () => {
-    window.dispatchEvent(new CustomEvent("campingroute:open-ai-settings"));
-  };
+  const isHomePage = location.pathname === "/" || location.pathname === "/prompt-generator";
+  const isMcpPage = location.pathname === "/mcp" || location.pathname === "/mcp-server";
 
   // Close mobile menu when clicking outside
   useEffect(() => {
@@ -57,20 +46,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
   const handleNavClick = (href: string) => {
     setMobileMenuOpen(false);
-    if (href.startsWith("#")) {
-      if (!isHomePage) {
-        navigate(`/${href}`);
-      } else {
-        const element = document.querySelector(href);
-        if (element) {
-          const yOffset = -70;
-          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }
-    } else {
-      navigate(href);
-    }
+    navigate(href);
   };
 
   const changeLanguage = (lng: string) => {
@@ -79,22 +55,18 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
   };
 
   const navItems = [
-    { name: t("navbar.planNow", "Prompt-Assistent"), path: "/prompt-generator", isAnchor: false },
-    { name: t("navbar.discover", "Entdecken"), path: "/entdecken", isAnchor: false },
-    { name: t("navbar.mcp", "MCP-Server"), path: "/mcp", isAnchor: false },
-    { name: t("navbar.features", "Features"), path: "#features", isAnchor: true },
-    { name: t("navbar.faq", "FAQ"), path: "#faq", isAnchor: true },
-  ];
-
-  const discoverSubItems = [
-    { name: "✨ Übersicht", path: "/entdecken", desc: "KI-Suche & Themenwelten" },
-    { name: "🏕️ Camping & Stellplätze", path: "/entdecken/camping", desc: "Über 20.000 geprüfte Plätze" },
-    { name: "🍇 Hofläden & Winzer", path: "/entdecken/genuss", desc: "Bio-Höfe, Weingüter & Regiomaten" },
-    { name: "🥾 Wander- & Radwege", path: "/entdecken/touren", desc: "100+ Fernwege mit Camping am Weg" },
-    { name: "📅 Events & Weinfeste", path: "/entdecken/events", desc: "Feste, Märkte & Traditionen" },
-    { name: "🏰 Sehenswürdigkeiten", path: "/entdecken/highlights", desc: "Burgen, Schlösser & Highlights" },
-    { name: "📁 Meine Listen", path: "/entdecken/listen", desc: "Gespeicherte Reisen & Notizen" },
-    { name: "🔌 MCP Server (API)", path: "/mcp", desc: "Claude, Cursor & KI-Tools" },
+    { 
+      name: t("navbar.planNow", "Prompt-Assistent"), 
+      path: "/", 
+      isActive: isHomePage,
+      icon: Sparkles
+    },
+    { 
+      name: t("navbar.mcp", "MCP-Server"), 
+      path: "/mcp", 
+      isActive: isMcpPage,
+      icon: Cpu
+    },
   ];
 
   const languages = [
@@ -119,7 +91,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             <Link 
               to="/" 
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="flex items-center gap-2 group shrink-0"
+              className="flex items-center gap-2.5 group shrink-0"
             >
               <img
                 src="/android-chrome-192x192.png"
@@ -135,59 +107,22 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
             </Link>
 
             {/* Desktop Tab Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-5 xl:gap-6 shrink min-w-0">
+            <nav className="hidden md:flex items-center gap-4 lg:gap-6 shrink min-w-0">
               {navItems.map((item) => {
-                const isDiscoverItem = item.path === '/entdecken' || item.path === '/discover';
-                const isActive = item.isAnchor 
-                  ? isHomePage && location.hash === item.path
-                  : isDiscoverItem
-                    ? isDiscoverPage
-                    : location.pathname === item.path;
-
-                if (isDiscoverItem) {
-                  return (
-                    <DropdownMenu key={item.path}>
-                      <DropdownMenuTrigger asChild>
-                        <button
-                          type="button"
-                          className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors inline-flex items-center gap-1 cursor-pointer outline-none shrink-0 ${
-                            isActive 
-                              ? "text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400" 
-                              : "text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white font-semibold"
-                          }`}
-                        >
-                          <span>{item.name}</span>
-                          <ChevronDown className="h-3.5 w-3.5 opacity-70" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-64 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900 z-[99999]" style={{ zIndex: 99999 }}>
-                        {discoverSubItems.map((sub) => (
-                          <DropdownMenuItem
-                            key={sub.path}
-                            onClick={() => handleNavClick(sub.path)}
-                            className="rounded-xl px-3 py-2 cursor-pointer flex flex-col items-start gap-0.5 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 focus:bg-emerald-50 dark:focus:bg-emerald-950/60"
-                          >
-                            <span className="text-xs font-bold text-gray-900 dark:text-slate-100">{sub.name}</span>
-                            <span className="text-[10px] text-gray-500 dark:text-slate-400">{sub.desc}</span>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  );
-                }
-
+                const Icon = item.icon;
                 return (
                   <button
                     key={item.path}
                     type="button"
                     onClick={() => handleNavClick(item.path)}
-                    className={`relative pt-2 pb-1.5 text-sm font-bold transition-colors shrink-0 ${
-                      isActive 
+                    className={`relative inline-flex items-center gap-1.5 pt-2 pb-1.5 text-sm font-bold transition-colors shrink-0 cursor-pointer ${
+                      item.isActive 
                         ? "text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400" 
                         : "text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white font-semibold"
                     }`}
                   >
-                    {item.name}
+                    <Icon className="h-4 w-4" />
+                    <span>{item.name}</span>
                   </button>
                 );
               })}
@@ -202,26 +137,12 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               href="https://www.buymeacoffee.com/campingroute"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden xl:inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
+              className="inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
               title={t("planner.summary.save.coffeeHint", "Kaffee spendieren")}
             >
               <Coffee className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
-              <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
+              <span className="hidden sm:inline">{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
             </a>
-
-            {/* KI-Einstellungen (nur auf der Entdecken-Seite) */}
-            {isDiscoverPage && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={openDiscoverAISettings}
-                className="hidden md:inline-flex h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg gap-1.5 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
-                title={t("navbar.aiSettings", "KI-Einstellungen")}
-              >
-                <Settings2 className="h-4 w-4" />
-                <span>{t("navbar.aiSettings", "KI-Einstellungen")}</span>
-              </Button>
-            )}
 
             {/* Language Switcher */}
             <DropdownMenu>
@@ -273,7 +194,7 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden h-10 w-10 text-gray-800 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-xl ml-1.5 border border-gray-200/70 dark:border-slate-800 active:scale-95 transition-all shadow-xs"
+              className="md:hidden h-10 w-10 text-gray-800 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-xl ml-1.5 border border-gray-200/70 dark:border-slate-800 active:scale-95 transition-all shadow-xs"
               aria-label={t("navbar.openMenu", "Menü öffnen")}
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -285,63 +206,31 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
 
       {/* Mobile Slide-out Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-gray-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-2">
+        <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-2">
           {navItems.map((item) => {
-            const isDiscoverItem = item.path === '/entdecken' || item.path === '/discover';
-            if (isDiscoverItem) {
-              return (
-                <div key={item.path} className="border border-gray-100 dark:border-slate-800 rounded-2xl p-2 bg-gray-50/50 dark:bg-slate-800/30">
-                  <div 
-                    onClick={() => setMobileDiscoverOpen(!mobileDiscoverOpen)}
-                    className="flex items-center justify-between px-3 py-2 text-sm font-bold text-gray-900 dark:text-slate-100 cursor-pointer"
-                  >
-                    <span className="flex items-center gap-1.5">{item.name}</span>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${mobileDiscoverOpen ? 'rotate-180' : ''}`} />
-                  </div>
-                  {mobileDiscoverOpen && (
-                    <div className="pt-1 pb-1 space-y-1 pl-2 border-l-2 border-emerald-500 ml-2 mt-1">
-                      {discoverSubItems.map((sub) => (
-                        <button
-                          key={sub.path}
-                          type="button"
-                          onClick={() => handleNavClick(sub.path)}
-                          className="block w-full text-left rounded-lg px-2.5 py-1.5 text-xs font-bold text-gray-700 hover:bg-emerald-50 hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-slate-850"
-                        >
-                          {sub.name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
+            const Icon = item.icon;
             return (
               <button
                 key={item.path}
                 type="button"
                 onClick={() => handleNavClick(item.path)}
-                className="block w-full text-left rounded-xl px-4 py-3 text-sm font-bold text-gray-800 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60"
+                className={`flex items-center gap-2.5 w-full text-left rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+                  item.isActive
+                    ? "bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
+                    : "text-gray-800 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60"
+                }`}
               >
-                {item.name}
+                <Icon className="h-4.5 w-4.5 text-emerald-600 dark:text-emerald-400" />
+                <span>{item.name}</span>
               </button>
             );
           })}
-          {isDiscoverPage && (
-            <button
-              type="button"
-              onClick={() => { openDiscoverAISettings(); setMobileMenuOpen(false); }}
-              className="flex items-center gap-2 w-full rounded-xl px-4 py-3 text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300"
-            >
-              <Settings2 className="h-4.5 w-4.5" />
-              {t("navbar.aiSettings", "KI-Einstellungen")}
-            </button>
-          )}
           <a
             href="https://www.buymeacoffee.com/campingroute"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-2 w-full rounded-xl px-4 py-3 text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300"
+            className="flex items-center gap-2.5 w-full rounded-xl px-4 py-3 text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300"
           >
             <Coffee className="h-4.5 w-4.5 text-emerald-700 dark:text-emerald-400" />
             <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>

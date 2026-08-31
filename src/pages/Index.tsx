@@ -7,18 +7,6 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (params.get("placeFinder") === "true") {
-      navigate("/campingplatz-finder", { replace: true });
-      return;
-    }
-
-    if (params.get("plan") === "true") {
-      navigate("/prompt-generator", { replace: true });
-    }
-  }, [location.search, navigate]);
-
-  useEffect(() => {
     if (!location.hash) return;
 
     const targetId = decodeURIComponent(location.hash.slice(1));
@@ -36,7 +24,7 @@ const Index = () => {
     return () => window.clearTimeout(timeoutId);
   }, [location.hash]);
 
-  return <RoutePlanner />;
+  return <RoutePlanner standalonePage />;
 };
 
 export default Index;

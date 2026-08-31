@@ -1,15 +1,12 @@
-import { Github, ArrowUp, Cpu } from "lucide-react";
+import { Github, ArrowUp, Cpu, Sparkles, Coffee } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getFinderNavLabels } from "@/lib/finderPageContent";
 import { McpServerModal } from "@/components/mcp/McpServerModal";
 
 export function Footer() {
-  const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
-  const finderLabels = getFinderNavLabels(i18n.language);
-  const [releaseVersion, setReleaseVersion] = useState("0.7.1");
+  const { t } = useTranslation();
+  const [releaseVersion, setReleaseVersion] = useState("0.8.0");
   const [showMcpModal, setShowMcpModal] = useState(false);
   const displayReleaseVersion = `v${releaseVersion.replace(/^v/i, "")}`;
   
@@ -37,36 +34,10 @@ export function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const langKey = (i18n.language || "de").slice(0, 2).toLowerCase();
-
-  const popularCountries = [
-    { code: "DE", flag: "🇩🇪", name: { de: "Deutschland", en: "Germany", fr: "Allemagne", it: "Germania", nl: "Duitsland" } },
-    { code: "AT", flag: "🇦🇹", name: { de: "Österreich", en: "Austria", fr: "Autriche", it: "Austria", nl: "Oostenrijk" } },
-    { code: "CH", flag: "🇨🇭", name: { de: "Schweiz", en: "Switzerland", fr: "Suisse", it: "Svizzera", nl: "Zwitserland" } },
-    { code: "IT", flag: "🇮🇹", name: { de: "Italien", en: "Italy", fr: "Italie", it: "Italia", nl: "Italië" } },
-    { code: "FR", flag: "🇫🇷", name: { de: "Frankreich", en: "France", fr: "France", it: "Francia", nl: "Frankrijk" } },
-    { code: "SE", flag: "🇸🇪", name: { de: "Schweden", en: "Sweden", fr: "Suède", it: "Svezia", nl: "Zweden" } },
-    { code: "NL", flag: "🇳🇱", name: { de: "Niederlande", en: "Netherlands", fr: "Pays-Bas", it: "Paesi Bassi", nl: "Nederland" } },
-    { code: "DK", flag: "🇩🇰", name: { de: "Dänemark", en: "Denmark", fr: "Danemark", it: "Danimarca", nl: "Denemarken" } },
-  ];
-
-  const handleNavClick = (href: string) => {
-    if (href.startsWith("#")) {
-      if (window.location.pathname !== "/") {
-        navigate(`/${href}`);
-      } else {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    }
-  };
-
   return (
     <footer className="w-full border-t border-gray-200/80 bg-white py-12 dark:border-slate-800 dark:bg-slate-900 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Brand Column */}
           <div className="space-y-4 md:col-span-1">
@@ -81,59 +52,44 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs text-foreground/60 dark:text-white/60 leading-relaxed">
-              {t("footer.brandDescription", "CampingRoute — Finde deine perfekte Campingtour mit smarter künstlicher Intelligenz. Entdecke tolle Stellplätze und Campingplätze in Europa.")}
+              {t("footer.brandDescription", "CampingRoute — Finde deine perfekte Campingtour mit smarter künstlicher Intelligenz. Erstelle maßgeschneiderte Prompts für ChatGPT, Claude & Gemini.")}
             </p>
           </div>
 
-          {/* Beliebte Reiseländer */}
+          {/* Navigation & Tools Column */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-foreground dark:text-white">
-              {t("footer.popularCountries", "Beliebte Reiseländer")}
-            </h4>
-            <ul className="grid grid-cols-2 gap-2 text-xs font-medium text-foreground/70 dark:text-white/70">
-              {popularCountries.map(({ code, flag, name }) => {
-                const label = `${flag} ${(name as any)[langKey] || name.de}`;
-                return (
-                  <li key={code}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        window.dispatchEvent(new CustomEvent("campingroute:open-country", { detail: { code } }));
-                        navigate("/discover");
-                      }}
-                      className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                    >
-                      {label}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Features Column 2 */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground dark:text-white">
-              {t("footer.featuresHeading", "Features & Info")}
+              Navigation & KI-Tools
             </h4>
             <ul className="space-y-2 text-xs font-medium text-foreground/70 dark:text-white/70">
               <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick("#features")}
-                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                <Link
+                  to="/"
+                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
                 >
-                  {t("navbar.features", "Features")}
-                </button>
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>{t("navbar.planNow", "Prompt-Assistent")}</span>
+                </Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick("#faq")}
-                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                <Link
+                  to="/mcp"
+                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
                 >
-                  {t("navbar.faq", "FAQ")}
-                </button>
+                  <Cpu className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>{t("footer.mcpServerLink", "MCP-Server für KI-Assistenten")}</span>
+                </Link>
+              </li>
+              <li>
+                <a 
+                  href="https://www.buymeacoffee.com/campingroute" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+                >
+                  <Coffee className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
+                </a>
               </li>
               <li>
                 <a 
@@ -146,19 +102,10 @@ export function Footer() {
                   <span>GitHub Repository</span>
                 </a>
               </li>
-              <li>
-                <Link
-                  to="/mcp"
-                  className="inline-flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
-                >
-                  <Cpu className="w-3.5 h-3.5" />
-                  <span>{t("footer.mcpServerLink", "MCP-Server für KI-Assistenten")}</span>
-                </Link>
-              </li>
             </ul>
           </div>
 
-          {/* Legal Column 3 */}
+          {/* Legal Column */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-foreground dark:text-white">
               {t("footer.legalHeading", "Rechtliches")}
@@ -186,9 +133,6 @@ export function Footer() {
         <div className="pt-8 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-foreground/50 dark:text-white/40">
           <div className="space-y-1 text-center sm:text-left">
             <p>{t("footer.copyrightText", "© 2026 CampingRoute.app. Alle Rechte vorbehalten.")}</p>
-            <p>
-              {t("footer.attributionText", "Kartendaten & Orte © OpenStreetMap-Mitwirkende (ODbL). Tourismus- & Reisedaten © Deutsche Zentrale für Tourismus e.V. (DZT) / Open Data Germany. Sehenswürdigkeiten & Bilder bereitgestellt durch Wikidata & DZT Open Data. Camping- & Stellplätze aus OpenStreetMap & DZT.")}
-            </p>
           </div>
           <button
             type="button"

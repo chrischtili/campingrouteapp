@@ -412,27 +412,27 @@ const App = () => {
           <Suspense fallback={<div className="min-h-screen bg-gray-50"></div>}>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/prompt-generator" element={<PromptGenerator />} />
-              <Route path="/entdecken" element={<Entdecken />} />
-              <Route path="/entdecken/:hub" element={<Entdecken />} />
-              <Route path="/discover" element={<Entdecken />} />
-              <Route path="/discover/:hub" element={<Entdecken />} />
-              <Route path="/decouvrir" element={<Entdecken />} />
-              <Route path="/decouvrir/:hub" element={<Entdecken />} />
-              <Route path="/scopri" element={<Entdecken />} />
-              <Route path="/scopri/:hub" element={<Entdecken />} />
-              <Route path="/ontdekken" element={<Entdecken />} />
-              <Route path="/ontdekken/:hub" element={<Entdecken />} />
-              <Route path="/campingplatz-finder" element={<CampingplatzFinder />} />
-              <Route path="/stellplatz-finder" element={<StellplatzFinder />} />
               <Route path="/mcp" element={<McpServerPage />} />
               <Route path="/mcp-server" element={<McpServerPage />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
-              {/* Admin-Seite (nicht verlinkt, nur per direkter URL aufrufbar) */}
+              {/* Redirects to homepage */}
+              <Route path="/prompt-generator" element={<Navigate to="/" replace />} />
+              <Route path="/app" element={<Navigate to="/" replace />} />
+              <Route path="/entdecken" element={<Navigate to="/" replace />} />
+              <Route path="/entdecken/*" element={<Navigate to="/" replace />} />
+              <Route path="/discover" element={<Navigate to="/" replace />} />
+              <Route path="/discover/*" element={<Navigate to="/" replace />} />
+              <Route path="/decouvrir" element={<Navigate to="/" replace />} />
+              <Route path="/decouvrir/*" element={<Navigate to="/" replace />} />
+              <Route path="/scopri" element={<Navigate to="/" replace />} />
+              <Route path="/scopri/*" element={<Navigate to="/" replace />} />
+              <Route path="/ontdekken" element={<Navigate to="/" replace />} />
+              <Route path="/ontdekken/*" element={<Navigate to="/" replace />} />
+              <Route path="/campingplatz-finder" element={<Navigate to="/" replace />} />
+              <Route path="/stellplatz-finder" element={<Navigate to="/" replace />} />
+              {/* Admin-Seite */}
               <Route path="/admin-stats" element={<AdminStats />} />
-              {/* Alias & Redirects */}
-              <Route path="/app" element={<Navigate to="/prompt-generator" replace />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

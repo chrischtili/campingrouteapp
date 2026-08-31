@@ -1396,8 +1396,39 @@ function EntdeckenContent() {
     } else if (selectedCountryView && !hasSearched) {
       trail.push({ label: parentLabel(selectedCountryView) });
     } else if (hasSearched) {
-      if (searchQuery) {
-        trail.push({ label: searchQuery });
+      // Find if search query or active country belongs to a known country
+      let detectedCountryCode: string | null = selectedCountryView || null;
+      let cleanedSearchLabel = searchQuery;
+
+      if (!detectedCountryCode && searchQuery) {
+        for (const [code, regData] of Object.entries(REGIONS_BY_COUNTRY)) {
+          const cName = getCountryName(code, currentLang).toLowerCase();
+          const qLower = searchQuery.toLowerCase();
+          if (qLower.includes(cName)) {
+            detectedCountryCode = code;
+            break;
+          }
+          const matchState = regData.states.some(s => qLower.includes(s.toLowerCase()));
+          const matchPop = regData.popular.some(p => qLower.includes(p.toLowerCase()));
+          if (matchState || matchPop) {
+            detectedCountryCode = code;
+            break;
+          }
+        }
+      }
+
+      if (detectedCountryCode) {
+        trail.push({
+          label: parentLabel(detectedCountryCode),
+          onClick: () => {
+            resetSearch();
+            openCountryView(detectedCountryCode!, currentHub === 'highlights' ? 'attractions' : countryTab);
+          }
+        });
+      }
+
+      if (cleanedSearchLabel) {
+        trail.push({ label: cleanedSearchLabel });
       } else {
         trail.push({ label: t.searchResults || 'Suchergebnisse' });
       }
@@ -5537,35 +5568,6 @@ const getWebsiteUrl = (place: Place): string | null => {
                   </div>
 
                   {/* Action Bar */}
-                  <div style={{ marginBottom: '1.75rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '1.25rem' }}>
-                    {/* Button: Alle Ergebnisse des Landes anzeigen */}
-                    <button 
-                      onClick={() => handleSearch(undefined, countryTab === 'camping' ? `Camping in ${getCountryName(selectedCountryView, currentLang)}` : `Sehenswürdigkeiten in ${getCountryName(selectedCountryView, currentLang)}`)}
-                      style={{
-                        width: '100%',
-                        maxWidth: '560px',
-                        padding: '0.6rem 0.9rem',
-                        borderRadius: '10px',
-                        border: '1px solid var(--primary-200)',
-                        background: 'var(--primary-50)',
-                        color: 'var(--primary-800)',
-                        fontWeight: 700,
-                        fontSize: '0.82rem',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.4rem',
-                        transition: 'all 0.15s'
-                      }}
-                    >
-                      <Search size={14} />
-                      <span>{countryTab === 'camping' 
-                        ? (t.allPlacesIn || 'Alle {{count}} Plätze in {{country}} anzeigen').replace('{{count}}', String(countryStats[selectedCountryView] || 0)).replace('{{country}}', getCountryName(selectedCountryView, currentLang))
-                        : (t.allAttractionsIn || 'Alle {{count}} Ziele in {{country}} anzeigen').replace('{{count}}', String(attractionStats[selectedCountryView] || 0)).replace('{{country}}', getCountryName(selectedCountryView, currentLang))}</span>
-                    </button>
-                  </div>
-
                   {REGIONS_BY_COUNTRY[selectedCountryView] && (() => {
                     const availableStates = REGIONS_BY_COUNTRY[selectedCountryView].states.filter(state => !(subdivisionStats[state] !== undefined && subdivisionStats[state] === 0));
                     const availablePopular = REGIONS_BY_COUNTRY[selectedCountryView].popular.filter(reg => !(subdivisionStats[reg] !== undefined && subdivisionStats[reg] === 0));

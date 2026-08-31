@@ -1301,21 +1301,6 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="placeFinder" data-planner-section="placeFinder" className={plannerAccordionItemClass}>
-              <AccordionTrigger className={plannerAccordionTriggerClass}>
-                {renderPlannerAccordionHeader(t("planner.placeFinder.title"), t("planner.placeFinder.description"))}
-              </AccordionTrigger>
-              <AccordionContent className={plannerAccordionContentClass}>
-                <div className={plannerSectionClass}>
-                  <PlaceFinderSection 
-                    formData={formData} 
-                    onChange={handlePlaceFinderChange} 
-                    aiMarkers={aiSuggestedMarkers}
-                  />
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
             <AccordionItem value="route" data-planner-section="route" className={plannerAccordionItemClass}>
               <AccordionTrigger className={plannerAccordionTriggerClass}>
                 {renderPlannerAccordionHeader(t("planner.route.title"), routeSummary)}
@@ -1659,7 +1644,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   {t("planner.launcher.title", "Der Prompt-Assistent für Camping- und Roadtrips")}
                 </h1>
                 <p className="mx-auto max-w-3xl text-base leading-relaxed text-foreground/74 dark:text-white/66 sm:text-lg">
-                  {t("planner.launcher.description", "Öffne den Assistenten, suche bei Bedarf passende Plätze und stelle anschließend alle Angaben für deine Route und den KI-Prompt in einem starken Flow zusammen.")}
+                  {t("planner.launcher.description", "Öffne den Assistenten und stelle alle Angaben für deine Route, dein Fahrzeug und deine Wünsche für den perfekten KI-Prompt zusammen.")}
                 </p>
               </div>
               <div className="flex items-center justify-center pt-2">

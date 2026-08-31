@@ -6502,8 +6502,183 @@ const getWebsiteUrl = (place: Place): string | null => {
                     ))}
                   </div>
 
-                  {/* Events Grid */}
-                  {filteredEvents.length === 0 && isLoadingEvents ? (
+                  {/* Events Grid or Inline Selected Event View */}
+                  {selectedEvent ? (
+                    <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '20px', padding: '1.5rem', boxShadow: 'var(--shadow-sm)', marginBottom: '2rem' }}>
+                      {/* Top Bar */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.85rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+                        <button
+                          type="button"
+                          onClick={closeEventDetails}
+                          style={{
+                            background: 'var(--primary-50)',
+                            color: 'var(--primary-800)',
+                            border: '1px solid var(--primary-200)',
+                            borderRadius: '10px',
+                            padding: '0.5rem 1rem',
+                            fontSize: '0.85rem',
+                            fontWeight: 800,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.4rem'
+                          }}
+                          className="hover:bg-primary-100"
+                        >
+                          ← Alle Veranstaltungen &amp; Weinfeste
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => shareItem(selectedEvent.name, `/entdecken/events#event-${selectedEvent.id}`, `${selectedEvent.name} in ${selectedEvent.locality || 'Deutschland'} – Entdecken auf CampingRoute`)}
+                          style={{
+                            background: 'var(--card-bg)',
+                            color: 'var(--gray-800)',
+                            border: '1px solid var(--card-border)',
+                            borderRadius: '10px',
+                            padding: '0.5rem 0.85rem',
+                            fontSize: '0.82rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.35rem'
+                          }}
+                          className="hover:bg-gray-100"
+                          title="Event teilen"
+                        >
+                          <Share2 size={14} />
+                          <span>Teilen</span>
+                        </button>
+                      </div>
+
+                      {/* Content Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                        {/* Left Column: Event details */}
+                        <div className="md:col-span-7" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                          <div style={{ position: 'relative', height: '240px', borderRadius: '14px', overflow: 'hidden', background: 'var(--gray-200)' }}>
+                            <img
+                              src={selectedEvent.image_url || getEventFallback(selectedEvent)}
+                              alt={selectedEvent.name}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                            {selectedEvent.startDate && (
+                              <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(6px)', color: 'white', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                                <Calendar size={12} color="#fbbf24" />
+                                {formatEventDate(selectedEvent.startDate, selectedEvent.endDate)}
+                              </div>
+                            )}
+                          </div>
+
+                          <div>
+                            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.4rem 0', lineHeight: 1.3 }}>
+                              {selectedEvent.name}
+                            </h2>
+                            {selectedEvent.streetAddress && (
+                              <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', margin: '0 0 0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                                <MapPin size={14} className="text-primary-600 shrink-0" />
+                                <span>{selectedEvent.streetAddress}, {selectedEvent.postalCode} {selectedEvent.locality}</span>
+                              </p>
+                            )}
+                          </div>
+
+                          <div style={{ fontSize: '0.9rem', color: 'var(--gray-700)', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+                            {selectedEvent.fullDescription || selectedEvent.description}
+                          </div>
+
+                          {selectedEvent.url && (
+                            <div>
+                              <a
+                                href={selectedEvent.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '0.4rem',
+                                  padding: '0.6rem 1.1rem',
+                                  borderRadius: '10px',
+                                  background: 'var(--primary-600)',
+                                  color: 'white',
+                                  textDecoration: 'none',
+                                  fontSize: '0.85rem',
+                                  fontWeight: 800
+                                }}
+                                className="hover:bg-primary-700"
+                              >
+                                <Globe size={15} /> Offizielle Event-Website <ExternalLink size={13} />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Right Column: Nearby Campsites */}
+                        <div className="md:col-span-5" style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div style={{ background: 'var(--gray-50)', padding: '1.25rem', borderRadius: '16px', border: '1px solid var(--gray-200)' }}>
+                            <h3 style={{ fontSize: '1rem', fontWeight: 800, margin: '0 0 0.35rem 0', color: 'var(--gray-900)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                              🏕️ Camping- &amp; Stellplätze in der Nähe ({isLoadingEventCampsites ? '...' : eventCampsites.length})
+                            </h3>
+                            <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', margin: '0 0 0.85rem 0' }}>
+                              Verifizierte Übernachtungsorte im Umkreis von bis zu 35 km
+                            </p>
+
+                            {isLoadingEventCampsites ? (
+                              <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--gray-500)' }}>
+                                <div className="spinner" style={{ width: '20px', height: '20px', margin: '0 auto 0.5rem auto' }}></div>
+                                <p style={{ fontSize: '0.8rem', fontStyle: 'italic', margin: 0 }}>Suche Stellplätze in der Nähe...</p>
+                              </div>
+                            ) : eventCampsites.length === 0 ? (
+                              <p style={{ fontSize: '0.82rem', color: 'var(--gray-600)', fontStyle: 'italic', margin: 0, padding: '0.5rem 0' }}>
+                                Keine direkten Plätze im 35 km Umkreis in der Datenbank.
+                              </p>
+                            ) : (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '420px', overflowY: 'auto', paddingRight: '4px' }}>
+                                {eventCampsites.map((campsite) => (
+                                  <div
+                                    key={campsite.id}
+                                    onClick={() => openPlace(campsite)}
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '0.75rem',
+                                      padding: '0.6rem',
+                                      borderRadius: '10px',
+                                      background: 'var(--card-bg)',
+                                      border: '1px solid var(--card-border)',
+                                      cursor: 'pointer',
+                                      transition: 'all 0.15s ease'
+                                    }}
+                                    className="hover:border-primary-500 hover:shadow-xs"
+                                  >
+                                    <div style={{ width: '48px', height: '48px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--gray-200)' }}>
+                                      <img
+                                        src={getImageUrl(campsite) || getFallbackImage(campsite)}
+                                        alt={campsite.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = getFallbackImage(campsite); }}
+                                      />
+                                    </div>
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                      <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                        {campsite.name}
+                                      </div>
+                                      <div style={{ fontSize: '0.72rem', color: 'var(--gray-500)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                        <span>{getTypeLabel(campsite.type)}</span>
+                                        {campsite.distance_km && (
+                                          <span style={{ fontWeight: 700, color: 'var(--primary-700)' }}>
+                                            {campsite.distance_km} km
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : filteredEvents.length === 0 && isLoadingEvents ? (
                     <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--gray-500)' }}>
                       <div className="spinner" style={{ width: '28px', height: '28px', margin: '0 auto 0.75rem auto' }}></div>
                       <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>{t.loadingEvents || 'Lade offizielle Open Data Veranstaltungen...'}</p>
@@ -8347,8 +8522,8 @@ const getWebsiteUrl = (place: Place): string | null => {
         </div>
       )}
 
-      {/* Selected Event Detail Modal */}
-      {selectedEvent && (
+      {/* Selected Event Detail Modal (Disabled: inline pane used) */}
+      {false && selectedEvent && (
         <div className="modal-overlay" onClick={closeEventDetails} style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div
             className="modal-content"

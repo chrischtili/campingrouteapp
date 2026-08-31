@@ -99,10 +99,11 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
                 className="w-7 h-7 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-105"
               />
               <span 
-                className="font-extrabold text-lg sm:text-2xl tracking-tight text-[#166534] dark:text-emerald-400 whitespace-nowrap"
+                className="font-extrabold text-lg sm:text-2xl tracking-tight whitespace-nowrap"
                 style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 800 }}
               >
-                CampingRoute
+                <span className="text-slate-900 dark:text-white">Camping</span>
+                <span className="text-[#16a34a] dark:text-emerald-400">Route</span>
               </span>
             </Link>
 

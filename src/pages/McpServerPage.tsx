@@ -204,12 +204,11 @@ export default function McpServerPage() {
             <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 blur-3xl pointer-events-none" />
             <div className="relative max-w-3xl space-y-6">
               
-              <div className="flex flex-wrap items-center gap-2.5">
-                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-300/80 bg-emerald-100/60 dark:border-emerald-700/60 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-extrabold tracking-wide uppercase shadow-xs">
-                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>{t("mcpPage.badge", "Model Context Protocol (MCP)")}</span>
-                  <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">{t("mcpPage.badgeLive", "v1.0 Live")}</span>
-                </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold text-[11px] uppercase tracking-wider shadow-xs">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
+                  {t("mcpPage.badge", "Model Context Protocol (MCP)")}
+                </span>
                 <a
                   href="https://mcpservers.org/servers/campingroute-app-mcp"
                   target="_blank"
@@ -226,7 +225,7 @@ export default function McpServerPage() {
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
-                CampingRoute <span className="text-emerald-600 dark:text-emerald-400">MCP-Server</span>
+                Camping<span className="text-[#16a34a] dark:text-emerald-400">Route</span> <span className="text-slate-900 dark:text-white">MCP-Server</span>
               </h1>
 
               <p className="text-base sm:text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl font-medium">

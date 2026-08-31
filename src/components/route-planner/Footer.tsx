@@ -47,8 +47,9 @@ export function Footer() {
                 alt="CampingRoute Logo"
                 className="w-7 h-7"
               />
-              <span className="font-extrabold text-xl tracking-tight text-emerald-700 dark:text-emerald-400">
-                CampingRoute
+              <span className="font-extrabold text-xl tracking-tight">
+                <span className="text-slate-900 dark:text-white">Camping</span>
+                <span className="text-[#16a34a] dark:text-emerald-400">Route</span>
               </span>
             </div>
             <p className="text-xs text-foreground/60 dark:text-white/60 leading-relaxed">

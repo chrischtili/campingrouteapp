@@ -58,6 +58,7 @@ import { FAMOUS_TRAILS, GERMAN_STATES_LIST, getNearbyTrails, type Trail } from "
 import { GERMAN_FLAGSHIP_EVENTS, type FlagshipEvent } from "@/data/flagshipEvents";
 import { CULINARY_SPOTS, getNearbyCulinarySpots, type CulinarySpot } from "@/data/culinarySpots";
 import { FEATURED_CAMPING_SPOTS, FEATURED_HIGHLIGHTS, type InspirationCampingSpot, type InspirationHighlight } from "@/data/featuredInspirations";
+import { fetchWikiAttractionImage } from "@/lib/wikiImages";
 
 export type { Trail, FlagshipEvent, CulinarySpot, InspirationCampingSpot, InspirationHighlight };
 
@@ -482,6 +483,60 @@ function getFallbackImage(place: Place): string {
   } else {
     return campgroundImages[hash % campgroundImages.length];
   }
+}
+
+function PlaceCardImage({ place, currentLang = 'de', style, className }: { place: Place; currentLang?: string; style?: React.CSSProperties; className?: string }) {
+  const directUrl = getImageUrl(place);
+  const fallback = getFallbackImage(place);
+  const [src, setSrc] = useState<string>(directUrl || fallback);
+  const [hasResolvedWiki, setHasResolvedWiki] = useState<boolean>(false);
+
+  useEffect(() => {
+    let active = true;
+    const direct = getImageUrl(place);
+    if (direct) {
+      setSrc(direct);
+      return;
+    }
+
+    // If it is an attraction without direct image, query Wikipedia
+    if (place.type === 'attraction' && !hasResolvedWiki) {
+      fetchWikiAttractionImage(place.name, currentLang).then((wikiUrl) => {
+        if (active && wikiUrl) {
+          setSrc(wikiUrl);
+          setHasResolvedWiki(true);
+        }
+      });
+    } else {
+      setSrc(fallback);
+    }
+
+    return () => { active = false; };
+  }, [place, currentLang, hasResolvedWiki, fallback]);
+
+  return (
+    <img
+      src={src}
+      alt={place.name}
+      loading="lazy"
+      style={style || { width: '100%', height: '100%', objectFit: 'cover' }}
+      className={className}
+      onError={() => {
+        if (place.type === 'attraction' && !hasResolvedWiki) {
+          fetchWikiAttractionImage(place.name, currentLang).then((wikiUrl) => {
+            if (wikiUrl) {
+              setSrc(wikiUrl);
+              setHasResolvedWiki(true);
+              return;
+            }
+            setSrc(fallback);
+          });
+        } else {
+          setSrc(fallback);
+        }
+      }}
+    />
+  );
 }
 
 function EntdeckenContent() {
@@ -3186,17 +3241,9 @@ const getWebsiteUrl = (place: Place): string | null => {
                   {/* Photos box */}
                   <div className="detail-card">
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 800, marginBottom: '0.75rem' }}>{t.photoGallery}</h4>
-                    {imageUrl ? (
-                      <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', height: '170px' }}>
-                        <img src={imageUrl} alt={selectedPlace.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = getFallbackImage(selectedPlace); }} />
-                      </div>
-                    ) : (
-                      <div style={{ background: 'var(--gray-50)', border: '1px dashed var(--gray-300)', borderRadius: 'var(--radius-md)', padding: '1.5rem', textAlign: 'center', color: 'var(--gray-600)' }}>
-                        <Camera size={26} style={{ margin: '0 auto 0.4rem auto' }} />
-                        <p style={{ fontSize: '0.78rem', fontWeight: 600 }}>{t.noPhotos}</p>
-                        <button style={{ background: 'none', border: 'none', color: 'var(--primary-700)', fontSize: '0.78rem', fontWeight: 700, marginTop: '0.4rem', cursor: 'pointer' }}>{t.uploadPhoto}</button>
-                      </div>
-                    )}
+                    <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', height: '170px' }}>
+                      <PlaceCardImage place={selectedPlace} currentLang={currentLang} />
+                    </div>
                   </div>
 
                   {/* Share box */}
@@ -5902,14 +5949,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                         >
                           {/* Image Box */}
                           <div style={{ position: 'relative', height: '160px', width: '100%', background: 'var(--gray-200)', overflow: 'hidden' }}>
-                            <img 
-                              src={imageUrl || getFallbackImage(place)} 
-                              alt={place.name} 
-                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                              onError={(e) => {
-                                e.currentTarget.src = getFallbackImage(place);
-                              }}
-                            />
+                            <PlaceCardImage place={place} currentLang={currentLang} />
                             {/* Type Badge */}
                             <span 
                               style={{ 

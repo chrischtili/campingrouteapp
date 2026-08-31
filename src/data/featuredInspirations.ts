@@ -327,7 +327,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Allgäu, Bayern',
     description: 'Das weltberühmte Schloss von König Ludwig II. thront spektakulär vor den majestätischen Ammergauer Alpen.',
-    imageUrl: 'https://images.unsplash.com/photo-1544971587-b842c27f8e14?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=80',
     searchQuery: 'Schloss Neuschwanstein',
     place: {
       id: 'dzt-neuschwanstein-q4152',
@@ -345,7 +345,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'svneuschwanstein@bsv.bayern.de',
       website: 'https://www.neuschwanstein.de',
       address: 'Neuschwansteinstraße 20, 87645 Schwangau, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1544971587-b842c27f8e14?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=80'
     }
   },
   {
@@ -358,7 +358,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Elbsandsteingebirge, Sachsen',
     description: 'Die berühmteste Felsformation des Elbsandsteingebirges bietet spektakuläre Tiefblicke ins Elbtal.',
-    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=1200&q=80',
     searchQuery: 'Sächsische Schweiz',
     place: {
       id: 'dzt-bastei-rathen',
@@ -376,7 +376,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'info@saechsische-schweiz.de',
       website: 'https://www.saechsische-schweiz.de',
       address: 'Bastei, 01847 Lohmen, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=1200&q=80'
     }
   },
   {
@@ -389,7 +389,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Moseltal, Rheinland-Pfalz',
     description: 'Versteckt in einem idyllischen Seitental der Mosel gehört Burg Eltz zu den besterhaltenen Burgen Europas.',
-    imageUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?auto=format&fit=crop&w=1200&q=80',
     searchQuery: 'Burg Eltz',
     place: {
       id: 'dzt-burg-eltz-q153426',
@@ -407,7 +407,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'burg@eltz.de',
       website: 'https://www.burg-eltz.de',
       address: 'Burg Eltz 1, 56294 Wierschem, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?auto=format&fit=crop&w=1200&q=80'
     }
   },
   {
@@ -544,7 +544,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
     flag: '🇩🇪',
     region: 'Potsdam, Brandenburg',
     description: 'Das Sommerschloss Friedrichs des Großen mit berühmten Weinbergterrassen und weitläufigem Landschaftspark.',
-    imageUrl: 'https://images.unsplash.com/photo-1563911302283-d2bc129e7570?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1599837565318-67429bde7162?auto=format&fit=crop&w=1200&q=80',
     searchQuery: 'Schloss Sanssouci',
     place: {
       id: 'dzt-sanssouci-potsdam',
@@ -562,7 +562,7 @@ export const FEATURED_HIGHLIGHTS: InspirationHighlight[] = [
       contact: 'info@spsg.de',
       website: 'https://www.spsg.de',
       address: 'Maulbeerallee, 14469 Potsdam, Deutschland',
-      image_url: 'https://images.unsplash.com/photo-1563911302283-d2bc129e7570?auto=format&fit=crop&w=1200&q=80'
+      image_url: 'https://images.unsplash.com/photo-1599837565318-67429bde7162?auto=format&fit=crop&w=1200&q=80'
     }
   }
 ];

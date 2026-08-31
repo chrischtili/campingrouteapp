@@ -3945,14 +3945,14 @@ const getWebsiteUrl = (place: Place): string | null => {
                 </div>
 
                 {/* Pitch notice & Nearby Campsites */}
-                <div style={{ background: selectedCulinarySpot.hasCampsite ? 'rgba(5, 150, 105, 0.08)' : 'var(--gray-100)', border: selectedCulinarySpot.hasCampsite ? '1px solid var(--primary-300)' : '1px solid var(--card-border)', borderRadius: '14px', padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
+                <div style={{ background: selectedCulinarySpot.hasCampsite ? 'rgba(5, 150, 105, 0.12)' : 'var(--card-bg)', border: selectedCulinarySpot.hasCampsite ? '1px solid var(--primary-400)' : '1px solid var(--card-border)', borderRadius: '14px', padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: culinaryCampsites.length > 0 ? '0.75rem' : 0 }}>
                     <div style={{ fontSize: '1.5rem' }}>{selectedCulinarySpot.hasCampsite ? '🚐' : '🏕️'}</div>
                     <div>
-                      <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: selectedCulinarySpot.hasCampsite ? 'var(--primary-900)' : 'var(--gray-800)', margin: '0 0 0.2rem 0' }}>
+                      <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: selectedCulinarySpot.hasCampsite ? 'var(--primary-800)' : 'var(--gray-900)', margin: '0 0 0.2rem 0' }}>
                         {selectedCulinarySpot.hasCampsite ? ((t as any).culinaryPitchOnSite || 'Wohnmobilstellplatz direkt vor Ort') : ((t as any).culinaryPitchRecommendation || 'Übernachtungsempfehlung für Camper')}
                       </h4>
-                      <p style={{ fontSize: '0.84rem', color: 'var(--gray-700)', margin: 0, lineHeight: '1.4' }}>
+                      <p style={{ fontSize: '0.84rem', color: 'var(--gray-600)', margin: 0, lineHeight: '1.4' }}>
                         {selectedCulinarySpot.pitchNote || (t as any).culinaryPitchDefaultNote || 'Mehrere verifizierte Camping- und Stellplätze befinden sich in unmittelbarer Nähe.'}
                       </p>
                     </div>
@@ -4019,7 +4019,7 @@ const getWebsiteUrl = (place: Place): string | null => {
                     {selectedCulinarySpot.phone && (
                       <a
                         href={`tel:${selectedCulinarySpot.phone}`}
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-100)', color: 'var(--gray-800)', padding: '0.5rem 0.9rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--card-bg)', color: 'var(--gray-900)', border: '1px solid var(--card-border)', padding: '0.5rem 0.9rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
                       >
                         {(t as any).culinaryCall || '📞 Anrufen'}
                       </a>
@@ -4029,15 +4029,17 @@ const getWebsiteUrl = (place: Place): string | null => {
                         href={selectedCulinarySpot.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--primary-600)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--primary-600)', color: 'white', border: '1px solid var(--primary-600)', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none' }}
                       >
                         <ExternalLink size={14} />
                         <span>{t.websiteLink || 'Website'}</span>
                       </a>
                     )}
                     <button
+                      type="button"
                       onClick={() => openNearbyCampsitesForCulinary(selectedCulinarySpot)}
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--gray-900)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', border: 'none' }}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--primary-700)', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', border: '1px solid var(--primary-600)', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                      className="hover:opacity-90 transition-opacity"
                     >
                       <MapIcon size={14} />
                       <span>{((t as any).culinaryPlacesNearby || 'Plätze in der Nähe ({{count}})').replace('{{count}}', String(isLoadingCulinaryCampsites ? '...' : culinaryCampsites.length))}</span>

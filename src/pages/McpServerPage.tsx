@@ -467,20 +467,20 @@ export default function McpServerPage() {
                   {t("mcpPage.toolsDirectory", "MCP Tools Katalog")}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
-                  {t("mcpPage.toolsTitle", "10 Spezialisierte Camping- & Reise-Tools")}
+                  {t("mcpPage.toolsTitle", "{{count}} Spezialisierte Camping- & Reise-Tools", { count: MCP_TOOLS_CATALOG.length })}
                 </h2>
               </div>
 
               {/* Category Filter Pills */}
               <div className="flex flex-wrap gap-1.5">
                 {[
-                  { id: "all", label: t("mcpPage.catAll", "✨ Alle (10)") },
-                  { id: "camping", label: t("mcpPage.catCamping", "🏕️ Camping (2)") },
-                  { id: "trails", label: t("mcpPage.catTrails", "🥾 Wandern & Rad (1)") },
-                  { id: "events", label: t("mcpPage.catEvents", "📅 Events & Weinfeste (1)") },
-                  { id: "highlights", label: t("mcpPage.catPois", "🏰 POIs & Kultur (1)") },
-                  { id: "reviews", label: t("mcpPage.catReviews", "⭐ Bewertungen (2)") },
-                  { id: "lists", label: t("mcpPage.catLists", "📁 Listen (3)") },
+                  { id: "all", label: `${t("mcpPage.catAllPrefix", "✨ Alle")} (${MCP_TOOLS_CATALOG.length})` },
+                  { id: "camping", label: `${t("mcpPage.catCampingPrefix", "🏕️ Camping")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "camping").length})` },
+                  { id: "trails", label: `${t("mcpPage.catTrailsPrefix", "🥾 Wandern & Rad")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "trails").length})` },
+                  { id: "events", label: `${t("mcpPage.catEventsPrefix", "📅 Events & Weinfeste")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "events").length})` },
+                  { id: "highlights", label: `${t("mcpPage.catPoisPrefix", "🏰 POIs & Kultur")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "highlights").length})` },
+                  { id: "reviews", label: `${t("mcpPage.catReviewsPrefix", "⭐ Bewertungen")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "reviews").length})` },
+                  { id: "lists", label: `${t("mcpPage.catListsPrefix", "📁 Listen")} (${MCP_TOOLS_CATALOG.filter(t => t.cat === "lists").length})` },
                 ].map(cat => (
                   <button
                     key={cat.id}

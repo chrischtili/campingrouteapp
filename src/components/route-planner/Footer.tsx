@@ -121,6 +121,11 @@ export function Footer() {
                   {t("footer.datenschutz", "Datenschutz")}
                 </Link>
               </li>
+              <li>
+                <Link to="/feedback" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+                  {t("footer.feedback", "Feedback")}
+                </Link>
+              </li>
               <li className="pt-2 text-[10px] text-foreground/50 dark:text-white/40">
                 {t("footer.version", "Version")} {displayReleaseVersion}
               </li>

@@ -73,6 +73,7 @@ const Index = lazyWithReload(() => import("./pages/Index"));
 const NotFound = lazyWithReload(() => import("./pages/NotFound"));
 const Impressum = lazyWithReload(() => import("./pages/Impressum"));
 const Datenschutz = lazyWithReload(() => import("./pages/Datenschutz"));
+const FeedbackPage = lazyWithReload(() => import("./pages/FeedbackPage"));
 const AdminStats = lazyWithReload(() => import("./pages/AdminStats"));
 const CampingplatzFinder = lazyWithReload(() => import("./pages/CampingplatzFinder"));
 const StellplatzFinder = lazyWithReload(() => import("./pages/StellplatzFinder"));
@@ -416,6 +417,7 @@ const App = () => {
               <Route path="/mcp-server" element={<McpServerPage />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
+              <Route path="/feedback" element={<FeedbackPage />} />
               {/* Redirects to homepage */}
               <Route path="/prompt-generator" element={<Navigate to="/" replace />} />
               <Route path="/app" element={<Navigate to="/" replace />} />

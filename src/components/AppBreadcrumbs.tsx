@@ -29,6 +29,8 @@ export function AppBreadcrumbs({ items, className = "" }: AppBreadcrumbsProps) {
       breadcrumbItems.push({ label: t("imprint.title", "Impressum") });
     } else if (path === "/datenschutz") {
       breadcrumbItems.push({ label: t("privacy.title", "Datenschutz") });
+    } else if (path === "/feedback") {
+      breadcrumbItems.push({ label: t("footer.feedback", "Feedback") });
     } else if (path === "/campingplatz-finder") {
       breadcrumbItems.push({ label: t("nav.campsites", "Campingplatz-Finder") });
     } else if (path === "/stellplatz-finder") {

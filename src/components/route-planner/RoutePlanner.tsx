@@ -835,10 +835,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   };
 
   const handleOutputEngagement = () => {
-    if (!feedbackEligible || !shouldPromptForFeedback()) return;
-    setFeedbackMode(aiSettings.useDirectAI ? "route" : "prompt");
-    setShowFeedbackModal(true);
-    setFeedbackEligible(false);
+    // Popup-Feedback deaktiviert - Feedback ist als dedizierte Seite im Footer erreichbar
+    return;
   };
 
   const trackGeneration = async (mode: "prompt" | "route") => {

@@ -1411,16 +1411,16 @@
         "description": "Wenn du die lokale Speicherung aktivierst, werden deine Formulareingaben und Einstellungen (z.B. gewählte Sprache) ausschließlich lokal in deinem Browser gespeichert und nach 30 Tagen automatisch gelöscht. API-Schlüssel werden niemals gespeichert. Diese Daten werden nicht an unsere Server übertragen."
       },
       "ai": {
-        "title": "KI-Integration",
-        "description": "CampingRoute erzeugt einen strukturierten Prompt, den du in deiner bevorzugten KI nutzt. Wenn du die direkte KI-Generierung verwendest, werden deine Eingaben direkt an den von dir ausgewählten KI-Anbieter übermittelt. Wir speichern dabei keine API-Schlüssel und keine zentralen Nutzungsprofile. Für die Verarbeitung durch den jeweils gewählten KI-Anbieter gelten ergänzend dessen eigene Datenschutzbestimmungen."
+        "title": "KI-Prompt-Generierung",
+        "description": "CampingRoute formuliert vollkommen lokal in deinem Browser einen strukturierten Prompt für externe KI-Tools (wie ChatGPT, Claude oder Gemini). Deine eingegebenen Reisedaten werden dabei nicht an Drittanbieter-KI-Dienste übertragen, solange du den generierten Prompt nicht selbst manuell kopierst und in ein Tool deiner Wahl einfügst. Wir erheben und speichern keinerlei Nutzungsprofile."
       },
       "mcp": {
         "title": "MCP-Server für KI-Assistenten",
         "description": "Wenn du oder dein lokaler KI-Client (z. B. Claude Desktop, Cursor IDE, Antigravity) unseren MCP-Server (Model Context Protocol) anbindet, werden die von deinem KI-Client übermittelten Tool-Aufrufe serverseitig verarbeitet, um Campingdaten, Wanderwege oder POIs abzufragen. Es werden dabei keine personenbezogenen Profile oder Suchhistorien gespeichert. Die Anfragen dienen rein der Beantwortung des jeweiligen Tool-Aufrufs."
       },
       "feedback": {
-        "title": "Feedback nach Generierung",
-        "description": "Nach einer erfolgreich generierten Route oder Prompt-Ausgabe können wir dich freiwillig um kurzes Produktfeedback bitten. Gespeichert werden dabei nur deine Bewertung (z. B. hilfreich / nicht hilfreich), ein optionaler Freitext, technische Angaben wie Sprache, gewählter Modus, KI-Anbieter bzw. Modell sowie ein Zeitstempel. Bitte gib in Freitextfeldern keine personenbezogenen oder sensiblen Daten ein. Die Verarbeitung erfolgt ausschließlich zur Verbesserung von CampingRoute.app und stützt sich auf deine freiwillige Angabe bzw. unser berechtigtes Interesse an der Produktverbesserung. Eine Weitergabe an Dritte zu Werbezwecken findet nicht statt."
+        "title": "Freiwilliges Feedback",
+        "description": "Über unsere Feedback-Seite hast du die Möglichkeit, uns freiwillig Rückmeldungen zur Verbesserung von CampingRoute zu senden. Gespeichert werden dabei nur deine Bewertung (hilfreich / verbesserungswürdig), ein optionaler Freitext sowie ein Zeitstempel. Bitte gib in Freitextfeldern keine personenbezogenen oder sensiblen Daten ein. Eine Weitergabe an Dritte zu Werbezwecken findet nicht statt."
       }
     },
     "cookies": {

@@ -45,6 +45,17 @@ const PAGES = [
     canonical: "https://campingroute.app/datenschutz"
   },
 
+  // Feedback
+  {
+    paths: [
+      "dist/feedback/index.html"
+    ],
+    title: "Feedback & Anregungen | CampingRoute",
+    description: "Gib uns Feedback zur CampingRoute App und teile deine Ideen und Wünsche mit uns.",
+    keywords: "CampingRoute Feedback, Anregungen, Kontakt",
+    canonical: "https://campingroute.app/feedback"
+  },
+
   // Prompt-Generator (Startseite / Direktlink)
   {
     paths: [

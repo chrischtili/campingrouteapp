@@ -29,14 +29,14 @@ export function BadgeToggleGroup({
           <motion.button
             key={option.value}
             type="button"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => onChange(name, option.value, !isChecked)}
             className={cn(
-              "px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 border-2",
+              "px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-150 border",
               isChecked
-                ? "bg-primary border-primary text-white shadow-sm"
-                : "bg-white/40 border-slate-200 text-slate-600 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-white/70 dark:hover:bg-white/10"
+                ? "bg-emerald-600 border-emerald-600 !text-white shadow-xs"
+                : "bg-white border-slate-300 text-slate-800 hover:bg-slate-50 hover:border-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-700"
             )}
           >
             {option.label}

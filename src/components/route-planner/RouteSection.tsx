@@ -29,11 +29,11 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
   const { t } = useTranslation();
   const locale = (typeof navigator !== "undefined" && navigator.language) || "de-DE";
 
-  const inputClass = "w-full h-11 sm:h-12 px-4 rounded-xl transition-all outline-none font-bold text-sm text-foreground dark:text-white placeholder:font-normal text-left bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10";
+  const inputClass = "w-full h-11 sm:h-12 px-4 rounded-xl transition-all outline-none font-bold text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs";
   const timeInputClass = `${inputClass} pr-10`;
-  const fieldLabelClass = "text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70 flex items-center gap-2 mb-2";
-  const requiredError = "text-[10px] font-semibold tracking-[0.04em] text-red-400 mt-1";
-  const clearValueClass = "mt-2 inline-flex items-center gap-1 text-[10px] font-semibold tracking-[0.04em] text-foreground/55 hover:text-foreground transition-colors dark:text-white/60 dark:hover:text-white";
+  const fieldLabelClass = "text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2 mb-2";
+  const requiredError = "text-xs font-semibold text-red-500 mt-1";
+  const clearValueClass = "mt-2 inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors dark:text-slate-400 dark:hover:text-white";
   const switchClass = "border-primary/85 data-[state=checked]:bg-primary/15 data-[state=unchecked]:bg-white/95 dark:data-[state=unchecked]:bg-white/10 dark:data-[state=checked]:bg-white/10 shadow-[0_0_0_2px_rgba(255,128,0,0.22)]";
   const glassPanelStyle = undefined;
 
@@ -456,9 +456,9 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <MapIcon className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.route.targetRegions.label")}</span>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.route.targetRegions.label")}</span>
           </div>
-          <p className="text-[11px] text-foreground/50 dark:text-white/40 mb-3 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
             {t("planner.route.targetRegions.hint")}
           </p>
           <textarea
@@ -466,7 +466,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
             placeholder={t("planner.route.targetRegions.placeholder")}
             value={formData.targetRegions}
             onChange={(e) => onChange({ targetRegions: e.target.value })}
-            className="w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-foreground dark:text-white placeholder:font-normal text-left resize-none bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10"
+            className="w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
           />
         </div>
 
@@ -474,21 +474,21 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
           <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left flex-1" style={glassPanelStyle}>
             <div className="flex items-center gap-3 mb-4">
               <Info className="w-5 h-5 text-primary" />
-              <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.route.additional.label")}</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.route.additional.label")}</span>
             </div>
             <textarea
               id="routeAdditionalInfo"
               placeholder={t("planner.route.additional.placeholder")}
               value={formData.routeAdditionalInfo}
               onChange={(e) => onChange({ routeAdditionalInfo: e.target.value })}
-              className="w-full h-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-foreground dark:text-white placeholder:font-normal text-left resize-none bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10"
+              className="w-full h-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs"
             />
           </div>
 
           <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex items-center justify-between gap-4 text-left" style={glassPanelStyle}>
             <div className="space-y-1">
-              <div className="text-xs font-semibold text-foreground dark:text-white">{t("planner.route.preferScenicLongerStops.label")}</div>
-              <div className="text-[11px] text-foreground/60 dark:text-white/50">{t("planner.route.preferScenicLongerStops.description")}</div>
+              <div className="text-xs font-bold text-slate-800 dark:text-white">{t("planner.route.preferScenicLongerStops.label")}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">{t("planner.route.preferScenicLongerStops.description")}</div>
             </div>
             <Switch
               checked={formData.preferScenicLongerStops}
@@ -503,7 +503,7 @@ export function RouteSection({ formData, onChange }: RouteSectionProps) {
       <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
         <div className="flex items-center gap-3 mb-8">
           <Sparkles className="w-5 h-5 text-primary" />
-          <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.route.maxDistance")} · {t("planner.route.travelPace.label")}</span>
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.route.maxDistance")} · {t("planner.route.travelPace.label")}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">

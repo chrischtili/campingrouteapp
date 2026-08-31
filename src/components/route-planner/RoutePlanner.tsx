@@ -212,16 +212,16 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
   const showAISettingsSection = DIRECT_AI_FEATURE_ENABLED;
   const plannerSectionClass = `w-full min-w-0 px-0 sm:px-6 lg:px-8 ${isMobile ? "py-3" : "py-6 sm:py-7"}`;
   const plannerSummarySectionClass = "px-1 sm:px-6 lg:px-8 py-4 sm:py-7";
-  const plannerAccordionItemClass = `overflow-hidden transition-all bg-white border border-gray-200/80 shadow-sm dark:bg-slate-900 dark:border-slate-800 ${
+  const plannerAccordionItemClass = `overflow-hidden transition-all bg-white border border-slate-300 shadow-sm dark:bg-slate-900 dark:border-slate-700 ${
     isMobile 
       ? "rounded-2xl" 
       : "rounded-2xl"
   }`;
-  const plannerAccordionTriggerClass = `text-left hover:no-underline transition-colors hover:bg-gray-50/80 data-[state=open]:bg-gray-50/80 dark:hover:bg-slate-800/50 dark:data-[state=open]:bg-slate-800/50 ${
+  const plannerAccordionTriggerClass = `text-left hover:no-underline transition-colors hover:bg-slate-50 data-[state=open]:bg-slate-50 dark:hover:bg-slate-800/70 dark:data-[state=open]:bg-slate-800/70 ${
     isMobile ? "px-4 py-4" : "px-4 sm:px-6 py-5"
   }`;
   const plannerAccordionContentClass = `w-full min-w-0 pt-0 ${isMobile ? "px-3 pb-4" : "px-3 sm:px-6 pb-5 sm:pb-6"}`;
-  const plannerPanelSurfaceClass = "bg-white border border-gray-200/80 shadow-sm dark:bg-slate-900 dark:border-slate-800";
+  const plannerPanelSurfaceClass = "bg-white border border-slate-300 shadow-sm dark:bg-slate-900 dark:border-slate-700";
   const promptPageContent = getPromptGeneratorPageContent(i18n.language);
   const validActivityValues = new Set([
     "nature",
@@ -1607,12 +1607,12 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
             type="button"
             onClick={isStickyPromptCopyMode ? copyPromptOutput : (aiSettings.useDirectAI && !isConceptSelectionMode && !output ? handleGenerateConcepts : () => runGeneration())}
             disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-            className={`h-11 w-auto max-w-full rounded-xl border px-4 text-sm font-semibold transition-all ${
+            className={`h-12 w-auto max-w-full rounded-xl px-6 text-sm font-bold transition-all shadow-md ${
               isStickyPromptCopyMode
-                ? "border-emerald-700/40 bg-emerald-600 text-white shadow-sm hover:bg-emerald-500"
+                ? "bg-emerald-600 !text-white hover:bg-emerald-700 active:scale-95"
                 : isConceptSelectionMode 
-                  ? "border-slate-300 bg-white text-slate-800 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200" 
-                  : "border-primary/40 bg-primary text-white shadow-sm hover:bg-primary/90"
+                  ? "border border-slate-300 bg-white text-slate-800 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white" 
+                  : "bg-emerald-600 !text-white hover:bg-emerald-700 active:scale-95 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:text-slate-500 dark:disabled:text-slate-500 disabled:shadow-none"
             }`}
           >
             {isStickyPromptCopyMode ? (

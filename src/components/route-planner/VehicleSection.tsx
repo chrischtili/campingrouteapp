@@ -33,7 +33,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
     levelingJacks: "",
   };
 
-  const fieldLabelClass = "text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70 flex items-center gap-2 mb-3";
+  const fieldLabelClass = "text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2 mb-3";
   const glassPanelStyle = undefined;
 
   const vehicleTypeOptions = [

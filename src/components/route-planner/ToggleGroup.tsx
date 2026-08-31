@@ -47,10 +47,10 @@ export function ToggleGroup({ name, options, selectedValues, onChange, className
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onChange(name, option.value, !isChecked)}
-            className={`w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-[10px] sm:text-[10px] md:text-sm font-medium tracking-normal transition-all duration-300 border-2 flex items-start sm:items-center justify-between gap-3 min-h-[50px] sm:min-h-[54px] ${
+            className={`w-full px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold tracking-normal transition-all duration-200 border flex items-start sm:items-center justify-between gap-3 min-h-[50px] sm:min-h-[54px] ${
               isChecked
-                ? 'bg-white/65 border-primary text-foreground shadow-[0_10px_24px_rgba(80,70,42,0.12)] dark:bg-[rgba(255,255,255,0.02)] dark:text-white dark:shadow-[0_10px_24px_rgba(0,0,0,0.16)]'
-                : 'bg-white/70 border-slate-400/70 text-foreground hover:bg-white/85 hover:border-slate-500/80 dark:bg-[rgba(255,255,255,0.02)] dark:border-white/30 dark:text-white/88 dark:hover:bg-[rgba(255,255,255,0.04)] dark:hover:border-white/55 dark:hover:text-white'
+                ? 'bg-emerald-50 border-emerald-600 text-emerald-950 dark:bg-emerald-950/40 dark:border-emerald-500 dark:text-white shadow-xs'
+                : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 hover:border-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-750'
             }`}
           >
             <span className="min-w-0 flex-1 text-left leading-snug py-0.5 tracking-normal break-words">

@@ -70,7 +70,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
 
   const glassPanelStyle = undefined;
   const textareaClass =
-    "w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-foreground dark:text-white placeholder:font-normal text-left resize-none bg-white/40 border border-slate-200 dark:bg-white/5 dark:border-white/10";
+    "w-full min-h-[100px] p-4 rounded-2xl transition-all outline-none font-medium text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal text-left resize-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-xs";
 
   return (
     <div className="space-y-8">
@@ -79,7 +79,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
           <div key={cat.id} className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
             <div className="flex items-center gap-3 mb-4">
               <cat.icon className="w-5 h-5 text-primary" />
-              <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{cat.label}</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{cat.label}</span>
             </div>
             <BadgeToggleGroup
               name="routePreferences"
@@ -93,7 +93,7 @@ export function RouteOptimizationSection({ formData, onCheckboxChange, onChange 
         <div className="planner-panel-surface p-4 sm:p-5 rounded-3xl border flex flex-col items-start text-left" style={glassPanelStyle}>
           <div className="flex items-center gap-3 mb-4">
             <ShieldAlert className="w-5 h-5 text-primary" />
-            <span className="text-[10px] font-medium tracking-[0.04em] text-foreground/75 dark:text-white/70">{t("planner.optimization.avoidRegions.label")}</span>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{t("planner.optimization.avoidRegions.label")}</span>
           </div>
           <textarea
             id="avoidRegions"

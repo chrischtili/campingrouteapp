@@ -133,16 +133,16 @@ export function Navbar({ onStartPlanning }: NavbarProps) {
           {/* Right: Coffee Link, Theme Toggle, Language & Mobile Burger Menu */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             
-            {/* Buy Me A Coffee Link */}
+            {/* Buy Me A Coffee Link (desktop / tablet only, mobile has it in burger menu) */}
             <a
               href="https://www.buymeacoffee.com/campingroute"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
+              className="hidden sm:inline-flex items-center gap-1.5 h-9 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900/60 dark:hover:bg-emerald-900/60"
               title={t("planner.summary.save.coffeeHint", "Kaffee spendieren")}
             >
               <Coffee className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
-              <span className="hidden sm:inline">{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
+              <span>{t("planner.summary.save.coffee", "Kaffee spendieren")}</span>
             </a>
 
             {/* Language Switcher */}

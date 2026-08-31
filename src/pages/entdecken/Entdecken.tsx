@@ -4042,27 +4042,27 @@ const getWebsiteUrl = (place: Place): string | null => {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '1rem' }}>
                     <div onClick={() => handleHubSelect('camping')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-emerald-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🏕️</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubCamping || "Camping & Stellplätze"}</h3>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{(t.hubCamping || "Camping & Stellplätze").replace(/^[^\p{L}\p{N}]+/u, '').trim()}</h3>
                       <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldCampingDesc || "Über 20.000 geprüfte Plätze in ganz Europa mit KI-Suche."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('genuss')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-purple-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🍇</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubGenuss || "Hofläden & Winzer"}</h3>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{(t.hubGenuss || "Hofläden & Winzer").replace(/^[^\p{L}\p{N}]+/u, '').trim()}</h3>
                       <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldGenussDesc || "Weingüter, Bio-Bauernhöfe & 24h-Regiomaten direkt ab Erzeuger."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('touren')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-blue-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🥾</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubTouren || "Wander- & Radwege"}</h3>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{(t.hubTouren || "Wander- & Radwege").replace(/^[^\p{L}\p{N}]+/u, '').trim()}</h3>
                       <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldTourenDesc || "100+ Fernwege mit GPX-Tracks & Stellplätzen am Weg."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('events')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-amber-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📅</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubEvents || "Events & Weinfeste"}</h3>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{(t.hubEvents || "Events & Weinfeste").replace(/^[^\p{L}\p{N}]+/u, '').trim()}</h3>
                       <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldEventsDesc || "Weinfeste, Festivals & Traditionen mit Camping in der Nähe."}</p>
                     </div>
                     <div onClick={() => handleHubSelect('highlights')} style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} className="hover:scale-102 hover:shadow-md hover:border-emerald-500">
                       <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🏰</div>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{t.hubHighlights || "Sehenswürdigkeiten"}</h3>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gray-900)', margin: '0 0 0.25rem 0' }}>{(t.hubHighlights || "Sehenswürdigkeiten").replace(/^[^\p{L}\p{N}]+/u, '').trim()}</h3>
                       <p style={{ fontSize: '0.8rem', color: 'var(--gray-600)', margin: 0 }}>{t.themeWorldHighlightsDesc || "Burgen, Schlösser, Naturparke und Highlights in Europa."}</p>
                     </div>
                   </div>

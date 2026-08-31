@@ -1245,10 +1245,12 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 variant="outline"
                                 onClick={() => loadSavedPlan(plan)}
                                 disabled={isActivePlan}
-                                className={`inline-flex w-full items-center justify-center gap-2 border-2 px-3 font-semibold transition-all active:scale-95 ${
-                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "min-h-[42px] rounded-xl"
+                                className={`inline-flex w-full items-center justify-center gap-2 border font-bold transition-all active:scale-95 ${
+                                  isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 } ${
-                                  isActivePlan ? "cursor-default border-primary/20 bg-primary/10 text-white/60" : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                                  isActivePlan 
+                                    ? "cursor-default border-emerald-600/30 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300" 
+                                    : "border-slate-300 bg-white text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
                                 }`}
                               >
                                 <FolderOpen className="h-4 w-4" />
@@ -1258,11 +1260,11 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() => duplicateSavedPlan(plan)}
-                                className={`inline-flex w-full items-center justify-center gap-2 border-2 border-primary/20 bg-primary/10 px-3 font-semibold text-white transition-all active:scale-95 hover:bg-primary/15 ${
-                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "min-h-[42px] rounded-xl"
+                                className={`inline-flex w-full items-center justify-center gap-2 border border-emerald-600/30 bg-emerald-50 px-3 font-bold text-emerald-800 transition-all active:scale-95 hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50 ${
+                                  isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 }`}
                               >
-                                <Sparkles className="h-4 w-4" />
+                                <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                                 {t("planner.summary.savedPlans.duplicate")}
                               </Button>
                               <Button
@@ -1270,10 +1272,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 variant="outline"
                                 onClick={() => saveCurrentPlan(plan.id)}
                                 disabled={!formData.startPoint || !formData.destination}
-                                className={`w-full justify-center border-2 px-3 font-semibold transition-all active:scale-95 ${
-                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "rounded-xl"
-                                } ${
-                                  isActivePlan ? "border-primary/30 bg-primary/15 text-white hover:bg-primary/20" : "border-primary/16 bg-primary/8 text-white/85 hover:bg-primary/12"
+                                className={`w-full justify-center border border-slate-300 bg-white px-3 font-bold text-slate-800 transition-all active:scale-95 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 ${
+                                  isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 }`}
                               >
                                 {t("planner.summary.savedPlans.overwrite")}
@@ -1282,8 +1282,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() => deleteSavedPlan(plan.id)}
-                                className={`inline-flex w-full items-center justify-center gap-2 border-2 border-white/10 bg-white/5 px-3 font-semibold text-white/85 transition-all active:scale-95 hover:bg-white/10 ${
-                                  isMobile ? "min-h-[48px] rounded-[1rem]" : "min-h-[42px] rounded-xl"
+                                className={`inline-flex w-full items-center justify-center gap-2 border border-red-200 bg-red-50 px-3 font-bold text-red-700 transition-all active:scale-95 hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/50 ${
+                                  isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 }`}
                               >
                                 <Trash2 className="h-4 w-4" />

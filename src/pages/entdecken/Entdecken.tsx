@@ -3252,8 +3252,8 @@ const getWebsiteUrl = (place: Place): string | null => {
         
         {/* Breadcrumbs kommen von campingroute_app (AppBreadcrumbs) */}
 
-        {/* Place Detail Modal Overlay (Only when in non-split view or on general search) */}
-        {selectedPlace && (viewMode !== 'split' || hasSearched || selectedCountryView) && (
+        {/* Place Detail Modal Overlay (Disabled: all views use integrated split panes) */}
+        {false && selectedPlace && (
           <div
             className="place-modal-overlay"
             onClick={() => setSelectedPlace(null)}

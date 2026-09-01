@@ -1407,7 +1407,7 @@
       "title": "Traitement des données & IA",
       "local": {
         "title": "Stockage local",
-        "description": "Si vous activez l’enregistrement local, vos saisies et paramètres (ex. langue choisie) sont stockés uniquement dans votre navigateur et supprimés automatiquement après 30 jours. Les clés API ne sont jamais stockées. Ces données ne sont jamais transmises à nos serveurs."
+        "description": "Si vous utilisez l’enregistrement local, vos saisies de formulaire, projets d’itinéraires enregistrés et paramètres (ex. langue choisie) sont stockés exclusivement dans votre navigateur et supprimés automatiquement après 30 jours d’inactivité. Ces données ne sont jamais transmises à nos serveurs."
       },
       "ai": {
         "title": "Intégration IA (OpenAI, Gemini, Mistral)",

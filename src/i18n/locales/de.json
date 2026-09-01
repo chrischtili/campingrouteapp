@@ -1409,7 +1409,7 @@
       "title": "Datenverarbeitung & KI",
       "local": {
         "title": "Lokale Speicherung (Local Storage)",
-        "description": "Wenn du die lokale Speicherung aktivierst, werden deine Formulareingaben und Einstellungen (z.B. gewählte Sprache) ausschließlich lokal in deinem Browser gespeichert und nach 30 Tagen automatisch gelöscht. API-Schlüssel werden niemals gespeichert. Diese Daten werden nicht an unsere Server übertragen."
+        "description": "Wenn du die lokale Speicherung nutzt, werden deine Formulareingaben, gespeicherten Routenentwürfe und Einstellungen (z. B. gewählte Sprache) ausschließlich lokal in deinem Browser gespeichert und nach 30 Tagen Inaktivität automatisch gelöscht. Diese Daten werden nicht an unsere Server übertragen."
       },
       "ai": {
         "title": "KI-Prompt-Generierung",

@@ -533,19 +533,31 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
         localStorage.removeItem(SAVED_PLANS_KEY);
         return;
       }
-      const normalized = parsed
-        .filter((entry) => entry?.id && entry?.formData)
+      const now = Date.now();
+      const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+      const validEntries = parsed.filter((entry) => {
+        if (!entry?.id || !entry?.formData) return false;
+        const savedAt = Number(entry.savedAt || 0);
+        return savedAt > 0 && now - savedAt < THIRTY_DAYS_MS;
+      });
+
+      const normalized = validEntries
         .map((entry) => ({
           id: String(entry.id),
           label: String(entry.label || buildSavedPlanLabel(sanitizeFormData(entry.formData))),
-          savedAt: Number(entry.savedAt || Date.now()),
+          savedAt: Number(entry.savedAt || now),
           formData: sanitizeFormData(entry.formData),
           aiSettings: normalizeStoredAISettings(entry.aiSettings || {}),
         }))
         .sort((a, b) => b.savedAt - a.savedAt)
         .slice(0, MAX_SAVED_PLANS);
+
       setSavedPlans(normalized);
       setActiveSavedPlanId(null);
+      // Persist cleanup if old/invalid plans were filtered out
+      if (normalized.length !== parsed.length) {
+        persistSavedPlans(normalized);
+      }
     } catch {
       localStorage.removeItem(SAVED_PLANS_KEY);
     }

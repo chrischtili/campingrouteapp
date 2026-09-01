@@ -1409,7 +1409,7 @@
       "title": "Data Processing & AI",
       "local": {
         "title": "Local Storage",
-        "description": "If you enable local saving, your form inputs and settings (e.g., chosen language) are stored only in your browser and are automatically deleted after 30 days. API keys are never stored. This data is never transmitted to our servers."
+        "description": "If you use local saving, your form inputs, saved route drafts, and settings (e.g. chosen language) are stored exclusively in your browser and automatically deleted after 30 days of inactivity. This data is never transmitted to our servers."
       },
       "ai": {
         "title": "AI Prompt Generation",

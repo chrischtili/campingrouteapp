@@ -1439,7 +1439,7 @@
       "title": "Gegevensverwerking & AI",
       "local": {
         "title": "Lokale opslag",
-        "description": "Als je lokale opslag activeert, worden je formuliergegevens en instellingen (bijv. taalkeuze) uitsluitend lokaal opgeslagen en na 30 dagen automatisch gewist. API‑keys worden nooit opgeslagen. Er is geen overdracht naar onze servers."
+        "description": "Als je lokale opslag gebruikt, worden je formulierinvoer, opgeslagen routeconcepten en instellingen (bijv. taalkeuze) uitsluitend lokaal in je browser opgeslagen en na 30 dagen inactiviteit automatisch gewist. Er is geen overdracht naar onze servers."
       },
       "ai": {
         "title": "AI‑integratie (OpenAI, Gemini, Mistral)",

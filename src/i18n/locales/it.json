@@ -1407,7 +1407,7 @@
       "title": "Trattamento dati & IA",
       "local": {
         "title": "Memorizzazione locale (Local Storage)",
-        "description": "Se attivi la memorizzazione locale, i tuoi input e le impostazioni (ad es. lingua scelta) vengono salvati esclusivamente in locale nel tuo browser e cancellati automaticamente dopo 30 giorni. Le chiavi API non vengono mai salvate. Questi dati non vengono trasferiti ai nostri server."
+        "description": "Se utilizzi la memorizzazione locale, i tuoi input nel modulo, le bozze di itinerario salvate e le impostazioni (ad es. lingua scelta) vengono salvati esclusivamente in locale nel tuo browser e cancellati automaticamente dopo 30 giorni di inattività. Questi dati non vengono trasferiti ai nostri server."
       },
       "ai": {
         "title": "Integrazione IA (OpenAI, Gemini, Mistral)",

@@ -312,7 +312,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
           '- Doppelnennungen zwingend vermeiden: Führe jeden Platz pro Etappe nur genau EINMAL auf (auch wenn er in mehreren Stellplatzführern gelistet ist).\n' +
           '- Preisangabe verpflichtend: Gib für JEDEN vorgeschlagenen Platz (Hauptvorschlag und Alternativen) eine realistische geschätzte Preisspanne pro Nacht an (z. B. "ca. 12–18 € / Nacht inkl. Strom & Kurtaxe" bzw. "kostenlos").\n' +
           '- Überprüfe zwingend, ob der Platz zur angegebenen Reisezeit geöffnet hat. Ist ein Platz geschlossen oder unklar, füge einen deutlichen Hinweis hinzu.\n' +
-          '- Verlinke die gefundenen Plätze direkt mit der offiziellen Website oder der Portalseite (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact).'
+          '- Verlinke die gefundenen Plätze direkt mit der offiziellen Website (stets ohne "www.", z. B. https://camping-hohenfelden.de statt https://www.camping-hohenfelden.de) oder direkt mit der Portalseite (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact).'
         );
       }
       if (wantsRental) {
@@ -343,7 +343,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
           '- Vermijd dubbele vermeldingen: vermeld elke overnachtingsplek per etappe slechts ÉÉN KEER.\n' +
           '- Prijsopgave verplicht: geef voor ELKE voorgestelde plek een realistische prijsindicatie per nacht (bijv. "ca. 12–18 € / nacht incl. stroom" of "gratis").\n' +
           '- Controleer altijd of de plaats geopend is tijdens de geplande reistijd.\n' +
-          '- Link direct naar de officiële website of het portaal (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).'
+          '- Link direct naar de officiële website (zonder "www.", bijv. https://camping-domein.nl) of naar het portaal (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).'
         );
       }
       if (wantsRental) {
@@ -373,7 +373,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
           '- Évite impérativement les doublons : ne mentionne chaque emplacement qu\'UNE SEULE FOIS par étape.\n' +
           '- Indication de prix obligatoire : indique pour CHAQUE emplacement proposé une fourchette de prix réaliste par nuit (ex. "env. 12–18 € / nuit avec électricité" ou "gratuit").\n' +
           '- Vérifie impérativement si l\'emplacement est ouvert pendant la période de voyage prévue.\n' +
-          '- Lie directement vers le site officiel ou la fiche (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).'
+          '- Lie directement vers le site officiel (sans "www.", ex. https://nom-camping.fr) ou la fiche (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).'
         );
       }
       if (wantsRental) {
@@ -403,7 +403,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
           '- Evita rigorosamente i duplicati: elenca ogni posto tappa solo UNA VOLTA.\n' +
           '- Prezzo obbligatorio: indica per OGNI posto proposto una stima realistica del prezzo a notte (es. "circa 12–18 € / notte con elettricità" o "gratuito").\n' +
           '- Verifica sempre se il campeggio/area di sosta è aperto durante il periodo previsto.\n' +
-          '- Collega direttamente al sito ufficiale o alla scheda del portale.'
+          '- Collega direttamente al sito ufficiale (senza "www.", es. https://nome-campeggio.it) o alla scheda del portale.'
         );
       }
       if (wantsRental) {
@@ -432,7 +432,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
         '- Strictly avoid duplicate entries: list each overnight location only ONCE per stage.\n' +
         '- Mandatory price estimates: for EVERY proposed stop (primary and alternatives), provide a realistic price range per night (e.g. "approx. €12–€18 / night incl. electricity & tourist tax" or "free").\n' +
         '- Always verify if the place is open during the planned travel period.\n' +
-        '- Link directly to the official website or verified listing.'
+        '- Link directly to the official website (without "www.", e.g. https://campsite-domain.com) or verified listing on camping.info/stellplatz.info.'
       );
     }
     if (wantsRental) {
@@ -464,8 +464,14 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const verificationInstruction = t('prompt.verificationInstruction');
   const linkPolicyInstruction = lang.startsWith('de')
-    ? '\n\nLink- & Preis-Policy: Gib für JEDE genannte Unterkunft / jeden Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link sowie eine realistische Preisspanne pro Nacht an. Verwende direkte Links zur offiziellen Website, zu Buchungsportalen oder etablierten Führern (camping.info, stellplatz.info, Booking.com, FeWo-direkt, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Vermeide Doppelnennungen. Nenne niemals ein Ziel ohne Link.'
-    : '\n\nLink & Price Policy: Provide a working link and realistic price estimate per night for EVERY place / accommodation mentioned (main suggestion AND alternatives). Use direct links to official websites, booking portals, or established guides (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Avoid duplicate mentions. Never name a place without a link.';
+    ? '\n\nLink- & Preis-Policy: Gib für JEDE genannte Unterkunft / jeden Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link sowie eine realistische Preisspanne pro Nacht an. Verwende direkte Links zur offiziellen Website, zu Buchungsportalen oder etablierten Führern (camping.info, stellplatz.info, Booking.com, FeWo-direkt, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Wichtig bei Links zu Campingplatz-Websites: Verwende bei Platz-Domains das moderne Format ohne "www." (z. B. https://camping-hohenfelden.de statt https://www.camping-hohenfelden.de), da www-Subdomains bei vielen kleineren Plätzen nicht erreichbar sind oder SSL-Zertifikatsfehler werfen – oder verlinke alternativ direkt auf die jeweilige Portalseite (camping.info / stellplatz.info / Park4Night). Vermeide Doppelnennungen. Nenne niemals ein Ziel ohne Link.'
+    : lang.startsWith('nl')
+      ? '\n\nLink- & Prijsbeleid: Geef voor ELKE accommodatie/plek een werkende directe link en realistische prijs per nacht op. Gebruik directe links naar officiële websites, boekingsportalen of gidsen (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Belangrijk voor campingwebsites: gebruik URL\'s zonder "www." (bijv. https://camping-domein.nl), omdat veel campingsites niet werken met www – of link direct naar het portaal (camping.info / stellplatz.info). Noem nooit een plek zonder link.'
+      : lang.startsWith('fr')
+        ? '\n\nPolitique de liens & prix : Fournis un lien direct fonctionnel et une fourchette de prix réaliste par nuit pour CHAQUE hébergement. Utilise des liens vers les sites officiels ou portails (camping.info, stellplatz.info, Booking.com, Abritel, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Important pour les sites de camping : privilégie les URL sans "www." (ex. https://nom-camping.fr) car les sous-domaines www causent souvent des erreurs SSL, ou lie vers la fiche portail. Ne cite jamais un lieu sans lien.'
+        : lang.startsWith('it')
+          ? '\n\nPolitica link & prezzi: Fornisci un link diretto funzionante e una stima del prezzo per OGNI struttura. Usa link a siti ufficiali o portali (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Importante per i siti di campeggi: usa URL senza "www." (es. https://nome-campeggio.it) per evitare errori di connessione, oppure linka direttamente al portale. Non citare mai un luogo senza link.'
+          : '\n\nLink & Price Policy: Provide a working link and realistic price estimate per night for EVERY place / accommodation mentioned (main suggestion AND alternatives). Use direct links to official websites, booking portals, or established guides (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Important for campsite websites: Prefer apex domain URLs without "www." (e.g. https://campsite-domain.com instead of https://www.campsite-domain.com) as www subdomains often fail with SSL errors on small campsites, or link directly to the verified listing on camping.info/stellplatz.info/Park4Night. Avoid duplicate mentions. Never name a place without a link.';
   const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
   const logicalScheduleInstruction = buildLogicalScheduleInstruction(lang, data, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')
@@ -653,6 +659,7 @@ export async function callAIAPIInternal(prompt: string, aiSettings: AISettings):
         '- Wenn mehrere Kandidaten auftauchen, waehle den mit dem klarsten Ortsbezug, der passendsten Uebernachtungsart und dem kleinsten Umweg.',
         '- Verwende keine Meta-Antworten wie "wenn du moechtest, kann ich ..." oder "ich kann im naechsten Schritt ...". Liefere die bestmoeglichen Ergebnisse direkt.',
         '- Link- und Preis-Extraktion: Extrahiere IMMER direkte URLs (offizielle Website oder führende Stellplatzführer) und gib eine geschätzte Preisspanne pro Nacht an. Gib keine Links aus, die erst zu einer Google-Suche führen.',
+        '- Wichtig bei Links zu Campingplatz-Websites: Gib URLs ohne "www." an (z. B. https://camping-hohenfelden.de statt https://www.camping-hohenfelden.de) oder verlinke direkt auf die Portalseite (camping.info / stellplatz.info), da www-Subdomains bei vielen Campingplätzen nicht erreichbar sind.',
         '- Pruefe stets die Oeffnungszeiten zur Reisezeit! Ist dies nicht moeglich oder der Platz geschlossen, weise den Nutzer deutlich darauf hin.',
         '- Erfinde keine Plaetze, Links, Adressen, Preise oder Telefonnummern. Wenn nach mehreren gezielten Suchen nichts Sicheres auffindbar ist, sage das knapp und mache mit dem naechsten Ort weiter.'
       ].join('\n')
@@ -664,6 +671,7 @@ export async function callAIAPIInternal(prompt: string, aiSettings: AISettings):
         '- If several candidates appear, choose the one with the clearest location match, the best fitting accommodation type and the smallest detour.',
         '- Do not produce meta answers like "if you want, I can..." or "in the next step I can...". Deliver the best possible result directly.',
         '- Link and price extraction: ALWAYS extract direct URLs (official site or verified guides) and provide estimated price ranges per night. Do not provide links that lead to a search engine.',
+        '- Important for campsite URLs: Prefer apex URLs without "www." (e.g. https://campsite-domain.com) or link directly to the verified listing on camping.info/stellplatz.info to avoid broken www subdomains.',
         '- Always check the opening times during the travel period! If this is not possible or the place is closed, point this out clearly to the user.',
         '- Do not invent places, links, addresses, prices, or phone numbers. After several targeted searches, if nothing reliable is found, say so briefly and continue with the next place.'
       ].join('\n');

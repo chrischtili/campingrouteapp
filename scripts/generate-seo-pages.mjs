@@ -17,10 +17,24 @@ const PAGES = [
       "dist/mcp/index.html",
       "dist/mcp-server/index.html"
     ],
-    title: "CampingRoute MCP Server – Model Context Protocol für Camping & Routen | CampingRoute",
-    description: "Integriere 20.000+ Campingplätze, DZT Touren, Winzer & Hofläden direkt in Cursor, Claude Desktop, Windsurf und andere MCP-Clients.",
-    keywords: "CampingRoute MCP, Model Context Protocol Camping, Claude Desktop MCP, Cursor MCP Camping, AI Camping Tools",
-    canonical: "https://campingroute.app/mcp"
+    title: "Camping MCP Server – Offizieller MCP Server für Camping, Stellplätze & Routen | CampingRoute",
+    description: "Der offizielle Camping MCP Server: Verbinde Claude Desktop, Cursor, Windsurf & KI-Agenten direkt mit 20.000+ Campingplätzen, DZT Wanderwegen, Stellplätzen & POIs via SSE.",
+    keywords: "Camping MCP Server, MCP Server Camping, Model Context Protocol Camping, Camping MCP, Claude Desktop MCP Camping, Cursor MCP Camping, KI Camping Server",
+    canonical: "https://campingroute.app/mcp",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CampingRoute MCP Server",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "url": "https://campingroute.app/mcp",
+      "description": "Offizieller Model Context Protocol (MCP) Server für Campingplätze, Stellplätze, DZT Wanderwege und POIs. Ermöglicht Claude, Cursor, Windsurf und KI-Agenten direkten Live-Zugriff.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    }
   },
 
   // Impressum

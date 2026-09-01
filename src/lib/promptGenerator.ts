@@ -180,56 +180,211 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
         data.vehicleWidth ? `• ${t('prompt.labels.width')}: ${data.vehicleWidth} m` : '',
       ].filter(Boolean).join('\n')
     : '';
-  const dataSourcePolicy = t('prompt.dataSourcePolicy');
-  const openCampingMapPolicy = lang.startsWith('de')
-    ? [
-        'Such- und Preis-Regeln für Camping- und Stellplätze:',
-        '- Nutze führende verifizierte Quellen (z. B. camping.info, stellplatz.info, Park4Night, Promobil Mobil Life, ADAC Pincamp, Campercontact sowie offizielle Betreiber-/Gemeindewebsites).',
-        '- Doppelnennungen zwingend vermeiden: Führe jeden Platz pro Etappe nur genau EINMAL auf (auch wenn er in mehreren Stellplatzführern gelistet ist).',
-        '- Preisangabe verpflichtend: Gib für JEDEN vorgeschlagenen Platz (Hauptvorschlag und Alternativen) eine realistische geschätzte Preisspanne pro Nacht an (z. B. "ca. 12–18 € / Nacht inkl. Strom & Kurtaxe" bzw. "kostenlos").',
-        '- Überprüfe zwingend, ob der Platz zur angegebenen Reisezeit geöffnet hat. Ist ein Platz geschlossen oder unklar, füge einen deutlichen Hinweis hinzu.',
-        '- Verlinke die gefundenen Plätze direkt mit der offiziellen Website oder der Portalseite (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact).',
-        '- Erfinde niemals Plätze, Links, Adressen, Preise oder Telefonnummern.'
-      ].join('\n')
-    : lang.startsWith('nl')
-      ? [
-          'Zoek- en prijsregels voor campings en camperplaatsen:',
-          '- Gebruik toonaangevende geverifieerde bronnen (bijv. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact en officiële websites).',
-          '- Vermijd dubbele vermeldingen: vermeld elke overnachtingsplek per etappe slechts ÉÉN KEER.',
-          '- Prijsopgave verplicht: geef voor ELKE voorgestelde plek een realistische prijsindicatie per nacht (bijv. "ca. 12–18 € / nacht incl. stroom" of "gratis").',
-          '- Controleer altijd of de plaats geopend is tijdens de geplande reistijd.',
-          '- Link direct naar de officiële website of het portaal (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).',
-          '- Verzin nooit plaatsen, links, adressen, prijzen of telefoonnummers.'
-        ].join('\n')
-      : lang.startsWith('fr')
-        ? [
-            'Règles de recherche et de prix pour campings et aires de camping-car :',
-            '- Utilise des sources vérifiées réputées (ex. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact et sites officiels).',
-            '- Évite impérativement les doublons : ne mentionne chaque emplacement qu\'UNE SEULE FOIS par étape.',
-            '- Indication de prix obligatoire : indique pour CHAQUE emplacement proposé une fourchette de prix réaliste par nuit (ex. "env. 12–18 € / nuit avec électricité" ou "gratuit").',
-            '- Vérifie impérativement si l\'emplacement est ouvert pendant la période de voyage prévue.',
-            '- Lie directement vers le site officiel ou la fiche (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).',
-            '- N\'invente jamais de lieux, liens, adresses, prix ou numéros de téléphone.'
-          ].join('\n')
-        : lang.startsWith('it')
-          ? [
-              'Regole di ricerca e di prezzo per campeggi e aree di sosta:',
-              '- Utilizza fonti verificate affidabili (es. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact e siti ufficiali).',
-              '- Evita rigorosamente i duplicati: elenca ogni posto tappa solo UNA VOLTA.',
-              '- Prezzo obbligatorio: indica per OGNI posto proposto una stima realistica del prezzo a notte (es. "circa 12–18 € / notte con elettricità" o "gratuito").',
-              '- Verifica sempre se il campeggio/area di sosta è aperto durante il periodo previsto.',
-              '- Collega direttamente al sito ufficiale o alla scheda del portale.',
-              '- Non inventare mai posti, link, indirizzi, prezzi o numeri di telefono.'
-            ].join('\n')
-          : [
-              'Search and pricing rules for campsites and motorhome pitches:',
-              '- Use leading verified sources (e.g. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact, and official websites).',
-              '- Strictly avoid duplicate entries: list each overnight location only ONCE per stage.',
-              '- Mandatory price estimates: for EVERY proposed stop (primary and alternatives), provide a realistic price range per night (e.g. "approx. €12–€18 / night incl. electricity & tourist tax" or "free").',
-              '- Always verify if the place is open during the planned travel period.',
-              '- Link directly to the official website or verified listing.',
-              '- Never invent places, links, addresses, prices, or phone numbers.'
-            ].join('\n');
+  const wantsCamping = data.accommodationType.length === 0 || data.accommodationType.some(t => ['camping', 'pitch', 'farm', 'small', 'wild'].includes(t));
+  const wantsRental = data.accommodationType.some(t => ['apartment', 'holidayHome'].includes(t));
+  const wantsGlamping = data.accommodationType.includes('premium');
+
+  const dataSourcePolicy = (() => {
+    if (lang.startsWith('de')) {
+      if (wantsRental && !wantsCamping) {
+        return 'Recherchiere Unterkünfte über etablierte verifizierte Quellen (z. B. Booking.com, FeWo-direkt / Vrbo, Traum-Ferienwohnungen, Airbnb, Holidu, Interhome und offizielle regionale Tourismusverbände). Vermeide Doppelnennungen und überprüfe Verfügbarkeit sowie realistische Preise.';
+      }
+      if (wantsRental && wantsCamping) {
+        return 'Recherchiere Campingplätze, Stellplätze sowie Ferienunterkünfte über etablierte verifizierte Quellen (camping.info, stellplatz.info, Park4Night, Booking.com, FeWo-direkt, Airbnb und offizielle Betreiberwebsites). Vermeide Doppelnennungen und überprüfe zwingend Öffnungszeiten sowie realistische Preise.';
+      }
+      return 'Recherchiere Übernachtungsplätze über etablierte verifizierte Quellen (z. B. camping.info, stellplatz.info, Park4Night, Promobil Mobil Life, ADAC Pincamp, Campercontact und offizielle Platzwebsites). Vermeide Doppelnennungen desselben Platzes und überprüfe zwingend Öffnungszeiten sowie realistische Preise.';
+    }
+
+    if (lang.startsWith('nl')) {
+      if (wantsRental && !wantsCamping) {
+        return 'Zoek accommodaties via toonaangevende geverifieerde bronnen (bijv. Booking.com, Vrbo, Natuurhuisje, Airbnb, Holidu, Belvilla en officiële toeristenbureaus). Vermijd dubbele vermeldingen en controleer altijd realistische prijzen.';
+      }
+      if (wantsRental && wantsCamping) {
+        return 'Zoek campings, camperplaatsen en vakantiehuizen via geverifieerde bronnen (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb en officiële websites). Vermijd dubbele vermeldingen en controleer altijd openingstijden en prijzen.';
+      }
+      return 'Zoek overnachtingsplekken via toonaangevende geverifieerde bronnen (bijv. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact en officiële websites). Vermijd dubbele vermeldingen en controleer altijd openingstijden en realistische prijzen.';
+    }
+
+    if (lang.startsWith('fr')) {
+      if (wantsRental && !wantsCamping) {
+        return 'Recherche les hébergements via des sources vérifiées reconnues (ex. Booking.com, Abritel / Vrbo, Airbnb, Gîtes de France, Holidu et offices de tourisme officiels). Évite les doublons et vérifie la disponibilité et des prix réalistes.';
+      }
+      if (wantsRental && wantsCamping) {
+        return 'Recherche campings, aires de camping-car et locations de vacances via des sources reconnues (camping.info, stellplatz.info, Booking.com, Abritel, Airbnb et sites officiels). Évite les doublons et vérifie heures d\'ouverture et prix réalistes.';
+      }
+      return 'Recherche les hébergements via des sources vérifiées reconnues (ex. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact et sites officiels). Évite impérativement les doublons et vérifie les heures d\'ouverture ainsi que des prix réalistes.';
+    }
+
+    if (lang.startsWith('it')) {
+      if (wantsRental && !wantsCamping) {
+        return 'Cerca alloggi tramite fonti verificate riconosciute (es. Booking.com, Vrbo, Airbnb, Holidu, Agriturismo.it e consorzi turistici locali). Evita duplicati e verifica disponibilità e prezzi realistici.';
+      }
+      if (wantsRental && wantsCamping) {
+        return 'Cerca campeggi, aree sosta e strutture ricettive tramite fonti verificate (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb e siti ufficiali). Evita duplicati e verifica orari di apertura e prezzi realistici.';
+      }
+      return 'Cerca alloggi tramite fonti verificate riconosciute (es. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact e siti ufficiali). Evita rigorosamente i duplicati e verifica orari di apertura e prezzi realistici.';
+    }
+
+    if (wantsRental && !wantsCamping) {
+      return 'Search accommodations via established verified sources (e.g. Booking.com, Vrbo, Airbnb, Holidu, Interhome, and official regional tourism boards). Avoid duplicate mentions and verify availability and realistic prices.';
+    }
+    if (wantsRental && wantsCamping) {
+      return 'Search campsites, motorhome pitches, and holiday accommodations via established verified sources (camping.info, stellplatz.info, Park4Night, Booking.com, Vrbo, Airbnb, and official websites). Avoid duplicates and verify opening hours and prices.';
+    }
+    return 'Search overnight stops via established verified sources (e.g. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact, and official campsite websites). Avoid duplicate mentions of the same place and strictly verify opening hours and realistic prices.';
+  })();
+
+  const openCampingMapPolicy = (() => {
+    if (lang.startsWith('de')) {
+      const parts: string[] = [];
+      if (wantsCamping) {
+        parts.push(
+          'Such- und Preis-Regeln für Camping- und Stellplätze:\n' +
+          '- Nutze führende verifizierte Quellen (z. B. camping.info, stellplatz.info, Park4Night, Promobil Mobil Life, ADAC Pincamp, Campercontact sowie offizielle Betreiber-/Gemeindewebsites).\n' +
+          '- Doppelnennungen zwingend vermeiden: Führe jeden Platz pro Etappe nur genau EINMAL auf (auch wenn er in mehreren Stellplatzführern gelistet ist).\n' +
+          '- Preisangabe verpflichtend: Gib für JEDEN vorgeschlagenen Platz (Hauptvorschlag und Alternativen) eine realistische geschätzte Preisspanne pro Nacht an (z. B. "ca. 12–18 € / Nacht inkl. Strom & Kurtaxe" bzw. "kostenlos").\n' +
+          '- Überprüfe zwingend, ob der Platz zur angegebenen Reisezeit geöffnet hat. Ist ein Platz geschlossen oder unklar, füge einen deutlichen Hinweis hinzu.\n' +
+          '- Verlinke die gefundenen Plätze direkt mit der offiziellen Website oder der Portalseite (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact).'
+        );
+      }
+      if (wantsRental) {
+        parts.push(
+          'Such- und Preis-Regeln für Ferienwohnungen & Ferienhäuser:\n' +
+          '- Recherchiere verifizierte Unterkünfte über führende Ferienhaus- & Fewo-Portale (z. B. Booking.com, FeWo-direkt / Vrbo, Traum-Ferienwohnungen, Airbnb, Holidu, Interhome) sowie offizielle regionale Tourismusverbände.\n' +
+          '- Nenne für jede empfohlene Unterkunft den genauen Typ (Fewo, Ferienhaus, Chalet), ungefähre Bettenzahl/Zimmer, Lage und eine realistische Preisspanne pro Nacht.\n' +
+          '- Verlinke direkt zur Buchungsseite oder zum Tourismusportal.'
+        );
+      }
+      if (wantsGlamping) {
+        parts.push(
+          'Such- und Preis-Regeln für Glamping & Mietunterkünfte:\n' +
+          '- Recherchiere Glamping-Unterkünfte (Safarizelte, Baumhäuser, Pods, Mobilheime, Tipis) über Portale wie glamping.info, camping.info, Campspace sowie direkte Anbieter-Websites.\n' +
+          '- Gib Unterkunftstyp, Komfortausstattung und realistische Nachtpreise an.'
+        );
+      }
+      parts.push('- Erfinde niemals Plätze, Unterkünfte, Links, Adressen, Preise oder Telefonnummern.');
+      return parts.join('\n\n');
+    }
+
+    if (lang.startsWith('nl')) {
+      const parts: string[] = [];
+      if (wantsCamping) {
+        parts.push(
+          'Zoek- en prijsregels voor campings en camperplaatsen:\n' +
+          '- Gebruik toonaangevende geverifieerde bronnen (bijv. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact en officiële websites).\n' +
+          '- Vermijd dubbele vermeldingen: vermeld elke overnachtingsplek per etappe slechts ÉÉN KEER.\n' +
+          '- Prijsopgave verplicht: geef voor ELKE voorgestelde plek een realistische prijsindicatie per nacht (bijv. "ca. 12–18 € / nacht incl. stroom" of "gratis").\n' +
+          '- Controleer altijd of de plaats geopend is tijdens de geplande reistijd.\n' +
+          '- Link direct naar de officiële website of het portaal (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).'
+        );
+      }
+      if (wantsRental) {
+        parts.push(
+          'Zoek- en prijsregels voor vakantiehuizen & appartementen:\n' +
+          '- Zoek geverifieerde accommodaties via toonaangevende portals (bijv. Booking.com, Vrbo, Natuurhuisje, Airbnb, Holidu, Belvilla) en regionale toeristenbureaus.\n' +
+          '- Vermeld accommodatietype, capaciteit, ligging en realistische prijs per nacht.\n' +
+          '- Link direct naar de boekingspagina of officiële website.'
+        );
+      }
+      if (wantsGlamping) {
+        parts.push(
+          'Zoek- en prijsregels voor glamping:\n' +
+          '- Zoek via glamping.info, camping.info, Campspace en directe aanbieders naar safaritenten, pods en boomhutten.'
+        );
+      }
+      parts.push('- Verzin nooit plaatsen, links, adressen, prijzen of telefoonnummers.');
+      return parts.join('\n\n');
+    }
+
+    if (lang.startsWith('fr')) {
+      const parts: string[] = [];
+      if (wantsCamping) {
+        parts.push(
+          'Règles de recherche et de prix pour campings et aires de camping-car :\n' +
+          '- Utilise des sources vérifiées réputées (ex. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact et sites officiels).\n' +
+          '- Évite impérativement les doublons : ne mentionne chaque emplacement qu\'UNE SEULE FOIS par étape.\n' +
+          '- Indication de prix obligatoire : indique pour CHAQUE emplacement proposé une fourchette de prix réaliste par nuit (ex. "env. 12–18 € / nuit avec électricité" ou "gratuit").\n' +
+          '- Vérifie impérativement si l\'emplacement est ouvert pendant la période de voyage prévue.\n' +
+          '- Lie directement vers le site officiel ou la fiche (camping.info, stellplatz.info, Park4Night, Campercontact, etc.).'
+        );
+      }
+      if (wantsRental) {
+        parts.push(
+          'Règles de recherche pour gîtes, appartements et maisons de vacances :\n' +
+          '- Recherche via des portails reconnus (ex. Booking.com, Abritel / Vrbo, Airbnb, Gîtes de France, Holidu) et offices de tourisme officiels.\n' +
+          '- Précise le type de logement, la capacité, la localisation et le prix estimé par nuit.\n' +
+          '- Lie directement vers le site de réservation ou l\'office de tourisme.'
+        );
+      }
+      if (wantsGlamping) {
+        parts.push(
+          'Règles pour le glamping :\n' +
+          '- Recherche des tentes safari, pods ou cabanes via glamping.info, camping.info, Campspace ou sites directs.'
+        );
+      }
+      parts.push('- N\'invente jamais de lieux, liens, adresses, prix ou numéros de téléphone.');
+      return parts.join('\n\n');
+    }
+
+    if (lang.startsWith('it')) {
+      const parts: string[] = [];
+      if (wantsCamping) {
+        parts.push(
+          'Regole di ricerca e di prezzo per campeggi e aree di sosta:\n' +
+          '- Utilizza fonti verificate affidabili (es. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact e siti ufficiali).\n' +
+          '- Evita rigorosamente i duplicati: elenca ogni posto tappa solo UNA VOLTA.\n' +
+          '- Prezzo obbligatorio: indica per OGNI posto proposto una stima realistica del prezzo a notte (es. "circa 12–18 € / notte con elettricità" o "gratuito").\n' +
+          '- Verifica sempre se il campeggio/area di sosta è aperto durante il periodo previsto.\n' +
+          '- Collega direttamente al sito ufficiale o alla scheda del portale.'
+        );
+      }
+      if (wantsRental) {
+        parts.push(
+          'Regole per case vacanze e appartamenti:\n' +
+          '- Cerca strutture verificate su portali affidabili (es. Booking.com, Vrbo, Airbnb, Holidu, Agriturismo.it) e consorzi turistici locali.\n' +
+          '- Specifica tipologia, capienza, posizione e fascia di prezzo a notte.\n' +
+          '- Inserisci link diretti alla prenotazione o al portale turistico.'
+        );
+      }
+      if (wantsGlamping) {
+        parts.push(
+          'Regole per glamping:\n' +
+          '- Cerca tende safari, lodge e case sull\'albero su glamping.info, camping.info, Campspace o siti dedicati.'
+        );
+      }
+      parts.push('- Non inventare mai posti, link, indirizzi, prezzi o numeri di telefono.');
+      return parts.join('\n\n');
+    }
+
+    const parts: string[] = [];
+    if (wantsCamping) {
+      parts.push(
+        'Search and pricing rules for campsites and motorhome pitches:\n' +
+        '- Use leading verified sources (e.g. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact, and official websites).\n' +
+        '- Strictly avoid duplicate entries: list each overnight location only ONCE per stage.\n' +
+        '- Mandatory price estimates: for EVERY proposed stop (primary and alternatives), provide a realistic price range per night (e.g. "approx. €12–€18 / night incl. electricity & tourist tax" or "free").\n' +
+        '- Always verify if the place is open during the planned travel period.\n' +
+        '- Link directly to the official website or verified listing.'
+      );
+    }
+    if (wantsRental) {
+      parts.push(
+        'Search and pricing rules for holiday homes & apartments:\n' +
+        '- Search verified accommodations via leading portals (e.g. Booking.com, Vrbo, Airbnb, Holidu, Interhome) and official regional tourism boards.\n' +
+        '- State accommodation type (apartment, chalet, holiday home), capacity, location, and realistic nightly price.\n' +
+        '- Link directly to the listing or official booking source.'
+      );
+    }
+    if (wantsGlamping) {
+      parts.push(
+        'Search and pricing rules for glamping:\n' +
+        '- Search safari tents, treehouses, pods, and luxury mobile homes via glamping.info, camping.info, Campspace, or direct hosts.'
+      );
+    }
+    parts.push('- Never invent places, links, addresses, prices, or phone numbers.');
+    return parts.join('\n\n');
+  })();
+
   const hasBaseAccommodationType = data.accommodationType.includes('camping') || data.accommodationType.includes('pitch');
   const hasSpecificAccommodationType = data.accommodationType.some(type => type !== 'camping' && type !== 'pitch');
   const noAccommodationPreference = hasBaseAccommodationType && hasSpecificAccommodationType;
@@ -241,8 +396,8 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     : '';
   const verificationInstruction = t('prompt.verificationInstruction');
   const linkPolicyInstruction = lang.startsWith('de')
-    ? '\n\nLink- & Preis-Policy: Gib fuer JEDEN genannten Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link sowie eine realistische Preisspanne pro Nacht an. Verwende direkte Links zur offiziellen Website oder zu etablierten Stellplatzführern (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact). Vermeide Doppelnennungen desselben Platzes unter verschiedenen Namen. Nenne niemals einen Platz ohne Link.'
-    : '\n\nLink & Price Policy: Provide a working link and realistic price estimate per night for EVERY place mentioned (main suggestion AND alternatives). Use direct links to official websites or established guides (camping.info, stellplatz.info, Park4Night, Promobil, Pincamp, Campercontact). Avoid duplicate mentions of the same location. Never name a place without a link.';
+    ? '\n\nLink- & Preis-Policy: Gib für JEDE genannte Unterkunft / jeden Platz (Hauptvorschlag UND Alternativen) zwingend einen funktionierenden Link sowie eine realistische Preisspanne pro Nacht an. Verwende direkte Links zur offiziellen Website, zu Buchungsportalen oder etablierten Führern (camping.info, stellplatz.info, Booking.com, FeWo-direkt, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Vermeide Doppelnennungen. Nenne niemals ein Ziel ohne Link.'
+    : '\n\nLink & Price Policy: Provide a working link and realistic price estimate per night for EVERY place / accommodation mentioned (main suggestion AND alternatives). Use direct links to official websites, booking portals, or established guides (camping.info, stellplatz.info, Booking.com, Vrbo, Airbnb, Park4Night, Promobil, Pincamp, Campercontact). Avoid duplicate mentions. Never name a place without a link.';
   const dailyLimitBufferInstruction = buildDailyLimitBufferInstruction(lang, maxDailyDistance, maxDailyDriveHours);
   const logicalScheduleInstruction = buildLogicalScheduleInstruction(lang, data, maxDailyDistance, maxDailyDriveHours);
   const pdfDownloadInstruction = lang.startsWith('de')

@@ -186,6 +186,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
 
   const systemRole = (() => {
     if (lang.startsWith('de')) {
+      if (wantsRental && wantsGlamping && !wantsCamping) {
+        return `Du bist ein professioneller Reise- und Routenplaner für Individual- und Roadtrip-Reisen mit Ferienwohnungen, Ferienhäusern und besonderen Glamping-Unterkünften (Spezialwissen für Europa und internationale Reiseziele). Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route mit abwechslungsreichen Ferienunterkünften oder stilvollen Glamping-Spots. Berücksichtige Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch prüfen sollte.`;
+      }
       if (wantsRental && !wantsCamping) {
         return `Du bist ein professioneller Reise- und Routenplaner für Individual- und Roadtrip-Reisen mit Ferienwohnungen und Ferienhäusern (Spezialwissen für Europa und internationale Reiseziele). Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route mit passenden Ferienunterkünften. Berücksichtige Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch prüfen sollte.`;
       }
@@ -199,6 +202,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     }
 
     if (lang.startsWith('nl')) {
+      if (wantsRental && wantsGlamping && !wantsCamping) {
+        return `Je bent een professionele reis- en routeplanner voor roadtrips met vakantiehuizen, appartementen en glamping-accommodaties (gespecialiseerd in Europa en internationale bestemmingen). Maak op basis van mijn specificaties een praktische, goed gestructureerde route met passende accommodaties. Houd rekening met reisdoelen, budget en voorkeuren.`;
+      }
       if (wantsRental && !wantsCamping) {
         return `Je bent een professionele reis- en routeplanner voor roadtrips met vakantiehuizen en appartementen (gespecialiseerd in Europa en internationale bestemmingen). Maak op basis van mijn specificaties een praktische, goed gestructureerde route met passende accommodaties. Houd rekening met reisdoelen, budget en voorkeuren.`;
       }
@@ -209,6 +215,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     }
 
     if (lang.startsWith('fr')) {
+      if (wantsRental && wantsGlamping && !wantsCamping) {
+        return `Tu es un planificateur de voyage et d'itinéraire professionnel pour les road-trips avec gîtes, maisons de vacances et hébergements glamping insolites (expert de l'Europe et des destinations internationales). Crée un itinéraire pratique et bien structuré selon mes critères.`;
+      }
       if (wantsRental && !wantsCamping) {
         return `Tu es un planificateur de voyage et d'itinéraire professionnel pour les road-trips avec hébergement en gîtes, appartements et maisons de vacances (expert de l'Europe et des destinations internationales). Crée un itinéraire pratique et bien structuré selon mes critères.`;
       }
@@ -219,6 +228,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
     }
 
     if (lang.startsWith('it')) {
+      if (wantsRental && wantsGlamping && !wantsCamping) {
+        return `Sei un pianificatore di viaggio e itinerari professionale per road trip con soggiorno in case vacanze, appartamenti ed esclusive strutture glamping (esperto di Europa e mete internazionali). Crea un itinerario pratico e ben strutturato in base ai miei parametri.`;
+      }
       if (wantsRental && !wantsCamping) {
         return `Sei un pianificatore di viaggio e itinerari professionale per road trip con soggiorno in case vacanze e appartamenti (esperto di Europa e mete internazionali). Crea un itinerario pratico e ben strutturato in base ai miei parametri.`;
       }
@@ -228,6 +240,9 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
       return t('prompt.systemRole', { language: languageName });
     }
 
+    if (wantsRental && wantsGlamping && !wantsCamping) {
+      return `You are a professional travel and route planner for road trips with holiday apartments, cottages, vacation rentals, and unique glamping stays (with specialized knowledge of Europe and international destinations). Create a practical, well-structured itinerary based on my specifications with suitable accommodations.`;
+    }
     if (wantsRental && !wantsCamping) {
       return `You are a professional travel and route planner for road trips with holiday apartments, cottages, and vacation rentals (with specialized knowledge of Europe and international destinations). Create a practical, well-structured itinerary based on my specifications with suitable holiday accommodations.`;
     }

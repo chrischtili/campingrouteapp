@@ -48,15 +48,7 @@ const createEmptyStage = (destination = ""): RouteStage => ({
 
 const isMeaningfulStage = (stage: Partial<RouteStage> | undefined) => {
   if (!stage) return false;
-  return Boolean(
-    stage.destination?.trim() ||
-    stage.booked ||
-    stage.detailsEnabled ||
-    stage.arrivalDate ||
-    stage.arrivalTime ||
-    stage.departureDate ||
-    stage.departureTime
-  );
+  return Boolean(stage.destination?.trim());
 };
 
 const normalizeOptionalSummaryText = (value: string | undefined, placeholders: string[]) => {

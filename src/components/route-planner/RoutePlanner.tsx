@@ -1093,7 +1093,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           onClick={() => saveCurrentPlan()}
                           disabled={!formData.startPoint || !formData.destination}
-                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-900 font-bold hover:bg-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-500 dark:text-emerald-200 transition-all active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-200 disabled:!text-slate-700 dark:disabled:!bg-slate-800 dark:disabled:!text-slate-300 dark:disabled:!border-slate-700"
+                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-emerald-600/40 bg-emerald-50 text-emerald-900 font-bold hover:bg-emerald-100 dark:bg-emerald-950/60 dark:border-emerald-500/50 dark:text-emerald-200 transition-all active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-100 disabled:!text-slate-400 dark:disabled:!bg-slate-800/60 dark:disabled:!text-slate-500 dark:disabled:!border-slate-700"
                         >
                           <Save className="h-4 w-4" />
                           {t("planner.summary.savedPlans.saveCurrent")}
@@ -1102,7 +1102,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           onClick={runGeneration}
                           disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 font-bold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-200 disabled:!text-slate-700 dark:disabled:!bg-slate-800 dark:disabled:!text-slate-300 dark:disabled:!border-slate-700"
+                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 font-bold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-200 disabled:!text-slate-400 dark:disabled:!bg-slate-800 dark:disabled:!text-slate-500 dark:disabled:!border-slate-700"
                         >
                           <Bot className="h-4 w-4" />
                           <span>
@@ -1117,7 +1117,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           variant="outline"
                           onClick={exportCurrentPlanToFile}
-                          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 font-bold text-slate-800 transition-all active:scale-95 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+                          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 font-bold text-slate-900 transition-all active:scale-95 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                         >
                           <Download className="h-4 w-4" />
                           {t("planner.summary.savedPlans.export")}
@@ -1126,7 +1126,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           variant="outline"
                           onClick={triggerPlanImport}
-                          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 font-bold text-slate-800 transition-all active:scale-95 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+                          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 font-bold text-slate-900 transition-all active:scale-95 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                         >
                           <Upload className="h-4 w-4" />
                           {t("planner.summary.savedPlans.import")}
@@ -1135,7 +1135,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           variant="outline"
                           onClick={clearPlannerData}
-                          className="h-11 w-full rounded-xl border border-red-300 bg-red-50 px-4 font-bold text-red-700 transition-all active:scale-95 hover:bg-red-100 dark:border-red-500/40 dark:bg-red-950/40 dark:text-red-300"
+                          className="h-11 w-full rounded-xl border border-red-200 bg-red-50/80 px-4 font-bold text-red-700 transition-all active:scale-95 hover:bg-red-100 dark:border-red-800/60 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/60"
                         >
                           {t("planner.summary.save.clear")}
                         </Button>
@@ -1166,7 +1166,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   )}
 
                   {savedPlans.length === 0 ? (
-                    <div className="rounded-2xl border border-slate-300 bg-slate-50 px-4 py-5 text-sm font-medium text-slate-600 shadow-xs dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                    <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-8 text-center text-sm font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-400">
                       {t("planner.summary.savedPlans.empty")}
                     </div>
                   ) : (
@@ -1180,15 +1180,15 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                             key={plan.id}
                             className={`grid grid-cols-1 transition-all xl:grid-cols-[minmax(0,1fr)_21rem] ${
                               isMobile
-                                ? `gap-3 rounded-2xl p-3 ${
+                                ? `gap-3 rounded-2xl p-3.5 ${
                                     isActivePlan
-                                      ? "border-2 border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/20"
-                                      : "border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-850"
+                                      ? "border-2 border-emerald-600 bg-emerald-50/70 dark:bg-emerald-950/30 dark:border-emerald-500"
+                                      : "border border-slate-200 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-800/60"
                                   }`
                                 : `gap-4 rounded-2xl p-4 ${
                                     isActivePlan
-                                      ? "border-2 border-emerald-600 bg-emerald-50/50 shadow-xs dark:bg-emerald-950/20 dark:border-emerald-500"
-                                      : "border border-slate-300 bg-white shadow-xs dark:border-slate-700 dark:bg-slate-850"
+                                      ? "border-2 border-emerald-600 bg-emerald-50/70 shadow-xs dark:bg-emerald-950/30 dark:border-emerald-500"
+                                      : "border border-slate-200 bg-slate-50/80 shadow-xs dark:border-slate-800 dark:bg-slate-800/60"
                                   }`
                             }`}
                           >
@@ -1230,8 +1230,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                   )}
                                   {normalizeOptionalSummaryText(plan.formData.targetRegions, summaryTextPlaceholders) && (
                                     <div>
-                                      <span className="text-white/38">{t("prompt.labels.targetRegions")}:</span>{" "}
-                                      <span className="text-white/68">
+                                      <span className="text-slate-500 dark:text-slate-400">{t("prompt.labels.targetRegions")}:</span>{" "}
+                                      <span className="text-slate-800 dark:text-slate-200">
                                         {normalizeOptionalSummaryText(plan.formData.targetRegions, summaryTextPlaceholders)}
                                       </span>
                                     </div>
@@ -1249,8 +1249,8 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                   isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 } ${
                                   isActivePlan 
-                                    ? "cursor-default border-emerald-600/30 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300" 
-                                    : "border-slate-300 bg-white text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+                                    ? "cursor-default border-emerald-600/40 bg-emerald-100/60 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-500/40" 
+                                    : "border-slate-300 bg-white text-slate-900 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                                 }`}
                               >
                                 <FolderOpen className="h-4 w-4" />
@@ -1260,7 +1260,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() => duplicateSavedPlan(plan)}
-                                className={`inline-flex w-full items-center justify-center gap-2 border border-emerald-600/30 bg-emerald-50 px-3 font-bold text-emerald-800 transition-all active:scale-95 hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50 ${
+                                className={`inline-flex w-full items-center justify-center gap-2 border border-emerald-500/40 bg-emerald-50 text-emerald-900 font-bold hover:bg-emerald-100 dark:border-emerald-600/50 dark:bg-emerald-950/50 dark:text-emerald-200 dark:hover:bg-emerald-900/60 transition-all active:scale-95 ${
                                   isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 }`}
                               >
@@ -1272,7 +1272,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 variant="outline"
                                 onClick={() => saveCurrentPlan(plan.id)}
                                 disabled={!formData.startPoint || !formData.destination}
-                                className={`w-full justify-center border border-slate-300 bg-white px-3 font-bold text-slate-800 transition-all active:scale-95 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 ${
+                                className={`w-full justify-center border border-slate-300 bg-white px-3 font-bold text-slate-900 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700 transition-all active:scale-95 disabled:opacity-50 ${
                                   isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 }`}
                               >
@@ -1282,7 +1282,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() => deleteSavedPlan(plan.id)}
-                                className={`inline-flex w-full items-center justify-center gap-2 border border-red-200 bg-red-50 px-3 font-bold text-red-700 transition-all active:scale-95 hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/50 ${
+                                className={`inline-flex w-full items-center justify-center gap-2 border border-red-200 bg-red-50 text-red-700 font-bold hover:bg-red-100 dark:border-red-800/60 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/60 transition-all active:scale-95 ${
                                   isMobile ? "min-h-[44px] rounded-xl text-xs" : "min-h-[40px] rounded-xl text-xs"
                                 }`}
                               >

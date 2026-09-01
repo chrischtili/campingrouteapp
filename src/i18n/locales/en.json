@@ -590,9 +590,26 @@
     "title": "Everything for your prompt in one place",
     "cta": "Prompt Assistant",
     "launcher": {
-      "title": "The prompt assistant for camping and road trips",
-      "description": "Open the assistant and compile all information about your route, vehicle, and preferences for the perfect AI prompt.",
+      "title": "Smart AI Trip Planner for Camping, Road Trips & Holiday Rentals",
+      "description": "Create tailored AI prompts for motorhomes, campervans, glamping, apartments, or holiday homes in just a few clicks.",
       "hint": "Create your tailored AI prompt in just a few steps."
+    },
+    "steps": {
+      "step1": {
+        "badge": "STEP 01",
+        "title": "Choose Route, Vehicle & Accommodation",
+        "description": "Enter start & destination and pick your travel style – whether campervan, car, tent, glamping, apartment, or holiday home."
+      },
+      "step2": {
+        "badge": "STEP 02",
+        "title": "Generate Tailored AI Prompt",
+        "description": "Our assistant automatically creates the perfect prompt with stages, accommodations, vehicle specs & criteria."
+      },
+      "step3": {
+        "badge": "STEP 03",
+        "title": "Get Accommodations, Route & GPX",
+        "description": "Paste the prompt into ChatGPT, Claude, or Gemini to get verified stay suggestions, itineraries & navigation files."
+      }
     },
     "loading": {
       "ai": "🤖 Generating route...",

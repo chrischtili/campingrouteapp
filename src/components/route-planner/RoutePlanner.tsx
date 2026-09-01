@@ -1679,13 +1679,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                     </div>
                     <div className="space-y-1">
                       <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                        SCHRITT 01
+                        {t("planner.steps.step1.badge", "SCHRITT 01")}
                       </span>
                       <h2 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                        Wohnmobil & Route wählen
+                        {t("planner.steps.step1.title", "Route, Fahrzeug & Unterkunft wählen")}
                       </h2>
                       <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                        Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
+                        {t("planner.steps.step1.description", "Gib Start & Ziel ein und wähle deinen Reisestil – ob Wohnmobil, Pkw, Zelt, Glamping, Ferienwohnung oder Ferienhaus.")}
                       </p>
                     </div>
                   </div>
@@ -1697,13 +1697,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                     </div>
                     <div className="space-y-1">
                       <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                        SCHRITT 02
+                        {t("planner.steps.step2.badge", "SCHRITT 02")}
                       </span>
                       <h2 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                        Smarte KI-Prompts generieren
+                        {t("planner.steps.step2.title", "Maßgeschneiderten KI-Prompt erstellen")}
                       </h2>
                       <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                        Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
+                        {t("planner.steps.step2.description", "Unser Assistent formuliert automatisch den perfekten Prompt mit Etappen, Unterkünften, Fahrzeugdaten & Wunschkriterien.")}
                       </p>
                     </div>
                   </div>
@@ -1715,13 +1715,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                     </div>
                     <div className="space-y-1">
                       <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                        SCHRITT 03
+                        {t("planner.steps.step3.badge", "SCHRITT 03")}
                       </span>
                       <h2 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                        Stellplätze & GPX exportieren
+                        {t("planner.steps.step3.title", "Unterkünfte, Route & GPX erhalten")}
                       </h2>
                       <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                        Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
+                        {t("planner.steps.step3.description", "Füge den Prompt in ChatGPT, Claude oder Gemini ein und erhalte geprüfte Übernachtungstipps, Tagesetappen & Navigationsdaten.")}
                       </p>
                     </div>
                   </div>
@@ -1815,13 +1815,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   </div>
                   <div className="space-y-1">
                     <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                      SCHRITT 01
+                      {t("planner.steps.step1.badge", "SCHRITT 01")}
                     </span>
                     <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                      Wohnmobil & Route wählen
+                      {t("planner.steps.step1.title", "Route, Fahrzeug & Unterkunft wählen")}
                     </h3>
                     <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                      Gib Startort, Ziel und Fahrzeugmaße ein – egal ob Wohnmobil, Wohnwagen, Zelt oder Motorrad.
+                      {t("planner.steps.step1.description", "Gib Start & Ziel ein und wähle deinen Reisestil – ob Wohnmobil, Pkw, Zelt, Glamping, Ferienwohnung oder Ferienhaus.")}
                     </p>
                   </div>
                 </div>
@@ -1833,13 +1833,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   </div>
                   <div className="space-y-1">
                     <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                      SCHRITT 02
+                      {t("planner.steps.step2.badge", "SCHRITT 02")}
                     </span>
                     <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                      Smarte KI-Prompts generieren
+                      {t("planner.steps.step2.title", "Maßgeschneiderten KI-Prompt erstellen")}
                     </h3>
                     <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                      Unser Assistent formuliert automatisch einen maßgeschneiderten Prompt mit Etappen, Maßen & Kriterien.
+                      {t("planner.steps.step2.description", "Unser Assistent formuliert automatisch den perfekten Prompt mit Etappen, Unterkünften, Fahrzeugdaten & Wunschkriterien.")}
                     </p>
                   </div>
                 </div>
@@ -1851,13 +1851,13 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                   </div>
                   <div className="space-y-1">
                     <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#facc15]">
-                      SCHRITT 03
+                      {t("planner.steps.step3.badge", "SCHRITT 03")}
                     </span>
                     <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight">
-                      Stellplätze & GPX exportieren
+                      {t("planner.steps.step3.title", "Unterkünfte, Route & GPX erhalten")}
                     </h3>
                     <p className="text-xs sm:text-sm text-[#a7f3d0] leading-relaxed">
-                      Füge den Prompt in ChatGPT oder Gemini ein, erhalte perfekte Tourenvorschläge und exportiere deine GPX-Daten.
+                      {t("planner.steps.step3.description", "Füge den Prompt in ChatGPT, Claude oder Gemini ein und erhalte geprüfte Übernachtungstipps, Tagesetappen & Navigationsdaten.")}
                     </p>
                   </div>
                 </div>

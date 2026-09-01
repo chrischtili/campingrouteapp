@@ -590,9 +590,26 @@
     "title": "Tutto per il tuo itinerario in un unico posto",
     "cta": "Assistente prompt",
     "launcher": {
-      "title": "L’assistente prompt per il campeggio e i road trip",
-      "description": "Apri l’assistente e raccogli tutte le informazioni sul tuo percorso, veicolo e preferenze per creare il prompt IA perfetto.",
+      "title": "Il pianificatore AI intelligente per campeggio, road trip e case vacanza",
+      "description": "Crea con pochi clic prompt IA su misura per camper, tende, glamping, appartamenti o case vacanza.",
       "hint": "Crea il tuo prompt IA su misura in pochi passaggi."
+    },
+    "steps": {
+      "step1": {
+        "badge": "PASSO 01",
+        "title": "Scegli percorso, veicolo e alloggio",
+        "description": "Inserisci partenza e arrivo e scegli il tuo stile: camper, auto, tenda, glamping, appartamento o casa vacanze."
+      },
+      "step2": {
+        "badge": "PASSO 02",
+        "title": "Genera un prompt IA su misura",
+        "description": "Il nostro assistente formula automaticamente il prompt ideale con tappe, alloggi, dati del veicolo e criteri."
+      },
+      "step3": {
+        "badge": "PASSO 03",
+        "title": "Ottieni alloggi, itinerario e GPX",
+        "description": "Incolla il prompt in ChatGPT, Claude o Gemini e ricevi soste verificate, tappe giornaliere e file per navigatore."
+      }
     },
     "loading": {
       "ai": "🤖 Genero itinerario...",

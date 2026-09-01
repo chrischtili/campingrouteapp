@@ -590,9 +590,26 @@
     "title": "Alles für deinen Prompt an einem Ort",
     "cta": "Prompt-Assistent",
     "launcher": {
-      "title": "Der Prompt-Assistent für Camping- und Roadtrips",
-      "description": "Öffne den Assistenten und stelle alle Angaben für deine Route, dein Fahrzeug und deine Wünsche für den perfekten KI-Prompt zusammen.",
+      "title": "Der smarte KI-Reiseplaner für Camping, Roadtrips & Ferienunterkünfte",
+      "description": "Erstelle mit wenigen Klicks maßgeschneiderte KI-Prompts für Wohnmobil, Camping, Glamping, Ferienwohnung oder Ferienhaus – perfekt abgestimmt auf deine Route.",
       "hint": "Erstelle in wenigen Schritten deinen maßgeschneiderten KI-Prompt."
+    },
+    "steps": {
+      "step1": {
+        "badge": "SCHRITT 01",
+        "title": "Route, Fahrzeug & Unterkunft wählen",
+        "description": "Gib Start & Ziel ein und wähle deinen Reisestil – ob Wohnmobil, Pkw, Zelt, Glamping, Ferienwohnung oder Ferienhaus."
+      },
+      "step2": {
+        "badge": "SCHRITT 02",
+        "title": "Maßgeschneiderten KI-Prompt erstellen",
+        "description": "Unser Assistent formuliert automatisch den perfekten Prompt mit Etappen, Unterkünften, Fahrzeugdaten & Wunschkriterien."
+      },
+      "step3": {
+        "badge": "SCHRITT 03",
+        "title": "Unterkünfte, Route & GPX erhalten",
+        "description": "Füge den Prompt in ChatGPT, Claude oder Gemini ein und erhalte geprüfte Übernachtungstipps, Tagesetappen & Navigationsdaten."
+      }
     },
     "loading": {
       "ai": "🤖 Generiere Route...",

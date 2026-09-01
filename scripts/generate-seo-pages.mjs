@@ -61,9 +61,9 @@ const PAGES = [
     paths: [
       "dist/prompt-generator/index.html"
     ],
-    title: "Kostenloser KI-Prompt-Generator für Camping-, Wohnmobil- & Ferienhaus-Routen | CampingRoute",
-    description: "Erstelle 100% kostenlos maßgeschneiderte KI-Prompts für ChatGPT, Claude & Gemini zur perfekten Routenplanung für Wohnmobil, Wohnwagen, Pkw, Ferienwohnung & Ferienhaus inkl. GPX-Export.",
-    keywords: "kostenloser Camping KI Prompt Generator, Wohnmobil Prompt Generator kostenlos, Roadtrip Prompt ChatGPT, Ferienwohnung Routenplaner KI, Ferienhaus Route, KI Routenplaner Prompt kostenlos",
+    title: "Kostenloser KI-Reiseplaner & Prompt-Generator für Camping, Glamping & Ferienunterkünfte | CampingRoute",
+    description: "Erstelle 100% kostenlos maßgeschneiderte KI-Prompts für ChatGPT, Claude & Gemini zur perfekten Routenplanung für Wohnmobil, Wohnwagen, Pkw, Zelt, Glamping, Ferienwohnung & Ferienhaus inkl. GPX-Export.",
+    keywords: "kostenloser Camping KI Prompt Generator, Wohnmobil Prompt Generator kostenlos, Glamping Routenplaner, Roadtrip Prompt ChatGPT, Ferienwohnung Routenplaner KI, Ferienhaus Route, KI Routenplaner Prompt kostenlos",
     canonical: "https://campingroute.app/prompt-generator"
   }
 ];

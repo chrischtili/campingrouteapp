@@ -590,9 +590,26 @@
     "title": "Alles voor je route op één plek",
     "cta": "Prompt-assistent",
     "launcher": {
-      "title": "De prompt-assistent voor camping- en roadtrips",
-      "description": "Open de assistent en verzamel alle gegevens voor je route, je voertuig en je wensen voor de perfecte AI-prompt.",
+      "title": "De slimme AI-reisplanner voor camping, roadtrips & vakantiehuizen",
+      "description": "Maak in enkele klikken op maat gemaakte AI-prompts voor campers, tenten, glamping, appartementen of vakantiehuizen.",
       "hint": "Maak in enkele stappen je op maat gemaakte AI-prompt."
+    },
+    "steps": {
+      "step1": {
+        "badge": "STAP 01",
+        "title": "Kies route, voertuig & accommodatie",
+        "description": "Voer start & bestemming in en kies je reisstijl – camper, auto, tent, glamping, appartement of vakantiehuis."
+      },
+      "step2": {
+        "badge": "STAP 02",
+        "title": "Genereer op maat gemaakte AI-prompt",
+        "description": "Onze assistent formuleert automatisch de perfecte prompt met etappes, accommodaties, voertuigdata en criteria."
+      },
+      "step3": {
+        "badge": "STAP 03",
+        "title": "Ontvang accommodaties, route & GPX",
+        "description": "Plak de prompt in ChatGPT, Claude of Gemini en ontvang geverifieerde overnachtingen, dagetappes & navigatiebestanden."
+      }
     },
     "loading": {
       "ai": "🤖 Route genereren...",

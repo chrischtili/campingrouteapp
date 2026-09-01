@@ -41,6 +41,8 @@ export function AccommodationSection({ formData, onChange, onCheckboxChange }: A
         { value: "small", label: t("planner.accommodation.categories.type.options.small") },
         { value: "wild", label: t("planner.accommodation.categories.type.options.wild") },
         { value: "premium", label: t("planner.accommodation.categories.type.options.premium") },
+        { value: "apartment", label: t("planner.accommodation.categories.type.options.apartment") },
+        { value: "holidayHome", label: t("planner.accommodation.categories.type.options.holidayHome") },
       ],
     },
     {

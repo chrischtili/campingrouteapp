@@ -1195,7 +1195,9 @@
             "farm": "Boerderij & wijngaard",
             "small": "Kleine, natuurrijke plekken",
             "wild": "Vrij staan / wildkamperen",
-            "premium": "Premium & glamping"
+            "premium": "Premium & glamping",
+            "apartment": "Vakantieappartement",
+            "holidayHome": "Vakantiehuis / Chalet"
           }
         },
         "facilities": {

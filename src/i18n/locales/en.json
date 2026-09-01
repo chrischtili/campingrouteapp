@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "CampingRoute: The AI Prompt Assistant for your perfect motorhome tour",
-    "description": "Plan your perfect camping route with AI. Create custom tours for motorhomes & caravans with our prompt assistant – including stopovers and GPX export. Start for free now.",
-    "keywords": "AI camping route planner, campsite finder, motorhome pitch finder, camping finder, RV route planner, caravan route planner, tent road trip planner, motorcycle route planner, GPX route planner, campsite route planner, Camping Route, CampingRoute, camping routes"
+    "title": "CampingRoute: Free AI Prompt Assistant for Camping, Motorhome & Road Trip Routes",
+    "description": "Plan your perfect camping & road trip route 100% free with AI. Create custom itineraries for motorhome, caravan, car, tent, holiday apartment & holiday home – with stopover search and GPX export.",
+    "keywords": "free camping route planner, free RV route planner, AI camping route planner, holiday apartment road trip, holiday home route planner, glamping route planner, campsite finder, motorhome pitch finder, caravan route planner, tent road trip planner, free GPX route planner, Camping Route, CampingRoute"
   },
   "navbar": {
     "navigation": "Navigation",
@@ -1197,7 +1197,9 @@
             "farm": "Farm & Winery",
             "small": "Small, natural places",
             "wild": "Wild camping",
-            "premium": "Premium & Glamping"
+            "premium": "Premium & Glamping",
+            "apartment": "Holiday apartment / Flat",
+            "holidayHome": "Holiday home / Cottage"
           }
         },
         "facilities": {
@@ -1471,7 +1473,7 @@
   "prompt": {
     "systemRole": "You are a professional route planner for camping and road-trip travel with specialized knowledge of Europe and international destinations. Create a practical, well-structured route based on my specifications that fits the selected vehicle type. Consider vehicle specifications, travel destinations, budget requirements, and personal preferences. If real-time data (e.g., traffic, availability, exact prices) is not available, work with plausible estimates, mark them as such, and indicate what I should check myself in the navigation system or a camping app.",
     "dataSourcePolicy": "Search overnight stops via established verified sources (e.g. camping.info, stellplatz.info, Park4Night, Promobil, ADAC Pincamp, Campercontact, and official campsite websites). Avoid duplicate mentions of the same place and strictly verify opening hours and realistic prices.",
-    "accommodationTypeTagPolicy": "Use OSM tags and campsite descriptions as a filter for accommodation types: `camping` -> Campsites, `pitch` -> Motorhome pitches, `farm` -> Farm/winery pitches; for `small`, `wild`, and `premium`, use available tags and heuristics. If tags are missing, do not automatically exclude the place; mark the classification as an estimate.",
+    "accommodationTypeTagPolicy": "For accommodation types, use OSM tags and descriptions: `camping` -> campsites, `pitch` -> RV parks / motorhome pitches, `farm` -> farm/winery pitches, `apartment` -> holiday apartments / flats, `holidayHome` -> holiday homes / cottages / chalets; for `small`, `wild`, and `premium` use available attributes. If tags are missing, do not drop the accommodation automatically; label the classification as an estimate.",
     "sections": {
       "route": "ITINERARY",
       "vehicle": "VEHICLE SPECIFIC FILTERS",

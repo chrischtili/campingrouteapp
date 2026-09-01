@@ -1195,7 +1195,9 @@
             "farm": "Ferme & vignoble",
             "small": "Petits emplacements nature",
             "wild": "Bivouac",
-            "premium": "Premium & glamping"
+            "premium": "Premium & glamping",
+            "apartment": "Location de vacances / Appartement",
+            "holidayHome": "Maison de vacances / Chalet / Gîte"
           }
         },
         "facilities": {

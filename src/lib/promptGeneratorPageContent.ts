@@ -72,11 +72,11 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerLead:
       "Mit dem Prompt-Assistenten gibst du deiner KI genau die richtigen Infos. So entstehen deutlich stärkere, passendere und besser nutzbare Routenvorschläge für deinen Trip.",
     seo: {
-      title: "KI-Prompt-Assistent für Camping- und Roadtrips | Camping Route",
+      title: "Kostenloser KI-Prompt-Assistent für Camping- und Roadtrips | Camping Route",
       description:
-        "Erstelle starke Prompts für Camping- und Roadtrip-Routen mit dem KI-Prompt-Assistenten für Wohnmobil, Wohnwagen, Zelt oder Motorrad. Inklusive Platzsuche, Etappenplanung und GPX-Wunsch.",
+        "Erstelle 100% kostenlos starke Prompts für Camping-, Ferienwohnung- und Roadtrip-Routen mit dem KI-Prompt-Assistenten für Wohnmobil, Wohnwagen, Pkw, Zelt oder Ferienhaus. Inklusive Platzsuche, Etappenplanung und GPX-Export.",
       keywords:
-        "Prompt Assistent Camping, KI Prompt Assistent Roadtrip, Camping Route Prompt, Wohnmobil Prompt, Camping Route Assistent, KI Camping Planung",
+        "kostenloser Prompt Assistent Camping, kostenloser KI Routenplaner, Roadtrip Ferienwohnung, Ferienhaus Route planen, Camping Route Prompt kostenlos, Wohnmobil Prompt, Camping Route Assistent, KI Camping Planung",
     },
   },
   en: {
@@ -87,7 +87,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       "From the first idea to a copy-ready prompt: with place search, vehicle details, stages, GPX preferences and the trip context your AI actually needs.",
     intro:
       "Build your request step by step and end up with a prompt that fits your vehicle, destination and travel style.",
-    chips: ["Motorhome", "Caravan", "Tent", "Motorcycle", "Stages", "GPX"],
+    chips: ["Motorhome", "Caravan", "Car", "Tent", "Apartment", "Holiday Home", "Stages", "GPX"],
     primaryCta: "Create prompt now",
     secondaryCta: "Find campsites",
     tertiaryCta: "Find stopovers",
@@ -102,8 +102,8 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
         description: "Search campsites or stopovers without leaving the assistant.",
       },
       {
-        title: "Ready to use",
-        description: "End with a clear prompt you can copy and use in your preferred AI.",
+        title: "100% Free to use",
+        description: "End with a clear prompt you can copy and use in your preferred AI without any registration.",
       },
     ],
     stepsTitle: "How the assistant works",
@@ -115,7 +115,7 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
       },
       {
         title: "Adjust vehicle and places",
-        description: "Tune vehicle type, requirements, infrastructure and optional place search to your style.",
+        description: "Tune vehicle type, accommodation (campsite, apartment, holiday home), requirements and optional place search to your style.",
       },
       {
         title: "Generate the prompt",
@@ -127,11 +127,11 @@ const promptGeneratorPageContent: Record<"de" | "en" | "fr" | "nl" | "it", Promp
     plannerLead:
       "The prompt assistant gives your AI the right context from the start, so it can create stronger, more relevant and more usable route suggestions for your trip.",
     seo: {
-      title: "AI Prompt Assistant for Camping and Road Trips | Camping Route",
+      title: "Free AI Prompt Assistant for Camping, Holiday Homes & Road Trips | Camping Route",
       description:
-        "Create stronger AI prompts for camping and road-trip routes with the AI prompt assistant for motorhome, caravan, tent or motorcycle. Includes place search, stages and GPX preferences.",
+        "Create stronger AI prompts 100% free for camping, road-trip, holiday apartment and cottage routes with the AI prompt assistant for motorhome, caravan, car, tent or holiday home. Includes place search, stages and GPX preferences.",
       keywords:
-        "AI prompt assistant camping, road trip prompt assistant, camping route prompt, motorhome prompt, camping route assistant",
+        "free AI prompt assistant camping, free road trip prompt assistant, holiday apartment route planner, holiday home road trip, camping route prompt, motorhome prompt, camping route assistant",
     },
   },
   fr: {

@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "CampingRoute: Der KI-Prompt-Assistent für deine perfekte Wohnmobil-Tour",
-    "description": "Plane deine perfekte Campingroute mit KI. Erstelle mit unserem Prompt-Assistenten maßgeschneiderte Touren für Wohnmobil & Wohnwagen – inkl. Stellplätzen und GPX-Export. Jetzt kostenlos starten.",
-    "keywords": "Camping Routenplaner, Stellplatz Finder, Campingplatz Finder, Campingfinder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, Camper Routenplaner, GPX Routenplaner, Stellplatzsuche, Campingplatzsuche, Camping Route, CampingRoute, Campingrouten"
+    "title": "CampingRoute: Kostenloser KI-Prompt-Assistent für Camping-, Wohnmobil- & Roadtrip-Routen",
+    "description": "Plane deine perfekte Camping- & Roadtrip-Route 100% kostenlos mit KI. Erstelle maßgeschneiderte Touren für Wohnmobil, Wohnwagen, Pkw, Zelt, Ferienwohnung & Ferienhaus – inkl. Stellplatzsuche und GPX-Export.",
+    "keywords": "kostenloser Camping Routenplaner, kostenloser Wohnmobil Routenplaner, KI Camping Routenplaner, Ferienwohnung Roadtrip, Ferienhaus Routenplaner, Glamping Routenplaner, Stellplatz Finder, Campingplatz Finder, Wohnmobil Routenplaner, Wohnwagen Routenplaner, Zelt Roadtrip planen, Motorrad Routenplaner, GPX Routenplaner kostenlos, Camping Route, CampingRoute"
   },
   "navbar": {
     "navigation": "Navigation",
@@ -1197,7 +1197,9 @@
             "farm": "Bauernhof & Weingut",
             "small": "Kleine, naturnahe Plätze",
             "wild": "Freistehen / Wildcampen",
-            "premium": "Premium & Glamping"
+            "premium": "Premium & Glamping",
+            "apartment": "Ferienwohnung",
+            "holidayHome": "Ferienhaus"
           }
         },
         "facilities": {
@@ -1471,7 +1473,7 @@
   "prompt": {
     "systemRole": "Du bist ein professioneller Routenplaner für Camping- und Roadtrip-Reisen mit Spezialwissen für Europa und internationale Reiseziele. Erstelle auf Basis meiner Angaben eine praxisnahe, gut strukturierte Route, die zum gewählten Fahrzeugtyp passt. Berücksichtige Fahrzeugspezifikationen, Reiseziele, Budgetvorgaben und persönliche Vorlieben. Falls dir Echtzeit‑Daten (z. B. zu Verkehr, Verfügbarkeit, exakten Preisen) nicht zur Verfügung stehen, arbeite mit plausiblen Schätzungen, markiere sie als solche und weise mich darauf hin, was ich selbst noch im Navi oder in einer Camping‑App prüfen sollte.",
     "dataSourcePolicy": "Recherchiere Übernachtungsplätze über etablierte verifizierte Quellen (z. B. camping.info, stellplatz.info, Park4Night, Promobil Mobil Life, ADAC Pincamp, Campercontact und offizielle Platzwebsites). Vermeide Doppelnennungen desselben Platzes und überprüfe zwingend Öffnungszeiten sowie realistische Preise.",
-    "accommodationTypeTagPolicy": "Nutze für Unterkunftstypen OSM-Tags und Platzbeschreibungen als Filter: `camping` -> Campingplätze, `pitch` -> Wohnmobilstellplätze, `farm` -> Bauernhof-/Winzerstellplätze; für `small`, `wild` und `premium` nutze verfügbare Attribute. Wenn Tags fehlen, verwerfe den Platz nicht automatisch, sondern kennzeichne die Einordnung als Schätzung.",
+    "accommodationTypeTagPolicy": "Nutze für Unterkunftstypen OSM-Tags und Platzbeschreibungen als Filter: `camping` -> Campingplätze, `pitch` -> Wohnmobilstellplätze, `farm` -> Bauernhof-/Winzerstellplätze, `apartment` -> Ferienwohnungen / Apartments, `holidayHome` -> Ferienhäuser / Bungalows / Chalets; für `small`, `wild` und `premium` nutze verfügbare Attribute. Wenn Tags fehlen, verwerfe die Unterkunft nicht automatisch, sondern kennzeichne die Einordnung als Schätzung.",
     "sections": {
       "route": "REISEROUTE",
       "vehicle": "FAHRZEUG",

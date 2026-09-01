@@ -1,14 +1,14 @@
 # CampingRoute
 
-> CampingRoute is an AI-powered European campsite search, road trip planner, and official Model Context Protocol (MCP) server providing verified campground data, hiking trails, and events.
+> CampingRoute (https://campingroute.app) is a 100% free AI-powered European road trip and camping route planner, accommodation search, and official Model Context Protocol (MCP) server providing verified campground data, motorhome pitches, holiday apartments, holiday homes, hiking trails, and regional events.
 
 ## Core Services
 
-- [Campsite & Stellplatz Search](https://campingroute.app/discover): Natural language search across 37,000+ European campgrounds, RV parks, and attractions.
-- [Farm Shops & Wineries Hub](https://campingroute.app/discover?tab=culinary): 1,500+ direct farm shops, wineries, cheese dairies, and 24h regiomats with nearby campsite mapping.
+- [Free AI Prompt Generator](https://campingroute.app/prompt-generator): 100% free tailor-made itinerary prompt creator for ChatGPT, Claude, and Gemini covering motorhomes, caravans, cars, tents, holiday apartments, and holiday homes with GPX export.
+- [Campsite & Stellplatz Search](https://campingroute.app/discover): Natural language search across 37,000+ European campgrounds, RV parks, pitches, and attractions.
+- [Farm Shops & Wineries Hub](https://campingroute.app/discover?tab=culinary): 1,500+ direct farm shops, wineries, cheese dairies, and 24h regiomats with nearby accommodation mapping.
 - [German Trails & Hiking Routes](https://campingroute.app/discover?tab=trails): 19,000+ official German hiking and biking trails connected to verified campgrounds.
 - [German Flagship Events](https://campingroute.app/discover?tab=events): Cultural festivals, wine fairs, and open-air events with nearby overnight stays.
-- [AI Prompt Generator](https://campingroute.app/prompt-generator): Tailor-made camper itinerary prompts for ChatGPT, Claude, and Gemini with GPX export.
 - [Official MCP Server](https://campingroute.app/discover/mcp): Model Context Protocol server exposing structured tools for AI assistants.
 
 ## MCP Tools

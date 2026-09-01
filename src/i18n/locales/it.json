@@ -1195,7 +1195,9 @@
             "farm": "Agriturismo & cantina",
             "small": "Piccole aree nella natura",
             "wild": "Sosta libera / wild camping",
-            "premium": "Premium & glamping"
+            "premium": "Premium & glamping",
+            "apartment": "Appartamento vacanze",
+            "holidayHome": "Casa vacanze / Chalet"
           }
         },
         "facilities": {

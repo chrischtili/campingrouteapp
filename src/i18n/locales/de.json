@@ -1112,13 +1112,14 @@
           "expedition": "Lkw-Expeditionsmobil",
           "caravan": "Wohnwagen (Anhänger)",
           "pickupCamper": "Camper-Pickup",
+          "car": "Pkw",
           "carTent": "Pkw mit Zelt",
           "carRoofTent": "Pkw mit Dachzelt",
           "bicycleTent": "Fahrrad mit Zelt",
           "motorcycleTent": "Motorrad + Zelt"
         }
       },
-      "typeNote": "Bei Pkw mit Zelt, Pkw mit Dachzelt, Fahrrad mit Zelt und Motorrad + Zelt sind Abmessungen, Gewichtsklasse, Autarkie und Technikdetails nicht auswählbar und werden ignoriert.",
+      "typeNote": "Bei Pkw, Pkw mit Zelt, Pkw mit Dachzelt, Fahrrad mit Zelt und Motorrad + Zelt sind Abmessungen, Gewichtsklasse, Autarkie und Technikdetails nicht auswählbar und werden ignoriert.",
       "fuel": {
         "label": "Kraftstoff",
         "placeholder": "Wählen",

@@ -1112,13 +1112,14 @@
           "expedition": "Expedition truck",
           "caravan": "Caravan (trailer)",
           "pickupCamper": "Pickup camper",
+          "car": "Car",
           "carTent": "Car + tent",
           "carRoofTent": "Car + roof tent",
           "bicycleTent": "Bicycle + tent",
           "motorcycleTent": "Motorcycle + tent"
         }
       },
-      "typeNote": "With car + tent, car + roof tent, bicycle + tent, and motorcycle + tent, dimensions, weight class, autonomy, and technical details are disabled and ignored.",
+      "typeNote": "With car, car + tent, car + roof tent, bicycle + tent, and motorcycle + tent, dimensions, weight class, autonomy, and technical details are disabled and ignored.",
       "fuel": {
         "label": "Fuel",
         "placeholder": "Select",

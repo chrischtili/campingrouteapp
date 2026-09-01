@@ -1110,13 +1110,14 @@
           "expedition": "Expeditie‑truck",
           "caravan": "Caravan (aanhanger)",
           "pickupCamper": "Pickup‑camper",
+          "car": "Auto",
           "carTent": "Auto + tent",
           "carRoofTent": "Auto + daktent",
           "bicycleTent": "Fiets + tent",
           "motorcycleTent": "Motor + tent"
         }
       },
-      "typeNote": "Bij auto + tent, auto + daktent, fiets + tent en motor + tent zijn afmetingen, gewichtsklasse, autonomie en technische details uitgeschakeld en worden ze genegeerd.",
+      "typeNote": "Bij auto, auto + tent, auto + daktent, fiets + tent en motor + tent zijn afmetingen, gewichtsklasse, autonomie en technische details uitgeschakeld en worden ze genegeerd.",
       "fuel": {
         "label": "Brandstof",
         "placeholder": "Selecteer",

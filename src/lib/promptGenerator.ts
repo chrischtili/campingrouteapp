@@ -156,6 +156,7 @@ export function generatePrompt(data: FormData, options?: { gpxFormat?: GpxFormat
   const languageName = lang.startsWith('de') ? 'Deutsch' : lang.startsWith('nl') ? 'Nederlands' : lang.startsWith('fr') ? 'Français' : lang.startsWith('it') ? 'Italiano' : 'English';
   const gpxInstructions = buildGpxInstructions(data, t, options?.gpxFormat ?? 'codeblock');
   const isLightweightVehicle =
+    data.vehicleType === 'car' ||
     data.vehicleType === 'carTent' ||
     data.vehicleType === 'carRoofTent' ||
     data.vehicleType === 'bicycleTent' ||

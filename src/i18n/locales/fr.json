@@ -1110,13 +1110,14 @@
           "expedition": "Camion d’expédition",
           "caravan": "Caravane (remorque)",
           "pickupCamper": "Pick‑up camper",
+          "car": "Voiture",
           "carTent": "Voiture + tente",
           "carRoofTent": "Voiture + tente de toit",
           "bicycleTent": "Vélo + tente",
           "motorcycleTent": "Moto + tente"
         }
       },
-      "typeNote": "Avec voiture + tente, voiture + tente de toit, vélo + tente et moto + tente, les dimensions, la catégorie de poids, l’autonomie et les détails techniques sont désactivés et ignorés.",
+      "typeNote": "Avec voiture, voiture + tente, voiture + tente de toit, vélo + tente et moto + tente, les dimensions, la catégorie de poids, l’autonomie et les détails techniques sont désactivés et ignorés.",
       "fuel": {
         "label": "Carburant",
         "placeholder": "Sélectionner",

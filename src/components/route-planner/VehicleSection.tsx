@@ -17,6 +17,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
   const { t } = useTranslation();
   
   const isLightweightVehicle =
+    formData.vehicleType === "car" ||
     formData.vehicleType === "carTent" ||
     formData.vehicleType === "carRoofTent" ||
     formData.vehicleType === "bicycleTent" ||
@@ -44,6 +45,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
     { value: "expedition", label: t("planner.vehicle.type.options.expedition") },
     { value: "caravan", label: t("planner.vehicle.type.options.caravan") },
     { value: "pickupCamper", label: t("planner.vehicle.type.options.pickupCamper") },
+    { value: "car", label: t("planner.vehicle.type.options.car") },
     { value: "carTent", label: t("planner.vehicle.type.options.carTent") },
     { value: "carRoofTent", label: t("planner.vehicle.type.options.carRoofTent") },
     { value: "bicycleTent", label: t("planner.vehicle.type.options.bicycleTent") },
@@ -86,7 +88,7 @@ export function VehicleSection({ formData, onChange }: VehicleSectionProps) {
 
   const handleVehicleTypeChange = (_name: string, value: string, checked: boolean) => {
     if (!checked) return; // Single select logic
-    const isLight = value === "carTent" || value === "carRoofTent" || value === "bicycleTent" || value === "motorcycleTent";
+    const isLight = value === "car" || value === "carTent" || value === "carRoofTent" || value === "bicycleTent" || value === "motorcycleTent";
     onChange({ 
       vehicleType: value,
       ...(isLight ? lightweightVehicleReset : {})

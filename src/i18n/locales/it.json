@@ -1110,13 +1110,14 @@
           "expedition": "Camper expedition su camion",
           "caravan": "Caravan (rimorchio)",
           "pickupCamper": "Camper su pickup",
+          "car": "Auto",
           "carTent": "Auto + tenda",
           "carRoofTent": "Auto + tenda da tetto",
           "bicycleTent": "Bicicletta + tenda",
           "motorcycleTent": "Moto + tenda"
         }
       },
-      "typeNote": "Con auto + tenda, auto + tenda da tetto, bicicletta + tenda e moto + tenda, dimensioni, categoria di peso, autonomia e dettagli tecnici sono disattivati e ignorati.",
+      "typeNote": "Con auto, auto + tenda, auto + tenda da tetto, bicicletta + tenda e moto + tenda, dimensioni, categoria di peso, autonomia e dettagli tecnici sono disattivati e ignorati.",
       "fuel": {
         "label": "Carburante",
         "placeholder": "Seleziona",

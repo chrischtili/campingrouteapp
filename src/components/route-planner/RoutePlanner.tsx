@@ -1105,7 +1105,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           onClick={() => saveCurrentPlan()}
                           disabled={!formData.startPoint || !formData.destination}
-                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-emerald-600/40 bg-emerald-50 text-emerald-900 font-bold hover:bg-emerald-100 dark:bg-emerald-950/60 dark:border-emerald-500/50 dark:text-emerald-200 transition-all active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-100 disabled:!text-slate-400 dark:disabled:!bg-slate-800/60 dark:disabled:!text-slate-500 dark:disabled:!border-slate-700"
+                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-emerald-600/40 bg-emerald-50 text-emerald-900 font-bold hover:bg-emerald-100 dark:bg-emerald-950/60 dark:border-emerald-500/50 dark:text-emerald-200 transition-all active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-100 disabled:!text-slate-500 dark:disabled:!bg-slate-800/80 dark:disabled:!text-slate-400 dark:disabled:!border-slate-700"
                         >
                           <Save className="h-4 w-4" />
                           {t("planner.summary.savedPlans.saveCurrent")}
@@ -1114,7 +1114,7 @@ export function RoutePlanner({ standalonePage = false }: RoutePlannerProps) {
                           type="button"
                           onClick={runGeneration}
                           disabled={isLoading || !formData.startPoint || !formData.destination || hasInvalidStage || (aiSettings.useDirectAI && !hasValidDirectApiKey)}
-                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 font-bold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-200 disabled:!text-slate-400 dark:disabled:!bg-slate-800 dark:disabled:!text-slate-500 dark:disabled:!border-slate-700"
+                          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 font-bold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:!border-slate-300 disabled:!bg-slate-200 disabled:!text-slate-600 dark:disabled:!bg-slate-800/80 dark:disabled:!text-slate-400 dark:disabled:!border-slate-700"
                         >
                           <Bot className="h-4 w-4" />
                           <span>

@@ -300,11 +300,21 @@
     color: rgba(67, 83, 77, 0.76) !important;
   }
 
-  .planner-primary-button,
-  .planner-primary-button *,
-  button.bg-emerald-600,
-  button.bg-emerald-600 * {
+  .planner-primary-button:not(:disabled),
+  .planner-primary-button:not(:disabled) *,
+  button.bg-emerald-600:not(:disabled),
+  button.bg-emerald-600:not(:disabled) * {
     color: #ffffff !important;
+  }
+
+  button:disabled,
+  button:disabled * {
+    color: #475569 !important;
+  }
+
+  .dark button:disabled,
+  .dark button:disabled * {
+    color: #94a3b8 !important;
   }
 
   .planner-primary-button svg {

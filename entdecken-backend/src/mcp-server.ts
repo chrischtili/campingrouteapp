@@ -136,7 +136,52 @@ export const MCP_TOOLS = [
   }
 ];
 
+import fs from "fs";
+import path from "path";
+
+function trackMcpCall(toolName: string) {
+  try {
+    const candidatePaths = [
+      path.resolve(process.cwd(), "counter.json"),
+      path.resolve(process.cwd(), "../counter.json"),
+      path.resolve(__dirname, "../../counter.json"),
+      path.resolve(__dirname, "../../../counter.json")
+    ];
+    const targetPath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
+    
+    let counter: any = {};
+    if (fs.existsSync(targetPath)) {
+      try {
+        counter = JSON.parse(fs.readFileSync(targetPath, "utf8"));
+      } catch {}
+    }
+    
+    counter.mcp = counter.mcp || { total: 0, history: {}, tools: {}, todayTools: {}, clients: {} };
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const key = `${year}-${month}-${day}`;
+
+    counter.mcp.total = Number(counter.mcp.total || 0) + 1;
+    counter.mcp.history = counter.mcp.history || {};
+    counter.mcp.history[key] = Number(counter.mcp.history[key] || 0) + 1;
+    
+    counter.mcp.tools = counter.mcp.tools || {};
+    counter.mcp.tools[toolName] = Number(counter.mcp.tools[toolName] || 0) + 1;
+
+    counter.mcp.todayTools = counter.mcp.todayTools || {};
+    counter.mcp.todayTools[key] = counter.mcp.todayTools[key] || {};
+    counter.mcp.todayTools[key][toolName] = Number(counter.mcp.todayTools[key][toolName] || 0) + 1;
+
+    fs.writeFileSync(targetPath, JSON.stringify(counter, null, 2));
+  } catch (err) {
+    console.warn("[MCP Track] Could not record tool call:", err);
+  }
+}
+
 export async function executeMcpTool(name: string, args: any): Promise<any> {
+  trackMcpCall(name);
   const db = await getDb();
   try {
     switch (name) {

@@ -154,6 +154,13 @@ function createCounterDefaults() {
         place_select: {}
       }
     },
+    mcp: {
+      total: 0,
+      history: {},
+      tools: {},
+      todayTools: {},
+      clients: {}
+    },
     analytics: {
       searches: {
         dayKey: todayKey(),
@@ -179,6 +186,7 @@ function normalizeCounter(counter) {
   const nextHistory = nextGenerations.history && typeof nextGenerations.history === 'object'
     ? nextGenerations.history
     : {};
+  const nextMcp = nextCounter.mcp && typeof nextCounter.mcp === 'object' ? nextCounter.mcp : {};
   const nextAnalytics = nextCounter.analytics && typeof nextCounter.analytics === 'object'
     ? nextCounter.analytics
     : {};
@@ -218,6 +226,13 @@ function normalizeCounter(counter) {
         place_search_solo: nextHistory.place_search_solo && typeof nextHistory.place_search_solo === 'object' ? nextHistory.place_search_solo : {},
         place_select: nextHistory.place_select && typeof nextHistory.place_select === 'object' ? nextHistory.place_select : {}
       }
+    },
+    mcp: {
+      total: Number(nextMcp.total || 0),
+      history: nextMcp.history && typeof nextMcp.history === 'object' ? nextMcp.history : {},
+      tools: nextMcp.tools && typeof nextMcp.tools === 'object' ? nextMcp.tools : {},
+      todayTools: nextMcp.todayTools && typeof nextMcp.todayTools === 'object' ? nextMcp.todayTools : {},
+      clients: nextMcp.clients && typeof nextMcp.clients === 'object' ? nextMcp.clients : {}
     },
     analytics: {
       searches: {
@@ -596,6 +611,27 @@ function incrementGeneration(mode, details) {
   return counter.generations;
 }
 
+function recordMcpToolCall(toolName = 'unknown', clientInfo = '') {
+  const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
+  const key = todayKey();
+  const safeTool = String(toolName || 'unknown').trim().slice(0, 50);
+  const safeClient = String(clientInfo || 'generic').trim().slice(0, 50);
+
+  counter.mcp.total = Number(counter.mcp.total || 0) + 1;
+  counter.mcp.history[key] = Number(counter.mcp.history[key] || 0) + 1;
+  counter.mcp.tools[safeTool] = Number(counter.mcp.tools[safeTool] || 0) + 1;
+  
+  counter.mcp.todayTools[key] = counter.mcp.todayTools[key] || {};
+  counter.mcp.todayTools[key][safeTool] = Number(counter.mcp.todayTools[key][safeTool] || 0) + 1;
+
+  if (safeClient && safeClient !== 'generic') {
+    counter.mcp.clients[safeClient] = Number(counter.mcp.clients[safeClient] || 0) + 1;
+  }
+
+  writeJson(COUNTER_PATH, counter);
+  return counter.mcp;
+}
+
 function getCounter() {
   const counter = normalizeCounter(readJson(COUNTER_PATH, createCounterDefaults()));
   const generationsHistory = counter.generations.history;
@@ -620,6 +656,13 @@ function getCounter() {
           place_search_solo: generationsHistory.place_search_solo,
           place_select: generationsHistory.place_select
         }
+      },
+      mcp: {
+        total: counter.mcp.total,
+        history: counter.mcp.history,
+        tools: counter.mcp.tools,
+        todayTools: counter.mcp.todayTools,
+        clients: counter.mcp.clients
       },
       analytics
     },
@@ -2757,6 +2800,13 @@ const server = http.createServer(async (req, res) => {
       const body = await readBody(req);
       const generations = incrementGeneration(body?.mode, body?.details);
       sendJson(res, 200, { success: true, generations });
+      return;
+    }
+
+    if (req.method === 'POST' && (pathname === '/api/count-mcp-tool' || pathname === '/discover/api/count-mcp-tool')) {
+      const body = await readBody(req);
+      const mcpStats = recordMcpToolCall(body?.tool, body?.client);
+      sendJson(res, 200, { success: true, mcp: mcpStats });
       return;
     }
 
